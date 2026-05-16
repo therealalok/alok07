@@ -8,6 +8,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Alok Sharma - Portfolio</title>
+    /* Reset and layout baseline */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #000000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Canvas strictly acts as a background layer */
+#gridCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    pointer-events: none; /* Allows mouse clicks to pass through to buttons if needed */
+}
+
+/* Foreground Content Container */
+.content-container {
+    position: relative;
+    z-index: 2; /* Sits firmly above the canvas grid */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Opaque card box to shield the grid behind it */
+.opaque-box {
+    background-color: #121212; /* Solid dark color matching the theme */
+    border: 1px solid #333333;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    color: #ffffff;
+    max-width: 400px;
+    width: 90%;
+}
+
+.opaque-box h1 {
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.opaque-box p {
+    color: #888888;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Opaque interactive buttons */
+.opaque-button {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.opaque-button:hover {
+    background-color: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.opaque-button:active {
+    transform: translateY(1px);
+}
 
     <link rel="icon" href="logo.png?v=3" type="image/png" sizes="32x32">
     <link rel="icon" href="logo.png?v=3" type="image/png" sizes="192x192">
@@ -104,6 +190,16 @@
         }
 
         body{
+            <canvas id="gridCanvas"></canvas>
+
+<div class="content-container">
+    <div class="opaque-box">
+        <h1>Opaque Container</h1>
+        <p>The grid deforms dynamically around your mouse pointer across the screen, but remains completely hidden behind this container and the button below.</p>
+    </div>
+    
+    <button class="opaque-button">Interact</button>
+</div>
             font-family:'Plus Jakarta Sans', sans-serif;
             background: var(--bg-gradient);
             color:var(--text);
@@ -1262,6 +1358,100 @@
                 opacity:0, y:40, duration:0.9
             });
         });
+        const canvas = document.getElementById('gridCanvas');
+const ctx = canvas.getContext('2d');
+
+// Grid Configuration (Tweak these numbers to change the look)
+const gridSize = 30; // Pixel size of each grid square
+const distortionRadius = 120; // How far the mouse push reaches
+const distortionStrength = 60; // Intensity of the warp effect
+
+let width = canvas.width = window.innerWidth;
+let height = canvas.height = window.innerHeight;
+
+// Track mouse coordinates (starts way off-screen)
+const mouse = { x: -1000, y: -1000 };
+
+window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+// Hide distortion when mouse leaves the browser viewport
+window.addEventListener('mouseleave', () => {
+    mouse.x = -1000;
+    mouse.y = -1000;
+});
+
+// Handle window resizing seamlessly
+window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+});
+
+// Animation Loop
+function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    // Grid line styling
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)'; 
+    ctx.lineWidth = 1;
+
+    // 1. Draw Vertical Lines
+    for (let x = 0; x <= width; x += gridSize) {
+        ctx.beginPath();
+        for (let y = 0; y <= height; y += 5) { // Checks points every 5px for smooth bending
+            const point = getDistortedPoint(x, y);
+            if (y === 0) {
+                ctx.moveTo(point.x, point.y);
+            } else {
+                ctx.lineTo(point.x, point.y);
+            }
+        }
+        ctx.stroke();
+    }
+
+    // 2. Draw Horizontal Lines
+    for (let y = 0; y <= height; y += gridSize) {
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += 5) {
+            const point = getDistortedPoint(x, y);
+            if (x === 0) {
+                ctx.moveTo(point.x, point.y);
+            } else {
+                ctx.lineTo(point.x, point.y);
+            }
+        }
+        ctx.stroke();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+// Math calculation to warp coordinates near the mouse pointer
+function getDistortedPoint(x, y) {
+    const dx = x - mouse.x;
+    const dy = y - mouse.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < distortionRadius) {
+        // Creates a smooth falloff effect using a cosine curve
+        const force = (distortionRadius - distance) / distortionRadius;
+        const distortion = Math.sin(force * Math.PI / 2) * distortionStrength;
+        
+        // Push the grid points outward based on the angle from the cursor
+        const angle = Math.atan2(dy, dx);
+        return {
+            x: x + Math.cos(angle) * distortion,
+            y: y + Math.sin(angle) * distortion
+        };
+    }
+
+    return { x, y };
+}
+
+// Fire up the animation loop
+animate();
     </script>
 </body>
 </html>
