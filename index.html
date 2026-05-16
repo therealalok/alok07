@@ -117,7 +117,7 @@
         }
 
         /* =========================================================
-        FIXED SIDE FLOATING ACCESSIBILITY WRAPPER
+        FIXED SIDE FLOATING BRANDED NAVIGATION
         ========================================================= */
         .side-floating-nav {
             position: fixed;
@@ -126,55 +126,74 @@
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
             z-index: 1001;
         }
 
         .side-nav-btn {
-            width: 54px;
-            height: 54px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(11, 17, 24, 0.65);
             border: 1px solid var(--border);
             color: var(--text);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             text-decoration: none;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
             cursor: pointer;
-            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .side-nav-btn:hover {
+        .side-nav-btn i {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        /* BRAND ORIGINAL COLOR HOVER OVERRIDES WITH CINEMATIC GLOWS */
+        .side-nav-btn.nav-mail:hover {
             border-color: var(--gold);
-            color: #111;
-            background: var(--gold-gradient);
-            transform: scale(1.1) translateX(-3px);
-            box-shadow: 0 10px 25px rgba(214, 194, 138, 0.35);
+            color: #ea4335;
+            background: #ffffff;
+            transform: scale(1.12) translateX(-4px);
+            box-shadow: 0 0 25px rgba(214, 194, 138, 0.6);
         }
 
-        /* Pixelate toggle button specific active engine look */
-        .side-nav-btn.pixel-active {
-            background: var(--gold-gradient);
-            color: #111;
-            border-color: #fff;
-            box-shadow: 0 0 20px var(--card-glow);
-            animation: pulse-glow 2s infinite alternate;
+        .side-nav-btn.nav-linkedin:hover {
+            border-color: #0a66c2;
+            color: #ffffff;
+            background: #0a66c2;
+            transform: scale(1.12) translateX(-4px);
+            box-shadow: 0 0 25px rgba(10, 102, 194, 0.65);
         }
 
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 10px rgba(214, 194, 138, 0.4); }
-            100% { box-shadow: 0 0 25px rgba(214, 194, 138, 0.8); }
+        .side-nav-btn.nav-github:hover {
+            border-color: #24292e;
+            color: #ffffff;
+            background: #24292e;
+            transform: scale(1.12) translateX(-4px);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
         }
 
-        /* Hide layout on mobile frames to prevent clipping */
+        .side-nav-btn.nav-phone:hover {
+            border-color: #25d366;
+            color: #ffffff;
+            background: #25d366;
+            transform: scale(1.12) translateX(-4px);
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
+        }
+
+        .side-nav-btn:hover i {
+            transform: scale(1.05);
+        }
+
         @media(max-width: 768px) {
-            .side-floating-nav { right: 12px; gap: 10px; }
-            .side-nav-btn { width: 44px; height: 44px; font-size: 1.05rem; }
+            .side-floating-nav { right: 14px; gap: 12px; }
+            .side-nav-btn { width: 46px; height: 46px; font-size: 1.15rem; }
         }
 
         /* =========================================================
@@ -475,11 +494,10 @@
     <canvas id="grid-distortion"></canvas>
 
     <div class="side-floating-nav">
-        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-        <a href="#" class="side-nav-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="side-nav-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="tel:+9779843538473" class="side-nav-btn" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
-        <button class="side-nav-btn" id="pixelate-toggle" title="Toggle Grid Pixelation Mode"><i class="fa-solid fa-cubes"></i></button>
+        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+        <a href="#" class="side-nav-btn nav-linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="side-nav-btn nav-github" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="tel:+9779843538473" class="side-nav-btn nav-phone" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
     </div>
 
     <div class="glow glow1"></div>
@@ -613,7 +631,6 @@
         const ctx = canvas.getContext("2d");
 
         let w, h;
-        let isPixelated = false; // State manager for the pixelation filter toggle
 
         function resizeCanvas(){
             w = canvas.width = window.innerWidth;
@@ -639,12 +656,6 @@
             mouse.y = e.clientY;
         });
 
-        // Toggle state event connector
-        document.getElementById("pixelate-toggle").addEventListener("click", function() {
-            isPixelated = !isPixelated;
-            this.classList.toggle("pixel-active", isPixelated);
-        });
-
         function drawGrid(){
             ctx.clearRect(0, 0, w, h);
             
@@ -656,13 +667,10 @@
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
             ctx.lineWidth = 1.2; 
 
-            // Step value dictates line segmentation calculation (higher calculation value maps pixel structure)
-            const segmentStep = isPixelated ? 24 : 8;
-
             /* VERTICAL LINES */
             for(let x = 0; x <= w; x += spacing){
                 ctx.beginPath();
-                for(let y = 0; y <= h; y += segmentStep){
+                for(let y = 0; y <= h; y += 8){
                     let dx = x - mouse.x;
                     let dy = y - mouse.y;
                     let mouseDist = Math.sqrt(dx * dx + dy * dy);
@@ -680,14 +688,7 @@
                         offsetX += Math.sin(y * 0.05) * scanForce * 35;
                     }
 
-                    // Map grid vertices to absolute discrete stepping lines if true
-                    if (isPixelated) {
-                        let finalX = x + offsetX;
-                        finalX = Math.round(finalX / 15) * 15;
-                        ctx.lineTo(finalX, y);
-                    } else {
-                        ctx.lineTo(x + offsetX, y);
-                    }
+                    ctx.lineTo(x + offsetX, y);
                 }
                 ctx.stroke();
             }
@@ -695,7 +696,7 @@
             /* HORIZONTAL LINES */
             for(let y = 0; y <= h; y += spacing){
                 ctx.beginPath();
-                for(let x = 0; x <= w; x += segmentStep){
+                for(let x = 0; x <= w; x += 8){
                     let dx = x - mouse.x;
                     let dy = y - mouse.y;
                     let mouseDist = Math.sqrt(dx * dx + dy * dy);
@@ -713,29 +714,16 @@
                         offsetY += Math.cos(x * 0.05) * scanForce * 20;
                     }
 
-                    if (isPixelated) {
-                        let finalY = y + offsetY;
-                        finalY = Math.round(finalY / 15) * 15;
-                        ctx.lineTo(x, finalY);
-                    } else {
-                        ctx.lineTo(x, y + offsetY);
-                    }
+                    ctx.lineTo(x, y + offsetY);
                 }
                 ctx.stroke();
             }
 
-            // Target tracking scanning laser setup
             ctx.beginPath();
-            if (isPixelated) {
-                let pixelatedScanY = Math.round(scanY / 15) * 15;
-                ctx.moveTo(0, pixelatedScanY);
-                ctx.lineTo(w, pixelatedScanY);
-            } else {
-                ctx.moveTo(0, scanY);
-                ctx.lineTo(w, scanY);
-            }
+            ctx.moveTo(0, scanY);
+            ctx.lineTo(w, scanY);
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
-            ctx.lineWidth = isPixelated ? 4 : 2; 
+            ctx.lineWidth = 2; 
             ctx.globalAlpha = 0.6; 
             ctx.stroke();
             ctx.globalAlpha = 1.0; 
