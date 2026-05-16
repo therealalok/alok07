@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Alok Sharma | Portfolio</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body{
+            background: #121212;
+            color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        /* NAVBAR */
+
+        nav{
+            width: 100%;
+            height: 10vh;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            backdrop-filter: blur(10px);
+            background: rgba(18,18,18,0.85);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .nav-container{
+            width: 90%;
+            height: 100%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo{
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .logo span{
+            color: #ff7a00;
+            text-shadow: 0 0 15px rgba(255,122,0,0.4);
+        }
+
+        .nav-container .links{
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-container .links a{
+            text-decoration: none;
+            color: #f5f5f5;
+            font-size: 1rem;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-container .links a::before{
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #ff7a00;
+            transition: 0.3s;
+        }
+
+        .nav-container .links a:hover{
+            color: #ff7a00;
+        }
+
+        .nav-container .links a:hover::before{
+            width: 100%;
+        }
+
+        .contact-btn{
+            padding: 8px 20px;
+            border: 2px solid #ff7a00;
+            border-radius: 30px;
+            transition: 0.3s;
+        }
+
+        .contact-btn:hover{
+            background: #ff7a00;
+        }
+
+        .contact-btn:hover a{
+            color: #121212 !important;
+        }
+
+        /* MOBILE NAV */
+
+        .hamburg,
+        .cancel{
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        .dropdown{
+            position: absolute;
+            width: 100%;
+            top: 0;
+            transform: translateY(-500px);
+            backdrop-filter: blur(10px);
+            background: rgba(18,18,18,0.97);
+            transition: 0.3s;
+        }
+
+        .dropdown .links{
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dropdown .links a{
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .dropdown .links a:hover{
+            background: #ff7a00;
+            color: #121212;
+        }
+
+        /* SECTIONS */
+
+        section{
+            width: 100%;
+            min-height: 100vh;
+            padding: 110px 10%;
+        }
+
+        /* HERO */
+
+        .main-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .main-container .image{
+            width: 40%;
+        }
+
+        .main-container .image img{
+            width: 100%;
+            border-radius: 25px;
+            border: 2px solid rgba(255,122,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+
+        .content{
+            width: 55%;
+        }
+
+        .content h1{
+            font-size: clamp(2.5rem,5vw,4.5rem);
+            line-height: 1.2;
+        }
+
+        .content h1 span{
+            color: #ff7a00;
+        }
+
+        .typewriter{
+            margin-top: 15px;
+            font-size: clamp(1.2rem,3vw,2rem);
+            font-weight: 600;
+        }
+
+        .typewriter span{
+            color: #ff7a00;
+            position: relative;
+        }
+
+        .typewriter span::before{
+            content: "Python Developer";
+            animation: words 12s infinite;
+        }
+
+        .typewriter span::after{
+            content: "";
+            position: absolute;
+            width: calc(100% + 8px);
+            height: 100%;
+            border-left: 3px solid white;
+            right: -8px;
+            animation: cursor 0.7s infinite;
+        }
+
+        @keyframes cursor{
+            50%{
+                border-color: transparent;
+            }
+        }
+
+        @keyframes words{
+            0%,33%{
+                content: "Python Developer";
+            }
+            34%,66%{
+                content: "Sports Graphic Designer";
+            }
+            67%,100%{
+                content: "CSIT Student";
+            }
+        }
+
+        .content p{
+            margin-top: 20px;
+            line-height: 1.9;
+            color: #c7c7c7;
+            font-size: 1rem;
+        }
+
+        /* SOCIAL */
+
+        .social-links{
+            margin-top: 25px;
+        }
+
+        .social-links a{
+            text-decoration: none;
+        }
+
+        .social-links i{
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ff7a00;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            color: #ff7a00;
+            font-size: 1.2rem;
+            transition: 0.3s ease;
+        }
+
+        .social-links i:hover{
+            background: #ff7a00;
+            color: #121212;
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 0 25px rgba(255,122,0,0.4);
+        }
+
+        /* BUTTON */
+
+        .btn button{
+            margin-top: 35px;
+            padding: 14px 34px;
+            border: none;
+            border-radius: 12px;
+            background: #ff7a00;
+            color: #121212;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn button:hover{
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255,122,0,0.5);
+        }
+
+        /* TITLES */
+
+        .section-title{
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 60px;
+            color: #ff7a00;
+        }
+
+        /* ABOUT + SKILLS */
+
+        .about-container,
+        .skills-container{
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+            gap: 2rem;
+        }
+
+        .card{
+            background: #1d1d1d;
+            padding: 35px;
+            border-radius: 22px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover{
+            transform: translateY(-10px);
+            border-color: rgba(255,122,0,0.25);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        .card h3{
+            color: #ff7a00;
+            margin-bottom: 15px;
+        }
+
+        .card p{
+            color: #c7c7c7;
+            line-height: 1.8;
+        }
+
+        /* PROJECTS */
+
+        .projects{
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 2rem;
+        }
+
+        .project-card{
+            background: #1d1d1d;
+            border-radius: 22px;
+            overflow: hidden;
+            transition: 0.35s;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .project-card:hover{
+            transform: translateY(-8px);
+            border-color: rgba(255,122,0,0.25);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+        }
+
+        .project-card img{
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .project-content{
+            padding: 25px;
+        }
+
+        .project-content h3{
+            color: #ff7a00;
+            margin-bottom: 10px;
+        }
+
+        .project-content p{
+            color: #c7c7c7;
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+
+        footer{
+            text-align: center;
+            padding: 30px;
+            background: #0b0b0b;
+            color: #7d7d7d;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:884px){
+
+            .hamburg{
+                display: block;
+            }
+
+            .nav-container .links{
+                display: none;
+            }
+
+            .main-container{
+                flex-direction: column;
+                text-align: center;
+                margin-top: 40px;
+            }
+
+            .main-container .image,
+            .content{
+                width: 100%;
+            }
+
+            .social-links{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .content{
+                margin-top: 20px;
+            }
+
+            .section-title{
+                font-size: 2.2rem;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav>
+
+        <div class="nav-container">
+
+            <div class="logo" data-aos="zoom-in">
+                <span>Alok Sharma</span>
+            </div>
+
+            <div class="links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+
+                <div class="contact-btn">
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+
+            <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
+
+        </div>
+
+        <!-- MOBILE MENU -->
+
+        <div class="dropdown">
+            <div class="links">
+
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+
+                <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- HERO -->
+
+    <section id="home">
+
+        <div class="main-container">
+
+            <div class="image" data-aos="fade-right" data-aos-duration="1500">
+                <img src="main.png" alt="Alok Sharma">
+            </div>
+
+            <div class="content">
+
+                <h1 data-aos="fade-left" data-aos-duration="1000">
+                    Hey, I'm <span>Alok Sharma</span>
+                </h1>
+
+                <div class="typewriter" data-aos="fade-up" data-aos-delay="300">
+                    I'm a <span></span>
+                </div>
+
+                <p data-aos="fade-up" data-aos-delay="500">
+                    I am a 4th Semester CSIT student passionate about Python,
+                    backend development, and sports graphic design. I enjoy
+                    building modern digital experiences, football-inspired
+                    graphics, and creative projects that combine technology
+                    with visual storytelling.
+                </p>
+
+                <div class="social-links" data-aos="fade-up" data-aos-delay="700">
+
+                    <a href="#">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+
+                </div>
+
+                <div class="btn" data-aos="zoom-in" data-aos-delay="900">
+                    <button>Download CV</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ABOUT -->
+
+    <section id="about">
+
+        <h2 class="section-title" data-aos="fade-up">
+            About Me
+        </h2>
+
+        <div class="about-container">
+
+            <div class="card" data-aos="fade-up">
+
+                <h3>Education</h3>
+
+                <p>
+                    Currently pursuing BSc. CSIT and exploring software
+                    development, backend systems, and AI/ML concepts.
+                </p>
+
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="200">
+
+                <h3>Python Interest</h3>
+
+                <p>
+                    Interested in Python programming, automation,
+                    backend development, APIs, and modern web technologies.
+                </p>
+
+            </div>
+
+            <div class="card" data-aos="fade-up" data-aos-delay="400">
+
+                <h3>Graphic Design</h3>
+
+                <p>
+                    Passionate about sports graphic design including football
+                    posters, player edits, branding, and social media graphics.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- SKILLS -->
+
+    <section id="skills">
+
+        <h2 class="section-title" data-aos="fade-up">
+            Skills
+        </h2>
+
+        <div class="skills-container">
+
+            <div class="card" data-aos="zoom-in">
+
+                <h3>Python</h3>
+
+                <p>
+                    Learning backend systems, scripting, automation,
+                    and problem solving.
+                </p>
+
+            </div>
+
+            <div class="card" data-aos="zoom-in" data-aos-delay="200">
+
+                <h3>Frontend</h3>
+
+                <p>
+                    HTML, CSS, responsive design, UI layouts,
+                    and portfolio websites.
+                </p>
+
+            </div>
+
+            <div class="card" data-aos="zoom-in" data-aos-delay="400">
+
+                <h3>Sports Graphics</h3>
+
+                <p>
+                    Football graphics, player posters,
+                    creative edits, and social media content.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- PROJECTS -->
+
+    <section id="projects">
+
+        <h2 class="section-title" data-aos="fade-up">
+            Projects
+        </h2>
+
+        <div class="projects">
+
+            <div class="project-card" data-aos="fade-up">
+
+                <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?q=80&w=1200&auto=format&fit=crop" alt="">
+
+                <div class="project-content">
+
+                    <h3>Football Graphics</h3>
+
+                    <p>
+                        Premium football-inspired posters and creative
+                        sports designs for social media.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+
+                <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?q=80&w=1200&auto=format&fit=crop" alt="">
+
+                <div class="project-content">
+
+                    <h3>Python Projects</h3>
+
+                    <p>
+                        Built beginner Python projects focused on
+                        automation and practical coding concepts.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="project-card" data-aos="fade-up" data-aos-delay="400">
+
+                <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop" alt="">
+
+                <div class="project-content">
+
+                    <h3>Portfolio Website</h3>
+
+                    <p>
+                        Designed and developed a responsive modern
+                        portfolio website using HTML and CSS.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- CONTACT -->
+
+    <section id="contact">
+
+        <h2 class="section-title" data-aos="fade-up">
+            Contact
+        </h2>
+
+        <div class="about-container">
+
+            <div class="card" data-aos="zoom-in">
+
+                <h3>Email</h3>
+
+                <p>
+                    aloksharma@example.com
+                </p>
+
+            </div>
+
+            <div class="card" data-aos="zoom-in" data-aos-delay="200">
+
+                <h3>Location</h3>
+
+                <p>
+                    Nepal
+                </p>
+
+            </div>
+
+            <div class="card" data-aos="zoom-in" data-aos-delay="400">
+
+                <h3>Availability</h3>
+
+                <p>
+                    Open to learning opportunities and creative collaborations.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        © 2026 Alok Sharma. All Rights Reserved.
+    </footer>
+
+    <!-- AOS -->
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+    <script>
+
+        AOS.init({
+            offset: 0,
+            duration: 1000
+        });
+
+        function hamburg(){
+            const navbar = document.querySelector(".dropdown");
+            navbar.style.transform = "translateY(0px)";
+        }
+
+        function cancel(){
+            const navbar = document.querySelector(".dropdown");
+            navbar.style.transform = "translateY(-500px)";
+        }
+
+    </script>
+
+</body>
+</html>
