@@ -343,13 +343,13 @@
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
         /* =========================================================
-        HERO IMAGE WORKSPACE AND DISPERSION CANVAS 
+        HERO IMAGE WORKSPACE, DISPERSION CONTROL SWITCH & SKILLS 
         ========================================================= */
         .hero-image-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
         .hero-image{ display:flex; justify-content:center; width: 100%; }
@@ -381,6 +381,68 @@
                 0 0 50px var(--card-glow);
         }
 
+        /* PREMIUM GLASSMORPHIC ON/OFF RADIAL COMPONENT TOGGLE */
+        .dispersion-switch-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--muted);
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
+        }
+
+        .switch-label {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .switch-label.active-label {
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(214, 194, 138, 0.4);
+        }
+
+        .control-toggle {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: background 0.3s ease;
+        }
+
+        .control-toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: var(--muted);
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease;
+        }
+
+        .control-toggle.toggle-on {
+            background: rgba(214, 194, 138, 0.25);
+            border-color: var(--gold);
+        }
+
+        .control-toggle.toggle-on::after {
+            transform: translateX(24px);
+            background: var(--gold-gradient);
+            box-shadow: 0 0 10px var(--gold);
+        }
+
+        /* HIGH-VISIBILITY HIGHLIGHTED MATRIX BUTTON ROW */
         .hero-skills-container {
             display: flex;
             gap: 14px;
@@ -393,23 +455,33 @@
         .skill-btn {
             padding: 12px 24px;
             border-radius: 12px;
-            background: rgba(214, 194, 138, 0.05);
-            border: 1px solid var(--border);
-            color: var(--text);
+            /* Permanently highlighted state out of base palette settings */
+            background: rgba(214, 194, 138, 0.14);
+            border: 1px solid rgba(214, 194, 138, 0.35);
+            color: #FFFFFF;
             font-size: 1rem;
             font-weight: 700;
             letter-spacing: 0.5px;
             text-transform: uppercase;
+            box-shadow: 0 4px 15px rgba(214, 194, 138, 0.05);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
         }
 
+        [data-theme="light"] .skill-btn {
+            background: rgba(214, 194, 138, 0.25);
+            border-color: rgba(214, 194, 138, 0.6);
+            color: #0F172A;
+        }
+
         .skill-btn:hover {
             background: var(--gold-gradient);
-            color: #111;
+            color: #111 !important;
             border-color: transparent;
             transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(214, 194, 138, 0.25);
+            box-shadow: 0 10px 25px rgba(214, 194, 138, 0.45);
         }
 
         /* =========================================================
@@ -475,6 +547,9 @@
         .project-card:hover img{ transform:scale(1.08); }
         .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.92), transparent); z-index:1; }
         .project-content{ position:absolute; left:35px; right:35px; bottom:35px; z-index:2; padding:35px; border-radius:24px; background:rgba(10,15,25,.45); backdrop-filter:blur(18px); -webkit-backdrop-filter: blur(18px); border:1px solid var(--border); }
+        .project-content h3{ font-size:1.85rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: #FFFFFF; }
+        .project-content p{ line-height:1.7; color:#CBD2D9; font-size:1.25rem; }
+
         .contact-wrapper{ max-width:1350px; margin:auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
         .contact-card{ padding:80px; border-radius:35px; background: linear-gradient(135deg, rgba(214,194,138,.14), rgba(255,255,255,.05)); border:1px solid rgba(214,194,138,.2); backdrop-filter:blur(24px); box-shadow:var(--shadow); }
         
@@ -617,6 +692,13 @@
                         <canvas id="hero-dispersion-canvas"></canvas>
                     </div>
                 </div>
+
+                <div class="dispersion-switch-area">
+                    <span class="switch-label" id="label-off">Off</span>
+                    <div class="control-toggle toggle-on" id="dispersion-switch" title="Toggle Dispersion Effect"></div>
+                    <span class="switch-label active-label" id="label-on">On</span>
+                </div>
+
                 <div class="hero-skills-container">
                     <button class="skill-btn">HTML</button>
                     <button class="skill-btn">CSS</button>
@@ -806,6 +888,7 @@
 
         let particles = [];
         let isHovered = false;
+        let dispersionEnabled = true; // Global structural setting flag
 
         const pImage = new Image();
         pImage.src = 'alokk.jpeg'; 
@@ -836,7 +919,8 @@
             }
 
             update() {
-                if (isHovered) {
+                // Evaluates state condition toggle safely during render loop calculation execution
+                if (isHovered && dispersionEnabled) {
                     this.vx += this.dx * 0.15;
                     this.vy += this.dy * 0.15;
                     this.vx *= this.friction;
@@ -874,15 +958,23 @@
                     }
                 }
             } catch(e) {
-                console.log("Dispersion local environment initialization verified.");
+                console.log("Dispersion verification path complete.");
             }
         }
 
         function animateDispersion() {
             dispCtx.clearRect(0, 0, imgWidth, imgHeight);
             
-            if (!isHovered && particles.length === 0) {
+            // Standard fallback image composition layer rendered if framework effect is unhovered or off
+            if ((!isHovered || !dispersionEnabled) && particles.length === 0) {
                 dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
+            }
+
+            // Fallback rendering map fallback if array compilation data vector is empty
+            if (!dispersionEnabled && !isHovered) {
+                dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
+                requestAnimationFrame(animateDispersion);
+                return;
             }
 
             for (let i = 0; i < particles.length; i++) {
@@ -894,6 +986,24 @@
 
         dispCanvas.addEventListener("mouseenter", () => { isHovered = true; });
         dispCanvas.addEventListener("mouseleave", () => { isHovered = false; });
+
+        /* CONTROL ENGINE LOGIC COUPLING FOR THE DISPERSION TOGGLE SWITCH */
+        const switchBtn = document.getElementById("dispersion-switch");
+        const labelOn = document.getElementById("label-on");
+        const labelOff = document.getElementById("label-off");
+
+        switchBtn.addEventListener("click", () => {
+            dispersionEnabled = !dispersionEnabled;
+            if (dispersionEnabled) {
+                switchBtn.classList.add("toggle-on");
+                labelOn.classList.add("active-label");
+                labelOff.classList.remove("active-label");
+            } else {
+                switchBtn.classList.remove("toggle-on");
+                labelOn.classList.remove("active-label");
+                labelOff.classList.add("active-label");
+            }
+        });
 
         /* =========================================================
         FORM DISPATCH MECHANISM (EMAILJS ASYNC DISPATCH ENGINE)
@@ -964,7 +1074,7 @@
             ring.style.top = e.clientY + "px";
         });
 
-        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn, .skill-btn, #hero-dispersion-canvas");
+        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn, .skill-btn, #hero-dispersion-canvas, .control-toggle");
         hoverItems.forEach((item)=>{
             item.addEventListener("mouseenter",()=>{
                 ring.style.width="70px";
