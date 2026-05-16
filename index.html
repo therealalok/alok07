@@ -54,11 +54,6 @@
             --btn-hover-bg: #F8F8F5;
 
             --placeholder-color: rgba(248, 248, 245, 0.7);
-
-            /* CHARCOAL PENCIL SHADING SCALING VARIABLES */
-            --charcoal-dense: #141414;
-            --charcoal-smudge: #52514F;
-            --charcoal-texture: #CCCCCC;
         }
 
         /* =========================================================
@@ -173,7 +168,6 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            /* Default Gold theme alignment framework settings */
             background: rgba(214, 194, 138, 0.15);
             border: 1px solid var(--gold);
             color: var(--gold);
@@ -194,7 +188,6 @@
             transition: transform 0.3s ease, color 0.3s ease;
         }
 
-        /* Switches cleanly back into unique brand structures on hover states */
         .side-nav-btn.nav-mail:hover {
             border-color: var(--gold);
             color: #ea4335;
@@ -306,9 +299,16 @@
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
         /* =========================================================
-        HERO IMAGE & GLOW
+        HERO IMAGE, GLOW & INTEGRATED SKILLS AREA
         ========================================================= */
-        .hero-image{ display:flex; justify-content:center; }
+        .hero-image-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .hero-image{ display:flex; justify-content:center; width: 100%; }
         
         .image-box{ 
             width:450px; 
@@ -333,93 +333,102 @@
                 0 0 50px var(--card-glow);
         }
 
-        /* =========================================================
-        EDUCATION (TIMELINE AXIS REMOVED - CENTERED HUMAN GRAPHITE SHADING BLOCKS)
-        ========================================================= */
-        .timeline{ 
-            max-width:900px; 
-            margin:auto; 
-            position:relative; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 50px;
+        /* HIGH-VISIBILITY CORE SKILLS BUTTON GROUP MATRIX */
+        .hero-skills-container {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            max-width: 450px;
         }
-        
-        /* Structural connectors completely stripped out */
-        .timeline::before { display: none !important; }
 
-        .timeline-item{ 
-            width:100% !important; 
-            padding: 0 !important;
-            left: 0 !important;
-            align-self: center !important;
-        }
-        
-        .timeline-dot { display: none !important; }
-
-        /* SKETCHED GRADIENT CONTAINER PACK (Simulating hand-drawn crosshatch charcoal shading) */
-        .timeline-content{
-            padding: 55px;
-            border-radius: 28px;
-            position: relative;
+        .skill-btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(214, 194, 138, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
-            border: 1px solid rgba(214, 194, 138, 0.25);
-            box-shadow: var(--shadow);
-            
-            /* Custom gradient shading simulating dense graphite transitioning to paper fibers */
-            background: linear-gradient(180deg, 
-                var(--charcoal-dense) 0%, 
-                var(--charcoal-smudge) 55%, 
-                var(--charcoal-texture) 100%
-            );
-            
-            transform: scale(1) translateY(0);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        [data-theme="light"] .timeline-content {
-            background: linear-gradient(180deg, #212120 0%, #595856 50%, #eae9f2 100%);
-            border-color: rgba(0, 0, 0, 0.18);
+        .skill-btn:hover {
+            background: var(--gold-gradient);
+            color: #111;
+            border-color: transparent;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(214, 194, 138, 0.25);
         }
 
-        .timeline-content:hover{
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--gold);
-            box-shadow: 
-                0 35px 70px rgba(0, 0, 0, 0.65), 
-                0 0 45px var(--card-glow); 
-        }
-
-        .year{ 
-            display:inline-block; 
-            padding:10px 22px; 
-            border-radius:8px; 
-            background: rgba(15, 15, 15, 0.9); 
-            border: 1px solid rgba(214, 194, 138, 0.3); 
-            color:var(--gold); 
-            font-size:.95rem; 
-            font-weight:700; 
-            letter-spacing: 1.5px; 
-            margin-bottom:26px; 
+        /* =========================================================
+        CLEAN ORIGINAL TIMELINE DESIGN RE-INTEGRATION
+        ========================================================= */
+        .timeline{ max-width:1100px; margin:auto; position:relative; display: flex; flex-direction: column; }
+        
+        /* Clear central structural divider line setup */
+        .timeline::before{ 
+            content:''; 
+            position:absolute; 
+            left:50%; 
+            top:0; 
+            transform:translateX(-50%); 
+            width:3px; 
+            height:100%; 
+            background: var(--gold); 
+            box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); 
+            display: block !important;
         }
         
-        .timeline-content h3{ 
-            font-size:2.1rem; 
-            font-weight: 800; 
-            color: #FFFFFF; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.6);
-            letter-spacing: -0.4px; 
-            margin-bottom:18px; 
-            line-height: 1.35; 
+        .timeline-item{ width:50%; padding:40px 65px; position:relative; display: flex; flex-direction: column; }
+        .timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
+        .timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
+        
+        .timeline-dot{ 
+            position:absolute; 
+            top:88px; 
+            width:18px; 
+            height:18px; 
+            background: var(--bg-gradient); 
+            border: 2px solid var(--gold); 
+            border-radius:50%; 
+            z-index: 2; 
+            display: block !important;
+            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1); 
+        }
+        .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
+        .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
+
+        .timeline-content{
+            padding:50px;
+            border-radius:24px;
+            background: var(--timeline-bg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transform: scale(1) translateY(0);
+            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+        .timeline-content:hover{
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 40px var(--card-glow); 
+            border-color: var(--gold);
+        }
+        .timeline-content:hover ~ .timeline-dot {
+            background: var(--dot-glow-color);
+            border-color: #FFFFFF;
+            box-shadow: 0 0 15px #FFFFFF, 0 0 25px var(--dot-glow-color);
+            transform: scale(1.4);
         }
 
-        .timeline-content p{ 
-            line-height:1.85; 
-            color: #F1F5F9; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-            font-size: 1.35rem; 
-            font-weight: 500; 
-        }
+        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(0, 0, 0, 0.15); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
+        .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
+        .timeline-content h3{ font-size:1.95rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
+        .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.3rem; font-weight: 500; }
 
         /* =========================================================
         PROJECTS & CONTACT
@@ -509,7 +518,10 @@
             .hero-buttons{ justify-content:center; }
             .hero p{ margin:auto auto 45px; }
             .image-box{ margin:auto; }
-            .timeline-item{ padding: 0 !important; }
+            .timeline::before{ left:24px; }
+            .timeline-item{ width:100%; padding: 25px 20px 25px 60px; left:0 !important; text-align:left !important; }
+            .timeline-dot{ left:16px !important; right: auto !important; top: 73px !important; }
+            .timeline-content{ padding: 38px; }
         }
 
         @media(max-width:768px){
@@ -520,7 +532,6 @@
             .image-box{ width:100%; height:500px; }
             .form-row{ grid-template-columns:1fr; }
             .contact-card{ padding:40px; }
-            .timeline-content { padding: 30px; }
         }
     </style>
 </head>
@@ -567,9 +578,18 @@
                     <a href="#contact" class="btn secondary-btn">Let's Connect</a>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="image-box">
-                    <img src="alokk.jpeg" alt="Main Photo">
+            
+            <div class="hero-image-wrapper">
+                <div class="hero-image">
+                    <div class="image-box">
+                        <img src="alokk.jpeg" alt="Main Photo">
+                    </div>
+                </div>
+                <div class="hero-skills-container">
+                    <button class="skill-btn">HTML</button>
+                    <button class="skill-btn">CSS</button>
+                    <button class="skill-btn">Python</button>
+                    <button class="skill-btn">Photoshop</button>
                 </div>
             </div>
         </div>
@@ -585,6 +605,7 @@
                     <h3>Mahakavi Devkota Memorial Secondary School</h3>
                     <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
+                <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item">
@@ -593,6 +614,7 @@
                     <h3>Reliance International Academy</h3>
                     <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science while developing interest in technology and programming.</p>
                 </div>
+                <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item">
@@ -601,6 +623,7 @@
                     <h3>Amrit Campus</h3>
                     <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
                 </div>
+                <div class="timeline-dot"></div>
             </div>
 
         </div>
@@ -807,7 +830,7 @@
             ring.style.top = e.clientY + "px";
         });
 
-        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn");
+        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn, .skill-btn");
         hoverItems.forEach((item)=>{
             item.addEventListener("mouseenter",()=>{
                 ring.style.width="70px";
