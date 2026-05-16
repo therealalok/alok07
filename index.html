@@ -2,20 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Alok Sharma </title>
+<title>Alok Sharma | Creative Designer</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 />
 
+<script src="https://unpkg.com/scrollreveal"></script>
+
 <style>
+
+:root{
+
+--bg:#090909;
+--card:#111111;
+--white:#ffffff;
+--text:#c7c7c7;
+
+--orange:#ff7b00;
+--orange2:#ff9b3d;
+--border:rgba(255,255,255,0.08);
+
+}
 
 *{
 margin:0;
@@ -26,9 +42,71 @@ scroll-behavior:smooth;
 
 body{
 font-family:'Inter',sans-serif;
-background:#0d0d0d;
-color:white;
+background:
+radial-gradient(circle at top left,#ff7b0015,transparent 30%),
+radial-gradient(circle at bottom right,#ffffff08,transparent 25%),
+linear-gradient(135deg,#070707,#0e0e0e,#090909);
+color:var(--white);
 overflow-x:hidden;
+position:relative;
+}
+
+/* NOISE */
+
+body::before{
+content:'';
+position:fixed;
+inset:0;
+background-image:url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
+opacity:.05;
+pointer-events:none;
+z-index:-2;
+}
+
+/* CURSOR GLOW */
+
+.cursor-glow{
+position:fixed;
+width:380px;
+height:380px;
+background:radial-gradient(circle,#ff7b0018 0%,transparent 70%);
+border-radius:50%;
+pointer-events:none;
+transform:translate(-50%,-50%);
+z-index:-1;
+filter:blur(20px);
+}
+
+/* FLOATING BLOBS */
+
+.blob{
+position:fixed;
+border-radius:50%;
+filter:blur(120px);
+z-index:-2;
+animation:float 14s ease-in-out infinite;
+}
+
+.blob1{
+width:500px;
+height:500px;
+background:#ff7b0015;
+top:-120px;
+right:-120px;
+}
+
+.blob2{
+width:400px;
+height:400px;
+background:#ffffff08;
+bottom:-120px;
+left:-120px;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(40px);}
+100%{transform:translateY(0px);}
 }
 
 /* SCROLLBAR */
@@ -38,60 +116,57 @@ width:8px;
 }
 
 ::-webkit-scrollbar-thumb{
-background:#ff7b00;
+background:var(--orange);
 border-radius:20px;
-}
-
-/* BACKGROUND */
-
-body::before{
-content:'';
-position:fixed;
-width:700px;
-height:700px;
-background:radial-gradient(circle,#ff7b0035 0%, transparent 70%);
-top:-200px;
-right:-200px;
-z-index:-1;
-}
-
-body::after{
-content:'';
-position:fixed;
-width:600px;
-height:600px;
-background:radial-gradient(circle,#ffffff08 0%, transparent 70%);
-bottom:-200px;
-left:-200px;
-z-index:-1;
 }
 
 /* NAVBAR */
 
 header{
-width:100%;
-padding:28px 9%;
+position:fixed;
+top:25px;
+left:50%;
+transform:translateX(-50%);
+width:90%;
+max-width:1300px;
+
+padding:18px 40px;
+
 display:flex;
 justify-content:space-between;
 align-items:center;
-position:fixed;
-top:0;
-left:0;
-z-index:999;
-backdrop-filter:blur(18px);
-background:rgba(15,15,15,0.55);
-border-bottom:1px solid rgba(255,255,255,0.06);
+
+background:rgba(255,255,255,0.04);
+backdrop-filter:blur(25px);
+
+border:1px solid rgba(255,255,255,0.08);
+
+border-radius:80px;
+
+z-index:1000;
+
+box-shadow:
+0 10px 40px rgba(0,0,0,.35),
+0 0 30px rgba(255,123,0,.08);
+
+transition:.4s ease;
 }
 
 .logo{
 font-size:1.5rem;
-font-weight:700;
-letter-spacing:1px;
-color:white;
+font-weight:800;
+letter-spacing:-1px;
+cursor:pointer;
+transition:.4s ease;
 }
 
 .logo span{
-color:#ff7b00;
+color:var(--orange);
+}
+
+.logo:hover{
+transform:translateY(-2px);
+text-shadow:0 0 20px rgba(255,123,0,.7);
 }
 
 nav{
@@ -101,56 +176,83 @@ gap:35px;
 
 nav a{
 text-decoration:none;
-color:#d0d0d0;
-font-size:0.95rem;
-transition:0.3s;
+color:#d4d4d4;
+font-size:.95rem;
+font-weight:500;
 position:relative;
+transition:.4s ease;
+}
+
+nav a::after{
+content:'';
+position:absolute;
+left:0;
+bottom:-8px;
+width:0%;
+height:2px;
+background:var(--orange);
+transition:.4s ease;
 }
 
 nav a:hover{
-color:#ff7b00;
+color:var(--white);
 }
 
-/* HERO SECTION */
+nav a:hover::after{
+width:100%;
+}
+
+/* HERO */
 
 .hero{
 min-height:100vh;
 display:flex;
 align-items:center;
-justify-content:center;
-padding:140px 9% 100px;
+padding:170px 8% 100px;
+position:relative;
 }
 
 .hero-container{
 display:grid;
-grid-template-columns:1fr 420px;
-gap:80px;
+grid-template-columns:1.2fr .8fr;
+gap:40px;
 align-items:center;
 width:100%;
-max-width:1400px;
+max-width:1450px;
+margin:auto;
 }
 
-.hero-text h3{
-font-size:1rem;
-color:#ff7b00;
-letter-spacing:2px;
-margin-bottom:20px;
+.hero-subtitle{
+color:var(--orange2);
+font-size:.9rem;
+font-weight:600;
+letter-spacing:3px;
+margin-bottom:25px;
 }
 
 .hero-text h1{
-font-size:5rem;
-line-height:1;
-margin-bottom:25px;
-font-weight:800;
+font-size:clamp(5rem,10vw,9rem);
+line-height:.9;
+font-weight:900;
+letter-spacing:-6px;
+margin-bottom:30px;
+}
+
+.hero-text h1 span{
+background:linear-gradient(90deg,#fff,#ff7b00);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
 }
 
 .hero-text p{
-font-size:1.08rem;
-line-height:1.9;
-color:#b9b9b9;
 max-width:650px;
-margin-bottom:40px;
+font-size:1.05rem;
+line-height:1.9;
+color:var(--text);
+margin-bottom:45px;
 }
+
+/* BUTTONS */
 
 .hero-buttons{
 display:flex;
@@ -159,46 +261,41 @@ flex-wrap:wrap;
 }
 
 .btn{
-padding:15px 34px;
-border-radius:60px;
+padding:17px 34px;
+border-radius:70px;
 text-decoration:none;
 font-weight:600;
-transition:0.4s ease;
-border:1px solid #ff7b00;
 position:relative;
 overflow:hidden;
+transition:.45s ease;
 }
 
 .primary-btn{
-background:#ff7b00;
+background:linear-gradient(135deg,#ff7b00,#ff9b3d);
 color:black;
-box-shadow:0 0 25px #ff7b0050;
+
+box-shadow:
+0 10px 35px rgba(255,123,0,.35);
 }
 
 .primary-btn:hover{
-background:transparent;
-color:#ff7b00;
+transform:translateY(-5px) scale(1.03);
 box-shadow:
-0 0 10px #ff7b00,
-0 0 25px #ff7b00,
-0 0 50px #ff7b00;
-transform:translateY(-4px);
+0 0 20px rgba(255,123,0,.4),
+0 0 60px rgba(255,123,0,.25);
 }
 
 .secondary-btn{
-background:transparent;
-color:#ffffff;
+border:1px solid rgba(255,255,255,.1);
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(10px);
+color:white;
 }
 
 .secondary-btn:hover{
-background:#ffffff;
-color:#0d0d0d;
-border-color:white;
-box-shadow:
-0 0 10px white,
-0 0 25px white,
-0 0 45px white;
-transform:translateY(-4px);
+transform:translateY(-5px);
+background:white;
+color:black;
 }
 
 /* IMAGE */
@@ -206,18 +303,57 @@ transform:translateY(-4px);
 .hero-image{
 display:flex;
 justify-content:center;
-align-items:center;
 }
 
 .image-box{
-width:420px;
-height:520px;
-border-radius:35px;
-overflow:hidden;
+width:430px;
+height:560px;
+
 position:relative;
-border:1px solid rgba(255,255,255,0.1);
+overflow:hidden;
+
+border-radius:38px;
+
+background:rgba(255,255,255,.03);
+
+border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(20px);
+
+transition:.6s ease;
+
 box-shadow:
-0 0 50px rgba(255,123,0,0.18);
+0 20px 80px rgba(0,0,0,.55),
+0 0 60px rgba(255,123,0,.18);
+
+}
+
+.image-box:hover{
+transform:
+rotateY(-6deg)
+rotateX(2deg)
+translateY(-10px);
+}
+
+.image-box::before{
+content:'';
+position:absolute;
+inset:-2px;
+
+background:
+linear-gradient(
+135deg,
+transparent,
+rgba(255,123,0,.5),
+transparent
+);
+
+opacity:0;
+transition:.5s ease;
+}
+
+.image-box:hover::before{
+opacity:1;
 }
 
 .image-box img{
@@ -226,24 +362,57 @@ height:100%;
 object-fit:cover;
 }
 
+/* FLOATING CARD */
+
+.floating-card{
+position:absolute;
+bottom:40px;
+left:-50px;
+
+padding:18px 24px;
+
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.08);
+
+border-radius:22px;
+
+box-shadow:
+0 15px 35px rgba(0,0,0,.4);
+
+}
+
+.floating-card h4{
+font-size:.9rem;
+margin-bottom:5px;
+}
+
+.floating-card p{
+font-size:.8rem;
+color:#bdbdbd;
+}
+
 /* SECTION */
 
 section{
-padding:120px 9%;
+padding:120px 8%;
+position:relative;
 }
 
 .section-title{
-font-size:3rem;
-margin-bottom:70px;
+font-size:3.4rem;
 font-weight:800;
 text-align:center;
+margin-bottom:80px;
+letter-spacing:-2px;
 }
 
 .section-title span{
-color:#ff7b00;
+color:var(--orange);
 }
 
-/* EDUCATION TIMELINE */
+/* TIMELINE */
 
 .timeline{
 position:relative;
@@ -255,10 +424,16 @@ margin:auto;
 content:'';
 position:absolute;
 left:50%;
-transform:translateX(-50%);
+top:0;
 width:2px;
 height:100%;
-background:rgba(255,255,255,0.1);
+background:linear-gradient(
+to bottom,
+transparent,
+rgba(255,123,0,.6),
+transparent
+);
+transform:translateX(-50%);
 }
 
 .timeline-item{
@@ -276,77 +451,121 @@ text-align:right;
 left:50%;
 }
 
-.timeline-content{
-background:rgba(255,255,255,0.04);
-padding:35px;
-border-radius:28px;
-border:1px solid rgba(255,255,255,0.06);
-backdrop-filter:blur(20px);
-transition:0.4s;
-}
-
-.timeline-content:hover{
-transform:translateY(-8px);
-border-color:#ff7b00;
-box-shadow:0 0 30px rgba(255,123,0,0.15);
-}
-
-.timeline-year{
-font-size:0.95rem;
-font-weight:700;
-color:#ff7b00;
-margin-bottom:12px;
-}
-
-.timeline-content h3{
-font-size:1.3rem;
-margin-bottom:10px;
-}
-
-.timeline-content p{
-color:#b5b5b5;
-line-height:1.7;
-}
-
 .timeline-dot{
 position:absolute;
 top:45px;
-right:-11px;
 width:22px;
 height:22px;
-background:#ff7b00;
+background:var(--orange);
 border-radius:50%;
-box-shadow:0 0 20px #ff7b00;
+box-shadow:
+0 0 25px rgba(255,123,0,.8);
+animation:pulse 2s infinite;
+}
+
+.timeline-item:nth-child(odd) .timeline-dot{
+right:-11px;
 }
 
 .timeline-item:nth-child(even) .timeline-dot{
 left:-11px;
 }
 
+@keyframes pulse{
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+}
+
+.timeline-content{
+padding:35px;
+border-radius:30px;
+
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,.06);
+
+transition:.5s ease;
+}
+
+.timeline-content:hover{
+transform:translateY(-10px);
+border-color:rgba(255,123,0,.4);
+
+box-shadow:
+0 20px 50px rgba(0,0,0,.45),
+0 0 40px rgba(255,123,0,.12);
+}
+
+.timeline-year{
+display:inline-block;
+padding:8px 16px;
+border-radius:50px;
+background:rgba(255,123,0,.12);
+color:var(--orange2);
+font-size:.8rem;
+font-weight:700;
+margin-bottom:18px;
+}
+
+.timeline-content h3{
+font-size:1.35rem;
+margin-bottom:15px;
+}
+
+.timeline-content p{
+color:#bbbbbb;
+line-height:1.8;
+}
+
 /* PROJECTS */
 
 .projects-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:35px;
 }
 
 .project-card{
-background:rgba(255,255,255,0.04);
-border-radius:28px;
+position:relative;
+height:540px;
 overflow:hidden;
-border:1px solid rgba(255,255,255,0.06);
-transition:0.4s;
+
+border-radius:32px;
+
+background:#111;
+
+border:1px solid rgba(255,255,255,.06);
+
+transition:.6s ease;
 }
 
 .project-card:hover{
-transform:translateY(-10px);
-border-color:#ff7b00;
-box-shadow:0 0 30px rgba(255,123,0,0.12);
+transform:
+translateY(-12px)
+rotateX(3deg);
+}
+
+.project-card::before{
+content:'';
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+to top,
+rgba(0,0,0,.95),
+rgba(0,0,0,.25),
+transparent
+);
+
+z-index:1;
 }
 
 .project-image{
-height:220px;
+width:100%;
+height:100%;
 overflow:hidden;
 }
 
@@ -354,43 +573,88 @@ overflow:hidden;
 width:100%;
 height:100%;
 object-fit:cover;
-transition:0.5s;
+transition:1s ease;
 }
 
 .project-card:hover img{
-transform:scale(1.08);
+transform:scale(1.12);
 }
 
 .project-content{
-padding:28px;
+position:absolute;
+bottom:22px;
+left:22px;
+right:22px;
+
+z-index:2;
+
+padding:25px;
+
+border-radius:25px;
+
+background:rgba(255,255,255,.06);
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.08);
+}
+
+.tags{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:18px;
+}
+
+.tags span{
+padding:8px 14px;
+border-radius:50px;
+font-size:.75rem;
+background:rgba(255,123,0,.12);
+color:var(--orange2);
 }
 
 .project-content h3{
+font-size:1.5rem;
 margin-bottom:15px;
-font-size:1.3rem;
 }
 
 .project-content p{
-color:#b7b7b7;
 line-height:1.7;
+color:#d0d0d0;
+font-size:.95rem;
 }
 
 /* CONTACT */
 
-.contact{
+.contact-container{
+max-width:1100px;
+margin:auto;
+
+padding:70px;
+
+border-radius:40px;
+
+background:rgba(255,255,255,.04);
+
+border:1px solid rgba(255,255,255,.06);
+
+backdrop-filter:blur(20px);
+
 text-align:center;
-padding-bottom:80px;
 }
 
-.contact h2{
-font-size:3rem;
+.contact-container h2{
+font-size:3.2rem;
 margin-bottom:20px;
+letter-spacing:-2px;
 }
 
-.contact p{
-color:#bdbdbd;
-margin-bottom:40px;
-font-size:1.05rem;
+.contact-container p{
+max-width:650px;
+margin:auto;
+color:#bfbfbf;
+line-height:1.9;
+margin-bottom:50px;
 }
 
 .contact-info{
@@ -402,7 +666,12 @@ margin-bottom:45px;
 }
 
 .contact-info div{
-color:#d6d6d6;
+padding:18px 28px;
+border-radius:20px;
+
+background:rgba(255,255,255,.03);
+
+border:1px solid rgba(255,255,255,.05);
 }
 
 /* SOCIALS */
@@ -412,45 +681,55 @@ display:flex;
 justify-content:center;
 gap:18px;
 flex-wrap:wrap;
-margin-top:10px;
 }
 
 .socials a{
-width:55px;
-height:55px;
+width:58px;
+height:58px;
+
 display:flex;
 align-items:center;
 justify-content:center;
-border-radius:50%;
+
 text-decoration:none;
 font-size:1.2rem;
+
+border-radius:50%;
+
 color:white;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-transition:0.4s;
+
+background:rgba(255,255,255,.04);
+
+border:1px solid rgba(255,255,255,.08);
+
+transition:.45s ease;
 }
 
 .socials a:hover{
-background:#ff7b00;
+background:var(--orange);
 color:black;
-transform:translateY(-8px);
+
+transform:
+translateY(-8px)
+scale(1.08);
+
 box-shadow:
-0 0 15px #ff7b00,
-0 0 40px #ff7b00;
+0 0 20px rgba(255,123,0,.5),
+0 0 50px rgba(255,123,0,.3);
 }
 
 /* FOOTER */
 
 footer{
-padding:35px;
+padding:40px;
 text-align:center;
-color:#777;
-border-top:1px solid rgba(255,255,255,0.05);
+color:#7f7f7f;
+border-top:1px solid rgba(255,255,255,.05);
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media(max-width:1000px){
+@media(max-width:1050px){
 
 .hero-container{
 grid-template-columns:1fr;
@@ -458,11 +737,23 @@ text-align:center;
 }
 
 .hero-text p{
-margin:auto auto 40px;
+margin:auto auto 45px;
 }
 
 .hero-buttons{
 justify-content:center;
+}
+
+.image-box{
+width:100%;
+max-width:420px;
+margin:auto;
+}
+
+.floating-card{
+left:50%;
+transform:translateX(-50%);
+bottom:-25px;
 }
 
 .timeline::before{
@@ -471,33 +762,24 @@ left:25px;
 
 .timeline-item{
 width:100%;
-padding-left:80px;
-padding-right:20px;
-text-align:left !important;
+padding-left:85px;
+padding-right:10px;
 left:0 !important;
+text-align:left !important;
 }
 
 .timeline-dot{
 left:14px !important;
 }
 
-.hero-text h1{
-font-size:3.8rem;
 }
 
-.image-box{
-width:100%;
-max-width:380px;
-height:480px;
-margin:auto;
-}
-
-}
-
-@media(max-width:700px){
+@media(max-width:760px){
 
 header{
-padding:20px 7%;
+padding:16px 24px;
+top:15px;
+width:94%;
 }
 
 nav{
@@ -505,19 +787,27 @@ display:none;
 }
 
 .hero{
-padding-top:120px;
+padding-top:170px;
 }
 
 .hero-text h1{
-font-size:3rem;
+letter-spacing:-3px;
 }
 
 .section-title{
-font-size:2.2rem;
+font-size:2.4rem;
 }
 
-.contact h2{
+.contact-container{
+padding:40px 25px;
+}
+
+.contact-container h2{
 font-size:2.3rem;
+}
+
+.image-box{
+height:500px;
 }
 
 }
@@ -527,7 +817,12 @@ font-size:2.3rem;
 
 <body>
 
-<!-- HEADER -->
+<div class="cursor-glow"></div>
+
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+
+<!-- NAVBAR -->
 
 <header>
 
@@ -536,10 +831,12 @@ Alok<span>.</span>
 </div>
 
 <nav>
+
 <a href="#home">Home</a>
 <a href="#education">Education</a>
 <a href="#projects">Projects</a>
 <a href="#contact">Contact</a>
+
 </nav>
 
 </header>
@@ -552,15 +849,17 @@ Alok<span>.</span>
 
 <div class="hero-text">
 
-<h3>CREATIVE DESIGNER • CS STUDENT </h3>
+<div class="hero-subtitle">
+CREATIVE SPORTS DESIGNER • CS STUDENT
+</div>
 
 <h1>
-Alok<br>
-Sharma
+ALOK <br>
+<span>SHARMA</span>
 </h1>
 
 <p>
-Sports Graphic Design and a constant learner with a zeal of improving myself daily.
+A passionate sports graphic designer and Computer Science student focused on creating cinematic football visuals, luxury sports campaigns, and immersive creative experiences with premium storytelling aesthetics.
 </p>
 
 <div class="hero-buttons">
@@ -580,7 +879,21 @@ Let's Connect
 <div class="hero-image">
 
 <div class="image-box">
+
 <img src="main.jpg" alt="Alok Sharma">
+
+<div class="floating-card">
+
+<h4>
+Creative Direction
+</h4>
+
+<p>
+Sports Posters • Branding • Visual Identity
+</p>
+
+</div>
+
 </div>
 
 </div>
@@ -614,7 +927,7 @@ Mahakavi Devkota Memorial Secondary School
 </h3>
 
 <p>
-Completed SEE in 2022 with strong academic foundation with GPA 3.75.
+Completed SEE in 2022 with strong academic consistency and a GPA of 3.75 while building interest in digital creativity and technology.
 </p>
 
 </div>
@@ -628,7 +941,7 @@ Completed SEE in 2022 with strong academic foundation with GPA 3.75.
 <div class="timeline-content">
 
 <div class="timeline-year">
-2024
+2022 - 2024
 </div>
 
 <h3>
@@ -636,7 +949,7 @@ Reliance International Academy
 </h3>
 
 <p>
-Completed +2 Science with Computer Science with GPA 3.62.
+Completed +2 Science with Computer Science, strengthening technical foundations while exploring modern sports graphic design and visual storytelling.
 </p>
 
 </div>
@@ -658,7 +971,7 @@ Amrit Campus
 </h3>
 
 <p>
-Currently a 4th semester student of Bachelor's in Computer Science and Information Technology under Tribhuvan University.
+Currently pursuing Bachelor's in Computer Science and Information Technology under Tribhuvan University while actively developing a creative sports design portfolio.
 </p>
 
 </div>
@@ -674,46 +987,68 @@ Currently a 4th semester student of Bachelor's in Computer Science and Informati
 <section id="projects">
 
 <h2 class="section-title">
-Creative <span>Projects</span>
+Featured <span>Projects</span>
 </h2>
 
 <div class="projects-grid">
 
+<!-- PROJECT -->
+
 <div class="project-card">
 
 <div class="project-image">
-<img src="WhatsApp Image 2026-05-13 at 9.52.44 PM.jpeg" alt="FIFA Artwork"> </div>
+<img src="WhatsApp Image 2026-05-13 at 9.52.44 PM.jpeg" alt="">
+</div>
 
 <div class="project-content">
 
-<h3>FIFA World Cup 2026 </h3>
+<div class="tags">
+
+<span>Sports Design</span>
+<span>Poster Design</span>
+
+</div>
+
+<h3>
+FIFA World Cup 2026
+</h3>
 
 <p>
-A premium FIFA-inspired football artwork featuring legendary international stars with cinematic composition, luxury lighting, and elite tournament atmosphere.
+A cinematic FIFA-inspired football artwork featuring elite international stars with luxury lighting, layered compositions, and premium tournament atmosphere.
 </p>
 
 </div>
 
 </div>
 
+<!-- PROJECT -->
+
 <div class="project-card">
 
 <div class="project-image">
-<img src="WhatsApp Image 2026-05-08 at 3.03.54 PM.jpeg" alt="Liverpool vs Chelsea"> </div>
+<img src="WhatsApp Image 2026-05-08 at 3.03.54 PM.jpeg" alt="">
+</div>
 
 <div class="project-content">
 
-<h3>Liverpool VS Chelsea </h3>
+<div class="tags">
+
+<span>Creative Direction</span>
+<span>Branding</span>
+
+</div>
+
+<h3>
+Liverpool VS Chelsea
+</h3>
 
 <p>
-High-end Premier League inspired sports poster featuring luxury supercars, cinematic street atmosphere, and Anfield rivalry aesthetics.
+A high-energy Premier League inspired poster blending luxury automotive aesthetics, football rivalry emotion, and cinematic urban lighting.
 </p>
 
 </div>
 
 </div>
-
-
 
 </div>
 
@@ -721,14 +1056,16 @@ High-end Premier League inspired sports poster featuring luxury supercars, cinem
 
 <!-- CONTACT -->
 
-<section class="contact" id="contact">
+<section id="contact">
+
+<div class="contact-container">
 
 <h2>
-Let's Get In Touch
+Let's Build Something Creative
 </h2>
 
 <p>
-Interested to work together? Feel free to connect.
+Interested in collaborating, freelance work, or creative partnerships? Feel free to connect and let's create premium visual experiences together.
 </p>
 
 <div class="contact-info">
@@ -742,7 +1079,7 @@ alokkynwa@gmail.com
 <div>
 <i class="fa-solid fa-phone"></i>
 &nbsp;
-+9779843538473
++977 9843538473
 </div>
 
 </div>
@@ -753,7 +1090,7 @@ alokkynwa@gmail.com
 <i class="fab fa-github"></i>
 </a>
 
-<a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">
+<a href="https://www.linkedin.com/" target="_blank">
 <i class="fab fa-linkedin-in"></i>
 </a>
 
@@ -771,11 +1108,84 @@ alokkynwa@gmail.com
 
 </div>
 
+</div>
+
 </section>
 
 <footer>
-© 2026 Alok Sharma
+© 2026 Alok Sharma • Designed with precision and cinematic aesthetics.
 </footer>
+
+<script>
+
+/* CURSOR GLOW */
+
+const glow = document.querySelector(".cursor-glow");
+
+document.addEventListener("mousemove",(e)=>{
+
+glow.style.left = e.clientX + "px";
+glow.style.top = e.clientY + "px";
+
+});
+
+/* SCROLL REVEAL */
+
+ScrollReveal().reveal('.hero-text',{
+distance:'80px',
+duration:1800,
+origin:'left',
+opacity:0
+});
+
+ScrollReveal().reveal('.hero-image',{
+distance:'80px',
+duration:1800,
+origin:'right',
+opacity:0
+});
+
+ScrollReveal().reveal('.timeline-item',{
+distance:'60px',
+duration:1400,
+origin:'bottom',
+interval:200
+});
+
+ScrollReveal().reveal('.project-card',{
+distance:'70px',
+duration:1600,
+origin:'bottom',
+interval:200
+});
+
+ScrollReveal().reveal('.contact-container',{
+distance:'70px',
+duration:1600,
+origin:'bottom'
+});
+
+/* NAVBAR SHRINK */
+
+window.addEventListener("scroll",()=>{
+
+const header = document.querySelector("header");
+
+if(window.scrollY > 50){
+
+header.style.padding = "14px 35px";
+header.style.background = "rgba(10,10,10,.75)";
+
+}else{
+
+header.style.padding = "18px 40px";
+header.style.background = "rgba(255,255,255,.04)";
+
+}
+
+});
+
+</script>
 
 </body>
 </html>
