@@ -1,405 +1,366 @@
-# Hyper Realistic Luxury Portfolio (Frontend Only)
+# Luxury Creative Portfolio (HTML + CSS)
 
-```jsx
-export default function LuxuryCreativePortfolio() {
-  /*
-    ======================================================
-    PORTFOLIO NOTES
-    ======================================================
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alok Sharma | Creative Portfolio</title>
 
-    DESIGN GOAL:
-    - Rich luxury aesthetic
-    - Orange + black cinematic theme
-    - Heavy grain texture like reference image
-    - Premium typography
-    - No backend related sections
-    - Frontend portfolio only
-    - Sports graphics + poster showcase
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    ------------------------------------------------------
-    WHERE TO ADD YOUR GRAPHIC PROJECTS?
-    ------------------------------------------------------
+  <style>
 
-    Replace the array below with your real projects.
-
-    Example:
-
-    {
-      title: "Cristiano Ronaldo Poster",
-      category: "Football Poster",
-      image: "/projects/ronaldo.jpg"
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      scroll-behavior:smooth;
     }
 
-    Put your images inside:
-
-    /public/projects/
-
-    Then use:
-
-    image: "/projects/your-image-name.jpg"
-
-  */
-
-  const graphicProjects = [
-    {
-      title: "Champions League Night",
-      category: "Football Poster",
-      image: "/projects/project1.jpg", // <-- ADD IMAGE HERE
-    },
-
-    {
-      title: "Matchday Design",
-      category: "Sports Graphics",
-      image: "/projects/project2.jpg", // <-- ADD IMAGE HERE
-    },
-
-    {
-      title: "Cinematic Ronaldo Edit",
-      category: "Football Manipulation",
-      image: "/projects/project3.jpg", // <-- ADD IMAGE HERE
-    },
-
-    {
-      title: "Premier League Visual",
-      category: "Social Media Design",
-      image: "/projects/project4.jpg", // <-- ADD IMAGE HERE
-    },
-  ];
-
-  return (
-    <div className="bg-black text-white min-h-screen overflow-hidden selection:bg-orange-500/30">
-
-      {/* ====================================================== */}
-      {/* GLOBAL STYLES */}
-      {/* ====================================================== */}
-
-      <style>{`
-
-        body {
-          background: #050505;
-          font-family: Inter, sans-serif;
-        }
-
-        /* ================================================== */
-        /* GRAIN EFFECT */
-        /* ================================================== */
-
-        .grain {
-          position: fixed;
-          inset: 0;
-          pointer-events: none;
-          opacity: 0.14;
-          z-index: 999;
-          background-image: url("https://www.transparenttextures.com/patterns/asfalt-dark.png");
-          mix-blend-mode: soft-light;
-        }
-
-        /* ================================================== */
-        /* PREMIUM GLOW */
-        /* ================================================== */
-
-        .orange-glow {
-          position: absolute;
-          width: 900px;
-          height: 900px;
-          background: radial-gradient(circle, rgba(255,120,0,0.35), transparent 60%);
-          filter: blur(80px);
-        }
-
-        /* ================================================== */
-        /* GLASS BUTTON */
-        /* ================================================== */
-
-        .glass-btn {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(12px);
-          transition: all 0.4s ease;
-        }
-
-        .glass-btn:hover {
-          transform: translateY(-3px);
-          border-color: rgba(255,140,0,0.5);
-          box-shadow: 0 0 40px rgba(255,120,0,0.2);
-        }
-
-        /* ================================================== */
-        /* HERO TITLE */
-        /* ================================================== */
-
-        .hero-title {
-          line-height: 0.9;
-          letter-spacing: -0.06em;
-        }
-
-      `}</style>
-
-      {/* GRAIN OVERLAY */}
-      <div className="grain"></div>
-
-      {/* ====================================================== */}
-      {/* NAVBAR */}
-      {/* ====================================================== */}
-
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-
-          <div>
-            <h1 className="text-2xl font-black tracking-tight">
-              ROBINSWEB
-            </h1>
-          </div>
-
-          <nav className="hidden lg:flex items-center gap-5">
-            {[
-              "About",
-              "Projects",
-              "Services",
-              "Testimonials",
-              "Contact",
-            ].map((item) => (
-              <button
-                key={item}
-                className="glass-btn px-5 py-2 rounded-full text-sm text-zinc-300"
-              >
-                {item}
-              </button>
-            ))}
-          </nav>
-
-          <button className="bg-orange-500 hover:bg-orange-400 transition-all duration-300 text-black font-semibold px-6 py-3 rounded-full">
-            Start a Project
-          </button>
-        </div>
-      </header>
-
-      {/* ====================================================== */}
-      {/* HERO SECTION */}
-      {/* ====================================================== */}
-
-      <section className="relative min-h-screen flex items-center overflow-hidden px-6 lg:px-12">
-
-        {/* ORANGE GLOW */}
-        <div className="orange-glow top-[-300px] right-[-200px]"></div>
-
-        {/* BACKGROUND */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#ff6a00] via-[#7a2200] to-black"></div>
-
-        {/* STARS */}
-        <div className="absolute inset-0 opacity-40 bg-[radial-gradient(white_1px,transparent_1px)] bg-[size:18px_18px]"></div>
-
-        <div className="relative z-10 max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-10 items-center">
-
-          {/* LEFT CONTENT */}
-          <div>
-
-            <p className="uppercase tracking-[0.3em] text-sm text-orange-200 mb-6">
-              Graphic Designer • Sports Visual Artist
-            </p>
-
-            <h1 className="hero-title text-[5rem] md:text-[8rem] font-black text-white">
-              Robin
-              <span className="block text-orange-100">
-                Ahmed
-              </span>
-            </h1>
-
-            <p className="mt-8 text-zinc-200 text-lg max-w-2xl leading-8">
-              Creating cinematic football visuals, bold poster systems,
-              premium sports graphics, and luxury digital experiences with
-              a modern editorial style.
-            </p>
-
-            <div className="flex flex-wrap gap-5 mt-10">
-
-              <button className="glass-btn px-8 py-4 rounded-full">
-                View Projects
-              </button>
-
-              <button className="glass-btn px-8 py-4 rounded-full">
-                Sports Graphics
-              </button>
-
-            </div>
-          </div>
-
-          {/* RIGHT IMAGE */}
-          <div className="relative flex justify-center lg:justify-end">
-
-            {/* MAIN IMAGE CARD */}
-            <div className="relative w-full max-w-[540px] rounded-[3rem] overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.7)]">
-
-              {/* ====================================================== */}
-              {/* YOUR MAIN IMAGE */}
-              {/* ====================================================== */}
-
-              {/*
-                Replace /main.jpg with your real image.
-
-                Put image inside:
-                /public/main.jpg
-              */}
-
-              <img
-                src="/main.jpg"
-                alt="Portfolio"
-                className="w-full h-[720px] object-cover"
-              />
-
-              {/* DARK OVERLAY */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================== */}
-      {/* GRAPHIC PROJECTS SECTION */}
-      {/* ====================================================== */}
-
-      <section className="relative py-32 px-6 lg:px-12 border-t border-white/5 bg-[#050505]">
-
-        <div className="max-w-7xl mx-auto">
-
-          <div className="mb-20">
-            <p className="uppercase tracking-[0.3em] text-orange-400 text-sm mb-4">
-              Featured Projects
-            </p>
-
-            <h2 className="text-5xl lg:text-7xl font-black leading-none max-w-4xl">
-              Cinematic Sports Graphics & Football Posters.
-            </h2>
-          </div>
-
-          {/* ====================================================== */}
-          {/* PROJECT GRID */}
-          {/* ====================================================== */}
-
-          {/*
-            ======================================================
-            HOW TO ADD NEW PROJECTS?
-            ======================================================
-
-            1. Add image inside:
-               /public/projects/
-
-            2. Add object inside graphicProjects array.
-
-            Example:
-
-            {
-              title: "Messi Wallpaper",
-              category: "Sports Design",
-              image: "/projects/messi.jpg"
-            }
-
-          */}
-
-          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-            {graphicProjects.map((project, index) => (
-              <div
-                key={index}
-                className="group rounded-[2rem] overflow-hidden border border-white/5 bg-[#0f0f0f] hover:border-orange-400/30 transition-all duration-500"
-              >
-
-                <div className="overflow-hidden aspect-[4/5]">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-                  />
-                </div>
-
-                <div className="p-6">
-
-                  <p className="uppercase tracking-[0.2em] text-xs text-orange-400 mb-4">
-                    {project.category}
-                  </p>
-
-                  <h3 className="text-2xl font-bold leading-snug">
-                    {project.title}
-                  </h3>
-
-                </div>
-              </div>
-            ))}
-
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================== */}
-      {/* ABOUT SECTION */}
-      {/* ====================================================== */}
-
-      <section className="py-32 px-6 lg:px-12 border-t border-white/5 bg-black">
-
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20">
-
-          <div>
-            <p className="uppercase tracking-[0.3em] text-orange-400 text-sm mb-5">
-              About Me
-            </p>
-
-            <h2 className="text-5xl lg:text-7xl font-black leading-none mb-10">
-              Luxury Visual Design Meets Sports Culture.
-            </h2>
-          </div>
-
-          <div>
-            <p className="text-zinc-400 leading-8 text-lg">
-              Passionate about cinematic football posters, social media visuals,
-              typography systems, branding aesthetics, and modern creative direction.
-              Focused entirely on frontend visuals and premium design experiences.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ====================================================== */}
-      {/* CONTACT SECTION */}
-      {/* ====================================================== */}
-
-      <section className="py-32 px-6 lg:px-12 border-t border-white/5 bg-[#050505]">
-
-        <div className="max-w-5xl mx-auto text-center">
-
-          <p className="uppercase tracking-[0.3em] text-orange-400 text-sm mb-6">
-            Contact
+    body{
+      font-family:'Inter',sans-serif;
+      background:#0a0a0a;
+      color:white;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    body::before{
+      content:'';
+      position:fixed;
+      width:100%;
+      height:100%;
+      top:0;
+      left:0;
+      background-image:url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      opacity:0.18;
+      pointer-events:none;
+      z-index:999;
+    }
+
+    .container{
+      width:90%;
+      max-width:1300px;
+      margin:auto;
+    }
+
+    header{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:50px;
+      align-items:center;
+    }
+
+    .hero-text h1{
+      font-size:5rem;
+      line-height:1;
+      font-weight:800;
+      margin-bottom:25px;
+    }
+
+    .orange{
+      color:#ff7a00;
+      text-shadow:0 0 30px rgba(255,122,0,0.6);
+    }
+
+    .hero-text p{
+      color:#b5b5b5;
+      font-size:1.1rem;
+      line-height:1.9;
+      margin-bottom:35px;
+      max-width:650px;
+    }
+
+    .buttons{
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      padding:16px 34px;
+      border-radius:100px;
+      border:1px solid rgba(255,255,255,0.15);
+      text-decoration:none;
+      color:white;
+      backdrop-filter:blur(10px);
+      background:rgba(255,255,255,0.04);
+      transition:0.4s ease;
+      box-shadow:0 0 25px rgba(255,122,0,0.15);
+    }
+
+    .btn:hover{
+      transform:translateY(-4px);
+      border-color:#ff7a00;
+      box-shadow:0 0 35px rgba(255,122,0,0.45);
+    }
+
+    .hero-image{
+      position:relative;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .hero-image img{
+      width:100%;
+      max-width:470px;
+      border-radius:30px;
+      object-fit:cover;
+      filter:contrast(105%) saturate(110%);
+      box-shadow:
+      0 0 50px rgba(255,122,0,0.3),
+      0 0 120px rgba(255,122,0,0.12);
+    }
+
+    section{
+      padding:120px 0;
+      position:relative;
+    }
+
+    .section-title{
+      font-size:3rem;
+      margin-bottom:60px;
+      font-weight:800;
+    }
+
+    .projects-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:30px;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:28px;
+      overflow:hidden;
+      transition:0.45s ease;
+      backdrop-filter:blur(18px);
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+      border-color:rgba(255,122,0,0.4);
+      box-shadow:0 0 50px rgba(255,122,0,0.18);
+    }
+
+    .card img{
+      width:100%;
+      height:240px;
+      object-fit:cover;
+    }
+
+    .card-content{
+      padding:25px;
+    }
+
+    .card-content h3{
+      margin-bottom:12px;
+      font-size:1.4rem;
+    }
+
+    .card-content p{
+      color:#a8a8a8;
+      line-height:1.8;
+    }
+
+    .about-box{
+      background:rgba(255,255,255,0.03);
+      padding:50px;
+      border-radius:30px;
+      border:1px solid rgba(255,255,255,0.08);
+      line-height:2;
+      color:#cfcfcf;
+      font-size:1.05rem;
+    }
+
+    .cv-box{
+      margin-top:40px;
+      display:flex;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    footer{
+      padding:60px 0;
+      text-align:center;
+      border-top:1px solid rgba(255,255,255,0.08);
+      color:#9a9a9a;
+    }
+
+    @media(max-width:900px){
+
+      .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+
+      .hero-text h1{
+        font-size:3.4rem;
+      }
+
+      .buttons{
+        justify-content:center;
+      }
+
+      .hero-image{
+        margin-top:20px;
+      }
+
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container hero">
+
+    <div class="hero-text">
+      <h1>
+        Alok <span class="orange">Sharma</span>
+      </h1>
+
+      <p>
+        Graphic Design Enthusiast, Creative Visual Artist, Python Enthusiast,
+        and Computer Science Student crafting modern visuals, sports graphics,
+        luxury branding concepts, cinematic posters, and experimental digital experiences.
+      </p>
+
+      <div class="buttons">
+        <a href="#projects" class="btn">Explore Projects</a>
+        <a href="#cv" class="btn">Download CV</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <img src="main.jpg" alt="Alok Sharma">
+    </div>
+
+  </div>
+</header>
+
+<section id="projects">
+  <div class="container">
+
+    <h2 class="section-title">
+      Graphic Design Projects
+    </h2>
+
+    <div class="projects-grid">
+
+      <div class="card">
+        <img src="project1.jpg" alt="Project">
+        <div class="card-content">
+          <h3>Luxury Sports Poster</h3>
+          <p>
+            Premium cinematic football poster inspired by elite sports branding.
           </p>
-
-          <h2 className="text-5xl lg:text-7xl font-black leading-none mb-10">
-            Let’s Build Something Cinematic.
-          </h2>
-
-          <p className="text-zinc-400 text-lg leading-8 max-w-3xl mx-auto mb-12">
-            Open for freelance sports graphics, football poster designs,
-            branding visuals, and creative collaborations.
-          </p>
-
-          <div className="flex justify-center flex-wrap gap-5">
-
-            <button className="glass-btn px-8 py-4 rounded-full">
-              Instagram
-            </button>
-
-            <button className="glass-btn px-8 py-4 rounded-full">
-              Behance
-            </button>
-
-            <button className="glass-btn px-8 py-4 rounded-full">
-              Dribbble
-            </button>
-
-          </div>
         </div>
-      </section>
+      </div>
+
+      <div class="card">
+        <img src="project2.jpg" alt="Project">
+        <div class="card-content">
+          <h3>World Cup Carpet Design</h3>
+          <p>
+            FIFA-inspired luxury carpet concept for tunnel walkout visuals.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="project3.jpg" alt="Project">
+        <div class="card-content">
+          <h3>Social Media Campaign</h3>
+          <p>
+            Modern orange-black campaign artwork with cinematic textures.
+          </p>
+        </div>
+      </div>
 
     </div>
-  );
-}
+
+  </div>
+</section>
+
+<section>
+  <div class="container">
+
+    <h2 class="section-title">
+      Sports Designs
+    </h2>
+
+    <div class="projects-grid">
+
+      <div class="card">
+        <img src="sports1.jpg" alt="Sports Design">
+        <div class="card-content">
+          <h3>Champions League Concept</h3>
+          <p>
+            Dark luxury football visual with premium lighting and elite composition.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="sports2.jpg" alt="Sports Design">
+        <div class="card-content">
+          <h3>Cristiano Ronaldo Artwork</h3>
+          <p>
+            Editorial-style sports poster inspired by magazine visuals.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section id="cv">
+  <div class="container">
+
+    <h2 class="section-title">
+      Education & CV
+    </h2>
+
+    <div class="about-box">
+
+      Nursery to Class 10 at Mahakavi Devkota Memorial Secondary School.<br><br>
+
+      Class 11 & 12 (Science) at Reliance International Academy.<br><br>
+
+      Bachelor in Computer Science student passionate about graphics, frontend aesthetics,
+      luxury UI design, branding, and modern digital experiences.
+
+      <div class="cv-box">
+        <a href="#" class="btn">Download Resume</a>
+        <a href="#" class="btn">Behance Portfolio</a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  © 2026 Alok Sharma — Designed with cinematic luxury aesthetics.
+</footer>
+
+</body>
+</html>
 ```
-
-
