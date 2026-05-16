@@ -54,6 +54,11 @@
             --btn-hover-bg: #F8F8F5;
 
             --placeholder-color: rgba(248, 248, 245, 0.7);
+
+            /* REFINED PENCIL DRAWING COLORWAY SCALING */
+            --pencil-charcoal: #1C1B1A;
+            --pencil-graphite: #4A4947;
+            --pencil-paper-grey: #D6D5D2;
         }
 
         /* =========================================================
@@ -117,6 +122,82 @@
         }
 
         /* =========================================================
+        GLOBAL LIGHT SOURCE BULB INFRASTRUCTURE
+        ========================================================= */
+        .global-bulb-container {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .global-bulb {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 110px;
+            background: linear-gradient(to bottom, #2c2519, #e6c687 40%, #fff3d1);
+            border-radius: 30px 30px 50px 50px;
+            box-shadow: 
+                0 20px 50px rgba(214, 194, 138, 0.6),
+                0 40px 100px rgba(214, 194, 138, 0.3);
+            border: 2px solid rgba(214, 194, 138, 0.4);
+        }
+
+        /* Metallic screw base fixture mounts */
+        .global-bulb::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 34px;
+            height: 22px;
+            background: repeating-linear-gradient(90deg, #444, #222 10px, #555 20px);
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Bright hot tungsten element core */
+        .global-bulb-filament {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 25px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px 5px #fff, 0 0 35px 10px #d6c28a;
+        }
+
+        /* Omnidirectional sideways conical light throw engine */
+        .light-beam {
+            position: absolute;
+            top: 40px;
+            width: 120vw;
+            height: 120vh;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            opacity: 0.16;
+        }
+
+        .light-beam-left {
+            right: 50%;
+            background: conic-gradient(from 140deg at top right, rgba(214, 194, 138, 0.45) 0deg, rgba(214, 194, 138, 0.08) 35deg, transparent 70deg);
+        }
+
+        .light-beam-right {
+            left: 50%;
+            background: conic-gradient(from 220deg at top left, transparent 0deg, rgba(214, 194, 138, 0.08) 35deg, rgba(214, 194, 138, 0.45) 70deg);
+        }
+
+        /* =========================================================
         FIXED SIDE FLOATING BRANDED NAVIGATION
         ========================================================= */
         .side-floating-nav {
@@ -154,7 +235,6 @@
             transition: transform 0.3s ease, color 0.3s ease;
         }
 
-        /* BRAND ORIGINAL COLOR HOVER OVERRIDES WITH CINEMATIC GLOWS */
         .side-nav-btn.nav-mail:hover {
             border-color: var(--gold);
             color: #ea4335;
@@ -194,56 +274,6 @@
         @media(max-width: 768px) {
             .side-floating-nav { right: 14px; gap: 12px; }
             .side-nav-btn { width: 46px; height: 46px; font-size: 1.15rem; }
-        }
-
-        /* =========================================================
-        GLOW BACKGROUNDS
-        ========================================================= */
-        .glow{
-            position:fixed;
-            border-radius:50%;
-            filter:blur(120px);
-            pointer-events:none;
-            z-index:-4;
-            opacity:.3;
-            animation:float 14s ease-in-out infinite;
-        }
-
-        .glow1{ width:500px; height:500px; background:rgba(214,194,138,.12); top:-150px; left:-120px; }
-        .glow2{ width:450px; height:450px; background:rgba(130,160,255,.09); bottom:-150px; right:-120px; }
-        .glow3{ width:380px; height:380px; background:rgba(255,255,255,.05); top:40%; left:40%; }
-
-        @keyframes float{
-            0%{ transform:translateY(0px); }
-            50%{ transform:translateY(50px); }
-            100%{ transform:translateY(0px); }
-        }
-
-        ::-webkit-scrollbar{ width:8px; }
-        ::-webkit-scrollbar-thumb{ background:var(--gold); border-radius:20px; }
-
-        /* =========================================================
-        CUSTOM CURSOR
-        ========================================================= */
-        .cursor-dot{
-            width:8px; height:8px;
-            background:var(--gold);
-            position:fixed;
-            border-radius:50%;
-            transform:translate(-50%,-50%);
-            pointer-events:none;
-            z-index:9999;
-        }
-
-        .cursor-ring{
-            width:42px; height:42px;
-            border:1px solid rgba(214,194,138,.5);
-            position:fixed;
-            border-radius:50%;
-            transform:translate(-50%,-50%);
-            pointer-events:none;
-            z-index:9998;
-            transition:.25s ease;
         }
 
         /* =========================================================
@@ -344,44 +374,93 @@
         }
 
         /* =========================================================
-        EDUCATION
+        EDUCATION (TIMELINE AXIS REMOVED - CENTERED SHADED BLOCKS)
         ========================================================= */
-        .timeline{ max-width:1100px; margin:auto; position:relative; display: flex; flex-direction: column; }
-        .timeline::before{ content:''; position:absolute; left:50%; top:0; transform:translateX(-50%); width:3px; height:100%; background: var(--gold); box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); }
-        .timeline-item{ width:50%; padding:40px 65px; position:relative; display: flex; flex-direction: column; }
-        .timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
-        .timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
+        .timeline{ 
+            max-width:900px; 
+            margin:auto; 
+            position:relative; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 50px;
+        }
         
-        .timeline-dot{ position:absolute; top:88px; width:18px; height:18px; background: var(--bg-gradient); border: 2px solid var(--gold); border-radius:50%; z-index: 2; transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1); }
-        .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
-        .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
+        /* Vertical alignment lines completely stripped out from pseudoclass engine */
+        .timeline::before { display: none !important; }
 
+        .timeline-item{ 
+            width:100% !important; 
+            padding: 0 !important;
+            left: 0 !important;
+            align-self: center !important;
+        }
+        
+        .timeline-dot { display: none !important; }
+
+        /* SKETCHED GRADIENT CONTAINER PACK (Combines soft charcoal tooth to graphite wash) */
         .timeline-content{
-            padding:50px;
-            border-radius:24px;
-            background: var(--timeline-bg);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            transform: scale(1) translateY(0);
-            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            padding: 55px;
+            border-radius: 28px;
+            position: relative;
             cursor: pointer;
-        }
-        .timeline-content:hover{
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 40px var(--card-glow); 
-            border-color: var(--gold);
-        }
-        .timeline-content:hover ~ .timeline-dot {
-            background: var(--dot-glow-color);
-            border-color: #FFFFFF;
-            box-shadow: 0 0 15px #FFFFFF, 0 0 25px var(--dot-glow-color);
-            transform: scale(1.4);
+            border: 1px solid rgba(214, 194, 138, 0.2);
+            box-shadow: var(--shadow);
+            
+            /* Signature gradient shading setup simulating premium charcoal rendering */
+            background: linear-gradient(180deg, 
+                var(--pencil-charcoal) 0%, 
+                var(--pencil-graphite) 45%, 
+                var(--pencil-paper-grey) 100%
+            );
+            
+            transform: scale(1) translateY(0);
+            transition: all 0.5s cubic-bezier(0.2, 1, 0.22, 1);
         }
 
-        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(0, 0, 0, 0.15); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
-        .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
-        .timeline-content h3{ font-size:1.95rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
-        .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.3rem; font-weight: 500; }
+        /* Distinct white text setup inside dark shading layers */
+        [data-theme="light"] .timeline-content {
+            background: linear-gradient(180deg, #2b2b29 0%, #61605d 50%, #f0effc 100%);
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .timeline-content:hover{
+            transform: translateY(-10px) scale(1.015);
+            border-color: var(--gold);
+            box-shadow: 
+                0 35px 70px rgba(0, 0, 0, 0.65), 
+                0 0 45px var(--card-glow); 
+        }
+
+        .year{ 
+            display:inline-block; 
+            padding:10px 22px; 
+            border-radius:8px; 
+            background: rgba(17, 17, 17, 0.85); 
+            border: 1px solid rgba(214, 194, 138, 0.25); 
+            color:var(--gold); 
+            font-size:.95rem; 
+            font-weight:700; 
+            letter-spacing: 1.5px; 
+            margin-bottom:26px; 
+        }
+        
+        .timeline-content h3{ 
+            font-size:2.1rem; 
+            font-weight: 800; 
+            color: #FFFFFF; /* High visibility across charcoal scaling background */
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: -0.4px; 
+            margin-bottom:18px; 
+            line-height: 1.35; 
+        }
+
+        .timeline-content p{ 
+            line-height:1.85; 
+            color: #E2E8F0; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            font-size: 1.35rem; 
+            font-weight: 500; 
+        }
 
         /* =========================================================
         PROJECTS & CONTACT
@@ -471,10 +550,7 @@
             .hero-buttons{ justify-content:center; }
             .hero p{ margin:auto auto 45px; }
             .image-box{ margin:auto; }
-            .timeline::before{ left:24px; }
-            .timeline-item{ width:100%; padding: 25px 20px 25px 60px; left:0 !important; text-align:left !important; }
-            .timeline-dot{ left:16px !important; right: auto !important; top: 73px !important; }
-            .timeline-content{ padding: 38px; }
+            .timeline-item{ padding: 0 !important; }
         }
 
         @media(max-width:768px){
@@ -485,6 +561,7 @@
             .image-box{ width:100%; height:500px; }
             .form-row{ grid-template-columns:1fr; }
             .contact-card{ padding:40px; }
+            .timeline-content { padding: 30px; }
         }
     </style>
 </head>
@@ -493,19 +570,20 @@
 
     <canvas id="grid-distortion"></canvas>
 
+    <div class="global-bulb-container">
+        <div class="global-bulb">
+            <div class="global-bulb-filament"></div>
+        </div>
+        <div class="light-beam light-beam-left"></div>
+        <div class="light-beam light-beam-right"></div>
+    </div>
+
     <div class="side-floating-nav">
         <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
         <a href="#" class="side-nav-btn nav-linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         <a href="#" class="side-nav-btn nav-github" aria-label="GitHub"><i class="fab fa-github"></i></a>
         <a href="tel:+9779843538473" class="side-nav-btn nav-phone" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
     </div>
-
-    <div class="glow glow1"></div>
-    <div class="glow glow2"></div>
-    <div class="glow glow3"></div>
-
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
 
     <header>
         <div class="logo">Alok<span>.</span></div>
@@ -544,30 +622,31 @@
     <section id="education">
         <h2 class="section-title">Education <span>Journey</span></h2>
         <div class="timeline">
+            
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="year">2010 — 2022</div>
                     <h3>Mahakavi Devkota Memorial Secondary School</h3>
                     <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
-                <div class="timeline-dot"></div>
             </div>
+
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="year">2022 — 2024</div>
                     <h3>Reliance International Academy</h3>
                     <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science while developing interest in technology and programming.</p>
                 </div>
-                <div class="timeline-dot"></div>
             </div>
+
             <div class="timeline-item">
                 <div class="timeline-content">
                     <div class="year">2024 — Present</div>
                     <h3>Amrit Campus</h3>
                     <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
                 </div>
-                <div class="timeline-dot"></div>
             </div>
+
         </div>
     </section>
 
