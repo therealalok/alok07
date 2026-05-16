@@ -150,7 +150,7 @@
         }
 
         /* =========================================================
-        BACKGROUND EFFECT CANVAS & OVERLAY LAYERING
+        BACKGROUND CANVAS LAYER OVERLAYS
         ========================================================= */
         #grid-distortion{
             position:fixed;
@@ -211,23 +211,6 @@
         /* =========================================================
         HEADER & NAVBAR BRAND TERMINOLOGY
         ========================================================= */
-        header{
-            position:fixed;
-            top:22px; left:50%;
-            transform:translateX(-50%);
-            width:92%; max-width:1450px;
-            padding:22px 45px;
-            display:flex; justify-content:space-between; align-items:center;
-            background: rgba(4, 14, 22, 0.4);
-            backdrop-filter:blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border:1px solid var(--border);
-            border-radius:100px;
-            z-index:1000;
-            box-shadow:var(--shadow);
-            transition: padding 0.3s ease, background 0.3s ease;
-        }
-
         .logo { 
             font-size: 1.85rem; 
             font-weight: 800; 
@@ -282,7 +265,14 @@
         .hero p{ max-width:720px; line-height:1.9; color:var(--muted); font-size:1.45rem; font-weight: 400; margin-bottom:60px; }
 
         .hero-buttons{ display:flex; gap:24px; flex-wrap:wrap; }
+        .btn{ padding:20px 42px; border-radius:999px; text-decoration:none; font-weight:700; font-size: 1.2rem; transition: all 0.35s ease; }
         
+        .primary-btn{ background: var(--gold-gradient); color:#111; box-shadow: 0 20px 40px rgba(214,194,138,.18); border: 1px solid transparent; }
+        .primary-btn:hover{ transform:translateY(-6px); background:#111; color:var(--gold); border:1px solid var(--gold); }
+        
+        .secondary-btn{ background:rgba(255,255,255,.04); border:1px solid var(--border); color: var(--text); backdrop-filter:blur(18px); }
+        .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
+
         /* =========================================================
         HERO IMAGE WORKSPACE AND DISPERSION CANVAS
         ========================================================= */
@@ -497,7 +487,7 @@
         }
 
         /* =========================================================
-        PROJECTS CONTAINER AREA STYLING
+        PROJECTS CONTAINER AREA STYLING (ADAPTIVE LIGHT CONFIGS)
         ========================================================= */
         .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(380px,1fr)); gap:40px; }
         .project-card{ height:600px; border-radius:32px; overflow:hidden; position:relative; background:var(--surface); border:1px solid var(--border); transition: all 0.45s ease; }
@@ -554,7 +544,7 @@
         #contact {
             padding: 140px 8%;
             text-align: center;
-            background: var(--timeline-bg) !important; /* Completely hides distortion background grid loops */
+            background: var(--timeline-bg) !important; 
             border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
             position: relative;
@@ -642,7 +632,6 @@
             color: #0F172A;
         }
 
-        /* Interactive high-contrast inversion physics for contact platforms */
         .contact-card:hover {
             transform: translateY(-6px);
             background: var(--gold);
@@ -663,7 +652,6 @@
             color: rgba(3, 20, 33, 0.7);
         }
 
-        /* SOCIAL MEDIA LINKS LOOP CONTAINER */
         .socials {
             display: flex;
             gap: 24px;
@@ -694,12 +682,29 @@
             box-shadow: 0 15px 35px rgba(214, 194, 138, 0.3), 0 0 25px var(--card-glow);
         }
 
+        @media(max-width: 1100px){
+            .hero-container { grid-template-columns:1fr; }
+            .hero{ text-align:center; }
+            .hero-buttons{ justify-content:center; }
+            .hero p{ margin:auto auto 45px; }
+            .image-box{ width: 340px; height: 340px; margin:auto; }
+            .timeline::before{ left:24px; }
+            .timeline-item{ width:100%; padding: 25px 20px 25px 60px; left:0 !important; text-align:left !important; }
+            .timeline-dot{ left:16px !important; right: auto !important; top: 73px !important; }
+            .timeline-content{ padding: 38px; }
+        }
+
         @media(max-width: 768px) {
+            header { border-radius: 30px; padding: 15px 25px; }
+            .nav-container { gap: 15px; }
+            nav{ display:none; }
+            .hero h1{ font-size:3.8rem; letter-spacing:-3px; }
+            .image-box{ width:280px; height:280px; }
             .contact-actions { grid-template-columns: 1fr; gap: 20px; }
             .contact-card { padding: 25px 30px; }
         }
 
-        footer{ 
+        footer { 
             padding: 50px 40px; 
             text-align: center; 
             color: var(--muted); 
@@ -1059,7 +1064,7 @@
                     }
                 }
             } catch(e) {
-                console.log("Dispersion secure compilation verified.");
+                console.log("Dispersion matrix path compiled.");
             }
         }
 
@@ -1128,7 +1133,7 @@
         });
 
         /* =========================================================
-        HIGH CONTRAST INTERACTIVE TRANSLUCENT CURSOR LOGIC
+        HIGH CONTRAST INTERACTIVE DUAL ROUND POINTER CURSOR SCRIPT LOOP
         ========================================================= */
         const dot = document.querySelector(".cursor-dot");
         const ring = document.querySelector(".cursor-ring");
