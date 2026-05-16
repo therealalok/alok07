@@ -34,7 +34,6 @@
         ========================================================= */
         :root{
             --bg-gradient: linear-gradient(135deg, #031421, #071826, #0B1118);
-            /* INCREASED OPACITIES FOR CRISP VISIBILITY */
             --canvas-opacity: 0.55;
             --grid-color: rgba(255, 255, 255, 0.25);
             
@@ -53,6 +52,8 @@
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
             --btn-hover-bg: #F8F8F5;
+
+            --placeholder-color: rgba(248, 248, 245, 0.7);
         }
 
         /* =========================================================
@@ -60,7 +61,6 @@
         ========================================================= */
         [data-theme="light"] {
             --bg-gradient: linear-gradient(135deg, #F4F7FA, #E2E8F0, #EDF2F7);
-            /* INCREASED OPACITIES FOR LIGHT MODE VISIBILITY */
             --canvas-opacity: 0.45;
             --grid-color: rgba(15, 23, 42, 0.18);
             
@@ -76,6 +76,8 @@
             --timeline-text: #0F172A;
             --timeline-muted: #4A5568;
             --btn-hover-bg: #0F172A;
+
+            --placeholder-color: rgba(15, 23, 42, 0.65);
         }
 
         /* =========================================================
@@ -112,6 +114,67 @@
             z-index:-5;
             opacity: var(--canvas-opacity);
             pointer-events:none;
+        }
+
+        /* =========================================================
+        FIXED SIDE FLOATING ACCESSIBILITY WRAPPER
+        ========================================================= */
+        .side-floating-nav {
+            position: fixed;
+            right: 28px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            z-index: 1001;
+        }
+
+        .side-nav-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            text-decoration: none;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .side-nav-btn:hover {
+            border-color: var(--gold);
+            color: #111;
+            background: var(--gold-gradient);
+            transform: scale(1.1) translateX(-3px);
+            box-shadow: 0 10px 25px rgba(214, 194, 138, 0.35);
+        }
+
+        /* Pixelate toggle button specific active engine look */
+        .side-nav-btn.pixel-active {
+            background: var(--gold-gradient);
+            color: #111;
+            border-color: #fff;
+            box-shadow: 0 0 20px var(--card-glow);
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 10px rgba(214, 194, 138, 0.4); }
+            100% { box-shadow: 0 0 25px rgba(214, 194, 138, 0.8); }
+        }
+
+        /* Hide layout on mobile frames to prevent clipping */
+        @media(max-width: 768px) {
+            .side-floating-nav { right: 12px; gap: 10px; }
+            .side-nav-btn { width: 44px; height: 44px; font-size: 1.05rem; }
         }
 
         /* =========================================================
@@ -334,11 +397,46 @@
         .socials a:nth-child(4):hover{ background:#1877F2; border-color:#1877F2; color:#fff; box-shadow: 0 0 25px rgba(24,119,242,.55); }
         .socials a:nth-child(5):hover{ background:#000000; border-color:#000000; color:#fff; box-shadow: 0 0 25px rgba(255,255,255,.15); }
 
+        /* =========================================================
+        CONTACT FORM STYLING (HIGH CONTRAST / HIGH VISIBILITY)
+        ========================================================= */
         .contact-form{ display:flex; flex-direction:column; gap:26px; }
         .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-        .contact-form input, .contact-form textarea{ width:100%; padding:26px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-size:1.2rem; font-family: inherit; outline:none; backdrop-filter:blur(16px); -webkit-backdrop-filter: blur(16px); transition: all 0.35s ease; }
+        
+        .contact-form input, .contact-form textarea{ 
+            width:100%; 
+            padding:26px; 
+            border-radius:20px; 
+            border:1px solid var(--border); 
+            background:var(--surface); 
+            color:var(--text); 
+            font-size:1.2rem; 
+            font-weight: 500;
+            font-family: inherit; 
+            outline:none; 
+            backdrop-filter:blur(16px); 
+            -webkit-backdrop-filter: blur(16px); 
+            transition: all 0.35s ease; 
+        }
+        
         .contact-form textarea{ min-height:280px; resize:none; }
-        .contact-form input:focus, .contact-form textarea:focus{ border-color: var(--gold); box-shadow: 0 0 25px rgba(214, 194, 138, 0.2); }
+        
+        .contact-form input::placeholder, 
+        .contact-form textarea::placeholder { 
+            color: var(--placeholder-color); 
+            opacity: 1; 
+        }
+        
+        .contact-form input:focus, .contact-form textarea:focus{ 
+            border-color: var(--gold); 
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 25px rgba(214, 194, 138, 0.25); 
+        }
+        
+        [data-theme="light"] .contact-form input:focus,
+        [data-theme="light"] .contact-form textarea:focus {
+            background: rgba(0, 0, 0, 0.04);
+        }
 
         .send-btn{ width:max-content; padding:18px 34px; border-radius:999px; background:transparent; border:2px solid var(--gold); color:var(--gold); font-weight:700; font-size: 1.2rem; font-family: inherit; cursor:pointer; display:flex; align-items:center; gap:14px; transition:.35s ease; }
         .send-btn:hover{ background: var(--gold-gradient); color:#111; border-color: transparent; transform:translateY(-5px); }
@@ -375,6 +473,14 @@
 <body>
 
     <canvas id="grid-distortion"></canvas>
+
+    <div class="side-floating-nav">
+        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+        <a href="#" class="side-nav-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="side-nav-btn" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="tel:+9779843538473" class="side-nav-btn" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
+        <button class="side-nav-btn" id="pixelate-toggle" title="Toggle Grid Pixelation Mode"><i class="fa-solid fa-cubes"></i></button>
+    </div>
 
     <div class="glow glow1"></div>
     <div class="glow glow2"></div>
@@ -507,6 +613,7 @@
         const ctx = canvas.getContext("2d");
 
         let w, h;
+        let isPixelated = false; // State manager for the pixelation filter toggle
 
         function resizeCanvas(){
             w = canvas.width = window.innerWidth;
@@ -516,7 +623,6 @@
         resizeCanvas();
         window.addEventListener("resize", resizeCanvas);
 
-        // Slightly increased spacing for a clean look with high opacity
         const spacing = 65; 
         const mouse = {
             x: -9999,
@@ -524,7 +630,6 @@
             radius: 160
         };
 
-        // Time-Warp Scan Variables
         let scanY = 0;
         const scanSpeed = 2.5; 
         const scanDistortionRadius = 120; 
@@ -532,6 +637,12 @@
         window.addEventListener("mousemove", (e)=>{
             mouse.x = e.clientX;
             mouse.y = e.clientY;
+        });
+
+        // Toggle state event connector
+        document.getElementById("pixelate-toggle").addEventListener("click", function() {
+            isPixelated = !isPixelated;
+            this.classList.toggle("pixel-active", isPixelated);
         });
 
         function drawGrid(){
@@ -543,12 +654,15 @@
             }
 
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
-            ctx.lineWidth = 1.2; // Sharper line stroke
+            ctx.lineWidth = 1.2; 
+
+            // Step value dictates line segmentation calculation (higher calculation value maps pixel structure)
+            const segmentStep = isPixelated ? 24 : 8;
 
             /* VERTICAL LINES */
             for(let x = 0; x <= w; x += spacing){
                 ctx.beginPath();
-                for(let y = 0; y <= h; y += 8){
+                for(let y = 0; y <= h; y += segmentStep){
                     let dx = x - mouse.x;
                     let dy = y - mouse.y;
                     let mouseDist = Math.sqrt(dx * dx + dy * dy);
@@ -566,7 +680,14 @@
                         offsetX += Math.sin(y * 0.05) * scanForce * 35;
                     }
 
-                    ctx.lineTo(x + offsetX, y);
+                    // Map grid vertices to absolute discrete stepping lines if true
+                    if (isPixelated) {
+                        let finalX = x + offsetX;
+                        finalX = Math.round(finalX / 15) * 15;
+                        ctx.lineTo(finalX, y);
+                    } else {
+                        ctx.lineTo(x + offsetX, y);
+                    }
                 }
                 ctx.stroke();
             }
@@ -574,7 +695,7 @@
             /* HORIZONTAL LINES */
             for(let y = 0; y <= h; y += spacing){
                 ctx.beginPath();
-                for(let x = 0; x <= w; x += 8){
+                for(let x = 0; x <= w; x += segmentStep){
                     let dx = x - mouse.x;
                     let dy = y - mouse.y;
                     let mouseDist = Math.sqrt(dx * dx + dy * dy);
@@ -592,17 +713,29 @@
                         offsetY += Math.cos(x * 0.05) * scanForce * 20;
                     }
 
-                    ctx.lineTo(x, y + offsetY);
+                    if (isPixelated) {
+                        let finalY = y + offsetY;
+                        finalY = Math.round(finalY / 15) * 15;
+                        ctx.lineTo(x, finalY);
+                    } else {
+                        ctx.lineTo(x, y + offsetY);
+                    }
                 }
                 ctx.stroke();
             }
 
-            // Glowing Tracking Scanning Line Tracker
+            // Target tracking scanning laser setup
             ctx.beginPath();
-            ctx.moveTo(0, scanY);
-            ctx.lineTo(w, scanY);
+            if (isPixelated) {
+                let pixelatedScanY = Math.round(scanY / 15) * 15;
+                ctx.moveTo(0, pixelatedScanY);
+                ctx.lineTo(w, pixelatedScanY);
+            } else {
+                ctx.moveTo(0, scanY);
+                ctx.lineTo(w, scanY);
+            }
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
-            ctx.lineWidth = 2; // Noticeable scanning tracking beam
+            ctx.lineWidth = isPixelated ? 4 : 2; 
             ctx.globalAlpha = 0.6; 
             ctx.stroke();
             ctx.globalAlpha = 1.0; 
@@ -681,7 +814,7 @@
             ring.style.top = e.clientY + "px";
         });
 
-        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn");
+        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn");
         hoverItems.forEach((item)=>{
             item.addEventListener("mouseenter",()=>{
                 ring.style.width="70px";
