@@ -46,11 +46,9 @@ ROOT VARIABLES (NIGHT MODE BY DEFAULT)
 
 --gold-gradient: linear-gradient(135deg, #FFF7E6 0%, #D6C28A 50%, #A68E51 100%);
 
-/* Responsive Custom Dynamic Glow Variables */
---glow-primary: rgba(255, 255, 255, 0.95);
---glow-secondary: rgba(0, 150, 255, 0.65);
---dot-glow-primary: #0096FF;
---dot-glow-secondary: #FFFFFF;
+/* Premium Yellow Theme Glow Tokens */
+--card-glow: rgba(214, 194, 138, 0.85);
+--dot-glow-color: #D6C28A;
 
 --grid-color: rgba(255, 255, 255, 0.85);
 
@@ -75,11 +73,8 @@ LIGHT MODE OVERRIDES
 
 --shadow: 0 25px 70px rgba(148, 163, 184, 0.25);
 
-/* Re-balanced dark cyber-glow metrics for clean contrast on light canvas */
---glow-primary: rgba(0, 100, 255, 0.3);
---glow-secondary: rgba(0, 150, 255, 0.15);
---dot-glow-primary: #0066CC;
---dot-glow-secondary: #004499;
+--card-glow: rgba(214, 194, 138, 0.45);
+--dot-glow-color: #C9B67E;
 
 --grid-color: rgba(15, 23, 42, 0.4);
 
@@ -94,7 +89,6 @@ margin:0;
 padding:0;
 box-sizing:border-box;
 scroll-behavior:smooth;
-transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 html{
@@ -115,6 +109,8 @@ position:relative;
 
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
+
+transition: background 0.4s ease, color 0.4s ease;
 
 }
 
@@ -312,7 +308,7 @@ box-shadow:var(--shadow);
 
 .logo{
 
-font-size:1.75rem; /* Bigger visibility */
+font-size:1.75rem;
 
 font-weight:700;
 
@@ -349,7 +345,7 @@ color:var(--muted);
 
 font-weight:700;
 
-font-size: 1.2rem; /* Bigger visibility */
+font-size: 1.2rem;
 
 position:relative;
 
@@ -386,7 +382,6 @@ nav a:hover::after{
 width:100%;
 }
 
-/* Premium Minimal Theme Button switcher */
 .theme-switch-btn {
 background: transparent;
 border: 1px solid var(--border);
@@ -426,7 +421,7 @@ SECTION TITLE
 
 .section-title{
 
-font-size:clamp(3.5rem,8vw,6.5rem); /* Scaled way up for grand presence */
+font-size:clamp(3.5rem,8vw,6.5rem);
 
 font-weight:800;
 
@@ -440,7 +435,7 @@ margin-bottom:90px;
 
 text-align:center;
 
-text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 
 }
 
@@ -483,7 +478,7 @@ align-items:center;
 
 .hero-subtitle{
 
-font-size:1.1rem; /* Amplified metric size scale */
+font-size:1.1rem;
 
 letter-spacing:6px;
 
@@ -499,7 +494,7 @@ text-shadow: 0 2px 10px rgba(214,194,138,0.15);
 
 .hero h1{
 
-font-size:clamp(5.5rem,12vw,9.5rem); /* Extremely bold, high scale visual footprint */
+font-size:clamp(5.5rem,12vw,9.5rem);
 
 line-height:.9;
 
@@ -527,7 +522,7 @@ line-height:1.9;
 
 color:var(--muted);
 
-font-size:1.45rem; /* Drastically pushed higher for ultimate readability */
+font-size:1.45rem;
 
 font-weight: 400;
 
@@ -551,7 +546,7 @@ flex-wrap:wrap;
 
 .btn{
 
-padding:20px 42px; /* Bigger button sizing profiles */
+padding:20px 42px;
 
 border-radius:999px;
 
@@ -559,7 +554,7 @@ text-decoration:none;
 
 font-weight:700;
 
-font-size: 1.2rem; /* Enhanced text size metrics */
+font-size: 1.2rem;
 
 letter-spacing: 0.3px;
 
@@ -567,7 +562,7 @@ display:inline-flex;
 align-items:center;
 gap:14px;
 
-transition:.35s ease;
+transition: background 0.35s ease, color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 
 }
 
@@ -579,6 +574,8 @@ color:#111;
 
 box-shadow:
 0 20px 40px rgba(214,194,138,.18);
+
+border: 1px solid transparent;
 
 }
 
@@ -608,15 +605,18 @@ backdrop-filter:blur(18px);
 
 }
 
+/* Let's Connect button hover fix */
 .secondary-btn:hover{
 
 transform:translateY(-6px);
 
-background: var(--text);
+background: #ffffff !important;
 
-color: var(--bg2);
+color: #111111 !important;
 
-box-shadow: 0 15px 30px rgba(255,255,255,0.1);
+border-color: #ffffff !important;
+
+box-shadow: 0 15px 30px rgba(255,255,255,0.2);
 
 }
 
@@ -702,6 +702,7 @@ flex-direction: column;
 
 }
 
+/* Clean solid premium champagne gold timeline track axis line */
 .timeline::before{
 
 content:'';
@@ -713,19 +714,13 @@ top:0;
 
 transform:translateX(-50%);
 
-width:2px;
+width:3px;
+
 height:100%;
 
-background:
-linear-gradient(
-to bottom,
-transparent,
-var(--gold) 15%,
-var(--gold) 85%,
-transparent
-);
+background: var(--gold);
 
-box-shadow: 0 0 10px rgba(214, 194, 138, 0.3);
+box-shadow: 0 0 15px rgba(214, 194, 138, 0.4);
 
 }
 
@@ -790,11 +785,11 @@ left:-9px;
 
 .timeline-content{
 
-padding:50px; /* Generous micro spacing */
+padding:50px;
 
 border-radius:24px;
 
-background: #E8DCB8;
+background: #F9F6ED;
 
 border: 1px solid var(--gold);
 
@@ -811,27 +806,25 @@ cursor: pointer;
 
 }
 
-/* White blue glowing architecture triggers gracefully on hover */
 .timeline-content:hover{
 
 transform: translateY(-8px) scale(1.02);
 
 box-shadow: 
-0 25px 60px rgba(0, 0, 0, 0.5),
-0 0 35px var(--glow-primary), 
-0 0 50px var(--glow-secondary);  
+0 25px 60px rgba(0, 0, 0, 0.55),
+0 0 40px var(--card-glow); 
 
 }
 
 .timeline-content:hover ~ .timeline-dot {
 
-background: var(--dot-glow-primary);
+background: var(--dot-glow-color);
 
-border-color: var(--dot-glow-secondary);
+border-color: #FFFFFF;
 
 box-shadow: 
-0 0 15px var(--dot-glow-secondary),
-0 0 25px var(--dot-glow-primary);
+0 0 15px #FFFFFF,
+0 0 25px var(--dot-glow-color);
 
 transform: scale(1.4);
 
@@ -851,7 +844,7 @@ border: 1px solid rgba(0, 0, 0, 0.15);
 
 color:var(--gold);
 
-font-size:.95rem; /* Scaled higher */
+font-size:.95rem;
 
 font-weight:700;
 
@@ -867,7 +860,7 @@ text-align: left;
 
 .timeline-content h3{
 
-font-size:1.95rem; /* Highly readable bold presentation headers */
+font-size:1.95rem;
 
 font-weight: 800;
 
@@ -887,14 +880,14 @@ line-height:1.85;
 
 color:#1F2E3D; 
 
-font-size: 1.3rem; /* Shifted higher for clean scan reading */
+font-size: 1.3rem;
 
 font-weight: 500;
 
 }
 
 /* =========================================================
-PROJECTS
+PROJECTS (UPDATED WITH GOLDEN GLOW EFFECTS)
 ========================================================= */
 
 .projects-grid{
@@ -922,19 +915,20 @@ background:rgba(255,255,255,.04);
 
 border:1px solid var(--border);
 
-transition:.45s ease;
+transition: border-color 0.45s ease, transform 0.45s ease, box-shadow 0.45s ease;
 
 }
 
+/* Golden luxury hover aura mapping */
 .project-card:hover{
 
-transform:
-translateY(-10px)
-rotateX(2deg);
+transform: translateY(-10px) rotateX(2deg);
 
-border-color:rgba(214,194,138,.25);
+border-color: var(--gold);
 
-box-shadow:var(--shadow);
+box-shadow: 
+0 25px 60px rgba(0, 0, 0, 0.55),
+0 20px 50px rgba(214, 194, 138, 0.4);
 
 }
 
@@ -996,7 +990,7 @@ border:1px solid var(--border);
 
 .project-content h3{
 
-font-size:1.85rem; /* Expanded visibility scale */
+font-size:1.85rem;
 
 font-weight:700;
 
@@ -1012,7 +1006,7 @@ line-height:1.8;
 
 color:#CBD2D9;
 
-font-size:1.25rem; /* Shifted higher */
+font-size:1.25rem;
 
 }
 
@@ -1065,7 +1059,7 @@ width: max-content;
 
 padding: 16px 32px;
 
-font-size: 1.25rem; /* Pushed significantly higher */
+font-size: 1.25rem;
 
 font-weight: 700;
 
@@ -1109,7 +1103,7 @@ text-decoration:none;
 
 color: var(--text);
 
-font-size:1.35rem; /* Expanded structural reading scale */
+font-size:1.35rem;
 
 font-weight: 600;
 
@@ -1247,7 +1241,7 @@ box-shadow:
 
   
 /* =========================================================
-FORM
+FORM (UPDATED BOX SIZES & FIELD TYPOGRAPHY)
 ========================================================= */
 
 .contact-form{
@@ -1273,7 +1267,7 @@ gap:24px;
 
 width:100%;
 
-padding:24px;
+padding:26px; /* Expanded spacious layout padding profile */
 
 border-radius:20px;
 
@@ -1283,7 +1277,7 @@ background:rgba(255,255,255,.04);
 
 color:var(--text);
 
-font-size:1.15rem; /* Expanded input layout typography sizes */
+font-size:1.2rem; /* Enhanced visibility field fonts */
 
 font-family: inherit;
 
@@ -1292,13 +1286,13 @@ outline:none;
 backdrop-filter:blur(16px);
 -webkit-backdrop-filter: blur(16px);
 
-transition:.35s ease;
+transition: border-color 0.35s ease, box-shadow 0.35s ease;
 
 }
 
 .contact-form textarea{
 
-min-height:260px;
+min-height:280px; /* Bigger vertical presence footprint */
 
 resize:none;
 
@@ -1307,10 +1301,10 @@ resize:none;
 .contact-form input:focus,
 .contact-form textarea:focus{
 
-border-color:rgba(214,194,138,.4);
+border-color: var(--gold);
 
 box-shadow:
-0 0 25px rgba(214,194,138,.08);
+0 0 25px rgba(214, 194, 138, 0.2);
 
 }
 
@@ -1318,7 +1312,7 @@ box-shadow:
 
 width:max-content;
 
-padding:20px 40px;
+padding:20px 42px;
 
 border-radius:999px;
 
@@ -1330,7 +1324,7 @@ color:var(--gold);
 
 font-weight:700;
 
-font-size: 1.15rem;
+font-size: 1.2rem;
 
 font-family: inherit;
 
@@ -1362,13 +1356,13 @@ FOOTER
 
 footer{
 
-padding:45px;
+padding:40px;
 
 text-align:center;
 
 color:var(--muted);
 
-font-size: 1.15rem; /* Shifted scale higher */
+font-size: 1.15rem;
 
 letter-spacing: 0.5px;
 
@@ -1442,7 +1436,7 @@ display:none;
 }
 
 .hero h1{
-font-size:4.2rem;
+font-size:3.8rem;
 letter-spacing:-3px;
 }
 
@@ -1691,19 +1685,19 @@ alokkynwa@gmail.com
 
 </div>
 
-<form class="contact-form">
+<form class="contact-form" id="portfolio-contact-form" action="https://formspree.io/f/your_form_id" method="POST">
 
 <div class="form-row">
 
-<input type="text" placeholder="Name">
+<input type="text" name="name" placeholder="Name" required>
 
-<input type="email" placeholder="Email">
+<input type="email" name="email" placeholder="Email" required>
 
 </div>
 
-<textarea placeholder="Message"></textarea>
+<textarea name="message" placeholder="Message" required></textarea>
 
-<button class="send-btn">
+<button type="submit" class="send-btn">
 
 SEND
 
@@ -1722,6 +1716,51 @@ SEND
 </footer>
 
 <script>
+
+/* =========================================================
+FORM DISPATCH MECHANISM (ASYNC AJAX HANDLER)
+========================================================= */
+
+const contactForm = document.getElementById("portfolio-contact-form");
+
+contactForm.addEventListener("submit", async (e) => {
+    
+    e.preventDefault();
+    const statusButton = contactForm.querySelector(".send-btn");
+    const originalHTML = statusButton.innerHTML;
+    
+    statusButton.innerHTML = `SENDING... <i class="fa-solid fa-circle-notch fa-spin"></i>`;
+    statusButton.style.pointerEvents = "none";
+
+    const formData = new FormData(contactForm);
+
+    try {
+        const response = await fetch(contactForm.action, {
+            method: contactForm.method,
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            statusButton.innerHTML = `SUCCESS <i class="fa-solid fa-check"></i>`;
+            contactForm.reset();
+            setTimeout(() => {
+                statusButton.innerHTML = originalHTML;
+                statusButton.style.pointerEvents = "auto";
+            }, 4000);
+        } else {
+            throw new Error("Dispatch Error");
+        }
+    } catch (error) {
+        statusButton.innerHTML = `ERROR <i class="fa-solid fa-xmark"></i>`;
+        setTimeout(() => {
+            statusButton.innerHTML = originalHTML;
+            statusButton.style.pointerEvents = "auto";
+        }, 4000);
+    }
+});
 
 /* =========================================================
 THEME TOGGLE SYSTEM (LIGHT / NIGHT MODE ENGINE)
@@ -1915,7 +1954,6 @@ function drawGrid(){
 
 ctx.clearRect(0,0,w,h);
 
-// Subtly reads the CSS Root token property variable globally for real-time mode swaps
 ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
 ctx.lineWidth = 1;
 
