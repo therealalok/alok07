@@ -8,6 +8,15 @@
 
 <title>Alok Sharma | Cinematic Portfolio</title>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init({
+        publicKey: "YOUR_PUBLIC_KEY", // <-- Replace with your real EmailJS Public Key
+      });
+   })();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -601,7 +610,6 @@ backdrop-filter:blur(18px);
 
 }
 
-/* Let's Connect button hover fixed */
 .secondary-btn:hover{
 
 transform:translateY(-6px);
@@ -1122,12 +1130,12 @@ color:var(--gold);
 
 }
 
-/* Alignment layout for flag icon alignment */
-.flag-icon {
-display: inline-flex;
-align-items: center;
-font-size: 1.5rem;
-line-height: 1;
+/* Text layout token for minimal country label styling */
+.country-label {
+color: var(--gold);
+font-weight: 700;
+font-size: 1.15rem;
+letter-spacing: 0.5px;
 }
 
 /* =========================================================
@@ -1658,7 +1666,7 @@ alokkynwa@gmail.com
 
 <i class="fa-solid fa-phone"></i>
 
-<span class="flag-icon">🇳🇵</span> (+977) 9843538473
+<span class="country-label">(NP)</span> (+977) 9843538473
 
 </a>
 
@@ -1690,7 +1698,7 @@ alokkynwa@gmail.com
 
 </div>
 
-<form class="contact-form" id="portfolio-contact-form" action="https://formspree.io/f/your_form_id" method="POST">
+<form class="contact-form" id="portfolio-contact-form">
 
 <div class="form-row">
 
@@ -1723,7 +1731,7 @@ SEND
 <script>
 
 /* =========================================================
-FORM DISPATCH MECHANISM (ASYNC AJAX HANDLER)
+FORM DISPATCH MECHANISM (EMAILJS ASYNC AJAX HANDLER)
 ========================================================= */
 
 const contactForm = document.getElementById("portfolio-contact-form");
@@ -1737,18 +1745,18 @@ contactForm.addEventListener("submit", async (e) => {
     statusButton.innerHTML = `SENDING... <i class="fa-solid fa-circle-notch fa-spin"></i>`;
     statusButton.style.pointerEvents = "none";
 
-    const formData = new FormData(contactForm);
+    // Map input name strings straight to template variable parameters
+    const templateParams = {
+        name: contactForm.querySelector('input[name="name"]').value,
+        email: contactForm.querySelector('input[name="email"]').value,
+        message: contactForm.querySelector('textarea[name="message"]').value
+    };
 
     try {
-        const response = await fetch(contactForm.action, {
-            method: contactForm.method,
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
+        // <-- Replace with your real EmailJS Service ID and Template ID
+        const response = await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams);
 
-        if (response.ok) {
+        if (response.status === 200) {
             statusButton.innerHTML = `SUCCESS <i class="fa-solid fa-check"></i>`;
             contactForm.reset();
             setTimeout(() => {
@@ -1756,7 +1764,7 @@ contactForm.addEventListener("submit", async (e) => {
                 statusButton.style.pointerEvents = "auto";
             }, 4000);
         } else {
-            throw new Error("Dispatch Error");
+            throw new Error("EmailJS Dispatch Error");
         }
     } catch (error) {
         statusButton.innerHTML = `ERROR <i class="fa-solid fa-xmark"></i>`;
