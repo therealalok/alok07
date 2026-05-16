@@ -39,13 +39,12 @@ GSAP
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 <style>
+
 /* =========================================================
 ROOT
 ========================================================= */
 
 :root{
-
-/* ================= DARK THEME (DEFAULT) ================= */
 
 --bg:#06111B;
 --bg2:#071826;
@@ -63,18 +62,6 @@ ROOT
 --gold-soft:#C9B67E;
 
 --shadow:0 20px 80px rgba(0,0,0,.45);
-
-
-/* ================= LIGHT MODE VARIABLES ================= */
-
---light-bg:#f5f7fb;
---light-bg2:#ffffff;
-
---light-text:#111827;
---light-muted:#4b5563;
-
---light-surface:rgba(0,0,0,.04);
---light-border:rgba(0,0,0,.1);
 
 }
 
@@ -97,7 +84,8 @@ body{
 
 font-family:'Inter',sans-serif;
 
-background:var(--bg);
+background:
+linear-gradient(135deg,#031421,#071826,#0B1118);
 
 color:var(--text);
 
@@ -105,54 +93,6 @@ overflow-x:hidden;
 
 position:relative;
 
-transition:all .4s ease;
-
-}
-
-/* =========================================================
-LIGHT MODE OVERRIDE
-========================================================= */
-
-body.light-mode{
-
-background:var(--light-bg);
-color:var(--light-text);
-
-}
-
-/* Surfaces */
-body.light-mode header,
-body.light-mode .hero,
-body.light-mode .project-card,
-body.light-mode .timeline-content,
-body.light-mode .contact-card{
-
-background:var(--light-bg2);
-border-color:var(--light-border);
-
-}
-
-/* Text */
-body.light-mode p,
-body.light-mode span{
-
-color:var(--light-muted);
-
-}
-
-body.light-mode nav a{
-color:var(--light-muted);
-}
-
-body.light-mode nav a:hover{
-color:var(--light-text);
-}
-
-/* Socials */
-body.light-mode .socials a{
-background:var(--light-surface);
-border:1px solid var(--light-border);
-color:var(--light-text);
 }
 
 /* =========================================================
@@ -236,9 +176,17 @@ left:40%;
 
 @keyframes float{
 
-0%{transform:translateY(0px);}
-50%{transform:translateY(50px);}
-100%{transform:translateY(0px);}
+0%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(50px);
+}
+
+100%{
+transform:translateY(0px);
+}
 
 }
 
@@ -251,8 +199,11 @@ width:8px;
 }
 
 ::-webkit-scrollbar-thumb{
+
 background:var(--gold);
+
 border-radius:20px;
+
 }
 
 /* =========================================================
@@ -298,9 +249,6 @@ z-index:9998;
 transition:.25s ease;
 
 }
-  <button class="theme-toggle" id="themeToggle">
-🌙
-</button>
 
 /* =========================================================
 HEADER
@@ -340,33 +288,68 @@ transition:.35s ease;
 
 }
 
-/* LIGHT MODE HEADER FIX */
-body.light-mode header{
-background:#ffffff;
-}
-
 .logo{
+
 font-size:1.5rem;
+
 font-weight:800;
+
 font-family:'Plus Jakarta Sans',sans-serif;
+
 }
 
-.logo span{color:var(--gold);}
+.logo span{
+color:var(--gold);
+}
 
 nav{
+
 display:flex;
 gap:35px;
+
 }
 
 nav a{
+
 text-decoration:none;
+
 color:var(--muted);
+
 font-weight:600;
+
+position:relative;
+
 transition:.35s ease;
+
+}
+
+nav a::after{
+
+content:'';
+
+position:absolute;
+
+left:0;
+bottom:-8px;
+
+width:0%;
+
+height:1px;
+
+background:var(--gold);
+
+transition:.35s ease;
+
 }
 
 nav a:hover{
+
 color:var(--text);
+
+}
+
+nav a:hover::after{
+width:100%;
 }
 
 /* =========================================================
@@ -374,8 +357,11 @@ SECTIONS
 ========================================================= */
 
 section{
+
 padding:130px 8%;
+
 position:relative;
+
 }
 
 /* =========================================================
@@ -402,53 +388,87 @@ text-align:center;
 
 }
 
-.section-title span{color:var(--gold);}
+.section-title span{
+color:var(--gold);
+}
 
 /* =========================================================
 HERO
 ========================================================= */
 
 .hero{
+
 min-height:100vh;
+
 display:flex;
 align-items:center;
+
 padding-top:150px;
+
 }
 
 .hero-container{
+
 max-width:1450px;
+
 margin:auto;
+
 display:grid;
+
 grid-template-columns:1.1fr .9fr;
+
 gap:70px;
+
 align-items:center;
+
 }
 
 .hero-subtitle{
+
 font-size:.82rem;
+
 letter-spacing:5px;
+
 color:var(--gold);
+
 margin-bottom:25px;
+
 font-weight:700;
+
 }
 
 .hero h1{
+
 font-size:clamp(5rem,11vw,9rem);
+
 line-height:.88;
+
 font-weight:900;
+
 font-family:'Plus Jakarta Sans',sans-serif;
+
 letter-spacing:-7px;
+
 margin-bottom:25px;
+
 }
 
-.hero h1 span{color:var(--gold);}
+.hero h1 span{
+color:var(--gold);
+}
 
 .hero p{
+
 max-width:650px;
+
 line-height:2;
+
 color:var(--muted);
+
 font-size:1.05rem;
+
 margin-bottom:45px;
+
 }
 
 /* =========================================================
@@ -456,106 +476,294 @@ BUTTONS
 ========================================================= */
 
 .hero-buttons{
+
 display:flex;
 gap:18px;
 flex-wrap:wrap;
+
 }
 
 .btn{
+
 padding:18px 34px;
+
 border-radius:999px;
+
 text-decoration:none;
+
 font-weight:700;
+
 display:inline-flex;
 align-items:center;
 gap:12px;
+
 transition:.35s ease;
+
 }
 
 .primary-btn{
-background:linear-gradient(135deg,var(--gold),#F0DFC0);
+
+background:
+linear-gradient(
+135deg,
+var(--gold),
+#F0DFC0
+);
+
 color:#111;
+
+box-shadow:
+0 20px 40px rgba(214,194,138,.18);
+
+}
+
+.primary-btn:hover{
+
+transform:translateY(-6px);
+
+background:#111;
+
+color:var(--gold);
+
+border:1px solid var(--gold);
+
 }
 
 .secondary-btn{
+
 background:rgba(255,255,255,.04);
+
 border:1px solid rgba(255,255,255,.08);
+
 color:#fff;
+
+backdrop-filter:blur(18px);
+
+}
+
+.secondary-btn:hover{
+
+transform:translateY(-6px);
+
+background:#fff;
+
+color:#111;
+
 }
 
 /* =========================================================
 HERO IMAGE
 ========================================================= */
 
+.hero-image{
+
+display:flex;
+justify-content:center;
+
+}
+
 .image-box{
+
 width:450px;
 height:620px;
+
 border-radius:35px;
+
 overflow:hidden;
+
 position:relative;
+
 border:1px solid rgba(255,255,255,.08);
+
 background:rgba(255,255,255,.04);
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.45);
+
 }
 
 .image-box img{
+
 width:100%;
 height:100%;
+
 object-fit:cover;
+
 transition:1s ease;
+
 }
 
 .image-box:hover img{
 transform:scale(1.08);
 }
 
+.image-box::before{
+
+content:'';
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+to top,
+rgba(0,0,0,.8),
+transparent
+);
+
+z-index:1;
+
+}
+
 /* =========================================================
-TIMELINE
+EDUCATION
 ========================================================= */
 
 .timeline{
+
 max-width:1100px;
+
 margin:auto;
+
 position:relative;
+
 }
 
 .timeline::before{
+
 content:'';
+
 position:absolute;
+
 left:50%;
 top:0;
+
 transform:translateX(-50%);
+
 width:1px;
 height:100%;
-background:linear-gradient(to bottom,transparent,rgba(214,194,138,.7),transparent);
+
+background:
+linear-gradient(
+to bottom,
+transparent,
+rgba(214,194,138,.7),
+transparent
+);
+
 }
 
 .timeline-item{
+
 width:50%;
+
 padding:40px 55px;
+
 position:relative;
+
 }
 
-.timeline-item:nth-child(odd){left:0;text-align:right;}
-.timeline-item:nth-child(even){left:50%;}
+.timeline-item:nth-child(odd){
+
+left:0;
+
+text-align:right;
+
+}
+
+.timeline-item:nth-child(even){
+
+left:50%;
+
+}
 
 .timeline-dot{
+
 position:absolute;
+
 top:50px;
+
 width:18px;
 height:18px;
+
 background:var(--gold);
+
 border-radius:50%;
+
+box-shadow:
+0 0 18px rgba(214,194,138,.5);
+
 }
 
-.timeline-item:nth-child(odd) .timeline-dot{right:-9px;}
-.timeline-item:nth-child(even) .timeline-dot{left:-9px;}
+.timeline-item:nth-child(odd) .timeline-dot{
+right:-9px;
+}
+
+.timeline-item:nth-child(even) .timeline-dot{
+left:-9px;
+}
 
 .timeline-content{
+
 padding:38px;
+
 border-radius:30px;
+
 background:rgba(255,255,255,.045);
+
 border:1px solid rgba(255,255,255,.08);
+
+backdrop-filter:blur(18px);
+
 transition:.45s ease;
+
+}
+
+.timeline-content:hover{
+
+transform:translateY(-8px);
+
+border-color:rgba(214,194,138,.3);
+
+box-shadow:
+0 20px 40px rgba(214,194,138,.08);
+
+}
+
+.year{
+
+display:inline-block;
+
+padding:8px 16px;
+
+border-radius:50px;
+
+background:rgba(214,194,138,.1);
+
+color:var(--gold);
+
+font-size:.75rem;
+
+font-weight:700;
+
+margin-bottom:18px;
+
+}
+
+.timeline-content h3{
+
+font-size:1.5rem;
+
+margin-bottom:14px;
+
+}
+
+.timeline-content p{
+
+line-height:1.9;
+
+color:var(--muted);
+
 }
 
 /* =========================================================
@@ -563,18 +771,116 @@ PROJECTS
 ========================================================= */
 
 .projects-grid{
+
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+
+grid-template-columns:
+repeat(auto-fit,minmax(340px,1fr));
+
 gap:30px;
+
 }
 
 .project-card{
+
 height:560px;
+
 border-radius:32px;
+
 overflow:hidden;
+
 position:relative;
+
 background:rgba(255,255,255,.04);
+
 border:1px solid rgba(255,255,255,.08);
+
+transition:.45s ease;
+
+}
+
+.project-card:hover{
+
+transform:
+translateY(-10px)
+rotateX(2deg);
+
+border-color:rgba(214,194,138,.25);
+
+box-shadow:
+0 25px 60px rgba(214,194,138,.08);
+
+}
+
+.project-card img{
+
+width:100%;
+height:100%;
+
+object-fit:cover;
+
+transition:1s ease;
+
+}
+
+.project-card:hover img{
+transform:scale(1.08);
+}
+
+.project-card::before{
+
+content:'';
+
+position:absolute;
+inset:0;
+
+background:
+linear-gradient(
+to top,
+rgba(0,0,0,.92),
+transparent
+);
+
+z-index:1;
+
+}
+
+.project-content{
+
+position:absolute;
+
+left:25px;
+right:25px;
+bottom:25px;
+
+z-index:2;
+
+padding:24px;
+
+border-radius:24px;
+
+background:rgba(10,15,25,.45);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+.project-content h3{
+
+font-size:1.5rem;
+
+margin-bottom:12px;
+
+}
+
+.project-content p{
+
+line-height:1.8;
+
+color:#CBD2D9;
+
 }
 
 /* =========================================================
@@ -582,11 +888,81 @@ CONTACT
 ========================================================= */
 
 .contact-wrapper{
+
 max-width:1350px;
+
 margin:auto;
+
 display:grid;
+
 grid-template-columns:1fr 1fr;
+
 gap:50px;
+
+align-items:center;
+
+}
+
+.contact-card{
+
+padding:70px;
+
+border-radius:35px;
+
+background:
+linear-gradient(
+135deg,
+rgba(214,194,138,.14),
+rgba(255,255,255,.05)
+);
+
+border:1px solid rgba(214,194,138,.2);
+
+backdrop-filter:blur(24px);
+
+box-shadow:
+0 25px 80px rgba(0,0,0,.35);
+
+}
+
+.contact-card h3{
+
+font-size:2.4rem;
+
+margin-bottom:40px;
+
+}
+
+.contact-info{
+
+display:flex;
+flex-direction:column;
+gap:28px;
+
+}
+
+.contact-info a{
+
+text-decoration:none;
+
+color:#fff;
+
+font-size:1.05rem;
+
+display:flex;
+align-items:center;
+gap:18px;
+
+transition:.35s ease;
+
+}
+
+.contact-info a:hover{
+
+transform:translateX(8px);
+
+color:var(--gold);
+
 }
 
 /* =========================================================
@@ -594,26 +970,146 @@ SOCIALS
 ========================================================= */
 
 .socials{
+
 display:flex;
 gap:16px;
+
 margin-top:40px;
+
 }
 
 .socials a{
+
 width:58px;
 height:58px;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 border-radius:50%;
+
 background:rgba(255,255,255,.05);
+
 border:1px solid rgba(255,255,255,.08);
+
 color:#fff;
+
+font-size:1.1rem;
+
+text-decoration:none;
+
 transition:.35s ease;
+
 }
 
 .socials a:hover{
-transform:translateY(-8px) scale(1.05);
+
+transform:
+translateY(-8px)
+scale(1.05);
+
+}
+
+/* =========================================================
+FORM
+========================================================= */
+
+.contact-form{
+
+display:flex;
+flex-direction:column;
+gap:22px;
+
+}
+
+.form-row{
+
+display:grid;
+
+grid-template-columns:1fr 1fr;
+
+gap:18px;
+
+}
+
+.contact-form input,
+.contact-form textarea{
+
+width:100%;
+
+padding:22px;
+
+border-radius:22px;
+
+border:1px solid rgba(255,255,255,.08);
+
+background:rgba(255,255,255,.04);
+
+color:var(--text);
+
+font-size:1rem;
+
+outline:none;
+
+backdrop-filter:blur(16px);
+
+transition:.35s ease;
+
+}
+
+.contact-form textarea{
+
+min-height:220px;
+
+resize:none;
+
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+
+border-color:rgba(214,194,138,.4);
+
+box-shadow:
+0 0 25px rgba(214,194,138,.08);
+
+}
+
+.send-btn{
+
+width:max-content;
+
+padding:18px 30px;
+
+border-radius:999px;
+
+background:transparent;
+
+border:2px solid var(--gold);
+
+color:var(--gold);
+
+font-weight:700;
+
+cursor:pointer;
+
+display:flex;
+align-items:center;
+gap:12px;
+
+transition:.35s ease;
+
+}
+
+.send-btn:hover{
+
+background:var(--gold);
+
+color:#111;
+
+transform:translateY(-5px);
+
 }
 
 /* =========================================================
@@ -621,10 +1117,15 @@ FOOTER
 ========================================================= */
 
 footer{
+
 padding:35px;
+
 text-align:center;
+
 color:var(--muted);
+
 border-top:1px solid rgba(255,255,255,.08);
+
 }
 
 /* =========================================================
@@ -632,14 +1133,71 @@ RESPONSIVE
 ========================================================= */
 
 @media(max-width:1100px){
+
 .hero-container,
-.contact-wrapper{grid-template-columns:1fr;}
+.contact-wrapper{
+grid-template-columns:1fr;
+}
+
+.hero{
+text-align:center;
+}
+
+.hero-buttons{
+justify-content:center;
+}
+
+.hero p{
+margin:auto auto 45px;
+}
+
+.image-box{
+margin:auto;
+}
+
+.timeline::before{
+left:24px;
+}
+
+.timeline-item{
+width:100%;
+padding-left:80px;
+left:0 !important;
+text-align:left !important;
+}
+
+.timeline-dot{
+left:15px !important;
+}
+
 }
 
 @media(max-width:768px){
-nav{display:none;}
-.hero h1{font-size:4rem;}
+
+nav{
+display:none;
 }
+
+.hero h1{
+font-size:4rem;
+letter-spacing:-4px;
+}
+
+.image-box{
+width:100%;
+height:500px;
+}
+
+.form-row{
+grid-template-columns:1fr;
+}
+
+.contact-card{
+padding:40px;
+}
+
+}
+
 </style>
 </head>
 
@@ -677,7 +1235,6 @@ Alok<span>.</span>
 </div>
 
 <nav>
-  
 
 <a href="#home">Home</a>
 <a href="#education">Education</a>
@@ -972,21 +1529,7 @@ SCRIPTS
 /* =========================================================
 CURSOR
 ========================================================= */
-/* LIGHT / DARK MODE TOGGLE */
 
-const toggleBtn = document.getElementById("themeToggle");
-
-toggleBtn.addEventListener("click", () => {
-
-document.body.classList.toggle("light-mode");
-
-if (document.body.classList.contains("light-mode")) {
-    toggleBtn.innerHTML = "☀️";
-} else {
-    toggleBtn.innerHTML = "🌙";
-}
-
-});
 const dot = document.querySelector(".cursor-dot");
 const ring = document.querySelector(".cursor-ring");
 
