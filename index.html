@@ -34,7 +34,10 @@
         ========================================================= */
         :root{
             --bg-gradient: linear-gradient(135deg, #031421, #071826, #0B1118);
-            --canvas-opacity: 0.08;
+            /* INCREASED OPACITIES FOR CRISP VISIBILITY */
+            --canvas-opacity: 0.55;
+            --grid-color: rgba(255, 255, 255, 0.25);
+            
             --surface: rgba(255, 255, 255, .045);
             --surface2: rgba(255, 255, 255, .03);
             --border: rgba(255, 255, 255, .08);
@@ -46,7 +49,6 @@
             --gold-gradient: linear-gradient(135deg, #FFF7E6 0%, #D6C28A 50%, #A68E51 100%);
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
-            --grid-color: rgba(255, 255, 255, 0.15);
             --timeline-bg: rgba(255, 255, 255, 0.03);
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
@@ -58,7 +60,10 @@
         ========================================================= */
         [data-theme="light"] {
             --bg-gradient: linear-gradient(135deg, #F4F7FA, #E2E8F0, #EDF2F7);
-            --canvas-opacity: 0.15;
+            /* INCREASED OPACITIES FOR LIGHT MODE VISIBILITY */
+            --canvas-opacity: 0.45;
+            --grid-color: rgba(15, 23, 42, 0.18);
+            
             --surface: rgba(0, 0, 0, .03);
             --surface2: rgba(0, 0, 0, .015);
             --border: rgba(0, 0, 0, .08);
@@ -67,7 +72,6 @@
             --shadow: 0 25px 70px rgba(148, 163, 184, 0.25);
             --card-glow: rgba(214, 194, 138, 0.45);
             --dot-glow-color: #C9B67E;
-            --grid-color: rgba(15, 23, 42, 0.15);
             --timeline-bg: #FFFFFF;
             --timeline-text: #0F172A;
             --timeline-muted: #4A5568;
@@ -428,7 +432,7 @@
                 <div class="timeline-content">
                     <div class="year">2022 — 2024</div>
                     <h3>Reliance International Academy</h3>
-                    <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
+                    <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science while developing interest in technology and programming.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
@@ -512,14 +516,15 @@
         resizeCanvas();
         window.addEventListener("resize", resizeCanvas);
 
-        const spacing = 55;
+        // Slightly increased spacing for a clean look with high opacity
+        const spacing = 65; 
         const mouse = {
             x: -9999,
             y: -9999,
             radius: 160
         };
 
-        // Viral Time-Warp Scan Variables
+        // Time-Warp Scan Variables
         let scanY = 0;
         const scanSpeed = 2.5; 
         const scanDistortionRadius = 120; 
@@ -532,14 +537,13 @@
         function drawGrid(){
             ctx.clearRect(0, 0, w, h);
             
-            // Increment the scan line downwards loop
             scanY += scanSpeed;
             if (scanY > h + scanDistortionRadius) {
                 scanY = -scanDistortionRadius; 
             }
 
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 1.2; // Sharper line stroke
 
             /* VERTICAL LINES */
             for(let x = 0; x <= w; x += spacing){
@@ -551,17 +555,14 @@
                     
                     let offsetX = 0;
 
-                    // Mouse Distortion
                     if(mouseDist < mouse.radius){
                         const force = (mouse.radius - mouseDist) / mouse.radius;
                         offsetX = (dx / mouseDist) * force * 28;
                     }
 
-                    // Viral Line Wave Distortion
                     let scanDist = Math.abs(y - scanY);
                     if (scanDist < scanDistortionRadius) {
                         const scanForce = (scanDistortionRadius - scanDist) / scanDistortionRadius;
-                        // Math.sin creates the signature fluid wave warp style 
                         offsetX += Math.sin(y * 0.05) * scanForce * 35;
                     }
 
@@ -580,13 +581,11 @@
                     
                     let offsetY = 0;
 
-                    // Mouse Distortion
                     if(mouseDist < mouse.radius){
                         const force = (mouse.radius - mouseDist) / mouse.radius;
                         offsetY = (dy / mouseDist) * force * 28;
                     }
 
-                    // Viral Line Wave Distortion
                     let scanDist = Math.abs(y - scanY);
                     if (scanDist < scanDistortionRadius) {
                         const scanForce = (scanDistortionRadius - scanDist) / scanDistortionRadius;
@@ -598,15 +597,15 @@
                 ctx.stroke();
             }
 
-            // Optional: Draws the literal glowing scanning line tracker down the viewport
+            // Glowing Tracking Scanning Line Tracker
             ctx.beginPath();
             ctx.moveTo(0, scanY);
             ctx.lineTo(w, scanY);
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
-            ctx.lineWidth = 1.5;
-            ctx.globalAlpha = 0.4; // Soft subtle track
+            ctx.lineWidth = 2; // Noticeable scanning tracking beam
+            ctx.globalAlpha = 0.6; 
             ctx.stroke();
-            ctx.globalAlpha = 1.0; // Reset alpha for loop integrity
+            ctx.globalAlpha = 1.0; 
 
             requestAnimationFrame(drawGrid);
         }
