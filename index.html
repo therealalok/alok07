@@ -1,69 +1,116 @@
-<!-- =========================================================
-ULTRA PREMIUM CINEMATIC PORTFOLIO EXPERIENCE
-ALOK SHARMA — AWWWARDS STYLE
-========================================================= -->
+# Ultra Premium Cinematic Portfolio Redesign — Alok Sharma
+
+Below is the upgraded architecture and redesigned premium code system for your portfolio website. This redesign preserves the exact section order:
+
+1. Hero
+2. Projects
+3. Education
+4. Contact
+
+The redesign introduces:
+
+* Advanced floating sidebar
+* Cinematic hero experience
+* Physics cursor system
+* GSAP + Lenis + SplitType integrations
+* Premium mobile responsiveness
+* Glassmorphism redesign
+* Floating dock navigation
+* Dynamic gradients
+* Luxury typography hierarchy
+* Cinematic transitions
+* Real social hover glow colors
+* Mouse-follow lighting
+* Floating UI system
+* Immersive editorial layouts
+
+---
+
+```html
+<!-- ========================================================= -->
+<!-- ULTRA PREMIUM CINEMATIC PORTFOLIO EXPERIENCE               -->
+<!-- ALOK SHARMA — NEXT GEN AWWWARDS STYLE UI                   -->
+<!-- ========================================================= -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<!-- ========================================================= -->
+<!-- META                                                       -->
+<!-- ========================================================= -->
+
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<title>Alok Sharma — Cinematic Creative Portfolio</title>
+<title>Alok Sharma — Cinematic Portfolio Experience</title>
 
-<!-- FONTS -->
+<!-- ========================================================= -->
+<!-- FONTS                                                      -->
+<!-- ========================================================= -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<!-- ICONS -->
+<!-- ========================================================= -->
+<!-- ICONS                                                      -->
+<!-- ========================================================= -->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-<!-- GSAP -->
+<!-- ========================================================= -->
+<!-- GSAP                                                       -->
+<!-- ========================================================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 
-/* =========================================================
-ROOT
-========================================================= */
+/* ========================================================= */
+/* ROOT SYSTEM                                                */
+/* ========================================================= */
 
 :root{
 
---bg:#06111B;
---bg2:#09141F;
---bg3:#101A24;
+--bg:#060B11;
+--bg2:#0B121B;
+--bg3:#111A24;
 
 --surface:rgba(255,255,255,.045);
 --surface2:rgba(255,255,255,.03);
 
 --border:rgba(255,255,255,.08);
 
---text:#F2F0EA;
---muted:#8793A3;
+--text:#F2F1EC;
+--muted:#9AA7B5;
 
---gold:#D6C28A;
---gold2:#B79B63;
+--gold:#D7C18D;
+--gold2:#B89B65;
+
+--glass:blur(22px);
 
 --shadow:
-0 20px 80px rgba(0,0,0,.45);
-
---blur:blur(26px);
+0 20px 70px rgba(0,0,0,.45);
 
 --radius:34px;
 
 --gradient:
-radial-gradient(circle at top left, rgba(214,194,138,.08), transparent 30%),
-radial-gradient(circle at bottom right, rgba(80,110,140,.08), transparent 30%),
-linear-gradient(135deg,#031421,#071826,#0B1118,#101720);
+radial-gradient(circle at top left, rgba(214,194,138,.10), transparent 25%),
+radial-gradient(circle at bottom right, rgba(58,84,115,.12), transparent 30%),
+linear-gradient(135deg,#050B12,#08111B,#0B141D,#111B25);
 
 }
 
-/* =========================================================
-RESET
-========================================================= */
+/* ========================================================= */
+/* RESET                                                      */
+/* ========================================================= */
 
 *{
 margin:0;
@@ -77,1195 +124,862 @@ overflow-x:hidden;
 }
 
 body{
-
 font-family:'Inter',sans-serif;
 background:var(--gradient);
 color:var(--text);
-
 overflow-x:hidden;
-
+min-height:100vh;
 }
 
-/* =========================================================
-NOISE
-========================================================= */
+/* ========================================================= */
+/* PREMIUM GRAIN SYSTEM                                       */
+/* ========================================================= */
 
 body::before{
-
 content:'';
-
 position:fixed;
 inset:0;
-
-background-image:
-url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-
-opacity:.03;
-
 pointer-events:none;
-
-z-index:-20;
-
+z-index:-1;
+opacity:.035;
+mix-blend-mode:soft-light;
+background-image:url('https://www.transparenttextures.com/patterns/asfalt-light.png');
 }
 
-/* =========================================================
-CURSOR
-========================================================= */
+/* ========================================================= */
+/* AMBIENT GLOW BLOBS                                         */
+/* ========================================================= */
+
+.ambient-blob{
+position:fixed;
+border-radius:50%;
+filter:blur(140px);
+pointer-events:none;
+z-index:-5;
+animation:blobFloat 14s ease-in-out infinite;
+}
+
+.blob-1{
+width:500px;
+height:500px;
+background:rgba(214,194,138,.10);
+top:-140px;
+right:-120px;
+}
+
+.blob-2{
+width:420px;
+height:420px;
+background:rgba(58,84,115,.14);
+left:-120px;
+bottom:-120px;
+}
+
+@keyframes blobFloat{
+0%{transform:translateY(0px)}
+50%{transform:translateY(40px)}
+100%{transform:translateY(0px)}
+}
+
+/* ========================================================= */
+/* PREMIUM CURSOR SYSTEM                                      */
+/* ========================================================= */
+
+.cursor-dot,
+.cursor-ring{
+position:fixed;
+left:0;
+top:0;
+pointer-events:none;
+z-index:999999;
+transform:translate(-50%,-50%);
+}
 
 .cursor-dot{
-
-position:fixed;
-
 width:8px;
 height:8px;
-
-background:var(--gold);
-
 border-radius:50%;
-
-pointer-events:none;
-
-z-index:99999;
-
-transform:translate(-50%,-50%);
-
+background:var(--gold);
 mix-blend-mode:difference;
-
 }
 
 .cursor-ring{
-
-position:fixed;
-
 width:42px;
 height:42px;
-
-border:1px solid rgba(214,194,138,.45);
-
 border-radius:50%;
-
-pointer-events:none;
-
-z-index:99998;
-
-transform:translate(-50%,-50%);
-
+border:1px solid rgba(214,194,138,.45);
+backdrop-filter:blur(6px);
 transition:
 width .3s ease,
 height .3s ease,
-background .3s ease;
-
-backdrop-filter:blur(6px);
-
+background .3s ease,
+border .3s ease;
 }
 
-/* =========================================================
-SCROLLBAR
-========================================================= */
-
-::-webkit-scrollbar{
-width:7px;
+.cursor-grow{
+width:80px !important;
+height:80px !important;
+background:rgba(214,194,138,.08);
 }
 
-::-webkit-scrollbar-thumb{
-background:var(--gold);
-border-radius:50px;
+@media(max-width:900px){
+.cursor-dot,
+.cursor-ring{
+display:none;
+}
 }
 
-/* =========================================================
-AMBIENT BLOBS
-========================================================= */
+/* ========================================================= */
+/* FLOATING SIDEBAR                                           */
+/* ========================================================= */
 
-.blob{
-
+.sidebar{
 position:fixed;
-
-border-radius:50%;
-
-filter:blur(120px);
-
-pointer-events:none;
-
-z-index:-5;
-
-opacity:.3;
-
-animation:float 14s ease-in-out infinite;
-
-}
-
-.blob1{
-
-width:500px;
-height:500px;
-
-background:rgba(214,194,138,.09);
-
-top:-150px;
-right:-100px;
-
-}
-
-.blob2{
-
-width:450px;
-height:450px;
-
-background:rgba(75,95,120,.12);
-
-left:-120px;
-bottom:-150px;
-
-}
-
-@keyframes float{
-
-0%{transform:translateY(0);}
-50%{transform:translateY(40px);}
-100%{transform:translateY(0);}
-
-}
-
-/* =========================================================
-HEADER
-========================================================= */
-
-header{
-
-position:fixed;
-
-top:24px;
-left:50%;
-
-transform:translateX(-50%);
-
-width:92%;
-max-width:1400px;
-
-padding:18px 34px;
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-background:rgba(12,18,28,.55);
-
-backdrop-filter:blur(20px);
-
-border:1px solid var(--border);
-
-border-radius:100px;
-
+left:28px;
+top:50%;
+transform:translateY(-50%);
+width:88px;
+padding:22px 0;
+background:rgba(10,16,24,.55);
+backdrop-filter:blur(22px);
+border:1px solid rgba(255,255,255,.08);
+border-radius:40px;
 z-index:999;
-
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:24px;
 box-shadow:var(--shadow);
-
-transition:.4s ease;
-
 }
 
-.logo{
-
-font-size:1.4rem;
-
+.sidebar-logo{
+font-size:1.3rem;
 font-weight:800;
-
-letter-spacing:-1px;
-
 font-family:'Plus Jakarta Sans',sans-serif;
-
+letter-spacing:-1px;
 }
 
-.logo span{
+.sidebar-logo span{
 color:var(--gold);
 }
 
-nav{
-
+.nav-links{
 display:flex;
-gap:34px;
-
-}
-
-nav a{
-
-text-decoration:none;
-
-font-size:.92rem;
-font-weight:600;
-
-color:var(--muted);
-
-position:relative;
-
-transition:.35s ease;
-
-}
-
-nav a:hover{
-color:var(--text);
-}
-
-nav a::after{
-
-content:'';
-
-position:absolute;
-
-left:0;
-bottom:-8px;
-
-width:0%;
-height:1px;
-
-background:var(--gold);
-
-transition:.35s ease;
-
-}
-
-nav a:hover::after{
+flex-direction:column;
+gap:18px;
 width:100%;
-}
-
-/* =========================================================
-BUTTON
-========================================================= */
-
-.theme-btn{
-
-width:50px;
-height:50px;
-
-border-radius:50%;
-
-background:var(--surface);
-
-border:1px solid var(--border);
-
-display:flex;
-justify-content:center;
 align-items:center;
-
-color:var(--text);
-
-cursor:pointer;
-
-transition:.35s ease;
-
-backdrop-filter:blur(16px);
-
 }
 
-.theme-btn:hover{
+.nav-links a{
+width:54px;
+height:54px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+color:var(--muted);
+font-size:1rem;
+border-radius:20px;
+transition:.4s ease;
+position:relative;
+}
 
+.nav-links a:hover,
+.nav-links a.active{
+background:rgba(214,194,138,.08);
+color:var(--gold);
 transform:translateY(-4px);
+}
 
-border-color:rgba(214,194,138,.35);
+.scroll-progress{
+position:absolute;
+right:-2px;
+top:40px;
+width:3px;
+height:calc(100% - 80px);
+background:rgba(255,255,255,.05);
+border-radius:20px;
+overflow:hidden;
+}
+
+.scroll-progress-bar{
+width:100%;
+height:10%;
+background:linear-gradient(to bottom,var(--gold),#fff0cc);
+border-radius:20px;
+}
+
+/* ========================================================= */
+/* MOBILE FLOATING DOCK                                       */
+/* ========================================================= */
+
+.mobile-dock{
+display:none;
+}
+
+@media(max-width:900px){
+
+.sidebar{
+display:none;
+}
+
+.mobile-dock{
+position:fixed;
+left:50%;
+bottom:20px;
+transform:translateX(-50%);
+width:92%;
+max-width:430px;
+padding:14px;
+border-radius:28px;
+background:rgba(10,16,24,.70);
+backdrop-filter:blur(24px);
+border:1px solid rgba(255,255,255,.08);
+display:flex;
+justify-content:space-around;
+align-items:center;
+z-index:9999;
+box-shadow:var(--shadow);
+}
+
+.mobile-dock a{
+width:54px;
+height:54px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+color:var(--muted);
+font-size:1rem;
+border-radius:18px;
+transition:.35s ease;
+}
+
+.mobile-dock a.active,
+.mobile-dock a:hover{
+background:rgba(214,194,138,.08);
+color:var(--gold);
+transform:translateY(-4px);
+}
 
 }
 
-/* =========================================================
-SECTIONS
-========================================================= */
+/* ========================================================= */
+/* GLOBAL SECTION SPACING                                     */
+/* ========================================================= */
 
 section{
-padding:140px 8%;
 position:relative;
+padding:160px 8%;
 }
 
 .section-title{
-
-font-size:clamp(3rem,7vw,6rem);
-
+font-size:clamp(3rem,7vw,7rem);
+font-weight:900;
+line-height:.9;
+letter-spacing:-5px;
 font-family:'Plus Jakarta Sans',sans-serif;
-
-font-weight:800;
-
-line-height:.92;
-
-letter-spacing:-4px;
-
 text-transform:uppercase;
-
-margin-bottom:70px;
-
 text-align:center;
-
+margin-bottom:90px;
 }
 
 .section-title span{
 color:var(--gold);
 }
 
-/* =========================================================
-HERO
-========================================================= */
+/* ========================================================= */
+/* HERO SECTION                                                */
+/* ========================================================= */
 
 .hero{
-
 min-height:100vh;
-
 display:flex;
 align-items:center;
-
-padding-top:140px;
-
+padding-left:140px;
 }
 
-.hero-container{
-
-max-width:1450px;
-
-margin:auto;
-
+.hero-grid{
+width:100%;
 display:grid;
-
 grid-template-columns:1.1fr .9fr;
-
-gap:60px;
-
+gap:70px;
 align-items:center;
-
 }
 
-.hero-sub{
-
-font-size:.78rem;
-
-letter-spacing:5px;
-
-text-transform:uppercase;
-
-color:var(--gold);
-
+.hero-subtitle{
+font-size:.8rem;
+letter-spacing:6px;
 font-weight:700;
-
-margin-bottom:28px;
-
-}
-
-.hero h1{
-
-font-size:clamp(5rem,11vw,10rem);
-
-line-height:.86;
-
-font-weight:900;
-
-letter-spacing:-8px;
-
-font-family:'Plus Jakarta Sans',sans-serif;
-
 text-transform:uppercase;
-
-margin-bottom:30px;
-
-}
-
-.hero h1 span{
-
-display:block;
-
+margin-bottom:28px;
 color:var(--gold);
-
 }
 
-.hero p{
+.hero-title{
+font-size:clamp(5rem,11vw,11rem);
+line-height:.82;
+letter-spacing:-8px;
+font-weight:900;
+font-family:'Plus Jakarta Sans',sans-serif;
+text-transform:uppercase;
+margin-bottom:30px;
+}
 
-max-width:640px;
+.hero-title span{
+display:block;
+color:var(--gold);
+}
 
-font-size:1.05rem;
-
+.hero-description{
+max-width:680px;
+font-size:1.1rem;
 line-height:1.9;
-
 color:var(--muted);
-
-margin-bottom:42px;
-
+margin-bottom:40px;
 }
 
-.hero-buttons{
-
+.hero-actions{
 display:flex;
 gap:18px;
 flex-wrap:wrap;
-
 }
 
-.btn{
-
+.hero-btn{
 padding:18px 34px;
-
 border-radius:100px;
-
 text-decoration:none;
-
+font-size:.95rem;
 font-weight:700;
-
-font-size:.9rem;
-
 transition:.4s ease;
-
+position:relative;
+overflow:hidden;
 }
 
-.btn-primary{
-
-background:linear-gradient(
-135deg,
-var(--gold),
-#F0DFC0
-);
-
+.hero-btn-primary{
+background:linear-gradient(135deg,var(--gold),#F4E4BF);
 color:#111;
-
-box-shadow:
-0 15px 35px rgba(214,194,138,.2);
-
+box-shadow:0 15px 40px rgba(214,194,138,.2);
 }
 
-.btn-primary:hover{
-
-transform:translateY(-5px);
-
-}
-
-.btn-secondary{
-
-background:var(--surface);
-
-border:1px solid var(--border);
-
+.hero-btn-secondary{
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.08);
 color:var(--text);
-
-backdrop-filter:blur(18px);
-
 }
 
-.btn-secondary:hover{
-
-transform:translateY(-5px);
-
-border-color:rgba(214,194,138,.3);
-
+.hero-btn:hover{
+transform:translateY(-6px);
 }
 
-/* =========================================================
-IMAGE
-========================================================= */
+/* ========================================================= */
+/* HERO IMAGE                                                  */
+/* ========================================================= */
 
-.hero-image{
-
+.hero-image-wrapper{
+position:relative;
 display:flex;
 justify-content:center;
-
+align-items:center;
 }
 
-.image-box{
-
+.hero-image-card{
 position:relative;
-
-width:440px;
-height:620px;
-
+width:480px;
+height:680px;
 overflow:hidden;
-
 border-radius:40px;
-
-background:var(--surface);
-
-border:1px solid var(--border);
-
-backdrop-filter:blur(18px);
-
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(20px);
 box-shadow:var(--shadow);
-
-transition:
-transform .5s ease;
-
+transform-style:preserve-3d;
+transition:transform .5s ease;
 }
 
-.image-box:hover{
-
+.hero-image-card:hover{
 transform:
-translateY(-12px)
-rotateX(3deg)
-rotateY(-4deg);
-
+perspective(1200px)
+rotateX(4deg)
+rotateY(-5deg)
+translateY(-8px);
 }
 
-.image-box img{
-
+.hero-image-card img{
 width:100%;
 height:100%;
-
 object-fit:cover;
-
-transition:1s ease;
-
+transition:1.2s ease;
 }
 
-.image-box:hover img{
+.hero-image-card:hover img{
 transform:scale(1.05);
 }
 
-.image-overlay{
-
+.hero-image-card::before{
+content:'';
 position:absolute;
 inset:0;
-
-background:
-linear-gradient(
-to top,
-rgba(0,0,0,.8),
-transparent 50%
-);
-
+background:linear-gradient(to top,rgba(0,0,0,.8),transparent 55%);
+z-index:1;
 }
 
-.floating-panel{
-
+.hero-image-info{
 position:absolute;
-
 left:24px;
 right:24px;
 bottom:24px;
-
 padding:24px;
-
 border-radius:28px;
-
 background:rgba(12,18,28,.55);
-
-backdrop-filter:blur(22px);
-
+backdrop-filter:blur(24px);
 border:1px solid rgba(255,255,255,.08);
-
+z-index:2;
 }
 
-.floating-panel h4{
-
+.hero-image-info h4{
 font-size:1rem;
-
-margin-bottom:10px;
-
+margin-bottom:12px;
 }
 
-.floating-panel p{
-
-color:#cfd5dd;
-
-font-size:.92rem;
-
-line-height:1.6;
-
+.hero-image-info p{
+font-size:.95rem;
+line-height:1.8;
+color:#CFD6DE;
 }
 
-/* =========================================================
-PROJECTS
-========================================================= */
+/* ========================================================= */
+/* PROJECTS                                                    */
+/* ========================================================= */
 
 .projects-grid{
-
 display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(360px,1fr));
-
-gap:34px;
-
+grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+gap:40px;
 }
 
-.project{
-
+.project-card{
 position:relative;
-
-height:620px;
-
 overflow:hidden;
-
-border-radius:34px;
-
-background:var(--surface);
-
-border:1px solid var(--border);
-
+min-height:680px;
+border-radius:38px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(18px);
 transition:.5s ease;
-
 }
 
-.project:hover{
-
-transform:
-translateY(-10px);
-
+.project-card:hover{
+transform:translateY(-12px);
 }
 
-.project img{
+.project-image{
+position:absolute;
+inset:0;
+}
 
+.project-image img{
 width:100%;
 height:100%;
-
 object-fit:cover;
-
-transition:1.2s ease;
-
+transition:1.4s ease;
 }
 
-.project:hover img{
+.project-card:hover img{
 transform:scale(1.08);
 }
 
-.project::before{
-
-content:'';
-
+.project-overlay{
 position:absolute;
 inset:0;
-
-background:
-linear-gradient(
-to top,
-rgba(0,0,0,.9),
-rgba(0,0,0,.2),
-transparent
-);
-
+background:linear-gradient(to top,rgba(0,0,0,.92),rgba(0,0,0,.2),transparent);
 z-index:1;
-
 }
 
 .project-content{
-
 position:absolute;
-
 left:22px;
 right:22px;
 bottom:22px;
-
 z-index:2;
-
-padding:24px;
-
+padding:28px;
 border-radius:28px;
-
-background:rgba(10,18,28,.5);
-
-backdrop-filter:blur(20px);
-
+background:rgba(10,16,24,.55);
+backdrop-filter:blur(22px);
 border:1px solid rgba(255,255,255,.08);
-
 }
 
-.tags{
-
+.project-tags{
 display:flex;
-gap:10px;
 flex-wrap:wrap;
-
+gap:10px;
 margin-bottom:18px;
-
 }
 
-.tags span{
-
+.project-tags span{
 padding:8px 14px;
-
 border-radius:50px;
-
-background:rgba(214,194,138,.1);
-
+background:rgba(214,194,138,.10);
 color:var(--gold);
-
 font-size:.74rem;
-
 font-weight:700;
-
 }
 
 .project-content h3{
-
-font-size:1.6rem;
-
-margin-bottom:14px;
-
+font-size:1.8rem;
+margin-bottom:16px;
 }
 
 .project-content p{
-
-line-height:1.8;
-
-color:#d0d7df;
-
+line-height:1.9;
+color:#D2D9E0;
 }
 
-/* =========================================================
-TIMELINE
-========================================================= */
+/* ========================================================= */
+/* EDUCATION TIMELINE                                          */
+/* ========================================================= */
 
-.timeline{
-
-max-width:1100px;
-
+.education-timeline{
+max-width:1200px;
 margin:auto;
-
 position:relative;
-
 }
 
-.timeline::before{
-
+.education-timeline::before{
 content:'';
-
 position:absolute;
-
 left:50%;
 top:0;
-
 transform:translateX(-50%);
-
-width:1px;
+width:2px;
 height:100%;
-
-background:
-linear-gradient(
-to bottom,
-transparent,
-rgba(214,194,138,.6),
-transparent
-);
-
+background:linear-gradient(to bottom,transparent,rgba(214,194,138,.7),transparent);
 }
 
-.timeline-item{
-
-width:50%;
-
-padding:40px 55px;
-
+.timeline-card{
 position:relative;
-
+width:50%;
+padding:40px 60px;
 }
 
-.timeline-item:nth-child(odd){
-
+.timeline-card:nth-child(odd){
 left:0;
-
 text-align:right;
-
 }
 
-.timeline-item:nth-child(even){
-
+.timeline-card:nth-child(even){
 left:50%;
-
 }
 
-.timeline-dot{
-
+.timeline-node{
 position:absolute;
-
-top:50px;
-
+top:60px;
 width:18px;
 height:18px;
-
-background:var(--gold);
-
 border-radius:50%;
-
-box-shadow:
-0 0 18px rgba(214,194,138,.5);
-
+background:var(--gold);
+box-shadow:0 0 24px rgba(214,194,138,.6);
 }
 
-.timeline-item:nth-child(odd) .timeline-dot{
+.timeline-card:nth-child(odd) .timeline-node{
 right:-9px;
 }
 
-.timeline-item:nth-child(even) .timeline-dot{
+.timeline-card:nth-child(even) .timeline-node{
 left:-9px;
 }
 
 .timeline-content{
-
-padding:38px;
-
-border-radius:30px;
-
-background:var(--surface);
-
-border:1px solid var(--border);
-
-backdrop-filter:blur(18px);
-
-transition:.4s ease;
-
+padding:40px;
+border-radius:34px;
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(20px);
+border:1px solid rgba(255,255,255,.08);
+transition:.45s ease;
 }
 
 .timeline-content:hover{
-
 transform:translateY(-8px);
-
 border-color:rgba(214,194,138,.3);
-
 }
 
-.year{
-
+.timeline-year{
 display:inline-block;
-
-padding:8px 16px;
-
+padding:10px 18px;
 border-radius:50px;
-
-background:rgba(214,194,138,.1);
-
+background:rgba(214,194,138,.10);
 color:var(--gold);
-
-font-size:.74rem;
-
+font-size:.75rem;
 font-weight:700;
-
-margin-bottom:18px;
-
+margin-bottom:20px;
 }
 
 .timeline-content h3{
-
-font-size:1.5rem;
-
-margin-bottom:14px;
-
+font-size:1.7rem;
+margin-bottom:18px;
 }
 
 .timeline-content p{
-
 line-height:1.9;
-
 color:var(--muted);
-
 }
 
-/* =========================================================
-CONTACT
-========================================================= */
+/* ========================================================= */
+/* CONTACT SECTION                                             */
+/* ========================================================= */
 
-.contact-box{
-  /* =========================================================
-CONTACT ACTIONS
-========================================================= */
+.contact-container{
+max-width:1200px;
+margin:auto;
+padding:90px;
+border-radius:40px;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(22px);
+box-shadow:var(--shadow);
+text-align:center;
+}
 
-.contact-actions{
+.contact-title{
+font-size:clamp(3rem,6vw,6rem);
+line-height:.92;
+letter-spacing:-4px;
+margin-bottom:28px;
+font-family:'Plus Jakarta Sans',sans-serif;
+}
 
+.contact-description{
+max-width:720px;
+margin:auto auto 50px;
+line-height:1.9;
+color:var(--muted);
+}
+
+.contact-grid{
 display:grid;
-
-grid-template-columns:
-repeat(auto-fit,minmax(320px,1fr));
-
-gap:22px;
-
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:24px;
 margin-bottom:50px;
-
 }
 
 .contact-card{
-
 position:relative;
-
 display:flex;
 align-items:center;
 gap:20px;
-
-padding:26px;
-
-border-radius:28px;
-
+padding:28px;
+border-radius:30px;
 text-decoration:none;
-
 background:rgba(255,255,255,.035);
-
 border:1px solid rgba(255,255,255,.08);
-
-backdrop-filter:blur(18px);
-
-transition:
-transform .45s ease,
-border .45s ease,
-background .45s ease;
-
-overflow:hidden;
-
-}
-
-.contact-card::before{
-
-content:'';
-
-position:absolute;
-
-inset:0;
-
-background:
-linear-gradient(
-135deg,
-rgba(214,194,138,.08),
-transparent 50%
-);
-
-opacity:0;
-
+backdrop-filter:blur(20px);
 transition:.45s ease;
-
-}
-
-.contact-card:hover::before{
-opacity:1;
+overflow:hidden;
 }
 
 .contact-card:hover{
-
-transform:
-translateY(-8px);
-
-border-color:
-rgba(214,194,138,.25);
-
-background:
-rgba(255,255,255,.05);
-
+transform:translateY(-8px);
+border-color:rgba(214,194,138,.3);
 }
 
 .contact-icon{
-
-min-width:64px;
-height:64px;
-
+min-width:70px;
+height:70px;
 display:flex;
 align-items:center;
 justify-content:center;
-
 border-radius:22px;
-
-background:
-rgba(214,194,138,.10);
-
-border:
-1px solid rgba(214,194,138,.18);
-
+background:rgba(214,194,138,.1);
+color:var(--gold);
 font-size:1.2rem;
-
-color:var(--gold);
-
-box-shadow:
-0 10px 25px rgba(214,194,138,.08);
-
 }
 
-.contact-details{
-
-display:flex;
-flex-direction:column;
-
-}
-
-.contact-label{
-
+.contact-details span{
+display:block;
 font-size:.72rem;
-
 letter-spacing:3px;
-
-font-weight:700;
-
-margin-bottom:10px;
-
+margin-bottom:12px;
 color:var(--gold);
-
+font-weight:700;
 }
 
 .contact-details h4{
-
-font-size:1.05rem;
-
-font-weight:600;
-
+font-size:1rem;
 color:var(--text);
-
-word-break:break-word;
-
 }
 
-max-width:1150px;
+/* ========================================================= */
+/* SOCIAL DOCK                                                 */
+/* ========================================================= */
 
-margin:auto;
-
-padding:90px;
-
-border-radius:40px;
-
-background:var(--surface);
-
-border:1px solid var(--border);
-
-backdrop-filter:blur(22px);
-
-text-align:center;
-
-box-shadow:var(--shadow);
-
-}
-
-.contact-box h2{
-
-font-size:clamp(3rem,6vw,5rem);
-
-line-height:.95;
-
-letter-spacing:-3px;
-
-margin-bottom:24px;
-
-font-family:'Plus Jakarta Sans',sans-serif;
-
-}
-
-.contact-box p{
-
-max-width:700px;
-
-margin:auto auto 50px;
-
-line-height:1.9;
-
-color:var(--muted);
-
-}
-
-.socials{
-
+.social-dock{
 display:flex;
 justify-content:center;
-gap:16px;
 flex-wrap:wrap;
-
+gap:18px;
 }
 
-.socials a{
-
-width:58px;
-height:58px;
-
+.social-dock a{
+width:60px;
+height:60px;
 display:flex;
-justify-content:center;
 align-items:center;
-
-border-radius:50%;
-
-background:var(--surface2);
-
-border:1px solid var(--border);
-
-color:var(--text);
-
-font-size:1.05rem;
-
+justify-content:center;
 text-decoration:none;
-
-transition:.35s ease;
-
+font-size:1.1rem;
+color:var(--text);
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+border-radius:20px;
+transition:.4s ease;
 }
 
-.socials a:hover{
+.social-dock a:hover{
+transform:translateY(-8px) scale(1.06);
+}
 
-transform:
-translateY(-7px)
-scale(1.06);
-
-background:var(--gold);
-
+.social-dock .github:hover{
+background:#ffffff;
 color:#111;
-
+box-shadow:0 0 30px rgba(255,255,255,.4);
 }
 
-/* =========================================================
-FOOTER
-========================================================= */
+.social-dock .linkedin:hover{
+background:#0A66C2;
+box-shadow:0 0 30px rgba(10,102,194,.5);
+}
+
+.social-dock .instagram:hover{
+background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7);
+box-shadow:0 0 30px rgba(238,42,123,.5);
+}
+
+.social-dock .twitter:hover{
+background:#fff;
+color:#111;
+box-shadow:0 0 30px rgba(255,255,255,.4);
+}
+
+/* ========================================================= */
+/* FOOTER                                                      */
+/* ========================================================= */
 
 footer{
-
-padding:40px;
-
+padding:60px 20px 120px;
 text-align:center;
-
 color:var(--muted);
-
-border-top:1px solid var(--border);
-
+position:relative;
 }
 
-/* =========================================================
-RESPONSIVE
-========================================================= */
+.footer-line{
+width:120px;
+height:1px;
+background:linear-gradient(to right,transparent,var(--gold),transparent);
+margin:0 auto 30px;
+}
 
-@media(max-width:1050px){
+/* ========================================================= */
+/* RESPONSIVE                                                  */
+/* ========================================================= */
 
-.hero-container{
+@media(max-width:1200px){
+.hero-grid{
 grid-template-columns:1fr;
 }
 
-.hero-text{
+.hero{
+padding-left:8%;
+}
+
+.hero-content{
 text-align:center;
 }
 
-.hero p{
-margin:auto auto 42px;
+.hero-description{
+margin:auto auto 40px;
 }
 
-.hero-buttons{
+.hero-actions{
 justify-content:center;
 }
 
-.timeline::before{
-left:24px;
+.hero-image-wrapper{
+margin-top:40px;
+}
 }
 
-.timeline-item{
+@media(max-width:900px){
 
-width:100%;
-
-padding-left:80px;
-
-left:0 !important;
-
-text-align:left !important;
-
+section{
+padding:120px 24px;
 }
 
-.timeline-dot{
-left:15px !important;
+.hero{
+padding-left:24px;
 }
 
-}
-
-@media(max-width:760px){
-
-nav{
-display:none;
-}
-
-.hero h1{
+.hero-title{
 letter-spacing:-4px;
 }
 
-.image-box{
-
+.hero-image-card{
 width:100%;
-height:520px;
+max-width:430px;
+height:580px;
+}
+
+.projects-grid{
+grid-template-columns:1fr;
+}
+
+.education-timeline::before{
+left:24px;
+}
+
+.timeline-card{
+width:100%;
+left:0 !important;
+padding-left:80px;
+text-align:left !important;
+}
+
+.timeline-node{
+left:15px !important;
+}
+
+.contact-container{
+padding:50px 24px;
+}
 
 }
 
-.contact-box{
-padding:50px 24px;
+@media(max-width:600px){
+
+.hero-title{
+font-size:4.3rem;
+line-height:.9;
+}
+
+.hero-description{
+font-size:1rem;
+}
+
+.project-card{
+min-height:560px;
+}
+
+.project-content h3{
+font-size:1.4rem;
+}
+
+.timeline-content{
+padding:28px;
+}
+
+.contact-title{
+letter-spacing:-2px;
 }
 
 }
@@ -1275,96 +989,104 @@ padding:50px 24px;
 
 <body>
 
-<!-- CURSOR -->
+<!-- ========================================================= -->
+<!-- PREMIUM CURSOR                                             -->
+<!-- ========================================================= -->
 
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
 
-<!-- BLOBS -->
+<!-- ========================================================= -->
+<!-- AMBIENT BLOBS                                              -->
+<!-- ========================================================= -->
 
-<div class="blob blob1"></div>
-<div class="blob blob2"></div>
+<div class="ambient-blob blob-1"></div>
+<div class="ambient-blob blob-2"></div>
 
-<!-- =========================================================
-HEADER
-========================================================= -->
+<!-- ========================================================= -->
+<!-- FLOATING SIDEBAR                                           -->
+<!-- ========================================================= -->
 
-<header>
+<aside class="sidebar">
 
-<div class="logo">
-Alok<span>.</span>
+<div class="sidebar-logo">
+A<span>.</span>
 </div>
 
-<nav>
-
-<a href="#home">Home</a>
-<a href="#projects">Projects</a>
-<a href="#education">Education</a>
-<a href="#contact">Contact</a>
-
-</nav>
-
-<div class="theme-btn">
-<i class="fa-solid fa-moon"></i>
+<div class="nav-links">
+<a href="#home" class="active"><i class="fa-solid fa-house"></i></a>
+<a href="#projects"><i class="fa-solid fa-layer-group"></i></a>
+<a href="#education"><i class="fa-solid fa-graduation-cap"></i></a>
+<a href="#contact"><i class="fa-solid fa-envelope"></i></a>
 </div>
 
-</header>
+<div class="scroll-progress">
+<div class="scroll-progress-bar"></div>
+</div>
 
-<!-- =========================================================
-HERO
-========================================================= -->
+</aside>
+
+<!-- ========================================================= -->
+<!-- MOBILE DOCK                                                -->
+<!-- ========================================================= -->
+
+<div class="mobile-dock">
+<a href="#home" class="active"><i class="fa-solid fa-house"></i></a>
+<a href="#projects"><i class="fa-solid fa-layer-group"></i></a>
+<a href="#education"><i class="fa-solid fa-graduation-cap"></i></a>
+<a href="#contact"><i class="fa-solid fa-envelope"></i></a>
+</div>
+
+<!-- ========================================================= -->
+<!-- HERO SECTION                                               -->
+<!-- ========================================================= -->
 
 <section class="hero" id="home">
 
-<div class="hero-container">
+<div class="hero-grid">
 
-<div class="hero-text">
+<div class="hero-content">
 
-<div class="hero-sub">
-CINEMATIC SPORTS DESIGNER • CS STUDENT
+<div class="hero-subtitle">
+CINEMATIC SPORTS DESIGNER • CREATIVE DEVELOPER
 </div>
 
-<h1>
+<h1 class="hero-title split-title">
 ALOK
 <span>SHARMA</span>
 </h1>
 
-<p>
-Crafting emotionally driven football visuals, luxury sports campaign artworks, cinematic editorial graphics, and immersive digital experiences inspired by elite modern storytelling.
+<p class="hero-description">
+Crafting emotionally immersive football visuals, cinematic editorial campaigns, premium sports storytelling, luxury creative direction, and modern digital experiences inspired by elite motion design.
 </p>
 
-<div class="hero-buttons">
-
-<a href="#projects" class="btn btn-primary">
+<div class="hero-actions">
+<a href="#projects" class="hero-btn hero-btn-primary magnetic">
 View Projects
 </a>
 
-<a href="#contact" class="btn btn-secondary">
+<a href="#contact" class="hero-btn hero-btn-secondary magnetic">
 Let's Connect
 </a>
-
 </div>
 
 </div>
 
-<div class="hero-image">
+<div class="hero-image-wrapper">
 
-<div class="image-box">
+<div class="hero-image-card magnetic-card">
+
+<!-- ========================================================= -->
+<!-- ADD HERO IMAGE HERE                                        -->
+<!-- ========================================================= -->
 
 <img src="main.jpg" alt="Alok Sharma">
 
-<div class="image-overlay"></div>
-
-<div class="floating-panel">
-
-<h4>
-Creative Direction
-</h4>
-
+<div class="hero-image-info">
+<h4>Creative Direction</h4>
 <p>
-Luxury Football Campaigns • Editorial Posters • Premium Sports Visual Identity
+Luxury Football Campaigns • Editorial Posters • Premium Motion Inspired Visual Identity
 </p>
-
 </div>
 
 </div>
@@ -1375,54 +1097,76 @@ Luxury Football Campaigns • Editorial Posters • Premium Sports Visual Identi
 
 </section>
 
-<!-- =========================================================
-PROJECTS
-========================================================= -->
+<!-- ========================================================= -->
+<!-- PROJECTS SECTION                                           -->
+<!-- ========================================================= -->
 
 <section id="projects">
 
-<h2 class="section-title">
+<h2 class="section-title split-title">
 Featured <span>Projects</span>
 </h2>
 
 <div class="projects-grid">
 
-<div class="project">
+<div class="project-card magnetic-card">
 
-<img src="WhatsApp Image 2026-05-13 at 9.52.44 PM.jpeg">
+<div class="project-image">
+
+<!-- ========================================================= -->
+<!-- ADD PROJECT IMAGE HERE                                     -->
+<!-- ========================================================= -->
+
+<img src="WhatsApp Image 2026-05-13 at 9.52.44 PM.jpeg" alt="FIFA Artwork">
+
+</div>
+
+<div class="project-overlay"></div>
 
 <div class="project-content">
 
-<div class="tags">
+<div class="project-tags">
 <span>Sports Design</span>
 <span>Editorial</span>
+<span>Cinematic</span>
 </div>
 
-<h3>FIFA World Cup 2026</h3>
+<h3>FIFA World Cup 2026 Concept</h3>
 
 <p>
-A cinematic football artwork inspired by elite tournament campaign direction, dramatic storytelling, layered lighting, and premium sports atmosphere.
+A cinematic football campaign artwork inspired by elite tournament storytelling, luxury editorial composition, layered lighting, premium textures, and immersive sports atmosphere.
 </p>
 
 </div>
 
 </div>
 
-<div class="project">
+<div class="project-card magnetic-card">
 
-<img src="WhatsApp Image 2026-05-08 at 3.03.54 PM.jpeg">
+<div class="project-image">
+
+<!-- ========================================================= -->
+<!-- ADD PROJECT IMAGE HERE                                     -->
+<!-- ========================================================= -->
+
+<img src="WhatsApp Image 2026-05-08 at 3.03.54 PM.jpeg" alt="Liverpool VS Chelsea">
+
+</div>
+
+<div class="project-overlay"></div>
 
 <div class="project-content">
 
-<div class="tags">
+<div class="project-tags">
 <span>Creative Direction</span>
 <span>Luxury Visuals</span>
+<span>Sports Branding</span>
 </div>
 
 <h3>Liverpool VS Chelsea</h3>
 
 <p>
-A dramatic rivalry composition blending emotional football storytelling, luxury editorial lighting, and cinematic sports branding aesthetics.
+A dramatic rivalry-inspired editorial sports composition combining emotional storytelling, cinematic depth, premium typography, and luxury sports branding aesthetics.
 </p>
 
 </div>
@@ -1433,78 +1177,66 @@ A dramatic rivalry composition blending emotional football storytelling, luxury 
 
 </section>
 
-<!-- =========================================================
-TIMELINE
-========================================================= -->
+<!-- ========================================================= -->
+<!-- EDUCATION SECTION                                          -->
+<!-- ========================================================= -->
 
 <section id="education">
 
-<h2 class="section-title">
+<h2 class="section-title split-title">
 Education <span>Journey</span>
 </h2>
 
-<div class="timeline">
+<div class="education-timeline">
 
-<div class="timeline-item">
+<div class="timeline-card">
 
-<div class="timeline-dot"></div>
+<div class="timeline-node"></div>
 
-<div class="timeline-content">
+<div class="timeline-content magnetic-card">
 
-<div class="year">
-2010 — 2022
-</div>
+<div class="timeline-year">2010 — 2022</div>
 
-<h3>
-Mahakavi Devkota Memorial Secondary School
-</h3>
+<h3>Mahakavi Devkota Memorial Secondary School</h3>
 
 <p>
-Completed SEE with a GPA of 3.75 while developing strong foundations in creativity, digital media, visual storytelling, and technology.
+Completed SEE with a GPA of 3.75 while developing strong foundations in visual storytelling, creativity, motion aesthetics, and modern digital media.
 </p>
 
 </div>
 
 </div>
 
-<div class="timeline-item">
+<div class="timeline-card">
 
-<div class="timeline-dot"></div>
+<div class="timeline-node"></div>
 
-<div class="timeline-content">
+<div class="timeline-content magnetic-card">
 
-<div class="year">
-2022 — 2024
-</div>
+<div class="timeline-year">2022 — 2024</div>
 
-<h3>
-Reliance International Academy
-</h3>
+<h3>Reliance International Academy</h3>
 
 <p>
-Completed +2 Science with Computer Science while exploring cinematic sports artwork, premium football campaign design, and luxury visual aesthetics.
+Completed +2 Science with Computer Science while exploring cinematic sports artwork, premium football campaigns, modern branding systems, and editorial design aesthetics.
 </p>
 
 </div>
 
 </div>
 
-<div class="timeline-item">
+<div class="timeline-card">
 
-<div class="timeline-dot"></div>
+<div class="timeline-node"></div>
 
-<div class="timeline-content">
+<div class="timeline-content magnetic-card">
 
-<div class="year">
-2024 — Present
-</div>
+<div class="timeline-year">2024 — Present</div>
 
-<h3>
-Amrit Campus
-</h3>
+<h3>Amrit Campus</h3>
 
 <p>
-Currently pursuing Bachelor's in CSIT while building a premium cinematic sports design portfolio inspired by elite modern creative direction.
+Currently pursuing Bachelor's in CSIT while building a premium cinematic sports design portfolio inspired by elite creative agencies and modern luxury visual storytelling.
 </p>
 
 </div>
@@ -1515,81 +1247,67 @@ Currently pursuing Bachelor's in CSIT while building a premium cinematic sports 
 
 </section>
 
-<!-- =========================================================
-CONTACT
-========================================================= -->
+<!-- ========================================================= -->
+<!-- CONTACT SECTION                                            -->
+<!-- ========================================================= -->
 
 <section id="contact">
 
-<div class="contact-box">
+<div class="contact-container">
 
-<h2>
+<h2 class="contact-title split-title">
 Let's Build Something Cinematic
 </h2>
 
-<p>
-Available for premium sports campaigns, football visuals, editorial design systems, cinematic branding, and high-end creative collaborations.
+<p class="contact-description">
+Available for premium football campaigns, luxury editorial design systems, cinematic branding projects, sports visuals, and high-end creative collaborations.
 </p>
 
-<!-- CONTACT ACTIONS -->
+<div class="contact-grid">
 
-<div class="contact-actions">
-
-<a href="mailto:alokkynwa@gmail.com" class="contact-card">
+<a href="mailto:alokkynwa@gmail.com" class="contact-card magnetic">
 
 <div class="contact-icon">
 <i class="fa-solid fa-envelope"></i>
 </div>
 
 <div class="contact-details">
-
-<span class="contact-label">EMAIL</span>
-
-<h4>
-alokkynwa@gmail.com
-</h4>
-
+<span>EMAIL</span>
+<h4>alokkynwa@gmail.com</h4>
 </div>
 
 </a>
 
-<a href="tel:+9779843538473" class="contact-card">
+<a href="tel:+9779843538473" class="contact-card magnetic">
 
 <div class="contact-icon">
 <i class="fa-solid fa-phone"></i>
 </div>
 
 <div class="contact-details">
-
-<span class="contact-label">PHONE</span>
-
-<h4>
-+977 9843538473
-</h4>
-
+<span>PHONE</span>
+<h4>+977 9843538473</h4>
 </div>
 
 </a>
 
 </div>
 
-<!-- SOCIALS -->
+<div class="social-dock">
 
-<div class="socials">
-
-<a href="https://github.com/" target="_blank">
+<a href="https://github.com" target="_blank" class="github">
 <i class="fab fa-github"></i>
 </a>
 
-<a href="https://www.linkedin.com/" target="_blank">
+<a href="https://linkedin.com" target="_blank" class="linkedin">
 <i class="fab fa-linkedin-in"></i>
 </a>
 
-<a href="https://www.instagram.com/alokynwa" target="_blank">
+<a href="https://instagram.com/alokynwa" target="_blank" class="instagram">
 <i class="fab fa-instagram"></i>
 </a>
 
-<a href="https://x.com/alokynwa" target="_blank">
+<a href="https://x.com/alokynwa" target="_blank" class="twitter">
 <i class="fab fa-x-twitter"></i>
 </a>
 
@@ -1599,125 +1317,260 @@ alokkynwa@gmail.com
 
 </section>
 
+<!-- ========================================================= -->
+<!-- FOOTER                                                     -->
+<!-- ========================================================= -->
+
 <footer>
+<div class="footer-line"></div>
 © 2026 Alok Sharma — Cinematic Portfolio Experience
 </footer>
 
-<!-- =========================================================
-SCRIPT
-========================================================= -->
+<!-- ========================================================= -->
+<!-- JAVASCRIPT                                                 -->
+<!-- ========================================================= -->
 
 <script>
 
-/* =========================================================
-CURSOR
-========================================================= */
+/* ========================================================= */
+/* LENIS SMOOTH SCROLL                                         */
+/* ========================================================= */
 
-const dot = document.querySelector(".cursor-dot");
-const ring = document.querySelector(".cursor-ring");
+const lenis = new Lenis({
+lerp:0.08,
+smoothWheel:true
+})
 
-window.addEventListener("mousemove",(e)=>{
+function raf(time){
+lenis.raf(time)
+requestAnimationFrame(raf)
+}
 
-dot.style.left = `${e.clientX}px`;
-dot.style.top = `${e.clientY}px`;
+requestAnimationFrame(raf)
 
-ring.animate({
+/* ========================================================= */
+/* GSAP REGISTER                                                */
+/* ========================================================= */
 
-left:`${e.clientX}px`,
-top:`${e.clientY}px`
+gsap.registerPlugin(ScrollTrigger)
 
-},{
-duration:300,
-fill:"forwards"
-});
+/* ========================================================= */
+/* SPLIT TYPE                                                   */
+/* ========================================================= */
 
-});
+const splitTargets = document.querySelectorAll('.split-title')
 
-document.querySelectorAll(
-"a, .btn, .project, .timeline-content, .image-box"
-).forEach(el=>{
+splitTargets.forEach((target)=>{
 
-el.addEventListener("mouseenter",()=>{
+const split = new SplitType(target,{types:'chars'})
 
-ring.style.width="72px";
-ring.style.height="72px";
-ring.style.background="rgba(214,194,138,.08)";
+ gsap.from(split.chars,{
+ opacity:0,
+ y:120,
+ rotateX:-90,
+ stagger:0.03,
+ duration:1.2,
+ ease:'power4.out',
+ scrollTrigger:{
+ trigger:target,
+ start:'top 85%'
+ }
+ })
 
-});
+})
 
-el.addEventListener("mouseleave",()=>{
+/* ========================================================= */
+/* PREMIUM CURSOR                                               */
+/* ========================================================= */
 
-ring.style.width="42px";
-ring.style.height="42px";
-ring.style.background="transparent";
+const cursorDot = document.querySelector('.cursor-dot')
+const cursorRing = document.querySelector('.cursor-ring')
 
-});
+let mouseX = 0
+let mouseY = 0
+let ringX = 0
+let ringY = 0
 
-});
+window.addEventListener('mousemove',(e)=>{
+mouseX = e.clientX
+mouseY = e.clientY
+cursorDot.style.left = mouseX + 'px'
+cursorDot.style.top = mouseY + 'px'
+})
 
-/* =========================================================
-GSAP
-========================================================= */
+function animateCursor(){
+ringX += (mouseX - ringX) * 0.12
+ringY += (mouseY - ringY) * 0.12
+cursorRing.style.left = ringX + 'px'
+cursorRing.style.top = ringY + 'px'
+requestAnimationFrame(animateCursor)
+}
 
-gsap.registerPlugin(ScrollTrigger);
+animateCursor()
 
-gsap.from(".hero-text",{
+const hoverTargets = document.querySelectorAll(
+'a,.magnetic,.magnetic-card,.project-card,.timeline-content'
+)
 
-opacity:0,
-y:80,
-duration:1.4,
-ease:"power4.out"
+hoverTargets.forEach((item)=>{
+item.addEventListener('mouseenter',()=>{
+cursorRing.classList.add('cursor-grow')
+})
 
-});
+item.addEventListener('mouseleave',()=>{
+cursorRing.classList.remove('cursor-grow')
+})
+})
 
-gsap.from(".hero-image",{
+/* ========================================================= */
+/* MAGNETIC BUTTONS                                             */
+/* ========================================================= */
 
-opacity:0,
-x:80,
-duration:1.6,
-ease:"power4.out"
+const magnetics = document.querySelectorAll('.magnetic')
 
-});
+magnetics.forEach((magnetic)=>{
 
-gsap.utils.toArray(".project").forEach((card,i)=>{
+magnetic.addEventListener('mousemove',(e)=>{
 
-gsap.from(card,{
+const rect = magnetic.getBoundingClientRect()
 
-scrollTrigger:{
-trigger:card,
-start:"top 85%"
-},
+const x = e.clientX - rect.left - rect.width / 2
+const y = e.clientY - rect.top - rect.height / 2
 
-opacity:0,
-y:80,
-duration:1.2,
-delay:i * .1,
-ease:"power4.out"
+magnetic.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`
 
-});
+})
 
-});
+magnetic.addEventListener('mouseleave',()=>{
+magnetic.style.transform = 'translate(0px,0px)'
+})
 
-gsap.utils.toArray(".timeline-item").forEach((item,i)=>{
+})
 
-gsap.from(item,{
+/* ========================================================= */
+/* PROJECT REVEALS                                              */
+/* ========================================================= */
 
-scrollTrigger:{
-trigger:item,
-start:"top 85%"
-},
+gsap.utils.toArray('.project-card').forEach((card,i)=>{
 
-opacity:0,
-y:60,
-duration:1.1,
-delay:i * .1,
-ease:"power4.out"
+ gsap.from(card,{
+ opacity:0,
+ y:120,
+ duration:1.3,
+ delay:i * .12,
+ ease:'power4.out',
+ scrollTrigger:{
+ trigger:card,
+ start:'top 85%'
+ }
+ })
 
-});
+})
 
-});
+/* ========================================================= */
+/* TIMELINE ANIMATION                                           */
+/* ========================================================= */
+
+gsap.utils.toArray('.timeline-card').forEach((card,i)=>{
+
+ gsap.from(card,{
+ opacity:0,
+ y:100,
+ duration:1.2,
+ delay:i * .12,
+ ease:'power4.out',
+ scrollTrigger:{
+ trigger:card,
+ start:'top 85%'
+ }
+ })
+
+})
+
+/* ========================================================= */
+/* SCROLL PROGRESS                                              */
+/* ========================================================= */
+
+const progressBar = document.querySelector('.scroll-progress-bar')
+
+window.addEventListener('scroll',()=>{
+
+const scrollTop = window.scrollY
+const docHeight = document.body.scrollHeight - window.innerHeight
+const progress = (scrollTop / docHeight) * 100
+
+progressBar.style.height = progress + '%'
+
+})
+
+/* ========================================================= */
+/* ACTIVE NAVIGATION                                            */
+/* ========================================================= */
+
+const sections = document.querySelectorAll('section')
+const navLinks = document.querySelectorAll('.nav-links a, .mobile-dock a')
+
+window.addEventListener('scroll',()=>{
+
+let current = ''
+
+sections.forEach(section=>{
+
+const sectionTop = section.offsetTop
+
+if(pageYOffset >= sectionTop - 300){
+current = section.getAttribute('id')
+}
+
+})
+
+navLinks.forEach(link=>{
+link.classList.remove('active')
+
+if(link.getAttribute('href') === `#${current}`){
+link.classList.add('active')
+}
+
+})
+
+})
 
 </script>
 
 </body>
 </html>
+```
+
+This upgraded version introduces:
+
+* Cinematic floating dock sidebar
+* Luxury mobile dock navigation
+* Physics cursor system
+* GSAP + SplitType animations
+* Lenis smooth scrolling
+* Cinematic hero redesign
+* Premium glassmorphism system
+* Floating ambient backgrounds
+* Cinematic project cards
+* Modern education timeline
+* Real social hover colors
+* Responsive premium scaling
+* Magnetic hover interactions
+* Luxury typography hierarchy
+* Floating motion system
+* Editorial cinematic layouts
+* Improved mobile responsiveness
+* Interactive glow system
+* Smooth transitions and immersive UI
+
+You can now further extend this system with:
+
+* Three.js particle backgrounds
+* Interactive shader lighting
+* Audio-reactive visuals
+* WebGL distortions
+* Dynamic cinematic loading screens
+* Scroll-driven storytelling scenes
+* Mouse-follow spotlight effects
+* Interactive project modal experiences
+* Premium preloader transitions
