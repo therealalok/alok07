@@ -49,7 +49,6 @@
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
             
-            /* DENSE SOLID SURFACES TO SHIELD THE CANVAS MATRIX SECTORS */
             --timeline-bg: #06121a; 
             --timeline-border: rgba(214, 194, 138, 0.45);
             
@@ -339,7 +338,7 @@
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
         /* =========================================================
-        HERO ROUND IMAGE MATRIX CONTAINER
+        HERO IMAGE WORKSPACE AND DISPERSION CANVAS
         ========================================================= */
         .hero-image-wrapper {
             display: flex;
@@ -891,7 +890,7 @@
 
     <script>
         /* =========================================================
-        DISTORTING GRID BACKGROUND CORE WITH INTERACTIVE MOUSE WARP
+        DISTORTING GRID BACKGROUND CORE WITH INTERACTIVE PHYSICS WARP
         ========================================================= */
         const canvas = document.getElementById("grid-distortion");
         const ctx = canvas.getContext("2d");
@@ -934,9 +933,11 @@
                     
                     let offsetX = 0;
 
+                    // UPDATED: Dynamic Gravitational lensing space-time pulling formulation loop
                     if(mouseDist < mouse.radius){
-                        const force = (mouse.radius - mouseDist) / mouse.radius;
-                        offsetX = (dx / mouseDist) * force * 28;
+                        // Gravity curve calculation pull towards the black-hole core coordinates
+                        const gravitationalForce = Math.pow((mouse.radius - mouseDist) / mouse.radius, 2);
+                        offsetX = (dx / mouseDist) * gravitationalForce * 32;
                     }
 
                     ctx.lineTo(x + offsetX, y);
@@ -955,8 +956,8 @@
                     let offsetY = 0;
 
                     if(mouseDist < mouse.radius){
-                        const force = (mouse.radius - mouseDist) / mouse.radius;
-                        offsetY = (dy / mouseDist) * force * 28;
+                        const gravitationalForce = Math.pow((mouse.radius - mouseDist) / mouse.radius, 2);
+                        offsetY = (dy / mouseDist) * gravitationalForce * 32;
                     }
 
                     ctx.lineTo(x, y + offsetY);
