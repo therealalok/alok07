@@ -399,9 +399,9 @@
     <section class="hero" id="home">
         <div class="hero-container">
             <div>
-                <div class="hero-subtitle">CINEMATIC SPORTS DESIGNER • CS STUDENT</div>
+                <div class="hero-subtitle">4TH SEMESTER CS STUDENT</div>
                 <h1>ALOK <br><span>SHARMA</span></h1>
-                <p>Crafting emotionally-driven sports visuals, cinematic football campaigns, luxury editorial graphics, and premium digital experiences inspired by modern sports storytelling.</p>
+                <p>Posting premium matchday posters, cinematic campaigns, and luxury editorial graphics that bring the modern storytelling and current affairs of European football to life.</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn primary-btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
                     <a href="#contact" class="btn secondary-btn">Let's Connect</a>
@@ -422,7 +422,7 @@
                 <div class="timeline-content">
                     <div class="year">2010 — 2022</div>
                     <h3>Mahakavi Devkota Memorial Secondary School</h3>
-                    <p>Completed SEE with a GPA of 3.75 while developing strong foundations in creativity, digital media, visual storytelling, and technology.</p>
+                    <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
@@ -430,7 +430,7 @@
                 <div class="timeline-content">
                     <div class="year">2022 — 2024</div>
                     <h3>Reliance International Academy</h3>
-                    <p>Completed +2 Science with Computer Science while exploring cinematic sports artwork and premium football campaign design.</p>
+                    <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science while developing interest in technology and programming.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
@@ -438,7 +438,7 @@
                 <div class="timeline-content">
                     <div class="year">2024 — Present</div>
                     <h3>Amrit Campus</h3>
-                    <p>Currently pursuing Bachelor's in CSIT while building a premium cinematic sports design portfolio inspired by elite modern creative direction.</p>
+                    <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
                 </div>
                 <div class="timeline-dot"></div>
             </div>
@@ -452,14 +452,14 @@
                 <img src="img1.jpg" alt="">
                 <div class="project-content">
                     <h3>FIFA World Cup 2026</h3>
-                    <p>Luxury football campaign artwork inspired by elite sports visuals and cinematic storytelling.</p>
+                    <p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p>
                 </div>
             </div>
             <div class="project-card">
                 <img src="img2.jpg" alt="">
                 <div class="project-content">
                     <h3>Liverpool VS Chelsea</h3>
-                    <p>Premium editorial football design blending dramatic rivalry emotion with cinematic aesthetics.</p>
+                    <p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p>
                 </div>
             </div>
         </div>
@@ -498,6 +498,79 @@
     </footer>
 
     <script>
+        /* =========================================================
+        DISTORTING GRID BACKGROUND CORE 
+        ========================================================= */
+        const canvas = document.getElementById("grid-distortion");
+        const ctx = canvas.getContext("2d");
+
+        let w, h;
+
+        function resizeCanvas(){
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        const spacing = 55;
+        const mouse = {
+            x: -9999,
+            y: -9999,
+            radius: 160
+        };
+
+        window.addEventListener("mousemove", (e)=>{
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function drawGrid(){
+            ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
+            ctx.lineWidth = 1;
+
+            /* VERTICAL */
+            for(let x = 0; x <= w; x += spacing){
+                ctx.beginPath();
+                for(let y = 0; y <= h; y += 8){
+                    let dx = x - mouse.x;
+                    let dy = y - mouse.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    let offsetX = 0;
+
+                    if(dist < mouse.radius){
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        offsetX = (dx / dist) * force * 28;
+                    }
+                    ctx.lineTo(x + offsetX, y);
+                }
+                ctx.stroke();
+            }
+
+            /* HORIZONTAL */
+            for(let y = 0; y <= h; y += spacing){
+                ctx.beginPath();
+                for(let x = 0; x <= w; x += 8){
+                    let dx = x - mouse.x;
+                    let dy = y - mouse.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    let offsetY = 0;
+
+                    if(dist < mouse.radius){
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        offsetY = (dy / dist) * force * 28;
+                    }
+                    ctx.lineTo(x, y + offsetY);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(drawGrid);
+        }
+
+        drawGrid();
+
         /* =========================================================
         FORM DISPATCH MECHANISM (EMAILJS ASYNC DISPATCH ENGINE)
         ========================================================= */
@@ -590,85 +663,9 @@
         gsap.utils.toArray(".timeline-item").forEach((item,i)=>{
             gsap.from(item,{
                 scrollTrigger:{ trigger:item, start:"top 85%" },
-                opacity:0, y:60, duration:1.1, delay:i * .1, ease:"power4.out"
+                opacity:0, y:60, duration:1.1
             });
         });
-
-        gsap.utils.toArray(".project-card").forEach((card,i)=>{
-            gsap.from(card,{
-                scrollTrigger:{ trigger:card, start:"top 85%" },
-                opacity:0, y:80, duration:1.2, delay:i * .1, ease:"power4.out"
-            });
-        });
-
-        window.addEventListener("scroll",()=>{
-            const header = document.querySelector("header");
-            if(window.scrollY > 50){
-                header.style.padding = "16px 35px";
-            }else{
-                header.style.padding = "22px 45px";
-            }
-        });
-
-        /* =========================================================
-        DISTORTING GRID BACKGROUND CORE
-        ========================================================= */
-        const canvas = document.getElementById("grid-distortion");
-        const ctx = canvas.getContext("2d");
-        let w,h;
-
-        function resizeCanvas(){
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener("resize",resizeCanvas);
-
-        const spacing = 55;
-        const mouse = { x:-9999, y:-9999, radius:160 };
-        window.addEventListener("mousemove",(e)=>{ mouse.x = e.clientX; mouse.y = e.clientY; });
-
-        function drawGrid(){
-            ctx.clearRect(0,0,w,h);
-            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
-            ctx.lineWidth = 1;
-
-            /* VERTICAL */
-            for(let x = 0; x <= w; x += spacing){
-                ctx.beginPath();
-                for(let y = 0; y <= h; y += 8){
-                    let dx = x - mouse.x;
-                    let dy = y - mouse.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy);
-                    let offsetX = 0;
-                    if(dist < mouse.radius){
-                        const force = (mouse.radius - dist) / mouse.radius;
-                        offsetX = (dx / dist) * force * 28;
-                    }
-                    ctx.lineTo(x + offsetX, y);
-                }
-                ctx.stroke();
-            }
-
-            /* HORIZONTAL */
-            for(let y = 0; y <= h; y += spacing){
-                ctx.beginPath();
-                for(let x = 0; x <= w; x += 8){
-                    let dx = x - mouse.x;
-                    let dy = y - mouse.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy);
-                    let offsetY = 0;
-                    if(dist < mouse.radius){
-                        const force = (mouse.radius - dist) / mouse.radius;
-                        offsetY = (dy / dist) * force * 28;
-                    }
-                    ctx.lineTo(x, y + offsetY);
-                }
-                ctx.stroke();
-            }
-            requestAnimationFrame(drawGrid);
-        }
-        drawGrid();
     </script>
 </body>
 </html>
