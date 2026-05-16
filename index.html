@@ -49,6 +49,7 @@
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
             
+            /* DENSE SOLID SURFACES TO SHIELD THE CANVAS MATRIX SECTORS */
             --timeline-bg: #06121a; 
             --timeline-border: rgba(214, 194, 138, 0.45);
             
@@ -150,24 +151,13 @@
         }
 
         /* =========================================================
-        ISOLATED BACKGROUND EFFECTS LAB
+        GRAIN GLASS BACKDROP EFFECT LAYER
         ========================================================= */
-        #grid-distortion{
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100%;
-            z-index:-5; 
-            opacity: var(--canvas-opacity);
-            pointer-events:none;
-        }
-
         body::before {
             content: '';
             position: fixed;
             inset: 0;
-            z-index: -4; 
+            z-index: -4;
             pointer-events: none;
             backdrop-filter: blur(22px) brightness(98%);
             -webkit-backdrop-filter: blur(22px) brightness(98%);
@@ -284,7 +274,7 @@
         }
 
         /* =========================================================
-        HEADER & NAVBAR BRAND TERMINOLOGY
+        HEADER & NAVIGATION BRAND TERMINOLOGY
         ========================================================= */
         .logo { 
             font-size: 1.85rem; 
@@ -328,7 +318,7 @@
         /* =========================================================
         SECTIONS & HERO
         ========================================================= */
-        section{ padding:160px 8%; position:relative; z-index: 1; }
+        section{ padding:160px 8%; position:relative; }
         .section-title{ font-size:clamp(3.5rem,8vw,6.5rem); font-weight:800; line-height:1; letter-spacing:-2.5px; text-transform:uppercase; margin-bottom:90px; text-align:center; }
         .section-title span{ background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
@@ -349,7 +339,7 @@
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
         /* =========================================================
-        HERO IMAGE WORKSPACE AND DISPERSION CANVAS
+        HERO ROUND IMAGE MATRIX CONTAINER
         ========================================================= */
         .hero-image-wrapper {
             display: flex;
@@ -448,7 +438,7 @@
         }
 
         /* =========================================================
-        CLEAN ALTERNATING TIMELINE ARCHITECTURE (GRID ISOLATED HERE)
+        CLEAN ALTERNATING TIMELINE ARCHITECTURE (GRID EXCLUDED INSIDE)
         ========================================================= */
         .timeline{ max-width:1100px; margin:auto; position:relative; display: flex; flex-direction: column; }
         
@@ -501,7 +491,7 @@
         .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.3rem; font-weight: 500; }
 
         /* =========================================================
-        NEW DEDICATED SKILLS SECTION (GRID ISOLATED HERE)
+        NEW DEDICATED SKILLS SECTION (GRID EXCLUDED INSIDE)
         ========================================================= */
         .skills-grid-container {
             max-width: 1100px;
@@ -901,7 +891,7 @@
 
     <script>
         /* =========================================================
-        DISTORTING GRID BACKGROUND CORE WITH INTERACTIVE PHYSICS WARP
+        DISTORTING GRID BACKGROUND CORE WITH INTERACTIVE MOUSE WARP
         ========================================================= */
         const canvas = document.getElementById("grid-distortion");
         const ctx = canvas.getContext("2d");
@@ -945,8 +935,8 @@
                     let offsetX = 0;
 
                     if(mouseDist < mouse.radius){
-                        const gravitationalForce = Math.pow((mouse.radius - mouseDist) / mouse.radius, 2);
-                        offsetX = (dx / mouseDist) * gravitationalForce * 32;
+                        const force = (mouse.radius - mouseDist) / mouse.radius;
+                        offsetX = (dx / mouseDist) * force * 28;
                     }
 
                     ctx.lineTo(x + offsetX, y);
@@ -965,8 +955,8 @@
                     let offsetY = 0;
 
                     if(mouseDist < mouse.radius){
-                        const gravitationalForce = Math.pow((mouse.radius - mouseDist) / mouse.radius, 2);
-                        offsetY = (dy / mouseDist) * gravitationalForce * 32;
+                        const force = (mouse.radius - mouseDist) / mouse.radius;
+                        offsetY = (dy / mouseDist) * force * 28;
                     }
 
                     ctx.lineTo(x, y + offsetY);
@@ -1170,7 +1160,7 @@
         });
 
         /* =========================================================
-        RE-WORED HIGH CONTRAST CURSOR POSITION TRACKERS LOGIC
+        ORIGINAL SPECCED CURSOR MECHANICS RESTORED
         ========================================================= */
         const dot = document.querySelector(".cursor-dot");
         const ring = document.querySelector(".cursor-ring");
