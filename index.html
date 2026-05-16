@@ -55,10 +55,10 @@
 
             --placeholder-color: rgba(248, 248, 245, 0.7);
 
-            /* REFINED PENCIL DRAWING COLORWAY SCALING */
-            --pencil-charcoal: #1C1B1A;
-            --pencil-graphite: #4A4947;
-            --pencil-paper-grey: #D6D5D2;
+            /* CHARCOAL PENCIL SHADING SCALING VARIABLES */
+            --charcoal-dense: #141414;
+            --charcoal-smudge: #52514F;
+            --charcoal-texture: #CCCCCC;
         }
 
         /* =========================================================
@@ -122,83 +122,41 @@
         }
 
         /* =========================================================
-        GLOBAL LIGHT SOURCE BULB INFRASTRUCTURE
+        TWO-SIDE WHITE LED LIGHTS BEAMS
         ========================================================= */
-        .global-bulb-container {
+        .led-source-container {
             position: fixed;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+            left: 0;
             width: 100vw;
             height: 100vh;
             pointer-events: none;
             z-index: 999;
         }
 
-        .global-bulb {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 110px;
-            background: linear-gradient(to bottom, #2c2519, #e6c687 40%, #fff3d1);
-            border-radius: 30px 30px 50px 50px;
-            box-shadow: 
-                0 20px 50px rgba(214, 194, 138, 0.6),
-                0 40px 100px rgba(214, 194, 138, 0.3);
-            border: 2px solid rgba(214, 194, 138, 0.4);
-        }
-
-        /* Metallic screw base fixture mounts */
-        .global-bulb::before {
-            content: '';
+        .led-beam {
             position: absolute;
             top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 34px;
-            height: 22px;
-            background: repeating-linear-gradient(90deg, #444, #222 10px, #555 20px);
-            border-radius: 4px 4px 0 0;
-        }
-
-        /* Bright hot tungsten element core */
-        .global-bulb-filament {
-            position: absolute;
-            top: 45%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 6px;
-            height: 25px;
-            background: #ffffff;
-            border-radius: 50%;
-            box-shadow: 0 0 20px 5px #fff, 0 0 35px 10px #d6c28a;
-        }
-
-        /* Omnidirectional sideways conical light throw engine */
-        .light-beam {
-            position: absolute;
-            top: 40px;
-            width: 120vw;
-            height: 120vh;
+            width: 35vw;
+            height: 100vh;
             pointer-events: none;
             mix-blend-mode: screen;
-            opacity: 0.16;
+            opacity: 0.12;
+            filter: blur(60px);
         }
 
-        .light-beam-left {
-            right: 50%;
-            background: conic-gradient(from 140deg at top right, rgba(214, 194, 138, 0.45) 0deg, rgba(214, 194, 138, 0.08) 35deg, transparent 70deg);
+        .led-beam-left {
+            left: 0;
+            background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.4) 30%, transparent 100%);
         }
 
-        .light-beam-right {
-            left: 50%;
-            background: conic-gradient(from 220deg at top left, transparent 0deg, rgba(214, 194, 138, 0.08) 35deg, rgba(214, 194, 138, 0.45) 70deg);
+        .led-beam-right {
+            right: 0;
+            background: linear-gradient(-90deg, #ffffff 0%, rgba(255,255,255,0.4) 30%, transparent 100%);
         }
 
         /* =========================================================
-        FIXED SIDE FLOATING BRANDED NAVIGATION
+        FIXED FLOATING GOLD COMPONENT NAVIGATION MENU
         ========================================================= */
         .side-floating-nav {
             position: fixed;
@@ -215,9 +173,10 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background: rgba(11, 17, 24, 0.65);
-            border: 1px solid var(--border);
-            color: var(--text);
+            /* Default Gold theme alignment framework settings */
+            background: rgba(214, 194, 138, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -225,7 +184,7 @@
             text-decoration: none;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.35);
+            box-shadow: 0 8px 30px rgba(214, 194, 138, 0.15);
             cursor: pointer;
             position: relative;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
@@ -235,6 +194,7 @@
             transition: transform 0.3s ease, color 0.3s ease;
         }
 
+        /* Switches cleanly back into unique brand structures on hover states */
         .side-nav-btn.nav-mail:hover {
             border-color: var(--gold);
             color: #ea4335;
@@ -374,7 +334,7 @@
         }
 
         /* =========================================================
-        EDUCATION (TIMELINE AXIS REMOVED - CENTERED SHADED BLOCKS)
+        EDUCATION (TIMELINE AXIS REMOVED - CENTERED HUMAN GRAPHITE SHADING BLOCKS)
         ========================================================= */
         .timeline{ 
             max-width:900px; 
@@ -385,7 +345,7 @@
             gap: 50px;
         }
         
-        /* Vertical alignment lines completely stripped out from pseudoclass engine */
+        /* Structural connectors completely stripped out */
         .timeline::before { display: none !important; }
 
         .timeline-item{ 
@@ -397,34 +357,33 @@
         
         .timeline-dot { display: none !important; }
 
-        /* SKETCHED GRADIENT CONTAINER PACK (Combines soft charcoal tooth to graphite wash) */
+        /* SKETCHED GRADIENT CONTAINER PACK (Simulating hand-drawn crosshatch charcoal shading) */
         .timeline-content{
             padding: 55px;
             border-radius: 28px;
             position: relative;
             cursor: pointer;
-            border: 1px solid rgba(214, 194, 138, 0.2);
+            border: 1px solid rgba(214, 194, 138, 0.25);
             box-shadow: var(--shadow);
             
-            /* Signature gradient shading setup simulating premium charcoal rendering */
+            /* Custom gradient shading simulating dense graphite transitioning to paper fibers */
             background: linear-gradient(180deg, 
-                var(--pencil-charcoal) 0%, 
-                var(--pencil-graphite) 45%, 
-                var(--pencil-paper-grey) 100%
+                var(--charcoal-dense) 0%, 
+                var(--charcoal-smudge) 55%, 
+                var(--charcoal-texture) 100%
             );
             
             transform: scale(1) translateY(0);
-            transition: all 0.5s cubic-bezier(0.2, 1, 0.22, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Distinct white text setup inside dark shading layers */
         [data-theme="light"] .timeline-content {
-            background: linear-gradient(180deg, #2b2b29 0%, #61605d 50%, #f0effc 100%);
-            border-color: rgba(0, 0, 0, 0.15);
+            background: linear-gradient(180deg, #212120 0%, #595856 50%, #eae9f2 100%);
+            border-color: rgba(0, 0, 0, 0.18);
         }
 
         .timeline-content:hover{
-            transform: translateY(-10px) scale(1.015);
+            transform: translateY(-10px) scale(1.02);
             border-color: var(--gold);
             box-shadow: 
                 0 35px 70px rgba(0, 0, 0, 0.65), 
@@ -435,8 +394,8 @@
             display:inline-block; 
             padding:10px 22px; 
             border-radius:8px; 
-            background: rgba(17, 17, 17, 0.85); 
-            border: 1px solid rgba(214, 194, 138, 0.25); 
+            background: rgba(15, 15, 15, 0.9); 
+            border: 1px solid rgba(214, 194, 138, 0.3); 
             color:var(--gold); 
             font-size:.95rem; 
             font-weight:700; 
@@ -447,8 +406,8 @@
         .timeline-content h3{ 
             font-size:2.1rem; 
             font-weight: 800; 
-            color: #FFFFFF; /* High visibility across charcoal scaling background */
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            color: #FFFFFF; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.6);
             letter-spacing: -0.4px; 
             margin-bottom:18px; 
             line-height: 1.35; 
@@ -456,8 +415,8 @@
 
         .timeline-content p{ 
             line-height:1.85; 
-            color: #E2E8F0; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            color: #F1F5F9; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
             font-size: 1.35rem; 
             font-weight: 500; 
         }
@@ -570,12 +529,9 @@
 
     <canvas id="grid-distortion"></canvas>
 
-    <div class="global-bulb-container">
-        <div class="global-bulb">
-            <div class="global-bulb-filament"></div>
-        </div>
-        <div class="light-beam light-beam-left"></div>
-        <div class="light-beam light-beam-right"></div>
+    <div class="led-source-container">
+        <div class="led-beam led-beam-left"></div>
+        <div class="led-beam led-beam-right"></div>
     </div>
 
     <div class="side-floating-nav">
@@ -704,7 +660,7 @@
 
     <script>
         /* =========================================================
-        DISTORTING GRID BACKGROUND CORE WITH TIME-WARP SCAN ENGINE
+        DISTORTING GRID BACKGROUND CORE WITH INTERACTIVE MOUSE WARP
         ========================================================= */
         const canvas = document.getElementById("grid-distortion");
         const ctx = canvas.getContext("2d");
@@ -726,10 +682,6 @@
             radius: 160
         };
 
-        let scanY = 0;
-        const scanSpeed = 2.5; 
-        const scanDistortionRadius = 120; 
-
         window.addEventListener("mousemove", (e)=>{
             mouse.x = e.clientX;
             mouse.y = e.clientY;
@@ -737,11 +689,6 @@
 
         function drawGrid(){
             ctx.clearRect(0, 0, w, h);
-            
-            scanY += scanSpeed;
-            if (scanY > h + scanDistortionRadius) {
-                scanY = -scanDistortionRadius; 
-            }
 
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
             ctx.lineWidth = 1.2; 
@@ -759,12 +706,6 @@
                     if(mouseDist < mouse.radius){
                         const force = (mouse.radius - mouseDist) / mouse.radius;
                         offsetX = (dx / mouseDist) * force * 28;
-                    }
-
-                    let scanDist = Math.abs(y - scanY);
-                    if (scanDist < scanDistortionRadius) {
-                        const scanForce = (scanDistortionRadius - scanDist) / scanDistortionRadius;
-                        offsetX += Math.sin(y * 0.05) * scanForce * 35;
                     }
 
                     ctx.lineTo(x + offsetX, y);
@@ -787,25 +728,10 @@
                         offsetY = (dy / mouseDist) * force * 28;
                     }
 
-                    let scanDist = Math.abs(y - scanY);
-                    if (scanDist < scanDistortionRadius) {
-                        const scanForce = (scanDistortionRadius - scanDist) / scanDistortionRadius;
-                        offsetY += Math.cos(x * 0.05) * scanForce * 20;
-                    }
-
                     ctx.lineTo(x, y + offsetY);
                 }
                 ctx.stroke();
             }
-
-            ctx.beginPath();
-            ctx.moveTo(0, scanY);
-            ctx.lineTo(w, scanY);
-            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim();
-            ctx.lineWidth = 2; 
-            ctx.globalAlpha = 0.6; 
-            ctx.stroke();
-            ctx.globalAlpha = 1.0; 
 
             requestAnimationFrame(drawGrid);
         }
