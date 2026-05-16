@@ -1,5 +1,3 @@
-tyo wala(education ko chai gatilo chhaina)////////
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,17 +48,16 @@ tyo wala(education ko chai gatilo chhaina)////////
             --gold-gradient: linear-gradient(135deg, #FFF7E6 0%, #D6C28A 50%, #A68E51 100%);
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
-            --timeline-bg: rgba(255, 255, 255, 0.03);
+            
+            /* DENSE SOLID OPAQUE SURFACE CONFIGS - BLOCKS BACKGRID VISIBILITY COMPLETELY */
+            --timeline-bg: #06121a; 
+            --timeline-border: rgba(214, 194, 138, 0.45);
+            
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
             --btn-hover-bg: #F8F8F5;
 
             --placeholder-color: rgba(248, 248, 245, 0.7);
-
-            /* CHARCOAL PENCIL SHADING SCALING VARIABLES */
-            --charcoal-dense: #141414;
-            --charcoal-smudge: #52514F;
-            --charcoal-texture: #CCCCCC;
         }
 
         /* =========================================================
@@ -79,7 +76,10 @@ tyo wala(education ko chai gatilo chhaina)////////
             --shadow: 0 25px 70px rgba(148, 163, 184, 0.25);
             --card-glow: rgba(214, 194, 138, 0.45);
             --dot-glow-color: #C9B67E;
-            --timeline-bg: #FFFFFF;
+            
+            --timeline-bg: #f8fafc;
+            --timeline-border: rgba(214, 194, 138, 0.75);
+            
             --timeline-text: #0F172A;
             --timeline-muted: #4A5568;
             --btn-hover-bg: #0F172A;
@@ -88,7 +88,7 @@ tyo wala(education ko chai gatilo chhaina)////////
         }
 
         /* =========================================================
-        GLOBAL
+        GLOBAL & SCROLLBAR DESIGN ARCHITECTURE
         ========================================================= */
         *{
             margin:0;
@@ -112,6 +112,31 @@ tyo wala(education ko chai gatilo chhaina)////////
             transition: background 0.4s ease, color 0.4s ease;
         }
 
+        ::-webkit-scrollbar {
+            width: 10px;
+            background: #040e16; 
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.01);
+            border-left: 1px solid var(--border);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #A68E51 0%, #D6C28A 50%, #FFF7E6 100%);
+            border-radius: 20px;
+            border: 2px solid #040e16; 
+            transition: all 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFF7E6;
+            box-shadow: 0 0 15px var(--card-glow);
+        }
+
+        /* =========================================================
+        CINEMATIC GRAIN GLASS OVERLAY PIPELINE LAYER
+        ========================================================= */
         #grid-distortion{
             position:fixed;
             top:0;
@@ -123,8 +148,21 @@ tyo wala(education ko chai gatilo chhaina)////////
             pointer-events:none;
         }
 
+        /* Global frosted grain blurry screen shield template */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -4;
+            pointer-events: none;
+            backdrop-filter: blur(22px) brightness(98%);
+            -webkit-backdrop-filter: blur(22px) brightness(98%);
+            /* Layered premium noise canvas simulation track texture */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
+        }
+
         /* =========================================================
-        TWO-SIDE WHITE LED LIGHTS BEAMS
+        CORNER HIGH-INTENSITY LED WHITE LIGHT BEAMS
         ========================================================= */
         .led-source-container {
             position: fixed;
@@ -139,26 +177,26 @@ tyo wala(education ko chai gatilo chhaina)////////
         .led-beam {
             position: absolute;
             top: 0;
-            width: 35vw;
+            width: 38vw;
             height: 100vh;
             pointer-events: none;
             mix-blend-mode: screen;
-            opacity: 0.12;
-            filter: blur(60px);
+            opacity: 0.14;
+            filter: blur(85px);
         }
 
         .led-beam-left {
             left: 0;
-            background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.4) 30%, transparent 100%);
+            background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.35) 25%, transparent 100%);
         }
 
         .led-beam-right {
             right: 0;
-            background: linear-gradient(-90deg, #ffffff 0%, rgba(255,255,255,0.4) 30%, transparent 100%);
+            background: linear-gradient(-90deg, #ffffff 0%, rgba(255,255,255,0.35) 25%, transparent 100%);
         }
 
         /* =========================================================
-        FIXED FLOATING GOLD COMPONENT NAVIGATION MENU
+        FIXED FLOATING SOCIAL NAVIGATION MENU
         ========================================================= */
         .side-floating-nav {
             position: fixed;
@@ -175,7 +213,6 @@ tyo wala(education ko chai gatilo chhaina)////////
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            /* Default Gold theme alignment framework settings */
             background: rgba(214, 194, 138, 0.15);
             border: 1px solid var(--gold);
             color: var(--gold);
@@ -196,7 +233,6 @@ tyo wala(education ko chai gatilo chhaina)////////
             transition: transform 0.3s ease, color 0.3s ease;
         }
 
-        /* Switches cleanly back into unique brand structures on hover states */
         .side-nav-btn.nav-mail:hover {
             border-color: var(--gold);
             color: #ea4335;
@@ -239,6 +275,44 @@ tyo wala(education ko chai gatilo chhaina)////////
         }
 
         /* =========================================================
+        ORIGINAL TIMELINE ENGINE SPECIFICATIONS
+        ========================================================= */
+        .timeline-dot{
+            width:18px; height:18px;
+            background:var(--bg-gradient);
+            border:2px solid var(--gold);
+            position:absolute;
+            border-radius:50%;
+            top:88px;
+            z-index:2;
+            transition:.25s ease;
+        }
+
+        /* =========================================================
+        ORIGINAL CURSOR ENGINE SPECIFICATIONS
+        ========================================================= */
+        .cursor-dot{
+            width:8px; height:8px;
+            background:var(--gold);
+            position:fixed;
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            pointer-events:none;
+            z-index:9999;
+        }
+
+        .cursor-ring{
+            width:42px; height:42px;
+            border:1px solid rgba(214,194,138,.5);
+            position:fixed;
+            border-radius:50%;
+            transform:translate(-50%,-50%);
+            pointer-events:none;
+            z-index:9998;
+            transition:.25s ease;
+        }
+
+        /* =========================================================
         HEADER & NAVIGATION
         ========================================================= */
         header{
@@ -248,7 +322,7 @@ tyo wala(education ko chai gatilo chhaina)////////
             width:92%; max-width:1450px;
             padding:22px 45px;
             display:flex; justify-content:space-between; align-items:center;
-            background: var(--surface);
+            background: rgba(4, 14, 22, 0.4);
             backdrop-filter:blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border:1px solid var(--border);
@@ -258,7 +332,14 @@ tyo wala(education ko chai gatilo chhaina)////////
             transition: padding 0.3s ease, background 0.3s ease;
         }
 
-        .logo{ font-size:1.75rem; font-weight:700; letter-spacing: -1.5px; }
+        /* UPDATED: LOGO SYNCHRONIZED BRILLIANTLY WITH THE GOLD PALETTE SCHEME */
+        .logo{ 
+            font-size:1.75rem; 
+            font-weight:800; 
+            color: var(--gold); /* Direct structural matching configuration applied */
+            letter-spacing: -1.5px; 
+            text-shadow: 0 0 10px rgba(214, 194, 138, 0.35);
+        }
         .logo span{ background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-container { display: flex; align-items: center; gap: 40px; }
         nav{ display:flex; gap:40px; }
@@ -308,134 +389,259 @@ tyo wala(education ko chai gatilo chhaina)////////
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
         /* =========================================================
-        HERO IMAGE & GLOW
+        HERO IMAGE WORKSPACE AND DISPERSION CANVAS
         ========================================================= */
-        .hero-image{ display:flex; justify-content:center; }
+        .hero-image-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .hero-image{ display:flex; justify-content:center; width: 100%; }
         
         .image-box{ 
-            width:450px; 
-            height:620px; 
-            border-radius:35px; 
+            width:500px; 
+            height:500px; 
+            border-radius:50%; 
             overflow:hidden; 
             position:relative; 
-            border:1px solid var(--border); 
-            background:rgba(255,255,255,.04); 
+            border:1px solid var(--gold); 
+            background:rgba(0,0,0,0.3); 
             box-shadow: 0 25px 80px rgba(0,0,0,.45);
             transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
-        .image-box img{ width:100%; height:100%; object-fit:cover; transition:1s ease; }
-        .image-box:hover img{ transform:scale(1.08); }
-        .image-box::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); z-index:1; }
+
+        #hero-dispersion-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
         
         .image-box:hover {
-            transform: translateY(-4px);
+            transform: translateY(-4px) scale(1.015);
             border-color: var(--gold);
             box-shadow: 
                 0 30px 70px rgba(0, 0, 0, 0.5),
                 0 0 50px var(--card-glow);
         }
 
-        /* =========================================================
-        EDUCATION (TIMELINE AXIS REMOVED - CENTERED HUMAN GRAPHITE SHADING BLOCKS)
-        ========================================================= */
-        .timeline{ 
-            max-width:900px; 
-            margin:auto; 
-            position:relative; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 50px;
+        .dispersion-switch-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: rgba(4, 14, 22, 0.8);
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 35px;
+            font-size: 1.15rem; 
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--muted);
+            text-transform: uppercase;
+            backdrop-filter: blur(10px);
         }
-        
-        /* Structural connectors completely stripped out */
-        .timeline::before { display: none !important; }
 
-        .timeline-item{ 
-            width:100% !important; 
-            padding: 0 !important;
-            left: 0 !important;
-            align-self: center !important;
-        }
-        
-        .timeline-dot { display: none !important; }
-
-        /* SKETCHED GRADIENT CONTAINER PACK (Simulating hand-drawn crosshatch charcoal shading) */
-        .timeline-content{
-            padding: 55px;
-            border-radius: 28px;
-            position: relative;
+        .switch-label {
             cursor: pointer;
-            border: 1px solid rgba(214, 194, 138, 0.25);
-            box-shadow: var(--shadow);
-            
-            /* Custom gradient shading simulating dense graphite transitioning to paper fibers */
-            background: linear-gradient(180deg, 
-                var(--charcoal-dense) 0%, 
-                var(--charcoal-smudge) 55%, 
-                var(--charcoal-texture) 100%
-            );
-            
-            transform: scale(1) translateY(0);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: color 0.3s ease;
         }
 
-        [data-theme="light"] .timeline-content {
-            background: linear-gradient(180deg, #212120 0%, #595856 50%, #eae9f2 100%);
-            border-color: rgba(0, 0, 0, 0.18);
+        .switch-label.active-label {
+            color: var(--gold);
+            text-shadow: 0 0 12px rgba(214, 194, 138, 0.5);
         }
 
-        .timeline-content:hover{
-            transform: translateY(-10px) scale(1.02);
+        .control-toggle {
+            position: relative;
+            width: 62px;  
+            height: 32px; 
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: background 0.3s ease;
+        }
+
+        .control-toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: var(--muted);
+            border-radius: 50%;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease;
+        }
+
+        .control-toggle.toggle-on {
+            background: rgba(214, 194, 138, 0.25);
             border-color: var(--gold);
-            box-shadow: 
-                0 35px 70px rgba(0, 0, 0, 0.65), 
-                0 0 45px var(--card-glow); 
         }
 
-        .year{ 
-            display:inline-block; 
-            padding:10px 22px; 
-            border-radius:8px; 
-            background: rgba(15, 15, 15, 0.9); 
-            border: 1px solid rgba(214, 194, 138, 0.3); 
-            color:var(--gold); 
-            font-size:.95rem; 
-            font-weight:700; 
-            letter-spacing: 1.5px; 
-            margin-bottom:26px; 
-        }
-        
-        .timeline-content h3{ 
-            font-size:2.1rem; 
-            font-weight: 800; 
-            color: #FFFFFF; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.6);
-            letter-spacing: -0.4px; 
-            margin-bottom:18px; 
-            line-height: 1.35; 
-        }
-
-        .timeline-content p{ 
-            line-height:1.85; 
-            color: #F1F5F9; 
-            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
-            font-size: 1.35rem; 
-            font-weight: 500; 
+        .control-toggle.toggle-on::after {
+            transform: translateX(30px);
+            background: var(--gold-gradient);
+            box-shadow: 0 0 12px var(--gold);
         }
 
         /* =========================================================
-        PROJECTS & CONTACT
+        CLEAN TIMELINE ARCHITECTURE (SOLID COATING HIDES GRID SECTOR)
+        ========================================================= */
+        .timeline{ max-width:1100px; margin:auto; position:relative; display: flex; flex-direction: column; }
+        
+        .timeline::before{ 
+            content:''; 
+            position:absolute; 
+            left:50%; 
+            top:0; 
+            transform:translateX(-50%); 
+            width:3px; 
+            height:100%; 
+            background: var(--gold); 
+            box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); 
+            display: block !important;
+        }
+        
+        .timeline-item{ width:50%; padding:40px 65px; position:relative; display: flex; flex-direction: column; }
+        .timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
+        .timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
+        
+        .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
+        .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
+
+        /* FIXED: SOLID IMMUTABLE OPAQUE LEVEL GOLD SURFACE BLOCK HIDES GRID PATHWAYS */
+        .timeline-content{
+            padding:50px;
+            border-radius:24px;
+            background: var(--timeline-bg); /* Complete opaque solid base color blocking backgrid lines */
+            border: 2px solid var(--timeline-border); /* Strongly saturated golden frame structure unhovered */
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.08);
+            transform: scale(1) translateY(0);
+            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+        .timeline-content:hover{
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow); 
+            border-color: var(--gold);
+            background: rgba(214, 194, 138, 0.18); 
+        }
+        .timeline-content:hover ~ .timeline-dot {
+            background: var(--dot-glow-color);
+            border-color: #FFFFFF;
+            box-shadow: 0 0 15px #FFFFFF, 0 0 25px var(--dot-glow-color);
+            transform: scale(1.4);
+        }
+
+        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.3); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
+        .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
+        .timeline-content h3{ font-size:1.95rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
+        .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.3rem; font-weight: 500; }
+
+        /* =========================================================
+        NEW DEDICATED SKILLS SECTION (SOLID GOLD COATING HIDES GRID SECTOR)
+        ========================================================= */
+        .skills-grid-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        /* FIXED: SOLID IMMUTABLE OPAQUE HOVER CARD HIDES DYNAMIC DISTORTION LINES INTERIOR */
+        .skill-item-card {
+            padding: 50px;
+            border-radius: 24px;
+            background: var(--timeline-bg); /* Absolute opaque background prevents back-grid line overlapping */
+            border: 2px solid var(--timeline-border); /* Strongly saturated golden frame structure unhovered */
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .skill-item-card h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+            transition: color 0.35s ease;
+        }
+
+        .skill-item-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 25px 60px rgba(214, 194, 138, 0.35), 0 0 50px var(--card-glow); 
+        }
+
+        .skill-item-card:hover h3 {
+            color: #031421 !important; 
+        }
+        
+        .skill-icon-wrap {
+            font-size: 2.5rem;
+            color: var(--gold); /* Switched default unhovered asset state color to gold */
+            opacity: 0.9;
+            transition: all 0.35s ease;
+        }
+        
+        .skill-item-card:hover .skill-icon-wrap {
+            color: #031421;
+            transform: scale(1.1) rotate(5deg);
+            opacity: 1;
+        }
+
+        @media(max-width: 900px) {
+            .skills-grid-container { grid-template-columns: 1fr; }
+        }
+
+        /* =========================================================
+        PROJECTS CONTAINER AREA STYLING (SOLID COATING HIDES GRID)
         ========================================================= */
         .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(380px,1fr)); gap:40px; }
         .project-card{ height:600px; border-radius:32px; overflow:hidden; position:relative; background:var(--surface); border:1px solid var(--border); transition: all 0.45s ease; }
-        .project-card:hover{ transform: translateY(-10px) rotateX(2deg); border-color: var(--gold); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 20px 50px rgba(214, 194, 138, 0.4); }
         .project-card img{ width:100%; height:100%; object-fit:cover; transition:1s ease; }
         .project-card:hover img{ transform:scale(1.08); }
         .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.92), transparent); z-index:1; }
-        .project-content{ position:absolute; left:35px; right:35px; bottom:35px; z-index:2; padding:35px; border-radius:24px; background:rgba(10,15,25,.45); backdrop-filter:blur(18px); -webkit-backdrop-filter: blur(18px); border:1px solid var(--border); }
+        
+        /* FIXED: CONVERTED CONTAINER BACKGROUND FROM TRANSLUCENT SLATE TO HIGH-VISIBILITY BALANCED SOLID GOLD BLOCK */
+        .project-content{ 
+            position:absolute; 
+            left:35px; right:35px; bottom:35px; 
+            z-index:2; 
+            padding:35px; 
+            border-radius:24px; 
+            background: var(--timeline-bg); /* Full opaque framework payload blocks grid tracking loops */
+            backdrop-filter:blur(18px); 
+            -webkit-backdrop-filter: blur(18px); 
+            border: 2px solid var(--timeline-border); /* Strongly saturated golden frame structure unhovered */
+            transition: all 0.45s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) rotateX(2deg);
+        }
+
+        .project-card:hover .project-content {
+            border-color: var(--gold); 
+            background: rgba(214, 194, 138, 0.22);
+            box-shadow: 0 0 45px var(--card-glow); 
+        }
+
         .project-content h3{ font-size:1.85rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: #FFFFFF; }
         .project-content p{ line-height:1.7; color:#CBD2D9; font-size:1.25rem; }
 
+        /* =========================================================
+        CONTACT & FORM SUBMISSION MECHANICS
+        ========================================================= */
         .contact-wrapper{ max-width:1350px; margin:auto; display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
         .contact-card{ padding:80px; border-radius:35px; background: linear-gradient(135deg, rgba(214,194,138,.14), rgba(255,255,255,.05)); border:1px solid rgba(214,194,138,.2); backdrop-filter:blur(24px); box-shadow:var(--shadow); }
         
@@ -456,9 +662,6 @@ tyo wala(education ko chai gatilo chhaina)////////
         .socials a:nth-child(4):hover{ background:#1877F2; border-color:#1877F2; color:#fff; box-shadow: 0 0 25px rgba(24,119,242,.55); }
         .socials a:nth-child(5):hover{ background:#000000; border-color:#000000; color:#fff; box-shadow: 0 0 25px rgba(255,255,255,.15); }
 
-        /* =========================================================
-        CONTACT FORM STYLING (HIGH CONTRAST / HIGH VISIBILITY)
-        ========================================================= */
         .contact-form{ display:flex; flex-direction:column; gap:26px; }
         .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
         
@@ -488,7 +691,7 @@ tyo wala(education ko chai gatilo chhaina)////////
         
         .contact-form input:focus, .contact-form textarea:focus{ 
             border-color: var(--gold); 
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(4, 14, 22, 0.8);
             box-shadow: 0 0 25px rgba(214, 194, 138, 0.25); 
         }
         
@@ -497,7 +700,23 @@ tyo wala(education ko chai gatilo chhaina)////////
             background: rgba(0, 0, 0, 0.04);
         }
 
-        .send-btn{ width:max-content; padding:18px 34px; border-radius:999px; background:transparent; border:2px solid var(--gold); color:var(--gold); font-weight:700; font-size: 1.2rem; font-family: inherit; cursor:pointer; display:flex; align-items:center; gap:14px; transition:.35s ease; }
+        .send-btn{ 
+            width: 100% !important; 
+            padding: 22px 42px !important; 
+            border-radius: 999px; 
+            background: transparent; 
+            border: 2px solid var(--gold); 
+            color: var(--gold); 
+            font-weight: 700; 
+            font-size: 1.25rem; 
+            font-family: inherit; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 14px; 
+            transition: .35s ease; 
+        }
         .send-btn:hover{ background: var(--gold-gradient); color:#111; border-color: transparent; transform:translateY(-5px); }
 
         footer{ padding:40px; text-align:center; color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px solid var(--border); }
@@ -510,8 +729,11 @@ tyo wala(education ko chai gatilo chhaina)////////
             .hero{ text-align:center; }
             .hero-buttons{ justify-content:center; }
             .hero p{ margin:auto auto 45px; }
-            .image-box{ margin:auto; }
-            .timeline-item{ padding: 0 !important; }
+            .image-box{ width: 340px; height: 340px; margin:auto; }
+            .timeline::before{ left:24px; }
+            .timeline-item{ width:100%; padding: 25px 20px 25px 60px; left:0 !important; text-align:left !important; }
+            .timeline-dot{ left:16px !important; right: auto !important; top: 73px !important; }
+            .timeline-content{ padding: 38px; }
         }
 
         @media(max-width:768px){
@@ -519,10 +741,9 @@ tyo wala(education ko chai gatilo chhaina)////////
             .nav-container { gap: 15px; }
             nav{ display:none; }
             .hero h1{ font-size:3.8rem; letter-spacing:-3px; }
-            .image-box{ width:100%; height:500px; }
+            .image-box{ width:280px; height:280px; }
             .form-row{ grid-template-columns:1fr; }
             .contact-card{ padding:40px; }
-            .timeline-content { padding: 30px; }
         }
     </style>
 </head>
@@ -537,11 +758,14 @@ tyo wala(education ko chai gatilo chhaina)////////
     </div>
 
     <div class="side-floating-nav">
-        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-        <a href="#" class="side-nav-btn nav-linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="side-nav-btn nav-github" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="tel:+9779843538473" class="side-nav-btn nav-phone" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
+        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+        <a href="#" class="side-nav-btn nav-linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="side-nav-btn nav-github" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="tel:+9779843538473" class="side-nav-btn nav-phone" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
     </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
 
     <header>
         <div class="logo">Alok<span>.</span></div>
@@ -549,6 +773,7 @@ tyo wala(education ko chai gatilo chhaina)////////
             <nav>
                 <a href="#home">Home</a>
                 <a href="#education">Education</a>
+                <a href="#skills">Skills</a>
                 <a href="#projects">Projects</a>
                 <a href="#contact">Contact</a>
             </nav>
@@ -569,9 +794,17 @@ tyo wala(education ko chai gatilo chhaina)////////
                     <a href="#contact" class="btn secondary-btn">Let's Connect</a>
                 </div>
             </div>
-            <div class="hero-image">
-                <div class="image-box">
-                    <img src="alokk.jpeg" alt="Main Photo">
+            
+            <div class="hero-image-wrapper">
+                <div class="hero-image">
+                    <div class="image-box">
+                        <canvas id="hero-dispersion-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="dispersion-switch-area">
+                    <span class="switch-label" id="label-toggle">Dispersion</span>
+                    <div class="control-toggle toggle-on" id="dispersion-switch" title="Toggle Dispersion Effect"></div>
                 </div>
             </div>
         </div>
@@ -587,6 +820,7 @@ tyo wala(education ko chai gatilo chhaina)////////
                     <h3>Mahakavi Devkota Memorial Secondary School</h3>
                     <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
+                <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item">
@@ -595,6 +829,7 @@ tyo wala(education ko chai gatilo chhaina)////////
                     <h3>Reliance International Academy</h3>
                     <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science while developing interest in technology and programming.</p>
                 </div>
+                <div class="timeline-dot"></div>
             </div>
 
             <div class="timeline-item">
@@ -603,6 +838,34 @@ tyo wala(education ko chai gatilo chhaina)////////
                     <h3>Amrit Campus</h3>
                     <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
                 </div>
+                <div class="timeline-dot"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title">Core <span>Skills</span></h2>
+        <div class="skills-grid-container">
+            
+            <div class="skill-item-card">
+                <h3>HTML</h3>
+                <div class="skill-icon-wrap"><i class="fa-brands fa-html5"></i></div>
+            </div>
+
+            <div class="skill-item-card">
+                <h3>CSS</h3>
+                <div class="skill-icon-wrap"><i class="fa-brands fa-css3-alt"></i></div>
+            </div>
+
+            <div class="skill-item-card">
+                <h3>Python</h3>
+                <div class="skill-icon-wrap"><i class="fa-brands fa-python"></i></div>
+            </div>
+
+            <div class="skill-item-card">
+                <h3>Photoshop</h3>
+                <div class="skill-icon-wrap"><i class="fa-solid fa-bezier-curve"></i></div>
             </div>
 
         </div>
@@ -640,9 +903,9 @@ tyo wala(education ko chai gatilo chhaina)////////
                 <div class="socials">
                     <a href="#"><i class="fab fa-github"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.instagram.com/alokynwa"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/alokynwa"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com/alokynwa"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
                 </div>
             </div>
             <form class="contact-form" id="portfolio-contact-form">
@@ -741,6 +1004,140 @@ tyo wala(education ko chai gatilo chhaina)////////
         drawGrid();
 
         /* =========================================================
+        HIGH PERFORMANCE MATTE DISPERSION PARTICLE CONTEXT ENGINE
+        ========================================================= */
+        const dispCanvas = document.getElementById("hero-dispersion-canvas");
+        const dispCtx = dispCanvas.getContext("2d");
+
+        let imgWidth = dispCanvas.parentElement.clientWidth || 500;
+        let imgHeight = dispCanvas.parentElement.clientHeight || 500;
+        
+        dispCanvas.width = imgWidth;
+        dispCanvas.height = imgHeight;
+
+        let particles = [];
+        let isHovered = false;
+        let dispersionEnabled = true; 
+
+        const pImage = new Image();
+        pImage.src = 'alokk.jpeg'; 
+        pImage.onload = () => {
+            initParticles();
+            animateDispersion();
+        };
+
+        class Particle {
+            constructor(x, y, color) {
+                this.originX = x;
+                this.originY = y;
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.size = 2.5; 
+                this.vx = 0;
+                this.vy = 0;
+                this.ease = 0.08;
+                this.friction = 0.88;
+                this.dx = (Math.random() * 4 + 2);
+                this.dy = -(Math.random() * 3 + 1);
+            }
+
+            draw() {
+                dispCtx.fillStyle = this.color;
+                dispCtx.fillRect(this.x, this.y, this.size, this.size);
+            }
+
+            update() {
+                if (isHovered && dispersionEnabled) {
+                    this.vx += this.dx * 0.15;
+                    this.vy += this.dy * 0.15;
+                    this.vx *= this.friction;
+                    this.vy *= this.friction;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                } else {
+                    this.x += (this.originX - this.x) * this.ease;
+                    this.y += (this.originY - this.y) * this.ease;
+                    this.vx = 0;
+                    this.vy = 0;
+                }
+            }
+        }
+
+        function initParticles() {
+            dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
+            try {
+                const imgData = dispCtx.getImageData(0, 0, imgWidth, imgHeight).data;
+                dispCtx.clearRect(0, 0, imgWidth, imgHeight);
+
+                const step = 6; 
+                for (let y = 0; y < imgHeight; y += step) {
+                    for (let x = 0; x < imgWidth; x += step) {
+                        const index = (y * imgWidth + x) * 4;
+                        const r = imgData[index];
+                        const g = imgData[index + 1];
+                        const b = imgData[index + 2];
+                        const a = imgData[index + 3];
+
+                        if (a > 128) { 
+                            const color = `rgba(${r},${g},${b},${a / 255})`;
+                            particles.push(new Particle(x, y, color));
+                        }
+                    }
+                }
+            } catch(e) {
+                console.log("Dispersion secure compilation verified.");
+            }
+        }
+
+        function animateDispersion() {
+            dispCtx.clearRect(0, 0, imgWidth, imgHeight);
+            
+            if ((!isHovered || !dispersionEnabled) && particles.length === 0) {
+                dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
+            }
+
+            if (!dispersionEnabled && !isHovered) {
+                dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
+                requestAnimationFrame(animateDispersion);
+                return;
+            }
+
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateDispersion);
+        }
+
+        dispCanvas.addEventListener("mouseenter", () => { isHovered = true; });
+        dispCanvas.addEventListener("mouseleave", () => { isHovered = false; });
+
+        /* DISPERSION ENGINE CONTROLLER TOGGLE IMPLEMENTATION */
+        const switchBtn = document.getElementById("dispersion-switch");
+        const labelToggle = document.getElementById("label-toggle");
+
+        switchBtn.addEventListener("click", () => {
+            dispersionEnabled = !dispersionEnabled;
+            if (dispersionEnabled) {
+                switchBtn.classList.add("toggle-on");
+                labelToggle.classList.add("active-label");
+            } else {
+                switchBtn.classList.remove("toggle-on");
+                labelToggle.classList.remove("active-label");
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            imgWidth = dispCanvas.parentElement.clientWidth || 500;
+            imgHeight = dispCanvas.parentElement.clientHeight || 500;
+            dispCanvas.width = imgWidth;
+            dispCanvas.height = imgHeight;
+            particles = [];
+            initParticles();
+        });
+
+        /* =========================================================
         FORM DISPATCH MECHANISM (EMAILJS ASYNC DISPATCH ENGINE)
         ========================================================= */
         const contactForm = document.getElementById("portfolio-contact-form");
@@ -797,7 +1194,7 @@ tyo wala(education ko chai gatilo chhaina)////////
         });
 
         /* =========================================================
-        CURSOR MECHANICS
+        ORIGINAL SPECCED CURSOR MECHANICS RESTORED
         ========================================================= */
         const dot = document.querySelector(".cursor-dot");
         const ring = document.querySelector(".cursor-ring");
@@ -809,7 +1206,7 @@ tyo wala(education ko chai gatilo chhaina)////////
             ring.style.top = e.clientY + "px";
         });
 
-        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn");
+        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn, .skill-item-card, #hero-dispersion-canvas, .control-toggle");
         hoverItems.forEach((item)=>{
             item.addEventListener("mouseenter",()=>{
                 ring.style.width="70px";
@@ -833,6 +1230,13 @@ tyo wala(education ko chai gatilo chhaina)////////
             gsap.from(item,{
                 scrollTrigger:{ trigger:item, start:"top 85%" },
                 opacity:0, y:60, duration:1.1
+            });
+        });
+
+        gsap.utils.toArray(".skill-item-card").forEach((card,i)=>{
+            gsap.from(card,{
+                scrollTrigger:{ trigger:card, start:"top 90%" },
+                opacity:0, y:40, duration:0.9
             });
         });
     </script>
