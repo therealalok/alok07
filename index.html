@@ -37,8 +37,8 @@ ROOT
 
 --border:rgba(255,255,255,.08);
 
---text:#F2F0EA;
---muted:#A0AEC0;
+--text:#F8F8F5; /* Soft white heading text */
+--muted:#AAB4C3; /* Premium muted gray-blue copy text */
 
 --gold:#D6C28A;
 --gold-soft:#C9B67E;
@@ -625,7 +625,7 @@ z-index:1;
 }
 
 /* =========================================================
-EDUCATION
+EDUCATION (PREMIUM TIMELINE CARD UI UPDATE)
 ========================================================= */
 
 .timeline{
@@ -635,6 +635,10 @@ max-width:1100px;
 margin:auto;
 
 position:relative;
+
+display: flex;
+
+flex-direction: column;
 
 }
 
@@ -656,7 +660,7 @@ background:
 linear-gradient(
 to bottom,
 transparent,
-rgba(214,194,138,.7),
+rgba(214,194,138,.4),
 transparent
 );
 
@@ -666,9 +670,13 @@ transparent
 
 width:50%;
 
-padding:40px 55px;
+padding:30px 55px;
 
 position:relative;
+
+display: flex;
+
+flex-direction: column;
 
 }
 
@@ -676,7 +684,7 @@ position:relative;
 
 left:0;
 
-text-align:right;
+align-self: flex-start;
 
 }
 
@@ -684,76 +692,110 @@ text-align:right;
 
 left:50%;
 
+align-self: flex-start;
+
 }
 
 .timeline-dot{
 
 position:absolute;
 
-top:50px;
+top:76px;
 
-width:18px;
-height:18px;
+width:12px;
+height:12px;
 
-background:var(--gold);
+background:var(--bg);
+
+border: 2px solid rgba(214, 194, 138, 0.4);
 
 border-radius:50%;
 
-box-shadow:
-0 0 18px rgba(214,194,138,.5);
+z-index: 2;
+
+transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 
 }
 
 .timeline-item:nth-child(odd) .timeline-dot{
-right:-9px;
+right:-6px;
 }
 
 .timeline-item:nth-child(even) .timeline-dot{
-left:-9px;
+left:-6px;
 }
 
+/* Luxury Futuristic Timeline Card Architecture */
 .timeline-content{
 
-padding:38px;
+padding:40px;
 
-border-radius:30px;
+border-radius:24px;
 
-/* Updated Box Color: Elegant Tinted Glassmorphism to let background grid breathe */
-background: rgba(15, 23, 36, 0.45);
+background: #071826;
 
-border:1px solid var(--gold);
+border: 1px solid rgba(214, 194, 138, 0.15);
 
-backdrop-filter:blur(20px);
+backdrop-filter: blur(16px);
 
--webkit-backdrop-filter: blur(20px);
+-webkit-backdrop-filter: blur(16px);
 
-box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+box-shadow: 
+0 4px 30px rgba(0, 0, 0, 0.2),
+0 0 40px rgba(214, 194, 138, 0.02);
 
-transition: all .45s cubic-bezier(0.25, 1, 0.5, 1);
+transform: scale(1) translateY(0);
+
+transition: 
+background 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+
+cursor: pointer;
 
 }
 
+/* Smooth Premium Hover Actions */
 .timeline-content:hover{
 
-transform:translateY(-8px);
+transform: translateY(-8px) scale(1.02);
+
+background: #0B2235;
+
+border-color: rgba(214, 194, 138, 0.5);
+
+box-shadow: 
+0 25px 60px rgba(0, 0, 0, 0.5),
+0 0 30px rgba(214, 194, 138, 0.12);
+
+}
+
+/* Node Sync Glow Trigger via Sibling Interaction */
+.timeline-content:hover ~ .timeline-dot {
+
+background: var(--gold);
 
 border-color: var(--gold);
 
-box-shadow:
-0 0 30px rgba(214, 194, 138, 0.25),
-0 15px 40px rgba(0, 0, 0, 0.55);
+box-shadow: 0 0 18px rgba(214, 194, 138, 0.6);
+
+transform: scale(1.2);
 
 }
 
+/* Sophisticated Dark Minimal Date Badge */
 .year{
 
 display:inline-block;
 
 padding:6px 14px;
 
-border-radius:50px;
+border-radius:8px;
 
-background:rgba(214,194,138,.1);
+background: #040E16;
+
+border: 1px solid rgba(214, 194, 138, 0.1);
 
 color:var(--gold);
 
@@ -761,17 +803,23 @@ font-size:.75rem;
 
 font-weight:600;
 
-letter-spacing: 0.8px;
+letter-spacing: 1px;
 
-margin-bottom:18px;
+margin-bottom:22px;
 
+}
+
+.timeline-item:nth-child(odd) .timeline-content {
+text-align: left;
 }
 
 .timeline-content h3{
 
-font-size:1.35rem;
+font-size:1.45rem;
 
-font-weight: 700;
+font-weight: 600;
+
+color: var(--text);
 
 letter-spacing: -0.3px;
 
@@ -779,17 +827,15 @@ margin-bottom:14px;
 
 line-height: 1.4;
 
-text-shadow: 0 4px 10px rgba(0,0,0,0.3);
-
 }
 
 .timeline-content p{
 
-line-height:1.8;
+line-height:1.85;
 
 color:var(--muted);
 
-font-size: 0.95rem;
+font-size: 0.98rem;
 
 font-weight: 400;
 
@@ -1321,13 +1367,13 @@ text-align:left !important;
 }
 
 .timeline-dot{
-left:15px !important;
+left:18px !important;
 right: auto !important;
-top: 35px;
+top: 61px !important;
 }
 
 .timeline-content{
-padding: 25px;
+padding: 30px;
 }
 
 }
@@ -1448,66 +1494,30 @@ Education <span>Journey</span>
 <div class="timeline">
 
 <div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
 <div class="timeline-content">
-
-<div class="year">
-2010 — 2022
+<div class="year">2010 — 2022</div>
+<h3>Mahakavi Devkota Memorial Secondary School</h3>
+<p>Completed SEE with a GPA of 3.75 while developing strong foundations in creativity, digital media, visual storytelling, and technology.</p>
 </div>
-
-<h3>
-Mahakavi Devkota Memorial Secondary School
-</h3>
-
-<p>
-Completed SEE with a GPA of 3.75 while developing strong foundations in creativity, digital media, visual storytelling, and technology.
-</p>
-
-</div>
+<div class="timeline-dot"></div>
 </div>
 
 <div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
 <div class="timeline-content">
-
-<div class="year">
-2022 — 2024
+<div class="year">2022 — 2024</div>
+<h3>Reliance International Academy</h3>
+<p>Completed +2 Science with Computer Science while exploring cinematic sports artwork and premium football campaign design.</p>
 </div>
-
-<h3>
-Reliance International Academy
-</h3>
-
-<p>
-Completed +2 Science with Computer Science while exploring cinematic sports artwork and premium football campaign design.
-</p>
-
-</div>
+<div class="timeline-dot"></div>
 </div>
 
 <div class="timeline-item">
-
-<div class="timeline-dot"></div>
-
 <div class="timeline-content">
-
-<div class="year">
-2024 — Present
+<div class="year">2024 — Present</div>
+<h3>Amrit Campus</h3>
+<p>Currently pursuing Bachelor's in CSIT while building a premium cinematic sports design portfolio inspired by elite modern creative direction.</p>
 </div>
-
-<h3>
-Amrit Campus
-</h3>
-
-<p>
-Currently pursuing Bachelor's in CSIT while building a premium cinematic sports design portfolio inspired by elite modern creative direction.
-</p>
-
-</div>
+<div class="timeline-dot"></div>
 </div>
 
 </div>
