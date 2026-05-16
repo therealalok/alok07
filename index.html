@@ -46,7 +46,7 @@
             --gold-gradient: linear-gradient(135deg, #FFF7E6 0%, #D6C28A 50%, #A68E51 100%);
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
-            --grid-color: rgba(255, 255, 255, 0.15); /* Adjusted opacity so grid lines don't overwhelm */
+            --grid-color: rgba(255, 255, 255, 0.15);
             --timeline-bg: rgba(255, 255, 255, 0.03);
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
@@ -189,7 +189,6 @@
         nav a:hover{ color:var(--text); }
         nav a:hover::after{ width:100%; }
 
-        /* FIXED: Replaced non-existent variable var(--bg2) with var(--btn-hover-bg) */
         .theme-switch-btn {
             background: transparent;
             border: 1px solid var(--border);
@@ -230,11 +229,35 @@
         .secondary-btn{ background:rgba(255,255,255,.04); border:1px solid var(--border); color: var(--text); backdrop-filter:blur(18px); }
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
+        /* =========================================================
+        HERO IMAGE & GLOW
+        ========================================================= */
         .hero-image{ display:flex; justify-content:center; }
-        .image-box{ width:450px; height:620px; border-radius:35px; overflow:hidden; position:relative; border:1px solid var(--border); background:rgba(255,255,255,.04); box-shadow: 0 25px 80px rgba(0,0,0,.45); }
+        
+        .image-box{ 
+            width:450px; 
+            height:620px; 
+            border-radius:35px; 
+            overflow:hidden; 
+            position:relative; 
+            border:1px solid var(--border); 
+            background:rgba(255,255,255,.04); 
+            box-shadow: 0 25px 80px rgba(0,0,0,.45);
+            /* Added smooth transitions for structural auras */
+            transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
         .image-box img{ width:100%; height:100%; object-fit:cover; transition:1s ease; }
         .image-box:hover img{ transform:scale(1.08); }
         .image-box::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); z-index:1; }
+        
+        /* FIXED: Integrated cinematic luxury glow framework on hover */
+        .image-box:hover {
+            transform: translateY(-4px);
+            border-color: var(--gold);
+            box-shadow: 
+                0 30px 70px rgba(0, 0, 0, 0.5),
+                0 0 50px var(--card-glow);
+        }
 
         /* =========================================================
         EDUCATION (THEME DYNAMIC CONFIG)
@@ -245,12 +268,10 @@
         .timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
         .timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
         
-        /* FIXED: Set dynamic border background */
         .timeline-dot{ position:absolute; top:88px; width:18px; height:18px; background: var(--bg-gradient); border: 2px solid var(--gold); border-radius:50%; z-index: 2; transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1); }
         .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
         .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
 
-        /* FIXED: Converted hardcoded card backgrounds into responsive theme components */
         .timeline-content{
             padding:50px;
             border-radius:24px;
@@ -428,12 +449,14 @@
         <h2 class="section-title">Featured <span>Projects</span></h2>
         <div class="projects-grid">
             <div class="project-card">
+                <img src="img1.jpg" alt="">
                 <div class="project-content">
                     <h3>FIFA World Cup 2026</h3>
                     <p>Luxury football campaign artwork inspired by elite sports visuals and cinematic storytelling.</p>
                 </div>
             </div>
             <div class="project-card">
+                <img src="img2.jpg" alt="">
                 <div class="project-content">
                     <h3>Liverpool VS Chelsea</h3>
                     <p>Premium editorial football design blending dramatic rivalry emotion with cinematic aesthetics.</p>
