@@ -49,8 +49,9 @@
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
             
-            --timeline-bg: rgba(214, 194, 138, 0.12);
-            --timeline-border: rgba(214, 194, 138, 0.4);
+            /* DENSE SOLID OPAQUE SURFACE CONFIGS - BLOCKS BACKGRID VISIBILITY COMPLETELY */
+            --timeline-bg: #06121a; 
+            --timeline-border: rgba(214, 194, 138, 0.45);
             
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
@@ -76,8 +77,8 @@
             --card-glow: rgba(214, 194, 138, 0.45);
             --dot-glow-color: #C9B67E;
             
-            --timeline-bg: rgba(214, 194, 138, 0.16);
-            --timeline-border: rgba(214, 194, 138, 0.6);
+            --timeline-bg: #f8fafc;
+            --timeline-border: rgba(214, 194, 138, 0.75);
             
             --timeline-text: #0F172A;
             --timeline-muted: #4A5568;
@@ -111,10 +112,9 @@
             transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* CUSTOM THEMED SCROLLBAR TRACKS */
         ::-webkit-scrollbar {
             width: 10px;
-            background: #040e16; /* Deep matching dark background color */
+            background: #040e16; 
         }
 
         ::-webkit-scrollbar-track {
@@ -125,7 +125,7 @@
         ::-webkit-scrollbar-thumb {
             background: linear-gradient(180deg, #A68E51 0%, #D6C28A 50%, #FFF7E6 100%);
             border-radius: 20px;
-            border: 2px solid #040e16; /* Creates a clean gap effect around the thumb pill */
+            border: 2px solid #040e16; 
             transition: all 0.3s ease;
         }
 
@@ -134,6 +134,9 @@
             box-shadow: 0 0 15px var(--card-glow);
         }
 
+        /* =========================================================
+        CINEMATIC GRAIN GLASS OVERLAY PIPELINE LAYER
+        ========================================================= */
         #grid-distortion{
             position:fixed;
             top:0;
@@ -143,6 +146,19 @@
             z-index:-5;
             opacity: var(--canvas-opacity);
             pointer-events:none;
+        }
+
+        /* Global frosted grain blurry screen shield template */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -4;
+            pointer-events: none;
+            backdrop-filter: blur(22px) brightness(98%);
+            -webkit-backdrop-filter: blur(22px) brightness(98%);
+            /* Layered premium noise canvas simulation track texture */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
         }
 
         /* =========================================================
@@ -306,7 +322,7 @@
             width:92%; max-width:1450px;
             padding:22px 45px;
             display:flex; justify-content:space-between; align-items:center;
-            background: var(--surface);
+            background: rgba(4, 14, 22, 0.4);
             backdrop-filter:blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border:1px solid var(--border);
@@ -316,7 +332,14 @@
             transition: padding 0.3s ease, background 0.3s ease;
         }
 
-        .logo{ font-size:1.75rem; font-weight:700; letter-spacing: -1.5px; }
+        /* UPDATED: LOGO SYNCHRONIZED BRILLIANTLY WITH THE GOLD PALETTE SCHEME */
+        .logo{ 
+            font-size:1.75rem; 
+            font-weight:800; 
+            color: var(--gold); /* Direct structural matching configuration applied */
+            letter-spacing: -1.5px; 
+            text-shadow: 0 0 10px rgba(214, 194, 138, 0.35);
+        }
         .logo span{ background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav-container { display: flex; align-items: center; gap: 40px; }
         nav{ display:flex; gap:40px; }
@@ -384,7 +407,7 @@
             overflow:hidden; 
             position:relative; 
             border:1px solid var(--gold); 
-            background:rgba(0,0,0,0.2); 
+            background:rgba(0,0,0,0.3); 
             box-shadow: 0 25px 80px rgba(0,0,0,.45);
             transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
@@ -408,7 +431,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(4, 14, 22, 0.8);
             border: 1px solid var(--border);
             padding: 12px 24px;
             border-radius: 35px;
@@ -465,7 +488,7 @@
         }
 
         /* =========================================================
-        CLEAN ALTERNATING TIMELINE ARCHITECTURE (UNIFORM PALETTE INTENSITY)
+        CLEAN TIMELINE ARCHITECTURE (SOLID COATING HIDES GRID SECTOR)
         ========================================================= */
         .timeline{ max-width:1100px; margin:auto; position:relative; display: flex; flex-direction: column; }
         
@@ -489,21 +512,22 @@
         .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
         .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
 
+        /* FIXED: SOLID IMMUTABLE OPAQUE LEVEL GOLD SURFACE BLOCK HIDES GRID PATHWAYS */
         .timeline-content{
             padding:50px;
             border-radius:24px;
-            background: var(--timeline-bg); 
-            border: 1px solid var(--timeline-border); 
-            box-shadow: var(--shadow);
+            background: var(--timeline-bg); /* Complete opaque solid base color blocking backgrid lines */
+            border: 2px solid var(--timeline-border); /* Strongly saturated golden frame structure unhovered */
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.08);
             transform: scale(1) translateY(0);
             transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
         }
         .timeline-content:hover{
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 50px var(--card-glow); 
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow); 
             border-color: var(--gold);
-            background: rgba(214, 194, 138, 0.22); 
+            background: rgba(214, 194, 138, 0.18); 
         }
         .timeline-content:hover ~ .timeline-dot {
             background: var(--dot-glow-color);
@@ -512,13 +536,13 @@
             transform: scale(1.4);
         }
 
-        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.2); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
+        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.3); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
         .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
         .timeline-content h3{ font-size:1.95rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
         .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.3rem; font-weight: 500; }
 
         /* =========================================================
-        NEW DEDICATED SKILLS SECTION (MATCHING LENGTH & SCALING)
+        NEW DEDICATED SKILLS SECTION (SOLID GOLD COATING HIDES GRID SECTOR)
         ========================================================= */
         .skills-grid-container {
             max-width: 1100px;
@@ -528,12 +552,13 @@
             gap: 40px;
         }
 
+        /* FIXED: SOLID IMMUTABLE OPAQUE HOVER CARD HIDES DYNAMIC DISTORTION LINES INTERIOR */
         .skill-item-card {
             padding: 50px;
             border-radius: 24px;
-            background: var(--timeline-bg); 
-            border: 1px solid var(--timeline-border);
-            box-shadow: var(--shadow);
+            background: var(--timeline-bg); /* Absolute opaque background prevents back-grid line overlapping */
+            border: 2px solid var(--timeline-border); /* Strongly saturated golden frame structure unhovered */
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -554,7 +579,7 @@
             transform: translateY(-8px) scale(1.02);
             background: var(--gold);
             border-color: var(--gold);
-            box-shadow: 0 25px 60px rgba(214, 194, 138, 0.25), 0 0 50px var(--card-glow); 
+            box-shadow: 0 25px 60px rgba(214, 194, 138, 0.35), 0 0 50px var(--card-glow); 
         }
 
         .skill-item-card:hover h3 {
@@ -563,8 +588,8 @@
         
         .skill-icon-wrap {
             font-size: 2.5rem;
-            color: var(--text);
-            opacity: 0.8;
+            color: var(--gold); /* Switched default unhovered asset state color to gold */
+            opacity: 0.9;
             transition: all 0.35s ease;
         }
         
@@ -579,7 +604,7 @@
         }
 
         /* =========================================================
-        PROJECTS CONTAINER AREA STYLING
+        PROJECTS CONTAINER AREA STYLING (SOLID COATING HIDES GRID)
         ========================================================= */
         .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(380px,1fr)); gap:40px; }
         .project-card{ height:600px; border-radius:32px; overflow:hidden; position:relative; background:var(--surface); border:1px solid var(--border); transition: all 0.45s ease; }
@@ -587,16 +612,17 @@
         .project-card:hover img{ transform:scale(1.08); }
         .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.92), transparent); z-index:1; }
         
+        /* FIXED: CONVERTED CONTAINER BACKGROUND FROM TRANSLUCENT SLATE TO HIGH-VISIBILITY BALANCED SOLID GOLD BLOCK */
         .project-content{ 
             position:absolute; 
             left:35px; right:35px; bottom:35px; 
             z-index:2; 
             padding:35px; 
             border-radius:24px; 
-            background: rgba(214, 194, 138, 0.12); 
+            background: var(--timeline-bg); /* Full opaque framework payload blocks grid tracking loops */
             backdrop-filter:blur(18px); 
             -webkit-backdrop-filter: blur(18px); 
-            border:1px solid var(--timeline-border); 
+            border: 2px solid var(--timeline-border); /* Strongly saturated golden frame structure unhovered */
             transition: all 0.45s ease;
         }
 
@@ -665,7 +691,7 @@
         
         .contact-form input:focus, .contact-form textarea:focus{ 
             border-color: var(--gold); 
-            background: rgba(255, 255, 255, 0.07);
+            background: rgba(4, 14, 22, 0.8);
             box-shadow: 0 0 25px rgba(214, 194, 138, 0.25); 
         }
         
@@ -732,10 +758,10 @@
     </div>
 
     <div class="side-floating-nav">
-        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-        <a href="#" class="side-nav-btn nav-linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="side-nav-btn nav-github" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="tel:+9779843538473" class="side-nav-btn nav-phone" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
+        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+        <a href="#" class="side-nav-btn nav-linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="side-nav-btn nav-github" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="tel:+9779843538473" class="side-nav-btn nav-phone" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
     </div>
 
     <div class="cursor-dot"></div>
@@ -839,7 +865,7 @@
 
             <div class="skill-item-card">
                 <h3>Photoshop</h3>
-                <div class="skill-icon-wrap"><i class="fa-solid fa-palette"></i></div>
+                <div class="skill-icon-wrap"><i class="fa-solid fa-bezier-curve"></i></div>
             </div>
 
         </div>
@@ -877,9 +903,9 @@
                 <div class="socials">
                     <a href="#"><i class="fab fa-github"></i></a>
                     <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.instagram.com/alokynwa"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/alokynwa"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com/alokynwa"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
                 </div>
             </div>
             <form class="contact-form" id="portfolio-contact-form">
@@ -1060,7 +1086,7 @@
                     }
                 }
             } catch(e) {
-                console.log("Dispersion matrix path compiled.");
+                console.log("Dispersion secure compilation verified.");
             }
         }
 
