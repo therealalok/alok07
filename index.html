@@ -516,7 +516,7 @@
         top:0; transform:translateX(-50%); width:3px; height:100%; background: var(--gold); box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); display: block !important;
         }
 
-        .timeline-item{ width:50%; padding:40px 55px; position:relative; display: flex; flex-direction: column;
+        .timeline-item{ width:50%; padding:40px 55px; position:relative; display: flex; flex-direction: column; z-index: 1;
         }
         .timeline-item:nth-child(odd){ left:0; align-self: flex-start;
         }
@@ -538,12 +538,45 @@
             cursor: pointer;
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
+            transform-origin: center center;
         }
-        .timeline-content:hover{
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--dark-blue-glow);
-            background: rgba(214, 194, 138, 0.28);
+        
+        /* 2x Enlarge Configuration with Darker Opaque Background Layer on Desktop Hover */
+        @media(min-width: 1201px) {
+            .timeline-item:hover {
+                z-index: 10; /* Bring hovered block above neighboring timelines */
+            }
+            .timeline-item:nth-child(odd) .timeline-content:hover {
+                transform: scale(2) translateX(15%); /* Slight push off-line for clear symmetry */
+                background: #020b12 !important;
+                border-color: var(--gold) !important;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), var(--dark-blue-glow);
+            }
+            .timeline-item:nth-child(even) .timeline-content:hover {
+                transform: scale(2) translateX(-15%); /* Slight push off-line for clear symmetry */
+                background: #020b12 !important;
+                border-color: var(--gold) !important;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), var(--dark-blue-glow);
+            }
+            [data-theme="light"] .timeline-content:hover {
+                background: #0d1527 !important; /* Ensure readable dark contrast during light mode hover */
+            }
+            .timeline-content:hover h3 {
+                font-size: 2.3rem !important;
+                color: #ffffff !important;
+            }
+            .timeline-content:hover p {
+                font-size: 1.45rem !important;
+                color: #ffffff !important;
+            }
+            .timeline-content:hover .school-logo-mask {
+                width: 125px !important;
+                height: 125px !important;
+                border-color: var(--gold) !important;
+                transform: scale(1.1) rotate(0deg) !important; /* Rotation fully fixed/removed */
+            }
         }
+
         .timeline-content:hover ~ .timeline-dot {
             background: #FFFFFF;
             border-color: #031421;
@@ -579,52 +612,14 @@
             background: #ffffff;
             padding: 4px;
             border: 2px solid var(--education-border);
-            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease, width 0.45s ease, height 0.45s ease;
             flex-shrink: 0;
             clip-path: circle(50% at 50% 50%);
         }
         .timeline-content:hover .school-logo-mask {
-            transform: scale(1.08) rotate(4deg);
+            transform: scale(1.08);
             border-color: var(--gold);
             box-shadow: 0 0 20px rgba(214, 194, 138, 0.5);
-        }
-
-        /* Mirror Duplication Mechanics Layer */
-        .mirrored-education-clone {
-            position: absolute;
-            width: 50%;
-            padding: 40px 55px;
-            pointer-events: none;
-            z-index: 10;
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .mirrored-education-clone.visible {
-            opacity: 1;
-            transform: scale(1.18);
-        }
-        .mirrored-education-clone .timeline-content {
-            background: #020b12 !important;
-            border-color: var(--gold) !important;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), var(--dark-blue-glow) !important;
-        }
-        [data-theme="light"] .mirrored-education-clone .timeline-content {
-            background: #0d1527 !important;
-        }
-        .mirrored-education-clone .timeline-content h3 {
-            font-size: 2.3rem !important;
-            color: #ffffff !important;
-        }
-        .mirrored-education-clone .school-logo-mask {
-            width: 125px !important;
-            height: 125px !important;
-            transform: scale(1.1) rotate(-4deg) !important;
-            border-color: var(--gold) !important;
-        }
-        .mirrored-education-clone .timeline-content p {
-            font-size: 1.45rem !important;
-            color: #ffffff !important;
         }
 
         .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr);
@@ -910,13 +905,9 @@
                 /* Stack vertically for seamless scrolling on smaller tablets */
                 gap: 40px;
             }
-            /* Disable mirrors on tablet/mobile where layout isn't split into two halves */
-            .mirrored-education-clone {
-                display: none !important;
-            }
         }
 
-        @media(max-width768px){
+        @media(max-width:768px){
             header { border-radius: 30px;
             padding: 15px 25px; width: 95%; }
             .nav-container { gap: 15px;
@@ -1497,54 +1488,6 @@
                 opacity:0, y:40, duration:0.9
             });
         });
-
-        // Alternate Side Interactive Mirrored Duplication Tracker script
-        if (window.innerWidth > 1200) {
-            const timelineItems = document.querySelectorAll(".timeline-item");
-            timelineItems.forEach((item) => {
-                const contentBlock = item.querySelector(".timeline-content");
-                
-                contentBlock.addEventListener("mouseenter", () => {
-                    // Create the deep clone duplicate box
-                    const cloneContainer = document.createElement("div");
-                    cloneContainer.className = "mirrored-education-clone";
-                    cloneContainer.innerHTML = contentBlock.outerHTML;
-                    
-                    // Determine mirror configuration based on current odd/even node structure
-                    const parentIsOdd = item.matches(":nth-child(odd)");
-                    if (parentIsOdd) {
-                        cloneContainer.style.left = "50%";
-                    } else {
-                        cloneContainer.style.left = "0";
-                    }
-                    
-                    // Anchor layout positions securely beside source lines
-                    cloneContainer.style.top = item.offsetTop + "px";
-                    
-                    // Insert into DOM tree cleanly
-                    item.parentElement.appendChild(cloneContainer);
-                    
-                    // Trigger visual pop execution frames
-                    requestAnimationFrame(() => {
-                        cloneContainer.classList.add("visible");
-                    });
-                    
-                    // Keep instance cached inside context scope reference parameters
-                    contentBlock._activeMirrorClone = cloneContainer;
-                });
-                
-                contentBlock.addEventListener("mouseleave", () => {
-                    const activeClone = contentBlock._activeMirrorClone;
-                    if (activeClone) {
-                        activeClone.classList.remove("visible");
-                        activeClone.addEventListener("transitionend", () => {
-                            activeClone.remove();
-                        });
-                        contentBlock._activeMirrorClone = null;
-                    }
-                });
-            });
-        }
     </script>
 </body>
 </html>
