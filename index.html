@@ -263,6 +263,19 @@ transform: scale(1.05);
 .side-nav-btn { width: 46px; height: 46px; font-size: 1.15rem; }
 }
 
+.timeline-dot{
+width:18px;
+height:18px;
+background: var(--dot-glow-color);
+border:2px solid #FFFFFF;
+position:absolute;
+border-radius:50%;
+top:88px;
+z-index:2;
+box-shadow: 0 0 10px #FFFFFF, 0 0 15px var(--dot-glow-color);
+transition:.25s ease;
+}
+
 .cursor-dot {
 width: 6px;
 height: 6px;
@@ -415,27 +428,23 @@ border-radius: 50%; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), ba
 border-color: var(--gold); }
 .control-toggle.toggle-on::after { transform: translateX(30px); background: var(--gold-gradient); box-shadow: 0 0 12px var(--gold); }
 
-/* Bespoke Editorial Handcrafted Timeline */
-.timeline{ max-width:1200px; margin:auto; display: flex; flex-direction: column; gap: 50px; width: 100%; position: relative; }
-.timeline::before { display: none !important; }
+/* Reinstated Classic Alternating Timeline Design */
+.timeline{ max-width:1100px; margin:auto; position:relative; display: flex;
+flex-direction: column; width: 100%; }
+.timeline::before{ content:''; position:absolute; left:50%; top:0; transform:translateX(-50%); width:3px; height:100%; background: var(--gold);
+box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); display: block !important; }
 
-.timeline-item{ width: 100%; display: grid; grid-template-columns: 0.35fr 1fr; gap: 40px; align-items: start; position: relative; }
-
-.timeline-year-side {
-font-size: clamp(2rem, 4.5vw, 4rem);
-font-weight: 900;
-color: var(--gold);
-background: var(--gold-gradient);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-letter-spacing: -1px;
-line-height: 1;
-padding-top: 10px;
-text-align: right;
+.timeline-item{ width:50%; padding:40px 45px; position:relative; display: flex; flex-direction: column;
+}
+.timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
+.timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
+.timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
+.timeline-item:nth-child(even) .timeline-dot{ left:-9px;
 }
 
+/* Original Timeline Architecture with Golden Surfaces and Dark Blue Glows */
 .timeline-content{
-padding:45px;
+padding:40px;
 border-radius:24px;
 background: var(--education-bg);
 border: 2px solid var(--education-border);
@@ -446,13 +455,22 @@ backdrop-filter: blur(16px);
 -webkit-backdrop-filter: blur(16px);
 }
 .timeline-content:hover{
-transform: translateY(-8px) scale(1.015);
+transform: translateY(-8px) scale(1.02);
 box-shadow: var(--dark-blue-glow);
 background: rgba(214, 194, 138, 0.28);
-border-color: var(--gold);
+}
+.timeline-content:hover ~ .timeline-dot {
+background: #FFFFFF;
+border-color: #031421;
+box-shadow: 0 0 20px rgba(3, 20, 33, 0.8), 0 0 30px #FFFFFF;
+transform: scale(1.4);
 }
 
-.timeline-content h3{ font-size:1.9rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:14px; line-height: 1.35; }
+.year{ display:inline-block;
+padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.6); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px;
+}
+.timeline-item:nth-child(odd) .timeline-content { text-align: left; }
+.timeline-content h3{ font-size:1.8rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
 .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.2rem; font-weight: 500; }
 
 .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;
@@ -655,8 +673,10 @@ color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px so
 .hero-buttons{ justify-content:center; }
 .hero p{ margin:auto auto 45px; }
 .image-box{ width: 380px; height: 380px; margin:auto; }
-.timeline-item { grid-template-columns: 1fr; gap: 15px; }
-.timeline-year-side { text-align: left; }
+.timeline::before{ left:24px; }
+.timeline-item{ width:100%; padding: 25px 20px 25px 60px; left:0 !important; text-align:left !important; }
+.timeline-dot{ left:16px !important; right: auto !important; top: 73px !important; }
+.timeline-content{ padding: 35px; }
 }
 
 @media(max-width:768px){
@@ -740,27 +760,30 @@ section { padding: 80px 6%; }
 <div class="timeline">
 
 <div class="timeline-item">
-<div class="timeline-year-side">2010 — 2022</div>
 <div class="timeline-content">
+<div class="year">2010 — 2022</div>
 <h3>Mahakavi Devkota Memorial Secondary School</h3>
 <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
 </div>
+<div class="timeline-dot"></div>
 </div>
 
 <div class="timeline-item">
-<div class="timeline-year-side">2022 — 2024</div>
 <div class="timeline-content">
+<div class="year">2022 — 2024</div>
 <h3>Reliance International Academy</h3>
 <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
 </div>
+<div class="timeline-dot"></div>
 </div>
 
 <div class="timeline-item">
-<div class="timeline-year-side">2024 — Present</div>
 <div class="timeline-content">
+<div class="year">2024 — Present</div>
 <h3>Amrit Campus</h3>
 <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
 </div>
+<div class="timeline-dot"></div>
 </div>
 
 </div>
