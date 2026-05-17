@@ -46,15 +46,6 @@
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
             
-            /* Persistent Glowing Styles for Education Journey Cards */
-            --education-bg: rgba(214, 194, 138, 0.14);
-            --education-border: #D6C28A;
-            --education-box-shadow: 0 20px 50px rgba(214, 194, 138, 0.2), 0 0 35px rgba(214, 194, 138, 0.15);
-            
-            /* Default Muted Styles for Skill Cards */
-            --skills-bg: rgba(255, 255, 255, .045);
-            --skills-border: rgba(255, 255, 255, .08);
-            
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
             --btn-hover-bg: #F8F8F5;
@@ -77,13 +68,6 @@
             --shadow: 0 25px 70px rgba(148, 163, 184, 0.25);
             --card-glow: rgba(214, 194, 138, 0.45);
             --dot-glow-color: #C9B67E;
-            
-            --education-bg: rgba(214, 194, 138, 0.2);
-            --education-border: #D6C28A;
-            --education-box-shadow: 0 15px 45px rgba(214, 194, 138, 0.25);
-            
-            --skills-bg: rgba(0, 0, 0, .03);
-            --skills-border: rgba(0, 0, 0, .08);
             
             --timeline-text: #0F172A;
             --timeline-muted: #2D3748;
@@ -380,7 +364,6 @@
         .hero-buttons{ display:flex; gap:24px; flex-wrap:wrap; }
         .btn{ padding:20px 42px; border-radius:999px; text-decoration:none; font-weight:700; font-size: 1.2rem; transition: all 0.35s ease; }
         
-        /* Premium View Projects Section Button */
         .primary-btn{ background: var(--gold-gradient); color:#111; box-shadow: 0 15px 35px rgba(214,194,138,.3); border: 1px solid var(--gold); }
         .primary-btn:hover{ transform:translateY(-6px); background:#111; color:var(--gold); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
         
@@ -424,22 +407,32 @@
         .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
         .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
 
-        /* Education Boxes - Fixed Golden Look Natively Without Needing Hover */
+        /* Premium Fully Opaque Golden Education Boxes with Contrasting Text Layout */
         .timeline-content{
             padding:40px;
             border-radius:24px;
-            background: var(--education-bg); 
-            border: 2px solid var(--education-border);
-            box-shadow: var(--education-box-shadow);
+            background: var(--gold-gradient) !important; 
+            border: 2px solid var(--gold);
+            box-shadow: 0 20px 50px rgba(214, 194, 138, 0.35), 0 0 35px rgba(214, 194, 138, 0.2);
             transform: scale(1) translateY(0);
             transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
             cursor: pointer;
         }
+        .timeline-content h3 { color: #031421 !important; }
+        .timeline-content p { color: #16222f !important; font-weight: 600; }
+        .timeline-content .year { background: #031421 !important; color: var(--gold) !important; border-color: #031421; }
+
+        /* Smooth Interactive Hover Reversal Frame */
         .timeline-content:hover{
             transform: translateY(-8px) scale(1.02);
+            background: transparent !important;
+            border-color: var(--gold);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow); 
-            background: rgba(214, 194, 138, 0.22); 
         }
+        .timeline-content:hover h3 { color: var(--text) !important; }
+        .timeline-content:hover p { color: var(--muted) !important; font-weight: 500; }
+        .timeline-content:hover .year { background: #040E16 !important; color: var(--gold) !important; border-color: rgba(214, 194, 138, 0.6); }
+
         .timeline-content:hover ~ .timeline-dot {
             background: #FFFFFF;
             border-color: var(--dot-glow-color);
@@ -447,70 +440,49 @@
             transform: scale(1.4);
         }
 
-        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.6); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
-        .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
-        .timeline-content h3{ font-size:1.8rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
-        .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.2rem; font-weight: 500; }
-       
         .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; }
 
-        /* Skill Cards - Separated from Education Styles to Prevent Idle Glows */
+        /* Premium Fully Opaque Golden Core Skill Cards with Contrasting Typography */
         .skill-item-card {
             padding: 40px;
             border-radius: 24px;
-            background: var(--skills-bg);
-            border: 2px solid var(--skills-border);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+            background: var(--gold-gradient) !important;
+            border: 2px solid var(--gold);
+            box-shadow: 0 20px 50px rgba(214, 194, 138, 0.35), 0 0 35px rgba(214, 194, 138, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease, background 0.45s ease;
         }
+        .skill-item-card h3 { color: #031421 !important; text-shadow: none !important; }
+        .skill-item-card .skill-icon-wrap { color: #031421 !important; opacity: 1; }
+        
+        /* Ensure Embedded SVG Elements Conform to High-Contrast Rules on Static State */
+        .skill-item-card .skill-icon-wrap svg path { fill: #031421 !important; transition: fill 0.35s ease; }
+        .skill-item-card .skill-icon-wrap svg rect { fill: transparent !important; stroke: #031421 !important; stroke-width: 16px; transition: all 0.35s ease; }
 
-        .skill-item-card h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--gold);
-            letter-spacing: -0.5px;
-            text-transform: uppercase;
-            transition: all 0.35s ease;
-        }
-
-        .skill-icon-wrap {
-            font-size: 2.3rem;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gold);
-            opacity: 0.9;
-            transition: all 0.35s ease;
-        }
-
-        /* Skill Card Hover Event Layer */
+        /* Skills Hover Transformation Rule */
         .skill-item-card:hover {
             border-color: var(--gold);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow);
             transform: translateY(-8px) scale(1.02);
-            background: rgba(214, 194, 138, 0.22);
+            background: transparent !important;
         }
-        .skill-item-card:hover h3 {
-            text-shadow: 0 0 15px rgba(214, 194, 138, 0.5);
-        }
+        .skill-item-card:hover h3 { color: var(--gold) !important; }
 
-        /* Clean Branding Default Geometry Colors - Glow Only Activates On Hover */
-        .skill-python h3 { color: #FFD43B !important; }
-        .skill-python .skill-icon-wrap { color: #3776AB !important; }
-
-        .skill-html:hover h3 { color: #E34F26 !important; text-shadow: 0 0 15px rgba(227, 79, 38, 0.4); }
-        .skill-html:hover .skill-icon-wrap { color: #E34F26 !important; filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
-
-        .skill-css:hover h3 { color: #1572B6 !important; text-shadow: 0 0 15px rgba(21, 114, 182, 0.4); }
-        .skill-css:hover .skill-icon-wrap { color: #1572B6 !important; filter: drop-shadow(0 0 12px rgba(21, 114, 182, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
-
+        /* Brand Restoration Filters on Hover States */
+        .skill-html:hover .skill-icon-wrap { color: #E34F26 !important; filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.8)); transform: scale(1.1) rotate(5deg); }
+        .skill-css:hover .skill-icon-wrap { color: #1572B6 !important; filter: drop-shadow(0 0 12px rgba(21, 114, 182, 0.8)); transform: scale(1.1) rotate(5deg); }
+        
+        .skill-python:hover .skill-icon-wrap svg path:nth-child(1) { fill: #3776AB !important; }
+        .skill-python:hover .skill-icon-wrap svg path:nth-child(2) { fill: #FFD43B !important; }
+        .skill-python:hover .skill-icon-wrap svg path:nth-child(3) { fill: #3776AB !important; }
+        .skill-python:hover .skill-icon-wrap svg path:nth-child(4) { fill: #FFD43B !important; }
         .skill-python:hover .skill-icon-wrap svg { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 14px rgba(55, 118, 171, 0.9)); }
+        
+        .skill-photoshop:hover .skill-icon-wrap svg rect { fill: #001E36 !important; stroke: #00C8FF !important; stroke-width: 12px; }
+        .skill-photoshop:hover .skill-icon-wrap svg path { fill: #00C8FF !important; }
         .skill-photoshop:hover .skill-icon-wrap svg { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 14px rgba(0, 200, 255, 0.9)); }
 
         @media(max-width: 900px) { .skills-grid-container { grid-template-columns: 1fr; gap: 20px; } }
@@ -563,7 +535,6 @@
         .contact-wrapper{ max-width:1350px; margin:auto; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:stretch; width:100%; }
         .contact-card{ padding:60px 40px; border-radius:35px; background: linear-gradient(135deg, rgba(214,194,138,.14), rgba(255,255,255,.05)); border:1px solid rgba(214,194,138,.2); backdrop-filter:blur(24px); box-shadow:var(--shadow); display:flex; flex-direction:column; justify-content:center; }
         
-        /* Persistent Default Golden Theme Card Styling */
         .find-me-btn { display: inline-block; width: max-content; padding: 16px 32px; font-size: 1.25rem; font-weight: 700; color: #111; border: 1px solid var(--gold); border-radius: 12px; background: var(--gold-gradient); letter-spacing: 0.5px; margin-bottom: 40px; box-shadow: 0 15px 35px rgba(214,194,138,.3); transition: all 0.35s ease; }
         .find-me-btn:hover { background: transparent; color: var(--gold); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
         
@@ -577,7 +548,7 @@
         .socials a:hover{ transform: translateY(-8px) scale(1.05); }
         .socials a:nth-child(1):hover{ background:#181717; border-color:#181717; color:#fff; box-shadow: 0 0 25px rgba(24,23,23,.55); }
         .socials a:nth-child(2):hover{ background:#0A66C2; border-color:#0A66C2; color:#fff; box-shadow: 0 0 25px rgba(10,102,194,.55); }
-        .socials a:nth-child(3):hover{ background: linear-gradient(135deg, #F58529, #FEDA77, #DD2A7B, #8134AF, #515BD4); border-color:#DD2A7B; color:#fff; box-shadow: 0 0 25px rgba(221,42,123,.55); }
+        .socials a:nth-child(3):hover{ background: linear-gradient(135deg, #F58529, #FEDA77, #DD2A7B, #8134AF, #513BD4); border-color:#DD2A7B; color:#fff; box-shadow: 0 0 25px rgba(221,42,123,.55); }
         .socials a:nth-child(4):hover{ background:#1877F2; border-color:#1877F2; color:#fff; box-shadow: 0 0 25px rgba(24,119,242,.55); }
         .socials a:nth-child(5):hover{ background:#000000; border-color:#000000; color:#fff; box-shadow: 0 0 25px rgba(255,255,255,.15); }
 
@@ -593,9 +564,12 @@
         .contact-form input:focus, .contact-form textarea:focus{ border-color: var(--gold); background: rgba(4, 14, 22, 0.8); box-shadow: 0 0 25px rgba(214, 194, 138, 0.25); }
         [data-theme="light"] .contact-form input:focus, [data-theme="light"] .contact-form textarea:focus { background: rgba(0, 0, 0, 0.04); }
 
-        /* Standardized Action Input Element Layer */
-        .send-btn{ width: 100% !important; padding: 20px 42px !important; border-radius: 999px; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 700; font-size: 1.25rem; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 14px; transition: .35s ease; }
-        .send-btn:hover{ background: var(--gold-gradient); color:#111; border-color: transparent; transform:translateY(-5px); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
+        /* Premium Opaque Golden Action Send Interface Configuration */
+        .send-btn{ width: 100% !important; padding: 20px 42px !important; border-radius: 999px; background: var(--gold-gradient) !important; border: 2px solid var(--gold); color: #031421 !important; font-weight: 800; font-size: 1.25rem; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 14px; box-shadow: 0 15px 35px rgba(214,194,138,.35); transition: .35s ease; }
+        .send-btn i { color: #031421 !important; transition: color 0.35s ease; }
+        
+        .send-btn:hover{ background: transparent !important; color: var(--gold) !important; transform:translateY(-5px); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
+        .send-btn:hover i { color: var(--gold) !important; }
 
         footer{ padding:40px; text-align:center; color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px solid var(--border); }
 
@@ -739,12 +713,12 @@
                 <h3>Python</h3>
                 <div class="skill-icon-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="36" height="36" style="display: block; will-change: transform; transition: transform 0.35s ease;">
-                        <path d="M439.4 153.8c0-26.8-21.8-48.6-48.6-48.6H275.9c-24.8 0-44.9 20.1-44.9 44.9v24.3h87.5c24.8 0 44.9 20.1 44.9 44.9v87.5h27.4c26.8 0 48.6-21.8 48.6-48.6v-104.4z" fill="#3776AB"/>
-                        <path d="M172.1 241.4H84.6c-24.8 0-44.9 20.1-44.9 44.9v87.5h104.4c26.8 0 48.6-21.8 48.6-48.6V220.8h-20.6z" fill="#FFD43B"/>
-                        <path d="M186.7 153.8c0-26.8 21.8-48.6 48.6-48.6h42.1v42.1c0 24.8-20.1 44.9-44.9 44.9H135c-24.8 0-44.9-20.1-44.9-44.9V42.1C90.1 15.3 111.9-6.5 138.7-6.5h104.4c26.8 0 48.6 21.8 48.6 48.6v42.1H204.2c-24.8 0-44.9 20.1-44.9 44.9v24.7h27.4z" fill="#3776AB"/>
-                        <path d="M261.3 358.2c0 26.8-21.8 48.6-48.6 48.6h-42.1v-42.1c0-24.8 20.1-44.9 44.9-44.9H313c24.8 0 44.9 20.1 44.9 44.9v104.4c0 26.8-21.8 48.6-48.6 48.6H204.9c-26.8 0-48.6-21.8-48.6-48.6v-42.1h87.5c24.8 0 44.9-20.1 44.9-44.9v-24.7h-27.4z" fill="#FFD43B"/>
-                        <circle cx="172" cy="49" r="17" fill="#FFF"/>
-                        <circle cx="276" cy="463" r="17" fill="#FFF"/>
+                        <path d="M439.4 153.8c0-26.8-21.8-48.6-48.6-48.6H275.9c-24.8 0-44.9 20.1-44.9 44.9v24.3h87.5c24.8 0 44.9 20.1 44.9 44.9v87.5h27.4c26.8 0 48.6-21.8 48.6-48.6v-104.4z"/>
+                        <path d="M172.1 241.4H84.6c-24.8 0-44.9 20.1-44.9 44.9v87.5h104.4c26.8 0 48.6-21.8 48.6-48.6V220.8h-20.6z"/>
+                        <path d="M186.7 153.8c0-26.8 21.8-48.6 48.6-48.6h42.1v42.1c0 24.8-20.1 44.9-44.9 44.9H135c-24.8 0-44.9-20.1-44.9-44.9V42.1C90.1 15.3 111.9-6.5 138.7-6.5h104.4c26.8 0 48.6 21.8 48.6 48.6v42.1H204.2c-24.8 0-44.9 20.1-44.9 44.9v24.7h27.4z"/>
+                        <path d="M261.3 358.2c0 26.8-21.8 48.6-48.6 48.6h-42.1v-42.1c0-24.8 20.1-44.9 44.9-44.9H313c24.8 0 44.9 20.1 44.9 44.9v104.4c0 26.8-21.8 48.6-48.6 48.6H204.9c-26.8 0-48.6-21.8-48.6-48.6v-42.1h87.5c24.8 0 44.9-20.1 44.9-44.9v-24.7h-27.4z"/>
+                        <circle cx="172" cy="49" r="17"/>
+                        <circle cx="276" cy="463" r="17"/>
                     </svg>
                 </div>
             </div>
@@ -753,8 +727,8 @@
                 <h3>Photoshop</h3>
                 <div class="skill-icon-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="40" height="40" style="display: block; will-change: transform; transition: transform 0.35s ease;">
-                        <rect width="512" height="512" rx="70" fill="#001E36" stroke="#00C8FF" stroke-width="12"/>
-                        <path d="M152.4 150h57.4c34.8 0 54.6 17.6 54.6 47.4 0 31.6-21.8 48.4-56.2 48.4H186v65.6h-33.6V150zm33.6 27.8v41.4h21c15.2 0 24.2-7 24.2-20.8 0-13.6-8.8-20.6-23.6-20.6h-21.6zm106.6 86.8c0-26.6 19.6-43.2 49-43.2 16.2 0 28.4 5.2 35.8 11.2l-10.4 22.4c-6.2-4.6-15-8.2-24.8-8.2-14.4 0-22.8 8.4-22.8 20.2 0 28.6 42.4 23.4 42.4 55.4 0 26-18.4 44.2-50.6 44.2-19 0-32.6-6.6-39.6-12.4l11-22.4c6.8 5.4 17.6 9.8 28 9.8 15.6 0 24.2-8.2 24.2-20.6 0-30-42.2-23.4-42.2-56.4z" fill="#00C8FF"/>
+                        <rect width="512" height="512" rx="70"/>
+                        <path d="M152.4 150h57.4c34.8 0 54.6 17.6 54.6 47.4 0 31.6-21.8 48.4-56.2 48.4H186v65.6h-33.6V150zm33.6 27.8v41.4h21c15.2 0 24.2-7 24.2-20.8 0-13.6-8.8-20.6-23.6-20.6h-21.6zm106.6 86.8c0-26.6 19.6-43.2 49-43.2 16.2 0 28.4 5.2 35.8 11.2l-10.4 22.4c-6.2-4.6-15-8.2-24.8-8.2-14.4 0-22.8 8.4-22.8 20.2 0 28.6 42.4 23.4 42.4 55.4 0 26-18.4 44.2-50.6 44.2-19 0-32.6-6.6-39.6-12.4l11-22.4c6.8 5.4 17.6 9.8 28 9.8 15.6 0 24.2-8.2 24.2-20.6 0-30-42.2-23.4-42.2-56.4z"/>
                     </svg>
                 </div>
             </div>
