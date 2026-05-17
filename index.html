@@ -53,11 +53,13 @@
             --timeline-muted: #C3D1E0;
             --btn-hover-bg: #F8F8F5;
             --placeholder-color: rgba(248, 248, 245, 0.7);
-            --project-text: #FFFFFF;
+            --project-text: #D6C28A;
             --project-muted: #CBD2D9;
             --ring-border: rgba(214, 194, 138, 0.5);
             /* Section Title Glow Configuration */
             --title-glow: 0 0 25px rgba(214, 194, 138, 0.65), 0 0 10px rgba(214, 194, 138, 0.4);
+            --header-bg: rgba(4, 14, 22, 0.4);
+            --nav-link: #C3D1E0;
         }
 
         [data-theme="light"] {
@@ -80,11 +82,13 @@
             --timeline-muted: #2D3748;
             --btn-hover-bg: #0F172A;
             --placeholder-color: rgba(15, 23, 42, 0.65);
-            --project-text: #0F172A;
+            --project-text: #D6C28A;
             --project-muted: #4A5568;
             --ring-border: rgba(15, 23, 42, 0.4);
             /* Light Theme Title Glow Configuration */
             --title-glow: 0 4px 15px rgba(214, 194, 138, 0.4);
+            --header-bg: rgba(15, 23, 42, 0.08);
+            --nav-link: #4A5568;
         }
 
         *{
@@ -317,7 +321,7 @@
             width:92%; max-width:1450px;
             padding:22px 45px;
             display:flex; justify-content:space-between; align-items:center;
-            background: rgba(4, 14, 22, 0.4);
+            background: var(--header-bg);
             backdrop-filter:blur(24px);
             -webkit-backdrop-filter: blur(24px);
             border:1px solid var(--border);
@@ -340,7 +344,7 @@
         }
         nav{ display:flex; gap:40px;
         }
-        nav a{ text-decoration:none; color:var(--muted); font-weight:700; font-size: 1.2rem; position:relative; letter-spacing: 0.3px;
+        nav a{ text-decoration:none; color:var(--nav-link); font-weight:700; font-size: 1.2rem; position:relative; letter-spacing: 0.3px; transition: color 0.3s ease;
         }
         nav a::after{ content:''; position:absolute; left:0; bottom:-8px; width:0%; height:2px; background:var(--gold); transition:.35s ease;
         }
@@ -729,6 +733,7 @@
         [data-theme="light"] .project-content {
             background: rgba(255, 255, 255, 0.95);
             box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+            border: 2px solid #D6C28A;
         }
 
         .project-card:hover { transform: translateY(-10px) rotateX(2deg);
@@ -742,9 +747,13 @@
         [data-theme="light"] .project-card:hover .project-content {
             background: rgba(255, 255, 255, 1);
             border-color: var(--gold);
+            box-shadow: 0 0 45px rgba(214, 194, 138, 0.85);
         }
 
-        .project-content h3{ font-size:1.7rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: var(--project-text);
+        .project-content h3{ font-size:1.7rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: var(--project-text); transition: text-shadow 0.45s ease, color 0.45s ease;
+        }
+        .project-card:hover .project-content h3 {
+            text-shadow: var(--title-glow);
         }
         .project-content p{ line-height:1.7; color: var(--project-muted); font-size:1.15rem;
         }
@@ -964,7 +973,7 @@
                     </div>
                 </div>
 
-                <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football. </p>
+                <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
  
                 <div class="hero-buttons">
                     <a href="#projects" class="btn primary-btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
@@ -989,7 +998,7 @@
 
     <section id="education">
         <div class="section-title-container">
-            <h2 class="section-title">Education Status</h2>
+            <h2 class="section-title">Education Journey</h2>
         </div>
         <div class="timeline">
 
@@ -1090,7 +1099,7 @@
             </div>
 
             <div class="project-card">
-                <img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic">
+                <img src="livche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic">
                 <div class="project-content">
                     <h3>Liverpool VS Chelsea</h3>
                     <p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p>
@@ -1352,7 +1361,7 @@
                 labelToggle.classList.add("active-label");
             } else {
                 switchBtn.classList.remove("toggle-on");
-                labelToggle.classList.remove("active-label");
+                 labelToggle.classList.remove("active-label");
             }
         });
         let resizeTimeout;
@@ -1382,7 +1391,7 @@
             statusButton.style.pointerEvents = "none";
 
             const templateParams = {
-                name: contactForm.querySelector('input[name="name"]').value,
+                 name: contactForm.querySelector('input[name="name"]').value,
                 email: contactForm.querySelector('input[name="email"]').value,
                 message: contactForm.querySelector('textarea[name="message"]').value
             };
@@ -1461,4 +1470,3 @@
     </script>
 </body>
 </html>
-according to the source code, give me the best suitable gradient which should appear along with the graph grid making it look handmade cool
