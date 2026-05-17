@@ -673,9 +673,13 @@
         @media(max-width: 900px) { .skills-grid-container { grid-template-columns: 1fr;
         gap: 20px; } }
 
-        /* Modified Projects UI for Tall/Vertical Elite Sports Media Graphics */
-        .projects-grid{ display:grid;
-        grid-template-columns: repeat(auto-fit,minmax(min(100%, 420px), 1fr)); gap:50px; width:100%; }
+        /* Modified Projects UI Grid: Hard locked to 2 per row on desktop dashboards */
+        .projects-grid { 
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 50px; 
+            width: 100%; 
+        }
         
         .project-card{ 
             height: auto; /* Allow card height to wrap image naturally */
@@ -861,6 +865,10 @@
             }
             .school-logo-mask { width: 95px; height: 95px;
             }
+            .projects-grid {
+                grid-template-columns: 1fr; /* Stack vertically for seamless scrolling on smaller tablets */
+                gap: 40px;
+            }
         }
 
         @media(max-width:768px){
@@ -893,6 +901,10 @@
             .school-logo-mask { width: 90px; height: 90px;
             }
             .project-card { height: auto; 
+            }
+            .projects-grid {
+                grid-template-columns: 1fr; /* Single column on mobile devices */
+                gap: 35px;
             }
         }
     </style>
