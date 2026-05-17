@@ -132,6 +132,8 @@
             z-index:-5;
             opacity: var(--canvas-opacity);
             pointer-events:none;
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         body::before {
@@ -264,7 +266,7 @@
             transition:.25s ease;
         }
 
-        /* HARDWARE ACCELERATED HIGH-PERFORMANCE CURSOR */
+        /* HARDWARE ACCELERATED PERFORMANCE-DRIVEN CURSOR */
         .cursor-dot {
             width: 8px;
             height: 8px;
@@ -290,11 +292,10 @@
             pointer-events: none;
             z-index: 9998;
             transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0) translate(-50%, -50%);
-            will-change: transform, width, height, background-color;
+            will-change: transform, width, height, background;
             transition: width .25s cubic-bezier(0.25, 1, 0.5, 1), height .25s cubic-bezier(0.25, 1, 0.5, 1), background .25s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Hide custom cursor completely on devices without fine pointers (touch screens) */
         @media (pointer: coarse) {
             .cursor-dot, .cursor-ring {
                 display: none !important;
@@ -525,6 +526,7 @@
             width: 100%;
         }
 
+        /* SKILL CARDS WITH REAL BRAND STYLING ON HOVER */
         .skill-item-card {
             padding: 40px;
             border-radius: 24px;
@@ -535,7 +537,7 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
         }
 
         .skill-item-card h3 {
@@ -547,26 +549,49 @@
             transition: color 0.35s ease;
         }
 
-        .skill-item-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            background: var(--gold);
-            border-color: var(--gold);
-            box-shadow: 0 25px 60px rgba(214, 194, 138, 0.35), 0 0 50px var(--card-glow);
-        }
-
-        .skill-item-card:hover h3 { color: #031421 !important; }
-        
         .skill-icon-wrap {
             font-size: 2.3rem;
             color: var(--gold);
             opacity: 0.9;
             transition: all 0.35s ease;
         }
-        
+
+        /* Specific Hover Branding Colors */
+        .skill-html:hover {
+            background: #E34F26 !important;
+            border-color: #E34F26 !important;
+            box-shadow: 0 25px 60px rgba(227, 79, 38, 0.35), 0 0 50px rgba(227, 79, 38, 0.4);
+        }
+        .skill-css:hover {
+            background: #1572B6 !important;
+            border-color: #1572B6 !important;
+            box-shadow: 0 25px 60px rgba(21, 114, 182, 0.35), 0 0 50px rgba(21, 114, 182, 0.4);
+        }
+        .skill-python:hover {
+            background: #3776AB !important;
+            border-color: #3776AB !important;
+            box-shadow: 0 25px 60px rgba(55, 118, 171, 0.35), 0 0 50px rgba(248, 196, 46, 0.3);
+        }
+        .skill-photoshop:hover {
+            background: #001E36 !important;
+            border-color: #31A8FF !important;
+            box-shadow: 0 25px 60px rgba(49, 168, 255, 0.35), 0 0 50px rgba(49, 168, 255, 0.5);
+        }
+
+        /* Specific Vector Adjustments for Branding Hover states */
+        .skill-item-card:hover h3 {
+            color: #FFFFFF !important;
+        }
+        .skill-photoshop:hover h3 {
+            color: #31A8FF !important;
+        }
         .skill-item-card:hover .skill-icon-wrap {
-            color: #031421;
+            color: #FFFFFF !important;
             transform: scale(1.1) rotate(5deg);
             opacity: 1;
+        }
+        .skill-photoshop:hover .skill-icon-wrap {
+            color: #31A8FF !important;
         }
 
         @media(max-width: 900px) {
@@ -662,7 +687,6 @@
 
         footer{ padding:40px; text-align:center; color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px solid var(--border); }
 
-        /* EQUALLY BALANCED BREAKPOINTS FOR LAPTOPS & MOBILE */
         @media(max-width:1200px){
             .hero-container, .contact-wrapper{ grid-template-columns:1fr; gap:60px; }
             .hero{ text-align:center; }
@@ -789,24 +813,29 @@
         <h2 class="section-title">Core <span>Skills</span></h2>
         <div class="skills-grid-container">
             
-            <div class="skill-item-card">
+            <div class="skill-item-card skill-html">
                 <h3>HTML</h3>
                 <div class="skill-icon-wrap"><i class="fa-brands fa-html5"></i></div>
             </div>
 
-            <div class="skill-item-card">
+            <div class="skill-item-card skill-css">
                 <h3>CSS</h3>
                 <div class="skill-icon-wrap"><i class="fa-brands fa-css3-alt"></i></div>
             </div>
 
-            <div class="skill-item-card">
+            <div class="skill-item-card skill-python">
                 <h3>Python</h3>
                 <div class="skill-icon-wrap"><i class="fa-brands fa-python"></i></div>
             </div>
 
-            <div class="skill-item-card">
+            <div class="skill-item-card skill-photoshop">
                 <h3>Photoshop</h3>
-                <div class="skill-icon-wrap"><i class="fa-solid fa-bezier-curve"></i></div>
+                <div class="skill-icon-wrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="38" height="38" style="display: block; will-change: transform;">
+                        <rect width="512" height="512" rx="110" fill="#001E36"/>
+                        <path d="M152.4 150h57.4c34.8 0 54.6 17.6 54.6 47.4 0 31.6-21.8 48.4-56.2 48.4H186v65.6h-33.6V150zm33.6 27.8v41.4h21c15.2 0 24.2-7 24.2-20.8 0-13.6-8.8-20.6-23.6-20.6h-21.6zm106.6 86.8c0-26.6 19.6-43.2 49-43.2 16.2 0 28.4 5.2 35.8 11.2l-10.4 22.4c-6.2-4.6-15-8.2-24.8-8.2-14.4 0-22.8 8.4-22.8 20.2 0 28.6 42.4 23.4 42.4 55.4 0 26-18.4 44.2-50.6 44.2-19 0-32.6-6.6-39.6-12.4l11-22.4c6.8 5.4 17.6 9.8 28 9.8 15.6 0 24.2-8.2 24.2-20.6 0-30-42.2-23.4-42.2-56.4z" fill="#31A8FF"/>
+                    </svg>
+                </div>
             </div>
 
         </div>
@@ -1111,15 +1140,13 @@
             }
         });
 
-        /* HIGH-PERFORMANCE CURSOR LOGIC MECHANISM */
         const root = document.documentElement;
         const ring = document.querySelector(".cursor-ring");
 
         window.addEventListener("mousemove", (e) => {
-            // Using CSS variables with translate3d prevents structural layout repaints
             root.style.setProperty('--cursor-x', e.clientX + 'px');
             root.style.setProperty('--cursor-y', e.clientY + 'px');
-        }, { passive: true }); // Passive event listener avoids main-thread scrolling blocks
+        }, { passive: true });
 
         const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn, .skill-item-card, #hero-dispersion-canvas, .control-toggle");
         hoverItems.forEach((item)=>{
