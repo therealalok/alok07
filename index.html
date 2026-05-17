@@ -136,14 +136,13 @@
             will-change: transform;
         }
 
+        /* Fixed the cloudy/white look issue on zoom/fast scrolling by removing expensive global filters */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: -4;
             pointer-events: none;
-            backdrop-filter: blur(22px) brightness(98%);
-            -webkit-backdrop-filter: blur(22px) brightness(98%);
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.015'/%3E%3C/svg%3E");
         }
 
@@ -266,7 +265,7 @@
             transition:.25s ease;
         }
 
-        /* HARDWARE ACCELERATED PERFORMANCE-DRIVEN CURSOR */
+        /* RENDERING-OPTIMIZED CURSOR TRANSFORMS */
         .cursor-dot {
             width: 8px;
             height: 8px;
@@ -357,7 +356,10 @@
 
         .hero{ min-height:100vh; display:flex; align-items:center; padding-top:130px; }
         .hero-container{ max-width:1450px; margin:auto; display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center; width:100%; }
-        .hero-subtitle{ font-size:1.1rem; letter-spacing:6px; color:var(--gold); margin-bottom:35px; font-weight:700; }
+        
+        /* Increased size of "THIS IS" in the intro section */
+        .hero-subtitle{ font-size: 1.45rem; letter-spacing:8px; color:var(--gold); margin-bottom:30px; font-weight:800; }
+        
         .hero h1{ font-size:clamp(4rem, 9vw, 9.5rem); line-height:.9; font-weight:800; letter-spacing:-5px; margin-bottom:35px; }
         .hero h1 span{ background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .hero p{ max-width:720px; line-height:1.9; color:var(--muted); font-size:clamp(1.15rem, 2vw, 1.45rem); font-weight: 400; margin-bottom:60px; }
@@ -526,7 +528,7 @@
             width: 100%;
         }
 
-        /* SKILL CARDS WITH REAL BRAND STYLING ON HOVER */
+        /* SKILL CARDS STYLING - WHOLE BOX STAYS ORIGINAL, ONLY ICON & LOGO GLOW */
         .skill-item-card {
             padding: 40px;
             border-radius: 24px;
@@ -537,7 +539,7 @@
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
-            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease;
         }
 
         .skill-item-card h3 {
@@ -546,53 +548,36 @@
             color: var(--gold);
             letter-spacing: -0.5px;
             text-transform: uppercase;
-            transition: color 0.35s ease;
+            transition: color 0.35s ease, text-shadow 0.35s ease;
         }
 
         .skill-icon-wrap {
             font-size: 2.3rem;
             color: var(--gold);
             opacity: 0.9;
-            transition: all 0.35s ease;
+            transition: transform 0.35s ease, color 0.35s ease, filter 0.35s ease;
         }
 
-        /* Specific Hover Branding Colors */
-        .skill-html:hover {
-            background: #E34F26 !important;
-            border-color: #E34F26 !important;
-            box-shadow: 0 25px 60px rgba(227, 79, 38, 0.35), 0 0 50px rgba(227, 79, 38, 0.4);
-        }
-        .skill-css:hover {
-            background: #1572B6 !important;
-            border-color: #1572B6 !important;
-            box-shadow: 0 25px 60px rgba(21, 114, 182, 0.35), 0 0 50px rgba(21, 114, 182, 0.4);
-        }
-        .skill-python:hover {
-            background: #3776AB !important;
-            border-color: #3776AB !important;
-            box-shadow: 0 25px 60px rgba(55, 118, 171, 0.35), 0 0 50px rgba(248, 196, 46, 0.3);
-        }
-        .skill-photoshop:hover {
-            background: #001E36 !important;
-            border-color: #31A8FF !important;
-            box-shadow: 0 25px 60px rgba(49, 168, 255, 0.35), 0 0 50px rgba(49, 168, 255, 0.5);
+        .skill-photoshop .skill-icon-wrap svg {
+            transition: transform 0.35s ease, filter 0.35s ease;
         }
 
-        /* Specific Vector Adjustments for Branding Hover states */
-        .skill-item-card:hover h3 {
-            color: #FFFFFF !important;
-        }
-        .skill-photoshop:hover h3 {
-            color: #31A8FF !important;
-        }
-        .skill-item-card:hover .skill-icon-wrap {
-            color: #FFFFFF !important;
-            transform: scale(1.1) rotate(5deg);
-            opacity: 1;
-        }
-        .skill-photoshop:hover .skill-icon-wrap {
-            color: #31A8FF !important;
-        }
+        /* Hover States: Box backdrop colors don't change, only the typography and icons glow with original colors */
+        .skill-html:hover h3 { color: #E34F26 !important; text-shadow: 0 0 15px rgba(227, 79, 38, 0.6); }
+        .skill-html:hover .skill-icon-wrap { color: #E34F26 !important; filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
+        .skill-html:hover { border-color: rgba(227, 79, 38, 0.4); box-shadow: 0 15px 45px rgba(227, 79, 38, 0.15); transform: translateY(-8px) scale(1.02); }
+
+        .skill-css:hover h3 { color: #1572B6 !important; text-shadow: 0 0 15px rgba(21, 114, 182, 0.6); }
+        .skill-css:hover .skill-icon-wrap { color: #1572B6 !important; filter: drop-shadow(0 0 12px rgba(21, 114, 182, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
+        .skill-css:hover { border-color: rgba(21, 114, 182, 0.4); box-shadow: 0 15px 45px rgba(21, 114, 182, 0.15); transform: translateY(-8px) scale(1.02); }
+
+        .skill-python:hover h3 { color: #FFD43B !important; text-shadow: 0 0 15px rgba(255, 212, 59, 0.5); }
+        .skill-python:hover .skill-icon-wrap { color: #3776AB !important; filter: drop-shadow(0 0 12px rgba(55, 118, 171, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
+        .skill-python:hover { border-color: rgba(55, 118, 171, 0.4); box-shadow: 0 15px 45px rgba(55, 118, 171, 0.15); transform: translateY(-8px) scale(1.02); }
+
+        .skill-photoshop:hover h3 { color: #31A8FF !important; text-shadow: 0 0 15px rgba(49, 168, 255, 0.6); }
+        .skill-photoshop:hover .skill-icon-wrap svg { filter: drop-shadow(0 0 14px rgba(49, 168, 255, 0.8)); transform: scale(1.1) rotate(5deg); }
+        .skill-photoshop:hover { border-color: rgba(49, 168, 255, 0.4); box-shadow: 0 15px 45px rgba(49, 168, 255, 0.15); transform: translateY(-8px) scale(1.02); }
 
         @media(max-width: 900px) {
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
@@ -1082,13 +1067,19 @@
                 labelToggle.classList.remove("active-label");
             }
         });
+
+        // HIGH PERFORMANCE ZOOM ENGINE FIXX: Added a debounce function to avoid crashes during laptop trackpad zooming or resize loops
+        let resizeTimeout;
         window.addEventListener("resize", () => {
-            imgWidth = dispCanvas.parentElement.clientWidth || 500;
-            imgHeight = dispCanvas.parentElement.clientHeight || 500;
-            dispCanvas.width = imgWidth;
-            dispCanvas.height = imgHeight;
-            particles = [];
-            initParticles();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                imgWidth = dispCanvas.parentElement.clientWidth || 500;
+                imgHeight = dispCanvas.parentElement.clientHeight || 500;
+                dispCanvas.width = imgWidth;
+                dispCanvas.height = imgHeight;
+                particles = [];
+                initParticles();
+            }, 150); // Small 150ms delay blocks calculations while the browser is transforming layout sizes
         });
 
         const contactForm = document.getElementById("portfolio-contact-form");
