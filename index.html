@@ -29,10 +29,10 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
     <style>
-    :root{
+        :root{
             --bg-gradient: linear-gradient(135deg, #031421, #071826, #0B1118);
-            --canvas-opacity: 0.85; /* Increased from 0.55 for higher visibility */
-            --grid-color: rgba(255, 255, 255, 0.45); /* Increased line opacity from 0.25 */
+            --canvas-opacity: 0.55;
+            --grid-color: rgba(255, 255, 255, 0.25);
             
             --surface: rgba(255, 255, 255, .045);
             --surface2: rgba(255, 255, 255, .03);
@@ -46,20 +46,22 @@
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
             
-            --timeline-bg: #06121a;
-            --timeline-border: rgba(214, 194, 138, 0.45);
+            --timeline-bg: rgba(214, 194, 138, 0.05);
+            --timeline-border: rgba(214, 194, 138, 0.35);
             
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
             --btn-hover-bg: #F8F8F5;
-
             --placeholder-color: rgba(248, 248, 245, 0.7);
+            --project-text: #FFFFFF;
+            --project-muted: #CBD2D9;
+            --ring-border: rgba(214, 194, 138, 0.5);
         }
 
         [data-theme="light"] {
             --bg-gradient: linear-gradient(135deg, #F4F7FA, #E2E8F0, #EDF2F7);
-            --canvas-opacity: 0.75; /* Increased from 0.45 */
-            --grid-color: rgba(15, 23, 42, 0.35); /* Increased line opacity from 0.18 */
+            --canvas-opacity: 0.45;
+            --grid-color: rgba(15, 23, 42, 0.18);
             
             --surface: rgba(0, 0, 0, .03);
             --surface2: rgba(0, 0, 0, .015);
@@ -70,13 +72,16 @@
             --card-glow: rgba(214, 194, 138, 0.45);
             --dot-glow-color: #C9B67E;
             
-            --timeline-bg: #f8fafc;
-            --timeline-border: rgba(214, 194, 138, 0.75);
+            --timeline-bg: rgba(214, 194, 138, 0.12);
+            --timeline-border: rgba(214, 194, 138, 0.65);
             
             --timeline-text: #0F172A;
-            --timeline-muted: #4A5568;
+            --timeline-muted: #2D3748;
             --btn-hover-bg: #0F172A;
             --placeholder-color: rgba(15, 23, 42, 0.65);
+            --project-text: #0F172A;
+            --project-muted: #4A5568;
+            --ring-border: rgba(15, 23, 42, 0.4);
         }
 
         *{
@@ -136,7 +141,6 @@
             will-change: transform;
         }
 
-        /* Fixed the cloudy/white look issue on zoom/fast scrolling by removing expensive global filters */
         body::before {
             content: '';
             position: fixed;
@@ -265,7 +269,6 @@
             transition:.25s ease;
         }
 
-        /* RENDERING-OPTIMIZED CURSOR TRANSFORMS */
         .cursor-dot {
             width: 8px;
             height: 8px;
@@ -283,7 +286,7 @@
         .cursor-ring {
             width: 42px;
             height: 42px;
-            border: 1px solid rgba(214,194,138,.5);
+            border: 1px solid var(--ring-border);
             position: fixed;
             top: 0;
             left: 0;
@@ -357,8 +360,7 @@
         .hero{ min-height:100vh; display:flex; align-items:center; padding-top:130px; }
         .hero-container{ max-width:1450px; margin:auto; display:grid; grid-template-columns:1.1fr .9fr; gap:50px; align-items:center; width:100%; }
         
-        /* Increased size of "THIS IS" in the intro section */
-        .hero-subtitle{ font-size: 1.45rem; letter-spacing:8px; color:var(--gold); margin-bottom:30px; font-weight:800; }
+        .hero-subtitle{ font-size: 1.85rem; letter-spacing:10px; color:var(--gold); margin-bottom:30px; font-weight:800; }
         
         .hero h1{ font-size:clamp(4rem, 9vw, 9.5rem); line-height:.9; font-weight:800; letter-spacing:-5px; margin-bottom:35px; }
         .hero h1 span{ background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -373,14 +375,7 @@
         .secondary-btn{ background:rgba(255,255,255,.04); border:1px solid var(--border); color: var(--text); backdrop-filter:blur(18px); }
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
 
-        .hero-image-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 25px;
-            width: 100%;
-        }
-
+        .hero-image-wrapper { display: flex; flex-direction: column; align-items: center; gap: 25px; width: 100%; }
         .hero-image{ display:flex; justify-content:center; width: 100%; }
         
         .image-box{ 
@@ -396,98 +391,24 @@
             transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        #hero-dispersion-canvas {
-            width: 100%;
-            height: 100%;
-            display: block;
-            cursor: pointer;
-        }
-        
-        .image-box:hover {
-            transform: translateY(-4px) scale(1.015);
-            border-color: var(--gold);
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px var(--card-glow);
-        }
+        #hero-dispersion-canvas { width: 100%; height: 100%; display: block; cursor: pointer; }
+        .image-box:hover { transform: translateY(-4px) scale(1.015); border-color: var(--gold); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px var(--card-glow); }
 
-        .dispersion-switch-area {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: rgba(4, 14, 22, 0.8);
-            border: 1px solid var(--border);
-            padding: 12px 24px;
-            border-radius: 35px;
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: var(--muted);
-            text-transform: uppercase;
-            backdrop-filter: blur(10px);
-        }
+        .dispersion-switch-area { display: flex; align-items: center; gap: 16px; background: rgba(4, 14, 22, 0.8); border: 1px solid var(--border); padding: 12px 24px; border-radius: 35px; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; backdrop-filter: blur(10px); }
+        .switch-label { cursor: pointer; transition: color 0.3s ease; }
+        .switch-label.active-label { color: var(--gold); text-shadow: 0 0 12px rgba(214, 194, 138, 0.5); }
 
-        .switch-label {
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .switch-label.active-label {
-            color: var(--gold);
-            text-shadow: 0 0 12px rgba(214, 194, 138, 0.5);
-        }
-
-        .control-toggle {
-            position: relative;
-            width: 62px;  
-            height: 32px; 
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            transition: background 0.3s ease;
-        }
-
-        .control-toggle::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 24px;
-            height: 24px;
-            background: var(--muted);
-            border-radius: 50%;
-            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease;
-        }
-
-        .control-toggle.toggle-on {
-            background: rgba(214, 194, 138, 0.25);
-            border-color: var(--gold);
-        }
-
-        .control-toggle.toggle-on::after {
-            transform: translateX(30px);
-            background: var(--gold-gradient);
-            box-shadow: 0 0 12px var(--gold);
-        }
+        .control-toggle { position: relative; width: 62px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; cursor: pointer; border: 1px solid var(--border); transition: background 0.3s ease; }
+        .control-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; background: var(--muted); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease; }
+        .control-toggle.toggle-on { background: rgba(214, 194, 138, 0.25); border-color: var(--gold); }
+        .control-toggle.toggle-on::after { transform: translateX(30px); background: var(--gold-gradient); box-shadow: 0 0 12px var(--gold); }
       
         .timeline{ max-width:1100px; margin:auto; position:relative; display: flex; flex-direction: column; width: 100%; }
-        
-        .timeline::before{ 
-            content:'';
-            position:absolute; 
-            left:50%; 
-            top:0; 
-            transform:translateX(-50%); 
-            width:3px; 
-            height:100%; 
-            background: var(--gold); 
-            box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); 
-            display: block !important;
-        }
+        .timeline::before{ content:''; position:absolute; left:50%; top:0; transform:translateX(-50%); width:3px; height:100%; background: var(--gold); box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); display: block !important; }
         
         .timeline-item{ width:50%; padding:40px 45px; position:relative; display: flex; flex-direction: column; }
         .timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
         .timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
-        
         .timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
         .timeline-item:nth-child(even) .timeline-dot{ left:-9px; }
 
@@ -505,7 +426,7 @@
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow); 
             border-color: var(--gold);
-            background: rgba(214, 194, 138, 0.18);
+            background: rgba(214, 194, 138, 0.14); 
         }
         .timeline-content:hover ~ .timeline-dot {
             background: var(--dot-glow-color);
@@ -519,16 +440,8 @@
         .timeline-content h3{ font-size:1.8rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
         .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.2rem; font-weight: 500; }
        
-        .skills-grid-container {
-            max-width: 1100px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            width: 100%;
-        }
+        .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%; }
 
-        /* SKILL CARDS STYLING - WHOLE BOX STAYS ORIGINAL, ONLY ICON & LOGO GLOW */
         .skill-item-card {
             padding: 40px;
             border-radius: 24px;
@@ -548,46 +461,54 @@
             color: var(--gold);
             letter-spacing: -0.5px;
             text-transform: uppercase;
-            transition: color 0.35s ease, text-shadow 0.35s ease;
+            transition: all 0.35s ease;
         }
 
         .skill-icon-wrap {
             font-size: 2.3rem;
             color: var(--gold);
             opacity: 0.9;
-            transition: transform 0.35s ease, color 0.35s ease, filter 0.35s ease;
+            transition: all 0.35s ease;
         }
 
-        .skill-photoshop .skill-icon-wrap svg {
-            transition: transform 0.35s ease, filter 0.35s ease;
+        .skill-photoshop .skill-icon-wrap svg { transition: all 0.35s ease; }
+
+        /* Unified Core Yellow/Gold Hover Configurations with Brand Accents */
+        .skill-item-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.25), 0 0 30px rgba(214, 194, 138, 0.3);
+            transform: translateY(-8px) scale(1.02);
+        }
+        .skill-item-card:hover h3 {
+            text-shadow: 0 0 15px rgba(214, 194, 138, 0.5);
         }
 
-        /* Hover States: Box backdrop colors don't change, only the typography and icons glow with original colors */
-        .skill-html:hover h3 { color: #E34F26 !important; text-shadow: 0 0 15px rgba(227, 79, 38, 0.6); }
+        /* Specific Icon Reveals On Card Hovers */
+        .skill-html:hover h3 { color: #E34F26 !important; text-shadow: 0 0 15px rgba(227, 79, 38, 0.4); }
         .skill-html:hover .skill-icon-wrap { color: #E34F26 !important; filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
-        .skill-html:hover { border-color: rgba(227, 79, 38, 0.4); box-shadow: 0 15px 45px rgba(227, 79, 38, 0.15); transform: translateY(-8px) scale(1.02); }
 
-        .skill-css:hover h3 { color: #1572B6 !important; text-shadow: 0 0 15px rgba(21, 114, 182, 0.6); }
+        .skill-css:hover h3 { color: #1572B6 !important; text-shadow: 0 0 15px rgba(21, 114, 182, 0.4); }
         .skill-css:hover .skill-icon-wrap { color: #1572B6 !important; filter: drop-shadow(0 0 12px rgba(21, 114, 182, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
-        .skill-css:hover { border-color: rgba(21, 114, 182, 0.4); box-shadow: 0 15px 45px rgba(21, 114, 182, 0.15); transform: translateY(-8px) scale(1.02); }
 
-        .skill-python:hover h3 { color: #FFD43B !important; text-shadow: 0 0 15px rgba(255, 212, 59, 0.5); }
+        .skill-python:hover h3 { color: #FFD43B !important; text-shadow: 0 0 15px rgba(255, 212, 59, 0.4); }
         .skill-python:hover .skill-icon-wrap { color: #3776AB !important; filter: drop-shadow(0 0 12px rgba(55, 118, 171, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
-        .skill-python:hover { border-color: rgba(55, 118, 171, 0.4); box-shadow: 0 15px 45px rgba(55, 118, 171, 0.15); transform: translateY(-8px) scale(1.02); }
 
-        .skill-photoshop:hover h3 { color: #31A8FF !important; text-shadow: 0 0 15px rgba(49, 168, 255, 0.6); }
+        .skill-photoshop:hover h3 { color: #31A8FF !important; text-shadow: 0 0 15px rgba(49, 168, 255, 0.4); }
         .skill-photoshop:hover .skill-icon-wrap svg { filter: drop-shadow(0 0 14px rgba(49, 168, 255, 0.8)); transform: scale(1.1) rotate(5deg); }
-        .skill-photoshop:hover { border-color: rgba(49, 168, 255, 0.4); box-shadow: 0 15px 45px rgba(49, 168, 255, 0.15); transform: translateY(-8px) scale(1.02); }
 
-        @media(max-width: 900px) {
-            .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
-        }
+        @media(max-width: 900px) { .skills-grid-container { grid-template-columns: 1fr; gap: 20px; } }
        
         .projects-grid{ display:grid; grid-template-columns: repeat(auto-fit,minmax(min(100%, 380px), 1fr)); gap:40px; width:100%; }
         .project-card{ height:550px; border-radius:32px; overflow:hidden; position:relative; background:var(--surface); border:1px solid var(--border); transition: all 0.45s ease; }
+        
+        [data-theme="light"] .project-card {
+            border: 2px solid var(--timeline-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
         .project-card img{ width:100%; height:100%; object-fit:cover; transition:1s ease; }
         .project-card:hover img{ transform:scale(1.08); }
-        .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.92), transparent); z-index:1; }
+        .project-card::before{ content:''; position:absolute; inset:0; background: linear-gradient(to top, rgba(0,0,0,.85), transparent); z-index:1; }
 
         .project-content{ 
             position:absolute;
@@ -595,17 +516,32 @@
             z-index:2; 
             padding:30px; 
             border-radius:24px; 
-            background: var(--timeline-bg); 
+            background: rgba(4, 14, 22, 0.88); 
             backdrop-filter:blur(18px); 
             -webkit-backdrop-filter: blur(18px); 
             border: 2px solid var(--timeline-border);
             transition: all 0.45s ease;
         }
+        
+        [data-theme="light"] .project-content {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+        }
 
         .project-card:hover { transform: translateY(-10px) rotateX(2deg); }
-        .project-card:hover .project-content { border-color: var(--gold); background: rgba(214, 194, 138, 0.22); box-shadow: 0 0 45px var(--card-glow); }
-        .project-content h3{ font-size:1.7rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: #FFFFFF; }
-        .project-content p{ line-height:1.7; color:#CBD2D9; font-size:1.15rem; }
+        .project-card:hover .project-content { 
+            border-color: var(--gold); 
+            background: rgba(4, 14, 22, 0.95);
+            box-shadow: 0 0 45px var(--card-glow); 
+        }
+        
+        [data-theme="light"] .project-card:hover .project-content {
+            background: rgba(255, 255, 255, 1);
+            border-color: var(--gold);
+        }
+
+        .project-content h3{ font-size:1.7rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: var(--project-text); }
+        .project-content p{ line-height:1.7; color: var(--project-muted); font-size:1.15rem; }
 
         .contact-wrapper{ max-width:1350px; margin:auto; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:stretch; width:100%; }
         .contact-card{ padding:60px 40px; border-radius:35px; background: linear-gradient(135deg, rgba(214,194,138,.14), rgba(255,255,255,.05)); border:1px solid rgba(214,194,138,.2); backdrop-filter:blur(24px); box-shadow:var(--shadow); display:flex; flex-direction:column; justify-content:center; }
@@ -631,19 +567,7 @@
         .form-row{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
         
         .contact-form input, .contact-form textarea{ 
-            width:100%;
-            padding:22px; 
-            border-radius:20px; 
-            border:1px solid var(--border); 
-            background:var(--surface); 
-            color:var(--text); 
-            font-size:1.15rem; 
-            font-weight: 500;
-            font-family: inherit; 
-            outline:none; 
-            backdrop-filter:blur(16px); 
-            -webkit-backdrop-filter: blur(16px); 
-            transition: all 0.35s ease;
+            width:100%; padding:22px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--text); font-size:1.15rem; font-weight: 500; font-family: inherit; outline:none; backdrop-filter:blur(16px); -webkit-backdrop-filter: blur(16px); transition: all 0.35s ease;
         }
         
         .contact-form textarea{ min-height:250px; resize:none; }
@@ -651,23 +575,7 @@
         .contact-form input:focus, .contact-form textarea:focus{ border-color: var(--gold); background: rgba(4, 14, 22, 0.8); box-shadow: 0 0 25px rgba(214, 194, 138, 0.25); }
         [data-theme="light"] .contact-form input:focus, [data-theme="light"] .contact-form textarea:focus { background: rgba(0, 0, 0, 0.04); }
 
-        .send-btn{ 
-            width: 100% !important;
-            padding: 20px 42px !important; 
-            border-radius: 999px; 
-            background: transparent; 
-            border: 2px solid var(--gold); 
-            color: var(--gold); 
-            font-weight: 700; 
-            font-size: 1.25rem; 
-            font-family: inherit;
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 14px; 
-            transition: .35s ease;
-        }
+        .send-btn{ width: 100% !important; padding: 20px 42px !important; border-radius: 999px; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 700; font-size: 1.25rem; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 14px; transition: .35s ease; }
         .send-btn:hover{ background: var(--gold-gradient); color:#111; border-color: transparent; transform:translateY(-5px); }
 
         footer{ padding:40px; text-align:center; color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px solid var(--border); }
@@ -829,6 +737,7 @@
     <section id="projects">
         <h2 class="section-title">Featured <span>Projects</span></h2>
         <div class="projects-grid">
+            
             <div class="project-card">
                 <img src="img1.jpg" alt="">
                 <div class="project-content">
@@ -849,6 +758,7 @@
     <section id="contact">
         <h2 class="section-title">Get In <span>Touch</span></h2>
         <div class="contact-wrapper">
+        
             <div class="contact-card">
                 <div class="find-me-btn">Find Me ↘</div>
                 <div class="contact-info">
@@ -883,6 +793,7 @@
         const ctx = canvas.getContext("2d");
 
         let w, h;
+        let animationFrameId = null;
 
         function resizeCanvas(){
             w = canvas.width = window.innerWidth;
@@ -893,18 +804,15 @@
         window.addEventListener("resize", resizeCanvas);
 
         const spacing = 65;
-        const mouse = {
-            x: -9999,
-            y: -9999,
-            radius: 160
-        };
+        const mouse = { x: -9999, y: -9999, radius: 160 };
+
         window.addEventListener("mousemove", (e)=>{
             mouse.x = e.clientX;
             mouse.y = e.clientY;
         });
+
         function drawGrid(){
             ctx.clearRect(0, 0, w, h);
-
             ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
             ctx.lineWidth = 1.2; 
 
@@ -915,13 +823,11 @@
                     let dx = x - mouse.x;
                     let dy = y - mouse.y;
                     let mouseDist = Math.sqrt(dx * dx + dy * dy);
-                    
                     let offsetX = 0;
                     if(mouseDist < mouse.radius){
                         const force = (mouse.radius - mouseDist) / mouse.radius;
                         offsetX = (dx / mouseDist) * force * 28;
                     }
-
                     ctx.lineTo(x + offsetX, y);
                 }
                 ctx.stroke();
@@ -934,23 +840,20 @@
                     let dx = x - mouse.x;
                     let dy = y - mouse.y;
                     let mouseDist = Math.sqrt(dx * dx + dy * dy);
-                    
                     let offsetY = 0;
                     if(mouseDist < mouse.radius){
                         const force = (mouse.radius - mouseDist) / mouse.radius;
                         offsetY = (dy / mouseDist) * force * 28;
                     }
-
                     ctx.lineTo(x, y + offsetY);
                 }
                 ctx.stroke();
             }
-
-            requestAnimationFrame(drawGrid);
+            animationFrameId = requestAnimationFrame(drawGrid);
         }
-
         drawGrid();
 
+        // Particle Dispersion Engine Fixes
         const dispCanvas = document.getElementById("hero-dispersion-canvas");
         const dispCtx = dispCanvas.getContext("2d");
         let imgWidth = dispCanvas.parentElement.clientWidth || 500;
@@ -961,6 +864,7 @@
         let particles = [];
         let isHovered = false;
         let dispersionEnabled = true; 
+        let dispAnimationFrameId = null;
 
         const pImage = new Image();
         pImage.src = 'alokk.jpeg';
@@ -968,6 +872,7 @@
             initParticles();
             animateDispersion();
         };
+
         class Particle {
             constructor(x, y, color) {
                 this.originX = x;
@@ -983,12 +888,10 @@
                 this.dx = (Math.random() * 4 + 2);
                 this.dy = -(Math.random() * 3 + 1);
             }
-
             draw() {
                 dispCtx.fillStyle = this.color;
                 dispCtx.fillRect(this.x, this.y, this.size, this.size);
             }
-
             update() {
                 if (isHovered && dispersionEnabled) {
                     this.vx += this.dx * 0.15;
@@ -1007,11 +910,12 @@
         }
 
         function initParticles() {
+            if (imgWidth === 0 || imgHeight === 0) return;
+            particles = [];
             dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
             try {
                 const imgData = dispCtx.getImageData(0, 0, imgWidth, imgHeight).data;
                 dispCtx.clearRect(0, 0, imgWidth, imgHeight);
-
                 const step = 6; 
                 for (let y = 0; y < imgHeight; y += step) {
                     for (let x = 0; x < imgWidth; x += step) {
@@ -1020,7 +924,6 @@
                         const g = imgData[index + 1];
                         const b = imgData[index + 2];
                         const a = imgData[index + 3];
-
                         if (a > 128) { 
                             const color = `rgba(${r},${g},${b},${a / 255})`;
                             particles.push(new Particle(x, y, color));
@@ -1028,7 +931,7 @@
                     }
                 }
             } catch(e) {
-                console.log("Dispersion secure compilation verified.");
+                console.log("Dispersion verification.");
             }
         }
 
@@ -1037,18 +940,16 @@
             if ((!isHovered || !dispersionEnabled) && particles.length === 0) {
                 dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
             }
-
             if (!dispersionEnabled && !isHovered) {
                 dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
-                requestAnimationFrame(animateDispersion);
+                dispAnimationFrameId = requestAnimationFrame(animateDispersion);
                 return;
             }
-
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
             }
-            requestAnimationFrame(animateDispersion);
+            dispAnimationFrameId = requestAnimationFrame(animateDispersion);
         }
 
         dispCanvas.addEventListener("mouseenter", () => { isHovered = true; });
@@ -1056,7 +957,6 @@
 
         const switchBtn = document.getElementById("dispersion-switch");
         const labelToggle = document.getElementById("label-toggle");
-
         switchBtn.addEventListener("click", () => {
             dispersionEnabled = !dispersionEnabled;
             if (dispersionEnabled) {
@@ -1068,20 +968,24 @@
             }
         });
 
-        // HIGH PERFORMANCE ZOOM ENGINE FIXX: Added a debounce function to avoid crashes during laptop trackpad zooming or resize loops
+        // Trackpad Loop/Zoom Freeze Prevention Engines
         let resizeTimeout;
         window.addEventListener("resize", () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
-                imgWidth = dispCanvas.parentElement.clientWidth || 500;
-                imgHeight = dispCanvas.parentElement.clientHeight || 500;
-                dispCanvas.width = imgWidth;
-                dispCanvas.height = imgHeight;
-                particles = [];
-                initParticles();
-            }, 150); // Small 150ms delay blocks calculations while the browser is transforming layout sizes
+                const newWidth = dispCanvas.parentElement.clientWidth || 500;
+                const newHeight = dispCanvas.parentElement.clientHeight || 500;
+                if(newWidth !== imgWidth || newHeight !== imgHeight) {
+                    imgWidth = newWidth;
+                    imgHeight = newHeight;
+                    dispCanvas.width = imgWidth;
+                    dispCanvas.height = imgHeight;
+                    initParticles();
+                }
+            }, 150);
         });
 
+        // Interactive Contact Form Handling Engine
         const contactForm = document.getElementById("portfolio-contact-form");
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -1118,6 +1022,7 @@
             }
         });
 
+        // Theme Custom Control Toggle Layer
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         themeToggle.addEventListener("click", () => {
@@ -1131,6 +1036,7 @@
             }
         });
 
+        // GPU-Accelerated Cursor Engine (Prevents Tab Lag/Crashing)
         const root = document.documentElement;
         const ring = document.querySelector(".cursor-ring");
 
@@ -1153,6 +1059,7 @@
             });
         });
 
+        // Motion Effects Registration
         gsap.registerPlugin(ScrollTrigger);
         gsap.from(".hero-container",{ opacity:0, y:60, duration:1.4, ease:"power4.out" });
 
@@ -1162,6 +1069,7 @@
                 opacity:0, y:60, duration:1.1
             });
         });
+
         gsap.utils.toArray(".skill-item-card").forEach((card,i)=>{
             gsap.from(card,{
                 scrollTrigger:{ trigger:card, start:"top 90%" },
