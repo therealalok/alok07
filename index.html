@@ -577,14 +577,7 @@
             }
         }
 
-        .timeline-content:hover ~ .timeline-dot {
-            background: #FFFFFF;
-            border-color: #031421;
-            box-shadow: 0 0 20px rgba(3, 20, 33, 0.8), 0 0 30px #FFFFFF;
-            transform: scale(1.4);
-        }
-
-        .year{ display:inline-block; padding:12px 26px; border-radius:8px; background: #040E16;
+.year{ display:inline-block; padding:12px 26px; border-radius:8px; background: #040E16;
         border: 1px solid rgba(214, 194, 138, 0.6); color:var(--gold); font-size:1.05rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:20px;
         }
         .timeline-item:nth-child(odd) .timeline-content { text-align: left;
@@ -612,14 +605,76 @@
             background: #ffffff;
             padding: 4px;
             border: 2px solid var(--education-border);
-            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease, width 0.45s ease, height 0.45s ease;
+            transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease;
             flex-shrink: 0;
             clip-path: circle(50% at 50% 50%);
         }
-        .timeline-content:hover .school-logo-mask {
-            transform: scale(1.08);
-            border-color: var(--gold);
-            box-shadow: 0 0 20px rgba(214, 194, 138, 0.5);
+
+        /* 2x Enlarge Configuration Using Unused Area on the Same Side */
+        @media(min-width: 1201px) {
+            .timeline-item {
+                z-index: 1;
+                transition: z-index 0.45s ease;
+            }
+            .timeline-item:hover {
+                z-index: 10; /* Brings the hovered item above others */
+            }
+            
+            /* Left-side cards expand to the left into the outer padding space */
+            .timeline-item:nth-child(odd) .timeline-content {
+                transform-origin: right center;
+            }
+            .timeline-item:nth-child(odd) .timeline-content:hover {
+                transform: scale(2) translateX(-22%);
+                background: #020b12 !important;
+                border-color: var(--gold) !important;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), var(--dark-blue-glow);
+            }
+            
+            /* Right-side cards expand to the right into the outer padding space */
+            .timeline-item:nth-child(even) .timeline-content {
+                transform-origin: left center;
+            }
+            .timeline-item:nth-child(even) .timeline-content:hover {
+                transform: scale(2) translateX(22%);
+                background: #020b12 !important;
+                border-color: var(--gold) !important;
+                box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9), var(--dark-blue-glow);
+            }
+            
+            /* Theme overrides and font styling updates for enlarged view */
+            [data-theme="light"] .timeline-content:hover {
+                background: #0d1527 !important; 
+            }
+            .timeline-content:hover h3 {
+                font-size: 2.3rem !important;
+                color: #ffffff !important;
+            }
+            .timeline-content:hover p {
+                font-size: 1.45rem !important;
+                color: #ffffff !important;
+            }
+            .timeline-content:hover .school-logo-mask {
+                width: 125px !important;
+                height: 125px !important;
+                border-color: var(--gold) !important;
+                transform: scale(1.1) rotate(0deg) !important; /* Rotation completely removed */
+            }
+        }
+
+        /* Mobile fallback behavior */
+        @media(max-width: 1200px) {
+            .timeline-content:hover {
+                transform: translateY(-5px) scale(1.02);
+                box-shadow: var(--dark-blue-glow);
+            }
+        }
+
+        .timeline-content:hover ~ .timeline-dot {
+            background: #FFFFFF;
+            border-color: #031421;
+            box-shadow: 0 0 20px rgba(3, 20, 33, 0.8), 0 0 30px #FFFFFF;
+            transform: scale(1.4);
         }
 
         .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr);
