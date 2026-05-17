@@ -46,8 +46,8 @@
             --card-glow: rgba(214, 194, 138, 0.85);
             --dot-glow-color: #D6C28A;
             
-            --timeline-bg: rgba(214, 194, 138, 0.14);
-            --timeline-border: #D6C28A;
+            --timeline-bg: rgba(214, 194, 138, 0.12);
+            --timeline-border: rgba(214, 194, 138, 0.55);
             
             --timeline-text: #F8F8F5;
             --timeline-muted: #C3D1E0;
@@ -55,7 +55,6 @@
             --placeholder-color: rgba(248, 248, 245, 0.7);
             --project-text: #FFFFFF;
             --project-muted: #CBD2D9;
-            --ring-border: rgba(214, 194, 138, 0.5);
         }
 
         [data-theme="light"] {
@@ -72,8 +71,8 @@
             --card-glow: rgba(214, 194, 138, 0.45);
             --dot-glow-color: #C9B67E;
             
-            --timeline-bg: rgba(214, 194, 138, 0.2);
-            --timeline-border: #D6C28A;
+            --timeline-bg: rgba(214, 194, 138, 0.22);
+            --timeline-border: rgba(214, 194, 138, 0.85);
             
             --timeline-text: #0F172A;
             --timeline-muted: #2D3748;
@@ -81,7 +80,6 @@
             --placeholder-color: rgba(15, 23, 42, 0.65);
             --project-text: #0F172A;
             --project-muted: #4A5568;
-            --ring-border: rgba(15, 23, 42, 0.4);
         }
 
         *{
@@ -104,6 +102,16 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* Smooth Light System Cursor Mechanics */
+        @media (pointer: fine) {
+            body {
+                cursor: default;
+            }
+            a, button, .project-card, .image-box, .timeline-content, .skill-item-card, .control-toggle {
+                cursor: pointer;
+            }
         }
 
         ::-webkit-scrollbar {
@@ -207,7 +215,6 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             box-shadow: 0 8px 30px rgba(214, 194, 138, 0.15);
-            cursor: pointer;
             position: relative;
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
@@ -260,49 +267,13 @@
         .timeline-dot{
             width:18px;
             height:18px;
-            background: var(--dot-glow-color);
-            border:2px solid #FFFFFF;
+            background:var(--bg-gradient);
+            border:2px solid var(--gold);
             position:absolute;
             border-radius:50%;
             top:88px;
             z-index:2;
-            box-shadow: 0 0 10px #FFFFFF, 0 0 15px var(--dot-glow-color);
             transition:.25s ease;
-        }
-
-        .cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            position: fixed;
-            top: 0;
-            left: 0;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0) translate(-50%, -50%);
-            will-change: transform;
-        }
-
-        .cursor-ring {
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--ring-border);
-            position: fixed;
-            top: 0;
-            left: 0;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate3d(var(--cursor-x, -100px), var(--cursor-y, -100px), 0) translate(-50%, -50%);
-            will-change: transform, width, height, background;
-            transition: width .2s cubic-bezier(0.25, 1, 0.5, 1), height .2s cubic-bezier(0.25, 1, 0.5, 1), background .2s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-
-        @media (pointer: coarse) {
-            .cursor-dot, .cursor-ring {
-                display: none !important;
-            }
         }
 
         header{
@@ -343,7 +314,6 @@
             color: var(--text);
             width: 44px; height: 44px;
             border-radius: 50%;
-            cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.25rem;
             transition: all 0.3s ease;
@@ -370,9 +340,8 @@
         .hero-buttons{ display:flex; gap:24px; flex-wrap:wrap; }
         .btn{ padding:20px 42px; border-radius:999px; text-decoration:none; font-weight:700; font-size: 1.2rem; transition: all 0.35s ease; }
         
-        /* Unified Default Golden Section Button Control Frame */
-        .primary-btn{ background: var(--gold-gradient); color:#111; box-shadow: 0 15px 35px rgba(214,194,138,.3); border: 1px solid var(--gold); }
-        .primary-btn:hover{ transform:translateY(-6px); background:#111; color:var(--gold); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
+        .primary-btn{ background: var(--gold-gradient); color:#111; box-shadow: 0 20px 40px rgba(214,194,138,.18); border: 1px solid transparent; }
+        .primary-btn:hover{ transform:translateY(-6px); background:#111; color:var(--gold); border:1px solid var(--gold); }
         
         .secondary-btn{ background:rgba(255,255,255,.04); border:1px solid var(--border); color: var(--text); backdrop-filter:blur(18px); }
         .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important; }
@@ -393,14 +362,14 @@
             transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
         }
 
-        #hero-dispersion-canvas { width: 100%; height: 100%; display: block; cursor: pointer; transform: translateZ(0); }
+        #hero-dispersion-canvas { width: 100%; height: 100%; display: block; }
         .image-box:hover { transform: translateY(-4px) scale(1.015); border-color: var(--gold); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px var(--card-glow); }
 
         .dispersion-switch-area { display: flex; align-items: center; gap: 16px; background: rgba(4, 14, 22, 0.8); border: 1px solid var(--border); padding: 12px 24px; border-radius: 35px; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.5px; color: var(--muted); text-transform: uppercase; backdrop-filter: blur(10px); }
-        .switch-label { cursor: pointer; transition: color 0.3s ease; }
+        .switch-label { transition: color 0.3s ease; }
         .switch-label.active-label { color: var(--gold); text-shadow: 0 0 12px rgba(214, 194, 138, 0.5); }
 
-        .control-toggle { position: relative; width: 62px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; cursor: pointer; border: 1px solid var(--border); transition: background 0.3s ease; }
+        .control-toggle { position: relative; width: 62px; height: 32px; background: rgba(255, 255, 255, 0.1); border-radius: 20px; border: 1px solid var(--border); transition: background 0.3s ease; }
         .control-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; background: var(--muted); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease; }
         .control-toggle.toggle-on { background: rgba(214, 194, 138, 0.25); border-color: var(--gold); }
         .control-toggle.toggle-on::after { transform: translateX(30px); background: var(--gold-gradient); box-shadow: 0 0 12px var(--gold); }
@@ -419,24 +388,24 @@
             border-radius:24px;
             background: var(--timeline-bg); 
             border: 2px solid var(--timeline-border);
-            box-shadow: 0 20px 50px rgba(214, 194, 138, 0.2), 0 0 35px rgba(214, 194, 138, 0.15);
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.12);
             transform: scale(1) translateY(0);
             transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-            cursor: pointer;
         }
         .timeline-content:hover{
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow); 
+            border-color: var(--gold);
             background: rgba(214, 194, 138, 0.22); 
         }
         .timeline-content:hover ~ .timeline-dot {
-            background: #FFFFFF;
-            border-color: var(--dot-glow-color);
-            box-shadow: 0 0 20px var(--dot-glow-color), 0 0 30px #FFFFFF;
+            background: var(--dot-glow-color);
+            border-color: #FFFFFF;
+            box-shadow: 0 0 15px #FFFFFF, 0 0 25px var(--dot-glow-color);
             transform: scale(1.4);
         }
 
-        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.6); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
+        .year{ display:inline-block; padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.3); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px; }
         .timeline-item:nth-child(odd) .timeline-content { text-align: left; }
         .timeline-content h3{ font-size:1.8rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
         .timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.2rem; font-weight: 500; }
@@ -448,11 +417,10 @@
             border-radius: 24px;
             background: var(--timeline-bg);
             border: 2px solid var(--timeline-border);
-            box-shadow: 0 20px 50px rgba(214, 194, 138, 0.2), 0 0 35px rgba(214, 194, 138, 0.15);
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            cursor: pointer;
             transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease;
         }
 
@@ -467,29 +435,22 @@
 
         .skill-icon-wrap {
             font-size: 2.3rem;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: var(--gold);
             opacity: 0.9;
             transition: all 0.35s ease;
         }
 
+        .skill-photoshop .skill-icon-wrap svg { transition: all 0.35s ease; }
+
+        /* Solid Persistent Box Hover-State Actions */
         .skill-item-card:hover {
             border-color: var(--gold);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow);
+            box-shadow: 0 15px 45px rgba(214, 194, 138, 0.25), 0 0 30px rgba(214, 194, 138, 0.3);
             transform: translateY(-8px) scale(1.02);
-            background: rgba(214, 194, 138, 0.22);
         }
         .skill-item-card:hover h3 {
             text-shadow: 0 0 15px rgba(214, 194, 138, 0.5);
         }
-
-        /* Fixed Default Static States for Brands - No Glow Rule on Idle Base */
-        .skill-python h3 { color: #FFD43B !important; }
-        .skill-python .skill-icon-wrap { color: #3776AB !important; }
 
         .skill-html:hover h3 { color: #E34F26 !important; text-shadow: 0 0 15px rgba(227, 79, 38, 0.4); }
         .skill-html:hover .skill-icon-wrap { color: #E34F26 !important; filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
@@ -497,9 +458,14 @@
         .skill-css:hover h3 { color: #1572B6 !important; text-shadow: 0 0 15px rgba(21, 114, 182, 0.4); }
         .skill-css:hover .skill-icon-wrap { color: #1572B6 !important; filter: drop-shadow(0 0 12px rgba(21, 114, 182, 0.8)); transform: scale(1.1) rotate(5deg); opacity: 1; }
 
-        /* Trigger Hardware Acceleration and Glow Animations purely on Active Hover states */
-        .skill-python:hover .skill-icon-wrap svg { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 14px rgba(55, 118, 171, 0.9)); }
-        .skill-photoshop:hover .skill-icon-wrap svg { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 14px rgba(0, 200, 255, 0.9)); }
+        /* Python Custom Clean Split SVG Graphics Hover Override Layer */
+        .skill-python:hover h3 { color: #3776AB !important; text-shadow: 0 0 15px rgba(55, 118, 171, 0.4); }
+        .skill-python:hover .skill-icon-wrap svg path.py-blue { fill: #3776AB !important; filter: drop-shadow(0 0 8px #3776AB); }
+        .skill-python:hover .skill-icon-wrap svg path.py-yellow { fill: #FFD43B !important; filter: drop-shadow(0 0 8px #FFD43B); }
+        .skill-python:hover .skill-icon-wrap { transform: scale(1.1) rotate(5deg); opacity: 1; }
+
+        .skill-photoshop:hover h3 { color: #31A8FF !important; text-shadow: 0 0 15px rgba(49, 168, 255, 0.4); }
+        .skill-photoshop:hover .skill-icon-wrap svg { filter: drop-shadow(0 0 14px rgba(49, 168, 255, 0.8)); transform: scale(1.1) rotate(5deg); }
 
         @media(max-width: 900px) { .skills-grid-container { grid-template-columns: 1fr; gap: 20px; } }
        
@@ -551,9 +517,8 @@
         .contact-wrapper{ max-width:1350px; margin:auto; display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:stretch; width:100%; }
         .contact-card{ padding:60px 40px; border-radius:35px; background: linear-gradient(135deg, rgba(214,194,138,.14), rgba(255,255,255,.05)); border:1px solid rgba(214,194,138,.2); backdrop-filter:blur(24px); box-shadow:var(--shadow); display:flex; flex-direction:column; justify-content:center; }
         
-        /* Persistent Default Golden Theme Card Styling */
-        .find-me-btn { display: inline-block; width: max-content; padding: 16px 32px; font-size: 1.25rem; font-weight: 700; color: #111; border: 1px solid var(--gold); border-radius: 12px; background: var(--gold-gradient); letter-spacing: 0.5px; margin-bottom: 40px; box-shadow: 0 15px 35px rgba(214,194,138,.3); transition: all 0.35s ease; }
-        .find-me-btn:hover { background: transparent; color: var(--gold); transform: translateY(-3px); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
+        .find-me-btn { display: inline-block; width: max-content; padding: 16px 32px; font-size: 1.25rem; font-weight: 700; color: var(--gold); border: 1px solid var(--gold); border-radius: 12px; background: rgba(214, 194, 138, 0.04); letter-spacing: 0.5px; margin-bottom: 40px; transition: all 0.35s ease; }
+        .find-me-btn:hover { background: var(--gold-gradient); color: #111; transform: translateY(-3px); }
         
         .contact-info{ display:flex; flex-direction:column; gap:30px; }
         .contact-info a{ text-decoration:none; color: var(--text); font-size:1.25rem; font-weight: 600; display:flex; align-items:center; gap:22px; transition:.35s ease; word-break: break-all; }
@@ -581,9 +546,8 @@
         .contact-form input:focus, .contact-form textarea:focus{ border-color: var(--gold); background: rgba(4, 14, 22, 0.8); box-shadow: 0 0 25px rgba(214, 194, 138, 0.25); }
         [data-theme="light"] .contact-form input:focus, [data-theme="light"] .contact-form textarea:focus { background: rgba(0, 0, 0, 0.04); }
 
-        /* Rested Form Action Interface Setup */
-        .send-btn{ width: 100% !important; padding: 20px 42px !important; border-radius: 999px; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 700; font-size: 1.25rem; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 14px; transition: .35s ease; }
-        .send-btn:hover{ background: var(--gold-gradient); color:#111; border-color: transparent; transform:translateY(-5px); box-shadow: 0 20px 40px rgba(214,194,138,.18); }
+        .send-btn{ width: 100% !important; padding: 20px 42px !important; border-radius: 999px; background: transparent; border: 2px solid var(--gold); color: var(--gold); font-weight: 700; font-size: 1.25rem; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 14px; transition: .35s ease; }
+        .send-btn:hover{ background: var(--gold-gradient); color:#111; border-color: transparent; transform:translateY(-5px); }
 
         footer{ padding:40px; text-align:center; color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px solid var(--border); }
 
@@ -628,9 +592,6 @@
         <a href="#" class="side-nav-btn nav-github" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
         <a href="tel:+9779843538473" class="side-nav-btn nav-phone" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
     </div>
-
-    <div class="cursor-dot"></div>
-    <div class="cursor-ring"></div>
 
     <header>
         <div class="logo">Alok<span>.</span></div>
@@ -726,13 +687,9 @@
             <div class="skill-item-card skill-python">
                 <h3>Python</h3>
                 <div class="skill-icon-wrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="36" height="36" style="display: block; will-change: transform; transition: transform 0.35s ease;">
-                        <path d="M439.4 153.8c0-26.8-21.8-48.6-48.6-48.6H275.9c-24.8 0-44.9 20.1-44.9 44.9v24.3h87.5c24.8 0 44.9 20.1 44.9 44.9v87.5h27.4c26.8 0 48.6-21.8 48.6-48.6v-104.4z" fill="#3776AB"/>
-                        <path d="M172.1 241.4H84.6c-24.8 0-44.9 20.1-44.9 44.9v87.5h104.4c26.8 0 48.6-21.8 48.6-48.6V220.8h-20.6z" fill="#FFD43B"/>
-                        <path d="M186.7 153.8c0-26.8 21.8-48.6 48.6-48.6h42.1v42.1c0 24.8-20.1 44.9-44.9 44.9H135c-24.8 0-44.9-20.1-44.9-44.9V42.1C90.1 15.3 111.9-6.5 138.7-6.5h104.4c26.8 0 48.6 21.8 48.6 48.6v42.1H204.2c-24.8 0-44.9 20.1-44.9 44.9v24.7h27.4z" fill="#3776AB"/>
-                        <path d="M261.3 358.2c0 26.8-21.8 48.6-48.6 48.6h-42.1v-42.1c0-24.8 20.1-44.9 44.9-44.9H313c24.8 0 44.9 20.1 44.9 44.9v104.4c0 26.8-21.8 48.6-48.6 48.6H204.9c-26.8 0-48.6-21.8-48.6-48.6v-42.1h87.5c24.8 0 44.9-20.1 44.9-44.9v-24.7h-27.4z" fill="#FFD43B"/>
-                        <circle cx="172" cy="49" r="17" fill="#FFF"/>
-                        <circle cx="276" cy="463" r="17" fill="#FFF"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="36" height="36" style="display: block;">
+                        <path class="py-blue" fill="#D6C28A" d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 68.1-68 68.1H160.7v31.7c0 31.2 25.7 56.2 56.8 56.2h109.6c31.2 0 56.8-25 56.8-56.2V223.1c0-3.4-.5-14.6-24.1-22.6zM286.7 18c0-10.7-7.9-18-18-18h-89.6c-31.2 0-56.8 25-56.8 56.2v31.7c0 3.4 .5 14.6 24.1 22.6 7.7 30.9 22.3 54.2 53.4 54.2h40.1V99.3c0-36.8 31.2-68.1 68-68.1h102.1c4.5 0 8.1-3.6 8.1-8.1V18z"/>
+                        <path class="py-yellow" fill="#D6C28A" d="M160.7 211.8v47.4c0 36.8 31.2 68.1 68 68.1h102.1c31.2 0 56.8-25 56.8-56.2V239.5c0-3.4-.5-14.6-24.1-22.6-7.7-30.9-22.3-54.2-53.4-54.2H200.5c-31.2 0-56.8 25-56.8 56.2l17 12.9z"/>
                     </svg>
                 </div>
             </div>
@@ -740,9 +697,9 @@
             <div class="skill-item-card skill-photoshop">
                 <h3>Photoshop</h3>
                 <div class="skill-icon-wrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="40" height="40" style="display: block; will-change: transform; transition: transform 0.35s ease;">
-                        <rect width="512" height="512" rx="70" fill="#001E36" stroke="#00C8FF" stroke-width="12"/>
-                        <path d="M152.4 150h57.4c34.8 0 54.6 17.6 54.6 47.4 0 31.6-21.8 48.4-56.2 48.4H186v65.6h-33.6V150zm33.6 27.8v41.4h21c15.2 0 24.2-7 24.2-20.8 0-13.6-8.8-20.6-23.6-20.6h-21.6zm106.6 86.8c0-26.6 19.6-43.2 49-43.2 16.2 0 28.4 5.2 35.8 11.2l-10.4 22.4c-6.2-4.6-15-8.2-24.8-8.2-14.4 0-22.8 8.4-22.8 20.2 0 28.6 42.4 23.4 42.4 55.4 0 26-18.4 44.2-50.6 44.2-19 0-32.6-6.6-39.6-12.4l11-22.4c6.8 5.4 17.6 9.8 28 9.8 15.6 0 24.2-8.2 24.2-20.6 0-30-42.2-23.4-42.2-56.4z" fill="#00C8FF"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="38" height="38" style="display: block; will-change: transform;">
+                        <rect width="512" height="512" rx="110" fill="#001E36"/>
+                        <path d="M152.4 150h57.4c34.8 0 54.6 17.6 54.6 47.4 0 31.6-21.8 48.4-56.2 48.4H186v65.6h-33.6V150zm33.6 27.8v41.4h21c15.2 0 24.2-7 24.2-20.8 0-13.6-8.8-20.6-23.6-20.6h-21.6zm106.6 86.8c0-26.6 19.6-43.2 49-43.2 16.2 0 28.4 5.2 35.8 11.2l-10.4 22.4c-6.2-4.6-15-8.2-24.8-8.2-14.4 0-22.8 8.4-22.8 20.2 0 28.6 42.4 23.4 42.4 55.4 0 26-18.4 44.2-50.6 44.2-19 0-32.6-6.6-39.6-12.4l11-22.4c6.8 5.4 17.6 9.8 28 9.8 15.6 0 24.2-8.2 24.2-20.6 0-30-42.2-23.4-42.2-56.4z" fill="#31A8FF"/>
                     </svg>
                 </div>
             </div>
@@ -825,7 +782,7 @@
         window.addEventListener("mousemove", (e)=>{
             mouse.x = e.clientX;
             mouse.y = e.clientY;
-        }, { passive: true });
+        });
 
         function drawGrid(){
             ctx.clearRect(0, 0, w, h);
@@ -869,7 +826,7 @@
         }
         drawGrid();
 
-        // Optimized Particle Dispersion Engine
+        // Dispersion Core Architecture Updates
         const dispCanvas = document.getElementById("hero-dispersion-canvas");
         const dispCtx = dispCanvas.getContext("2d");
         let imgWidth = dispCanvas.parentElement.clientWidth || 500;
@@ -947,18 +904,20 @@
                     }
                 }
             } catch(e) {
-                console.log("Dispersion verification.");
+                console.log("Dispersion compilation complete.");
             }
         }
 
         function animateDispersion() {
+            dispCtx.clearRect(0, 0, imgWidth, imgHeight);
+            if ((!isHovered || !dispersionEnabled) && particles.length === 0) {
+                dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
+            }
             if (!dispersionEnabled && !isHovered) {
-                dispCtx.clearRect(0, 0, imgWidth, imgHeight);
                 dispCtx.drawImage(pImage, 0, 0, imgWidth, imgHeight);
                 dispAnimationFrameId = requestAnimationFrame(animateDispersion);
                 return;
             }
-            dispCtx.clearRect(0, 0, imgWidth, imgHeight);
             for (let i = 0; i < particles.length; i++) {
                 particles[i].update();
                 particles[i].draw();
@@ -982,24 +941,24 @@
             }
         });
 
-        // Anti-Stutter Window Resize Handling Engine
+        // Safe Asynchronous Window Layout Calculations
         let resizeTimeout;
         window.addEventListener("resize", () => {
             clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
                 const newWidth = dispCanvas.parentElement.clientWidth || 500;
                 const newHeight = dispCanvas.parentElement.clientHeight || 500;
-                if(Math.abs(newWidth - imgWidth) > 5 || Math.abs(newHeight - imgHeight) > 5) {
+                if(newWidth !== imgWidth || newHeight !== imgHeight) {
                     imgWidth = newWidth;
                     imgHeight = newHeight;
                     dispCanvas.width = imgWidth;
                     dispCanvas.height = imgHeight;
                     initParticles();
                 }
-            }, 60);
+            }, 150);
         });
 
-        // Contact Form Handling
+        // Contact Dispatch Processing Engine
         const contactForm = document.getElementById("portfolio-contact-form");
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -1025,7 +984,7 @@
                         statusButton.style.pointerEvents = "auto";
                     }, 4000);
                 } else {
-                    throw new Error("EmailJS Dispatch Error");
+                    throw new Error("EmailJS Error");
                 }
             } catch (error) {
                 statusButton.innerHTML = `ERROR <i class="fa-solid fa-xmark"></i>`;
@@ -1036,7 +995,7 @@
             }
         });
 
-        // Theme Custom Control Toggle Layer
+        // Theme Customization Toggle Configuration
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         themeToggle.addEventListener("click", () => {
@@ -1050,30 +1009,7 @@
             }
         });
 
-        // Lightweight Optimized Cursor Tracking
-        const root = document.documentElement;
-        const ring = document.querySelector(".cursor-ring");
-
-        window.addEventListener("mousemove", (e) => {
-            root.style.setProperty('--cursor-x', e.clientX + 'px');
-            root.style.setProperty('--cursor-y', e.clientY + 'px');
-        }, { passive: true });
-
-        const hoverItems = document.querySelectorAll("a, button, .project-card, .image-box, input, textarea, .timeline-content, .find-me-btn, .side-nav-btn, .skill-item-card, #hero-dispersion-canvas, .control-toggle");
-        hoverItems.forEach((item)=>{
-            item.addEventListener("mouseenter",()=>{
-                ring.style.width="52px";
-                ring.style.height="52px";
-                ring.style.background="rgba(214,194,138,.06)";
-            });
-            item.addEventListener("mouseleave",()=>{
-                ring.style.width="32px";
-                ring.style.height="32px";
-                ring.style.background="transparent";
-            });
-        });
-
-        // Motion Effects Registration
+        // Animation Registration Hook 
         gsap.registerPlugin(ScrollTrigger);
         gsap.from(".hero-container",{ opacity:0, y:60, duration:1.4, ease:"power4.out" });
 
