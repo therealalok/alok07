@@ -43,16 +43,15 @@ publicKey: "yZJw9EeH12xS_hpX5",
 --gold-soft: #C9B67E;
 --shadow: 0 25px 90px rgba(0, 0, 0, .55);
 --gold-gradient: linear-gradient(135deg, #FFF7E6 0%, #D6C28A 50%, #A68E51 100%);
---card-glow: rgba(214, 194, 138, 0.85);
 --dot-glow-color: #D6C28A;
 
-/* Updated Opaque Branded Colors for Education & Skill Cards */
---education-bg: rgba(4, 14, 22, 0.85);
---education-border: var(--gold);
---education-box-shadow: 0 20px 50px rgba(214, 194, 138, 0.15), 0 0 35px rgba(214, 194, 138, 0.1);
+/* Premium Opaque Golden Surfaces with Dark Blue Glow Themes */
+--education-bg: rgba(214, 194, 138, 0.18);
+--education-border: rgba(214, 194, 138, 0.6);
+--dark-blue-glow: 0 20px 50px rgba(3, 20, 33, 0.9), 0 0 30px #031421;
 
---skills-bg: rgba(4, 14, 22, 0.85);
---skills-border: var(--gold);
+--skills-bg: rgba(214, 194, 138, 0.18);
+--skills-border: rgba(214, 194, 138, 0.6);
 
 --timeline-text: #F8F8F5;
 --timeline-muted: #C3D1E0;
@@ -74,14 +73,13 @@ publicKey: "yZJw9EeH12xS_hpX5",
 --text: #0F172A;
 --muted: #4A5568;
 --shadow: 0 25px 70px rgba(148, 163, 184, 0.25);
---card-glow: rgba(214, 194, 138, 0.45);
 --dot-glow-color: #C9B67E;
+--dark-blue-glow: 0 15px 45px rgba(15, 23, 42, 0.2);
 
---education-bg: rgba(255, 255, 255, 0.95);
+--education-bg: rgba(214, 194, 138, 0.25);
 --education-border: #D6C28A;
---education-box-shadow: 0 15px 45px rgba(214, 194, 138, 0.25);
 
---skills-bg: rgba(255, 255, 255, 0.95);
+--skills-bg: rgba(214, 194, 138, 0.25);
 --skills-border: #D6C28A;
 --timeline-text: #0F172A;
 --timeline-muted: #2D3748;
@@ -133,7 +131,7 @@ transition: all 0.3s ease;
 
 ::-webkit-scrollbar-thumb:hover {
 background: #FFF7E6;
-box-shadow: 0 0 15px var(--card-glow);
+box-shadow: 0 0 15px rgba(214, 194, 138, 0.85);
 }
 
 #grid-distortion{
@@ -263,19 +261,6 @@ transform: scale(1.05);
 @media(max-width: 768px) {
 .side-floating-nav { right: 14px; gap: 12px; }
 .side-nav-btn { width: 46px; height: 46px; font-size: 1.15rem; }
-}
-
-.timeline-dot{
-width:18px;
-height:18px;
-background: var(--dot-glow-color);
-border:2px solid #FFFFFF;
-position:absolute;
-border-radius:50%;
-top:88px;
-z-index:2;
-box-shadow: 0 0 10px #FFFFFF, 0 0 15px var(--dot-glow-color);
-transition:.25s ease;
 }
 
 .cursor-dot {
@@ -412,7 +397,7 @@ transition: transform 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
 
 #hero-dispersion-canvas { width: 100%; height: 100%; display: block; cursor: pointer;
 transform: translateZ(0); }
-.image-box:hover { transform: translateY(-4px) scale(1.015); border-color: var(--gold); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px var(--card-glow);
+.image-box:hover { transform: translateY(-4px) scale(1.015); border-color: var(--gold); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5), 0 0 50px rgba(214, 194, 138, 0.85);
 }
 
 .dispersion-switch-area { display: flex; align-items: center; gap: 16px; background: rgba(4, 14, 22, 0.8); border: 1px solid var(--border); padding: 12px 24px;
@@ -430,87 +415,79 @@ border-radius: 50%; transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), ba
 border-color: var(--gold); }
 .control-toggle.toggle-on::after { transform: translateX(30px); background: var(--gold-gradient); box-shadow: 0 0 12px var(--gold); }
 
-.timeline{ max-width:1100px; margin:auto; position:relative; display: flex;
-flex-direction: column; width: 100%; }
-.timeline::before{ content:''; position:absolute; left:50%; top:0; transform:translateX(-50%); width:3px; height:100%; background: var(--gold);
-box-shadow: 0 0 15px rgba(214, 194, 138, 0.4); display: block !important; }
+/* Bespoke Editorial Handcrafted Timeline */
+.timeline{ max-width:1200px; margin:auto; display: flex; flex-direction: column; gap: 50px; width: 100%; position: relative; }
+.timeline::before { display: none !important; } /* Removing standard AI timeline line entirely */
 
-.timeline-item{ width:50%; padding:40px 45px; position:relative; display: flex; flex-direction: column;
-}
-.timeline-item:nth-child(odd){ left:0; align-self: flex-start; }
-.timeline-item:nth-child(even){ left:50%; align-self: flex-start; }
-.timeline-item:nth-child(odd) .timeline-dot{ right:-9px; }
-.timeline-item:nth-child(even) .timeline-dot{ left:-9px;
+.timeline-item{ width: 100%; display: grid; grid-template-columns: 0.35fr 1fr; gap: 40px; align-items: start; position: relative; }
+
+.timeline-year-side {
+font-size: clamp(2rem, 4.5vw, 4rem);
+font-weight: 900;
+color: var(--gold);
+background: var(--gold-gradient);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+letter-spacing: -1px;
+line-height: 1;
+padding-top: 10px;
+text-align: right;
 }
 
-/* Education Cards Opaque Treatment */
 .timeline-content{
-padding:40px;
+padding:45px;
 border-radius:24px;
 background: var(--education-bg);
 border: 2px solid var(--education-border);
-box-shadow: var(--education-box-shadow);
 transform: scale(1) translateY(0);
 transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
 cursor: pointer;
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
 }
 .timeline-content:hover{
-transform: translateY(-8px) scale(1.02);
-box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow);
-background: rgba(214, 194, 138, 0.12);
-}
-.timeline-content:hover ~ .timeline-dot {
-background: #FFFFFF;
-border-color: var(--dot-glow-color);
-box-shadow: 0 0 20px var(--dot-glow-color), 0 0 30px #FFFFFF;
-transform: scale(1.4);
+transform: translateY(-8px) scale(1.015);
+box-shadow: var(--dark-blue-glow);
+background: rgba(214, 194, 138, 0.28);
+border-color: var(--gold);
 }
 
-.year{ display:inline-block;
-padding:10px 22px; border-radius:8px; background: #040E16; border: 1px solid rgba(214, 194, 138, 0.6); color:var(--gold); font-size:.95rem; font-weight:700; letter-spacing: 1.5px; margin-bottom:26px;
-}
-.timeline-item:nth-child(odd) .timeline-content { text-align: left; }
-.timeline-content h3{ font-size:1.8rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:18px; line-height: 1.35; }
-.timeline-content p{ line-height:1.85;
-color: var(--timeline-muted); font-size: 1.2rem; font-weight: 500; }
+.timeline-content h3{ font-size:1.9rem; font-weight: 800; color: var(--timeline-text); letter-spacing: -0.4px; margin-bottom:14px; line-height: 1.35; }
+.timeline-content p{ line-height:1.85; color: var(--timeline-muted); font-size: 1.2rem; font-weight: 500; }
 
 .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;
 width: 100%; }
 
-/* Skill Cards Premium Opaque Treatment */
+/* Handcrafted Golden Skill Panels with Deep Blue Glows */
 .skill-item-card {
 padding: 40px;
 border-radius: 24px;
 background: var(--skills-bg);
 border: 2px solid var(--skills-border);
-box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
 display: flex;
 justify-content: space-between;
 align-items: center;
 cursor: pointer;
-backdrop-filter: blur(12px);
--webkit-backdrop-filter: blur(12px);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
 transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease, background 0.45s ease;
 }
 
 .skill-item-card h3 {
 font-size: 2rem;
 font-weight: 800;
-color: var(--gold);
+color: var(--text);
 letter-spacing: -0.5px;
 text-transform: uppercase;
 transition: all 0.35s ease;
 }
 
 .skill-icon-wrap {
-width: 48px;
-height: 48px;
+width: 52px;
+height: 52px;
 display: flex;
 align-items: center;
 justify-content: center;
-opacity: 0.95;
 transition: all 0.35s ease;
 }
 
@@ -523,33 +500,26 @@ transition: all 0.35s ease;
 
 .skill-item-card:hover {
 border-color: var(--gold);
-box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35), 0 0 50px var(--card-glow);
+box-shadow: var(--dark-blue-glow);
 transform: translateY(-8px) scale(1.02);
-background: rgba(214, 194, 138, 0.12);
+background: rgba(214, 194, 138, 0.28);
 }
+
 .skill-item-card:hover h3 {
-text-shadow: 0 0 15px rgba(214, 194, 138, 0.5);
+color: var(--gold);
+text-shadow: 0 0 10px rgba(214, 194, 138, 0.3);
 }
 
-/* Custom Vector Branding Hover Rotations */
-.skill-html:hover .skill-icon-wrap img {
-filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.8)); transform: scale(1.15) rotate(5deg);
-}
-.skill-css:hover .skill-icon-wrap i {
-color: #1572B6 !important;
-filter: drop-shadow(0 0 12px rgba(21, 114, 182, 0.8)); transform: scale(1.15) rotate(5deg);
-}
-.skill-css:hover h3 { color: #1572B6 !important; }
-
-.skill-python:hover .skill-icon-wrap img {
-filter: drop-shadow(0 0 14px rgba(55, 118, 171, 0.9)); transform: scale(1.15) rotate(5deg);
-}
-.skill-photoshop:hover .skill-icon-wrap svg { transform: scale(1.15) rotate(5deg);
-filter: drop-shadow(0 0 14px rgba(0, 200, 255, 0.9)); opacity: 1;
+/* Premium Image Icon Layout Triggers */
+.skill-html:hover .skill-icon-wrap img,
+.skill-css:hover .skill-icon-wrap img,
+.skill-python:hover .skill-icon-wrap img,
+.skill-photoshop:hover .skill-icon-wrap img {
+transform: scale(1.15) rotate(5deg);
+filter: drop-shadow(0 4px 15px rgba(3, 20, 33, 0.4));
 }
 
-@media(max-width: 900px) { .skills-grid-container { grid-template-columns: 1fr; gap: 20px;
-} }
+@media(max-width: 900px) { .skills-grid-container { grid-template-columns: 1fr; gap: 20px; } }
 
 .projects-grid{ display:grid;
 grid-template-columns: repeat(auto-fit,minmax(min(100%, 380px), 1fr)); gap:40px; width:100%; }
@@ -558,7 +528,7 @@ transition: all 0.45s ease;
 }
 
 [data-theme="light"] .project-card {
-border: 2px solid var(--timeline-border);
+border: 2px solid #2D3748;
 box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
@@ -577,7 +547,7 @@ border-radius:24px;
 background: rgba(4, 14, 22, 0.88);
 backdrop-filter:blur(18px);
 -webkit-backdrop-filter: blur(18px);
-border: 2px solid var(--timeline-border);
+border: 2px solid #2D3748;
 transition: all 0.45s ease;
 }
 
@@ -591,7 +561,7 @@ box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
 .project-card:hover .project-content {
 border-color: var(--gold);
 background: rgba(4, 14, 22, 0.95);
-box-shadow: 0 0 45px var(--card-glow);
+box-shadow: 0 0 45px rgba(214, 194, 138, 0.85);
 }
 
 [data-theme="light"] .project-card:hover .project-content {
@@ -692,11 +662,8 @@ color:var(--muted); font-size: 1.15rem; letter-spacing: 0.5px; border-top:1px so
 }
 .hero p{ margin:auto auto 45px; }
 .image-box{ width: 380px; height: 380px; margin:auto; }
-.timeline::before{ left:24px; }
-.timeline-item{ width:100%; padding: 25px 20px 25px 60px;
-left:0 !important; text-align:left !important; }
-.timeline-dot{ left:16px !important; right: auto !important; top: 73px !important; }
-.timeline-content{ padding: 35px; }
+.timeline-item { grid-template-columns: 1fr; gap: 15px; }
+.timeline-year-side { text-align: left; }
 }
 
 @media(max-width:768px){
@@ -783,30 +750,27 @@ section { padding: 80px 6%;
 <div class="timeline">
 
 <div class="timeline-item">
+<div class="timeline-year-side">2010 — 2022</div>
 <div class="timeline-content">
-<div class="year">2010 — 2022</div>
 <h3>Mahakavi Devkota Memorial Secondary School</h3>
 <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
 </div>
-<div class="timeline-dot"></div>
 </div>
 
 <div class="timeline-item">
+<div class="timeline-year-side">2022 — 2024</div>
 <div class="timeline-content">
-<div class="year">2022 — 2024</div>
 <h3>Reliance International Academy</h3>
 <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
 </div>
-<div class="timeline-dot"></div>
 </div>
 
 <div class="timeline-item">
+<div class="timeline-year-side">2024 — Present</div>
 <div class="timeline-content">
-<div class="year">2024 — Present</div>
 <h3>Amrit Campus</h3>
 <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
 </div>
-<div class="timeline-dot"></div>
 </div>
 
 </div>
@@ -825,7 +789,9 @@ section { padding: 80px 6%;
 
 <div class="skill-item-card skill-css">
 <h3>CSS</h3>
-<div class="skill-icon-wrap"><i class="fa-brands fa-css3-alt"></i></div>
+<div class="skill-icon-wrap">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3">
+</div>
 </div>
 
 <div class="skill-item-card skill-python">
@@ -838,10 +804,7 @@ section { padding: 80px 6%;
 <div class="skill-item-card skill-photoshop">
 <h3>Photoshop</h3>
 <div class="skill-icon-wrap">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="40" height="40" style="display: block; will-change: transform; transition: transform 0.35s ease;">
-<rect width="512" height="512" rx="70" fill="#001E36" stroke="#00C8FF" stroke-width="12"/>
-<path d="M152.4 150h57.4c34.8 0 54.6 17.6 54.6 47.4 0 31.6-21.8 48.4-56.2 48.4H186v65.6h-33.6V150zm33.6 27.8v41.4h21c15.2 0 24.2-7 24.2-20.8 0-13.6-8.8-20.6-23.6-20.6h-21.6zm106.6 86.8c0-26.6 19.6-43.2 49-43.2 16.2 0 28.4 5.2 35.8 11.2l-10.4 22.4c-6.2-4.6-15-8.2-24.8-8.2-14.4 0-22.8 8.4-22.8 20.2 0 28.6 42.4 23.4 42.4 55.4 0 26-18.4 44.2-50.6 44.2-19 0-32.6-6.6-39.6-12.4l11-22.4c6.8 5.4 17.6 9.8 28 9.8 15.6 0 24.2-8.2 24.2-20.6 0-30-42.2-23.4-42.2-56.4z" fill="#00C8FF"/>
-</svg>
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop">
 </div>
 </div>
 
