@@ -400,15 +400,147 @@ border-radius: 99px;
 box-shadow: var(--title-glow);
 }
 
-.hero{ min-height:100vh; display:flex; align-items:center; padding-top:130px; }
-.hero-container{ max-width:1450px; margin:auto; display:grid; grid-template-columns:1.1fr .9fr; gap:50px;
-align-items:center; width:100%; }
+/* =========================================================
+   CINEMATIC HERO LAYOUT WITH INTEGRATED SVG HOISTING ENGINE
+   ========================================================= */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 130px;
+}
+.hero-container {
+  max-width: 1450px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 50px;
+  align-items: center;
+  width: 100%;
+}
+.hero-left-brand-block {
+  display: flex;
+  flex-direction: column;
+}
+.hero-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 45px;
+  margin-bottom: 30px;
+  width: 100%;
+}
+.hero-name-text {
+  text-align: left;
+}
+.hero-name-text h1 {
+  font-size: clamp(4rem, 9vw, 9.5rem);
+  line-height: .9;
+  font-weight: 800;
+  letter-spacing: -5px;
+  margin-bottom: 0 !important;
+}
+.hero-name-text .alok {
+  color: var(--text);
+  text-shadow: 0 0 30px rgba(255,255,255,.08);
+}
+.hero-subtitle {
+  font-size: 1.85rem;
+  letter-spacing: 10px;
+  color: var(--gold);
+  margin-bottom: 25px;
+  font-weight: 800;
+}
+.hero h1 span {
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero p {
+  max-width: 720px;
+  line-height: 1.9;
+  color: var(--muted);
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 400;
+  margin-bottom: 60px;
+}
 
-.hero-subtitle{ font-size: 1.85rem; letter-spacing:10px; color:var(--gold); margin-bottom:30px; font-weight:800; }
+/* 3D Flag Hoisting Geometry Engine Styles */
+.flag-scene {
+  position: relative;
+  width: 160px;
+  height: 240px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.flagpole {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 100%;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #2d3138 0%, #9098a5 18%, #d6dce5 35%, #767d88 55%, #262b31 100%);
+  box-shadow: 0 0 40px rgba(214,194,138,0.18), inset 0 0 12px rgba(255,255,255,0.35);
+  z-index: 3;
+}
+.flagpole::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff4cf 0%, #d6c28a 35%, #9f8450 100%);
+  box-shadow: 0 0 15px rgba(214,194,138,.5);
+}
+.flag-wrapper {
+  position: absolute;
+  left: 8px;
+  top: 15px;
+  width: 135px;
+  height: 165px;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,.55));
+}
+.nepal-flag {
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  animation: floatFlag 8s ease-in-out infinite;
+}
+.flag-cloth {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  animation: waving 5s ease-in-out infinite;
+}
+.flag-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.fabric-light {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 30%, rgba(0,0,0,.16) 55%, rgba(255,255,255,.08) 85%);
+  mix-blend-mode: screen;
+  opacity: .9;
+  clip-path: polygon(0 0, 100% 0, 64% 46%, 100% 46%, 0 100%);
+}
 
-.hero h1{ font-size:clamp(4rem, 9vw, 9.5rem); line-height:.9; font-weight:800; letter-spacing:-5px; margin-bottom:35px; }
-.hero h1 span{ background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-.hero p{ max-width:720px; line-height:1.9; color:var(--muted); font-size:clamp(1.15rem, 2vw, 1.45rem); font-weight: 400; margin-bottom:60px; }
+@keyframes waving {
+  0%, 100% { transform: perspective(1200px) rotateY(0deg) rotateZ(-2deg) skewY(1deg); }
+  25% { transform: perspective(1200px) rotateY(-8deg) rotateZ(-1deg) skewY(-1deg); }
+  50% { transform: perspective(1200px) rotateY(4deg) rotateZ(1deg) skewY(1deg); }
+  75% { transform: perspective(1200px) rotateY(-5deg) rotateZ(-1deg) skewY(-1deg); }
+}
+@keyframes floatFlag {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
 
 .hero-buttons{ display:flex; gap:24px; flex-wrap:wrap; }
 .btn{ padding:20px 42px; border-radius:999px; text-decoration:none; font-weight:700; font-size: 1.2rem; transition: all 0.35s ease; }
@@ -502,30 +634,30 @@ font-weight: 500; }
 
 /* Expanded Logo Mask Flex Container Layout */
 .education-header-flex {
-display: flex;
-align-items: center;
-gap: 30px;
-margin-bottom: 25px;
-width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 25px;
+  width: 100%;
 }
 .timeline-item:nth-child(even) .education-header-flex {
-flex-direction: row;
+  flex-direction: row;
 }
 .school-logo-mask {
-width: 110px;
-height: 110px;
-object-fit: contain;
-background: #ffffff;
-padding: 4px;
-border: 2px solid var(--education-border);
-transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease;
-flex-shrink: 0;
-clip-path: circle(50% at 50% 50%);
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  background: #ffffff;
+  padding: 4px;
+  border: 2px solid var(--education-border);
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.45s ease, box-shadow 0.45s ease;
+  flex-shrink: 0;
+  clip-path: circle(50% at 50% 50%);
 }
 .timeline-content:hover .school-logo-mask {
-transform: scale(1.08) rotate(4deg);
-border-color: var(--gold);
-box-shadow: 0 0 20px rgba(214, 194, 138, 0.5);
+  transform: scale(1.08) rotate(4deg);
+  border-color: var(--gold);
+  box-shadow: 0 0 20px rgba(214, 194, 138, 0.5);
 }
 
 .skills-grid-container { max-width: 1100px; margin: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; width: 100%;
@@ -750,6 +882,7 @@ padding: 25px 20px 25px 60px; left:0 !important; text-align:left !important; }
 .timeline-content{ padding: 35px; }
 .education-header-flex { gap: 20px; }
 .school-logo-mask { width: 95px; height: 95px; }
+.hero-brand-header { gap: 30px; justify-content: center; }
 }
 
 @media(max-width:768px){
@@ -765,6 +898,11 @@ nav{ display:none; }
 section { padding: 80px 6%; }
 .education-header-flex { flex-direction: column !important; align-items: flex-start; gap: 15px; }
 .school-logo-mask { width: 90px; height: 90px; }
+.hero-brand-header { flex-direction: column !important; gap: 15px; }
+.flag-scene { height: 160px; width: 100px; justify-content: center; }
+.flag-wrapper { width: 85px; height: 110px; left: calc(50% - 38px); }
+.flagpole { left: calc(50% - 46px); }
+.fabric-light { clip-path: polygon(0 0, 100% 0, 64% 46%, 100% 46%, 0 100%); }
 }
 </style>
 </head>
@@ -806,9 +944,56 @@ section { padding: 80px 6%; }
 
 <section class="hero" id="home">
 <div class="hero-container">
-<div>
+<div class="hero-left-brand-block">
+<div class="hero-brand-header">
+<div class="flag-scene">
+<div class="flagpole"></div>
+<div class="flag-wrapper">
+<div class="nepal-flag">
+<div class="flag-cloth">
+<svg class="flag-svg" viewBox="0 0 420 520" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 20 L300 20 L190 180 L300 180 L20 500 Z" fill="#003893" />
+<path d="M35 35 L275 35 L175 180 L275 180 L35 470 Z" fill="#DC143C" />
+<g transform="translate(120 140) scale(1.1)">
+<path d="M0 0 A35 35 0 1 0 70 0 A28 28 0 1 1 0 0" fill="white" />
+<g fill="white">
+<polygon points="35,-38 40,-22 30,-22"/>
+<polygon points="15,-28 20,-16 10,-16"/>
+<polygon points="55,-28 60,-16 50,-16"/>
+</g>
+</g>
+<g transform="translate(125 335)">
+<circle r="42" fill="white"/>
+<g fill="white">
+<polygon points="0,-62 8,-42 -8,-42"/>
+<polygon points="0,62 8,42 -8,42"/>
+<polygon points="-62,0 -42,8 -42,-8"/>
+<polygon points="62,0 42,8 42,-8"/>
+<polygon points="-45,-45 -28,-30 -38,-20"/>
+<polygon points="45,-45 28,-30 38,-20"/>
+<polygon points="-45,45 -28,30 -38,20"/>
+<polygon points="45,45 28,30 38,20"/>
+</g>
+</g>
+<defs>
+<linearGradient id="fabricShade" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+<stop offset="40%" stop-color="rgba(255,255,255,0)"/>
+<stop offset="100%" stop-color="rgba(0,0,0,0.25)"/>
+</linearGradient>
+</defs>
+<path d="M35 35 L275 35 L175 180 L275 180 L35 470 Z" fill="url(#fabricShade)" opacity=".55" />
+</svg>
+<div class="fabric-light"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="hero-name-text">
 <div class="hero-subtitle">THIS IS</div>
-<h1>ALOK <br><span>SHARMA</span></h1>
+<h1 class="alok">ALOK <br><span>SHARMA</span></h1>
+</div>
+</div>
 <p>I post premium matchday posters, cinematic campaigns, and luxury editorial graphics that bring the modern storytelling and current affairs of European football to life.</p>
 <div class="hero-buttons">
 <a href="#projects" class="btn primary-btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
@@ -840,7 +1025,7 @@ section { padding: 80px 6%; }
 <div class="timeline-item">
 <div class="timeline-content">
 <div class="education-header-flex">
-<img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
+<img src="./mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
 <div>
 <div class="year">2010 — 2022</div>
 <h3>Mahakavi Devkota Memorial Secondary School</h3>
@@ -854,7 +1039,7 @@ section { padding: 80px 6%; }
 <div class="timeline-item">
 <div class="timeline-content">
 <div class="education-header-flex">
-<img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
+<img src="./ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
 <div>
 <div class="year">2022 — 2024</div>
 <h3>Reliance International Academy</h3>
@@ -868,7 +1053,7 @@ section { padding: 80px 6%; }
 <div class="timeline-item">
 <div class="timeline-content">
 <div class="education-header-flex">
-<img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
+<img src="./ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
 <div>
 <div class="year">2024 — Present</div>
 <h3>Amrit Campus</h3>
@@ -974,7 +1159,7 @@ section { padding: 80px 6%; }
 </section>
 
 <footer>
-Copyright © Alok Sharma - All rights reserved
+Copyright © Alok Sharma - All rights reserved.
 </footer>
 
 <script>
