@@ -31,7 +31,8 @@
     <style>
         :root{
             --bg-gradient: linear-gradient(135deg, #031421, #071826, #0B1118);
-            --canvas-opacity: 0.85;
+            --canvas-opacity: 0.55;
+            --grid-color: rgba(255, 255, 255, 0.25);
             --surface: rgba(255, 255, 255, .045);
             --surface2: rgba(255, 255, 255, .03);
             --border: rgba(255, 255, 255, .08);
@@ -63,7 +64,8 @@
 
         [data-theme="light"] {
             --bg-gradient: linear-gradient(135deg, #F4F7FA, #E2E8F0, #EDF2F7);
-            --canvas-opacity: 0.65;
+            --canvas-opacity: 0.45;
+            --grid-color: rgba(15, 23, 42, 0.18);
             --surface: rgba(0, 0, 0, .03);
             --surface2: rgba(0, 0, 0, .015);
             --border: rgba(0, 0, 0, .08);
@@ -141,7 +143,7 @@
             height:100%;
             z-index:-5;
             opacity: var(--canvas-opacity);
-            pointer-events:auto; /* Enabled to catch background fluid dynamic clicks */
+            pointer-events:none;
             transform: translateZ(0);
             will-change: transform;
         }
@@ -342,11 +344,9 @@
         }
         nav{ display:flex; gap:40px;
         }
-        nav a{ text-decoration:none; color:var(--nav-link); font-weight:700; font-size: 1.2rem; position:relative; letter-spacing: 0.3px;
-        transition: color 0.3s ease;
+        nav a{ text-decoration:none; color:var(--nav-link); font-weight:700; font-size: 1.2rem; position:relative; letter-spacing: 0.3px; transition: color 0.3s ease;
         }
-        nav a::after{ content:''; position:absolute; left:0; bottom:-8px; width:0%; height:2px;
-        background:var(--gold); transition:.35s ease;
+        nav a::after{ content:''; position:absolute; left:0; bottom:-8px; width:0%; height:2px; background:var(--gold); transition:.35s ease;
         }
         nav a:hover{ color:var(--text);
         }
@@ -455,78 +455,19 @@
         .hero p{ max-width:720px; line-height:1.9; color:var(--muted);
         font-size:clamp(1.15rem, 2vw, 1.45rem); font-weight: 400; margin-bottom:60px; }
 
-        /* PREMIUM RESTRUCTURED STUDIO BUTTONS - Anti-AI Aesthetics */
-        .hero-buttons{ display:flex; gap:20px; flex-wrap:wrap; }
-        
-        .btn{ 
-            position: relative;
-            padding: 22px 48px; 
-            font-weight: 800; 
-            font-size: 1.15rem; 
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-decoration: none; 
-            border-radius: 4px; /* Crisp Geometric Corners over round AI pills */
-            overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .hero-buttons{ display:flex; gap:24px; flex-wrap:wrap;
+        }
+        .btn{ padding:20px 42px; border-radius:999px; text-decoration:none; font-weight:700; font-size: 1.2rem; transition: all 0.35s ease;
         }
 
-        /* High-End Solid-Cut Reflection Metallic Button */
-        .primary-btn{ 
-            background: #D6C28A; 
-            color: #040E16; 
-            border: 1px solid #D6C28A;
-            box-shadow: 0 10px 30px rgba(214, 194, 138, 0.15);
-        }
-        /* Linear Laser glare reflection line sliding across on hover */
-        .primary-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            transform: skewX(-25deg);
-            transition: none;
-        }
-        .primary-btn:hover::before {
-            left: 150%;
-            transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .primary-btn:hover{ 
-            transform: translateY(-4px); 
-            background: #FFF7E6;
-            border-color: #FFF7E6;
-            box-shadow: 0 15px 40px rgba(214,194,138,.35), 0 0 20px rgba(214,194,138,0.2); 
-        }
+        .primary-btn{ background: var(--gold-gradient); color:#111; box-shadow: 0 15px 35px rgba(214,194,138,.3);
+        border: 1px solid var(--gold); }
+        .primary-btn:hover{ transform:translateY(-6px); background:#111; color:var(--gold);
+        box-shadow: 0 20px 40px rgba(214,194,138,.18); }
 
-        /* Editorial Outline Geometric Minimalistic Button */
-        .secondary-btn{ 
-            background: transparent; 
-            border: 1px solid rgba(255, 255, 255, 0.15); 
-            color: #F8F8F5;
-        }
-        .secondary-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: #F8F8F5;
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: -1;
-        }
-        .secondary-btn:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        .secondary-btn:hover{ 
-            transform: translateY(-4px); 
-            color: #040E16 !important; 
-            border-color: #F8F8F5 !important;
-            z-index: 1;
+        .secondary-btn{ background:rgba(255,255,255,.04); border:1px solid var(--border); color: var(--text);
+        backdrop-filter:blur(18px); }
+        .secondary-btn:hover{ transform:translateY(-6px); background: #ffffff !important; color: #111111 !important; border-color: #ffffff !important;
         }
 
         .hero-image-wrapper { display: flex; flex-direction: column; align-items: center; gap: 25px; width: 100%;
@@ -809,8 +750,7 @@
             box-shadow: 0 0 45px rgba(214, 194, 138, 0.85);
         }
 
-        .project-content h3{ font-size:1.7rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: var(--project-text);
-        transition: text-shadow 0.45s ease, color 0.45s ease;
+        .project-content h3{ font-size:1.7rem; font-weight:700; letter-spacing: -0.2px; margin-bottom:14px; color: var(--project-text); transition: text-shadow 0.45s ease, color 0.45s ease;
         }
         .project-card:hover .project-content h3 {
             text-shadow: var(--title-glow);
@@ -1209,7 +1149,7 @@
             <div class="project-card">
                 <img src="slotout.jpeg" alt="Slot Out Narrative Poster Art">
                 <div class="project-content">
-                    <h3>Slot Out!</h3>
+                    <h3>Slot Out! </h3>
                     <p>An emotional editorial capturing Liverpool’s downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot’s future at Anfield.</p>
                 </div>
             </div>
@@ -1254,142 +1194,66 @@
     </footer>
 
     <script>
-        // PREMIUM GOLD DUST & WATER RIPPLE ENGINE
         const canvas = document.getElementById("grid-distortion");
         const ctx = canvas.getContext("2d");
+
         let w, h;
-        
+        let animationFrameId = null;
         function resizeCanvas(){
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
         }
+
         resizeCanvas();
         window.addEventListener("resize", resizeCanvas);
 
-        let backgroundParticles = [];
-        let rippleWaves = [];
-        const maxBackgroundParticles = 140;
-
-        class GoldDustParticle {
-            constructor() {
-                this.reset();
-                this.y = Math.random() * h; // Random start heights initially
-            }
-            reset() {
-                this.x = Math.random() * w;
-                this.y = Math.random() * 50 + h; // Reset just off bottom
-                this.size = Math.random() * 2 + 1;
-                this.speedY = -(Math.random() * 0.6 + 0.2); // Slow upward float
-                this.speedX = Math.random() * 0.4 - 0.2;
-                this.alpha = Math.random() * 0.5 + 0.2;
-                this.baseAlpha = this.alpha;
-                this.angle = Math.random() * Math.PI * 2;
-                this.spinSpeed = Math.random() * 0.02 - 0.01;
-            }
-            update() {
-                this.y += this.speedY;
-                this.x += this.speedX + Math.sin(this.angle) * 0.15;
-                this.angle += this.spinSpeed;
-
-                // Process interactions with click water fluid ripple waves
-                rippleWaves.forEach(ripple => {
-                    let dx = this.x - ripple.x;
-                    let dy = this.y - ripple.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < ripple.currentRadius) {
-                        let force = (ripple.currentRadius - distance) / ripple.currentRadius;
-                        let pushX = (dx / distance) * force * ripple.intensity;
-                        let pushY = (dy / distance) * force * ripple.intensity;
-                        this.x += pushX;
-                        this.y += pushY;
-                        this.alpha = Math.min(1, this.alpha + 0.05); // Light up on disturbance
-                    }
-                });
-
-                // Fade out cleanly near boundaries
-                if (this.y < 0 || this.x < 0 || this.x > w) {
-                    this.reset();
-                } else {
-                    if (this.alpha > this.baseAlpha) this.alpha -= 0.005;
-                }
-            }
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.alpha;
-                // Luxury metallic gold color grading variants
-                ctx.fillStyle = this.size > 2 ? '#FFF7E6' : '#D6C28A';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
-        class FluidRippleWave {
-            constructor(x, y) {
-                this.x = x;
-                this.y = y;
-                this.maxRadius = Math.max(w, h) * 0.35;
-                this.currentRadius = 0;
-                this.speed = 4.5;
-                this.intensity = 15;
-                this.alpha = 1;
-            }
-            update() {
-                this.currentRadius += this.speed;
-                this.intensity *= 0.96; // Wave dampening logic
-                this.alpha = 1 - (this.currentRadius / this.maxRadius);
-            }
-            isDead() {
-                return this.currentRadius >= this.maxRadius || this.alpha <= 0;
-            }
-            draw() {
-                ctx.save();
-                ctx.strokeStyle = `rgba(214, 194, 138, ${this.alpha * 0.08})`;
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.currentRadius, 0, Math.PI * 2);
-                ctx.stroke();
-                ctx.restore();
-            }
-        }
-
-        // Initialize Background Systems
-        for (let i = 0; i < maxBackgroundParticles; i++) {
-            backgroundParticles.push(new GoldDustParticle());
-        }
-
-        // Click or Tap trigger fluid water floating effects
-        window.addEventListener("click", (e) => {
-            // Ignore if clicking buttons/interactive components
-            if (e.target.closest("a, button, input, textarea, #hero-dispersion-canvas")) return;
-            rippleWaves.push(new FluidRippleWave(e.clientX, e.clientY));
-        });
-
-        function runBackgroundEngine() {
+        const spacing = 65;
+        const mouse = { x: -9999, y: -9999, radius: 160 };
+        window.addEventListener("mousemove", (e)=>{
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        }, { passive: true });
+        function drawGrid(){
             ctx.clearRect(0, 0, w, h);
+            ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim();
+            ctx.lineWidth = 1.2;
 
-            // Update & Draw click water waves
-            for (let i = rippleWaves.length - 1; i >= 0; i--) {
-                rippleWaves[i].update();
-                if (rippleWaves[i].isDead()) {
-                    rippleWaves.splice(i, 1);
-                } else {
-                    rippleWaves[i].draw();
+            /* VERTICAL LINES */
+            for(let x = 0; x <= w; x += spacing){
+                ctx.beginPath();
+                for(let y = 0; y <= h; y += 8){
+                    let dx = x - mouse.x;
+                    let dy = y - mouse.y;
+                    let mouseDist = Math.sqrt(dx * dx + dy * dy);
+                    let offsetX = 0;
+                    if(mouseDist < mouse.radius){
+                        const force = (mouse.radius - mouseDist) / mouse.radius;
+                        offsetX = (dx / mouseDist) * force * 28;
+                    }
+                    ctx.lineTo(x + offsetX, y);
                 }
+                ctx.stroke();
             }
 
-            // Update & Draw golden floating particles
-            backgroundParticles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-
-            requestAnimationFrame(runBackgroundEngine);
+            /* HORIZONTAL LINES */
+            for(let y = 0; y <= h; y += spacing){
+                ctx.beginPath();
+                for(let x = 0; x <= w; x += 8){
+                    let dx = x - mouse.x;
+                    let dy = y - mouse.y;
+                    let mouseDist = Math.sqrt(dx * dx + dy * dy);
+                    let offsetY = 0;
+                    if(mouseDist < mouse.radius){
+                        const force = (mouse.radius - mouseDist) / mouse.radius;
+                        offsetY = (dy / mouseDist) * force * 28;
+                    }
+                    ctx.lineTo(x, y + offsetY);
+                }
+                ctx.stroke();
+            }
+            animationFrameId = requestAnimationFrame(drawGrid);
         }
-        runBackgroundEngine();
-
+        drawGrid();
 
         // Optimized Particle Dispersion Engine
         const dispCanvas = document.getElementById("hero-dispersion-canvas");
@@ -1497,7 +1361,7 @@
                 labelToggle.classList.add("active-label");
             } else {
                 switchBtn.classList.remove("toggle-on");
-                labelToggle.classList.remove("active-label");
+                 labelToggle.classList.remove("active-label");
             }
         });
         let resizeTimeout;
@@ -1527,7 +1391,7 @@
             statusButton.style.pointerEvents = "none";
 
             const templateParams = {
-                name: contactForm.querySelector('input[name="name"]').value,
+                 name: contactForm.querySelector('input[name="name"]').value,
                 email: contactForm.querySelector('input[name="email"]').value,
                 message: contactForm.querySelector('textarea[name="message"]').value
             };
