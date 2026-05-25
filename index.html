@@ -20,12 +20,12 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
         :root {
-            /* Strict Monochrome Brutalist Palette */
+            /* Strict Monochrome Brutalist Palette - LIGHT MODE */
             --bg-main: #f5f5f2;
             --bg-sec: #ecece7;
             --card-bg: #ffffff;
@@ -33,15 +33,23 @@
             --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
-            --accent-2: #e8e84a;
             
             /* Typography System */
-            --font-head: 'Anton', sans-serif;
+            --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
             
             /* Border System */
             --border: 2px solid var(--border-color);
-            --border-thin: 1px solid var(--border-color);
+        }
+
+        /* Strict Monochrome Brutalist Palette - DARK MODE */
+        [data-theme="dark"] {
+            --bg-main: #0a0a0a;
+            --bg-sec: #141414;
+            --card-bg: #000000;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0; /* Lighter gray for perfect visibility on black */
+            --border-color: #ffffff;
         }
 
         * {
@@ -58,6 +66,7 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         ::-webkit-scrollbar {
@@ -77,13 +86,14 @@
             text-transform: uppercase;
             line-height: 1.1;
             color: var(--text-main);
+            letter-spacing: 1px;
         }
 
         p, a, span, input, textarea, button {
             font-family: var(--font-body);
         }
 
-        /* --- SIDE FLOATING NAV (RETAINED & BRUTALIZED) --- */
+        /* --- SIDE FLOATING NAV --- */
         .side-floating-nav {
             position: fixed;
             right: 0;
@@ -135,11 +145,11 @@
         }
 
         .logo {
-            font-size: 3rem;
+            font-size: 2.8rem;
             padding: 15px 40px;
             border-right: var(--border);
             background: var(--card-bg);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             user-select: none;
         }
         
@@ -188,7 +198,7 @@
 
         .theme-switch-btn:hover {
             background: var(--accent-1);
-            color: var(--text-main);
+            color: #000000; /* Hardcoded to black for perfect contrast on yellow */
         }
 
         /* --- SECTIONS GLOBAL --- */
@@ -203,8 +213,8 @@
         }
 
         .section-title {
-            font-size: clamp(3rem, 7vw, 6rem);
-            letter-spacing: 2px;
+            font-size: clamp(3.5rem, 7vw, 6rem);
+            letter-spacing: 3px;
             display: inline-block;
             background: var(--text-main);
             color: var(--bg-main);
@@ -229,7 +239,7 @@
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
             text-transform: uppercase;
             margin-bottom: 20px;
@@ -244,20 +254,20 @@
         }
 
         .hero h1 {
-            font-size: clamp(5rem, 10vw, 12rem);
-            line-height: 1.05; /* Adjusted to prevent overlap */
-            letter-spacing: -2px;
+            font-size: clamp(5rem, 12vw, 12rem);
+            line-height: 0.85; /* Tighter spacing for Bebas Neue without overlapping */
+            letter-spacing: 2px;
             margin: 0;
             display: flex;
             flex-direction: column;
         }
 
         .hero-large-flag-box {
-            width: 60px;
+            width: 70px;
             margin-bottom: 20px;
             border: var(--border);
             padding: 5px;
-            background: var(--bg-main);
+            background: #ffffff; /* Hardcoded white background */
         }
 
         .hero-large-flag-box img {
@@ -286,10 +296,10 @@
             border: var(--border);
             padding: 18px 36px;
             font-family: var(--font-head);
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
@@ -298,7 +308,7 @@
 
         .btn:hover {
             background: var(--accent-1);
-            color: var(--text-main);
+            color: #000000;
         }
 
         .secondary-btn {
@@ -333,7 +343,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.2s ease;
             border: var(--border);
         }
 
@@ -406,7 +415,7 @@
             color: var(--bg-main);
         }
 
-        .timeline-content:hover h3, .timeline-content:hover p, .timeline-content:hover .year-giant-typography {
+        .timeline-content:hover h3, .timeline-content:hover p {
             color: var(--bg-main);
         }
 
@@ -419,11 +428,12 @@
             display: inline-block;
             margin-bottom: 20px;
             background: var(--bg-sec);
+            transition: all 0.2s ease;
         }
         
         .timeline-content:hover .year-giant-typography {
             background: var(--accent-1);
-            color: var(--text-main);
+            color: #000000; /* Stays readable */
         }
 
         .education-header-flex {
@@ -439,8 +449,8 @@
         }
 
         .timeline-content h3 {
-            font-size: 2.2rem;
-            line-height: 1;
+            font-size: 2.8rem;
+            line-height: 1.1;
             letter-spacing: 1px;
         }
 
@@ -454,7 +464,7 @@
             width: 60px;
             height: 60px;
             object-fit: contain;
-            background: var(--card-bg);
+            background: #ffffff !important; /* Forces logos to stay visible in dark mode */
             padding: 5px;
             border: var(--border);
             flex-shrink: 0;
@@ -494,6 +504,7 @@
         .skill-item-card h3 {
             font-size: 2.5rem;
             color: var(--text-main);
+            letter-spacing: 2px;
         }
 
         .skill-icon-wrap {
@@ -505,7 +516,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: all 0.2s ease;
         }
 
         /* --- PROJECTS SECTION --- */
@@ -553,7 +563,6 @@
             height: 600px;
             object-fit: cover;
             border-bottom: var(--border);
-            transition: all 0.2s ease;
         }
 
         .project-content {
@@ -562,9 +571,10 @@
         }
 
         .project-content h3 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 10px;
             color: var(--text-main);
+            letter-spacing: 1px;
         }
 
         .project-content p {
@@ -629,10 +639,11 @@
         .find-me-btn {
             display: inline-block;
             font-family: var(--font-head);
-            font-size: 2.5rem;
+            font-size: 3rem;
             text-transform: uppercase;
             color: var(--text-main);
             margin-bottom: 40px;
+            letter-spacing: 2px;
         }
 
         .contact-info {
@@ -723,6 +734,11 @@
 
         .contact-form input:focus, .contact-form textarea:focus {
             background: var(--accent-1);
+            color: #000000; /* Stays black on yellow bg */
+        }
+        
+        .contact-form input::placeholder, .contact-form textarea::placeholder {
+            color: var(--text-muted);
         }
 
         .send-btn {
@@ -731,15 +747,16 @@
             border: var(--border);
             color: var(--accent-1);
             font-family: var(--font-head);
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
             text-transform: uppercase;
+            letter-spacing: 2px;
             transition: all 0.2s ease;
         }
 
         .send-btn:hover {
             background: var(--accent-1);
-            color: var(--text-main);
+            color: #000000;
         }
 
         /* --- FOOTER --- */
@@ -809,7 +826,7 @@
                 padding: 80px 5vw;
             }
             .hero h1 {
-                font-size: 4.5rem;
+                font-size: 5.5rem;
             }
             .project-card {
                 width: 85vw;
@@ -1082,7 +1099,7 @@
     </footer>
 
     <script>
-        // --- THEME TOGGLE (BRUTALIST INVERSION) ---
+        // --- THEME TOGGLE (CSS VARIABLE ARCHITECTURE) ---
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         
@@ -1091,20 +1108,9 @@
             if(currentTheme === "dark") {
                 document.documentElement.removeAttribute("data-theme");
                 toggleIcon.className = "fa-solid fa-moon";
-                document.documentElement.style.setProperty('--bg-main', '#f5f5f2');
-                document.documentElement.style.setProperty('--bg-sec', '#ecece7');
-                document.documentElement.style.setProperty('--card-bg', '#ffffff');
-                document.documentElement.style.setProperty('--text-main', '#000000');
-                document.documentElement.style.setProperty('--border-color', '#000000');
             } else {
                 document.documentElement.setAttribute("data-theme", "dark");
                 toggleIcon.className = "fa-solid fa-sun";
-                // Invert colors for dark brutalist mode
-                document.documentElement.style.setProperty('--bg-main', '#0a0a0a');
-                document.documentElement.style.setProperty('--bg-sec', '#141414');
-                document.documentElement.style.setProperty('--card-bg', '#000000');
-                document.documentElement.style.setProperty('--text-main', '#ffffff');
-                document.documentElement.style.setProperty('--border-color', '#ffffff');
             }
         });
 
@@ -1129,14 +1135,13 @@
             const maxScroll = -(grid.scrollWidth - viewport.clientWidth);
             
             // Loop or clamp boundaries
-            if (offset < maxScroll) offset = 0; // Infinite reset loop aesthetic
+            if (offset < maxScroll) offset = 0;
             if (offset > 0) offset = maxScroll;
 
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
             requestAnimationFrame(scrollLoop);
         }
         
-        // Start loop
         requestAnimationFrame(scrollLoop);
 
         // Hover Pausing
