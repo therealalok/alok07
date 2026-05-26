@@ -33,6 +33,7 @@
             --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
+            --ok-color: #b8c200; /* Darker yellow for clear visibility on white navbar */
             
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
@@ -50,15 +51,24 @@
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
             --border-color: #ffffff;
+            --ok-color: #f4ff00; /* Standard vibrant yellow for dark mode navbar */
         }
 
-        /* Dark Mode overrides for blocks with hardcoded black backgrounds */
+        /* Dark Mode structural overrides for elements with hardcoded black backgrounds */
         [data-theme="dark"] .section-title,
         [data-theme="dark"] .theme-switch-btn,
         [data-theme="dark"] .btn:not(.secondary-btn),
         [data-theme="dark"] .send-btn {
             background: #ffffff !important;
             color: #000000 !important;
+        }
+        
+        /* Ensure specific icons/sub-elements preserve their designated yellow highlight style in dark mode */
+        [data-theme="dark"] .section-title,
+        [data-theme="dark"] .theme-switch-btn i,
+        [data-theme="dark"] .btn:not(.secondary-btn) i,
+        [data-theme="dark"] .send-btn {
+            color: #f4ff00 !important;
         }
 
         * {
@@ -162,7 +172,8 @@
         }
 
         .logo span {
-            color: var(--accent-1);
+            color: var(--ok-color);
+            transition: color 0.3s ease;
         }
         
         .nav-container {
@@ -375,7 +386,7 @@
             position: relative;
             width: 100%;
             max-width: 550px; 
-            height: 480px; 
+            min-height: 520px; /* Safe minimum height to ensure absolute text elements don't get truncated */
             transform-style: preserve-3d;
             display: flex;
             justify-content: center;
@@ -389,10 +400,11 @@
             height: 100%;
             background: var(--card-bg);
             border: var(--border);
-            padding: 45px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Changed from center to fix structural alignments to the top boundary uniformally */
+            justify-content: flex-start; /* Aligns all content uniformally to the top boundary */
+            overflow: hidden; /* Prevents stray text layouts from overflowing card regions */
             transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
             opacity: 0;
             pointer-events: none;
@@ -429,39 +441,41 @@
         }
 
         .school-logo-mask {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
             object-fit: contain;
             background: #ffffff !important;
-            padding: 15px;
+            padding: 12px;
             border: var(--border);
-            margin-bottom: 35px;
+            margin-bottom: 25px;
+            flex-shrink: 0;
         }
 
         .year-giant-typography {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-main);
             border: var(--border);
             padding: 6px 15px;
             display: inline-block;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             background: var(--bg-sec);
             align-self: flex-start;
+            flex-shrink: 0;
         }
 
         .edu-card h3 {
-            font-size: 3.35rem;
+            font-size: 2.8rem; /* Scaled incrementally downwards to stop block overflow mechanics */
             line-height: 1.1;
             letter-spacing: 1px;
             color: var(--text-main);
         }
         
         .edu-card p {
-            font-size: 1.15rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.5;
             color: var(--text-muted);
-            margin-top: 15px;
+            margin-top: 12px;
         }
 
         /* --- SKILLS SECTION --- */
@@ -792,7 +806,7 @@
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
-            .edu-carousel { height: 440px; max-width: 85vw; }
+            .edu-carousel { min-height: 460px; max-width: 85vw; }
             .edu-card { padding: 25px; }
             .edu-card h3 { font-size: 2.2rem; }
             .edu-card.prev { transform: translateX(-60%) translateZ(-300px) rotateY(45deg); opacity: 0; }
