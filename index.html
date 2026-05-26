@@ -33,7 +33,7 @@
             --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
-            --ok-color: #505405; /* Darker yellow for clear visibility on white navbar */
+            --ok-color: #505405;
             
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
@@ -51,7 +51,7 @@
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
             --border-color: #ffffff;
-            --ok-color: #f4ff00; /* Standard vibrant yellow for dark mode navbar */
+            --ok-color: #f4ff00;
         }
 
         /* Dark Mode structural overrides for elements with hardcoded black backgrounds */
@@ -381,77 +381,110 @@
             transform: scale(1.03);
         }
 
-        /* --- 3D EDUCATION CAROUSEL --- */
-        .edu-carousel-container {
+        /* --- INTERACTIVE 3D EDUCATION BOOK SYSTEM --- */
+        .book-viewport-wrapper {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            perspective: 1200px; 
-            overflow: hidden;
-            padding: 20px 0 60px 0;
-        }
-
-        .edu-carousel {
-            position: relative;
-            width: 100%;
-            max-width: 550px; 
-            min-height: 520px; /* Safe minimum height to ensure absolute text elements don't get truncated */
-            transform-style: preserve-3d;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 30px;
+            perspective: 1500px;
+            padding: 20px 0 60px 0;
         }
 
-        .edu-card {
+        .education-book {
+            position: relative;
+            width: 500px;
+            height: 540px;
+            transform-style: preserve-3d;
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .education-book:hover {
+            transform: scale(1.015);
+        }
+
+        .book-leaf {
             position: absolute;
             width: 100%;
             height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .leaf-side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             background: var(--card-bg);
             border: var(--border);
             padding: 40px;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            /* Aligns all content uniformally to the top boundary */
+            align-items: center;
             overflow: hidden;
-            /* Prevents stray text layouts from overflowing card regions */
-            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
-            opacity: 0;
-            pointer-events: none;
-            cursor: pointer;
+            box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.05);
         }
 
-        .edu-card:hover {
-            border-color: var(--text-muted);
-        }
-
-        /* Front Active Card */
-        .edu-card.active {
-            transform: translateX(0) translateZ(0) rotateY(0);
-            opacity: 1;
-            z-index: 3;
-            pointer-events: auto;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-        }
-
-        /* Left Tucked Card */
-        .edu-card.prev {
-            transform: translateX(-75%) translateZ(-400px) rotateY(60deg);
-            opacity: 0.5;
+        .side-front {
             z-index: 2;
-            pointer-events: auto;
+            transform: rotateY(0deg);
         }
 
-        /* Right Tucked Card */
-        .edu-card.next {
-            transform: translateX(75%) translateZ(-400px) rotateY(-60deg);
-            opacity: 0.5;
-            z-index: 2;
-            pointer-events: auto;
+        .side-back {
+            transform: rotateY(180deg);
+            background: var(--bg-sec);
         }
 
+        .book-leaf.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Cover Front Details */
+        .cover-front-layout {
+            justify-content: center;
+            text-align: center;
+            background: var(--card-bg);
+        }
+
+        .cover-main-title {
+            font-family: var(--font-head);
+            font-size: 4.2rem;
+            line-height: 1.1;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            margin-bottom: 35px;
+            text-transform: uppercase;
+        }
+
+        .cover-main-title span {
+            color: var(--ok-color);
+        }
+
+        .book-click-hint {
+            font-family: var(--font-body);
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            border: var(--border);
+            padding: 8px 18px;
+            background: var(--bg-sec);
+            text-transform: uppercase;
+            animation: interactivePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes interactivePulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Elements inherited uniformly inside pages */
         .school-logo-mask {
             width: 120px;
             height: 120px;
@@ -476,20 +509,27 @@
             flex-shrink: 0;
         }
 
-        .edu-card h3 {
-            font-size: 2.8rem;
-            /* Scaled incrementally downwards to stop block overflow mechanics */
+        .leaf-side h3 {
+            font-size: 2.5rem;
             line-height: 1.1;
             letter-spacing: 1px;
             color: var(--text-main);
+            width: 100%;
         }
         
-        .edu-card p {
+        .leaf-side p {
             font-size: 1.1rem;
             line-height: 1.5;
             color: var(--text-muted);
             margin-top: 12px;
+            width: 100%;
         }
+
+        /* Base Page / Layer Stack Order Assignments */
+        #leaf-cover { z-index: 4; }
+        #leaf-level1 { z-index: 3; }
+        #leaf-level2 { z-index: 2; }
+        #leaf-level3 { z-index: 1; }
 
         /* --- SKILLS SECTION --- */
         .skills-grid-container {
@@ -819,12 +859,11 @@
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
-            .edu-carousel { min-height: 460px; max-width: 85vw; }
-            .edu-card { padding: 25px; }
-            .edu-card h3 { font-size: 2.2rem; }
-            .edu-card.prev { transform: translateX(-60%) translateZ(-300px) rotateY(45deg); opacity: 0; }
-            .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
-            .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
+            .education-book { width: 100%; max-width: 330px; height: 490px; }
+            .cover-main-title { font-size: 2.6rem; margin-bottom: 25px; }
+            .leaf-side { padding: 25px; }
+            .leaf-side h3 { font-size: 1.8rem; }
+            .school-logo-mask { width: 90px; height: 90px; margin-bottom: 15px; }
             
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
             .skill-item-card { padding: 25px; }
@@ -833,7 +872,8 @@
             .project-content h3 { font-size: 2.5rem; }
             
             .slider-controls-wrapper { 
-                flex-direction: column; gap: 20px; 
+                flex-direction: column;
+                gap: 20px; 
                 text-align: center; 
                 padding: 0 5vw;
             }
@@ -841,10 +881,7 @@
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
             .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
-            .contact-info a { 
-                font-size: 1rem; padding: 12px 15px; 
-                word-break: break-all; 
-            }
+            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
             .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
             .send-btn { font-size: 2rem; padding: 15px; }
         }
@@ -903,37 +940,46 @@
             <h2 class="section-title">Education Journey</h2>
         </div>
         
-        <div class="edu-carousel-container">
-            <div class="edu-carousel" id="edu-3d-grid">
+        <div class="book-viewport-wrapper">
+            <div class="education-book" id="interactive-edu-book">
                 
-                <div class="edu-card active" onclick="setEduSlide(0)">
-                    <div class="year-giant-typography">2010 — 2022</div>
-                    <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
-                    <h3>Mahakavi Devkota Memorial Secondary School</h3>
-                    <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
+                <div class="book-leaf" id="leaf-level3">
+                    <div class="leaf-side side-front">
+                        <div class="year-giant-typography">2024 — Present</div>
+                        <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
+                        <h3>Amrit Science Campus (T.U.)</h3>
+                        <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                    </div>
                 </div>
 
-                <div class="edu-card next" onclick="setEduSlide(1)">
-                    <div class="year-giant-typography">2022 — 2024</div>
-                    <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
-                    <h3>Reliance Int'l Academy +2</h3>
-                    <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
+                <div class="book-leaf" id="leaf-level2">
+                    <div class="leaf-side side-front">
+                        <div class="year-giant-typography">2022 — 2024</div>
+                        <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
+                        <h3>Reliance Int'l Academy +2</h3>
+                        <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
+                    </div>
+                    <div class="leaf-side side-back"></div>
                 </div>
 
-                <div class="edu-card prev" onclick="setEduSlide(2)">
-                    <div class="year-giant-typography">2024 — Present</div>
-                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
-                    <h3>Amrit Science Campus (T.U.)</h3>
-                    <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                <div class="book-leaf" id="leaf-level1">
+                    <div class="leaf-side side-front">
+                        <div class="year-giant-typography">2010 — 2022</div>
+                        <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
+                        <h3>Mahakavi Devkota Memorial Secondary School</h3>
+                        <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
+                    </div>
+                    <div class="leaf-side side-back"></div>
                 </div>
 
-            </div>
-            
-            <div class="slider-controls-wrapper" style="border-top: none; justify-content: center;">
-                <div class="slider-arrows">
-                    <button class="slider-arrow-btn" id="edu-prev-btn" aria-label="Previous Education"><i class="fa-solid fa-arrow-left"></i></button>
-                    <button class="slider-arrow-btn" id="edu-next-btn" aria-label="Next Education"><i class="fa-solid fa-arrow-right"></i></button>
+                <div class="book-leaf" id="leaf-cover">
+                    <div class="leaf-side side-front cover-front-layout">
+                        <h2 class="cover-main-title">Educational Status of <br><span>Alok Sharma</span></h2>
+                        <div class="book-click-hint">Click to flip open</div>
+                    </div>
+                    <div class="leaf-side side-back"></div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1199,40 +1245,32 @@
             isDrag = false;
         });
 
-        // --- 3D EDUCATION CAROUSEL LOGIC ---
-        const eduCards = document.querySelectorAll('.edu-card');
-        const eduPrevBtn = document.getElementById('edu-prev-btn');
-        const eduNextBtn = document.getElementById('edu-next-btn');
-        let currentEdu = 0;
+        // --- INTERACTIVE 3D BOOK FLIP LOGIC ---
+        const eduBook = document.getElementById('interactive-edu-book');
+        const bookLeaves = [
+            document.getElementById('leaf-cover'),
+            document.getElementById('leaf-level1'),
+            document.getElementById('leaf-level2')
+        ];
+        let flippedCount = 0;
 
-        function setEduSlide(index) {
-            currentEdu = index;
-            eduCards.forEach((card, i) => {
-                card.classList.remove('active', 'prev', 'next');
-                
-                if (i === currentEdu) {
-                    card.classList.add('active');
-                } else if (i === (currentEdu - 1 + eduCards.length) % eduCards.length) {
-                    card.classList.add('prev');
+        if (eduBook) {
+            eduBook.addEventListener('click', () => {
+                if (flippedCount < bookLeaves.length) {
+                    bookLeaves[flippedCount].classList.add('flipped');
+                    flippedCount++;
                 } else {
-                    card.classList.add('next');
+                    // Reset book configuration completely
+                    for (let i = bookLeaves.length - 1; i >= 0; i--) {
+                        bookLeaves[i].classList.remove('flipped');
+                    }
+                    flippedCount = 0;
                 }
             });
         }
 
-        eduPrevBtn.addEventListener('click', () => {
-            let newIndex = (currentEdu - 1 + eduCards.length) % eduCards.length;
-            setEduSlide(newIndex);
-        });
-
-        eduNextBtn.addEventListener('click', () => {
-            let newIndex = (currentEdu + 1) % eduCards.length;
-            setEduSlide(newIndex);
-        });
-
         // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
-        
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const statusButton = contactForm.querySelector(".send-btn");
