@@ -33,7 +33,6 @@
             --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
-            
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
@@ -347,107 +346,127 @@
             transform: scale(1.03);
         }
 
-        /* --- 3D EDUCATION CAROUSEL --- */
-        .edu-carousel-container {
+        /* --- LIVE EDITORIAL BROADCAST EDUCATION FEED --- */
+        .broadcast-feed-container {
             width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            perspective: 1200px; /* Creates the 3D depth */
-            overflow: hidden;
-            padding: 20px 0 60px 0;
+            gap: 18px;
         }
 
-        .edu-carousel {
-            position: relative;
-            width: 100%;
-            max-width: 550px; /* Width of the center card */
-            height: 480px; 
-            transform-style: preserve-3d;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .edu-card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .broadcast-card {
             background: var(--card-bg);
             border: var(--border);
-            padding: 45px;
+            padding: 30px 45px;
+            display: grid;
+            grid-template-columns: 240px 95px 1fr;
+            align-items: center;
+            gap: 40px;
+            position: relative;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, border-color 0.25s ease, filter 0.4s ease, box-shadow 0.3s ease;
+        }
+
+        /* Broadcast Feed Parent Hover Setup */
+        .broadcast-feed-container:hover .broadcast-card {
+            opacity: 0.4;
+            filter: grayscale(0.2) blur(0.3px);
+        }
+
+        /* Isolated Active Hover Spotlight */
+        .broadcast-feed-container .broadcast-card:hover {
+            opacity: 1;
+            filter: none;
+            transform: translateY(-3px);
+            border-color: #f4ff00;
+            box-shadow: 0 12px 35px rgba(244, 255, 0, 0.12);
+        }
+
+        .broadcast-badge-col {
             display: flex;
             flex-direction: column;
+            gap: 6px;
+        }
+
+        .broadcast-status-marker {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .broadcast-card:hover .broadcast-status-marker {
+            color: var(--text-main);
+        }
+
+        .live-stage .broadcast-status-marker {
+            color: #000000;
+            background: #f4ff00;
+            padding: 3px 10px;
+            font-weight: 700;
+            width: max-content;
+        }
+
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background-color: #000000;
+            border-radius: 50%;
+            display: inline-block;
+            animation: broadcastPulse 1.2s infinite ease-in-out;
+        }
+
+        @keyframes broadcastPulse {
+            0% { transform: scale(0.7); opacity: 0.4; }
+            50% { transform: scale(1.3); opacity: 1; }
+            100% { transform: scale(0.7); opacity: 0.4; }
+        }
+
+        .broadcast-year {
+            font-family: var(--font-head);
+            font-size: 2.6rem;
+            letter-spacing: 1px;
+            line-height: 1;
+            color: var(--text-main);
+        }
+
+        .broadcast-logo-col {
+            display: flex;
             justify-content: center;
-            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
-            opacity: 0;
-            pointer-events: none;
-            cursor: pointer;
+            align-items: center;
         }
 
-        .edu-card:hover {
-            border-color: var(--text-muted);
-        }
-
-        /* Front Active Card */
-        .edu-card.active {
-            transform: translateX(0) translateZ(0) rotateY(0);
-            opacity: 1;
-            z-index: 3;
-            pointer-events: auto;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-        }
-
-        /* Left Tucked Card */
-        .edu-card.prev {
-            transform: translateX(-75%) translateZ(-400px) rotateY(60deg);
-            opacity: 0.5;
-            z-index: 2;
-            pointer-events: auto;
-        }
-
-        /* Right Tucked Card */
-        .edu-card.next {
-            transform: translateX(75%) translateZ(-400px) rotateY(-60deg);
-            opacity: 0.5;
-            z-index: 2;
-            pointer-events: auto;
-        }
-
-        .school-logo-mask {
-            width: 130px;
-            height: 130px;
+        .broadcast-logo {
+            width: 85px;
+            height: 85px;
             object-fit: contain;
             background: #ffffff !important;
-            padding: 15px;
+            padding: 10px;
             border: var(--border);
-            margin-bottom: 35px;
         }
 
-        .year-giant-typography {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-            border: var(--border);
-            padding: 6px 15px;
-            display: inline-block;
-            margin-bottom: 25px;
-            background: var(--bg-sec);
-        }
-
-        .edu-card h3 {
-            font-size: 3.35rem;
-            line-height: 1.1;
+        .broadcast-content-col h3 {
+            font-size: 2.9rem;
             letter-spacing: 1px;
+            line-height: 1.1;
             color: var(--text-main);
+            margin-bottom: 6px;
         }
-        
-        .edu-card p {
+
+        .broadcast-content-col p {
             font-size: 1.15rem;
             line-height: 1.6;
             color: var(--text-muted);
-            margin-top: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .broadcast-card:hover .broadcast-content-col p {
+            color: var(--text-main);
         }
 
         /* --- SKILLS SECTION --- */
@@ -769,33 +788,41 @@
             nav { display: none; }
             .side-floating-nav { display: none; }
             
-            /* Scale down logo and general padding */
             .logo { font-size: 2.5rem; padding: 10px 15px; }
             section { padding: 60px 5vw; }
             
-            /* Typography & Layout for Hero */
             .section-title { font-size: 3.5rem; padding: 5px 15px; }
             .hero h1 { font-size: 4.8rem; } 
             .hero p { font-size: 1.1rem; }
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
-            /* Education Mobile Fixes */
-            .edu-carousel { height: 440px; max-width: 85vw; }
-            .edu-card { padding: 25px; }
-            .edu-card h3 { font-size: 2.2rem; }
-            .edu-card.prev { transform: translateX(-60%) translateZ(-300px) rotateY(45deg); opacity: 0; }
-            .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
-            .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
+            /* Education Broadcast Feed Mobile Optimization */
+            .broadcast-card {
+                grid-template-columns: 1fr;
+                gap: 22px;
+                padding: 30px 20px;
+                text-align: center;
+            }
+            .broadcast-badge-col {
+                align-items: center;
+            }
+            .live-stage .broadcast-status-marker {
+                margin: 0 auto;
+            }
+            .broadcast-logo-col {
+                margin: 0 auto;
+            }
+            .broadcast-content-col h3 {
+                font-size: 2.2rem;
+            }
             
-            /* Fix Grid and Cards */
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
             .skill-item-card { padding: 25px; }
             .project-card { width: 80vw; } 
             .project-card img { height: 350px; }
             .project-content h3 { font-size: 2.5rem; }
             
-            /* Slider Controls wrapping gracefully */
             .slider-controls-wrapper { 
                 flex-direction: column;
                 gap: 20px; 
@@ -803,15 +830,10 @@
                 padding: 0 5vw;
             }
             
-            /* Fix Form and Contact Information Overflow */
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
             .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
-            .contact-info a { 
-                font-size: 1rem;
-                padding: 12px 15px; 
-                word-break: break-all; 
-            }
+            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
             .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
             .send-btn { font-size: 2rem; padding: 15px; }
         }
@@ -870,38 +892,50 @@
             <h2 class="section-title">Education Journey</h2>
         </div>
         
-        <div class="edu-carousel-container">
-            <div class="edu-carousel" id="edu-3d-grid">
-                
-                <div class="edu-card active" onclick="setEduSlide(0)">
-                    <div class="year-giant-typography">2010 — 2022</div>
-                    <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
+        <div class="broadcast-feed-container">
+            
+            <div class="broadcast-card">
+                <div class="broadcast-badge-col">
+                    <span class="broadcast-status-marker">RECORDED HIGHLIGHT</span>
+                    <div class="broadcast-year">2010 — 2022</div>
+                </div>
+                <div class="broadcast-logo-col">
+                    <img src="mdmss-removebg-preview.png" alt="MDMSS Logo" class="broadcast-logo">
+                </div>
+                <div class="broadcast-content-col">
                     <h3>Mahakavi Devkota Memorial Secondary School</h3>
                     <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
+            </div>
 
-                <div class="edu-card next" onclick="setEduSlide(1)">
-                    <div class="year-giant-typography">2022 — 2024</div>
-                    <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
+            <div class="broadcast-card">
+                <div class="broadcast-badge-col">
+                    <span class="broadcast-status-marker">RECORDED HIGHLIGHT</span>
+                    <div class="broadcast-year">2022 — 2024</div>
+                </div>
+                <div class="broadcast-logo-col">
+                    <img src="ria-removebg-preview.png" alt="RIA Logo" class="broadcast-logo">
+                </div>
+                <div class="broadcast-content-col">
                     <h3>Reliance Int'l Academy +2</h3>
                     <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
                 </div>
+            </div>
 
-                <div class="edu-card prev" onclick="setEduSlide(2)">
-                    <div class="year-giant-typography">2024 — Present</div>
-                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
+            <div class="broadcast-card live-stage">
+                <div class="broadcast-badge-col">
+                    <span class="broadcast-status-marker"><span class="pulse-dot"></span> LIVE FEED</span>
+                    <div class="broadcast-year">2024 — PRESENT</div>
+                </div>
+                <div class="broadcast-logo-col">
+                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="broadcast-logo">
+                </div>
+                <div class="broadcast-content-col">
                     <h3>Amrit Science Campus (T.U.)</h3>
                     <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
                 </div>
+            </div>
 
-            </div>
-            
-            <div class="slider-controls-wrapper" style="border-top: none; justify-content: center;">
-                <div class="slider-arrows">
-                    <button class="slider-arrow-btn" id="edu-prev-btn" aria-label="Previous Education"><i class="fa-solid fa-arrow-left"></i></button>
-                    <button class="slider-arrow-btn" id="edu-next-btn" aria-label="Next Education"><i class="fa-solid fa-arrow-right"></i></button>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -1166,40 +1200,8 @@
             isDrag = false;
         });
 
-        // --- 3D EDUCATION CAROUSEL LOGIC ---
-        const eduCards = document.querySelectorAll('.edu-card');
-        const eduPrevBtn = document.getElementById('edu-prev-btn');
-        const eduNextBtn = document.getElementById('edu-next-btn');
-        let currentEdu = 0;
-
-        function setEduSlide(index) {
-            currentEdu = index;
-            eduCards.forEach((card, i) => {
-                card.classList.remove('active', 'prev', 'next');
-                
-                if (i === currentEdu) {
-                    card.classList.add('active');
-                } else if (i === (currentEdu - 1 + eduCards.length) % eduCards.length) {
-                    card.classList.add('prev');
-                } else {
-                    card.classList.add('next');
-                }
-            });
-        }
-
-        eduPrevBtn.addEventListener('click', () => {
-            let newIndex = (currentEdu - 1 + eduCards.length) % eduCards.length;
-            setEduSlide(newIndex);
-        });
-
-        eduNextBtn.addEventListener('click', () => {
-            let newIndex = (currentEdu + 1) % eduCards.length;
-            setEduSlide(newIndex);
-        });
-
         // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
-
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const statusButton = contactForm.querySelector(".send-btn");
