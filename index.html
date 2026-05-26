@@ -33,11 +33,14 @@
             --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
-            
-            /* Section Title Colors - Light Mode (Black BG, Yellow Text) */
-            --title-bg: #000000;
-            --title-text: #f4ff00;
-            
+
+            /* Inverted Palette for Sections (Light Mode -> Inverted to Dark) */
+            --bg-invert: #0a0a0a;
+            --card-bg-invert: #000000;
+            --text-invert: #ffffff;
+            --text-muted-invert: #a0a0a0;
+            --border-invert: #ffffff;
+
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
@@ -54,10 +57,13 @@
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
             --border-color: #ffffff;
-            
-            /* Section Title Colors - Dark Mode Inversion (White BG, Black Text) */
-            --title-bg: #ffffff;
-            --title-text: #000000;
+
+            /* Inverted Palette for Sections (Dark Mode -> Inverted to Light) */
+            --bg-invert: #f5f5f2;
+            --card-bg-invert: #ffffff;
+            --text-invert: #000000;
+            --text-muted-invert: #4b4b4b;
+            --border-invert: #000000;
         }
 
         * {
@@ -221,10 +227,29 @@
             font-size: clamp(4.2rem, 8vw, 7.2rem);
             letter-spacing: 3px;
             display: inline-block;
-            background: var(--title-bg);
-            color: var(--title-text);
+            background: #000000;
+            color: #f4ff00;
             padding: 5px 25px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- INVERTED BACKGROUND SECTIONS (Education, Skills, Projects, etc.) --- */
+        .inverted-section {
+            background-color: var(--bg-invert);
+            color: var(--text-invert);
+            border-bottom: 2px solid var(--border-invert);
+        }
+
+        .inverted-section h2, .inverted-section h3 {
+            color: var(--text-invert);
+        }
+
+        .inverted-section p {
+            color: var(--text-muted-invert);
+        }
+
+        .inverted-section .section-title {
+            background: var(--text-main);
+            color: var(--bg-main);
         }
 
         /* --- HERO SECTION --- */
@@ -356,115 +381,100 @@
             transform: scale(1.03);
         }
 
-        /* --- EDUCATION: CINEMATIC LENS CAROUSEL LAYOUT --- */
-        .lens-carousel-container {
+        /* --- 3D EDUCATION CAROUSEL --- */
+        .edu-carousel-container {
             width: 100%;
-            max-width: 1300px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            align-items: stretch;
-            perspective: 1200px;
-            padding: 20px 0;
-        }
-
-        .lens-card {
-            background: var(--card-bg);
-            border: var(--border);
-            padding: 40px 35px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            gap: 35px;
-            position: relative;
-            z-index: 1;
-            transform-style: preserve-3d;
-            transition: 
-                transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                border-color 0.3s ease, 
-                box-shadow 0.5s ease;
-        }
-
-        .lens-year-badge {
-            font-family: var(--font-head);
-            font-size: 2.4rem;
-            letter-spacing: 1px;
-            line-height: 1;
-            color: var(--text-main);
-            display: inline-block;
-            width: max-content;
-            padding: 2px 0;
-            transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
-        }
-
-        .lens-logo-wrap {
-            width: 75px;
-            height: 75px;
-            display: flex;
             align-items: center;
+            perspective: 1200px; 
+            overflow: hidden;
+            padding: 20px 0 60px 0;
+        }
+
+        .edu-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 550px; 
+            height: 480px;
+            transform-style: preserve-3d;
+            display: flex;
             justify-content: center;
-            background: #ffffff !important;
-            border: var(--border);
-            padding: 8px;
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .lens-card h3 {
-            font-size: 2.8rem;
-            letter-spacing: 1px;
-            line-height: 1.1;
-            color: var(--text-main);
-            margin-bottom: 12px;
-            transition: color 0.3s ease;
+        .edu-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--card-bg-invert);
+            border: 2px solid var(--border-invert);
+            padding: 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
+            opacity: 0;
+            pointer-events: none;
+            cursor: pointer;
         }
 
-        .lens-card p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: var(--text-muted);
-            transition: color 0.3s ease;
+        .edu-card:hover {
+            border-color: var(--text-muted-invert);
         }
 
-        /* FOCUS LENS SYSTEM MECHANICS */
-        .lens-carousel-container:hover .lens-card {
-            opacity: 0.45;
-            filter: blur(2px) saturate(0.8);
-            transform: scale(0.95) translateZ(-40px);
-        }
-
-        .lens-carousel-container .lens-card:hover {
+        /* Front Active Card */
+        .edu-card.active {
+            transform: translateX(0) translateZ(0) rotateY(0);
             opacity: 1;
-            filter: blur(0) saturate(1);
-            transform: scale(1.04) translateZ(30px);
-            border-color: var(--accent-1);
-            z-index: 10;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+            z-index: 3;
+            pointer-events: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
 
-        [data-theme="dark"] .lens-carousel-container .lens-card:hover {
-            box-shadow: 0 20px 50px rgba(244, 255, 0, 0.08);
+        /* Left Tucked Card */
+        .edu-card.prev {
+            transform: translateX(-75%) translateZ(-400px) rotateY(60deg);
+            opacity: 0.3;
+            z-index: 2;
+            pointer-events: auto;
         }
 
-        .lens-carousel-container .lens-card:hover .lens-year-badge {
-            background-color: #000000;
-            color: var(--accent-1);
-            padding: 2px 10px;
+        /* Right Tucked Card */
+        .edu-card.next {
+            transform: translateX(75%) translateZ(-400px) rotateY(-60deg);
+            opacity: 0.3;
+            z-index: 2;
+            pointer-events: auto;
         }
 
-        [data-theme="dark"] .lens-carousel-container .lens-card:hover .lens-year-badge {
-            background-color: var(--accent-1);
-            color: #000000;
+        .school-logo-mask {
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+            background: #ffffff !important;
+            padding: 15px;
+            border: 2px solid var(--border-invert);
+            margin-bottom: 35px;
         }
 
-        .lens-carousel-container .lens-card:hover p {
-            color: var(--text-main);
+        .year-giant-typography {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-invert);
+            border: 2px solid var(--border-invert);
+            padding: 6px 15px;
+            display: inline-block;
+            margin-bottom: 25px;
+            background: var(--bg-invert);
         }
 
-        .lens-carousel-container .lens-card:hover .lens-logo-wrap {
-            transform: scale(1.05);
+        .edu-card h3 {
+            font-size: 3.35rem;
+            line-height: 1.1;
+            letter-spacing: 1px;
+            color: var(--text-invert);
         }
 
         /* --- SKILLS SECTION --- */
@@ -477,8 +487,8 @@
         }
 
         .skill-item-card {
-            border: var(--border);
-            background: var(--card-bg);
+            border: 2px solid var(--border-invert);
+            background: var(--card-bg-invert);
             padding: 40px;
             display: flex;
             flex-direction: column;
@@ -490,13 +500,13 @@
         }
 
         .skill-item-card:hover {
-            border-color: var(--text-muted);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-color: var(--text-muted-invert);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.05);
         }
 
         .skill-item-card h3 {
             font-size: 3rem;
-            color: var(--text-main);
+            color: var(--text-invert);
             letter-spacing: 2px;
         }
 
@@ -518,8 +528,6 @@
 
         /* --- PROJECTS SECTION --- */
         #projects {
-            background: var(--bg-sec);
-            overflow: hidden;
             padding: 140px 0;
         }
 
@@ -550,8 +558,8 @@
         .project-card {
             width: 400px;
             flex-shrink: 0;
-            background: var(--card-bg);
-            border: var(--border);
+            background: var(--card-bg-invert);
+            border: 2px solid var(--border-invert);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -561,7 +569,7 @@
             width: 100%;
             height: 480px; 
             object-fit: cover;
-            border-bottom: var(--border);
+            border-bottom: 2px solid var(--border-invert);
             transition: transform 0.4s ease;
         }
 
@@ -571,20 +579,14 @@
 
         .project-content {
             padding: 30px;
-            background: var(--card-bg);
+            background: var(--card-bg-invert);
         }
 
         .project-content h3 {
             font-size: 3.35rem;
             margin-bottom: 15px;
-            color: var(--text-main);
+            color: var(--text-invert);
             letter-spacing: 1px;
-        }
-
-        .project-content p {
-            font-size: 1.15rem;
-            line-height: 1.6;
-            color: var(--text-muted);
         }
 
         .slider-controls-wrapper {
@@ -592,7 +594,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: var(--border);
+            border-top: 2px solid var(--border-invert);
             padding-top: 30px;
             margin-top: 20px;
         }
@@ -611,9 +613,9 @@
         .slider-arrow-btn {
             width: 60px;
             height: 48px; 
-            background: var(--card-bg);
-            border: var(--border);
-            color: var(--text-main);
+            background: var(--card-bg-invert);
+            border: 2px solid var(--border-invert);
+            color: var(--text-invert);
             font-size: 1.8rem;
             cursor: pointer;
             transition: opacity 0.2s ease;
@@ -776,23 +778,6 @@
             .hero-emblem-layout { align-items: center; }
             .hero-buttons { justify-content: center; }
             
-            .lens-carousel-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                perspective: none;
-            }
-            .lens-card {
-                transform-style: flat;
-            }
-            .lens-carousel-container:hover .lens-card {
-                transform: none;
-                filter: none;
-                opacity: 1;
-            }
-            .lens-carousel-container .lens-card:hover {
-                transform: scale(1.02);
-            }
-            
             .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
             .contact-wrapper { grid-template-columns: 1fr; }
             .contact-card { border-right: none; border-bottom: var(--border); }
@@ -812,13 +797,12 @@
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
-            .lens-card {
-                padding: 30px 24px;
-                gap: 25px;
-            }
-            .lens-card h3 {
-                font-size: 2.3rem;
-            }
+            .edu-carousel { height: 440px; max-width: 85vw; }
+            .edu-card { padding: 25px; }
+            .edu-card h3 { font-size: 2.2rem; }
+            .edu-card.prev { transform: translateX(-60%) translateZ(-300px) rotateY(45deg); opacity: 0; }
+            .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
+            .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
             
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
             .skill-item-card { padding: 25px; }
@@ -890,50 +874,47 @@
         </div>
     </section>
 
-    <section id="education">
+    <section id="education" class="inverted-section">
         <div class="section-title-container">
             <h2 class="section-title">Education Journey</h2>
         </div>
         
-        <div class="lens-carousel-container">
-            
-            <div class="lens-card">
-                <div>
-                    <div class="lens-year-badge">2010 — 2022</div>
+        <div class="edu-carousel-container">
+            <div class="edu-carousel" id="edu-3d-grid">
+                
+                <div class="edu-card active" onclick="setEduSlide(0)">
+                    <div class="year-giant-typography">2010 — 2022</div>
+                    <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
                     <h3>Mahakavi Devkota Memorial Secondary School</h3>
                     <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
-                <div class="lens-logo-wrap">
-                    <img src="mdmss-removebg-preview.png" alt="MDMSS Logo" style="width:100%; height:100%; object-fit:contain;">
-                </div>
-            </div>
 
-            <div class="lens-card">
-                <div>
-                    <div class="lens-year-badge">2022 — 2024</div>
+                <div class="edu-card next" onclick="setEduSlide(1)">
+                    <div class="year-giant-typography">2022 — 2024</div>
+                    <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
                     <h3>Reliance Int'l Academy +2</h3>
                     <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
                 </div>
-                <div class="lens-logo-wrap">
-                    <img src="ria-removebg-preview.png" alt="RIA Logo" style="width:100%; height:100%; object-fit:contain;">
-                </div>
-            </div>
 
-            <div class="lens-card">
-                <div>
-                    <div class="lens-year-badge">2024 — PRESENT</div>
+                <div class="edu-card prev" onclick="setEduSlide(2)">
+                    <div class="year-giant-typography">2024 — Present</div>
+                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
                     <h3>Amrit Science Campus (T.U.)</h3>
-                    <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, data systems, and statistical analysis metrics.</p>
+                    <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
                 </div>
-                <div class="lens-logo-wrap">
-                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" style="width:100%; height:100%; object-fit:contain;">
+
+            </div>
+            
+            <div class="slider-controls-wrapper" style="border-top: none; justify-content: center;">
+                <div class="slider-arrows">
+                    <button class="slider-arrow-btn" id="edu-prev-btn" aria-label="Previous Education"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="slider-arrow-btn" id="edu-next-btn" aria-label="Next Education"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <section id="skills">
+    <section id="skills" class="inverted-section">
         <div class="section-title-container">
             <h2 class="section-title">Core Skills</h2>
         </div>
@@ -965,7 +946,7 @@
         </div>
     </section>
 
-    <section id="projects">
+    <section id="projects" class="inverted-section">
         <div class="section-title-container">
             <h2 class="section-title">Featured Projects</h2>
         </div>
@@ -1100,7 +1081,7 @@
     </footer>
 
     <script>
-        // --- THEME TOGGLE (CSS VARIABLE ARCHITECTURE) ---
+        // --- THEME TOGGLE ---
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         
@@ -1155,7 +1136,6 @@
         prevBtn.addEventListener('click', () => {
             offset += getSlideAmount();
         });
-
         nextBtn.addEventListener('click', () => {
             offset -= getSlideAmount();
         });
@@ -1165,14 +1145,12 @@
             startX = e.clientX;
             dragStartOffset = offset;
         });
-
         window.addEventListener('mousemove', (e) => {
             if (!isDrag) return;
             const deltaX = e.clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         });
-
         window.addEventListener('mouseup', () => {
             isDrag = false;
         });
@@ -1182,16 +1160,44 @@
             startX = e.touches[0].clientX;
             dragStartOffset = offset;
         }, { passive: true });
-
         viewport.addEventListener('touchmove', (e) => {
             if (!isDrag) return;
             const deltaX = e.touches[0].clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         }, { passive: true });
-
         viewport.addEventListener('touchend', () => {
             isDrag = false;
+        });
+
+        // --- 3D EDUCATION CAROUSEL LOGIC ---
+        const eduCards = document.querySelectorAll('.edu-card');
+        const eduPrevBtn = document.getElementById('edu-prev-btn');
+        const eduNextBtn = document.getElementById('edu-next-btn');
+        let currentEdu = 0;
+
+        function setEduSlide(index) {
+            currentEdu = index;
+            eduCards.forEach((card, i) => {
+                card.classList.remove('active', 'prev', 'next');
+                
+                if (i === currentEdu) {
+                    card.classList.add('active');
+                } else if (i === (currentEdu - 1 + eduCards.length) % eduCards.length) {
+                    card.classList.add('prev');
+                } else {
+                    card.classList.add('next');
+                }
+            });
+        }
+
+        eduPrevBtn.addEventListener('click', () => {
+            let newIndex = (currentEdu - 1 + eduCards.length) % eduCards.length;
+            setEduSlide(newIndex);
+        });
+        eduNextBtn.addEventListener('click', () => {
+            let newIndex = (currentEdu + 1) % eduCards.length;
+            setEduSlide(newIndex);
         });
 
         // --- CONTACT SUBMISSION FORM HANDLER ---
