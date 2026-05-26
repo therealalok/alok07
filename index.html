@@ -20,7 +20,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
@@ -30,17 +30,22 @@
             --bg-sec: #ecece7;
             --card-bg: #ffffff;
             --text-main: #000000;
-            --text-muted: #4b4b4b;
+            --text-muted: #5e5e5a;
             --border-color: #000000;
             --accent-1: #f4ff00;
             --ok-color: #505405;
             
-            /* Typography System */
-            --font-head: 'Bebas Neue', sans-serif;
+            /* Editorial Paper System Colors */
+            --paper-warm: #fcfbfa;
+            --paper-shadow: rgba(0, 0, 0, 0.08);
+            --paper-line: rgba(0, 0, 0, 0.04);
+            
+            /* Typography System - Swiss Minimalist Refined */
+            --font-head: 'Inter', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
             
             /* Border System */
-            --border: 2px solid var(--border-color);
+            --border: 1px solid var(--border-color); /* Thinner lines for luxury print feel */
         }
 
         /* Luxury Football Editorial Palette - DARK MODE */
@@ -52,17 +57,20 @@
             --text-muted: #a0a0a0;
             --border-color: #ffffff;
             --ok-color: #f4ff00;
+            
+            --paper-warm: #121211;
+            --paper-shadow: rgba(0, 0, 0, 0.5);
+            --paper-line: rgba(255, 255, 255, 0.05);
         }
 
-        /* Dark Mode structural overrides for elements with hardcoded black backgrounds */
+        /* Dark Mode structural overrides */
         [data-theme="dark"] .theme-switch-btn,
         [data-theme="dark"] .btn:not(.secondary-btn),
         [data-theme="dark"] .send-btn {
             background: #f4ff00 !important;
-            color: #000000!important;
+            color: #000000 !important;
         }
         
-        /* Ensure specific icons/sub-elements preserve their designated yellow highlight style in dark mode */
         [data-theme="dark"] .theme-switch-btn i,
         [data-theme="dark"] .btn:not(.secondary-btn) i,
         [data-theme="dark"] .send-btn {
@@ -87,23 +95,22 @@
         }
 
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 8px;
             background: var(--bg-main);
             border-left: var(--border);
         }
 
         ::-webkit-scrollbar-thumb {
             background: var(--text-main);
-            border-radius: 0;
         }
 
         /* --- GLOBAL TYPOGRAPHY --- */
         h1, h2, h3, .logo {
             font-family: var(--font-head);
             text-transform: uppercase;
-            line-height: 1.1;
+            line-height: 1.05;
             color: var(--text-main);
-            letter-spacing: 1px;
+            letter-spacing: -0.02em;
         }
 
         p, a, span, input, textarea, button {
@@ -125,17 +132,17 @@
         }
 
         .side-nav-btn {
-            width: 54px;
-            height: 54px;
+            width: 50px;
+            height: 50px;
             background: var(--card-bg);
             color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-decoration: none;
             border-bottom: var(--border);
-            transition: opacity 0.2s ease, background-color 0.2s ease;
+            transition: background-color 0.2s ease, opacity 0.2s ease;
         }
         
         .side-nav-btn:last-child {
@@ -143,7 +150,7 @@
         }
 
         .side-nav-btn:hover {
-            opacity: 0.85;
+            background: var(--bg-sec);
         }
 
         /* --- NAVBAR --- */
@@ -161,17 +168,18 @@
         }
 
         .logo {
-            font-size: 3.35rem;
-            padding: 12px 32px; 
+            font-size: 2.2rem;
+            font-weight: 700;
+            padding: 16px 32px; 
             border-right: var(--border);
             background: var(--card-bg);
-            letter-spacing: 2px;
+            letter-spacing: -0.04em;
             user-select: none;
             color: var(--text-main);
         }
 
         .logo span {
-            color: #d7df00;
+            color: #c5cc00;
             transition: color 0.3s ease;
         }
 
@@ -193,18 +201,18 @@
         nav a {
             text-decoration: none;
             color: var(--text-main);
-            font-weight: 700;
-            font-size: 1.2rem; 
+            font-weight: 500;
+            font-size: 0.95rem; 
             text-transform: uppercase;
-            padding: 20px 28px; 
+            padding: 24px 28px; 
             border-left: var(--border);
-            transition: opacity 0.2s ease;
+            transition: background-color 0.2s ease;
             display: flex;
             align-items: center;
         }
 
         nav a:hover {
-            opacity: 0.7;
+            background: var(--bg-sec);
         }
 
         .theme-switch-btn {
@@ -212,9 +220,9 @@
             color: #f4ff00;
             border: none;
             border-left: var(--border);
-            padding: 20px 28px; 
+            padding: 24px 28px; 
             cursor: pointer;
-            font-size: 1.5rem; 
+            font-size: 1.2rem; 
             transition: opacity 0.2s ease;
             height: 100%;
             display: flex;
@@ -227,7 +235,7 @@
 
         /* --- SECTIONS GLOBAL --- */
         section {
-            padding: 110px 8vw;
+            padding: 120px 8vw;
             border-bottom: var(--border);
             position: relative;
         }
@@ -237,19 +245,23 @@
         }
 
         .section-title {
-            font-size: clamp(4.2rem, 8vw, 7.2rem);
-            letter-spacing: 3px;
+            font-size: clamp(3.5rem, 6vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
             display: inline-block;
-            background: #000000;
-            color: #f4ff00;
-            border-bottom: 4px solid #d7df00;
-            padding: 5px 25px;
+            color: var(--text-main);
+            position: relative;
+            padding-bottom: 10px;
         }
-
-        [data-theme="dark"] .section-title {
-            background: #f4ff00 !important;
-            color: #000000 !important;
-            border-bottom: 4px solid #f4ff00 !important;
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--text-main);
         }
 
         /* --- HERO SECTION --- */
@@ -257,11 +269,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             padding: 0;
-            min-height: 90vh;
+            min-height: 85vh;
         }
 
         .hero-text-col {
-            padding: 100px 8vw;
+            padding: 80px 8vw;
             border-right: var(--border);
             display: flex;
             flex-direction: column;
@@ -270,34 +282,33 @@
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: 600;
             text-transform: uppercase;
-            margin-bottom: 20px;
-            letter-spacing: 4px;
+            margin-bottom: 24px;
+            letter-spacing: 0.2em;
             color: var(--text-muted);
         }
 
         .hero-emblem-layout {
             display: flex;
             flex-direction: column;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
         }
 
         .hero h1 {
-            font-size: clamp(6rem, 13vw, 14.4rem);
-            line-height: 0.85;
-            letter-spacing: 2px;
+            font-size: clamp(4.5rem, 10vw, 9rem);
+            font-weight: 700;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
             margin: 0;
-            display: flex;
-            flex-direction: column;
         }
 
         .hero-large-flag-box {
-            width: 84px;
-            margin-bottom: 20px;
+            width: 50px;
+            margin-bottom: 24px;
             border: var(--border);
-            padding: 5px;
+            padding: 3px;
             background: #ffffff;
         }
 
@@ -308,16 +319,16 @@
         }
 
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             line-height: 1.6;
             color: var(--text-muted);
-            max-width: 650px;
-            margin-bottom: 60px;
+            max-width: 540px;
+            margin-bottom: 45px;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 20px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
@@ -325,16 +336,17 @@
             background: #000000;
             color: #f4ff00;
             border: var(--border);
-            padding: 18px 35px; 
+            padding: 16px 32px; 
             font-family: var(--font-head);
-            font-size: 2.15rem; 
+            font-weight: 600;
+            font-size: 1.3rem; 
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.05em;
             transition: opacity 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .btn:hover {
@@ -347,11 +359,11 @@
         }
 
         .secondary-btn:hover {
-            opacity: 0.8;
+            background: var(--bg-sec) !important;
         }
 
         .hero-image-col {
-            padding: 100px 8vw;
+            padding: 80px 8vw;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -361,11 +373,11 @@
 
         .image-box {
             width: 100%;
-            max-width: 500px;
+            max-width: 440px;
             aspect-ratio: 3/4;
             border: var(--border);
             background: var(--card-bg);
-            padding: 10px;
+            padding: 8px;
             overflow: hidden;
         }
 
@@ -378,164 +390,243 @@
         }
 
         .image-box:hover img {
-            transform: scale(1.03);
+            transform: scale(1.02);
         }
 
-        /* --- INTERACTIVE 3D EDUCATION BOOK SYSTEM --- */
-        .book-viewport-wrapper {
+        /* --- 3D INTERACTIVE JOURNAL SYSTEM --- */
+        .edu-carousel-container {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            perspective: 1500px;
-            padding: 20px 0 60px 0;
-        }
-
-        .education-book {
-            position: relative;
-            width: 500px;
-            height: 540px;
-            transform-style: preserve-3d;
-            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .education-book:hover {
-            transform: scale(1.015);
-        }
-
-        .book-leaf {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            transform-origin: left center;
-            transform-style: preserve-3d;
-            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .leaf-side {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            background: var(--card-bg);
-            border: var(--border);
-            padding: 40px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
+            perspective: 2000px; /* Enhanced depth perception */
             overflow: hidden;
-            box-shadow: 5px 5px 25px rgba(0, 0, 0, 0.05);
+            padding: 40px 0 60px 0;
         }
 
-        .side-front {
-            z-index: 2;
-            transform: rotateY(0deg);
-        }
-
-        .side-back {
-            transform: rotateY(180deg);
-            background: var(--bg-sec);
-        }
-
-        .book-leaf.flipped {
-            transform: rotateY(-180deg);
-        }
-
-        /* Cover Front Details */
-        .cover-front-layout {
+        .edu-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 960px; /* Scaled architecture for full spread layout */
+            height: 600px;
+            transform-style: preserve-3d;
+            display: flex;
             justify-content: center;
-            text-align: center;
-            background: var(--card-bg);
+            align-items: center;
+            margin-bottom: 50px;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* The Premium Editorial Book Structure */
+        .editorial-book {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .editorial-book.active {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        /* Real physical half-open baseline position */
+        .editorial-book.spread-view {
+            transform: rotateX(12deg) rotateY(-8deg) rotateZ(-1deg);
+        }
+
+        /* Book Spine/Center Crease Axis Line */
+        .book-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.15), rgba(0,0,0,0.05) 50%, rgba(255,255,255,0.15));
+            z-index: 10;
+            transform: translateZ(2px);
+        }
+        
+        [data-theme="dark"] .book-spine {
+            background: linear-gradient(to right, rgba(0,0,0,0.5), rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.5));
+        }
+
+        /* Physical Page Construction */
+        .book-page {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background-color: var(--paper-warm);
+            /* Soft premium editorial ruled/paper texture emulation */
+            background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
+            background-size: 100% 24px;
+            padding: 50px 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 15px 35px var(--paper-shadow);
+            transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            backface-visibility: hidden;
+        }
+
+        /* Left Hand Page Layout Dynamics */
+        .book-page.page-left {
+            right: 50%;
+            transform-origin: right center;
+            border-radius: 4px 0 0 4px;
+            border: var(--border);
+            border-right: none;
+            /* Half open angled fold geometry induction */
+            transform: rotateY(18deg);
+            text-align: left;
+        }
+
+        /* Right Hand Page Layout Dynamics */
+        .book-page.page-right {
+            left: 50%;
+            transform-origin: left center;
+            border-radius: 0 4px 4px 0;
+            border: var(--border);
+            border-left: none;
+            /* Half open angled fold geometry induction */
+            transform: rotateY(-18deg);
+        }
+
+        /* Inner Subtle Spine Shadows for Book Realism */
+        .book-page.page-left::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 35px;
+            height: 100%;
+            background: linear-gradient(to left, rgba(0,0,0,0.06), transparent);
+            pointer-events: none;
+        }
+        .book-page.page-right::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.06), transparent);
+            pointer-events: none;
+        }
+        
+        [data-theme="dark"] .book-page.page-left::after {
+            background: linear-gradient(to left, rgba(0,0,0,0.4), transparent);
+        }
+        [data-theme="dark"] .book-page.page-right::after {
+            background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+        }
+
+        /* Cover Specific Architecture Styling Override */
+        .editorial-book.is-cover .page-left {
+            transform: rotateY(22deg) translateZ(-1px);
+            background: var(--bg-sec); /* Gives dimension to the backing element */
+        }
+        
+        .editorial-book.is-cover .page-right {
+            transform: rotateY(-14deg);
+            padding: 60px;
+            justify-content: space-between;
+        }
+
+        /* --- EDITORIAL CONTENT INTERIOR DESIGN ELEMENTS --- */
+        .page-number {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: absolute;
+            bottom: 35px;
+        }
+        .page-left .page-number { left: 40px; }
+        .page-right .page-number { right: 40px; }
+
+        .editorial-header-meta {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--text-main);
+            padding-bottom: 8px;
+            width: 100%;
+        }
+
+        .cover-accent-tag {
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            background: var(--text-main);
+            color: var(--accent-1);
+            padding: 4px 10px;
+            display: inline-block;
+            font-weight: 600;
+            letter-spacing: 0.05em;
         }
 
         .cover-main-title {
-            font-family: var(--font-head);
-            font-size: 4.2rem;
-            line-height: 1.1;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            margin-bottom: 35px;
-            text-transform: uppercase;
+            font-size: clamp(3.5rem, 5vw, 4.8rem);
+            font-weight: 300;
+            line-height: 0.95;
+            margin-top: 40px;
+            letter-spacing: -0.04em;
         }
-
-        .cover-main-title span {
-            color: var(--ok-color);
-        }
-
-        .book-click-hint {
-            font-family: var(--font-body);
-            font-size: 1.05rem;
+        
+        .cover-main-title bold {
             font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            border: var(--border);
-            padding: 8px 18px;
-            background: var(--bg-sec);
-            text-transform: uppercase;
-            animation: interactivePulse 2s infinite ease-in-out;
+            display: block;
         }
 
-        @keyframes interactivePulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* Elements inherited uniformly inside pages */
         .school-logo-mask {
-            width: 120px;
-            height: 120px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
             background: #ffffff !important;
-            padding: 12px;
+            padding: 8px;
             border: var(--border);
-            margin-bottom: 25px;
-            flex-shrink: 0;
+            margin-bottom: 30px;
         }
 
         .year-giant-typography {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--text-main);
-            border: var(--border);
-            padding: 6px 15px;
-            display: inline-block;
-            margin-bottom: 20px;
-            background: var(--bg-sec);
-            align-self: flex-start;
-            flex-shrink: 0;
+            margin-bottom: 15px;
+            letter-spacing: 0.05em;
         }
 
-        .leaf-side h3 {
-            font-size: 2.5rem;
+        .book-page h3 {
+            font-size: 2rem;
+            font-weight: 600;
             line-height: 1.1;
-            letter-spacing: 1px;
+            letter-spacing: -0.02em;
             color: var(--text-main);
-            width: 100%;
+            margin-bottom: 20px;
+            max-width: 90%;
         }
         
-        .leaf-side p {
-            font-size: 1.1rem;
-            line-height: 1.5;
+        .book-page p {
+            font-size: 0.95rem;
+            line-height: 1.6;
             color: var(--text-muted);
-            margin-top: 12px;
-            width: 100%;
         }
-
-        /* Base Page / Layer Stack Order Assignments */
-        #leaf-cover { z-index: 4; }
-        #leaf-level1 { z-index: 3; }
-        #leaf-level2 { z-index: 2; }
-        #leaf-level3 { z-index: 1; }
 
         /* --- SKILLS SECTION --- */
         .skills-grid-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+            gap: 24px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -543,35 +634,35 @@
         .skill-item-card {
             border: var(--border);
             background: var(--card-bg);
-            padding: 40px;
+            padding: 35px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 25px;
+            gap: 20px;
             aspect-ratio: 1;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease;
         }
 
         .skill-item-card:hover {
             border-color: var(--text-muted);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .skill-item-card h3 {
-            font-size: 3rem;
+            font-size: 1.4rem;
+            font-weight: 600;
             color: var(--text-main);
-            letter-spacing: 2px;
+            letter-spacing: -0.01em;
         }
 
         .skill-icon-wrap {
-            width: 96px;
-            height: 96px; 
-            transition: filter 0.3s ease;
+            width: 64px;
+            height: 64px; 
+            transition: transform 0.3s ease;
         }
         
         .skill-item-card:hover .skill-icon-wrap {
-            filter: brightness(1.05);
+            transform: scale(1.05);
         }
 
         .skill-icon-wrap img {
@@ -584,7 +675,7 @@
         #projects {
             background: var(--bg-sec);
             overflow: hidden;
-            padding: 140px 0;
+            padding: 120px 0;
         }
 
         #projects .section-title-container {
@@ -595,7 +686,7 @@
             width: 100%;
             position: relative;
             cursor: grab;
-            padding: 0 8vw 40px 8vw;
+            padding: 0 8vw 30px 8vw;
         }
 
         .projects-outer-viewport:active {
@@ -606,13 +697,13 @@
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            gap: 40px;
+            gap: 32px;
             width: max-content;
             will-change: transform;
         }
         
         .project-card {
-            width: 400px;
+            width: 380px;
             flex-shrink: 0;
             background: var(--card-bg);
             border: var(--border);
@@ -623,31 +714,32 @@
 
         .project-card img {
             width: 100%;
-            height: 480px; 
+            height: 440px; 
             object-fit: cover;
             border-bottom: var(--border);
             transition: transform 0.4s ease;
         }
 
         .project-card:hover img {
-            transform: scale(1.02);
+            transform: scale(1.01);
         }
 
         .project-content {
-            padding: 30px;
+            padding: 24px;
             background: var(--card-bg);
         }
 
         .project-content h3 {
-            font-size: 3.35rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
             color: var(--text-main);
-            letter-spacing: 1px;
+            letter-spacing: -0.02em;
         }
 
         .project-content p {
-            font-size: 1.15rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.5;
             color: var(--text-muted);
         }
 
@@ -662,29 +754,33 @@
         }
 
         .slider-instruction {
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
         }
 
         .slider-arrows {
             display: flex;
-            gap: 15px;
+            gap: 12px;
         }
 
         .slider-arrow-btn {
-            width: 60px;
-            height: 48px; 
+            width: 54px;
+            height: 44px; 
             background: var(--card-bg);
             border: var(--border);
             color: var(--text-main);
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: opacity 0.2s ease;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .slider-arrow-btn:hover {
-            opacity: 0.7;
+            background: var(--bg-sec);
         }
 
         /* --- CONTACT SECTION --- */
@@ -696,7 +792,7 @@
         }
 
         .contact-card {
-            padding: 60px;
+            padding: 50px;
             border-right: var(--border);
             display: flex;
             flex-direction: column;
@@ -706,115 +802,112 @@
         .find-me-btn {
             display: inline-block;
             font-family: var(--font-head);
-            font-size: 3.6rem; 
+            font-size: 2.5rem; 
+            font-weight: 600;
             text-transform: uppercase;
             color: var(--text-main);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
+            margin-bottom: 35px;
+            letter-spacing: -0.02em;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 16px;
         }
 
         .contact-info a {
             text-decoration: none;
             color: var(--text-main);
-            font-size: 1.3rem; 
-            font-weight: 700;
+            font-size: 1rem; 
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             border: var(--border);
-            padding: 16px 20px; 
+            padding: 14px 18px; 
             background: var(--bg-sec);
             transition: opacity 0.2s ease;
         }
 
         .contact-info a:hover {
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
         .flag-emoji {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
         }
 
         .socials {
             display: flex;
-            gap: 15px;
-            margin-top: 40px;
+            gap: 12px;
+            margin-top: 35px;
             flex-wrap: wrap;
         }
         
         .socials a {
-            width: 70px;
-            height: 70px;
+            width: 54px;
+            height: 54px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: var(--border);
             background: var(--bg-main);
             color: var(--text-main);
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             text-decoration: none;
-            transition: opacity 0.2s ease;
+            transition: background-color 0.2s ease;
         }
 
         .socials a:hover {
-            opacity: 0.8;
+            background: var(--bg-sec);
         }
 
         .contact-form {
-            padding: 60px;
+            padding: 50px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             background: var(--bg-main);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 16px;
         }
 
         .contact-form input, .contact-form textarea {
             width: 100%;
-            padding: 20px; 
+            padding: 16px; 
             border: var(--border);
             background: var(--card-bg);
             color: var(--text-main);
-            font-size: 1.2rem; 
+            font-size: 1rem; 
             font-family: var(--font-body);
             outline: none;
-            transition: border-color 0.2s ease;
         }
 
         .contact-form textarea {
-            min-height: 200px;
+            min-height: 180px;
             resize: none;
         }
 
         .contact-form input:focus, .contact-form textarea:focus {
             border-color: var(--text-muted);
         }
-        
-        .contact-form input::placeholder, .contact-form textarea::placeholder {
-            color: var(--text-muted);
-        }
 
         .send-btn {
-            padding: 18px;
+            padding: 16px;
             background: #000000;
             border: var(--border);
             color: #f4ff00;
             font-family: var(--font-head);
-            font-size: 2.65rem; 
+            font-weight: 600;
+            font-size: 1.4rem; 
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 0.05em;
             transition: opacity 0.2s ease;
         }
 
@@ -826,11 +919,13 @@
         footer {
             padding: 40px;
             text-align: center;
-            font-size: 1.1rem; 
-            font-weight: 700;
+            font-size: 0.85rem; 
+            font-weight: 500;
             border-top: var(--border);
             background: var(--card-bg);
             text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
         }
 
         /* --- TABLET DESIGN --- */
@@ -843,6 +938,9 @@
             .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
             .contact-wrapper { grid-template-columns: 1fr; }
             .contact-card { border-right: none; border-bottom: var(--border); }
+            
+            .edu-carousel { max-width: 720px; height: 500px; }
+            .book-page { padding: 35px 40px; }
         }
 
         /* --- MOBILE RESPONSIVENESS FIXES --- */
@@ -850,40 +948,39 @@
             nav { display: none; }
             .side-floating-nav { display: none; }
             
-            .logo { font-size: 2.5rem; padding: 10px 15px; }
+            .logo { font-size: 1.8rem; padding: 12px 20px; }
             section { padding: 60px 5vw; }
             
-            .section-title { font-size: 3.5rem; padding: 5px 15px; }
-            .hero h1 { font-size: 4.8rem; } 
-            .hero p { font-size: 1.1rem; }
-            .hero-text-col, .hero-image-col { padding: 60px 5vw; }
-            .btn { padding: 15px 25px; font-size: 1.5rem; }
+            .section-title { font-size: 2.8rem; }
+            .hero h1 { font-size: 3.8rem; } 
+            .hero p { font-size: 1rem; }
+            .hero-text-col, .hero-image-col { padding: 45px 5vw; }
+            .btn { padding: 12px 24px; font-size: 1.1rem; }
             
-            .education-book { width: 100%; max-width: 330px; height: 490px; }
-            .cover-main-title { font-size: 2.6rem; margin-bottom: 25px; }
-            .leaf-side { padding: 25px; }
-            .leaf-side h3 { font-size: 1.8rem; }
-            .school-logo-mask { width: 90px; height: 90px; margin-bottom: 15px; }
+            /* Unfolds the 3D book spread layout safely into stacked clean cards for narrow mobile viewport stability */
+            .edu-carousel { height: auto; max-width: 100%; display: flex; flex-direction: column; gap: 30px; perspective: none; transform-style: flat; }
+            .editorial-book { position: relative; width: 100%; height: auto; display: none; opacity: 1; pointer-events: auto; transform: none !important; }
+            .editorial-book.active { display: flex; flex-direction: column; gap: 0; }
+            .book-spine { display: none; }
+            .book-page { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; border-radius: 4px; border: var(--border) !important; padding: 30px 20px; box-shadow: none; background-image: none; }
+            .book-page.page-left { border-bottom: none; border-radius: 4px 4px 0 0; }
+            .book-page.page-right { border-radius: 0 0 4px 4px; }
+            .book-page::after { display: none !important; }
+            .page-number { position: relative; bottom: auto; left: auto !important; right: auto !important; margin-top: 30px; display: block; }
             
-            .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
+            .skills-grid-container { grid-template-columns: 1fr; gap: 16px; }
             .skill-item-card { padding: 25px; }
-            .project-card { width: 80vw; } 
-            .project-card img { height: 350px; }
-            .project-content h3 { font-size: 2.5rem; }
+            .project-card { width: 78vw; } 
+            .project-card img { height: 320px; }
+            .project-content h3 { font-size: 1.5rem; }
             
-            .slider-controls-wrapper { 
-                flex-direction: column;
-                gap: 20px; 
-                text-align: center; 
-                padding: 0 5vw;
-            }
-            
+            .slider-controls-wrapper { flex-direction: column; gap: 16px; text-align: center; padding: 0 5vw; }
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
-            .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
-            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
-            .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
-            .send-btn { font-size: 2rem; padding: 15px; }
+            .find-me-btn { font-size: 2rem; margin-bottom: 20px; }
+            .contact-info a { font-size: 0.9rem; padding: 10px 14px; word-break: break-all; }
+            .contact-form input, .contact-form textarea { padding: 12px; font-size: 0.95rem; }
+            .send-btn { font-size: 1.2rem; padding: 12px; }
         }
     </style>
 </head>
@@ -940,46 +1037,85 @@
             <h2 class="section-title">Education Journey</h2>
         </div>
         
-        <div class="book-viewport-wrapper">
-            <div class="education-book" id="interactive-edu-book">
+        <div class="edu-carousel-container">
+            <div class="edu-carousel" id="edu-3d-grid">
                 
-                <div class="book-leaf" id="leaf-level3">
-                    <div class="leaf-side side-front">
-                        <div class="year-giant-typography">2024 — Present</div>
-                        <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
-                        <h3>Amrit Science Campus (T.U.)</h3>
-                        <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                <div class="editorial-book spread-view active is-cover">
+                    <div class="book-spine"></div>
+                    <div class="book-page page-left">
+                        <div class="editorial-header-meta">ALOK SHARMA — PORTFOLIO METADATA</div>
+                        <p style="margin-top: auto; font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase;">
+                            Curriculum Vitae<br>Academic Record Spread Collection<br>©2026 Edition
+                        </p>
+                        <div class="page-number">N° 01</div>
+                    </div>
+                    <div class="book-page page-right">
+                        <div>
+                            <span class="cover-accent-tag">EDUCATION RECORD</span>
+                            <h2 class="cover-main-title">THE<br><bold>JOURNEY</bold></h2>
+                        </div>
+                        <p style="font-size: 0.85rem; line-height: 1.6; max-width: 85%;">
+                            An interactive catalog containing primary, secondary, and tertiary academic profiles compiled inside a minimal Swiss-inspired composition.
+                        </p>
+                        <div class="page-number">N° 02</div>
                     </div>
                 </div>
 
-                <div class="book-leaf" id="leaf-level2">
-                    <div class="leaf-side side-front">
-                        <div class="year-giant-typography">2022 — 2024</div>
-                        <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
-                        <h3>Reliance Int'l Academy +2</h3>
-                        <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
+                <div class="editorial-book spread-view">
+                    <div class="book-spine"></div>
+                    <div class="book-page page-left">
+                        <div class="editorial-header-meta">FOUNDATION STAGE / SEC 01</div>
+                        <img src="mdmss-removebg-preview.png" alt="Secondary School Logo" class="school-logo-mask">
+                        <div class="year-giant-typography">[ PERIOD: 2010 — 2022 ]</div>
+                        <div class="page-number">N° 03</div>
                     </div>
-                    <div class="leaf-side side-back"></div>
-                </div>
-
-                <div class="book-leaf" id="leaf-level1">
-                    <div class="leaf-side side-front">
-                        <div class="year-giant-typography">2010 — 2022</div>
-                        <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
+                    <div class="book-page page-right">
+                        <div class="editorial-header-meta">INSTITUTION DETAIL</div>
                         <h3>Mahakavi Devkota Memorial Secondary School</h3>
-                        <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
+                        <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a cumulative GPA metric of 3.75.</p>
+                        <div class="page-number">N° 04</div>
                     </div>
-                    <div class="leaf-side side-back"></div>
                 </div>
 
-                <div class="book-leaf" id="leaf-cover">
-                    <div class="leaf-side side-front cover-front-layout">
-                        <h2 class="cover-main-title">Educational Status of <br><span>Alok Sharma</span></h2>
-                        <div class="book-click-hint">Click to flip open</div>
+                <div class="editorial-book spread-view">
+                    <div class="book-spine"></div>
+                    <div class="book-page page-left">
+                        <div class="editorial-header-meta">SCIENTIFIC DISCIPLINE / SEC 02</div>
+                        <img src="ria-removebg-preview.png" alt="Reliance Academy Logo" class="school-logo-mask">
+                        <div class="year-giant-typography">[ PERIOD: 2022 — 2024 ]</div>
+                        <div class="page-number">N° 05</div>
                     </div>
-                    <div class="leaf-side side-back"></div>
+                    <div class="book-page page-right">
+                        <div class="editorial-header-meta">INSTITUTION DETAIL</div>
+                        <h3>Reliance Int'l Academy +2</h3>
+                        <p>Completed intensive +2 Science certifications encompassing Physics, Chemistry, Mathematics, and Computer Science with a final score of 3.62 GPA.</p>
+                        <div class="page-number">N° 06</div>
+                    </div>
                 </div>
 
+                <div class="editorial-book spread-view">
+                    <div class="book-spine"></div>
+                    <div class="book-page page-left">
+                        <div class="editorial-header-meta">HIGHER ACADEMICS / SEC 03</div>
+                        <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
+                        <div class="year-giant-typography">[ PERIOD: 2024 — PRESENT ]</div>
+                        <div class="page-number">N° 07</div>
+                    </div>
+                    <div class="book-page page-right">
+                        <div class="editorial-header-meta">INSTITUTION DETAIL</div>
+                        <h3>Amrit Science Campus (T.U.)</h3>
+                        <p>Currently pursuing a Bachelor's Degree in Computer Science and Information Technology (CSIT) while simultaneously expanding modern digital skill frameworks, complex algorithmic logic, and structural application designs.</p>
+                        <div class="page-number">N° 08</div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="slider-controls-wrapper" style="border-top: none; justify-content: center;">
+                <div class="slider-arrows">
+                    <button class="slider-arrow-btn" id="edu-prev-btn" aria-label="Previous Spread"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="slider-arrow-btn" id="edu-next-btn" aria-label="Next Spread"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
         </div>
     </section>
@@ -1200,7 +1336,7 @@
         function getSlideAmount() {
             const card = document.querySelector('.project-card');
             if (!card) return 400; 
-            return card.offsetWidth + 40;
+            return card.offsetWidth + 32;
         }
 
         prevBtn.addEventListener('click', () => {
@@ -1245,29 +1381,31 @@
             isDrag = false;
         });
 
-        // --- INTERACTIVE 3D BOOK FLIP LOGIC ---
-        const eduBook = document.getElementById('interactive-edu-book');
-        const bookLeaves = [
-            document.getElementById('leaf-cover'),
-            document.getElementById('leaf-level1'),
-            document.getElementById('leaf-level2')
-        ];
-        let flippedCount = 0;
+        // --- 3D MAGAZINE JOURNAL SPREAD ENGINE ---
+        const bookSpreads = document.querySelectorAll('.editorial-book');
+        const eduPrevBtn = document.getElementById('edu-prev-btn');
+        const eduNextBtn = document.getElementById('edu-next-btn');
+        let currentSpread = 0;
 
-        if (eduBook) {
-            eduBook.addEventListener('click', () => {
-                if (flippedCount < bookLeaves.length) {
-                    bookLeaves[flippedCount].classList.add('flipped');
-                    flippedCount++;
-                } else {
-                    // Reset book configuration completely
-                    for (let i = bookLeaves.length - 1; i >= 0; i--) {
-                        bookLeaves[i].classList.remove('flipped');
-                    }
-                    flippedCount = 0;
+        function setBookSpread(index) {
+            currentSpread = index;
+            bookSpreads.forEach((spread, i) => {
+                spread.classList.remove('active');
+                if (i === currentSpread) {
+                    spread.classList.add('active');
                 }
             });
         }
+
+        eduPrevBtn.addEventListener('click', () => {
+            let newIndex = (currentSpread - 1 + bookSpreads.length) % bookSpreads.length;
+            setBookSpread(newIndex);
+        });
+
+        eduNextBtn.addEventListener('click', () => {
+            let newIndex = (currentSpread + 1) % bookSpreads.length;
+            setBookSpread(newIndex);
+        });
 
         // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
@@ -1287,7 +1425,6 @@
 
             try {
                 const response = await emailjs.send('service_qa1fl7f' , 'template_zu2bqc7', templateParams);
-            
                 if (response.status === 200) {
                     statusButton.innerText = "SUCCESS";
                     contactForm.reset();
