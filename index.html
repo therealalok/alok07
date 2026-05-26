@@ -34,7 +34,7 @@
             --border-color: #000000;
             --accent-1: #f4ff00;
             --ok-color: #505405;
-
+            
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
@@ -385,29 +385,34 @@
            ========================================================================= */
         
         .edu-book-viewport {
-            --book-cover-color: #f4d21f; 
+            --book-cover-color: #f4d21f;
             --paper-base: #faf9f5;       
             --book-text: #1a1a1a;        
             --book-muted: #6e6e6a;       
             
-            --linen-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.025'/%3E%3C/svg%3E");
+            /* Improved textures */
+            --linen-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.04'/%3E%3C/svg%3E");
+            --book-ambient: rgba(28, 28, 24, 0.12); 
+            --book-contact-shadow: rgba(14, 14, 12, 0.35); 
+            --spine-color: #d1b110; 
+            --book-line: rgba(0, 0, 0, 0.07); 
             
-            --book-ambient: rgba(28, 28, 24, 0.12);
-            --book-contact-shadow: rgba(14, 14, 12, 0.35);
-            --spine-color: #d1b110;
-            --book-line: rgba(0, 0, 0, 0.07);
-
+            /* Cinematic Wood Table Environment */
+            background-color: #2c1a0f;
+            background-image: 
+                radial-gradient(circle at 20% 10%, rgba(255, 250, 240, 0.15) 0%, transparent 60%),
+                repeating-linear-gradient(to right, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+                linear-gradient(45deg, rgba(40, 25, 15, 0.9) 0%, rgba(70, 45, 25, 0.8) 50%, rgba(20, 10, 5, 0.95) 100%);
+            box-shadow: inset 0 0 150px rgba(0,0,0,0.8);
+            
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 120px 0 80px 0;
-            perspective: 2500px;
-            
-            background: radial-gradient(circle at 15% 15%, rgba(255, 255, 254, 0.9) 0%, rgba(240, 240, 236, 0.8) 40%, rgba(218, 218, 212, 0.6) 100%);
-            box-shadow: inset 0 0 120px rgba(0,0,0,0.03);
+            padding: 140px 0 100px 0;
+            perspective: 3500px;
             border-top: var(--border);
             border-bottom: var(--border);
         }
@@ -416,6 +421,7 @@
             background: radial-gradient(circle at 20% 20%, rgba(35, 35, 35, 0.9) 0%, rgba(20, 20, 20, 0.95) 60%, rgba(10, 10, 10, 1) 100%);
             --book-ambient: rgba(0, 0, 0, 0.6);
             --book-contact-shadow: rgba(0, 0, 0, 0.85);
+            box-shadow: none; /* Remove the heavy wood shadow in dark mode */
         }
 
         .book-container {
@@ -423,12 +429,28 @@
             width: 980px;
             height: 640px;
             transform-style: preserve-3d;
-            transform: rotateX(13deg) rotateY(-3deg) rotateZ(0deg);
+            /* Cinematic editorial angle, slightly steeper */
+            transform: rotateX(20deg) rotateY(-8deg) rotateZ(1deg); 
             transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .book-container:hover {
-            transform: rotateX(15deg) rotateY(-1deg) rotateZ(0deg);
+            transform: rotateX(22deg) rotateY(-6deg) rotateZ(1deg);
+        }
+
+        /* Simulate stacked paper edges on the right side */
+        .book-container::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 5px;
+            width: 10px;
+            height: 98%;
+            background: repeating-linear-gradient(to bottom, #eae8e1, #eae8e1 1px, #d1cfc7 1px, #d1cfc7 2px);
+            transform: rotateY(90deg);
+            transform-origin: left;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.1);
+            z-index: 0;
         }
 
         .click-zone {
@@ -447,13 +469,13 @@
             width: 100%;
             height: 100%;
             border-radius: 6px;
-            transform: translateZ(-30px) scale(0.99);
-            background: var(--book-contact-shadow);
-            filter: blur(28px);
+            transform: translateZ(-35px) scale(0.98);
+            background: rgba(10, 5, 0, 0.7); /* Warmer, darker shadow for wood */
+            filter: blur(35px);
             pointer-events: none;
             box-shadow: 
-                0 35px 70px var(--book-ambient),
-                0 15px 25px var(--book-ambient);
+                0 50px 100px rgba(0,0,0,0.6),
+                0 20px 40px rgba(0,0,0,0.5);
         }
 
         .book-spine-core {
@@ -485,7 +507,8 @@
             top: 0;
             transform-origin: left center;
             transform-style: preserve-3d;
-            transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+            /* Custom physics: ease-in slowly, snap over the middle, settle heavily */
+            transition: transform 1.4s cubic-bezier(0.45, 0.05, 0.15, 1); 
             z-index: 1;
         }
 
@@ -500,16 +523,49 @@
             padding: 75px 70px;
             display: flex;
             flex-direction: column;
-            backface-visibility: hidden;
+            
+            /* THE FIX: Strict hardware backface hiding */
             -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            transform-style: flat; /* Keep content flat on the page */
+            
             overflow: hidden;
-            transform-style: preserve-3d;
             pointer-events: auto; 
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.015);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.05); /* Realistic paper cut edge */
         }
 
+        /* Front side faces forward */
+        .page-side.front {
+            transform: rotateY(0deg) translateZ(1px); 
+        }
+
+        /* Back side faces backward */
         .page-side.back {
-            transform: rotateY(180deg);
+            transform: rotateY(180deg) translateZ(-1px);
+        }
+
+        /* Dynamic lighting overlays */
+        .page-side::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to left, rgba(0,0,0,0.2) 0%, transparent 40%);
+            opacity: 0;
+            transition: opacity 1.4s ease;
+            pointer-events: none;
+            z-index: 20;
+        }
+
+        /* When flipping left (front page rotates away) */
+        .sheet.flipped .front::after {
+            opacity: 1; /* Shadow intensifies as it faces away from the light */
+        }
+
+        /* When resting on the left (back page is visible) */
+        .sheet.flipped .back::after {
+            background: linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 30%);
+            opacity: 1;
         }
 
         .sheet:not(.cover-sheet):not(.cover-sheet-back) .front {
@@ -527,13 +583,15 @@
             content: '';
             position: absolute; left: 0; top: 0; width: 70px; height: 100%;
             background: linear-gradient(to right, rgba(0,0,0,0.06), rgba(0,0,0,0.01) 60%, transparent); 
-            pointer-events: none; z-index: 10;
+            pointer-events: none;
+            z-index: 10;
         }
         .page-side.back::before {
             content: '';
             position: absolute; right: 0; top: 0; width: 70px; height: 100%;
             background: linear-gradient(to left, rgba(0,0,0,0.06), rgba(0,0,0,0.01) 60%, transparent); 
-            pointer-events: none; z-index: 10;
+            pointer-events: none;
+            z-index: 10;
         }
 
         .sheet.cover-sheet, .sheet.cover-sheet-back { height: 104%; top: -2%; width: 51%; }
@@ -600,7 +658,7 @@
         }
 
         .cover-title-block {
-            margin: auto 0; 
+            margin: auto 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -806,7 +864,7 @@
         }
 
         .hud-arrow-btn:hover { 
-            background: #f4d21f !important; 
+            background: #f4d21f !important;
             color: #000000 !important; 
         }
         
@@ -1154,6 +1212,7 @@
             .edu-book-viewport { perspective: none; padding-top: 40px; background: var(--bg-main) !important; }
             .book-container { width: 100%; height: auto; transform: none !important; transform-style: flat; }
             .book-container:hover { transform: none !important; }
+            .book-container::after { display: none; }
             .book-base-shadows { display: none; }
             .book-pages-wrapper { position: relative; width: 100%; height: auto; display: flex; flex-direction: column; gap: 24px; }
             .sheet { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; transform-style: flat; display: flex; flex-direction: column; opacity: 1 !important; visibility: visible !important; }
@@ -1171,9 +1230,7 @@
             .project-card img { height: 350px; }
             .project-content h3 { font-size: 2.5rem; }
             
-            .slider-controls-wrapper { 
-                flex-direction: column; gap: 20px; text-align: center; padding: 0 5vw;
-            }
+            .slider-controls-wrapper { flex-direction: column; gap: 20px; text-align: center; padding: 0 5vw; }
             
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
@@ -1232,7 +1289,6 @@
         </div>
     </section>
 
-    <!-- ULTRA-REALISTIC PREMIUM EDITORIAL PORTFOLIO BOOK SECTION -->
     <section id="education">
         <div class="section-title-container">
             <h2 class="section-title">Education Journey</h2>
@@ -1248,7 +1304,6 @@
 
                 <div class="book-pages-wrapper">
 
-                    <!-- COVER SPREAD -->
                     <div class="sheet cover-sheet" id="sheet-1">
                         <div class="page-side front">
                             <div class="cover-subtitle-text">PORTFOLIO PUBLICATION</div>
@@ -1259,7 +1314,6 @@
                             <div class="stable-page-number">C-01</div>
                         </div>
                         
-                        <!-- INDEX SPREAD (TABLE OF CONTENTS) -->
                         <div class="page-side back">
                             <div class="editorial-meta-line">TABLE OF CONTENTS // CHRONICLES</div>
                             <div class="editorial-highlight-label">INTRODUCTION</div>
@@ -1281,7 +1335,6 @@
                         </div>
                     </div>
 
-                    <!-- SCHOOL SPREAD 1 -->
                     <div class="sheet" id="sheet-2">
                         <div class="page-side front">
                             <div class="editorial-meta-line">FOUNDATION MATRICES / SEC 01</div>
@@ -1303,7 +1356,6 @@
                         </div>
                     </div>
 
-                    <!-- SCHOOL SPREAD 2 -->
                     <div class="sheet" id="sheet-3">
                         <div class="page-side front">
                             <div class="editorial-meta-line">INTERMEDIATE TRACKS / SEC 02</div>
@@ -1325,7 +1377,6 @@
                         </div>
                     </div>
 
-                    <!-- SCHOOL SPREAD 3 & BACK COVER -->
                     <div class="sheet cover-sheet-back" id="sheet-4">
                         <div class="page-side front">
                             <div class="editorial-meta-line">HIGHER PARADIGMS / SEC 03</div>
@@ -1343,7 +1394,6 @@
                             <div class="minimal-signature-mark">AL<span>OK.</span></div>
                             
                             <button class="open-again-btn" id="open-again-btn">OPEN AGAIN</button>
-                            
                             <div class="stable-page-number">C-02</div>
                         </div>
                     </div>
@@ -1484,7 +1534,7 @@
 
             </div>
         </div>
-        
+
         <div class="slider-controls-wrapper">
             <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE</div>
             <div class="slider-arrows">
@@ -1571,7 +1621,6 @@
         }
         
         requestAnimationFrame(scrollLoop);
-        
         viewport.addEventListener('mouseenter', () => isPaused = true);
         viewport.addEventListener('mouseleave', () => isPaused = false);
 
@@ -1584,53 +1633,46 @@
         prevBtn.addEventListener('click', () => {
             offset += getSlideAmount();
         });
-
         nextBtn.addEventListener('click', () => {
             offset -= getSlideAmount();
         });
-
+        
         viewport.addEventListener('mousedown', (e) => {
             isDrag = true;
             startX = e.clientX;
             dragStartOffset = offset;
         });
-
         window.addEventListener('mousemove', (e) => {
             if (!isDrag) return;
             const deltaX = e.clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         });
-
         window.addEventListener('mouseup', () => {
             isDrag = false;
         });
-
         viewport.addEventListener('touchstart', (e) => {
             isDrag = true;
             startX = e.touches[0].clientX;
             dragStartOffset = offset;
         }, { passive: true });
-
         viewport.addEventListener('touchmove', (e) => {
             if (!isDrag) return;
             const deltaX = e.touches[0].clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         }, { passive: true });
-
         viewport.addEventListener('touchend', () => {
             isDrag = false;
         });
 
-        // --- 3D JOURNAL SPREAD ENGINE (FIXED OCCLUSION) ---
+        // --- 3D JOURNAL SPREAD ENGINE (FIXED OCCLUSION & PHYSICS) ---
         const sheets = [
             document.getElementById('sheet-1'),
             document.getElementById('sheet-2'),
             document.getElementById('sheet-3'),
             document.getElementById('sheet-4')
         ];
-
         const bookPrevBtn = document.getElementById('book-prev');
         const bookNextBtn = document.getElementById('book-next');
         const hudIndicator = document.getElementById('hud-page-indicator');
@@ -1640,36 +1682,43 @@
         
         let currentSpreadIndex = 1; 
         const totalSpreads = sheets.length;
-        const paperThickness = 1.2;
 
         function updateJournalState() {
             sheets.forEach((sheet, index) => {
+                // Adjust the paper thickness gap dynamically
+                const zOffset = 2; 
+
                 if (index < currentSpreadIndex) {
+                    // Page is on the left side
                     sheet.classList.add('flipped');
-                    sheet.style.transform = `rotateY(-180deg) translateZ(${index * paperThickness}px)`;
+                    sheet.style.transform = `rotateY(-180deg) translateZ(${index * zOffset}px)`;
                     
-                    // FIXED: If the page turned is past the current view plane, make it invisible 
-                    // so it doesn't cause overlapping interaction bugs or hover glitches on the left side
+                    // Fix Z-index immediately so it drops behind earlier pages
+                    sheet.style.zIndex = index + 1;
+
+                    // Wait for flip animation to finish before hiding (prevents ghosting clicks)
                     if (index < currentSpreadIndex - 1) {
-                        sheet.style.opacity = "0";
-                        sheet.style.visibility = "hidden";
+                        setTimeout(() => {
+                            sheet.style.visibility = "hidden";
+                        }, 700); // Wait half the animation time
                     } else {
-                        sheet.style.opacity = "1";
                         sheet.style.visibility = "visible";
-                        sheet.style.zIndex = index + 1;
                     }
-                } else {
-                    sheet.classList.remove('flipped');
-                    sheet.style.transform = `rotateY(0deg) translateZ(${-index * paperThickness}px)`;
                     
-                    // FIXED: Hide right-side sheets underneath the currently visible top sheet
-                    if (index > currentSpreadIndex) {
-                        sheet.style.opacity = "0";
-                        sheet.style.visibility = "hidden";
-                    } else {
-                        sheet.style.opacity = "1";
-                        sheet.style.visibility = "visible";
-                        sheet.style.zIndex = totalSpreads - index;
+                } else {
+                    // Page is on the right side
+                    sheet.classList.remove('flipped');
+                    sheet.style.transform = `rotateY(0deg) translateZ(${-index * zOffset}px)`;
+                    
+                    // Fix Z-index so top pages cover bottom pages
+                    sheet.style.zIndex = totalSpreads - index;
+                    sheet.style.visibility = "visible";
+
+                    // Hide pages too far down to save rendering power
+                    if (index > currentSpreadIndex + 1) {
+                        setTimeout(() => {
+                            sheet.style.visibility = "hidden";
+                        }, 700);
                     }
                 }
             });
@@ -1686,28 +1735,24 @@
                 updateJournalState();
             }
         });
-
         zoneRight.addEventListener('click', () => {
             if (currentSpreadIndex < totalSpreads) {
                 currentSpreadIndex++;
                 updateJournalState();
             }
         });
-
         bookPrevBtn.addEventListener('click', () => {
             if (currentSpreadIndex > 0) {
                 currentSpreadIndex--;
                 updateJournalState();
             }
         });
-
         bookNextBtn.addEventListener('click', () => {
             if (currentSpreadIndex < totalSpreads) {
                 currentSpreadIndex++;
                 updateJournalState();
             }
         });
-
         restartBtn.addEventListener('click', () => {
             currentSpreadIndex = 0; 
             updateJournalState();
@@ -1718,7 +1763,6 @@
 
         // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
-        
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const statusButton = contactForm.querySelector(".send-btn");
@@ -1751,7 +1795,7 @@
                 setTimeout(() => {
                     statusButton.innerText = originalText;
                     statusButton.style.pointerEvents = "auto";
-                    }, 4000);
+                }, 4000);
             }
         });
     </script>
