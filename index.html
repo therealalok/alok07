@@ -30,7 +30,7 @@
             --bg-sec: #ecece7;
             --card-bg: #ffffff;
             --text-main: #000000;
-            --text-muted: #666666;
+            --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
             
@@ -48,7 +48,7 @@
             --bg-sec: #141414;
             --card-bg: #000000;
             --text-main: #ffffff;
-            --text-muted: #888888;
+            --text-muted: #a0a0a0;
             --border-color: #ffffff;
         }
 
@@ -347,134 +347,107 @@
             transform: scale(1.03);
         }
 
-        /* --- EDITORIAL EDUCATION TIMELINE --- */
-        #education {
-            background-color: var(--bg-sec);
-            overflow: hidden;
-        }
-
-        .editorial-timeline {
-            position: relative;
+        /* --- 3D EDUCATION CAROUSEL --- */
+        .edu-carousel-container {
+            width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 60px;
-            padding: 40px 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .timeline-track {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background-color: var(--text-muted);
-            transform: translateX(-50%);
-            opacity: 0.3;
-        }
-
-        .timeline-node {
-            position: relative;
-            width: 50%;
-            display: flex;
             align-items: center;
-            opacity: 0.3;
-            transform: scale(0.98);
-            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            perspective: 1200px; /* Creates the 3D depth */
+            overflow: hidden;
+            padding: 20px 0 60px 0;
         }
 
-        .timeline-node.is-active {
-            opacity: 1;
-            transform: scale(1);
+        .edu-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 550px; /* Width of the center card */
+            height: 480px; 
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .left-node {
-            justify-content: flex-end;
-            padding-right: 60px;
-            align-self: flex-start;
-        }
-
-        .right-node {
-            justify-content: flex-start;
-            padding-left: 60px;
-            align-self: flex-end;
-        }
-
-        .timeline-marker {
+        .edu-card {
             position: absolute;
-            top: 50%;
-            width: 15px;
-            height: 15px;
-            background-color: var(--bg-sec);
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            transform: translateY(-50%);
-            transition: background-color 0.4s ease, border-color 0.4s ease;
-            z-index: 2;
-        }
-
-        .left-node .timeline-marker { right: -8px; }
-        .right-node .timeline-marker { left: -8px; }
-
-        .timeline-node.is-active .timeline-marker {
-            background-color: #f4ff00;
-            border-color: #000000;
-        }
-
-        .timeline-card {
+            width: 100%;
+            height: 100%;
             background: var(--card-bg);
             border: var(--border);
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            transition: border-color 0.4s ease;
-        }
-
-        .timeline-node.is-active .timeline-card {
-            border-color: var(--text-main);
-        }
-
-        .card-meta {
+            padding: 45px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--text-muted);
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
+            opacity: 0;
+            pointer-events: none;
+            cursor: pointer;
         }
 
-        .year-badge {
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+        .edu-card:hover {
+            border-color: var(--text-muted);
         }
 
-        .mini-logo {
-            height: 40px;
-            width: auto;
-            object-fit: contain;
-            filter: grayscale(100%);
-            opacity: 0.5;
-            transition: filter 0.4s ease, opacity 0.4s ease;
-        }
-
-        .timeline-node.is-active .mini-logo {
-            filter: grayscale(0%);
+        /* Front Active Card */
+        .edu-card.active {
+            transform: translateX(0) translateZ(0) rotateY(0);
             opacity: 1;
+            z-index: 3;
+            pointer-events: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
-        .institution-name {
-            font-size: 2.4rem;
+        /* Left Tucked Card */
+        .edu-card.prev {
+            transform: translateX(-75%) translateZ(-400px) rotateY(60deg);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        /* Right Tucked Card */
+        .edu-card.next {
+            transform: translateX(75%) translateZ(-400px) rotateY(-60deg);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        .school-logo-mask {
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+            background: #ffffff !important;
+            padding: 15px;
+            border: var(--border);
+            margin-bottom: 35px;
+        }
+
+        .year-giant-typography {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            border: var(--border);
+            padding: 6px 15px;
+            display: inline-block;
+            margin-bottom: 25px;
+            background: var(--bg-sec);
+        }
+
+        .edu-card h3 {
+            font-size: 3.35rem;
             line-height: 1.1;
             letter-spacing: 1px;
-            margin-bottom: 15px;
+            color: var(--text-main);
         }
-
-        .institution-desc {
-            font-size: 1.1rem;
+        
+        .edu-card p {
+            font-size: 1.15rem;
             line-height: 1.6;
             color: var(--text-muted);
+            margin-top: 15px;
         }
 
         /* --- SKILLS SECTION --- */
@@ -792,7 +765,7 @@
         }
 
         /* --- MOBILE RESPONSIVENESS FIXES --- */
-        @media(max-width: 900px) {
+        @media(max-width: 768px) {
             nav { display: none; }
             .side-floating-nav { display: none; }
             
@@ -806,14 +779,14 @@
             .hero p { font-size: 1.1rem; }
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
-
-            /* Editorial Timeline Mobile Fixes */
-            .editorial-timeline { gap: 40px; padding: 20px 0; }
-            .timeline-track { left: 0; transform: none; }
-            .timeline-node { width: 100%; align-self: flex-start; justify-content: flex-start; padding: 0 0 0 40px !important; }
-            .left-node .timeline-marker, .right-node .timeline-marker { left: -8px; right: auto; }
-            .timeline-card { max-width: 100%; padding: 30px 25px; }
-            .institution-name { font-size: 2rem; }
+            
+            /* Education Mobile Fixes */
+            .edu-carousel { height: 440px; max-width: 85vw; }
+            .edu-card { padding: 25px; }
+            .edu-card h3 { font-size: 2.2rem; }
+            .edu-card.prev { transform: translateX(-60%) translateZ(-300px) rotateY(45deg); opacity: 0; }
+            .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
+            .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
             
             /* Fix Grid and Cards */
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
@@ -897,42 +870,36 @@
             <h2 class="section-title">Education Journey</h2>
         </div>
         
-        <div class="editorial-timeline">
-            <div class="timeline-track"></div>
-
-            <div class="timeline-node left-node">
-                <div class="timeline-marker"></div>
-                <div class="timeline-card">
-                    <div class="card-meta">
-                        <span class="year-badge">2010 — 2022</span>
-                        <img src="mdmss-removebg-preview.png" alt="MDMSS Logo" class="mini-logo">
-                    </div>
-                    <h3 class="institution-name">Mahakavi Devkota Memorial Secondary School</h3>
-                    <p class="institution-desc">Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
+        <div class="edu-carousel-container">
+            <div class="edu-carousel" id="edu-3d-grid">
+                
+                <div class="edu-card active" onclick="setEduSlide(0)">
+                    <div class="year-giant-typography">2010 — 2022</div>
+                    <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
+                    <h3>Mahakavi Devkota Memorial Secondary School</h3>
+                    <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
                 </div>
-            </div>
 
-            <div class="timeline-node right-node">
-                <div class="timeline-marker"></div>
-                <div class="timeline-card">
-                    <div class="card-meta">
-                        <span class="year-badge">2022 — 2024</span>
-                        <img src="ria-removebg-preview.png" alt="Reliance Int'l Logo" class="mini-logo">
-                    </div>
-                    <h3 class="institution-name">Reliance Int'l Academy +2</h3>
-                    <p class="institution-desc">Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
+                <div class="edu-card next" onclick="setEduSlide(1)">
+                    <div class="year-giant-typography">2022 — 2024</div>
+                    <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
+                    <h3>Reliance Int'l Academy +2</h3>
+                    <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
                 </div>
-            </div>
 
-            <div class="timeline-node left-node">
-                <div class="timeline-marker"></div>
-                <div class="timeline-card">
-                    <div class="card-meta">
-                        <span class="year-badge">2024 — Present</span>
-                        <img src="ascol-removebg-preview.png" alt="Amrit Science Campus Logo" class="mini-logo">
-                    </div>
-                    <h3 class="institution-name">Amrit Science Campus (T.U.)</h3>
-                    <p class="institution-desc">Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                <div class="edu-card prev" onclick="setEduSlide(2)">
+                    <div class="year-giant-typography">2024 — Present</div>
+                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
+                    <h3>Amrit Science Campus (T.U.)</h3>
+                    <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                </div>
+
+            </div>
+            
+            <div class="slider-controls-wrapper" style="border-top: none; justify-content: center;">
+                <div class="slider-arrows">
+                    <button class="slider-arrow-btn" id="edu-prev-btn" aria-label="Previous Education"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="slider-arrow-btn" id="edu-next-btn" aria-label="Next Education"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
         </div>
@@ -1199,29 +1166,35 @@
             isDrag = false;
         });
 
-        // --- EDITORIAL TIMELINE SCROLL LOGIC ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const timelineNodes = document.querySelectorAll('.timeline-node');
+        // --- 3D EDUCATION CAROUSEL LOGIC ---
+        const eduCards = document.querySelectorAll('.edu-card');
+        const eduPrevBtn = document.getElementById('edu-prev-btn');
+        const eduNextBtn = document.getElementById('edu-next-btn');
+        let currentEdu = 0;
 
-            const observerOptions = {
-                root: null,
-                rootMargin: '-20% 0px -20% 0px',
-                threshold: 0.1
-            };
-
-            const nodeObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-active');
-                    } else {
-                        entry.target.classList.remove('is-active');
-                    }
-                });
-            }, observerOptions);
-
-            timelineNodes.forEach(node => {
-                nodeObserver.observe(node);
+        function setEduSlide(index) {
+            currentEdu = index;
+            eduCards.forEach((card, i) => {
+                card.classList.remove('active', 'prev', 'next');
+                
+                if (i === currentEdu) {
+                    card.classList.add('active');
+                } else if (i === (currentEdu - 1 + eduCards.length) % eduCards.length) {
+                    card.classList.add('prev');
+                } else {
+                    card.classList.add('next');
+                }
             });
+        }
+
+        eduPrevBtn.addEventListener('click', () => {
+            let newIndex = (currentEdu - 1 + eduCards.length) % eduCards.length;
+            setEduSlide(newIndex);
+        });
+
+        eduNextBtn.addEventListener('click', () => {
+            let newIndex = (currentEdu + 1) % eduCards.length;
+            setEduSlide(newIndex);
         });
 
         // --- CONTACT SUBMISSION FORM HANDLER ---
