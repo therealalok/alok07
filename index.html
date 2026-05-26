@@ -34,6 +34,10 @@
             --border-color: #000000;
             --accent-1: #f4ff00;
             
+            /* Section Title Colors - Light Mode (Black BG, Yellow Text) */
+            --title-bg: #000000;
+            --title-text: #f4ff00;
+            
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
@@ -50,6 +54,10 @@
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
             --border-color: #ffffff;
+            
+            /* Section Title Colors - Dark Mode Inversion (White BG, Black Text) */
+            --title-bg: #ffffff;
+            --title-text: #000000;
         }
 
         * {
@@ -213,9 +221,10 @@
             font-size: clamp(4.2rem, 8vw, 7.2rem);
             letter-spacing: 3px;
             display: inline-block;
-            background: #000000;
-            color: #f4ff00;
+            background: var(--title-bg);
+            color: var(--title-text);
             padding: 5px 25px;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* --- HERO SECTION --- */
@@ -371,7 +380,6 @@
             position: relative;
             z-index: 1;
             transform-style: preserve-3d;
-            /* Ultra smooth depth-of-field transition */
             transition: 
                 transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
                 opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
@@ -380,7 +388,6 @@
                 box-shadow 0.5s ease;
         }
 
-        /* Year Label Base Styling */
         .lens-year-badge {
             font-family: var(--font-head);
             font-size: 2.4rem;
@@ -393,7 +400,6 @@
             transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease;
         }
 
-        /* Logo Framing Box */
         .lens-logo-wrap {
             width: 75px;
             height: 75px;
@@ -406,7 +412,6 @@
             transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Heading Hierarchy */
         .lens-card h3 {
             font-size: 2.8rem;
             letter-spacing: 1px;
@@ -424,30 +429,25 @@
         }
 
         /* FOCUS LENS SYSTEM MECHANICS */
-        
-        /* 1. Global Sibling Behavior: Hovering the parent container drops adjacent elements out of focus */
         .lens-carousel-container:hover .lens-card {
             opacity: 0.45;
             filter: blur(2px) saturate(0.8);
             transform: scale(0.95) translateZ(-40px);
         }
 
-        /* 2. Isolated Subject Selection: The hovered subject snaps into perfect foreground focus */
         .lens-carousel-container .lens-card:hover {
             opacity: 1;
-            filter: blur(0) saturate(1) cubic-bezier(0.25, 1, 0.5, 1);
+            filter: blur(0) saturate(1);
             transform: scale(1.04) translateZ(30px);
             border-color: var(--accent-1);
             z-index: 10;
             box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
         }
 
-        /* Theme adjustments for focus box shadow glow */
         [data-theme="dark"] .lens-carousel-container .lens-card:hover {
             box-shadow: 0 20px 50px rgba(244, 255, 0, 0.08);
         }
 
-        /* 3. Focus Typography Enhancements on Hover */
         .lens-carousel-container .lens-card:hover .lens-year-badge {
             background-color: #000000;
             color: var(--accent-1);
