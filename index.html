@@ -52,6 +52,15 @@
             --border-color: #ffffff;
         }
 
+        /* Dark Mode overrides for blocks with hardcoded black backgrounds */
+        [data-theme="dark"] .section-title,
+        [data-theme="dark"] .theme-switch-btn,
+        [data-theme="dark"] .btn:not(.secondary-btn),
+        [data-theme="dark"] .send-btn {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -150,6 +159,10 @@
             background: var(--card-bg);
             letter-spacing: 2px;
             user-select: none;
+        }
+
+        .logo span {
+            color: var(--accent-1);
         }
         
         .nav-container {
@@ -308,8 +321,8 @@
         }
 
         .secondary-btn {
-            background: var(--card-bg);
-            color: var(--text-main);
+            background: var(--card-bg) !important;
+            color: var(--text-main) !important;
         }
 
         .secondary-btn:hover {
@@ -353,7 +366,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            perspective: 1200px; /* Creates the 3D depth */
+            perspective: 1200px; 
             overflow: hidden;
             padding: 20px 0 60px 0;
         }
@@ -361,7 +374,7 @@
         .edu-carousel {
             position: relative;
             width: 100%;
-            max-width: 550px; /* Width of the center card */
+            max-width: 550px; 
             height: 480px; 
             transform-style: preserve-3d;
             display: flex;
@@ -379,7 +392,7 @@
             padding: 45px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start; /* Changed from center to fix structural alignments to the top boundary uniformally */
             transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
             opacity: 0;
             pointer-events: none;
@@ -434,6 +447,7 @@
             display: inline-block;
             margin-bottom: 25px;
             background: var(--bg-sec);
+            align-self: flex-start;
         }
 
         .edu-card h3 {
@@ -769,18 +783,15 @@
             nav { display: none; }
             .side-floating-nav { display: none; }
             
-            /* Scale down logo and general padding */
             .logo { font-size: 2.5rem; padding: 10px 15px; }
             section { padding: 60px 5vw; }
             
-            /* Typography & Layout for Hero */
             .section-title { font-size: 3.5rem; padding: 5px 15px; }
             .hero h1 { font-size: 4.8rem; } 
             .hero p { font-size: 1.1rem; }
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
-            /* Education Mobile Fixes */
             .edu-carousel { height: 440px; max-width: 85vw; }
             .edu-card { padding: 25px; }
             .edu-card h3 { font-size: 2.2rem; }
@@ -788,14 +799,12 @@
             .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
             .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
             
-            /* Fix Grid and Cards */
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
             .skill-item-card { padding: 25px; }
             .project-card { width: 80vw; } 
             .project-card img { height: 350px; }
             .project-content h3 { font-size: 2.5rem; }
             
-            /* Slider Controls wrapping gracefully */
             .slider-controls-wrapper { 
                 flex-direction: column;
                 gap: 20px; 
@@ -803,7 +812,6 @@
                 padding: 0 5vw;
             }
             
-            /* Fix Form and Contact Information Overflow */
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
             .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
@@ -828,7 +836,7 @@
     </div>
 
     <header>
-        <div class="logo">Alok.</div>
+        <div class="logo">AL<span>OK.</span></div>
         <div class="nav-container">
             <nav>
                 <a href="#home">Home</a>
