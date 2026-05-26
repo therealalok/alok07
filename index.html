@@ -347,27 +347,72 @@
             transform: scale(1.03);
         }
 
-        /* --- EDUCATION SECTION (EDITORIAL GRID) --- */
-        .education-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
+        /* --- 3D EDUCATION CAROUSEL --- */
+        .edu-carousel-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            perspective: 1200px; /* Creates the 3D depth */
+            overflow: hidden;
+            padding: 20px 0 60px 0;
+        }
+
+        .edu-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 550px; /* Width of the center card */
+            height: 480px; 
+            transform-style: preserve-3d;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
         .edu-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
             background: var(--card-bg);
             border: var(--border);
-            padding: 50px 40px;
+            padding: 45px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            transition: border-color 0.3s ease;
+            justify-content: center;
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.7s ease, border-color 0.2s ease;
+            opacity: 0;
+            pointer-events: none;
+            cursor: pointer;
         }
 
         .edu-card:hover {
             border-color: var(--text-muted);
+        }
+
+        /* Front Active Card */
+        .edu-card.active {
+            transform: translateX(0) translateZ(0) rotateY(0);
+            opacity: 1;
+            z-index: 3;
+            pointer-events: auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Left Tucked Card */
+        .edu-card.prev {
+            transform: translateX(-75%) translateZ(-400px) rotateY(60deg);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: auto;
+        }
+
+        /* Right Tucked Card */
+        .edu-card.next {
+            transform: translateX(75%) translateZ(-400px) rotateY(-60deg);
+            opacity: 0.5;
+            z-index: 2;
+            pointer-events: auto;
         }
 
         .school-logo-mask {
@@ -378,7 +423,6 @@
             padding: 15px;
             border: var(--border);
             margin-bottom: 35px;
-            /* Removed hover transition specifically per request */
         }
 
         .year-giant-typography {
@@ -393,16 +437,17 @@
         }
 
         .edu-card h3 {
-            font-size: 2.8rem;
+            font-size: 3.35rem;
             line-height: 1.1;
             letter-spacing: 1px;
-            margin-bottom: 20px;
+            color: var(--text-main);
         }
-
+        
         .edu-card p {
             font-size: 1.15rem;
             line-height: 1.6;
             color: var(--text-muted);
+            margin-top: 15px;
         }
 
         /* --- SKILLS SECTION --- */
@@ -714,9 +759,6 @@
             .hero-emblem-layout { align-items: center; }
             .hero-buttons { justify-content: center; }
             
-            /* Responsive Grid */
-            .education-grid { grid-template-columns: repeat(2, 1fr); }
-            
             .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
             .contact-wrapper { grid-template-columns: 1fr; }
             .contact-card { border-right: none; border-bottom: var(--border); }
@@ -738,11 +780,13 @@
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
-            /* Education Grid Stack */
-            .education-grid { grid-template-columns: 1fr; gap: 25px; }
-            .edu-card { padding: 30px; }
-            .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
+            /* Education Mobile Fixes */
+            .edu-carousel { height: 440px; max-width: 85vw; }
+            .edu-card { padding: 25px; }
             .edu-card h3 { font-size: 2.2rem; }
+            .edu-card.prev { transform: translateX(-60%) translateZ(-300px) rotateY(45deg); opacity: 0; }
+            .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
+            .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
             
             /* Fix Grid and Cards */
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
@@ -825,26 +869,38 @@
         <div class="section-title-container">
             <h2 class="section-title">Education Journey</h2>
         </div>
-        <div class="education-grid">
-            <div class="edu-card">
-                <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
-                <div class="year-giant-typography">2010 — 2022</div>
-                <h3>Mahakavi Devkota Memorial<br>Secondary School</h3>
-                <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
-            </div>
+        
+        <div class="edu-carousel-container">
+            <div class="edu-carousel" id="edu-3d-grid">
+                
+                <div class="edu-card active" onclick="setEduSlide(0)">
+                    <div class="year-giant-typography">2010 — 2022</div>
+                    <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Logo" class="school-logo-mask">
+                    <h3>Mahakavi Devkota Memorial Secondary School</h3>
+                    <p>Studied at MDMSS from Nursery to Class 10 and completed SEE with a GPA of 3.75.</p>
+                </div>
 
-            <div class="edu-card">
-                <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
-                <div class="year-giant-typography">2022 — 2024</div>
-                <h3>Reliance Int'l<br>Academy +2</h3>
-                <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
-            </div>
+                <div class="edu-card next" onclick="setEduSlide(1)">
+                    <div class="year-giant-typography">2022 — 2024</div>
+                    <img src="ria-removebg-preview.png" alt="Reliance International Academy Logo" class="school-logo-mask">
+                    <h3>Reliance Int'l Academy +2</h3>
+                    <p>Completed +2 Science with Physics, Chemistry, Mathematics, and Computer Science with a GPA of 3.62.</p>
+                </div>
 
-            <div class="edu-card">
-                <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
-                <div class="year-giant-typography">2024 — Present</div>
-                <h3>Amrit Science<br>Campus (T.U.)</h3>
-                <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                <div class="edu-card prev" onclick="setEduSlide(2)">
+                    <div class="year-giant-typography">2024 — Present</div>
+                    <img src="ascol-removebg-preview.png" alt="Amrit Campus Logo" class="school-logo-mask">
+                    <h3>Amrit Science Campus (T.U.)</h3>
+                    <p>Currently pursuing Bachelor's in CSIT while developing skills in programming, problem solving, and digital technology applications.</p>
+                </div>
+
+            </div>
+            
+            <div class="slider-controls-wrapper" style="border-top: none; justify-content: center;">
+                <div class="slider-arrows">
+                    <button class="slider-arrow-btn" id="edu-prev-btn" aria-label="Previous Education"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="slider-arrow-btn" id="edu-next-btn" aria-label="Next Education"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
         </div>
     </section>
@@ -1062,11 +1118,9 @@
         viewport.addEventListener('mouseenter', () => isPaused = true);
         viewport.addEventListener('mouseleave', () => isPaused = false);
 
-        // --- DYNAMIC CARD WIDTH CALCULATION FOR MOBILE & DESKTOP ---
         function getSlideAmount() {
             const card = document.querySelector('.project-card');
             if (!card) return 400; 
-            // Gets dynamic width + grid gap (40px)
             return card.offsetWidth + 40;
         }
 
@@ -1110,6 +1164,37 @@
 
         viewport.addEventListener('touchend', () => {
             isDrag = false;
+        });
+
+        // --- 3D EDUCATION CAROUSEL LOGIC ---
+        const eduCards = document.querySelectorAll('.edu-card');
+        const eduPrevBtn = document.getElementById('edu-prev-btn');
+        const eduNextBtn = document.getElementById('edu-next-btn');
+        let currentEdu = 0;
+
+        function setEduSlide(index) {
+            currentEdu = index;
+            eduCards.forEach((card, i) => {
+                card.classList.remove('active', 'prev', 'next');
+                
+                if (i === currentEdu) {
+                    card.classList.add('active');
+                } else if (i === (currentEdu - 1 + eduCards.length) % eduCards.length) {
+                    card.classList.add('prev');
+                } else {
+                    card.classList.add('next');
+                }
+            });
+        }
+
+        eduPrevBtn.addEventListener('click', () => {
+            let newIndex = (currentEdu - 1 + eduCards.length) % eduCards.length;
+            setEduSlide(newIndex);
+        });
+
+        eduNextBtn.addEventListener('click', () => {
+            let newIndex = (currentEdu + 1) % eduCards.length;
+            setEduSlide(newIndex);
         });
 
         // --- CONTACT SUBMISSION FORM HANDLER ---
