@@ -20,7 +20,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
@@ -31,15 +31,18 @@
             --text-main: #000000;
             --text-muted: #6e6e6a;
             --border-color: #000000;
-            --accent-1: #f4ff00;
+            --accent-1: #c4ce00; /* Deepened neon yellow for light mode readability */
             --ok-color: #505405;
             
             /* Physical Book System Colors */
-            --paper-warm: #fdfdfb;
-            --paper-cover: #f7f6f2;
-            --paper-shadow: rgba(0, 0, 0, 0.06);
-            --paper-line: rgba(0, 0, 0, 0.03);
-            --book-ambient: rgba(0, 0, 0, 0.04);
+            --paper-warm: #fdfcf7;
+            --paper-cover: #e9e7e0;
+            --cover-edge: #d1cfc7;
+            --cover-bottom-edge: #b5b3ab;
+            --paper-shadow: rgba(0, 0, 0, 0.12);
+            --paper-line: rgba(0, 0, 0, 0.04);
+            --book-ambient: rgba(0, 0, 0, 0.15);
+            --spine-color: #111111;
             
             --font-head: 'Inter', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
@@ -53,13 +56,17 @@
             --text-main: #ffffff;
             --text-muted: #9e9e9a;
             --border-color: #ffffff;
+            --accent-1: #f4ff00; /* Bright neon yellow for dark mode */
             --ok-color: #f4ff00;
             
-            --paper-warm: #131313;
-            --paper-cover: #1a1a1a;
-            --paper-shadow: rgba(0, 0, 0, 0.4);
-            --paper-line: rgba(255, 255, 255, 0.04);
-            --book-ambient: rgba(0, 0, 0, 0.6);
+            --paper-warm: #181818;
+            --paper-cover: #222222;
+            --cover-edge: #111111;
+            --cover-bottom-edge: #050505;
+            --paper-shadow: rgba(0, 0, 0, 0.6);
+            --paper-line: rgba(255, 255, 255, 0.03);
+            --book-ambient: rgba(0, 0, 0, 0.8);
+            --spine-color: #f4ff00;
         }
 
         [data-theme="dark"] .theme-switch-btn,
@@ -148,7 +155,7 @@
             background: var(--bg-sec);
         }
 
-        /* --- NAVBAR WITH APPLE-INSPIRED PREMIUM MINIMAL IDENTITY --- */
+        /* --- NAVBAR --- */
         header {
             position: sticky;
             top: 0;
@@ -183,12 +190,8 @@
         }
         
         .logo .dot {
-            color: #c5cc00;
+            color: var(--accent-1);
             font-weight: 900;
-        }
-
-        [data-theme="dark"] .logo .dot {
-            color: #f4ff00;
         }
         
         .nav-container {
@@ -386,45 +389,58 @@
             transform: scale(1.02);
         }
 
-        /* --- REALISTIC 3D EDITORIAL BOOK SYSTEM --- */
+        /* --- HYPER-REALISTIC 3D EDITORIAL BOOK SYSTEM --- */
         .edu-book-viewport {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 60px 0 20px 0;
+            justify-content: center;
+            padding: 80px 0 20px 0;
             perspective: 2500px; /* Cinematic deep space perspective */
         }
 
         .book-container {
             position: relative;
-            width: 900px;
-            height: 580px;
+            width: 960px;
+            height: 600px;
             transform-style: preserve-3d;
-            /* Start with a highly realistic physical, slightly tilted half-open state */
-            transform: rotateX(13deg) rotateY(-6deg) rotateZ(-1deg);
-            transition: transform 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+            /* Angled naturally to show off the 3D volume, edges, and thickness */
+            transform: rotateX(25deg) rotateY(-18deg) rotateZ(-3deg);
+            transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Interactive subtle orientation tilt on hover */
+        /* Interactive tilt on hover for tactile feel */
         .book-container:hover {
-            transform: rotateX(15deg) rotateY(-3deg) rotateZ(0deg);
+            transform: rotateX(28deg) rotateY(-12deg) rotateZ(0deg);
         }
 
-        /* Layered paper stack depth effect beneath the main architecture */
+        /* Layered paper stack ambient drop shadow beneath the book */
         .book-base-shadows {
             position: absolute;
             width: 100%;
             height: 100%;
             background: var(--book-ambient);
-            border-radius: 4px;
-            transform: translateZ(-20px) scale(0.98);
-            filter: blur(25px);
+            border-radius: 6px;
+            transform: translateZ(-35px) scale(0.96);
+            filter: blur(30px);
             pointer-events: none;
             transition: transform 0.4s ease;
         }
 
-        /* The structural pages wrapper */
+        /* The structural central spine block */
+        .book-spine-core {
+            position: absolute;
+            left: calc(50% - 10px);
+            top: 1%;
+            width: 20px;
+            height: 98%;
+            background-color: var(--spine-color);
+            transform: translateZ(-15px);
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+        }
+
         .book-pages-wrapper {
             position: absolute;
             width: 100%;
@@ -441,13 +457,14 @@
             top: 0;
             transform-origin: left center;
             transform-style: preserve-3d;
-            transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 1.5s cubic-bezier(0.25, 1, 0.35, 1);
             z-index: 1;
+            cursor: pointer; /* Indicates interactivity */
         }
 
-        /* Layered stacking layout behavior based on active states */
+        /* Dynamic layered stacking transform applied via JS */
         .sheet.flipped {
-            transform: rotateY(-180deg);
+            /* Handled dynamically in JS to add translateZ thickness */
         }
 
         /* Individual Page Sides (Front and Back of each sheet) */
@@ -466,7 +483,8 @@
             flex-direction: column;
             backface-visibility: hidden;
             overflow: hidden;
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.015);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.015);
+            transform-style: preserve-3d; /* Allows 3D pseudo elements */
         }
 
         .page-side.back {
@@ -479,43 +497,140 @@
             position: absolute;
             left: 0;
             top: 0;
-            width: 40px;
+            width: 45px;
             height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.05), transparent);
+            background: linear-gradient(to right, rgba(0,0,0,0.08), transparent);
             pointer-events: none;
+            z-index: 10;
         }
         .page-side.back::after {
             content: '';
             position: absolute;
             right: 0;
             top: 0;
-            width: 40px;
+            width: 45px;
             height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.05), transparent);
+            background: linear-gradient(to left, rgba(0,0,0,0.08), transparent);
             pointer-events: none;
+            z-index: 10;
         }
 
         [data-theme="dark"] .page-side.front::after {
-            background: linear-gradient(to right, rgba(0,0,0,0.35), transparent);
+            background: linear-gradient(to right, rgba(0,0,0,0.45), transparent);
         }
         [data-theme="dark"] .page-side.back::after {
-            background: linear-gradient(to left, rgba(0,0,0,0.35), transparent);
+            background: linear-gradient(to left, rgba(0,0,0,0.45), transparent);
         }
 
-        /* --- COVER SPECIFIC STYLING --- */
-        .sheet.cover-sheet .front {
+        /* --- HARDCOVER 3D BOX GEOMETRY --- */
+        /* Make the cover slightly larger and thicker */
+        .sheet.cover-sheet {
+            height: 102%;
+            top: -1%;
+            width: 51%; /* Slight overhang over inner pages */
+        }
+
+        .sheet.cover-sheet .page-side {
             background-color: var(--paper-cover);
-            background-image: none;
+            /* Subtle linen texture */
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px);
             border: var(--border);
-            border-radius: 0 4px 4px 0;
-            justify-content: space-between;
-            box-shadow: 5px 10px 30px var(--paper-shadow);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.05);
         }
 
+        .sheet.cover-sheet .front {
+            border-radius: 0 6px 6px 0;
+            border-left: none; /* Spine handles this */
+        }
         .sheet.cover-sheet .back {
-            background-color: var(--paper-warm);
-            border: var(--border);
+            border-radius: 6px 0 0 6px;
             border-right: none;
+        }
+
+        /* 3D Extruded edges for the Hardcover Front */
+        .sheet.cover-sheet .front::before {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--cover-edge);
+            transform-origin: left;
+            transform: rotateY(90deg);
+            border-right: var(--border);
+            border-top: var(--border);
+            border-bottom: var(--border);
+        }
+        .sheet.cover-sheet .front .bottom-edge {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--cover-bottom-edge);
+            transform-origin: top;
+            transform: rotateX(-90deg);
+            border-bottom: var(--border);
+            border-right: var(--border);
+        }
+        .sheet.cover-sheet .front .top-edge {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--cover-bottom-edge);
+            transform-origin: bottom;
+            transform: rotateX(90deg);
+            border-top: var(--border);
+            border-right: var(--border);
+        }
+
+        /* 3D Extruded edges for the Hardcover Back (Closing spread) */
+        .sheet.cover-sheet-back .front {
+            border-radius: 0 6px 6px 0;
+            border-left: none;
+        }
+        .sheet.cover-sheet-back .back {
+            border-radius: 6px 0 0 6px;
+            border-right: none;
+        }
+        
+        .sheet.cover-sheet-back .back::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--cover-edge);
+            transform-origin: right;
+            transform: rotateY(-90deg);
+            border-left: var(--border);
+            border-top: var(--border);
+            border-bottom: var(--border);
+        }
+
+        /* Inside cover styling (pasted endpapers) */
+        .sheet.cover-sheet .back, .sheet.cover-sheet-back .front {
+            background-color: var(--paper-warm);
+            background-image: none;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.03);
+            border: var(--border);
+        }
+
+        /* Simulated page stack thickness visible from the side */
+        .sheet:not(.cover-sheet):not(.cover-sheet-back) .front::before {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background: rgba(0,0,0,0.1);
         }
 
         /* --- INTERNAL PAGE CONTENT STYLING --- */
@@ -525,10 +640,10 @@
             text-transform: uppercase;
             letter-spacing: 0.15em;
             color: var(--text-muted);
-            border-bottom: 1px solid var(--text-main);
             padding-bottom: 6px;
             margin-bottom: 40px;
             width: 100%;
+            border-bottom: 1px solid var(--text-muted);
         }
 
         .cover-title-block {
@@ -544,16 +659,23 @@
         }
 
         .cover-main-head {
-            font-size: clamp(3rem, 4.5vw, 4.2rem);
+            font-size: clamp(3rem, 4.5vw, 4.6rem);
             font-weight: 300;
             line-height: 1.0;
             margin: 25px 0;
             letter-spacing: -0.04em;
+            color: var(--accent-1); /* YELLOW TITLE */
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+        }
+
+        [data-theme="dark"] .cover-main-head {
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.1);
         }
 
         .cover-main-head bold {
-            font-weight: 800;
+            font-weight: 900;
             display: block;
+            color: var(--accent-1); /* YELLOW TITLE */
         }
 
         .cover-decorator-bar {
@@ -564,13 +686,14 @@
         }
 
         .school-logo-frame {
-            width: 64px;
-            height: 64px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
             background: #ffffff !important;
-            padding: 6px;
+            padding: 8px;
             border: var(--border);
             margin-bottom: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
         }
 
         .year-indicator-tag {
@@ -580,20 +703,38 @@
             color: var(--text-main);
             margin-bottom: 15px;
             letter-spacing: 0.02em;
+            background: var(--bg-sec);
+            padding: 4px 12px;
+            border: var(--border);
+            display: inline-block;
         }
 
         .page-side h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
+            font-size: 2.1rem;
+            font-weight: 800;
             line-height: 1.1;
             letter-spacing: -0.03em;
             margin-bottom: 25px;
+            color: var(--accent-1); /* YELLOW TITLE */
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
+        }
+        
+        [data-theme="dark"] .page-side h3 {
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.1);
+        }
+
+        .page-side h3.sub-title {
+            font-size: 1.4rem;
+            color: var(--text-main);
+            text-shadow: none;
+            margin-top: 10px;
         }
 
         .page-side p {
-            font-size: 0.95rem;
+            font-size: 1rem;
             line-height: 1.6;
             color: var(--text-muted);
+            font-weight: 500;
         }
 
         /* --- END OF CHAPTER CLOSING PAGE --- */
@@ -605,35 +746,39 @@
         }
 
         .closing-spread-layout h2 {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 300;
             letter-spacing: -0.03em;
             margin-bottom: 15px;
+            color: var(--accent-1); /* YELLOW TITLE */
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+        }
+        
+        [data-theme="dark"] .closing-spread-layout h2 {
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.1);
         }
 
         .closing-spread-layout h2 bold {
-            font-weight: 800;
+            font-weight: 900;
         }
 
         .closing-spread-layout p {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             letter-spacing: 0.1em;
             text-transform: uppercase;
+            font-weight: 600;
         }
 
         .minimal-signature-mark {
             margin-top: 40px;
             font-family: var(--font-head);
-            font-weight: 800;
-            font-size: 1.2rem;
+            font-weight: 900;
+            font-size: 1.5rem;
             letter-spacing: -0.05em;
         }
         
         .minimal-signature-mark span {
-            color: #c5cc00;
-        }
-        [data-theme="dark"] .minimal-signature-mark span {
-            color: #f4ff00;
+            color: var(--accent-1);
         }
 
         /* --- REFINED STABLE PAGE NUMBERING SYMMETRY --- */
@@ -646,54 +791,52 @@
             position: absolute;
             bottom: 35px;
             user-select: none;
+            font-weight: 600;
         }
 
-        /* Standard static page rendering structures */
-        .sheet .front .stable-page-number {
-            right: 40px; /* Right facing flat orientation coordinate descriptor */
-        }
-
-        .sheet .back .stable-page-number {
-            left: 40px; /* Left facing flat orientation coordinate descriptor */
-        }
-
-        /* Edge-case adjustments matching real book binding alignments */
-        .sheet.cover-sheet .front .stable-page-number {
-            right: 40px;
-        }
-        
-        .left-page-border-fix {
-            border: var(--border);
-            border-radius: 4px 0 0 4px;
-        }
-        .right-page-border-fix {
-            border: var(--border);
-            border-radius: 0 4px 4px 0;
-            border-left: none;
-        }
+        .sheet .front .stable-page-number { right: 45px; }
+        .sheet .back .stable-page-number { left: 45px; }
 
         /* --- INTERACTIVE INSTRUCTION HUD CONTROLS --- */
         .book-hud-controls {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 24px;
-            margin-top: 40px;
+            gap: 15px;
+            margin-top: 70px;
             width: 100%;
         }
 
         .hud-instruction {
             font-family: var(--font-body);
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: 0.12em;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            color: var(--text-muted);
+            color: var(--text-main);
+            background: var(--accent-1);
+            color: #000;
+            padding: 8px 20px;
+            border: var(--border);
+            animation: pulse-hud 2s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-hud {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,0,0,0); }
+            50% { transform: scale(1.02); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        }
+
+        .hud-arrow-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .hud-arrow-btn {
-            width: 54px;
-            height: 44px;
+            width: 50px;
+            height: 40px;
             background: var(--card-bg);
             border: var(--border);
             color: var(--text-main);
@@ -707,6 +850,14 @@
 
         .hud-arrow-btn:hover {
             background: var(--bg-sec);
+        }
+        
+        .hud-status-text {
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
         }
 
         /* --- SKILLS SECTION --- */
@@ -998,6 +1149,16 @@
             transition: opacity 0.2s ease;
         }
 
+        footer {
+            padding: 40px 8vw;
+            border-top: var(--border);
+            background: var(--card-bg);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         /* --- BREAKPOINT STABILIZATIONS --- */
         @media(max-width: 1200px) {
             .hero { grid-template-columns: 1fr; }
@@ -1025,7 +1186,6 @@
             .hero-text-col, .hero-image-col { padding: 45px 5vw; }
             .btn { padding: 12px 24px; font-size: 1rem; }
             
-            /* Graceful breakdown into stacked print layout sheets for mobile viewports */
             .book-viewport { perspective: none; }
             .book-container { width: 100%; height: auto; transform: none !important; transform-style: flat; }
             .book-container:hover { transform: none !important; }
@@ -1037,6 +1197,7 @@
             .page-side::after { display: none !important; }
             .stable-page-number { position: relative; bottom: auto; left: auto !important; right: auto !important; margin-top: 30px; display: block; }
             .book-hud-controls { display: none; }
+            .book-spine-core { display: none; }
             
             .skills-grid-container { grid-template-columns: 1fr; gap: 16px; }
             .project-card { width: 75vw; } 
@@ -1104,69 +1265,72 @@
         <div class="edu-book-viewport">
             <div class="book-container" id="luxury-journal">
                 <div class="book-base-shadows"></div>
+                <div class="book-spine-core"></div>
                 <div class="book-pages-wrapper">
 
-                    <div class="sheet cover-sheet" id="sheet-1" style="z-index: 5;">
+                    <div class="sheet cover-sheet" id="sheet-1">
                         <div class="page-side front">
+                            <div class="top-edge"></div>
+                            <div class="bottom-edge"></div>
                             <div class="editorial-meta-line">PUBLICATION REGISTER // ISSUE 01</div>
                             <div class="cover-title-block">
                                 <span class="cover-subtitle-text">ALOK SHARMA</span>
                                 <h2 class="cover-main-head">EDUCATIONAL<br><bold>JOURNEY</bold></h2>
                                 <div class="cover-decorator-bar"></div>
                             </div>
-                            <p style="font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted);">
+                            <p style="font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">
                                 COLLECTED CHRONICLES<br>EST. 2010 — 2026 Nepal
                             </p>
                             <div class="stable-page-number">INDEX C-01</div>
                         </div>
-                        <div class="page-side back left-page-border-fix">
+                        <div class="page-side back">
                             <div class="editorial-meta-line">PREFACE INTRODUCTORY</div>
-                            <h3 style="font-weight: 300; margin-top: 20px;">The Academic<br><bold style="font-weight:800;">Framework</bold></h3>
+                            <h3 class="sub-title" style="margin-top: 20px;">The Academic<br><strong style="font-weight:900;">Framework</strong></h3>
                             <p style="margin-top: 15px;">This volume systematically maps out the structural foundations, scientific disciplines, and computer science paths explored across key institutions.</p>
                             <div class="stable-page-number">PAGE 01</div>
                         </div>
                     </div>
 
-                    <div class="sheet" id="sheet-2" style="z-index: 4;">
-                        <div class="page-side front right-page-border-fix">
+                    <div class="sheet" id="sheet-2">
+                        <div class="page-side front">
                             <div class="editorial-meta-line">FOUNDATION / SECTION 01</div>
                             <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="school-logo-frame">
                             <div class="year-indicator-tag">[ TIMELINE: 2010 — 2022 ]</div>
                             <h3>Mahakavi Devkota Memorial Secondary School</h3>
                             <div class="stable-page-number">PAGE 02</div>
                         </div>
-                        <div class="page-side back left-page-border-fix">
+                        <div class="page-side back">
                             <div class="editorial-meta-line">PERFORMANCE MATRIX</div>
-                            <h3 style="font-size: 1.4rem; margin-top: 10px;">Secondary Education Examination (SEE)</h3>
+                            <h3 class="sub-title" style="margin-top: 10px;">Secondary Education Examination (SEE)</h3>
                             <p style="margin-bottom: 25px;">Acquired core scholastic parameters spanning primary fields, concluding the high school assessment matrix with distinction tier metrics.</p>
                             <div style="font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; border-left: 2px solid var(--text-main); padding-left: 15px;">
-                                SCORE RECORD SCORE: 3.75 GPA
+                                SCORE RECORD: 3.75 GPA
                             </div>
                             <div class="stable-page-number">PAGE 03</div>
                         </div>
                     </div>
 
-                    <div class="sheet" id="sheet-3" style="z-index: 3;">
-                        <div class="page-side front right-page-border-fix">
+                    <div class="sheet" id="sheet-3">
+                        <div class="page-side front">
                             <div class="editorial-meta-line">DISCIPLINARY / SECTION 02</div>
                             <img src="ria-removebg-preview.png" alt="RIA Emblem" class="school-logo-frame">
                             <div class="year-indicator-tag">[ TIMELINE: 2022 — 2024 ]</div>
                             <h3>Reliance International Academy</h3>
                             <div class="stable-page-number">PAGE 04</div>
                         </div>
-                        <div class="page-side back left-page-border-fix">
+                        <div class="page-side back">
                             <div class="editorial-meta-line">PERFORMANCE MATRIX</div>
-                            <h3 style="font-size: 1.4rem; margin-top: 10px;">+2 Higher Secondary Science</h3>
+                            <h3 class="sub-title" style="margin-top: 10px;">+2 Higher Secondary Science</h3>
                             <p style="margin-bottom: 25px;">Engaged in rigorous modules across Physics, advanced Mathematics, analytical Chemistry, and fundamental structural Computer Science paradigms.</p>
                             <div style="font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; border-left: 2px solid var(--text-main); padding-left: 15px;">
-                                SCORE RECORD SCORE: 3.62 GPA
+                                SCORE RECORD: 3.62 GPA
                             </div>
                             <div class="stable-page-number">PAGE 05</div>
                         </div>
                     </div>
 
-                    <div class="sheet" id="sheet-4" style="z-index: 2;">
-                        <div class="page-side front right-page-border-fix">
+                    <div class="sheet cover-sheet-back" id="sheet-4">
+                        <div class="page-side front">
                             <div class="editorial-meta-line">HIGHER ACADEMICS / SECTION 03</div>
                             <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="school-logo-frame">
                             <div class="year-indicator-tag">[ TIMELINE: 2024 — PRESENT ]</div>
@@ -1174,8 +1338,8 @@
                             <p>Currently pursuing a Bachelor's Degree in Computer Science and Information Technology (B.Sc. CSIT), exploring algorithmic complexities, software architecture, and engineering principles.</p>
                             <div class="stable-page-number">PAGE 06</div>
                         </div>
-                        <div class="page-side back closing-spread-layout left-page-border-fix" style="background-color: var(--paper-cover); border: var(--border);">
-                            <div class="editorial-meta-line">EPILOGUE FINIS</div>
+                        <div class="page-side back closing-spread-layout">
+                            <div class="editorial-meta-line" style="border-bottom:none; margin-bottom: 20px;">EPILOGUE FINIS</div>
                             <h2>END OF<br><bold>CHAPTER</bold></h2>
                             <p>Thank You For Reading</p>
                             <div class="minimal-signature-mark">AL<span>OK</span>.</div>
@@ -1187,9 +1351,12 @@
             </div>
 
             <div class="book-hud-controls">
-                <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="hud-instruction" id="hud-page-indicator">SPREAD 1 / 4</div>
-                <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
+                <div class="hud-instruction">CLICK ANY PAGE TO FLIP</div>
+                <div class="hud-arrow-row">
+                    <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 4</div>
+                    <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
             </div>
         </div>
     </section>
@@ -1455,8 +1622,7 @@
             isDrag = false;
         });
 
-        // --- CINEMATIC 3D JOURNAL SPREAD ENGINE ---
-        // Manages individual paper layer orientations and strict physical hierarchy indices during interactive flips
+        // --- HYPER-REALISTIC 3D JOURNAL SPREAD ENGINE WITH PAPER THICKNESS ---
         const sheets = [
             document.getElementById('sheet-1'),
             document.getElementById('sheet-2'),
@@ -1468,33 +1634,36 @@
         const bookNextBtn = document.getElementById('book-next');
         const hudIndicator = document.getElementById('hud-page-indicator');
         
-        let currentSpreadIndex = 0; // 0 = Cover page, 1 = School record spread, etc.
+        let currentSpreadIndex = 0; 
         const totalSpreads = sheets.length;
+        
+        // Simulates microscopic physical thickness for stacked sheets in 3D space
+        const paperThickness = 1.5; 
 
         function updateJournalState() {
             sheets.forEach((sheet, index) => {
                 if (index < currentSpreadIndex) {
-                    // Fully flipped over flat onto the left hand side stack frame
+                    // Page is flipped to the LEFT side
                     sheet.classList.add('flipped');
                     sheet.style.zIndex = index + 1;
+                    // Apply physical stacking thickness
+                    sheet.style.transform = `rotateY(-180deg) translateZ(${index * paperThickness}px)`;
                 } else {
-                    // Sits cleanly stacked sequentially on the right hand side stack frame
+                    // Page rests normally on the RIGHT side
                     sheet.classList.remove('flipped');
                     sheet.style.zIndex = totalSpreads - index;
+                    // Apply physical stacking thickness
+                    sheet.style.transform = `rotateY(0deg) translateZ(${-index * paperThickness}px)`;
                 }
             });
             
-            // Render active tracking parameters inside our text instrumentation node
             hudIndicator.innerText = `SPREAD ${currentSpreadIndex + 1} / ${totalSpreads}`;
         }
 
-        // Connect touch/click interaction points on the pages themselves to execute native page flips
         sheets.forEach((sheet, idx) => {
             sheet.addEventListener('click', (e) => {
-                // Ignore page interaction entirely on compact mobile layouts to prevent interference with natural list scroll
                 if (window.innerWidth <= 768) return;
                 
-                // Clicking an open page on the left turns it back; clicking the right hand side flips it forward
                 if (sheet.classList.contains('flipped')) {
                     if (idx === currentSpreadIndex - 1) {
                         currentSpreadIndex--;
@@ -1523,7 +1692,6 @@
             }
         });
 
-        // Initialize state tracking variables
         updateJournalState();
 
         // --- EMAILJS TRANSMISSION CLIENT HANDLER ---
