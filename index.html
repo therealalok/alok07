@@ -382,21 +382,17 @@
 
         /* =========================================================================
            ULTRA-REALISTIC EDITORIAL LUXURY HARDCOVER BOOK SYSTEM
-           Redesigned with rich mustard yellow linen finishes and fine grain.
            ========================================================================= */
         
         .edu-book-viewport {
-            /* Isolated Studio Color Space: Pristine daylight falling over a light marble surface */
-            --book-cover-color: #f4d21f; /* Editorial Mustard Yellow */
-            --paper-base: #faf9f5;       /* Premium unbleached canvas/paper white */
-            --book-text: #1a1a1a;        /* Deep charcoal printed text */
-            --book-muted: #6e6e6a;       /* Soft luxury editorial print grey */
+            --book-cover-color: #f4d21f; 
+            --paper-base: #faf9f5;       
+            --book-text: #1a1a1a;        
+            --book-muted: #6e6e6a;       
             
-            /* SVG Procedural High-Fidelity Grain */
             --linen-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
             --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.025'/%3E%3C/svg%3E");
             
-            /* Shadows & Lighting Ambient Occlusion */
             --book-ambient: rgba(28, 28, 24, 0.12);
             --book-contact-shadow: rgba(14, 14, 12, 0.35);
             --spine-color: #d1b110;
@@ -410,14 +406,12 @@
             padding: 120px 0 80px 0;
             perspective: 2500px;
             
-            /* High-End Soft Daylight Studio Marble Table Mockup Backdrop */
             background: radial-gradient(circle at 15% 15%, rgba(255, 255, 254, 0.9) 0%, rgba(240, 240, 236, 0.8) 40%, rgba(218, 218, 212, 0.6) 100%);
             box-shadow: inset 0 0 120px rgba(0,0,0,0.03);
             border-top: var(--border);
             border-bottom: var(--border);
         }
 
-        /* Ambient background tone shifting slightly for deep immersion while maintaining pristine book realism */
         [data-theme="dark"] .edu-book-viewport {
             background: radial-gradient(circle at 20% 20%, rgba(35, 35, 35, 0.9) 0%, rgba(20, 20, 20, 0.95) 60%, rgba(10, 10, 10, 1) 100%);
             --book-ambient: rgba(0, 0, 0, 0.6);
@@ -448,7 +442,6 @@
         .click-zone-left { left: 0; }
         .click-zone-right { right: 0; }
 
-        /* Tactile Studio Shadows & Table Ambient Shading */
         .book-base-shadows {
             position: absolute;
             width: 100%;
@@ -492,7 +485,7 @@
             top: 0;
             transform-origin: left center;
             transform-style: preserve-3d;
-            transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+            transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
             z-index: 1;
         }
 
@@ -508,6 +501,7 @@
             display: flex;
             flex-direction: column;
             backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             overflow: hidden;
             transform-style: preserve-3d;
             pointer-events: auto; 
@@ -518,7 +512,6 @@
             transform: rotateY(180deg);
         }
 
-        /* Visible Page Layering System */
         .sheet:not(.cover-sheet):not(.cover-sheet-back) .front {
             box-shadow: 
                 1px 0 0 #f0eee8, 2px 0 0 #e4e2da, 
@@ -530,7 +523,6 @@
                 -3px 0 0 #d9d6ce, -4px 0 1px rgba(0,0,0,0.05);
         }
 
-        /* Page curvature shadows near binding spine depth */
         .page-side.front::before {
             content: '';
             position: absolute; left: 0; top: 0; width: 70px; height: 100%;
@@ -544,7 +536,6 @@
             pointer-events: none; z-index: 10;
         }
 
-        /* Hardcover Structural Properties (Raised Edges) */
         .sheet.cover-sheet, .sheet.cover-sheet-back { height: 104%; top: -2%; width: 51%; }
 
         .sheet.cover-sheet .page-side, .sheet.cover-sheet-back .page-side {
@@ -558,7 +549,6 @@
         .sheet.cover-sheet-back .front { border-radius: 0 6px 6px 0; background-color: var(--paper-base); background-image: var(--paper-texture); }
         .sheet.cover-sheet-back .back { border-radius: 6px 0 0 6px; }
 
-        /* Hardcover Canvas Layer Trim */
         .sheet.cover-sheet .front::after {
             content: '';
             position: absolute; right: -5px; top: 0; width: 5px; height: 100%;
@@ -570,9 +560,6 @@
             background: #d4b619; transform-origin: right; transform: rotateY(-90deg);
         }
 
-        /* =========================================================================
-           HIGH-END EDITORIAL RECTANGULAR HIGHLIGHT LABELS (PASTED LOOK)
-           ========================================================================= */
         .editorial-highlight-label {
             display: inline-block;
             background-color: #f4d21f;
@@ -586,7 +573,7 @@
             width: fit-content;
             line-height: 1;
             margin-bottom: 30px;
-            box-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Gives a realistic printed cutout depth */
+            box-shadow: 1px 1px 2px rgba(0,0,0,0.05); 
             border-radius: 0px;
         }
 
@@ -603,7 +590,6 @@
             font-weight: 500;
         }
 
-        /* --- COVER TYPOGRAPHY (Oversized, Bold, Center-Aligned, Breathing Space) --- */
         .sheet.cover-sheet .front {
             display: flex;
             flex-direction: column;
@@ -776,9 +762,6 @@
         .sheet .front .stable-page-number { right: 70px; }
         .sheet .back .stable-page-number { left: 70px; }
 
-        /* =========================================================================
-           RECTANGULAR LUXURY MAGAZINE NAVIGATION CONTROLS
-           ========================================================================= */
         .book-hud-controls {
             display: flex;
             flex-direction: column;
@@ -811,8 +794,8 @@
             height: 46px;
             background: #000000;
             border: none;
-            border-radius: 5px; /* 4-6px subtle rounded radius requested */
-            color: #f4d21f; /* Premium warm yellow interior icon */
+            border-radius: 5px; 
+            color: #f4d21f; 
             font-size: 1.1rem;
             cursor: pointer;
             display: flex;
@@ -1149,13 +1132,12 @@
             .contact-wrapper { grid-template-columns: 1fr; }
             .contact-card { border-right: none; border-bottom: var(--border); }
 
-            /* Book Tablet Adaptations */
             .book-container { width: 750px; height: 500px; }
             .page-side { padding: 40px 35px; }
             .cover-main-head { font-size: 3.8rem; }
         }
 
-        /* --- MOBILE RESPONSIVENESS FIXES (Including Flat Book Layout) --- */
+        /* --- MOBILE RESPONSIVENESS FIXES --- */
         @media(max-width: 768px) {
             nav { display: none; }
             .side-floating-nav { display: none; }
@@ -1169,13 +1151,12 @@
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
 
-            /* Flat Book Layout for Mobile Devices */
             .edu-book-viewport { perspective: none; padding-top: 40px; background: var(--bg-main) !important; }
             .book-container { width: 100%; height: auto; transform: none !important; transform-style: flat; }
             .book-container:hover { transform: none !important; }
             .book-base-shadows { display: none; }
             .book-pages-wrapper { position: relative; width: 100%; height: auto; display: flex; flex-direction: column; gap: 24px; }
-            .sheet { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; transform-style: flat; display: flex; flex-direction: column; }
+            .sheet { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; transform-style: flat; display: flex; flex-direction: column; opacity: 1 !important; visibility: visible !important; }
             .page-side { position: relative; width: 100%; height: auto; transform: none !important; backface-visibility: visible; padding: 40px 20px; border: var(--border) !important; border-radius: 4px !important; box-shadow: none !important; }
             .page-side.back { display: flex; margin-top: -1px; }
             .page-side::before, .page-side::after { display: none !important; }
@@ -1278,7 +1259,7 @@
                             <div class="stable-page-number">C-01</div>
                         </div>
                         
-                        <!-- INDEX SPREAD -->
+                        <!-- INDEX SPREAD (TABLE OF CONTENTS) -->
                         <div class="page-side back">
                             <div class="editorial-meta-line">TABLE OF CONTENTS // CHRONICLES</div>
                             <div class="editorial-highlight-label">INTRODUCTION</div>
@@ -1370,7 +1351,6 @@
                 </div>
             </div>
 
-            <!-- RECTANGULAR EDITORIAL NAVIGATION CONTROLS -->
             <div class="book-hud-controls">
                 <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS</div>
                 <div class="hud-arrow-row">
@@ -1643,7 +1623,7 @@
             isDrag = false;
         });
 
-        // --- 3D JOURNAL SPREAD ENGINE WITH PRESETS ---
+        // --- 3D JOURNAL SPREAD ENGINE (FIXED OCCLUSION) ---
         const sheets = [
             document.getElementById('sheet-1'),
             document.getElementById('sheet-2'),
@@ -1658,7 +1638,6 @@
         const zoneRight = document.getElementById('zone-right');
         const restartBtn = document.getElementById('open-again-btn');
         
-        // Starts beautifully open to the introduction spread
         let currentSpreadIndex = 1; 
         const totalSpreads = sheets.length;
         const paperThickness = 1.2;
@@ -1667,12 +1646,31 @@
             sheets.forEach((sheet, index) => {
                 if (index < currentSpreadIndex) {
                     sheet.classList.add('flipped');
-                    sheet.style.zIndex = index + 1;
                     sheet.style.transform = `rotateY(-180deg) translateZ(${index * paperThickness}px)`;
+                    
+                    // FIXED: If the page turned is past the current view plane, make it invisible 
+                    // so it doesn't cause overlapping interaction bugs or hover glitches on the left side
+                    if (index < currentSpreadIndex - 1) {
+                        sheet.style.opacity = "0";
+                        sheet.style.visibility = "hidden";
+                    } else {
+                        sheet.style.opacity = "1";
+                        sheet.style.visibility = "visible";
+                        sheet.style.zIndex = index + 1;
+                    }
                 } else {
                     sheet.classList.remove('flipped');
-                    sheet.style.zIndex = totalSpreads - index;
                     sheet.style.transform = `rotateY(0deg) translateZ(${-index * paperThickness}px)`;
+                    
+                    // FIXED: Hide right-side sheets underneath the currently visible top sheet
+                    if (index > currentSpreadIndex) {
+                        sheet.style.opacity = "0";
+                        sheet.style.visibility = "hidden";
+                    } else {
+                        sheet.style.opacity = "1";
+                        sheet.style.visibility = "visible";
+                        sheet.style.zIndex = totalSpreads - index;
+                    }
                 }
             });
 
@@ -1711,7 +1709,7 @@
         });
 
         restartBtn.addEventListener('click', () => {
-            currentSpreadIndex = 0; // Turns back directly to the front cover
+            currentSpreadIndex = 0; 
             updateJournalState();
         });
 
