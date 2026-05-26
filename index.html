@@ -20,64 +20,74 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <style>
         :root {
+            /* Luxury Football Editorial Palette - LIGHT MODE */
             --bg-main: #f5f5f2;
             --bg-sec: #ecece7;
             --card-bg: #ffffff;
             --text-main: #000000;
-            --text-muted: #6e6e6a;
+            --text-muted: #4b4b4b;
             --border-color: #000000;
-            --accent-1: #c4ce00; /* Deepened neon yellow for light mode readability */
-            --ok-color: #505405;
+            --accent-1: #f4ff00;
+            --ok-color: #505405; 
             
-            /* Physical Book System Colors */
+            /* Physical Book System Colors (Integrated from Source 1) */
             --paper-warm: #fdfcf7;
             --paper-cover: #e9e7e0;
             --cover-edge: #d1cfc7;
-            --cover-bottom-edge: #b5b3ab;
+            --paper-edge-light: #f0efe9;
+            --paper-edge-dark: #e0dfd9;
             --paper-shadow: rgba(0, 0, 0, 0.12);
             --paper-line: rgba(0, 0, 0, 0.04);
             --book-ambient: rgba(0, 0, 0, 0.15);
             --spine-color: #111111;
-            
-            --font-head: 'Inter', sans-serif;
+
+            /* Typography System */
+            --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
-            --border: 1px solid var(--border-color);
+            
+            /* Border System */
+            --border: 2px solid var(--border-color);
         }
 
+        /* Luxury Football Editorial Palette - DARK MODE */
         [data-theme="dark"] {
             --bg-main: #0a0a0a;
             --bg-sec: #141414;
             --card-bg: #000000;
             --text-main: #ffffff;
-            --text-muted: #9e9e9a;
+            --text-muted: #a0a0a0;
             --border-color: #ffffff;
-            --accent-1: #f4ff00; /* Bright neon yellow for dark mode */
-            --ok-color: #f4ff00;
-            
+            --ok-color: #f4ff00; 
+
+            /* Dark Mode Book System Colors */
             --paper-warm: #181818;
             --paper-cover: #222222;
             --cover-edge: #111111;
-            --cover-bottom-edge: #050505;
+            --paper-edge-light: #2a2a2a;
+            --paper-edge-dark: #1f1f1f;
             --paper-shadow: rgba(0, 0, 0, 0.6);
             --paper-line: rgba(255, 255, 255, 0.03);
             --book-ambient: rgba(0, 0, 0, 0.8);
             --spine-color: #f4ff00;
         }
 
+        /* Dark Mode structural overrides */
         [data-theme="dark"] .theme-switch-btn,
         [data-theme="dark"] .btn:not(.secondary-btn),
-        [data-theme="dark"] .send-btn {
+        [data-theme="dark"] .send-btn,
+        [data-theme="dark"] .hud-instruction {
             background: #f4ff00 !important;
             color: #000000 !important;
         }
         
         [data-theme="dark"] .theme-switch-btn i,
-        [data-theme="dark"] .btn:not(.secondary-btn) i {
+        [data-theme="dark"] .btn:not(.secondary-btn) i,
+        [data-theme="dark"] .send-btn {
             color: #000000 !important;
         }
 
@@ -94,32 +104,35 @@
             font-family: var(--font-body);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 12px;
             background: var(--bg-main);
             border-left: var(--border);
         }
 
         ::-webkit-scrollbar-thumb {
             background: var(--text-main);
+            border-radius: 0;
         }
 
-        h1, h2, h3 {
+        /* --- GLOBAL TYPOGRAPHY --- */
+        h1, h2, h3, .logo {
             font-family: var(--font-head);
             text-transform: uppercase;
-            line-height: 1.05;
+            line-height: 1.1;
             color: var(--text-main);
-            letter-spacing: -0.03em;
+            letter-spacing: 1px;
         }
 
         p, a, span, input, textarea, button {
             font-family: var(--font-body);
         }
 
-        /* --- FLOATING NAV --- */
+        /* --- SIDE FLOATING NAV --- */
         .side-floating-nav {
             position: fixed;
             right: 0;
@@ -134,17 +147,17 @@
         }
 
         .side-nav-btn {
-            width: 50px;
-            height: 50px;
+            width: 54px;
+            height: 54px;
             background: var(--card-bg);
             color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             text-decoration: none;
             border-bottom: var(--border);
-            transition: background-color 0.2s ease;
+            transition: opacity 0.2s ease, background-color 0.2s ease;
         }
         
         .side-nav-btn:last-child {
@@ -152,7 +165,7 @@
         }
 
         .side-nav-btn:hover {
-            background: var(--bg-sec);
+            opacity: 0.85;
         }
 
         /* --- NAVBAR --- */
@@ -170,28 +183,22 @@
         }
 
         .logo {
-            font-family: var(--font-head);
-            font-size: 1.6rem;
-            font-weight: 800;
-            padding: 20px 32px; 
+            font-size: 3.35rem;
+            padding: 12px 32px; 
             border-right: var(--border);
             background: var(--card-bg);
-            letter-spacing: -0.04em;
+            letter-spacing: 2px;
             user-select: none;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            text-transform: uppercase;
         }
 
         .logo span {
-            color: var(--text-main);
-            position: relative;
+            color: #d7df00;
+            transition: color 0.3s ease;
         }
-        
-        .logo .dot {
-            color: var(--accent-1);
-            font-weight: 900;
+
+        [data-theme="dark"] .logo span {
+            color: #f4ff00;
         }
         
         .nav-container {
@@ -208,19 +215,18 @@
         nav a {
             text-decoration: none;
             color: var(--text-main);
-            font-weight: 500;
-            font-size: 0.85rem; 
+            font-weight: 700;
+            font-size: 1.2rem; 
             text-transform: uppercase;
-            padding: 26px 28px; 
+            padding: 20px 28px; 
             border-left: var(--border);
-            transition: background-color 0.2s ease;
+            transition: opacity 0.2s ease;
             display: flex;
             align-items: center;
-            letter-spacing: 0.05em;
         }
 
         nav a:hover {
-            background: var(--bg-sec);
+            opacity: 0.7;
         }
 
         .theme-switch-btn {
@@ -228,37 +234,44 @@
             color: #f4ff00;
             border: none;
             border-left: var(--border);
-            padding: 26px 32px; 
+            padding: 20px 28px; 
             cursor: pointer;
-            font-size: 1.1rem; 
+            font-size: 1.5rem; 
+            transition: opacity 0.2s ease;
             height: 100%;
             display: flex;
             align-items: center;
-            transition: opacity 0.2s ease;
         }
 
         .theme-switch-btn:hover {
             opacity: 0.9;
         }
 
-        /* --- GLOBAL SECTIONS --- */
+        /* --- SECTIONS GLOBAL --- */
         section {
-            padding: 120px 8vw;
+            padding: 110px 8vw;
             border-bottom: var(--border);
             position: relative;
         }
 
         .section-title-container {
             margin-bottom: 80px;
-            position: relative;
         }
 
         .section-title {
-            font-size: clamp(3rem, 5vw, 5rem);
-            font-weight: 700;
-            letter-spacing: -0.04em;
+            font-size: clamp(4.2rem, 8vw, 7.2rem);
+            letter-spacing: 3px;
             display: inline-block;
-            color: var(--text-main);
+            background: #000000;
+            color: #f4ff00;
+            border-bottom: 4px solid #d7df00;
+            padding: 5px 25px;
+        }
+
+        [data-theme="dark"] .section-title {
+            background: #f4ff00 !important;
+            color: #000000 !important;
+            border-bottom: 4px solid #f4ff00 !important;
         }
 
         /* --- HERO SECTION --- */
@@ -266,11 +279,11 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             padding: 0;
-            min-height: 85vh;
+            min-height: 90vh;
         }
 
         .hero-text-col {
-            padding: 80px 8vw;
+            padding: 100px 8vw;
             border-right: var(--border);
             display: flex;
             flex-direction: column;
@@ -279,32 +292,34 @@
         }
 
         .hero-subtitle {
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 1.5rem;
+            font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 24px;
-            letter-spacing: 0.25em;
+            margin-bottom: 20px;
+            letter-spacing: 4px;
             color: var(--text-muted);
         }
 
         .hero-emblem-layout {
             display: flex;
             flex-direction: column;
-            margin-bottom: 35px;
+            margin-bottom: 40px;
         }
 
         .hero h1 {
-            font-size: clamp(4rem, 8vw, 8rem);
-            font-weight: 800;
-            line-height: 0.9;
-            letter-spacing: -0.05em;
+            font-size: clamp(6rem, 13vw, 14.4rem);
+            line-height: 0.85;
+            letter-spacing: 2px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .hero-large-flag-box {
-            width: 45px;
-            margin-bottom: 24px;
+            width: 84px;
+            margin-bottom: 20px;
             border: var(--border);
-            padding: 2px;
+            padding: 5px;
             background: #ffffff;
         }
 
@@ -315,16 +330,16 @@
         }
 
         .hero p {
-            font-size: 1.05rem;
+            font-size: 1.3rem;
             line-height: 1.6;
             color: var(--text-muted);
-            max-width: 500px;
-            margin-bottom: 45px;
+            max-width: 650px;
+            margin-bottom: 60px;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
@@ -332,17 +347,16 @@
             background: #000000;
             color: #f4ff00;
             border: var(--border);
-            padding: 16px 32px; 
+            padding: 18px 35px; 
             font-family: var(--font-head);
-            font-weight: 600;
-            font-size: 1.1rem; 
+            font-size: 2.15rem; 
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 2px;
             transition: opacity 0.2s ease;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .btn:hover {
@@ -355,11 +369,11 @@
         }
 
         .secondary-btn:hover {
-            background: var(--bg-sec) !important;
+            opacity: 0.8;
         }
 
         .hero-image-col {
-            padding: 80px 8vw;
+            padding: 100px 8vw;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -369,11 +383,11 @@
 
         .image-box {
             width: 100%;
-            max-width: 420px;
+            max-width: 500px;
             aspect-ratio: 3/4;
             border: var(--border);
             background: var(--card-bg);
-            padding: 6px;
+            padding: 10px;
             overflow: hidden;
         }
 
@@ -382,14 +396,14 @@
             height: 100%;
             object-fit: cover;
             border: var(--border);
-            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.4s ease;
         }
 
         .image-box:hover img {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
 
-        /* --- HYPER-REALISTIC 3D EDITORIAL BOOK SYSTEM --- */
+        /* --- HYPER-REALISTIC STRAIGHT 3D EDITORIAL BOOK SYSTEM --- */
         .edu-book-viewport {
             width: 100%;
             display: flex;
@@ -397,7 +411,7 @@
             align-items: center;
             justify-content: center;
             padding: 80px 0 20px 0;
-            perspective: 2500px; /* Cinematic deep space perspective */
+            perspective: 2500px; 
         }
 
         .book-container {
@@ -405,40 +419,47 @@
             width: 960px;
             height: 600px;
             transform-style: preserve-3d;
-            /* Angled naturally to show off the 3D volume, edges, and thickness */
-            transform: rotateX(25deg) rotateY(-18deg) rotateZ(-3deg);
+            transform: rotateX(8deg) rotateY(0deg) rotateZ(0deg);
             transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Interactive tilt on hover for tactile feel */
         .book-container:hover {
-            transform: rotateX(28deg) rotateY(-12deg) rotateZ(0deg);
+            transform: rotateX(10deg) rotateY(0deg) rotateZ(0deg);
         }
 
-        /* Layered paper stack ambient drop shadow beneath the book */
+        .click-zone {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            z-index: 100; 
+            cursor: pointer;
+        }
+        .click-zone-left { left: 0; }
+        .click-zone-right { right: 0; }
+
         .book-base-shadows {
             position: absolute;
             width: 100%;
             height: 100%;
             background: var(--book-ambient);
             border-radius: 6px;
-            transform: translateZ(-35px) scale(0.96);
-            filter: blur(30px);
+            transform: translateZ(-35px) scale(0.98);
+            filter: blur(25px);
             pointer-events: none;
             transition: transform 0.4s ease;
         }
 
-        /* The structural central spine block */
         .book-spine-core {
             position: absolute;
-            left: calc(50% - 10px);
+            left: calc(50% - 12px);
             top: 1%;
-            width: 20px;
+            width: 24px;
             height: 98%;
             background-color: var(--spine-color);
-            transform: translateZ(-15px);
-            border-radius: 10px;
-            box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+            transform: translateZ(-18px);
+            border-radius: 12px;
+            box-shadow: inset 0 0 15px rgba(255,255,255,0.05);
         }
 
         .book-pages-wrapper {
@@ -446,9 +467,9 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
+            pointer-events: none; 
         }
 
-        /* Core Paper Sheet Component */
         .sheet {
             position: absolute;
             width: 50%;
@@ -459,15 +480,8 @@
             transform-style: preserve-3d;
             transition: transform 1.5s cubic-bezier(0.25, 1, 0.35, 1);
             z-index: 1;
-            cursor: pointer; /* Indicates interactivity */
         }
 
-        /* Dynamic layered stacking transform applied via JS */
-        .sheet.flipped {
-            /* Handled dynamically in JS to add translateZ thickness */
-        }
-
-        /* Individual Page Sides (Front and Back of each sheet) */
         .page-side {
             position: absolute;
             width: 100%;
@@ -475,7 +489,6 @@
             top: 0;
             left: 0;
             background-color: var(--paper-warm);
-            /* Emulated high-end tactile paper fine-ruled texture alignment */
             background-image: linear-gradient(var(--paper-line) 1px, transparent 1px);
             background-size: 100% 28px;
             padding: 60px 55px;
@@ -484,137 +497,52 @@
             backface-visibility: hidden;
             overflow: hidden;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.015);
-            transform-style: preserve-3d; /* Allows 3D pseudo elements */
+            transform-style: preserve-3d; 
+            pointer-events: auto; 
         }
 
         .page-side.back {
             transform: rotateY(180deg);
         }
 
-        /* Natural internal gutter ambient occlusion gradient */
+        .sheet:not(.cover-sheet):not(.cover-sheet-back) .front {
+            box-shadow: 
+                1px 0 0 var(--paper-edge-light), 2px 0 0 var(--paper-edge-dark), 
+                3px 0 0 var(--paper-edge-light), 4px 0 0 var(--paper-edge-dark), 
+                5px 0 0 var(--paper-edge-light), 6px 0 0 var(--paper-edge-dark);
+        }
+        .sheet:not(.cover-sheet):not(.cover-sheet-back) .back {
+            box-shadow: 
+                -1px 0 0 var(--paper-edge-light), -2px 0 0 var(--paper-edge-dark), 
+                -3px 0 0 var(--paper-edge-light), -4px 0 0 var(--paper-edge-dark), 
+                -5px 0 0 var(--paper-edge-light), -6px 0 0 var(--paper-edge-dark);
+        }
+
         .page-side.front::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 45px;
-            height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.08), transparent);
-            pointer-events: none;
-            z-index: 10;
+            content: ''; position: absolute; left: 0; top: 0; width: 45px; height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.08), transparent); pointer-events: none; z-index: 10;
         }
         .page-side.back::after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 45px;
-            height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.08), transparent);
-            pointer-events: none;
-            z-index: 10;
+            content: ''; position: absolute; right: 0; top: 0; width: 45px; height: 100%;
+            background: linear-gradient(to left, rgba(0,0,0,0.08), transparent); pointer-events: none; z-index: 10;
         }
+        [data-theme="dark"] .page-side.front::after { background: linear-gradient(to right, rgba(0,0,0,0.45), transparent); }
+        [data-theme="dark"] .page-side.back::after { background: linear-gradient(to left, rgba(0,0,0,0.45), transparent); }
 
-        [data-theme="dark"] .page-side.front::after {
-            background: linear-gradient(to right, rgba(0,0,0,0.45), transparent);
-        }
-        [data-theme="dark"] .page-side.back::after {
-            background: linear-gradient(to left, rgba(0,0,0,0.45), transparent);
-        }
+        .sheet.cover-sheet, .sheet.cover-sheet-back { height: 102%; top: -1%; width: 51%; }
 
-        /* --- HARDCOVER 3D BOX GEOMETRY --- */
-        /* Make the cover slightly larger and thicker */
-        .sheet.cover-sheet {
-            height: 102%;
-            top: -1%;
-            width: 51%; /* Slight overhang over inner pages */
-        }
-
-        .sheet.cover-sheet .page-side {
+        .sheet.cover-sheet .page-side, .sheet.cover-sheet-back .page-side {
             background-color: var(--paper-cover);
-            /* Subtle linen texture */
             background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.01) 2px, rgba(0,0,0,0.01) 4px);
             border: var(--border);
             box-shadow: inset 0 0 60px rgba(0,0,0,0.05);
         }
 
-        .sheet.cover-sheet .front {
-            border-radius: 0 6px 6px 0;
-            border-left: none; /* Spine handles this */
-        }
-        .sheet.cover-sheet .back {
-            border-radius: 6px 0 0 6px;
-            border-right: none;
-        }
+        .sheet.cover-sheet .front { border-radius: 0 6px 6px 0; border-left: none; }
+        .sheet.cover-sheet .back { border-radius: 6px 0 0 6px; border-right: none; }
+        .sheet.cover-sheet-back .front { border-radius: 0 6px 6px 0; border-left: none; }
+        .sheet.cover-sheet-back .back { border-radius: 6px 0 0 6px; border-right: none; }
 
-        /* 3D Extruded edges for the Hardcover Front */
-        .sheet.cover-sheet .front::before {
-            content: '';
-            position: absolute;
-            right: -6px;
-            top: 0;
-            width: 6px;
-            height: 100%;
-            background: var(--cover-edge);
-            transform-origin: left;
-            transform: rotateY(90deg);
-            border-right: var(--border);
-            border-top: var(--border);
-            border-bottom: var(--border);
-        }
-        .sheet.cover-sheet .front .bottom-edge {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: var(--cover-bottom-edge);
-            transform-origin: top;
-            transform: rotateX(-90deg);
-            border-bottom: var(--border);
-            border-right: var(--border);
-        }
-        .sheet.cover-sheet .front .top-edge {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: var(--cover-bottom-edge);
-            transform-origin: bottom;
-            transform: rotateX(90deg);
-            border-top: var(--border);
-            border-right: var(--border);
-        }
-
-        /* 3D Extruded edges for the Hardcover Back (Closing spread) */
-        .sheet.cover-sheet-back .front {
-            border-radius: 0 6px 6px 0;
-            border-left: none;
-        }
-        .sheet.cover-sheet-back .back {
-            border-radius: 6px 0 0 6px;
-            border-right: none;
-        }
-        
-        .sheet.cover-sheet-back .back::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 0;
-            width: 6px;
-            height: 100%;
-            background: var(--cover-edge);
-            transform-origin: right;
-            transform: rotateY(-90deg);
-            border-left: var(--border);
-            border-top: var(--border);
-            border-bottom: var(--border);
-        }
-
-        /* Inside cover styling (pasted endpapers) */
         .sheet.cover-sheet .back, .sheet.cover-sheet-back .front {
             background-color: var(--paper-warm);
             background-image: none;
@@ -622,122 +550,106 @@
             border: var(--border);
         }
 
-        /* Simulated page stack thickness visible from the side */
-        .sheet:not(.cover-sheet):not(.cover-sheet-back) .front::before {
-            content: '';
-            position: absolute;
-            right: -1px;
-            top: 0;
-            width: 1px;
-            height: 100%;
-            background: rgba(0,0,0,0.1);
+        .sheet.cover-sheet .front::before {
+            content: ''; position: absolute; right: -6px; top: 0; width: 6px; height: 100%;
+            background: var(--cover-edge); transform-origin: left; transform: rotateY(90deg);
+            border-right: var(--border); border-top: var(--border); border-bottom: var(--border);
+        }
+        .sheet.cover-sheet-back .back::before {
+            content: ''; position: absolute; left: -6px; top: 0; width: 6px; height: 100%;
+            background: var(--cover-edge); transform-origin: right; transform: rotateY(-90deg);
+            border-left: var(--border); border-top: var(--border); border-bottom: var(--border);
         }
 
         /* --- INTERNAL PAGE CONTENT STYLING --- */
         .editorial-meta-line {
             font-family: var(--font-body);
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
+            letter-spacing: 2px;
             color: var(--text-muted);
             padding-bottom: 6px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             width: 100%;
-            border-bottom: 1px solid var(--text-muted);
+            border-bottom: 2px solid var(--text-muted);
+            font-weight: 700;
         }
 
-        .cover-title-block {
-            margin-top: 40px;
-        }
+        .cover-title-block { margin-top: 30px; }
 
         .cover-subtitle-text {
             font-family: var(--font-body);
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
+            font-size: 1rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
             color: var(--text-muted);
+            font-weight: 700;
         }
 
+        /* Adapted Typography for Bebas Neue */
         .cover-main-head {
-            font-size: clamp(3rem, 4.5vw, 4.6rem);
-            font-weight: 300;
-            line-height: 1.0;
-            margin: 25px 0;
-            letter-spacing: -0.04em;
-            color: var(--accent-1); /* YELLOW TITLE */
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+            font-family: var(--font-head);
+            font-size: clamp(4.5rem, 6vw, 5.5rem);
+            line-height: 0.9;
+            margin: 15px 0 25px 0;
+            letter-spacing: 2px;
+            color: var(--accent-1); 
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.9);
         }
-
-        [data-theme="dark"] .cover-main-head {
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.1);
-        }
+        [data-theme="dark"] .cover-main-head { text-shadow: 3px 3px 0px rgba(255,255,255,0.1); }
 
         .cover-main-head bold {
-            font-weight: 900;
-            display: block;
-            color: var(--accent-1); /* YELLOW TITLE */
-        }
-
-        .cover-decorator-bar {
-            width: 80px;
-            height: 4px;
-            background: var(--text-main);
-            margin-top: 10px;
+            color: var(--accent-1); 
         }
 
         .school-logo-frame {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             background: #ffffff !important;
             padding: 8px;
             border: var(--border);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
         }
 
         .year-indicator-tag {
             font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
             color: var(--text-main);
             margin-bottom: 15px;
-            letter-spacing: 0.02em;
+            letter-spacing: 1px;
             background: var(--bg-sec);
-            padding: 4px 12px;
+            padding: 6px 14px;
             border: var(--border);
             display: inline-block;
         }
 
         .page-side h3 {
-            font-size: 2.1rem;
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 25px;
-            color: var(--accent-1); /* YELLOW TITLE */
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.8);
+            font-family: var(--font-head);
+            font-size: 3.2rem;
+            line-height: 1;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            color: var(--accent-1); 
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.9);
         }
-        
-        [data-theme="dark"] .page-side h3 {
-            text-shadow: 1px 1px 0px rgba(255,255,255,0.1);
-        }
+        [data-theme="dark"] .page-side h3 { text-shadow: 2px 2px 0px rgba(255,255,255,0.15); }
 
         .page-side h3.sub-title {
-            font-size: 1.4rem;
-            color: var(--text-main);
-            text-shadow: none;
+            font-size: 2.2rem;
+            color: var(--accent-1); 
             margin-top: 10px;
         }
 
         .page-side p {
-            font-size: 1rem;
+            font-size: 1.05rem;
             line-height: 1.6;
             color: var(--text-muted);
             font-weight: 500;
         }
 
-        /* --- END OF CHAPTER CLOSING PAGE --- */
         .closing-spread-layout {
             align-items: center;
             justify-content: center;
@@ -746,78 +658,90 @@
         }
 
         .closing-spread-layout h2 {
-            font-size: 3rem;
-            font-weight: 300;
-            letter-spacing: -0.03em;
+            font-family: var(--font-head);
+            font-size: 4.5rem;
+            letter-spacing: 2px;
             margin-bottom: 15px;
-            color: var(--accent-1); /* YELLOW TITLE */
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+            line-height: 0.9;
+            color: var(--accent-1); 
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.9);
         }
-        
-        [data-theme="dark"] .closing-spread-layout h2 {
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.1);
-        }
-
-        .closing-spread-layout h2 bold {
-            font-weight: 900;
-        }
+        [data-theme="dark"] .closing-spread-layout h2 { text-shadow: 3px 3px 0px rgba(255,255,255,0.15); }
 
         .closing-spread-layout p {
-            font-size: 0.9rem;
-            letter-spacing: 0.1em;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--text-muted);
         }
 
         .minimal-signature-mark {
-            margin-top: 40px;
+            margin-top: 30px;
             font-family: var(--font-head);
-            font-weight: 900;
-            font-size: 1.5rem;
-            letter-spacing: -0.05em;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            color: var(--text-main);
         }
         
         .minimal-signature-mark span {
             color: var(--accent-1);
         }
 
-        /* --- REFINED STABLE PAGE NUMBERING SYMMETRY --- */
+        .open-again-btn {
+            margin-top: 30px;
+            padding: 16px 32px;
+            background: var(--text-main);
+            color: var(--card-bg);
+            border: var(--border);
+            font-family: var(--font-head);
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s ease;
+            position: relative;
+            z-index: 1000; 
+        }
+        
+        .open-again-btn:hover {
+            background: var(--accent-1);
+            color: #000;
+        }
+
         .stable-page-number {
             font-family: var(--font-body);
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 2px;
             position: absolute;
             bottom: 35px;
             user-select: none;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .sheet .front .stable-page-number { right: 45px; }
         .sheet .back .stable-page-number { left: 45px; }
 
-        /* --- INTERACTIVE INSTRUCTION HUD CONTROLS --- */
         .book-hud-controls {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
             margin-top: 70px;
             width: 100%;
         }
 
         .hud-instruction {
             font-family: var(--font-body);
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 0.15em;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            color: var(--text-main);
-            background: var(--accent-1);
             color: #000;
-            padding: 8px 20px;
+            background: var(--accent-1);
+            padding: 10px 24px;
             border: var(--border);
             animation: pulse-hud 2s infinite ease-in-out;
             pointer-events: none;
@@ -831,40 +755,39 @@
         .hud-arrow-row {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .hud-arrow-btn {
-            width: 50px;
-            height: 40px;
+            width: 60px;
+            height: 48px;
             background: var(--card-bg);
             border: var(--border);
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: background-color 0.2s ease, opacity 0.2s ease;
         }
 
-        .hud-arrow-btn:hover {
-            background: var(--bg-sec);
-        }
+        .hud-arrow-btn:hover { background: var(--bg-sec); opacity: 0.8; }
         
         .hud-status-text {
             font-family: var(--font-body);
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: 700;
             color: var(--text-muted);
-            letter-spacing: 0.1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
 
         /* --- SKILLS SECTION --- */
         .skills-grid-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            gap: 30px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -872,35 +795,35 @@
         .skill-item-card {
             border: var(--border);
             background: var(--card-bg);
-            padding: 35px;
+            padding: 40px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             aspect-ratio: 1;
-            transition: border-color 0.3s ease;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .skill-item-card:hover {
             border-color: var(--text-muted);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .skill-item-card h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-size: 3rem;
             color: var(--text-main);
-            letter-spacing: -0.01em;
+            letter-spacing: 2px;
         }
 
         .skill-icon-wrap {
-            width: 60px;
-            height: 60px; 
-            transition: transform 0.3s ease;
+            width: 96px;
+            height: 96px; 
+            transition: filter 0.3s ease;
         }
         
         .skill-item-card:hover .skill-icon-wrap {
-            transform: scale(1.05);
+            filter: brightness(1.05);
         }
 
         .skill-icon-wrap img {
@@ -909,11 +832,11 @@
             object-fit: contain;
         }
 
-        /* --- PROJECTS GALLERY SECTION --- */
+        /* --- PROJECTS SECTION --- */
         #projects {
             background: var(--bg-sec);
             overflow: hidden;
-            padding: 120px 0;
+            padding: 140px 0;
         }
 
         #projects .section-title-container {
@@ -924,7 +847,7 @@
             width: 100%;
             position: relative;
             cursor: grab;
-            padding: 0 8vw 30px 8vw;
+            padding: 0 8vw 40px 8vw;
         }
 
         .projects-outer-viewport:active {
@@ -935,13 +858,13 @@
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;
-            gap: 32px;
+            gap: 40px;
             width: max-content;
             will-change: transform;
         }
         
         .project-card {
-            width: 380px;
+            width: 400px;
             flex-shrink: 0;
             background: var(--card-bg);
             border: var(--border);
@@ -952,32 +875,31 @@
 
         .project-card img {
             width: 100%;
-            height: 440px; 
+            height: 480px; 
             object-fit: cover;
             border-bottom: var(--border);
             transition: transform 0.4s ease;
         }
 
         .project-card:hover img {
-            transform: scale(1.01);
+            transform: scale(1.02);
         }
 
         .project-content {
-            padding: 24px;
+            padding: 30px;
             background: var(--card-bg);
         }
 
         .project-content h3 {
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 3.35rem;
+            margin-bottom: 15px;
             color: var(--text-main);
-            letter-spacing: -0.02em;
+            letter-spacing: 1px;
         }
 
         .project-content p {
-            font-size: 0.95rem;
-            line-height: 1.5;
+            font-size: 1.15rem;
+            line-height: 1.6;
             color: var(--text-muted);
         }
 
@@ -992,36 +914,32 @@
         }
 
         .slider-instruction {
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 0.1em;
+            font-size: 1.2rem;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
         .slider-arrows {
             display: flex;
-            gap: 12px;
+            gap: 15px;
         }
 
         .slider-arrow-btn {
-            width: 54px;
-            height: 44px; 
+            width: 60px;
+            height: 48px; 
             background: var(--card-bg);
             border: var(--border);
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.8rem;
             cursor: pointer;
-            transition: background-color 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: opacity 0.2s ease;
         }
 
         .slider-arrow-btn:hover {
-            background: var(--bg-sec);
+            opacity: 0.7;
         }
 
-        /* --- CONTACT FRAMEWORK --- */
+        /* --- CONTACT SECTION --- */
         .contact-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1030,7 +948,7 @@
         }
 
         .contact-card {
-            padding: 50px;
+            padding: 60px;
             border-right: var(--border);
             display: flex;
             flex-direction: column;
@@ -1040,126 +958,134 @@
         .find-me-btn {
             display: inline-block;
             font-family: var(--font-head);
-            font-size: 2.2rem; 
-            font-weight: 700;
+            font-size: 3.6rem; 
             text-transform: uppercase;
             color: var(--text-main);
-            margin-bottom: 35px;
-            letter-spacing: -0.03em;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 25px;
         }
 
         .contact-info a {
             text-decoration: none;
             color: var(--text-main);
-            font-size: 0.95rem; 
-            font-weight: 500;
+            font-size: 1.3rem; 
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 15px;
             border: var(--border);
-            padding: 14px 18px; 
+            padding: 16px 20px; 
             background: var(--bg-sec);
             transition: opacity 0.2s ease;
         }
 
         .contact-info a:hover {
-            opacity: 0.85;
+            opacity: 0.8;
         }
 
         .flag-emoji {
-            font-size: 1.3rem;
+            font-size: 1.8rem;
         }
 
         .socials {
             display: flex;
-            gap: 12px;
-            margin-top: 35px;
+            gap: 15px;
+            margin-top: 40px;
             flex-wrap: wrap;
         }
         
         .socials a {
-            width: 52px;
-            height: 52px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: var(--border);
             background: var(--bg-main);
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.8rem;
             text-decoration: none;
-            transition: background-color 0.2s ease;
+            transition: opacity 0.2s ease;
         }
 
         .socials a:hover {
-            background: var(--bg-sec);
+            opacity: 0.8;
         }
 
         .contact-form {
-            padding: 50px;
+            padding: 60px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
             background: var(--bg-main);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            gap: 20px;
         }
 
         .contact-form input, .contact-form textarea {
             width: 100%;
-            padding: 16px; 
+            padding: 20px; 
             border: var(--border);
             background: var(--card-bg);
             color: var(--text-main);
-            font-size: 0.95rem; 
+            font-size: 1.2rem; 
             font-family: var(--font-body);
             outline: none;
+            transition: border-color 0.2s ease;
         }
 
         .contact-form textarea {
-            min-height: 180px;
+            min-height: 200px;
             resize: none;
         }
 
         .contact-form input:focus, .contact-form textarea:focus {
             border-color: var(--text-muted);
         }
+        
+        .contact-form input::placeholder, .contact-form textarea::placeholder {
+            color: var(--text-muted);
+        }
 
         .send-btn {
-            padding: 16px;
+            padding: 18px;
             background: #000000;
             border: var(--border);
             color: #f4ff00;
             font-family: var(--font-head);
-            font-weight: 600;
-            font-size: 1.2rem; 
+            font-size: 2.65rem; 
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 2px;
             transition: opacity 0.2s ease;
         }
 
-        footer {
-            padding: 40px 8vw;
-            border-top: var(--border);
-            background: var(--card-bg);
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .send-btn:hover {
+            opacity: 0.9;
         }
 
-        /* --- BREAKPOINT STABILIZATIONS --- */
+        /* --- FOOTER --- */
+        footer {
+            padding: 40px;
+            text-align: center;
+            font-size: 1.1rem; 
+            font-weight: 700;
+            border-top: var(--border);
+            background: var(--card-bg);
+            text-transform: uppercase;
+        }
+
+        /* --- BREAKPOINTS & TABLET --- */
         @media(max-width: 1200px) {
             .hero { grid-template-columns: 1fr; }
             .hero-text-col { border-right: none; border-bottom: var(--border); align-items: center; text-align: center; }
@@ -1169,43 +1095,60 @@
             .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
             .contact-wrapper { grid-template-columns: 1fr; }
             .contact-card { border-right: none; border-bottom: var(--border); }
-            
+
+            /* Book Tablet Adaptations */
             .book-container { width: 700px; height: 500px; }
             .page-side { padding: 40px 35px; }
+            .cover-main-head { font-size: 3.5rem; }
         }
 
-        /* --- MOBILE VIEWPORT FLAT DECOUPLING SYSTEM --- */
+        /* --- MOBILE RESPONSIVENESS FIXES (Including Flat Book Layout) --- */
         @media(max-width: 768px) {
-            nav, .side-floating-nav { display: none; }
-            .logo { font-size: 1.4rem; padding: 16px 20px; }
+            nav { display: none; }
+            .side-floating-nav { display: none; }
+            
+            .logo { font-size: 2.5rem; padding: 10px 15px; }
             section { padding: 60px 5vw; }
             
-            .section-title { font-size: 2.5rem; }
-            .hero h1 { font-size: 3.5rem; } 
-            .hero p { font-size: 1rem; }
-            .hero-text-col, .hero-image-col { padding: 45px 5vw; }
-            .btn { padding: 12px 24px; font-size: 1rem; }
-            
-            .book-viewport { perspective: none; }
+            .section-title { font-size: 3.5rem; padding: 5px 15px; }
+            .hero h1 { font-size: 4.8rem; } 
+            .hero p { font-size: 1.1rem; }
+            .hero-text-col, .hero-image-col { padding: 60px 5vw; }
+            .btn { padding: 15px 25px; font-size: 1.5rem; }
+
+            /* Flat Book Layout for Mobile */
+            .edu-book-viewport { perspective: none; padding-top: 40px; }
             .book-container { width: 100%; height: auto; transform: none !important; transform-style: flat; }
             .book-container:hover { transform: none !important; }
             .book-base-shadows { display: none; }
             .book-pages-wrapper { position: relative; width: 100%; height: auto; display: flex; flex-direction: column; gap: 24px; }
             .sheet { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; transform-style: flat; display: flex; flex-direction: column; }
-            .page-side { position: relative; width: 100%; height: auto; transform: none !important; backface-visibility: visible; padding: 40px 20px; border: var(--border) !important; border-radius: 4px !important; background-image: none; box-shadow: none; }
+            .page-side { position: relative; width: 100%; height: auto; transform: none !important; backface-visibility: visible; padding: 40px 20px; border: var(--border) !important; border-radius: 4px !important; background-image: none; box-shadow: none !important; }
             .page-side.back { display: flex; margin-top: -1px; }
             .page-side::after { display: none !important; }
             .stable-page-number { position: relative; bottom: auto; left: auto !important; right: auto !important; margin-top: 30px; display: block; }
             .book-hud-controls { display: none; }
             .book-spine-core { display: none; }
+            .click-zone { display: none; }
             
-            .skills-grid-container { grid-template-columns: 1fr; gap: 16px; }
-            .project-card { width: 75vw; } 
-            .project-card img { height: 300px; }
-            .slider-controls-wrapper { flex-direction: column; gap: 16px; text-align: center; padding: 0 5vw; }
+            .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
+            .skill-item-card { padding: 25px; }
+            .project-card { width: 80vw; } 
+            .project-card img { height: 350px; }
+            .project-content h3 { font-size: 2.5rem; }
+            
+            .slider-controls-wrapper { 
+                flex-direction: column; gap: 20px; 
+                text-align: center; 
+                padding: 0 5vw;
+            }
+            
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
-            .find-me-btn { font-size: 1.8rem; }
+            .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
+            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
+            .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
+            .send-btn { font-size: 2rem; padding: 15px; }
         }
     </style>
 </head>
@@ -1220,7 +1163,7 @@
     </div>
 
     <header>
-        <div class="logo">AL<span>OK</span><span class="dot">.</span></div>
+        <div class="logo">AL<span>OK.</span></div>
         <div class="nav-container">
             <nav>
                 <a href="#home">Home</a>
@@ -1237,7 +1180,7 @@
 
     <section class="hero" id="home">
         <div class="hero-text-col">
-            <div class="hero-subtitle">CURRICULUM VITAE</div>
+            <div class="hero-subtitle">THIS IS</div>
             <div class="hero-emblem-layout">
                 <div class="hero-large-flag-box">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
@@ -1257,40 +1200,45 @@
         </div>
     </section>
 
+    <!-- INTEGRATED 3D EDITORIAL BOOK SYSTEM -->
     <section id="education">
         <div class="section-title-container">
-            <h2 class="section-title">Academic Journal</h2>
+            <h2 class="section-title">Education Journey</h2>
         </div>
         
         <div class="edu-book-viewport">
             <div class="book-container" id="luxury-journal">
                 <div class="book-base-shadows"></div>
                 <div class="book-spine-core"></div>
+                
+                <div class="click-zone click-zone-left" id="zone-left"></div>
+                <div class="click-zone click-zone-right" id="zone-right"></div>
+
                 <div class="book-pages-wrapper">
 
+                    <!-- COVER SPREAD -->
                     <div class="sheet cover-sheet" id="sheet-1">
                         <div class="page-side front">
-                            <div class="top-edge"></div>
-                            <div class="bottom-edge"></div>
                             <div class="editorial-meta-line">PUBLICATION REGISTER // ISSUE 01</div>
                             <div class="cover-title-block">
                                 <span class="cover-subtitle-text">ALOK SHARMA</span>
                                 <h2 class="cover-main-head">EDUCATIONAL<br><bold>JOURNEY</bold></h2>
                                 <div class="cover-decorator-bar"></div>
                             </div>
-                            <p style="font-size: 0.8rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">
+                            <p style="font-size: 0.9rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); font-weight: 700;">
                                 COLLECTED CHRONICLES<br>EST. 2010 — 2026 Nepal
                             </p>
                             <div class="stable-page-number">INDEX C-01</div>
                         </div>
                         <div class="page-side back">
                             <div class="editorial-meta-line">PREFACE INTRODUCTORY</div>
-                            <h3 class="sub-title" style="margin-top: 20px;">The Academic<br><strong style="font-weight:900;">Framework</strong></h3>
+                            <h3 class="sub-title" style="margin-top: 20px;">The Academic<br>Framework</h3>
                             <p style="margin-top: 15px;">This volume systematically maps out the structural foundations, scientific disciplines, and computer science paths explored across key institutions.</p>
-                            <div class="stable-page-number">PAGE 01</div>
+                            <div class="stable-page-number">INDEX</div>
                         </div>
                     </div>
 
+                    <!-- SCHOOL SPREAD 1 -->
                     <div class="sheet" id="sheet-2">
                         <div class="page-side front">
                             <div class="editorial-meta-line">FOUNDATION / SECTION 01</div>
@@ -1303,13 +1251,14 @@
                             <div class="editorial-meta-line">PERFORMANCE MATRIX</div>
                             <h3 class="sub-title" style="margin-top: 10px;">Secondary Education Examination (SEE)</h3>
                             <p style="margin-bottom: 25px;">Acquired core scholastic parameters spanning primary fields, concluding the high school assessment matrix with distinction tier metrics.</p>
-                            <div style="font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; border-left: 2px solid var(--text-main); padding-left: 15px;">
+                            <div style="font-family: var(--font-body); font-size: 1.1rem; font-weight: 700; border-left: 3px solid var(--text-main); padding-left: 15px;">
                                 SCORE RECORD: 3.75 GPA
                             </div>
                             <div class="stable-page-number">PAGE 03</div>
                         </div>
                     </div>
 
+                    <!-- SCHOOL SPREAD 2 -->
                     <div class="sheet" id="sheet-3">
                         <div class="page-side front">
                             <div class="editorial-meta-line">DISCIPLINARY / SECTION 02</div>
@@ -1322,13 +1271,14 @@
                             <div class="editorial-meta-line">PERFORMANCE MATRIX</div>
                             <h3 class="sub-title" style="margin-top: 10px;">+2 Higher Secondary Science</h3>
                             <p style="margin-bottom: 25px;">Engaged in rigorous modules across Physics, advanced Mathematics, analytical Chemistry, and fundamental structural Computer Science paradigms.</p>
-                            <div style="font-family: var(--font-body); font-size: 0.9rem; font-weight: 600; border-left: 2px solid var(--text-main); padding-left: 15px;">
+                            <div style="font-family: var(--font-body); font-size: 1.1rem; font-weight: 700; border-left: 3px solid var(--text-main); padding-left: 15px;">
                                 SCORE RECORD: 3.62 GPA
                             </div>
                             <div class="stable-page-number">PAGE 05</div>
                         </div>
                     </div>
 
+                    <!-- SCHOOL SPREAD 3 & BACK COVER -->
                     <div class="sheet cover-sheet-back" id="sheet-4">
                         <div class="page-side front">
                             <div class="editorial-meta-line">HIGHER ACADEMICS / SECTION 03</div>
@@ -1342,7 +1292,10 @@
                             <div class="editorial-meta-line" style="border-bottom:none; margin-bottom: 20px;">EPILOGUE FINIS</div>
                             <h2>END OF<br><bold>CHAPTER</bold></h2>
                             <p>Thank You For Reading</p>
-                            <div class="minimal-signature-mark">AL<span>OK</span>.</div>
+                            <div class="minimal-signature-mark">AL<span>OK.</span></div>
+                            
+                            <button class="open-again-btn" id="open-again-btn">OPEN AGAIN</button>
+                            
                             <div class="stable-page-number">INDEX C-02</div>
                         </div>
                     </div>
@@ -1354,7 +1307,7 @@
                 <div class="hud-instruction">CLICK ANY PAGE TO FLIP</div>
                 <div class="hud-arrow-row">
                     <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
-                    <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 4</div>
+                    <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 5</div>
                     <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
@@ -1528,7 +1481,7 @@
     </footer>
 
     <script>
-        // --- MULTI-THEME ENGINE ---
+        // --- THEME TOGGLE (CSS VARIABLE ARCHITECTURE) ---
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         
@@ -1543,7 +1496,7 @@
             }
         });
 
-        // --- DRAG / CLICK HORIZONTAL PROJECTS GALLERY SLIDER ---
+        // --- HORIZONTAL GALLERY ---
         const grid = document.getElementById('swipe-slider-grid');
         const viewport = document.getElementById('swipe-slider-viewport');
         const prevBtn = document.getElementById('prev-project-btn');
@@ -1577,7 +1530,7 @@
         function getSlideAmount() {
             const card = document.querySelector('.project-card');
             if (!card) return 400; 
-            return card.offsetWidth + 32;
+            return card.offsetWidth + 40;
         }
 
         prevBtn.addEventListener('click', () => {
@@ -1633,51 +1586,48 @@
         const bookPrevBtn = document.getElementById('book-prev');
         const bookNextBtn = document.getElementById('book-next');
         const hudIndicator = document.getElementById('hud-page-indicator');
+        const zoneLeft = document.getElementById('zone-left');
+        const zoneRight = document.getElementById('zone-right');
+        const restartBtn = document.getElementById('open-again-btn');
         
         let currentSpreadIndex = 0; 
         const totalSpreads = sheets.length;
         
-        // Simulates microscopic physical thickness for stacked sheets in 3D space
         const paperThickness = 1.5; 
 
         function updateJournalState() {
             sheets.forEach((sheet, index) => {
                 if (index < currentSpreadIndex) {
-                    // Page is flipped to the LEFT side
                     sheet.classList.add('flipped');
                     sheet.style.zIndex = index + 1;
-                    // Apply physical stacking thickness
                     sheet.style.transform = `rotateY(-180deg) translateZ(${index * paperThickness}px)`;
                 } else {
-                    // Page rests normally on the RIGHT side
                     sheet.classList.remove('flipped');
                     sheet.style.zIndex = totalSpreads - index;
-                    // Apply physical stacking thickness
                     sheet.style.transform = `rotateY(0deg) translateZ(${-index * paperThickness}px)`;
                 }
             });
             
-            hudIndicator.innerText = `SPREAD ${currentSpreadIndex + 1} / ${totalSpreads}`;
+            hudIndicator.innerText = `SPREAD ${currentSpreadIndex + 1} / ${totalSpreads + 1}`;
+            
+            zoneLeft.style.display = currentSpreadIndex === 0 ? 'none' : 'block';
+            zoneRight.style.display = currentSpreadIndex >= totalSpreads ? 'none' : 'block';
         }
 
-        sheets.forEach((sheet, idx) => {
-            sheet.addEventListener('click', (e) => {
-                if (window.innerWidth <= 768) return;
-                
-                if (sheet.classList.contains('flipped')) {
-                    if (idx === currentSpreadIndex - 1) {
-                        currentSpreadIndex--;
-                        updateJournalState();
-                    }
-                } else {
-                    if (idx === currentSpreadIndex) {
-                        currentSpreadIndex++;
-                        updateJournalState();
-                    }
-                }
-            });
+        zoneLeft.addEventListener('click', () => {
+            if (currentSpreadIndex > 0) {
+                currentSpreadIndex--;
+                updateJournalState();
+            }
         });
 
+        zoneRight.addEventListener('click', () => {
+            if (currentSpreadIndex < totalSpreads) {
+                currentSpreadIndex++;
+                updateJournalState();
+            }
+        });
+        
         bookPrevBtn.addEventListener('click', () => {
             if (currentSpreadIndex > 0) {
                 currentSpreadIndex--;
@@ -1691,11 +1641,17 @@
                 updateJournalState();
             }
         });
+        
+        restartBtn.addEventListener('click', () => {
+            currentSpreadIndex = 0;
+            updateJournalState();
+        });
 
         updateJournalState();
 
-        // --- EMAILJS TRANSMISSION CLIENT HANDLER ---
+        // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
+        
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const statusButton = contactForm.querySelector(".send-btn");
@@ -1712,6 +1668,7 @@
 
             try {
                 const response = await emailjs.send('service_qa1fl7f' , 'template_zu2bqc7', templateParams);
+            
                 if (response.status === 200) {
                     statusButton.innerText = "SUCCESS";
                     contactForm.reset();
