@@ -33,14 +33,7 @@
             --text-muted: #4b4b4b;
             --border-color: #000000;
             --accent-1: #f4ff00;
-
-            /* Inverted Palette for Sections (Light Mode -> Inverted to Dark) */
-            --bg-invert: #0a0a0a;
-            --card-bg-invert: #000000;
-            --text-invert: #ffffff;
-            --text-muted-invert: #a0a0a0;
-            --border-invert: #ffffff;
-
+            
             /* Typography System */
             --font-head: 'Bebas Neue', sans-serif;
             --font-body: 'IBM Plex Mono', monospace;
@@ -57,13 +50,6 @@
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
             --border-color: #ffffff;
-
-            /* Inverted Palette for Sections (Dark Mode -> Inverted to Light) */
-            --bg-invert: #f5f5f2;
-            --card-bg-invert: #ffffff;
-            --text-invert: #000000;
-            --text-muted-invert: #4b4b4b;
-            --border-invert: #000000;
         }
 
         * {
@@ -232,26 +218,6 @@
             padding: 5px 25px;
         }
 
-        /* --- INVERTED BACKGROUND SECTIONS (Education, Skills, Projects, etc.) --- */
-        .inverted-section {
-            background-color: var(--bg-invert);
-            color: var(--text-invert);
-            border-bottom: 2px solid var(--border-invert);
-        }
-
-        .inverted-section h2, .inverted-section h3 {
-            color: var(--text-invert);
-        }
-
-        .inverted-section p {
-            color: var(--text-muted-invert);
-        }
-
-        .inverted-section .section-title {
-            background: var(--text-main);
-            color: var(--bg-main);
-        }
-
         /* --- HERO SECTION --- */
         .hero {
             display: grid;
@@ -387,7 +353,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            perspective: 1200px; 
+            perspective: 1200px; /* Creates the 3D depth */
             overflow: hidden;
             padding: 20px 0 60px 0;
         }
@@ -395,8 +361,8 @@
         .edu-carousel {
             position: relative;
             width: 100%;
-            max-width: 550px; 
-            height: 480px;
+            max-width: 550px; /* Width of the center card */
+            height: 480px; 
             transform-style: preserve-3d;
             display: flex;
             justify-content: center;
@@ -408,8 +374,8 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: var(--card-bg-invert);
-            border: 2px solid var(--border-invert);
+            background: var(--card-bg);
+            border: var(--border);
             padding: 45px;
             display: flex;
             flex-direction: column;
@@ -421,7 +387,7 @@
         }
 
         .edu-card:hover {
-            border-color: var(--text-muted-invert);
+            border-color: var(--text-muted);
         }
 
         /* Front Active Card */
@@ -430,13 +396,13 @@
             opacity: 1;
             z-index: 3;
             pointer-events: auto;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
         }
 
         /* Left Tucked Card */
         .edu-card.prev {
             transform: translateX(-75%) translateZ(-400px) rotateY(60deg);
-            opacity: 0.3;
+            opacity: 0.5;
             z-index: 2;
             pointer-events: auto;
         }
@@ -444,7 +410,7 @@
         /* Right Tucked Card */
         .edu-card.next {
             transform: translateX(75%) translateZ(-400px) rotateY(-60deg);
-            opacity: 0.3;
+            opacity: 0.5;
             z-index: 2;
             pointer-events: auto;
         }
@@ -455,26 +421,33 @@
             object-fit: contain;
             background: #ffffff !important;
             padding: 15px;
-            border: 2px solid var(--border-invert);
+            border: var(--border);
             margin-bottom: 35px;
         }
 
         .year-giant-typography {
             font-size: 1.2rem;
             font-weight: 700;
-            color: var(--text-invert);
-            border: 2px solid var(--border-invert);
+            color: var(--text-main);
+            border: var(--border);
             padding: 6px 15px;
             display: inline-block;
             margin-bottom: 25px;
-            background: var(--bg-invert);
+            background: var(--bg-sec);
         }
 
         .edu-card h3 {
             font-size: 3.35rem;
             line-height: 1.1;
             letter-spacing: 1px;
-            color: var(--text-invert);
+            color: var(--text-main);
+        }
+        
+        .edu-card p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-top: 15px;
         }
 
         /* --- SKILLS SECTION --- */
@@ -487,8 +460,8 @@
         }
 
         .skill-item-card {
-            border: 2px solid var(--border-invert);
-            background: var(--card-bg-invert);
+            border: var(--border);
+            background: var(--card-bg);
             padding: 40px;
             display: flex;
             flex-direction: column;
@@ -500,13 +473,13 @@
         }
 
         .skill-item-card:hover {
-            border-color: var(--text-muted-invert);
-            box-shadow: 0 10px 30px rgba(255,255,255,0.05);
+            border-color: var(--text-muted);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .skill-item-card h3 {
             font-size: 3rem;
-            color: var(--text-invert);
+            color: var(--text-main);
             letter-spacing: 2px;
         }
 
@@ -528,6 +501,8 @@
 
         /* --- PROJECTS SECTION --- */
         #projects {
+            background: var(--bg-sec);
+            overflow: hidden;
             padding: 140px 0;
         }
 
@@ -558,8 +533,8 @@
         .project-card {
             width: 400px;
             flex-shrink: 0;
-            background: var(--card-bg-invert);
-            border: 2px solid var(--border-invert);
+            background: var(--card-bg);
+            border: var(--border);
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -569,7 +544,7 @@
             width: 100%;
             height: 480px; 
             object-fit: cover;
-            border-bottom: 2px solid var(--border-invert);
+            border-bottom: var(--border);
             transition: transform 0.4s ease;
         }
 
@@ -579,14 +554,20 @@
 
         .project-content {
             padding: 30px;
-            background: var(--card-bg-invert);
+            background: var(--card-bg);
         }
 
         .project-content h3 {
             font-size: 3.35rem;
             margin-bottom: 15px;
-            color: var(--text-invert);
+            color: var(--text-main);
             letter-spacing: 1px;
+        }
+
+        .project-content p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-muted);
         }
 
         .slider-controls-wrapper {
@@ -594,7 +575,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 2px solid var(--border-invert);
+            border-top: var(--border);
             padding-top: 30px;
             margin-top: 20px;
         }
@@ -613,9 +594,9 @@
         .slider-arrow-btn {
             width: 60px;
             height: 48px; 
-            background: var(--card-bg-invert);
-            border: 2px solid var(--border-invert);
-            color: var(--text-invert);
+            background: var(--card-bg);
+            border: var(--border);
+            color: var(--text-main);
             font-size: 1.8rem;
             cursor: pointer;
             transition: opacity 0.2s ease;
@@ -788,15 +769,18 @@
             nav { display: none; }
             .side-floating-nav { display: none; }
             
+            /* Scale down logo and general padding */
             .logo { font-size: 2.5rem; padding: 10px 15px; }
             section { padding: 60px 5vw; }
             
+            /* Typography & Layout for Hero */
             .section-title { font-size: 3.5rem; padding: 5px 15px; }
             .hero h1 { font-size: 4.8rem; } 
             .hero p { font-size: 1.1rem; }
             .hero-text-col, .hero-image-col { padding: 60px 5vw; }
             .btn { padding: 15px 25px; font-size: 1.5rem; }
             
+            /* Education Mobile Fixes */
             .edu-carousel { height: 440px; max-width: 85vw; }
             .edu-card { padding: 25px; }
             .edu-card h3 { font-size: 2.2rem; }
@@ -804,12 +788,14 @@
             .edu-card.next { transform: translateX(60%) translateZ(-300px) rotateY(-45deg); opacity: 0; }
             .school-logo-mask { width: 100px; height: 100px; margin-bottom: 25px; }
             
+            /* Fix Grid and Cards */
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
             .skill-item-card { padding: 25px; }
             .project-card { width: 80vw; } 
             .project-card img { height: 350px; }
             .project-content h3 { font-size: 2.5rem; }
             
+            /* Slider Controls wrapping gracefully */
             .slider-controls-wrapper { 
                 flex-direction: column;
                 gap: 20px; 
@@ -817,10 +803,15 @@
                 padding: 0 5vw;
             }
             
+            /* Fix Form and Contact Information Overflow */
             .form-row { grid-template-columns: 1fr; }
             .contact-card, .contact-form { padding: 30px 20px; } 
             .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
-            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
+            .contact-info a { 
+                font-size: 1rem;
+                padding: 12px 15px; 
+                word-break: break-all; 
+            }
             .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
             .send-btn { font-size: 2rem; padding: 15px; }
         }
@@ -874,7 +865,7 @@
         </div>
     </section>
 
-    <section id="education" class="inverted-section">
+    <section id="education">
         <div class="section-title-container">
             <h2 class="section-title">Education Journey</h2>
         </div>
@@ -914,7 +905,7 @@
         </div>
     </section>
 
-    <section id="skills" class="inverted-section">
+    <section id="skills">
         <div class="section-title-container">
             <h2 class="section-title">Core Skills</h2>
         </div>
@@ -946,7 +937,7 @@
         </div>
     </section>
 
-    <section id="projects" class="inverted-section">
+    <section id="projects">
         <div class="section-title-container">
             <h2 class="section-title">Featured Projects</h2>
         </div>
@@ -1081,7 +1072,7 @@
     </footer>
 
     <script>
-        // --- THEME TOGGLE ---
+        // --- THEME TOGGLE (CSS VARIABLE ARCHITECTURE) ---
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         
@@ -1136,6 +1127,7 @@
         prevBtn.addEventListener('click', () => {
             offset += getSlideAmount();
         });
+
         nextBtn.addEventListener('click', () => {
             offset -= getSlideAmount();
         });
@@ -1145,12 +1137,14 @@
             startX = e.clientX;
             dragStartOffset = offset;
         });
+
         window.addEventListener('mousemove', (e) => {
             if (!isDrag) return;
             const deltaX = e.clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         });
+
         window.addEventListener('mouseup', () => {
             isDrag = false;
         });
@@ -1160,12 +1154,14 @@
             startX = e.touches[0].clientX;
             dragStartOffset = offset;
         }, { passive: true });
+
         viewport.addEventListener('touchmove', (e) => {
             if (!isDrag) return;
             const deltaX = e.touches[0].clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         }, { passive: true });
+
         viewport.addEventListener('touchend', () => {
             isDrag = false;
         });
@@ -1195,6 +1191,7 @@
             let newIndex = (currentEdu - 1 + eduCards.length) % eduCards.length;
             setEduSlide(newIndex);
         });
+
         eduNextBtn.addEventListener('click', () => {
             let newIndex = (currentEdu + 1) % eduCards.length;
             setEduSlide(newIndex);
@@ -1202,6 +1199,7 @@
 
         // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
+
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const statusButton = contactForm.querySelector(".send-btn");
