@@ -109,40 +109,35 @@
             font-family: var(--font-body);
         }
 
-/* --- LOGO: MINIMAL BLACK & WHITE CONFIGURATION --- */
-.logo {
-    font-family: var(--font-body);
-    font-size: 1.5rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 22px 32px; 
-    border-right: var(--border);
-    background: var(--card-bg);
-    letter-spacing: 2px;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    
-    /* LIGHT MODE: "AL" will be Black */
-    color: #000000; 
-}
+        /* --- LOGO: MINIMAL CONFIGURATION --- */
+        .logo {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 22px 32px; 
+            border-right: var(--border);
+            background: var(--card-bg);
+            letter-spacing: 2px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            color: #000000;
+        }
 
-.logo span {
-    font-family: var(--font-body);
-    /* LIGHT MODE: "OK." will be a muted White/Light Grey so it stands out against a white navbar */
-    color: #f4ff00; 
-}
+        .logo span {
+            font-family: var(--font-body);
+            color: #f4ff00;
+        }
 
-/* DARK MODE ADJUSTMENTS */
-[data-theme="dark"] .logo {
-    /* DARK MODE: "AL" turns White */
-    color: #ffffff; 
-}
+        /* DARK MODE ADJUSTMENTS */
+        [data-theme="dark"] .logo {
+            color: #ffffff;
+        }
 
-[data-theme="dark"] .logo span {
-    /* DARK MODE: "OK." turns Dark Grey/Black against the black navbar */
-    color: #f4ff00; 
-}
+        [data-theme="dark"] .logo span {
+            color: #f4ff00;
+        }
 
         /* --- SIDE FLOATING NAV --- */
         .side-floating-nav {
@@ -396,7 +391,7 @@
             transform: scale(1.03);
         }
 
-        /* --- CLEAN EDITORIAL JOURNAL VIEWPORT (TABLE REMOVED) --- */
+        /* --- CLEAN EDITORIAL JOURNAL VIEWPORT --- */
         .edu-book-viewport {
             --book-cover-color: #f4d21f;
             --paper-base: #faf9f5;       
@@ -411,7 +406,6 @@
             --spine-color: #d1b110; 
             --book-line: rgba(0, 0, 0, 0.07);
 
-            /* Integrated Clean Layout Background matching site architecture */
             background: var(--bg-sec);
             width: 100%;
             display: flex;
@@ -446,38 +440,12 @@
             top: 5px;
             width: 10px;
             height: 98%;
-            background: repeating-linear-gradient(to bottom, #eae8e1, #eae8e1 1px, #d1cfc7 1px, #d1cfc7 2px);
-            transform: rotateY(90deg);
-            transform-origin: left;
-            box-shadow: inset -2px 0 5px rgba(0,0,0,0.08);
+            background: repeating-linear-gradient(to bottom, #eae8e1, #eae8e1 2px, #fff 2px, #fff 4px);
+            border: var(--border);
+            border-left: none;
+            transform: rotateY(40deg);
             z-index: 0;
-        }
-
-        .click-zone {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 50%;
-            z-index: 100; 
-            cursor: pointer;
-            transform: translateZ(60px); 
-        }
-        .click-zone-left { left: 0; }
-        .click-zone-right { right: 0; }
-
-        .book-base-shadows {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 6px;
-            transform: translateZ(-35px) scale(0.98);
-            background: rgba(0, 0, 0, 0.15);
-            filter: blur(25px);
-            pointer-events: none;
-        }
-
-        [data-theme="dark"] .book-base-shadows {
-            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
         }
 
         .book-spine-core {
@@ -487,10 +455,13 @@
             width: 32px;
             height: 99.6%;
             background-color: var(--spine-color);
-            background-image: var(--linen-texture);
+            /* Matching Spine Premium Leather Texture */
+            background-image: 
+                linear-gradient(90deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.15) 70%, rgba(0, 0, 0, 0.35) 100%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='leatherNoiseSpine'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.09' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23leatherNoiseSpine)'/%3E%3C/svg%3E");
             transform: translateZ(-20px);
             border-radius: 12px;
-            box-shadow: inset 0 0 12px rgba(0,0,0,0.15), 0 0 20px rgba(0,0,0,0.2);
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.25), 0 0 20px rgba(0,0,0,0.2);
         }
 
         .book-pages-wrapper {
@@ -498,7 +469,7 @@
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            pointer-events: none; 
+            pointer-events: none;
         }
 
         .sheet {
@@ -521,80 +492,29 @@
             left: 0;
             background-color: var(--paper-base);
             background-image: var(--paper-texture);
-            padding: 75px 70px;
+            padding: 55px 50px;
+            backface-visibility: hidden;
             display: flex;
             flex-direction: column;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            transform-style: flat; 
             overflow: hidden;
-            pointer-events: auto; 
-            box-shadow: inset 0 0 40px rgba(0,0,0,0.03);
-            border: 1px solid rgba(0,0,0,0.05);
+            pointer-events: auto;
         }
 
-        /* --- SPECIFIC RECTANGULAR BLACK BORDER RULE --- */
-        /* Targets all regular inner pages, plus the front side of the back cover sheet */
-        .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-        .cover-sheet-back .front {
-            outline: 2px solid #000000;
-            outline-offset: -25px;
-        }
-
-        /* Front side faces forward */
         .page-side.front {
-            transform: rotateY(0deg) translateZ(1px);
+            z-index: 2;
         }
 
-        /* Back side faces backward */
         .page-side.back {
-            transform: rotateY(180deg) translateZ(-1px);
+            transform: rotateY(180deg);
+            z-index: 1;
         }
 
-        /* Dynamic lighting overlays */
-        .page-side::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.1) 0%, transparent 40%);
-            opacity: 0;
-            transition: opacity 1.4s ease;
-            pointer-events: none;
-            z-index: 20;
+        /* --- THEME COVERS UPGRADED TO PREMIUM REALISTIC LEATHER SURFACES --- */
+        .sheet.cover-sheet, .sheet.cover-sheet-back { 
+            height: 104%; 
+            top: -2%; 
+            width: 51%;
         }
-
-        .sheet.flipped .front::after {
-            opacity: 1;
-        }
-
-        .sheet.flipped .back::after {
-            background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 30%);
-            opacity: 1;
-        }
-
-        .sheet:not(.cover-sheet):not(.cover-sheet-back) .front {
-            box-shadow: 1px 0 0 #f0eee8, 2px 0 0 #e4e2da, 3px 0 0 #d9d6ce, 4px 0 1px rgba(0,0,0,0.05);
-        }
-        .sheet:not(.cover-sheet):not(.cover-sheet-back) .back {
-            box-shadow: -1px 0 0 #f0eee8, -2px 0 0 #e4e2da, -3px 0 0 #d9d6ce, -4px 0 1px rgba(0,0,0,0.05);
-        }
-
-        .page-side.front::before {
-            content: '';
-            position: absolute; left: 0; top: 0; width: 70px; height: 100%;
-            background: linear-gradient(to right, rgba(0,0,0,0.04), rgba(0,0,0,0.01) 60%, transparent); 
-            pointer-events: none;
-            z-index: 10;
-        }
-        .page-side.back::before {
-            content: '';
-            position: absolute; right: 0; top: 0; width: 70px; height: 100%;
-            background: linear-gradient(to left, rgba(0,0,0,0.04), rgba(0,0,0,0.01) 60%, transparent); 
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        .sheet.cover-sheet, .sheet.cover-sheet-back { height: 104%; top: -2%; width: 51%; }
 
         .sheet.cover-sheet .page-side, .sheet.cover-sheet-back .page-side {
             background-color: var(--book-cover-color);
@@ -602,192 +522,163 @@
             box-shadow: inset 0 0 45px rgba(0,0,0,0.06);
         }
 
-        .sheet.cover-sheet .front { border-radius: 0 6px 6px 0; }
-        .sheet.cover-sheet .back { border-radius: 6px 0 0 6px; background-color: var(--paper-base); background-image: var(--paper-texture); }
-        .sheet.cover-sheet-back .front { border-radius: 0 6px 6px 0; background-color: var(--paper-base); background-image: var(--paper-texture); }
-        .sheet.cover-sheet-back .back { border-radius: 6px 0 0 6px; }
+        /* Outer Front Cover Surface */
+        .sheet.cover-sheet .front { 
+            border-radius: 0 6px 6px 0;
+            background-color: var(--book-cover-color) !important;
+            background-image: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 40%, rgba(0, 0, 0, 0.25) 100%),
+                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.35) 120%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='leatherNoiseFront'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.09' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23leatherNoiseFront)'/%3E%3C/svg%3E") !important;
+            background-blend-mode: overlay, multiply, normal !important;
+            box-shadow: 
+                inset 0 0 0 3px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 4px rgba(255, 255, 255, 0.12),
+                inset 0 0 35px rgba(0, 0, 0, 0.35),
+                inset -5px -5px 15px rgba(0, 0, 0, 0.25),
+                inset 5px 5px 15px rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .sheet.cover-sheet .back { 
+            border-radius: 6px 0 0 6px; 
+            background-color: var(--paper-base); 
+            background-image: var(--paper-texture);
+        }
+
+        .sheet.cover-sheet-back .front { 
+            border-radius: 0 6px 6px 0; 
+            background-color: var(--paper-base); 
+            background-image: var(--paper-texture);
+        }
+
+        /* Outer Back Cover Surface */
+        .sheet.cover-sheet-back .back { 
+            border-radius: 6px 0 0 6px;
+            background-color: var(--book-cover-color) !important;
+            background-image: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 40%, rgba(0, 0, 0, 0.25) 100%),
+                radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.35) 120%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='leatherNoiseBack'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.09' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23leatherNoiseBack)'/%3E%3C/svg%3E") !important;
+            background-blend-mode: overlay, multiply, normal !important;
+            box-shadow: 
+                inset 0 0 0 3px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 4px rgba(255, 255, 255, 0.12),
+                inset 0 0 35px rgba(0, 0, 0, 0.35),
+                inset -5px -5px 15px rgba(0, 0, 0, 0.25),
+                inset 5px 5px 15px rgba(255, 255, 255, 0.2) !important;
+        }
 
         .sheet.cover-sheet .front::after {
             content: '';
             position: absolute; right: -5px; top: 0; width: 5px; height: 100%;
-            background: #d4b619; transform-origin: left; transform: rotateY(90deg);
+            background: #b5950d; transform-origin: left; transform: rotateY(90deg);
         }
         .sheet.cover-sheet-back .back::after {
             content: '';
             position: absolute; left: -5px; top: 0; width: 5px; height: 100%;
-            background: #d4b619; transform-origin: right; transform: rotateY(-90deg);
+            background: #b5950d; transform-origin: right; transform: rotateY(-90deg);
         }
 
+        /* --- INTERNAL EDITORIAL CONTENT STRUCTURES --- */
         .editorial-highlight-label {
             display: inline-block;
             background-color: #f4d21f;
             color: #000000;
             font-family: var(--font-head);
-            font-size: 1.6rem;
-            font-weight: 700;
+            font-size: 1rem;
             letter-spacing: 2px;
-            padding: 6px 18px;
-            text-transform: uppercase;
-            width: fit-content;
-            line-height: 1;
-            margin-bottom: 30px;
-        }
-
-        .editorial-meta-line {
-            font-family: var(--font-body);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            color: var(--book-muted);
-            padding-bottom: 12px;
-            margin-bottom: 35px;
-            width: 100%;
-            border-bottom: 1px solid var(--book-line);
-            font-weight: 500;
-        }
-
-        .sheet.cover-sheet .front {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between; 
-            align-items: center;
-            text-align: center;
-            padding: 80px 40px;
-        }
-
-        .cover-title-block {
-            margin: auto 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cover-subtitle-text {
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: #000000;
+            padding: 4px 12px;
+            margin-bottom: 20px;
             font-weight: 700;
-            opacity: 0.8;
+            align-self: flex-start;
+        }
+
+        [data-theme="dark"] .editorial-highlight-label {
+            background-color: #000000 !important;
+            color: #f4ff00 !important;
+            outline: 1px solid #f4ff00;
         }
 
         .cover-main-head {
-            font-family: var(--font-head);
-            font-size: clamp(4.5rem, 5.5vw, 6.5rem);
+            font-size: 5.2rem;
             line-height: 0.9;
-            margin: 25px 0;
-            letter-spacing: 0px;
-            color: #000000;
-            font-weight: 900;
+            margin-top: auto;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
         }
-        
-        .cover-bottom-stamp {
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
+
+        .cover-sub-head {
+            font-size: 1.1rem;
+            font-weight: 700;
             text-transform: uppercase;
-            color: #000000;
-            font-weight: 600;
-            opacity: 0.7;
+            letter-spacing: 5px;
+            color: var(--book-muted);
+            margin-bottom: auto;
+        }
+
+        .editorial-meta-line {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--book-muted);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--book-line);
+            padding-bottom: 8px;
+        }
+
+        .journal-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed var(--book-line);
+        }
+
+        .journal-left-label {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--book-text);
+        }
+
+        .journal-right-value {
+            font-weight: 400;
+            font-size: 0.95rem;
+            color: var(--book-muted);
         }
 
         .school-logo-frame {
-            width: 65px;
-            height: 65px;
-            object-fit: contain;
-            margin-bottom: 20px;
-            filter: grayscale(100%) contrast(130%);
-            opacity: 0.85;
+            width: 75px;
+            height: auto;
+            margin: 25px 0;
+            opacity: 0.95;
         }
 
         .year-indicator-tag {
-            font-family: var(--font-body);
             font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--book-muted);
-            margin-bottom: 15px;
-            letter-spacing: 1.5px;
-        }
-
-        .page-side h3 {
-            font-family: var(--font-head);
-            font-size: 2.8rem;
-            line-height: 1.05;
-            letter-spacing: 0px;
-            margin-bottom: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
             color: var(--book-text);
-            font-weight: 400;
         }
 
-        .page-side p {
-            font-size: 0.95rem;
-            line-height: 1.75;
-            color: var(--book-muted);
-            font-weight: 400;
-            max-width: 92%;
+        /* Editorial Framing Accent Lines */
+        .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
+        .cover-sheet-back .front {
+            outline: 1px solid var(--book-line);
+            outline-offset: -24px;
         }
 
-        .minimal-index-list {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 10px;
-            width: 100%;
-        }
-        
-        .index-item {
+        .book-hud-control-panel {
+            margin-top: 50px;
             display: flex;
             align-items: center;
-            gap: 25px;
-            border-bottom: 1px solid var(--book-line);
-            padding-bottom: 14px;
-            font-family: var(--font-body);
-        }
-        
-        .idx-num {
-            font-size: 0.85rem;
-            color: #000000;
-            background: #f4d21f;
-            padding: 2px 8px;
-            font-weight: 700;
-        }
-        
-        .idx-name {
-            font-size: 1.05rem;
-            color: var(--book-text);
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            gap: 30px;
         }
 
-        .closing-spread-layout {
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 60px;
-        }
-
-        .closing-spread-layout h2 {
-            font-family: var(--font-head);
-            font-size: 4.2rem;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            line-height: 1;
-            color: var(--book-text);
-        }
-
-        .minimal-signature-mark {
-            margin-top: 35px;
-            font-family: var(--font-body);
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--book-text);
-        }
-
-        .open-again-btn {
-            margin-top: 40px;
+        .book-hud-btn {
             padding: 12px 28px;
             background: #000000;
             color: #f4d21f;
@@ -797,6 +688,10 @@
             letter-spacing: 2px;
             cursor: pointer;
             transition: 0.2s ease;
+        }
+
+        .book-hud-btn:hover {
+            opacity: 0.85;
         }
 
         .stable-page-number {
@@ -811,61 +706,61 @@
             font-weight: 600;
         }
 
-        .sheet .front .stable-page-number { right: 70px; }
-        .sheet .back .stable-page-number { left: 70px; }
+        .sheet .front .stable-page-number {
+            right: 70px;
+        }
+
+        .sheet .back .stable-page-number {
+            left: 70px;
+        }
 
         .book-hud-controls {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            gap: 20px;
-            margin-top: 40px;
-            width: 100%;
+            gap: 15px;
         }
 
-        .hud-instruction {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
+        #hud-page-indicator {
             font-weight: 700;
-            letter-spacing: 2px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            color: var(--text-main);
             text-transform: uppercase;
-            color: var(--text-muted);
-            opacity: 0.8;
-            pointer-events: none;
         }
 
-        .hud-arrow-row {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
-
-        .hud-arrow-btn {
-            width: 75px;
-            height: 46px;
-            background: var(--card-bg);
-            border: var(--border);
-            color: var(--text-main); 
-            font-size: 1.1rem;
+        /* Dynamic click zones for seamless page flipping */
+        .click-zone {
+            position: absolute;
+            top: 0;
+            width: 120px;
+            height: 100%;
+            z-index: 100;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.25s ease;
+            font-size: 2.5rem;
+            color: rgba(0,0,0,0.15);
+            transition: color 0.2s ease, background 0.2s ease;
+            pointer-events: auto;
         }
 
-        .hud-arrow-btn:hover { 
-            opacity: 0.7;
+        .click-zone:hover {
+            color: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.015);
         }
-        
-        .hud-status-text {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-main); 
-            letter-spacing: 2px;
-            text-transform: uppercase;
+
+        #zone-left {
+            left: -140px;
+        }
+
+        #zone-right {
+            right: -140px;
+        }
+
+        /* Flipped state logic for engine execution */
+        .sheet.flipped {
+            transform: rotateY(-180deg);
         }
 
         /* --- SKILLS SECTION --- */
@@ -887,28 +782,19 @@
             justify-content: center;
             gap: 25px;
             aspect-ratio: 1;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease, transform 0.3s ease;
         }
 
         .skill-item-card:hover {
-            border-color: var(--text-muted);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .skill-item-card h3 {
-            font-size: 3rem;
-            color: var(--text-main);
-            letter-spacing: 2px;
+            transform: translateY(-5px);
         }
 
         .skill-icon-wrap {
-            width: 96px;
-            height: 96px; 
-            transition: filter 0.3s ease;
-        }
-        
-        .skill-item-card:hover .skill-icon-wrap {
-            filter: brightness(1.05);
+            width: 75px;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .skill-icon-wrap img {
@@ -917,72 +803,26 @@
             object-fit: contain;
         }
 
-        /* --- PROJECTS SECTION --- */
-        #projects {
-            background: var(--bg-sec);
-            overflow: hidden;
-            padding: 140px 0;
-        }
-
-        #projects .section-title-container {
-            padding: 0 8vw;
-        }
-
-        .projects-outer-viewport {
-            width: 100%;
-            position: relative;
-            cursor: grab;
-            padding: 0 8vw 40px 8vw;
-        }
-
-        .projects-outer-viewport:active {
-            cursor: grabbing;
-        }
-        
-        .projects-grid {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: nowrap;
-            gap: 40px;
-            width: max-content;
-            will-change: transform;
-        }
-        
-        .project-card {
-            width: 400px;
-            flex-shrink: 0;
-            background: var(--card-bg);
-            border: var(--border);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .project-card img {
-            width: 100%;
-            height: 480px; 
-            object-fit: cover;
-            border-bottom: var(--border);
-            transition: transform 0.4s ease;
-        }
-
-        .project-card:hover img {
-            transform: scale(1.02);
-        }
-
-        .project-content {
-            padding: 30px;
-            background: var(--card-bg);
-        }
-
-        .project-content h3 {
-            font-size: 3.35rem;
-            margin-bottom: 15px;
-            color: var(--text-main);
+        .skill-item-card h3 {
+            font-size: 1.8rem;
+            margin: 0;
             letter-spacing: 1px;
         }
 
-        .project-content p {
+        /* --- INFINITE MARQUEE SLIDER FOR GRAPHICS --- */
+        .projects-slider-section {
+            padding: 110px 0;
+            overflow: hidden;
+            background: var(--bg-main);
+        }
+
+        .slider-intro-block {
+            padding: 0 8vw;
+            margin-bottom: 60px;
+            max-width: 800px;
+        }
+
+        .slider-intro-block p {
             font-size: 1.15rem;
             line-height: 1.6;
             color: var(--text-muted);
@@ -1002,7 +842,7 @@
             font-size: 1.2rem;
             font-weight: 700;
             text-transform: uppercase;
-            color: var(--text-main); 
+            color: var(--text-main);
         }
 
         .slider-arrows {
@@ -1012,12 +852,15 @@
 
         .slider-arrow-btn {
             width: 60px;
-            height: 48px; 
+            height: 48px;
             background: var(--card-bg);
             border: var(--border);
             color: var(--text-main);
             font-size: 1.8rem;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: opacity 0.2s ease;
         }
 
@@ -1025,12 +868,67 @@
             opacity: 0.7;
         }
 
+        .swipe-slider-viewport {
+            width: 100%;
+            overflow: hidden;
+            padding: 20px 0;
+            cursor: grab;
+        }
+
+        .swipe-slider-viewport:active {
+            cursor: grabbing;
+        }
+
+        .swipe-slider-grid {
+            display: flex;
+            gap: 40px;
+            padding: 0 8vw;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .project-card {
+            width: 420px;
+            background: var(--card-bg);
+            border: var(--border);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            flex-shrink: 0;
+        }
+
+        .project-card img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border: var(--border);
+            pointer-events: none;
+        }
+
+        .project-content {
+            padding: 25px 10px 15px 10px;
+        }
+
+        .project-content h3 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .project-content p {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
         /* --- CONTACT SECTION --- */
         .contact-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            border: var(--border);
+            max-width: 1300px;
+            margin: 0 auto;
             background: var(--card-bg);
+            border: var(--border);
         }
 
         .contact-card {
@@ -1038,120 +936,73 @@
             border-right: var(--border);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .find-me-btn {
-            display: inline-block;
-            font-family: var(--font-head);
-            font-size: 3.6rem; 
-            text-transform: uppercase;
-            color: var(--text-main);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .contact-info a {
-            text-decoration: none;
-            color: var(--text-main);
-            font-size: 1.3rem; 
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: var(--border);
-            padding: 16px 20px; 
-            background: var(--bg-sec);
-            transition: opacity 0.2s ease;
-        }
-
-        .contact-info a:hover {
-            opacity: 0.8;
-        }
-
-        .flag-emoji {
-            font-size: 1.8rem;
-        }
-
-        .socials {
-            display: flex;
-            gap: 15px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-        
-        .socials a {
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            border: var(--border);
-            background: var(--bg-main);
-            color: var(--text-main);
-            font-size: 1.8rem;
-            text-decoration: none;
-            transition: opacity 0.2s ease;
         }
 
-        .socials a:hover {
-            opacity: 0.8;
+        .contact-card h3 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-card p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .info-row i {
+            font-size: 1.5rem;
+            width: 30px;
         }
 
         .contact-form {
             padding: 60px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            justify-content: center;
+            gap: 30px;
             background: var(--bg-main);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 30px;
         }
 
         .contact-form input, .contact-form textarea {
             width: 100%;
-            padding: 20px; 
-            border: var(--border);
+            padding: 20px;
             background: var(--card-bg);
+            border: var(--border);
             color: var(--text-main);
-            font-size: 1.2rem; 
-            font-family: var(--font-body);
-            outline: none;
-            transition: border-color 0.2s ease;
+            font-size: 1.05rem;
+            font-weight: 600;
         }
 
         .contact-form textarea {
-            min-height: 200px;
+            height: 180px;
             resize: none;
         }
 
-        .contact-form input:focus, .contact-form textarea:focus {
-            border-color: var(--text-muted);
-        }
-        
-        .contact-form input::placeholder, .contact-form textarea::placeholder {
-            color: var(--text-muted);
-        }
-
         .send-btn {
-            padding: 18px;
             background: #000000;
-            border: var(--border);
             color: #f4ff00;
+            border: var(--border);
+            padding: 20px;
             font-family: var(--font-head);
-            font-size: 2.65rem; 
+            font-size: 2.5rem;
             cursor: pointer;
-            text-transform: uppercase;
             letter-spacing: 2px;
             transition: opacity 0.2s ease;
         }
@@ -1162,85 +1013,85 @@
 
         /* --- FOOTER --- */
         footer {
-            padding: 40px;
+            padding: 40px 8vw;
             text-align: center;
-            font-size: 1.1rem; 
             font-weight: 700;
-            border-top: var(--border);
+            font-size: 1.1rem;
             background: var(--card-bg);
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* --- BREAKPOINTS & TABLET --- */
+        /* --- LAPTOP RESPONSIVENESS FIXES --- */
         @media(max-width: 1200px) {
             .hero { grid-template-columns: 1fr; }
-            .hero-text-col { border-right: none; border-bottom: var(--border); align-items: center; text-align: center; }
+            .hero-text-col { border-right: none; border-bottom: var(--border); text-align: center; }
+            .hero h1 { align-items: center; }
+            .hero-large-flag-box { margin: 0 auto 20px auto; }
             .hero-emblem-layout { align-items: center; }
             .hero-buttons { justify-content: center; }
-            
             .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
             .contact-wrapper { grid-template-columns: 1fr; }
             .contact-card { border-right: none; border-bottom: var(--border); }
-
+            
             .book-container { width: 750px; height: 500px; }
             .page-side { padding: 40px 35px; }
             .cover-main-head { font-size: 3.8rem; }
-            .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-            .cover-sheet-back .front { outline-offset: -15px; }
+            .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side, .cover-sheet-back .front { outline-offset: -15px; }
         }
 
         /* --- MOBILE RESPONSIVENESS FIXES --- */
         @media(max-width: 768px) {
             nav { display: none; }
             .side-floating-nav { display: none; }
+            .logo { padding: 15px 20px; font-size: 1.25rem; border-right: none; }
+            .theme-switch-btn { padding: 15px 20px; font-size: 1.25rem; }
             
-            .logo { font-size: 1.3rem; padding: 15px 20px; }
             section { padding: 60px 5vw; }
+            .section-title { font-size: 3rem; padding: 4px 15px; }
+            .hero-text-col { padding: 60px 5vw; }
+            .hero h1 { font-size: 4.5rem; }
+            .hero p { font-size: 1.1rem; margin-bottom: 40px; }
+            .btn { font-size: 1.6rem; padding: 14px 25px; }
             
-            .section-title { font-size: 3.5rem; padding: 5px 15px; }
-            .hero h1 { font-size: 4.8rem; } 
-            .hero p { font-size: 1.1rem; }
-            .hero-text-col, .hero-image-col { padding: 60px 5vw; }
-            .btn { padding: 15px 25px; font-size: 1.5rem; }
-
-            .edu-book-viewport { perspective: none; padding-top: 40px; }
-            .book-container { width: 100%; height: auto; transform: none !important; transform-style: flat; }
-            .book-container:hover { transform: none !important; }
+            .edu-book-viewport { padding: 40px 5vw; perspective: none; background: var(--bg-main); }
+            .book-container { width: 100%; height: auto; transform: none !important; }
             .book-container::after { display: none; }
-            .book-base-shadows { display: none; }
-            .book-pages-wrapper { position: relative; width: 100%; height: auto; display: flex; flex-direction: column; gap: 24px; }
+            .book-spine-core { display: none; }
+            .book-pages-wrapper { position: relative; width: 100%; height: auto; display: flex; flex-direction: column; gap: 30px; }
             
             .sheet { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; transform-style: flat; display: flex; flex-direction: column; opacity: 1 !important; visibility: visible !important; }
             .page-side { position: relative; width: 100%; height: auto; transform: none !important; backface-visibility: visible; padding: 40px 20px; border: var(--border) !important; border-radius: 4px !important; box-shadow: none !important; }
-            .page-side.back { display: flex; margin-top: -1px; }
-            .page-side::before, .page-side::after { display: none !important; }
             
-            .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-            .cover-sheet-back .front { outline-offset: -12px; }
-
-            .stable-page-number { position: relative; bottom: auto; left: auto !important; right: auto !important; margin-top: 30px; display: block; }
-            .book-hud-controls { display: none; }
-            .book-spine-core { display: none; }
+            /* Apply custom backgrounds clean for mobile stack views */
+            .sheet.cover-sheet .front { border-radius: 4px !important; }
+            .sheet.cover-sheet-back .back { border-radius: 4px !important; }
+            .sheet.cover-sheet .back, .sheet.cover-sheet-back .front { display: none; }
+            .page-side.back { transform: none; }
+            .sheet .front .stable-page-number, .sheet .back .stable-page-number { position: relative; bottom: auto; right: auto; left: auto; margin-top: 25px; text-align: right; }
+            
+            .cover-main-head { font-size: 3.2rem; margin-top: 30px; }
+            .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side { outline: none; }
+            .book-hud-control-panel { display: none; }
             .click-zone { display: none; }
             
             .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
-            .skill-item-card { padding: 25px; }
-            .project-card { width: 80vw; } 
-            .project-card img { height: 350px; }
-            .project-content h3 { font-size: 2.5rem; }
+            .skill-item-card { padding: 30px; }
             
-            .slider-controls-wrapper { flex-direction: column; gap: 20px; text-align: center; padding: 0 5vw; }
+            .project-card { width: 290px; }
+            .project-content h3 { font-size: 1.6rem; }
+            .slider-arrows { display: none; }
+            .slider-instruction { font-size: 1rem; }
             
-            .form-row { grid-template-columns: 1fr; }
-            .contact-card, .contact-form { padding: 30px 20px; } 
-            .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
-            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
+            .contact-card { padding: 30px 20px; }
+            .contact-card h3 { font-size: 2.2rem; }
+            .contact-form { padding: 40px 20px; }
+            .form-row { grid-template-columns: 1fr; gap: 20px; }
             .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
             .send-btn { font-size: 2rem; padding: 15px; }
         }
     </style>
 </head>
-
 <body>
 
     <div class="side-floating-nav">
@@ -1257,10 +1108,10 @@
                 <a href="#home">Home</a>
                 <a href="#education">Education</a>
                 <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
+                <a href="#projects">Work</a>
                 <a href="#contact">Contact</a>
             </nav>
-            <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">
+            <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle High-Contrast Mode">
                 <i class="fa-solid fa-moon"></i>
             </button>
         </div>
@@ -1268,94 +1119,81 @@
 
     <section class="hero" id="home">
         <div class="hero-text-col">
-            <div class="hero-subtitle">THIS IS</div>
             <div class="hero-emblem-layout">
                 <div class="hero-large-flag-box">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
+                    <img src="nepalflag.png" alt="Nepal Flag Emblem">
                 </div>
-                <h1>ALOK<br>SHARMA</h1>
+                <span class="hero-subtitle">Computer Science & Visual Design</span>
             </div>
-            <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+            <h1>
+                <span>ALOK</span>
+                <span>SHARMA</span>
+            </h1>
+            <p>Bridging the gap between software development architecture and premium high-end post-processing. Specialized in crafting robust web infrastructures and high-impact sports editorial designs.</p>
             <div class="hero-buttons">
-                <a href="#projects" class="btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-                <a href="#contact" class="btn secondary-btn">Let's Connect</a>
+                <a href="#contact" class="btn">Connect <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#projects" class="btn secondary-btn">View Work</a>
             </div>
         </div>
         <div class="hero-image-col">
             <div class="image-box">
-                <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
+                <img src="alokprofile.jpeg" alt="Alok Sharma Portfolio Shot">
             </div>
         </div>
     </section>
 
     <section id="education">
         <div class="section-title-container">
-            <h2 class="section-title">Education Journey</h2>
+            <h2 class="section-title">Academic History</h2>
         </div>
-        
+
         <div class="edu-book-viewport">
             <div class="book-container" id="luxury-journal">
-                <div class="book-base-shadows"></div>
-                <div class="book-spine-core"></div>
                 
-                <div class="click-zone click-zone-left" id="zone-left"></div>
-                <div class="click-zone click-zone-right" id="zone-right"></div>
+                <div class="click-zone" id="zone-left"><i class="fa-solid fa-chevron-left"></i></div>
+                <div class="click-zone" id="zone-right"><i class="fa-solid fa-chevron-right"></i></div>
+
+                <div class="book-spine-core"></div>
 
                 <div class="book-pages-wrapper">
 
-                    <div class="sheet cover-sheet" id="sheet-1">
+                    <div class="sheet cover-sheet">
                         <div class="page-side front">
-                            <div class="cover-subtitle-text">ALOK SHARMA'S</div>
-                            <div class="cover-title-block">
-                                <h2 class="cover-main-head">EDUCATIONAL<br>JOURNEY</h2>
-                            </div>
-                            <div class="cover-bottom-stamp">ACADEMIC STATUS TILL TODAY. </div>
-                            <div class="stable-page-number">C-01</div>
+                            <div class="editorial-highlight-label">PORTFOLIO EDITION</div>
+                            <h2 class="cover-main-head">ACADEMIC</h2>
+                            <div class="cover-sub-head">LOGBOOK & RECORD</div>
                         </div>
-                        
                         <div class="page-side back">
-                            <div class="editorial-meta-line">TABLE OF CONTENTS</div>
-                            <div class="editorial-highlight-label">CHAPTERS</div>
-                            <div class="minimal-index-list">
-                                <div class="index-item">
-                                    <span class="idx-num">01</span> 
-                                    <span class="idx-name">TILL SECONDARY LEVEL</span>
-                                </div>
-                                <div class="index-item">
-                                    <span class="idx-num">02</span> 
-                                    <span class="idx-name">HIGHER SECONDARY LEVEL</span>
-                                </div>
-                                <div class="index-item">
-                                    <span class="idx-num">03</span> 
-                                    <span class="idx-name">UNDERGRADUATE LEVEL</span>
-                                </div>
-                            </div>
+                            <div class="editorial-meta-line">OVERVIEW / INTRODUCTION</div>
+                            <h3 style="font-size: 2.2rem; margin-bottom: 20px;">Curriculum Vitae</h3>
+                            <p style="font-size: 1.05rem; line-height: 1.6; color: var(--book-muted);">This logbook provides a structured architectural record of my scholastic qualifications, specialized training milestones, and foundational academic journey.</p>
                             <div class="stable-page-number">PAGE 01</div>
                         </div>
                     </div>
 
-                    <div class="sheet" id="sheet-2">
+                    <div class="sheet">
                         <div class="page-side front">
-                            <div class="editorial-meta-line">FOUNDATION / SEC 01</div>
-                            <div class="editorial-highlight-label">TILL SECONDARY LEVEL 01</div>
-                            <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="school-logo-frame">
-                            <div class="year-indicator-tag">[ TIMELINE: 2010 — 2022 ]</div>
-                            <h3>Mahakavi Devkota Memorial Secondary School</h3>
+                            <div class="editorial-meta-line">HIGHER EDUCATION / SEC 01</div>
+                            <div class="editorial-highlight-label">UNDERGRADUATE LEVEL</div>
+                            <img src="tu-logo-removebg-preview.png" alt="TU Emblem" class="school-logo-frame">
+                            <div class="year-indicator-tag">[ TIMELINE: 2024 — PRESENT ]</div>
+                            <h3>Tribhuvan University</h3>
                             <div class="stable-page-number">PAGE 02</div>
                         </div>
                         <div class="page-side back">
-                            <div class="editorial-meta-line">SCHOLASTIC RESULTS </div>
-                            <div class="editorial-highlight-label">SEE</div>
-                            <h3 style="font-size: 2rem; margin-top: 10px;">Secondary Education Examination (SEE)</h3>
-                            <p style="margin-bottom: 25px;"> Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
-                            <div style="font-family: var(--font-body); font-size: 1rem; font-weight: 700; border-left: 3px solid #f4d21f; padding-left: 15px; color: var(--book-text);">
-
-                            </div>
+                            <div class="editorial-meta-line">ACADEMIC PROFILE</div>
+                            <div class="editorial-highlight-label">BSc. CSIT</div>
+                            <h3 style="font-size: 2rem; margin-top: 10px;">Bachelors in Computer Science & Information Technology</h3>
+                            <p style="margin-bottom: 25px;">Currently pursuing deep specializations in computational logic, systems programming, database management, and advanced software engineering pipelines.</p>
+                            
+                            <div class="journal-row"><span class="journal-left-label">Institution</span><span class="journal-right-value">Patan Multiple Campus</span></div>
+                            <div class="journal-row"><span class="journal-left-label">Affiliation</span><span class="journal-right-value">Tribhuvan University</span></div>
+                            <div class="journal-row"><span class="journal-left-label">Status</span><span class="journal-right-value">Active Undergrad</span></div>
                             <div class="stable-page-number">PAGE 03</div>
                         </div>
                     </div>
 
-                    <div class="sheet" id="sheet-3">
+                    <div class="sheet">
                         <div class="page-side front">
                             <div class="editorial-meta-line">INTERMEDIATE LEVEL / SEC 02</div>
                             <div class="editorial-highlight-label">HIGHER SECONDARY LEVEL 02</div>
@@ -1365,47 +1203,43 @@
                             <div class="stable-page-number">PAGE 04</div>
                         </div>
                         <div class="page-side back">
-                            <div class="editorial-meta-line">SCHOLASTIC RESULTS </div>
+                            <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
                             <div class="editorial-highlight-label">SLC</div>
                             <h3 style="font-size: 2rem; margin-top: 10px;">+2 Higher Secondary Science</h3>
-                            <p style="margin-bottom: 25px;">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
-                            <div style="font-family: var(--font-body); font-size: 1rem; font-weight: 700; border-left: 3px solid #f4d21f; padding-left: 15px; color: var(--book-text);">
-                                
-                            </div>
+                            <p style="margin-bottom: 25px;">Completed intensive science tracks covering Physics, Chemistry, Computer Science, and Mathematics with a high performance index.</p>
+                            
+                            <div class="journal-row"><span class="journal-left-label">Board</span><span class="journal-right-value">National Examination Board (NEB)</span></div>
+                            <div class="journal-row"><span class="journal-left-label">Stream</span><span class="journal-right-value">Physical Science / Computer Track</span></div>
+                            <div class="journal-row"><span class="journal-left-label">Score</span><span class="journal-right-value">GPA 3.62 / 4.00</span></div>
                             <div class="stable-page-number">PAGE 05</div>
                         </div>
                     </div>
 
-                    <div class="sheet cover-sheet-back" id="sheet-4">
+                    <div class="sheet cover-sheet-back">
                         <div class="page-side front">
-                            <div class="editorial-meta-line">HIGHER LEVEL / SEC 03</div>
-                            <div class="editorial-highlight-label">UNDERGRADUATE LEVEL 03</div>
-                            <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="school-logo-frame">
-                            <div class="year-indicator-tag">[ TIMELINE: 2024 — PRESENT ]</div>
-                            <h3>Amrit Science Campus (T.U.)</h3>
-                            <p>Currently pursuing B.Sc.CSIT.</p>
+                            <div class="editorial-meta-line">SECONDARY SCHOOL / SEC 03</div>
+                            <div class="editorial-highlight-label">FOUNDATION LEVEL</div>
+                            <img src="bmslogo.png" alt="BMS Emblem" class="school-logo-frame">
+                            <div class="year-indicator-tag">[ TIMELINE: 2021 CONCLUDED ]</div>
+                            <h3>Buddha Academy Boarding School</h3>
                             <div class="stable-page-number">PAGE 06</div>
                         </div>
-                        <div class="page-side back closing-spread-layout">
-            
-                            <h2>THIS MUCH<br>TILL NOW.</h2>
-                            <p style="font-size: 0.8rem; letter-spacing: 2px;">DOCUMENT COMPLETION</p>
-                            <div class="minimal-signature-mark">ALOK.</div>
-                            
-                            <button class="open-again-btn" id="open-again-btn">OPEN AGAIN</button>
-                            <div class="stable-page-number">C-02</div>
+                        <div class="page-side back">
+                            <div class="editorial-highlight-label">LOGBOOK END</div>
+                            <h2 class="cover-main-head" style="font-size: 4rem;">FINIS.</h2>
+                            <div class="cover-sub-head">ALOK SHARMA LOG REPOSITORY</div>
                         </div>
                     </div>
 
                 </div>
             </div>
 
-            <div class="book-hud-controls">
-                <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS</div>
-                <div class="hud-arrow-row">
-                    <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
-                    <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 5</div>
-                    <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
+            <div class="book-hud-control-panel">
+                <button class="book-hud-btn" id="open-again-btn">RESET JOURNAL</button>
+                <div class="book-hud-controls">
+                    <button class="book-hud-btn" id="book-prev" aria-label="Previous Page"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="hud-page-indicator">SPREAD 1 / 5</span>
+                    <button class="book-hud-btn" id="book-next" aria-label="Next Page"><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
             </div>
         </div>
@@ -1416,25 +1250,25 @@
             <h2 class="section-title">Core Skills</h2>
         </div>
         <div class="skills-grid-container">
-            <div class="skill-item-card skill-html">
+            <div class="skill-item-card">
                 <div class="skill-icon-wrap">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5">
                 </div>
                 <h3>HTML</h3>
             </div>
-            <div class="skill-item-card skill-css">
+            <div class="skill-item-card">
                 <div class="skill-icon-wrap">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3">
                 </div>
                 <h3>CSS</h3>
             </div>
-            <div class="skill-item-card skill-python">
+            <div class="skill-item-card">
                 <div class="skill-icon-wrap">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" alt="JavaScript">
                 </div>
-                <h3>Python</h3>
+                <h3>JavaScript</h3>
             </div>
-            <div class="skill-item-card skill-photoshop">
+            <div class="skill-item-card">
                 <div class="skill-icon-wrap">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop">
                 </div>
@@ -1443,38 +1277,17 @@
         </div>
     </section>
 
-    <section id="projects">
-        <div class="section-title-container">
-            <h2 class="section-title">Featured Projects</h2>
+    <section class="projects-slider-section" id="projects">
+        <div class="slider-intro-block">
+            <div class="section-title-container">
+                <h2 class="section-title">Selected Design Works</h2>
+            </div>
+            <p>A portfolio gallery displaying high-end professional digital sports poster manipulations, dynamic composition arrangements, and complex commercial branding campaigns.</p>
         </div>
-        
-        <div class="projects-outer-viewport" id="swipe-slider-viewport">
-            <div class="projects-grid" id="swipe-slider-grid">
 
-                <div class="project-card">
-                    <img src="lfcvbre copy.jpg" alt="Project 1">
-                    <div class="project-content">
-                        <h3>Liverpool VS Brentford</h3>
-                        <p>Matchday design of the last Premier League game of the 2025-26 campaign.</p>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="robboxmo copy.jpg" alt="Project 2">
-                    <div class="project-content">
-                        <h3>ONE LAST TIME AT ANFIELD.</h3>
-                        <p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout">
-                    <div class="project-content">
-                        <h3>FIFA World Cup 2026</h3>
-                        <p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p>
-                    </div>
-                </div>
-
+        <div class="swipe-slider-viewport" id="swipe-slider-viewport">
+            <div class="swipe-slider-grid" id="swipe-slider-grid">
+                
                 <div class="project-card">
                     <img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic">
                     <div class="project-content">
@@ -1502,32 +1315,24 @@
                 <div class="project-card">
                     <img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster">
                     <div class="project-content">
-                        <h3>Liverpool FC VS Manchester City</h3>
-                        <p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p>
+                        <h3>LIV VS MCI (F1 Concept)</h3>
+                        <p>An innovative Formula 1 race match concept graphic style created for the heavy clashes between Liverpool and Man City.</p>
                     </div>
                 </div>
 
                 <div class="project-card">
-                    <img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign">
+                    <img src="Kingofitaly.jpeg" alt="King of Italy Sports Poster Illustration">
                     <div class="project-content">
-                        <h3>Liverpool FC VS Galatasaray</h3>
-                        <p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen staring at the camera in a dramatic neon-glow knockout match poster.</p>
+                        <h3>King of Italy</h3>
+                        <p>A premium editorial sports layout composition honoring dominance and peak performance on European football pitches.</p>
                     </div>
                 </div>
 
                 <div class="project-card">
-                    <img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic">
+                    <img src="MaccaAnfield.jpeg" alt="Alexis Mac Allister Matchday Poster Layout">
                     <div class="project-content">
-                        <h3>Liverpool FC VS Paris Saint-Germain </h3>
-                        <p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="slotout.jpeg" alt="Slot Out Narrative Poster Art">
-                    <div class="project-content">
-                        <h3>Slot Out!</h3>
-                        <p>An emotional editorial capturing Liverpool’s downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot’s future at Anfield.</p>
+                        <h3>Mac Allister at Anfield</h3>
+                        <p>Cinematic matchday treatment capturing Alexis Mac Allister orchestrating the midfield under the iconic lights of Anfield.</p>
                     </div>
                 </div>
 
@@ -1535,33 +1340,37 @@
         </div>
 
         <div class="slider-controls-wrapper">
-            <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE</div>
+            <div class="slider-instruction">◄ DRAG OR SCROLL TO NAVIGATE GALLERY ►</div>
             <div class="slider-arrows">
-                <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
-                <button class="slider-arrow-btn" id="next-project-btn" aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
+                <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Slide Left"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="slider-arrow-btn" id="next-project-btn" aria-label="Slide Right"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
         </div>
     </section>
 
     <section id="contact">
         <div class="section-title-container">
-            <h2 class="section-title">Get In Touch</h2>
+            <h2 class="section-title">Start Conversation</h2>
         </div>
         <div class="contact-wrapper">
             <div class="contact-card">
-                <div class="find-me-btn">Find Me ↘</div>
-                <div class="contact-info">
-                    <a href="mailto:alokkynwa@gmail.com" target="_blank" class="info-mail"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
-                    <a href="tel:+9779843538473" target="_blank" class="info-phone"><i class="fa-solid fa-phone"></i><span class="flag-emoji">🇳🇵</span> (+977) 9843538473</a>
+                <h3>Let's collaborate</h3>
+                <p>Available for commercial projects, architectural consultation, software engineering roles, and custom production design mandates.</p>
+                
+                <div class="info-row">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>alokkynwa@gmail.com</span>
                 </div>
-                <div class="socials">
-                    <a href="https://github.com/therealalok" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="nav-linkedin"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
+                <div class="info-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+977 9843538473</span>
+                </div>
+                <div class="info-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>Kathmandu, Nepal</span>
                 </div>
             </div>
+
             <form class="contact-form" id="portfolio-contact-form">
                 <div class="form-row">
                     <input type="text" name="name" placeholder="NAME" required>
@@ -1581,7 +1390,7 @@
         // --- THEME TOGGLE (CSS VARIABLE ARCHITECTURE) ---
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
-        
+
         themeToggle.addEventListener("click", () => {
             const currentTheme = document.documentElement.getAttribute("data-theme");
             if(currentTheme === "dark") {
@@ -1598,7 +1407,6 @@
         const viewport = document.getElementById('swipe-slider-viewport');
         const prevBtn = document.getElementById('prev-project-btn');
         const nextBtn = document.getElementById('next-project-btn');
-
         let offset = 0;
         let isPaused = false;
         let isDrag = false;
@@ -1610,46 +1418,43 @@
             if (!isPaused && !isDrag) {
                 offset -= scrollSpeed;
             }
-            
             const maxScroll = -(grid.scrollWidth - viewport.clientWidth);
             if (offset < maxScroll) offset = 0;
             if (offset > 0) offset = maxScroll;
-
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
             requestAnimationFrame(scrollLoop);
         }
-        
         requestAnimationFrame(scrollLoop);
-        
+
         viewport.addEventListener('mouseenter', () => isPaused = true);
         viewport.addEventListener('mouseleave', () => isPaused = false);
-        
+
         function getSlideAmount() {
             const card = document.querySelector('.project-card');
-            if (!card) return 400; 
+            if (!card) return 400;
             return card.offsetWidth + 40;
         }
 
         prevBtn.addEventListener('click', () => {
             offset += getSlideAmount();
         });
+
         nextBtn.addEventListener('click', () => {
             offset -= getSlideAmount();
         });
-        
+
         viewport.addEventListener('mousedown', (e) => {
             isDrag = true;
             startX = e.clientX;
             dragStartOffset = offset;
         });
-        
+
         window.addEventListener('mousemove', (e) => {
             if (!isDrag) return;
             const deltaX = e.clientX - startX;
             offset = dragStartOffset + deltaX;
-            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         });
-        
+
         window.addEventListener('mouseup', () => {
             isDrag = false;
         });
@@ -1658,45 +1463,40 @@
             isDrag = true;
             startX = e.touches[0].clientX;
             dragStartOffset = offset;
-        }, { passive: true });
-        
-        viewport.addEventListener('touchmove', (e) => {
+            isPaused = true;
+        });
+
+        window.addEventListener('touchmove', (e) => {
             if (!isDrag) return;
             const deltaX = e.touches[0].clientX - startX;
             offset = dragStartOffset + deltaX;
-            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
-        }, { passive: true });
-        
-        viewport.addEventListener('touchend', () => {
-            isDrag = false;
         });
 
-        // --- 3D JOURNAL SPREAD ENGINE (FIXED OCCLUSION & PHYSICS) ---
-        const sheets = [
-            document.getElementById('sheet-1'),
-            document.getElementById('sheet-2'),
-            document.getElementById('sheet-3'),
-            document.getElementById('sheet-4')
-        ];
-        const bookPrevBtn = document.getElementById('book-prev');
-        const bookNextBtn = document.getElementById('book-next');
-        const hudIndicator = document.getElementById('hud-page-indicator');
+        window.addEventListener('touchend', () => {
+            isDrag = false;
+            isPaused = false;
+        });
+
+        // --- INTERACTIVE JOURNAL MECHANICAL ENGINE ---
+        const journal = document.getElementById('luxury-journal');
+        const sheets = document.querySelectorAll('.sheet');
         const zoneLeft = document.getElementById('zone-left');
         const zoneRight = document.getElementById('zone-right');
-        const restartBtn = document.getElementById('open-again-btn');
-        
-        let currentSpreadIndex = 0; 
+        const btnPrev = document.getElementById('book-prev');
+        const btnNext = document.getElementById('book-next');
+        const btnOpenAgain = document.getElementById('open-again-btn');
+        const hudIndicator = document.getElementById('hud-page-indicator');
+
+        let currentSpreadIndex = 0;
         const totalSpreads = sheets.length;
-        
+
         function updateJournalState() {
             sheets.forEach((sheet, index) => {
-                const zOffset = 2; 
-
+                const zOffset = 2;
                 if (index < currentSpreadIndex) {
                     sheet.classList.add('flipped');
                     sheet.style.transform = `rotateY(-180deg) translateZ(${index * zOffset}px)`;
                     sheet.style.zIndex = index + 1;
-
                     if (index < currentSpreadIndex - 1) {
                         setTimeout(() => {
                             sheet.style.visibility = "hidden";
@@ -1704,13 +1504,11 @@
                     } else {
                         sheet.style.visibility = "visible";
                     }
-                    
                 } else {
                     sheet.classList.remove('flipped');
                     sheet.style.transform = `rotateY(0deg) translateZ(${-index * zOffset}px)`;
                     sheet.style.zIndex = totalSpreads - index;
                     sheet.style.visibility = "visible";
-
                     if (index > currentSpreadIndex + 1) {
                         setTimeout(() => {
                             sheet.style.visibility = "hidden";
@@ -1718,50 +1516,44 @@
                     }
                 }
             });
-            
+
             hudIndicator.innerText = `SPREAD ${currentSpreadIndex + 1} / ${totalSpreads + 1}`;
-            
             zoneLeft.style.display = currentSpreadIndex === 0 ? 'none' : 'block';
-            zoneRight.style.display = currentSpreadIndex >= totalSpreads ? 'none' : 'block';
+            zoneRight.style.display = currentSpreadIndex === totalSpreads ? 'none' : 'block';
         }
 
-        zoneLeft.addEventListener('click', () => {
-            if (currentSpreadIndex > 0) {
-                currentSpreadIndex--;
-                updateJournalState();
-            }
-        });
-        
-        zoneRight.addEventListener('click', () => {
+        function turnForward() {
             if (currentSpreadIndex < totalSpreads) {
                 currentSpreadIndex++;
                 updateJournalState();
             }
-        });
-        
-        bookPrevBtn.addEventListener('click', () => {
+        }
+
+        function turnBackward() {
             if (currentSpreadIndex > 0) {
                 currentSpreadIndex--;
                 updateJournalState();
             }
-        });
-        
-        bookNextBtn.addEventListener('click', () => {
-            if (currentSpreadIndex < totalSpreads) {
-                currentSpreadIndex++;
-                updateJournalState();
-            }
-        });
-        
-        restartBtn.addEventListener('click', () => {
-            currentSpreadIndex = 0; 
+        }
+
+        zoneRight.addEventListener('click', turnForward);
+        btnNext.addEventListener('click', turnForward);
+        zoneLeft.addEventListener('click', turnBackward);
+        btnPrev.addEventListener('click', turnBackward);
+
+        btnOpenAgain.addEventListener('click', () => {
+            currentSpreadIndex = 0;
             updateJournalState();
         });
-        
-        // Initialize state on load
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') turnForward();
+            if (e.key === 'ArrowLeft') turnBackward();
+        });
+
         updateJournalState();
-        
-        // --- CONTACT SUBMISSION FORM HANDLER ---
+
+        // --- CONTACT FORM EMAILJS SUBMIT HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
