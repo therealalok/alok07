@@ -9,6 +9,7 @@
     <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
     <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
 
+    <!-- Original EmailJS Script preserved -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
         (function(){
@@ -18,10 +19,12 @@
         })();
     </script>
 
+    <!-- Typography System -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
     
+    <!-- Legacy Fonts strictly for the locked Book Component -->
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
@@ -71,7 +74,7 @@
             transition: background-color 0.6s var(--ease-premium), color 0.6s var(--ease-premium);
         }
 
-        ::-webkit-scrollbar { width: 4px; background: var(--bg-main); }
+        :-webkit-scrollbar { width: 4px; background: var(--bg-main); }
         ::-webkit-scrollbar-thumb { background: var(--text-muted); }
 
         /* --- GLOBAL TYPOGRAPHY --- */
@@ -288,12 +291,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%);
-            transition: filter 0.8s var(--ease-premium), transform 1.2s var(--ease-premium);
+            /* Grayscale filter completely removed to keep native profile picture colors */
+            transition: transform 1.2s var(--ease-premium);
         }
 
         .image-box:hover img {
-            filter: grayscale(0%);
             transform: scale(1.03);
         }
 
@@ -566,12 +568,12 @@
             width: 100%;
             height: 540px; 
             object-fit: cover;
-            filter: grayscale(80%);
-            transition: filter 0.6s var(--ease-premium);
+            /* Grayscale removed from projects too to showcase full-color editorial layouts natively */
+            transition: transform 0.6s var(--ease-premium);
         }
 
         .project-card:hover img {
-            filter: grayscale(0%);
+            transform: scale(1.01);
         }
 
         .project-content {
@@ -807,6 +809,7 @@
             <h2 class="section-title">Education Journey</h2>
         </div>
         
+        <!-- ORIGINAL BOOK COMPONENT -->
         <div class="edu-book-viewport">
             <div class="book-container" id="luxury-journal">
                 <div class="book-base-shadows"></div>
@@ -920,7 +923,8 @@
                 </div>
             </div>
         </div>
-        </section>
+        <!-- END OF LOCKED BOOK COMPONENT -->
+    </section>
 
     <section id="skills">
         <div class="section-header">
@@ -1116,7 +1120,7 @@
     </footer>
 
     <script>
-        // --- THEME TOGGLE (PREMIUM ADAPTATION) ---
+        // --- THEME TOGGLE ---
         const themeToggle = document.getElementById("theme-toggle");
         const toggleIcon = themeToggle.querySelector("i");
         
@@ -1131,7 +1135,7 @@
             }
         });
 
-        // --- HORIZONTAL GALLERY SCRIPT (PRESERVED) ---
+        // --- HORIZONTAL GALLERY SCRIPT ---
         const grid = document.getElementById('swipe-slider-grid');
         const viewport = document.getElementById('swipe-slider-viewport');
         const prevBtn = document.getElementById('prev-project-btn');
@@ -1165,7 +1169,7 @@
         function getSlideAmount() {
             const card = document.querySelector('.project-card');
             if (!card) return 440; 
-            return card.offsetWidth + (window.innerWidth * 0.04); // matching 4vw gap
+            return card.offsetWidth + (window.innerWidth * 0.04);
         }
 
         prevBtn.addEventListener('click', () => { offset += getSlideAmount(); });
@@ -1201,7 +1205,7 @@
         
         viewport.addEventListener('touchend', () => { isDrag = false; });
 
-        // --- 3D JOURNAL SPREAD ENGINE (PRESERVED EXACTLY) ---
+        // --- 3D JOURNAL SPREAD ENGINE ---
         const sheets = [
             document.getElementById('sheet-1'),
             document.getElementById('sheet-2'),
@@ -1253,7 +1257,7 @@
         
         updateJournalState();
         
-        // --- CONTACT SUBMISSION FORM HANDLER (PRESERVED) ---
+        // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
         contactForm.addEventListener("submit", async (e) => {
             e.preventDefault();
