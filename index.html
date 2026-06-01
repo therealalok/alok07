@@ -1,3665 +1,2017 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Alok Sharma - Portfolio</title>
-
+    <title>Alok Sharma — Portfolio Documentary</title>
     
-
     <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-
     <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
-
     <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
 
-
-
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
     <script type="text/javascript">
-
         (function(){
-
             emailjs.init({
-
                 publicKey: "yZJw9EeH12xS_hpX5",
-
             });
-
         })();
-
     </script>
 
-
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-
-
     <style>
-
         :root {
-
-            /* Luxury Football Editorial Palette - LIGHT MODE */
-
-            --bg-main: #f5f5f2;
-
-            --bg-sec: #ecece7;
-
+            /* Premium Editorial Color System */
+            --bg-main: #fcfcf9;
+            --bg-sec: #f4f4ef;
             --card-bg: #ffffff;
-
-            --text-main: #000000;
-
-            --text-muted: #4b4b4b;
-
-            --border-color: #000000;
-
-            --accent-1: #f4ff00;
-
-            --ok-color: #505405;
-
+            --text-main: #0a0a0a;
+            --text-muted: #555551;
+            --border-color: #121211;
+            --accent-1: #ff2a2a; /* Cinematic Timeline Indicator */
+            --ok-color: #e2ec00;
             
-
-            /* Typography System */
-
             --font-head: 'Bebas Neue', sans-serif;
-
             --font-body: 'IBM Plex Mono', monospace;
-
-            
-
-            /* Border System */
-
-            --border: 2px solid var(--border-color);
-
+            --border: 1.5px solid var(--border-color);
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-
-
-        /* Luxury Football Editorial Palette - DARK MODE */
 
         [data-theme="dark"] {
-
             --bg-main: #0a0a0a;
-
-            --bg-sec: #141414;
-
-            --card-bg: #000000;
-
-            --text-main: #ffffff;
-
-            --text-muted: #a0a0a0;
-
-            --border-color: #ffffff;
-
-            --ok-color: #f4ff00;
-
+            --bg-sec: #121212;
+            --card-bg: #181818;
+            --text-main: #fcfcf9;
+            --text-muted: #a0a09a;
+            --border-color: #2c2c2a;
+            --ok-color: #ff2a2a;
         }
-
-
-
-        /* Dark Mode structural overrides */
-
-        [data-theme="dark"] .theme-switch-btn,
-
-        [data-theme="dark"] .btn:not(.secondary-btn),
-
-        [data-theme="dark"] .send-btn {
-
-            background: #f4ff00 !important;
-
-            color: #000000 !important;
-
-        }
-
-        
-
-        [data-theme="dark"] .theme-switch-btn i,
-
-        [data-theme="dark"] .btn:not(.secondary-btn) i,
-
-        [data-theme="dark"] .send-btn {
-
-            color: #000000 !important;
-
-        }
-
-
 
         * {
-
             margin: 0;
-
             padding: 0;
-
             box-sizing: border-box;
-
             scroll-behavior: smooth;
-
         }
-
-
 
         body {
-
             background-color: var(--bg-main);
-
             color: var(--text-main);
-
             font-family: var(--font-body);
-
             overflow-x: hidden;
-
             -webkit-font-smoothing: antialiased;
-
-            -moz-osx-font-smoothing: grayscale;
-
-            transition: background-color 0.3s ease, color 0.3s ease;
-
+            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-
-
+        /* Custom Premium Scrollbar */
         ::-webkit-scrollbar {
-
-            width: 12px;
-
+            width: 8px;
             background: var(--bg-main);
-
-            border-left: var(--border);
-
         }
-
-
-
         ::-webkit-scrollbar-thumb {
-
             background: var(--text-main);
-
-            border-radius: 0;
-
         }
 
-
-
-        /* --- GLOBAL TYPOGRAPHY --- */
-
-        h1, h2, h3 {
-
-            font-family: var(--font-head);
-
-            text-transform: uppercase;
-
-            line-height: 1.1;
-
-            color: var(--text-main);
-
-            letter-spacing: 1px;
-
-        }
-
-
-
-        p, a, span, input, textarea, button {
-
-            font-family: var(--font-body);
-
-        }
-
-
-
-/* --- LOGO: MINIMAL BLACK & WHITE CONFIGURATION --- */
-
-.logo {
-
-    font-family: var(--font-body);
-
-    font-size: 1.5rem;
-
-    font-weight: 700;
-
-    text-transform: uppercase;
-
-    padding: 22px 32px; 
-
-    border-right: var(--border);
-
-    background: var(--card-bg);
-
-    letter-spacing: 2px;
-
-    user-select: none;
-
-    display: flex;
-
-    align-items: center;
-
-    
-
-    /* LIGHT MODE: "AL" will be Black */
-
-    color: #000000; 
-
-}
-
-
-
-.logo span {
-
-    font-family: var(--font-body);
-
-    /* LIGHT MODE: "OK." will be a muted White/Light Grey so it stands out against a white navbar */
-
-    color: #f4ff00; 
-
-}
-
-
-
-/* DARK MODE ADJUSTMENTS */
-
-[data-theme="dark"] .logo {
-
-    /* DARK MODE: "AL" turns White */
-
-    color: #ffffff; 
-
-}
-
-
-
-[data-theme="dark"] .logo span {
-
-    /* DARK MODE: "OK." turns Dark Grey/Black against the black navbar */
-
-    color: #f4ff00; 
-
-}
-
-
-
-        /* --- SIDE FLOATING NAV --- */
-
-        .side-floating-nav {
-
+        /* Custom Context Cursor */
+        #custom-cursor {
             position: fixed;
-
-            right: 0;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
+            width: 14px;
+            height: 14px;
+            background: var(--text-main);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
             display: flex;
-
-            flex-direction: column;
-
-            z-index: 1001;
-
-            background: var(--card-bg);
-
-            border: var(--border);
-
-            border-right: none;
-
-        }
-
-
-
-        .side-nav-btn {
-
-            width: 54px;
-
-            height: 54px;
-
-            background: var(--card-bg);
-
-            color: var(--text-main);
-
-            display: flex;
-
             align-items: center;
-
             justify-content: center;
-
-            font-size: 1.4rem;
-
-            text-decoration: none;
-
-            border-bottom: var(--border);
-
-            transition: opacity 0.2s ease;
-
+            font-size: 0.55rem;
+            color: var(--bg-main);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        #custom-cursor.hovering {
+            width: 60px;
+            height: 60px;
+            mix-blend-mode: normal;
+            background: var(--text-main);
+            color: var(--bg-main);
         }
 
-        
-
-        .side-nav-btn:last-child {
-
-            border-bottom: none;
-
-        }
-
-
-
-        .side-nav-btn:hover {
-
-            opacity: 0.85;
-
-        }
-
-
-
-        /* --- NAVBAR --- */
-
-        header {
-
-            position: sticky;
-
+        /* YouTube Inspired Scrubber Progress */
+        #scrub-progress-container {
+            position: fixed;
             top: 0;
-
+            left: 0;
             width: 100%;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            background: var(--card-bg);
-
-            border-bottom: var(--border);
-
-            padding: 0;
-
-            z-index: 1000;
-
+            height: 3px;
+            background: rgba(0,0,0,0.05);
+            z-index: 2000;
+        }
+        #scrub-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #ff2a2a;
+            transition: width 0.1s linear;
         }
 
-        
+        /* Persistent Now Playing Meta Bar */
+        #now-playing-ticker {
+            position: fixed;
+            bottom: 24px;
+            left: 32px;
+            z-index: 1002;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: var(--card-bg);
+            padding: 8px 16px;
+            border: var(--border);
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #ff2a2a;
+            border-radius: 50%;
+            animation: pulse-live 1.5s infinite alternate;
+        }
+        @keyframes pulse-live {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* Global Structural Framing */
+        header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(var(--bg-main), 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: var(--border);
+            padding: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: var(--font-body);
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 24px 32px;
+            border-right: var(--border);
+            letter-spacing: 2px;
+            user-select: none;
+            color: var(--text-main);
+        }
+        .logo span {
+            color: #ff2a2a;
+        }
 
         .nav-container {
-
             display: flex;
-
             align-items: center;
-
             height: 100%;
-
         }
-
-
 
         nav {
-
             display: flex;
-
             height: 100%;
-
         }
-
-
-
         nav a {
-
             text-decoration: none;
-
             color: var(--text-main);
-
-            font-weight: 700;
-
-            font-size: 1.2rem; 
-
+            font-weight: 600;
+            font-size: 0.85rem;
             text-transform: uppercase;
-
-            padding: 20px 28px; 
-
+            padding: 28px 32px;
             border-left: var(--border);
-
-            transition: opacity 0.2s ease;
-
-            display: flex;
-
-            align-items: center;
-
+            transition: var(--transition);
+            position: relative;
         }
-
-
-
-        nav a:hover {
-
-            opacity: 0.7;
-
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #ff2a2a;
+            transition: var(--transition);
         }
-
-
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
 
         .theme-switch-btn {
-
-            background: #000000;
-
-            color: #f4ff00;
-
+            background: transparent;
+            color: var(--text-main);
             border: none;
-
             border-left: var(--border);
-
-            padding: 20px 28px; 
-
+            padding: 28px 32px;
             cursor: pointer;
-
-            font-size: 1.5rem; 
-
-            transition: opacity 0.2s ease;
-
-            height: 100%;
-
-            display: flex;
-
-            align-items: center;
-
+            font-size: 1.1rem;
+            transition: var(--transition);
         }
-
-
-
         .theme-switch-btn:hover {
-
-            opacity: 0.9;
-
+            background: var(--text-main);
+            color: var(--bg-main);
         }
 
-
-
-        /* --- SECTIONS GLOBAL --- */
-
-        section {
-
-            padding: 110px 8vw;
-
+        /* Cinematic Floating Side Panel */
+        .side-floating-nav {
+            position: fixed;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            z-index: 1001;
+            background: var(--card-bg);
+            border: var(--border);
+            border-right: none;
+        }
+        .side-nav-btn {
+            width: 56px;
+            height: 56px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            text-decoration: none;
             border-bottom: var(--border);
-
-            position: relative;
-
+            transition: var(--transition);
+        }
+        .side-nav-btn:last-child {
+            border-bottom: none;
+        }
+        .side-nav-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-main);
         }
 
+        /* Large Dynamic Backdrop Lettering */
+        .backdrop-text {
+            position: absolute;
+            font-family: var(--font-head);
+            font-size: 24vw;
+            color: var(--text-main);
+            opacity: 0.02;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            line-height: 0.8;
+        }
 
+        /* Standardized Editorial Space Layouts */
+        section {
+            padding: 160px 8vw;
+            border-bottom: var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-timestamp {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #ff2a2a;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
         .section-title-container {
-
-            margin-bottom: 80px;
-
+            margin-bottom: 100px;
+            position: relative;
+            z-index: 1;
         }
-
-
-
         .section-title {
-
-            font-size: clamp(4.2rem, 8vw, 7.2rem);
-
-            letter-spacing: 3px;
-
-            display: inline-block;
-
-            background: #000000;
-
-            color: #f4ff00;
-
-            border-bottom: 4px solid #d7df00;
-
-            padding: 5px 25px;
-
-        }
-
-
-
-        [data-theme="dark"] .section-title {
-
-            background: #f4ff00 !important;
-
-            color: #000000 !important;
-
-            border-bottom: 4px solid #f4ff00 !important;
-
-        }
-
-
-
-        /* --- HERO SECTION --- */
-
-        .hero {
-
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            padding: 0;
-
-            min-height: 90vh;
-
-        }
-
-
-
-        .hero-text-col {
-
-            padding: 100px 8vw;
-
-            border-right: var(--border);
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: center;
-
-            background: var(--card-bg);
-
-        }
-
-
-
-        .hero-subtitle {
-
-            font-size: 1.5rem;
-
-            font-weight: 700;
-
+            font-size: clamp(3.5rem, 7vw, 7.5rem);
+            letter-spacing: -1px;
+            line-height: 0.9;
             text-transform: uppercase;
-
-            margin-bottom: 20px;
-
-            letter-spacing: 4px;
-
-            color: var(--text-muted);
-
         }
 
-
-
+        /* --- THE HERO (CHAPTER 00:00) --- */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            padding: 0;
+            min-height: 95vh;
+        }
+        .hero-text-col {
+            padding: 120px 8vw;
+            border-right: var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-subtitle {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 32px;
+            letter-spacing: 6px;
+            color: var(--text-muted);
+        }
         .hero-emblem-layout {
-
             display: flex;
-
-            flex-direction: column;
-
+            align-items: flex-start;
+            gap: 24px;
             margin-bottom: 40px;
-
         }
-
-
-
-        .hero h1 {
-
-            font-size: clamp(6rem, 13vw, 14.4rem);
-
-            line-height: 0.85;
-
-            letter-spacing: 2px;
-
-            margin: 0;
-
-            display: flex;
-
-            flex-direction: column;
-
-        }
-
-
-
         .hero-large-flag-box {
-
-            width: 84px;
-
-            margin-bottom: 20px;
-
-            border: var(--border);
-
-            padding: 5px;
-
-            background: #ffffff;
-
+            width: 48px;
+            border: 1px solid var(--text-main);
+            padding: 3px;
+            background: #fff;
+            margin-top: 12px;
         }
-
-
-
         .hero-large-flag-box img {
-
             width: 100%;
-
-            height: auto;
-
             display: block;
-
         }
-
-
-
+        .hero h1 {
+            font-size: clamp(4.5rem, 10vw, 11rem);
+            line-height: 0.85;
+            letter-spacing: -2px;
+        }
         .hero p {
-
-            font-size: 1.3rem;
-
-            line-height: 1.6;
-
+            font-size: 1.15rem;
+            line-height: 1.8;
             color: var(--text-muted);
-
-            max-width: 650px;
-
-            margin-bottom: 60px;
-
+            max-width: 600px;
+            margin-bottom: 48px;
         }
-
-
+        
+        /* Creator Architecture Metrics Channel Statistics */
+        .channel-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            border-top: var(--border);
+            border-bottom: var(--border);
+            padding: 32px 0;
+            margin-bottom: 48px;
+        }
+        .stat-entry .stat-num {
+            font-family: var(--font-head);
+            font-size: 3.5rem;
+            line-height: 1;
+        }
+        .stat-entry .stat-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
 
         .hero-buttons {
-
             display: flex;
-
-            gap: 20px;
-
+            gap: 24px;
             flex-wrap: wrap;
-
         }
-
-
-
         .btn {
-
-            background: #000000;
-
-            color: #f4ff00;
-
+            background: var(--text-main);
+            color: var(--bg-main);
             border: var(--border);
-
-            padding: 18px 35px; 
-
-            font-family: var(--font-head);
-
-            font-size: 2.15rem; 
-
+            padding: 20px 40px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
             text-decoration: none;
-
             text-transform: uppercase;
-
             letter-spacing: 2px;
-
-            transition: opacity 0.2s ease;
-
+            transition: var(--transition);
             display: inline-flex;
-
             align-items: center;
-
-            gap: 12px;
-
+            gap: 16px;
         }
-
-
-
         .btn:hover {
-
-            opacity: 0.9;
-
+            background: transparent;
+            color: var(--text-main);
+            transform: translateY(-4px);
         }
-
-
-
         .secondary-btn {
-
-            background: var(--card-bg) !important;
-
+            background: transparent !important;
             color: var(--text-main) !important;
-
         }
-
-
-
         .secondary-btn:hover {
-
-            opacity: 0.8;
-
+            background: var(--text-main) !important;
+            color: var(--bg-main) !important;
         }
-
-
 
         .hero-image-col {
-
-            padding: 100px 8vw;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
+            position: relative;
             background: var(--bg-sec);
-
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px;
         }
-
-
-
         .image-box {
-
             width: 100%;
-
-            max-width: 500px;
-
+            max-width: 440px;
             aspect-ratio: 3/4;
-
             border: var(--border);
-
             background: var(--card-bg);
-
-            padding: 10px;
-
-            overflow: hidden;
-
+            padding: 16px;
+            position: relative;
+            transform: rotate(1deg);
+            transition: var(--transition);
         }
-
-
-
+        .image-box:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
         .image-box img {
-
             width: 100%;
-
             height: 100%;
-
             object-fit: cover;
-
             border: var(--border);
-
-            transition: transform 0.4s ease;
-
         }
 
-
-
-        .image-box:hover img {
-
-            transform: scale(1.03);
-
+        /* --- STAGE INTROS (CINEMATIC PACING) --- */
+        .chapter-intro-block {
+            max-width: 800px;
+            margin-bottom: 64px;
+        }
+        .chapter-intro-block p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            font-weight: 300;
         }
 
-
-
-        /* --- CLEAN EDITORIAL JOURNAL VIEWPORT (TABLE REMOVED) --- */
-
+        /* --- CLEAN EDITORIAL JOURNAL VIEWPORT (THE CRITICAL BOOK EXCELLENCE) --- */
         .edu-book-viewport {
-
-            --book-cover-color: #f4d21f;
-
+            --book-cover-color: #e2ec00;
             --paper-base: #faf9f5;       
-
             --book-text: #1a1a1a;        
-
             --book-muted: #6e6e6a;       
-
             
-
-            /* Textures */
-
             --linen-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-
             --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.04'/%3E%3C/svg%3E");
-
-            --book-ambient: rgba(0, 0, 0, 0.05); 
-
-            --book-contact-shadow: rgba(0, 0, 0, 0.15); 
-
-            --spine-color: #d1b110; 
-
             --book-line: rgba(0, 0, 0, 0.07);
 
-
-
-            /* Integrated Clean Layout Background matching site architecture */
-
             background: var(--bg-sec);
-
             width: 100%;
-
             display: flex;
-
             flex-direction: column;
-
             align-items: center;
-
             justify-content: center;
-
-            padding: 100px 0;
-
+            padding: 120px 24px;
             perspective: 3500px;
-
-            border-top: var(--border);
-
-            border-bottom: var(--border);
-
-            transition: background-color 0.3s ease;
-
+            border: var(--border);
+            transition: var(--transition);
         }
-
-
 
         .book-container {
-
             position: relative;
-
             width: 980px;
-
             height: 640px;
-
             transform-style: preserve-3d;
-
-            transform: rotateX(20deg) rotateY(-8deg) rotateZ(1deg);
-
+            transform: rotateX(16deg) rotateY(-6deg) rotateZ(0deg);
             transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-
         }
-
-
-
-        .book-container:hover {
-
-            transform: rotateX(22deg) rotateY(-6deg) rotateZ(1deg);
-
-        }
-
-
-
-        /* Stacked paper edge simulation */
 
         .book-container::after {
-
             content: '';
-
             position: absolute;
-
             right: -10px;
-
             top: 5px;
-
             width: 10px;
-
             height: 98%;
-
             background: repeating-linear-gradient(to bottom, #eae8e1, #eae8e1 1px, #d1cfc7 1px, #d1cfc7 2px);
-
             transform: rotateY(90deg);
-
             transform-origin: left;
-
             box-shadow: inset -2px 0 5px rgba(0,0,0,0.08);
-
             z-index: 0;
-
         }
-
-
 
         .click-zone {
-
             position: absolute;
-
             top: 0;
-
             height: 100%;
-
             width: 50%;
-
             z-index: 100; 
-
             cursor: pointer;
-
             transform: translateZ(60px); 
-
         }
-
         .click-zone-left { left: 0; }
-
         .click-zone-right { right: 0; }
 
-
-
         .book-base-shadows {
-
             position: absolute;
-
             width: 100%;
-
             height: 100%;
-
             border-radius: 6px;
-
             transform: translateZ(-35px) scale(0.98);
-
-            background: rgba(0, 0, 0, 0.15);
-
+            background: rgba(0, 0, 0, 0.12);
             filter: blur(25px);
-
             pointer-events: none;
-
         }
-
-
-
-        [data-theme="dark"] .book-base-shadows {
-
-            background: rgba(0, 0, 0, 0.6);
-
-        }
-
-
 
         .book-spine-core {
-
             position: absolute;
-
             left: calc(50% - 16px);
-
             top: 0.2%;
-
             width: 32px;
-
             height: 99.6%;
-
-            background-color: var(--spine-color);
-
+            background-color: #b8c200;
             background-image: var(--linen-texture);
-
             transform: translateZ(-20px);
-
             border-radius: 12px;
-
             box-shadow: inset 0 0 12px rgba(0,0,0,0.15), 0 0 20px rgba(0,0,0,0.2);
-
         }
-
-
 
         .book-pages-wrapper {
-
             position: absolute;
-
             width: 100%;
-
             height: 100%;
-
             transform-style: preserve-3d;
-
             pointer-events: none; 
-
         }
-
-
 
         .sheet {
-
             position: absolute;
-
             width: 50%;
-
             height: 100%;
-
             right: 0;
-
             top: 0;
-
             transform-origin: left center;
-
             transform-style: preserve-3d;
-
             transition: transform 1.4s cubic-bezier(0.45, 0.05, 0.15, 1);
-
             z-index: 1;
-
         }
-
-
 
         .page-side {
-
             position: absolute;
-
             width: 100%;
-
             height: 100%;
-
             top: 0;
-
             left: 0;
-
             background-color: var(--paper-base);
-
             background-image: var(--paper-texture);
-
             padding: 75px 70px;
-
             display: flex;
-
             flex-direction: column;
-
             -webkit-backface-visibility: hidden;
-
             backface-visibility: hidden;
-
             transform-style: flat; 
-
             overflow: hidden;
-
             pointer-events: auto; 
-
             box-shadow: inset 0 0 40px rgba(0,0,0,0.03);
-
             border: 1px solid rgba(0,0,0,0.05);
-
         }
-
-
-
-        /* --- SPECIFIC RECTANGULAR BLACK BORDER RULE --- */
-
-        /* Targets all regular inner pages, plus the front side of the back cover sheet */
 
         .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-
         .cover-sheet-back .front {
-
-            outline: 2px solid #000000;
-
-            outline-offset: -25px;
-
+            outline: 1.5px solid #000000;
+            outline-offset: -24px;
         }
 
-
-
-        /* Front side faces forward */
-
-        .page-side.front {
-
-            transform: rotateY(0deg) translateZ(1px);
-
-        }
-
-
-
-        /* Back side faces backward */
-
-        .page-side.back {
-
-            transform: rotateY(180deg) translateZ(-1px);
-
-        }
-
-
-
-        /* Dynamic lighting overlays */
+        .page-side.front { transform: rotateY(0deg) translateZ(1px); }
+        .page-side.back { transform: rotateY(180deg) translateZ(-1px); }
 
         .page-side::after {
-
             content: '';
-
             position: absolute;
-
             top: 0; left: 0; width: 100%; height: 100%;
-
-            background: linear-gradient(to left, rgba(0,0,0,0.1) 0%, transparent 40%);
-
+            background: linear-gradient(to left, rgba(0,0,0,0.08) 0%, transparent 40%);
             opacity: 0;
-
             transition: opacity 1.4s ease;
-
             pointer-events: none;
-
             z-index: 20;
-
         }
-
-
-
-        .sheet.flipped .front::after {
-
-            opacity: 1;
-
-        }
-
-
-
+        .sheet.flipped .front::after { opacity: 1; }
         .sheet.flipped .back::after {
-
             background: linear-gradient(to right, rgba(0,0,0,0.05) 0%, transparent 30%);
-
             opacity: 1;
-
         }
-
-
-
-        .sheet:not(.cover-sheet):not(.cover-sheet-back) .front {
-
-            box-shadow: 1px 0 0 #f0eee8, 2px 0 0 #e4e2da, 3px 0 0 #d9d6ce, 4px 0 1px rgba(0,0,0,0.05);
-
-        }
-
-        .sheet:not(.cover-sheet):not(.cover-sheet-back) .back {
-
-            box-shadow: -1px 0 0 #f0eee8, -2px 0 0 #e4e2da, -3px 0 0 #d9d6ce, -4px 0 1px rgba(0,0,0,0.05);
-
-        }
-
-
 
         .page-side.front::before {
-
             content: '';
-
             position: absolute; left: 0; top: 0; width: 70px; height: 100%;
-
-            background: linear-gradient(to right, rgba(0,0,0,0.04), rgba(0,0,0,0.01) 60%, transparent); 
-
-            pointer-events: none;
-
-            z-index: 10;
-
+            background: linear-gradient(to right, rgba(0,0,0,0.03), transparent); 
+            pointer-events: none; z-index: 10;
         }
-
         .page-side.back::before {
-
             content: '';
-
             position: absolute; right: 0; top: 0; width: 70px; height: 100%;
-
-            background: linear-gradient(to left, rgba(0,0,0,0.04), rgba(0,0,0,0.01) 60%, transparent); 
-
-            pointer-events: none;
-
-            z-index: 10;
-
+            background: linear-gradient(to left, rgba(0,0,0,0.03), transparent); 
+            pointer-events: none; z-index: 10;
         }
-
-
 
         .sheet.cover-sheet, .sheet.cover-sheet-back { height: 104%; top: -2%; width: 51%; }
-
-
-
         .sheet.cover-sheet .page-side, .sheet.cover-sheet-back .page-side {
-
             background-color: var(--book-cover-color);
-
             background-image: var(--linen-texture);
-
             box-shadow: inset 0 0 45px rgba(0,0,0,0.06);
-
         }
-
-
-
         .sheet.cover-sheet .front { border-radius: 0 6px 6px 0; }
-
         .sheet.cover-sheet .back { border-radius: 6px 0 0 6px; background-color: var(--paper-base); background-image: var(--paper-texture); }
-
         .sheet.cover-sheet-back .front { border-radius: 0 6px 6px 0; background-color: var(--paper-base); background-image: var(--paper-texture); }
-
         .sheet.cover-sheet-back .back { border-radius: 6px 0 0 6px; }
 
-
-
-        .sheet.cover-sheet .front::after {
-
-            content: '';
-
-            position: absolute; right: -5px; top: 0; width: 5px; height: 100%;
-
-            background: #d4b619; transform-origin: left; transform: rotateY(90deg);
-
-        }
-
-        .sheet.cover-sheet-back .back::after {
-
-            content: '';
-
-            position: absolute; left: -5px; top: 0; width: 5px; height: 100%;
-
-            background: #d4b619; transform-origin: right; transform: rotateY(-90deg);
-
-        }
-
-
-
         .editorial-highlight-label {
-
             display: inline-block;
-
-            background-color: #f4d21f;
-
-            color: #000000;
-
-            font-family: var(--font-head);
-
-            font-size: 1.6rem;
-
-            font-weight: 700;
-
-            letter-spacing: 2px;
-
-            padding: 6px 18px;
-
-            text-transform: uppercase;
-
-            width: fit-content;
-
-            line-height: 1;
-
-            margin-bottom: 30px;
-
-        }
-
-
-
-        .editorial-meta-line {
-
+            background-color: #000;
+            color: #fff;
             font-family: var(--font-body);
-
-            font-size: 0.75rem;
-
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 6px 14px;
             text-transform: uppercase;
-
-            letter-spacing: 2.5px;
-
-            color: var(--book-muted);
-
-            padding-bottom: 12px;
-
-            margin-bottom: 35px;
-
-            width: 100%;
-
-            border-bottom: 1px solid var(--book-line);
-
-            font-weight: 500;
-
+            width: fit-content;
+            margin-bottom: 24px;
         }
-
-
+        .editorial-meta-line {
+            font-family: var(--font-body);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--book-muted);
+            padding-bottom: 12px;
+            margin-bottom: 32px;
+            width: 100%;
+            border-bottom: 1px solid var(--book-line);
+        }
 
         .sheet.cover-sheet .front {
-
             display: flex;
-
             flex-direction: column;
-
             justify-content: space-between; 
-
             align-items: center;
-
             text-align: center;
-
             padding: 80px 40px;
-
         }
-
-
-
-        .cover-title-block {
-
-            margin: auto 0;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-        }
-
-
-
+        .cover-title-block { margin: auto 0; }
         .cover-subtitle-text {
-
-            font-family: var(--font-body);
-
-            font-size: 1.1rem;
-
-            letter-spacing: 4px;
-
-            text-transform: uppercase;
-
-            color: #000000;
-
-            font-weight: 700;
-
-            opacity: 0.8;
-
-        }
-
-
-
-        .cover-main-head {
-
-            font-family: var(--font-head);
-
-            font-size: clamp(4.5rem, 5.5vw, 6.5rem);
-
-            line-height: 0.9;
-
-            margin: 25px 0;
-
-            letter-spacing: 0px;
-
-            color: #000000;
-
-            font-weight: 900;
-
-        }
-
-        
-
-        .cover-bottom-stamp {
-
-            font-family: var(--font-body);
-
             font-size: 0.8rem;
-
-            letter-spacing: 2px;
-
+            letter-spacing: 5px;
             text-transform: uppercase;
-
-            color: #000000;
-
-            font-weight: 600;
-
-            opacity: 0.7;
-
+            color: #000;
+            font-weight: 700;
         }
-
-
+        .cover-main-head {
+            font-family: var(--font-head);
+            font-size: 5rem;
+            line-height: 0.9;
+            margin: 20px 0;
+            color: #000;
+        }
+        .cover-bottom-stamp {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #000;
+            opacity: 0.7;
+        }
 
         .school-logo-frame {
-
-            width: 65px;
-
-            height: 65px;
-
+            width: 56px;
+            height: 56px;
             object-fit: contain;
-
             margin-bottom: 20px;
-
-            filter: grayscale(100%) contrast(130%);
-
-            opacity: 0.85;
-
+            filter: grayscale(100%);
         }
-
-
-
         .year-indicator-tag {
-
-            font-family: var(--font-body);
-
-            font-size: 0.85rem;
-
+            font-size: 0.8rem;
             font-weight: 600;
-
             color: var(--book-muted);
-
-            margin-bottom: 15px;
-
-            letter-spacing: 1.5px;
-
+            margin-bottom: 12px;
         }
-
-
-
         .page-side h3 {
-
             font-family: var(--font-head);
-
-            font-size: 2.8rem;
-
-            line-height: 1.05;
-
-            letter-spacing: 0px;
-
-            margin-bottom: 20px;
-
+            font-size: 2.5rem;
+            line-height: 1;
+            margin-bottom: 16px;
             color: var(--book-text);
-
-            font-weight: 400;
-
         }
-
-
-
         .page-side p {
-
-            font-size: 0.95rem;
-
-            line-height: 1.75;
-
+            font-size: 0.9rem;
+            line-height: 1.7;
             color: var(--book-muted);
-
-            font-weight: 400;
-
-            max-width: 92%;
-
         }
-
-
 
         .minimal-index-list {
-
             display: flex;
-
             flex-direction: column;
-
-            gap: 24px;
-
-            margin-top: 10px;
-
+            gap: 16px;
             width: 100%;
-
         }
-
-        
-
         .index-item {
-
             display: flex;
-
             align-items: center;
-
-            gap: 25px;
-
+            gap: 16px;
             border-bottom: 1px solid var(--book-line);
-
-            padding-bottom: 14px;
-
-            font-family: var(--font-body);
-
+            padding-bottom: 12px;
         }
-
-        
-
         .idx-num {
-
-            font-size: 0.85rem;
-
-            color: #000000;
-
-            background: #f4d21f;
-
-            padding: 2px 8px;
-
+            font-size: 0.75rem;
+            background: #000;
+            color: #fff;
+            padding: 2px 6px;
             font-weight: 700;
-
         }
-
-        
-
         .idx-name {
-
-            font-size: 1.05rem;
-
+            font-size: 0.85rem;
             color: var(--book-text);
-
             font-weight: 600;
-
-            letter-spacing: 0.5px;
-
         }
-
-
 
         .closing-spread-layout {
-
             align-items: center;
-
             justify-content: center;
-
             text-align: center;
-
-            padding: 60px;
-
         }
-
-
-
         .closing-spread-layout h2 {
-
             font-family: var(--font-head);
-
-            font-size: 4.2rem;
-
-            letter-spacing: 1px;
-
-            margin-bottom: 20px;
-
-            line-height: 1;
-
+            font-size: 4rem;
+            margin-bottom: 16px;
             color: var(--book-text);
-
         }
-
-
-
-        .minimal-signature-mark {
-
-            margin-top: 35px;
-
-            font-family: var(--font-body);
-
-            font-size: 1.5rem;
-
-            font-weight: 700;
-
-            letter-spacing: 2px;
-
-            color: var(--book-text);
-
-        }
-
-
-
         .open-again-btn {
-
-            margin-top: 40px;
-
-            padding: 12px 28px;
-
-            background: #000000;
-
-            color: #f4d21f;
-
+            margin-top: 32px;
+            padding: 12px 24px;
+            background: #000;
+            color: #fff;
             border: none;
-
             font-family: var(--font-body);
-
-            font-size: 0.85rem;
-
+            font-size: 0.8rem;
             letter-spacing: 2px;
-
             cursor: pointer;
-
-            transition: 0.2s ease;
-
+            transition: var(--transition);
         }
-
-
+        .open-again-btn:hover {
+            opacity: 0.8;
+        }
 
         .stable-page-number {
-
-            font-family: var(--font-body);
-
-            font-size: 0.75rem;
-
+            font-size: 0.7rem;
             color: var(--book-muted);
-
-            text-transform: uppercase;
-
             letter-spacing: 2px;
-
             position: absolute;
-
-            bottom: 45px;
-
-            user-select: none;
-
-            font-weight: 600;
-
+            bottom: 40px;
         }
-
-
-
         .sheet .front .stable-page-number { right: 70px; }
-
         .sheet .back .stable-page-number { left: 70px; }
 
-
-
         .book-hud-controls {
-
             display: flex;
-
             flex-direction: column;
-
-            justify-content: center;
-
             align-items: center;
-
-            gap: 20px;
-
+            gap: 16px;
             margin-top: 40px;
-
-            width: 100%;
-
         }
-
-
-
         .hud-instruction {
-
-            font-family: var(--font-body);
-
-            font-size: 0.85rem;
-
-            font-weight: 700;
-
+            font-size: 0.75rem;
+            font-weight: 600;
             letter-spacing: 2px;
-
-            text-transform: uppercase;
-
             color: var(--text-muted);
-
-            opacity: 0.8;
-
-            pointer-events: none;
-
         }
-
-
-
         .hud-arrow-row {
-
             display: flex;
-
             align-items: center;
-
-            gap: 25px;
-
+            gap: 24px;
         }
-
-
-
         .hud-arrow-btn {
-
-            width: 75px;
-
-            height: 46px;
-
+            width: 64px;
+            height: 44px;
             background: var(--card-bg);
-
             border: var(--border);
-
-            color: var(--text-main); 
-
-            font-size: 1.1rem;
-
-            cursor: pointer;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            transition: opacity 0.25s ease;
-
-        }
-
-
-
-        .hud-arrow-btn:hover { 
-
-            opacity: 0.7;
-
-        }
-
-        
-
-        .hud-status-text {
-
-            font-family: var(--font-body);
-
-            font-size: 0.85rem;
-
-            font-weight: 700;
-
-            color: var(--text-main); 
-
-            letter-spacing: 2px;
-
-            text-transform: uppercase;
-
-        }
-
-
-
-        /* --- SKILLS SECTION --- */
-
-        .skills-grid-container {
-
-            display: grid;
-
-            grid-template-columns: repeat(4, 1fr);
-
-            gap: 30px;
-
-            max-width: 1200px;
-
-            margin: 0 auto;
-
-        }
-
-
-
-        .skill-item-card {
-
-            border: var(--border);
-
-            background: var(--card-bg);
-
-            padding: 40px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 25px;
-
-            aspect-ratio: 1;
-
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-
-        }
-
-
-
-        .skill-item-card:hover {
-
-            border-color: var(--text-muted);
-
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-
-        }
-
-
-
-        .skill-item-card h3 {
-
-            font-size: 3rem;
-
             color: var(--text-main);
-
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .hud-arrow-btn:hover {
+            background: var(--text-main);
+            color: var(--bg-main);
+        }
+        .hud-status-text {
+            font-size: 0.8rem;
+            font-weight: 600;
             letter-spacing: 2px;
-
         }
 
-
-
-        .skill-icon-wrap {
-
-            width: 96px;
-
-            height: 96px; 
-
-            transition: filter 0.3s ease;
-
-        }
-
-        
-
-        .skill-item-card:hover .skill-icon-wrap {
-
-            filter: brightness(1.05);
-
-        }
-
-
-
-        .skill-icon-wrap img {
-
-            width: 100%;
-
-            height: 100%;
-
-            object-fit: contain;
-
-        }
-
-
-
-        /* --- PROJECTS SECTION --- */
-
-        #projects {
-
-            background: var(--bg-sec);
-
-            overflow: hidden;
-
-            padding: 140px 0;
-
-        }
-
-
-
-        #projects .section-title-container {
-
-            padding: 0 8vw;
-
-        }
-
-
-
-        .projects-outer-viewport {
-
-            width: 100%;
-
+        /* --- CORE SKILLS PROFILE (CHAPTER 05:47) --- */
+        .skills-grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
             position: relative;
-
-            cursor: grab;
-
-            padding: 0 8vw 40px 8vw;
-
+            z-index: 1;
         }
-
-
-
-        .projects-outer-viewport:active {
-
-            cursor: grabbing;
-
-        }
-
-        
-
-        .projects-grid {
-
-            display: flex;
-
-            flex-direction: row;
-
-            flex-wrap: nowrap;
-
-            gap: 40px;
-
-            width: max-content;
-
-            will-change: transform;
-
-        }
-
-        
-
-        .project-card {
-
-            width: 400px;
-
-            flex-shrink: 0;
-
-            background: var(--card-bg);
-
+        .skill-item-card {
             border: var(--border);
-
+            background: var(--card-bg);
+            padding: 48px 32px;
             display: flex;
-
             flex-direction: column;
-
-            overflow: hidden;
-
+            align-items: center;
+            text-align: center;
+            gap: 24px;
+            position: relative;
+            transition: var(--transition);
         }
-
-
-
-        .project-card img {
-
+        .skill-item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.04);
+            border-color: #ff2a2a;
+        }
+        .skill-item-card h3 {
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+        .skill-icon-wrap {
+            width: 64px;
+            height: 64px;
+            transition: var(--transition);
+        }
+        .skill-item-card:hover .skill-icon-wrap {
+            transform: scale(1.1);
+        }
+        .skill-icon-wrap img {
             width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .skill-card-meta {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+            width: 100%;
+        }
 
-            height: 480px; 
+        /* --- CREATOR THUMBNAIL PROJECTS (CHAPTER 08:32) --- */
+        #projects {
+            background: var(--bg-sec);
+            padding: 160px 0;
+        }
+        #projects .section-title-container {
+            padding: 0 8vw;
+        }
+        .projects-outer-viewport {
+            width: 100%;
+            position: relative;
+            cursor: grab;
+            padding: 0 8vw 40px 8vw;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .projects-outer-viewport::-webkit-scrollbar {
+            display: none;
+        }
+        .projects-grid {
+            display: flex;
+            gap: 32px;
+            width: max-content;
+        }
 
-            object-fit: cover;
-
+        /* Pinned Trailer / Featured Master Asset Concept Integration */
+        .project-card {
+            width: 420px;
+            background: var(--card-bg);
+            border: var(--border);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+        }
+        .project-card.featured-asset {
+            width: 580px;
+            border-color: #ff2a2a;
+        }
+        .project-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: #ff2a2a;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            letter-spacing: 1.5px;
+            z-index: 2;
+        }
+        .project-card.featured-asset .project-badge {
+            background: var(--text-main);
+            color: var(--bg-main);
+        }
+        .project-image-container {
+            width: 100%;
+            height: 480px;
+            position: relative;
+            overflow: hidden;
             border-bottom: var(--border);
-
-            transition: transform 0.4s ease;
-
         }
-
-
-
-        .project-card:hover img {
-
-            transform: scale(1.02);
-
+        .project-card.featured-asset .project-image-container {
+            height: 520px;
         }
-
-
+        .project-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .project-card:hover .project-image-container img {
+            transform: scale(1.05);
+        }
+        .project-hover-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        .project-card:hover .project-hover-overlay {
+            opacity: 1;
+        }
+        .play-indicator {
+            width: 64px;
+            height: 64px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.2rem;
+            transform: scale(0.8);
+            transition: var(--transition);
+        }
+        .project-card:hover .play-indicator {
+            transform: scale(1);
+        }
 
         .project-content {
-
-            padding: 30px;
-
-            background: var(--card-bg);
-
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-
-
-
-        .project-content h3 {
-
-            font-size: 3.35rem;
-
-            margin-bottom: 15px;
-
-            color: var(--text-main);
-
+        .project-meta-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
             letter-spacing: 1px;
-
-        }
-
-
-
-        .project-content p {
-
-            font-size: 1.15rem;
-
-            line-height: 1.6;
-
             color: var(--text-muted);
-
         }
-
-
+        .project-content h3 {
+            font-size: 2.6rem;
+            line-height: 1;
+            letter-spacing: 0.5px;
+        }
+        .project-content p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
 
         .slider-controls-wrapper {
-
-            padding: 0 8vw;
-
+            padding: 40px 8vw 0 8vw;
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
-            border-top: var(--border);
-
-            padding-top: 30px;
-
-            margin-top: 20px;
-
         }
-
-
-
         .slider-instruction {
-
-            font-size: 1.2rem;
-
-            font-weight: 700;
-
+            font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
-
-            color: var(--text-main); 
-
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
         }
-
-
-
         .slider-arrows {
-
             display: flex;
-
-            gap: 15px;
-
+            gap: 16px;
         }
-
-
-
         .slider-arrow-btn {
-
-            width: 60px;
-
-            height: 48px; 
-
+            width: 64px;
+            height: 48px;
             background: var(--card-bg);
-
             border: var(--border);
-
             color: var(--text-main);
-
-            font-size: 1.8rem;
-
+            font-size: 1.2rem;
             cursor: pointer;
-
-            transition: opacity 0.2s ease;
-
+            transition: var(--transition);
         }
-
-
-
         .slider-arrow-btn:hover {
-
-            opacity: 0.7;
-
+            background: var(--text-main);
+            color: var(--bg-main);
         }
 
-
-
-        /* --- CONTACT SECTION --- */
-
-        .contact-wrapper {
-
-            display: grid;
-
-            grid-template-columns: 1fr 1fr;
-
-            border: var(--border);
-
-            background: var(--card-bg);
-
-        }
-
-
-
-        .contact-card {
-
-            padding: 60px;
-
-            border-right: var(--border);
-
-            display: flex;
-
-            flex-direction: column;
-
-            justify-content: space-between;
-
-        }
-
-
-
-        .find-me-btn {
-
-            display: inline-block;
-
-            font-family: var(--font-head);
-
-            font-size: 3.6rem; 
-
-            text-transform: uppercase;
-
-            color: var(--text-main);
-
-            margin-bottom: 40px;
-
-            letter-spacing: 2px;
-
-        }
-
-
-
-        .contact-info {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 25px;
-
-        }
-
-
-
-        .contact-info a {
-
-            text-decoration: none;
-
-            color: var(--text-main);
-
-            font-size: 1.3rem; 
-
-            font-weight: 700;
-
-            display: flex;
-
+        /* Immersive Premium Lightbox Viewer Configuration */
+        #cinematic-lightbox {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 99999;
+            display: none;
             align-items: center;
-
-            gap: 15px;
-
-            border: var(--border);
-
-            padding: 16px 20px; 
-
-            background: var(--bg-sec);
-
-            transition: opacity 0.2s ease;
-
-        }
-
-
-
-        .contact-info a:hover {
-
-            opacity: 0.8;
-
-        }
-
-
-
-        .flag-emoji {
-
-            font-size: 1.8rem;
-
-        }
-
-
-
-        .socials {
-
-            display: flex;
-
-            gap: 15px;
-
-            margin-top: 40px;
-
-            flex-wrap: wrap;
-
-        }
-
-        
-
-        .socials a {
-
-            width: 70px;
-
-            height: 70px;
-
-            display: flex;
-
-            align-items: center;
-
             justify-content: center;
+            padding: 40px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        #cinematic-lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-wrapper {
+            max-width: 90vh;
+            width: 100%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        #lightbox-img {
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border: 2px solid #222;
+        }
+        .lightbox-meta {
+            color: #fff;
+            font-family: var(--font-body);
+        }
+        .lightbox-meta h4 {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .lightbox-meta p {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+        .close-lightbox {
+            position: absolute;
+            top: 40px; right: 40px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+        }
 
+        /* --- CONNECT & FORM CONCLUSION (CHAPTER 12:09) --- */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             border: var(--border);
-
-            background: var(--bg-main);
-
-            color: var(--text-main);
-
-            font-size: 1.8rem;
-
+            background: var(--card-bg);
+            position: relative;
+            z-index: 1;
+        }
+        .contact-card {
+            padding: 80px 64px;
+            border-right: var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .find-me-btn {
+            font-family: var(--font-head);
+            font-size: 4rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1;
+            margin-bottom: 48px;
+        }
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .contact-info a {
             text-decoration: none;
-
-            transition: opacity 0.2s ease;
-
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border: var(--border);
+            padding: 20px;
+            background: var(--bg-sec);
+            transition: var(--transition);
         }
-
-
-
+        .contact-info a:hover {
+            transform: translateX(8px);
+            border-color: #ff2a2a;
+        }
+        .socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 48px;
+            flex-wrap: wrap;
+        }
+        .socials a {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--border);
+            background: var(--bg-main);
+            color: var(--text-main);
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
         .socials a:hover {
-
-            opacity: 0.8;
-
+            background: var(--text-main);
+            color: var(--bg-main);
+            transform: translateY(-4px);
         }
-
-
 
         .contact-form {
-
-            padding: 60px;
-
+            padding: 80px 64px;
             display: flex;
-
             flex-direction: column;
-
-            gap: 20px;
-
+            gap: 24px;
             background: var(--bg-main);
-
         }
-
-
-
         .form-row {
-
             display: grid;
-
             grid-template-columns: 1fr 1fr;
-
-            gap: 20px;
-
+            gap: 24px;
         }
-
-
-
         .contact-form input, .contact-form textarea {
-
             width: 100%;
-
-            padding: 20px; 
-
+            padding: 20px;
             border: var(--border);
-
             background: var(--card-bg);
-
             color: var(--text-main);
-
-            font-size: 1.2rem; 
-
+            font-size: 0.9rem;
             font-family: var(--font-body);
-
             outline: none;
-
-            transition: border-color 0.2s ease;
-
+            transition: var(--transition);
         }
-
-
-
         .contact-form textarea {
-
-            min-height: 200px;
-
+            min-height: 180px;
             resize: none;
-
         }
-
-
-
         .contact-form input:focus, .contact-form textarea:focus {
-
-            border-color: var(--text-muted);
-
+            border-color: #ff2a2a;
         }
-
-        
-
-        .contact-form input::placeholder, .contact-form textarea::placeholder {
-
-            color: var(--text-muted);
-
-        }
-
-
-
         .send-btn {
-
-            padding: 18px;
-
-            background: #000000;
-
+            padding: 20px;
+            background: var(--text-main);
             border: var(--border);
-
-            color: #f4ff00;
-
-            font-family: var(--font-head);
-
-            font-size: 2.65rem; 
-
-            cursor: pointer;
-
-            text-transform: uppercase;
-
-            letter-spacing: 2px;
-
-            transition: opacity 0.2s ease;
-
-        }
-
-
-
-        .send-btn:hover {
-
-            opacity: 0.9;
-
-        }
-
-
-
-        /* --- FOOTER --- */
-
-        footer {
-
-            padding: 40px;
-
-            text-align: center;
-
-            font-size: 1.1rem; 
-
+            color: var(--bg-main);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
             font-weight: 700;
-
-            border-top: var(--border);
-
-            background: var(--card-bg);
-
+            cursor: pointer;
             text-transform: uppercase;
-
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+        .send-btn:hover {
+            background: transparent;
+            color: var(--text-main);
         }
 
+        /* --- THE END SCREEN CREDITS --- */
+        footer {
+            padding: 80px 40px;
+            background: var(--card-bg);
+            text-align: center;
+            border-top: var(--border);
+            position: relative;
+        }
+        .footer-credits-title {
+            font-family: var(--font-head);
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .footer-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+        .copyright-line {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-
-        /* --- BREAKPOINTS & TABLET --- */
-
+        /* Responsive Framing Architecture */
         @media(max-width: 1200px) {
-
             .hero { grid-template-columns: 1fr; }
-
-            .hero-text-col { border-right: none; border-bottom: var(--border); align-items: center; text-align: center; }
-
-            .hero-emblem-layout { align-items: center; }
-
-            .hero-buttons { justify-content: center; }
-
-            
-
+            .hero-text-col { border-right: none; border-bottom: var(--border); }
             .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
-
             .contact-wrapper { grid-template-columns: 1fr; }
-
             .contact-card { border-right: none; border-bottom: var(--border); }
-
-
-
-            .book-container { width: 750px; height: 500px; }
-
-            .page-side { padding: 40px 35px; }
-
+            .book-container { width: 740px; height: 500px; }
+            .page-side { padding: 48px 40px; }
             .cover-main-head { font-size: 3.8rem; }
-
-            .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-
-            .cover-sheet-back .front { outline-offset: -15px; }
-
+            .project-card.featured-asset { width: 420px; }
+            .project-card.featured-asset .project-image-container { height: 480px; }
         }
-
-
-
-        /* --- MOBILE RESPONSIVENESS FIXES --- */
 
         @media(max-width: 768px) {
-
             nav { display: none; }
-
             .side-floating-nav { display: none; }
-
-            
-
-            .logo { font-size: 1.3rem; padding: 15px 20px; }
-
-            section { padding: 60px 5vw; }
-
-            
-
-            .section-title { font-size: 3.5rem; padding: 5px 15px; }
-
-            .hero h1 { font-size: 4.8rem; } 
-
-            .hero p { font-size: 1.1rem; }
-
-            .hero-text-col, .hero-image-col { padding: 60px 5vw; }
-
-            .btn { padding: 15px 25px; font-size: 1.5rem; }
-
-
-
-            .edu-book-viewport { perspective: none; padding-top: 40px; }
-
-            .book-container { width: 100%; height: auto; transform: none !important; transform-style: flat; }
-
-            .book-container:hover { transform: none !important; }
-
-            .book-container::after { display: none; }
-
-            .book-base-shadows { display: none; }
-
-            .book-pages-wrapper { position: relative; width: 100%; height: auto; display: flex; flex-direction: column; gap: 24px; }
-
-            
-
-            .sheet { position: relative; width: 100%; height: auto; left: auto !important; right: auto !important; transform: none !important; transform-style: flat; display: flex; flex-direction: column; opacity: 1 !important; visibility: visible !important; }
-
-            .page-side { position: relative; width: 100%; height: auto; transform: none !important; backface-visibility: visible; padding: 40px 20px; border: var(--border) !important; border-radius: 4px !important; box-shadow: none !important; }
-
-            .page-side.back { display: flex; margin-top: -1px; }
-
-            .page-side::before, .page-side::after { display: none !important; }
-
-            
-
-            .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-
-            .cover-sheet-back .front { outline-offset: -12px; }
-
-
-
-            .stable-page-number { position: relative; bottom: auto; left: auto !important; right: auto !important; margin-top: 30px; display: block; }
-
-            .book-hud-controls { display: none; }
-
-            .book-spine-core { display: none; }
-
-            .click-zone { display: none; }
-
-            
-
-            .skills-grid-container { grid-template-columns: 1fr; gap: 20px; }
-
-            .skill-item-card { padding: 25px; }
-
-            .project-card { width: 80vw; } 
-
-            .project-card img { height: 350px; }
-
-            .project-content h3 { font-size: 2.5rem; }
-
-            
-
-            .slider-controls-wrapper { flex-direction: column; gap: 20px; text-align: center; padding: 0 5vw; }
-
-            
-
+            section { padding: 80px 6vw; }
+            .hero-text-col, .hero-image-col { padding: 60px 6vw; }
+            .skills-grid-container { grid-template-columns: 1fr; }
+            .channel-stats-row { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .contact-card, .contact-form { padding: 48px 24px; }
             .form-row { grid-template-columns: 1fr; }
 
-            .contact-card, .contact-form { padding: 30px 20px; } 
-
-            .find-me-btn { font-size: 2.8rem; margin-bottom: 25px; }
-
-            .contact-info a { font-size: 1rem; padding: 12px 15px; word-break: break-all; }
-
-            .contact-form input, .contact-form textarea { padding: 15px; font-size: 1rem; }
-
-            .send-btn { font-size: 2rem; padding: 15px; }
-
+            /* Adaptive Non-destructive mobile arrangement for artifact book */
+            .edu-book-viewport { perspective: none; padding: 40px 12px; }
+            .book-container { width: 100%; height: auto; transform: none !important; }
+            .book-container::after, .book-base-shadows, .book-spine-core, .click-zone { display: none; }
+            .book-pages-wrapper { position: relative; width: 100%; display: flex; flex-direction: column; gap: 32px; }
+            .sheet { position: relative; width: 100%; height: auto; transform: none !important; display: flex; flex-direction: column; visibility: visible !important; }
+            .page-side { position: relative; width: 100%; height: auto; transform: none !important; padding: 40px 24px; border: var(--border) !important; border-radius: 4px !important; box-shadow: none !important; }
+            .page-side.back { margin-top: -1px; }
+            .page-side::before, .page-side::after { display: none !important; }
+            .book-hud-controls { display: none; }
+            .stable-page-number { position: relative; bottom: auto; left: auto !important; right: auto !important; margin-top: 24px; display: block; }
         }
-
     </style>
-
 </head>
-
-
-
 <body>
 
+    <!-- Context Cursor Element -->
+    <div id="custom-cursor"></div>
 
-
-    <div class="side-floating-nav">
-
-        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn nav-mail" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-
-        <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn nav-linkedin" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-
-        <a href="https://github.com/therealalok" class="side-nav-btn nav-github" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
-
-        <a href="tel:+9779843538473" class="side-nav-btn nav-phone" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
-
+    <!-- Watch Scrubber System -->
+    <div id="scrub-progress-container">
+        <div id="scrub-progress-bar"></div>
     </div>
 
+    <!-- Active Structural Metabar -->
+    <div id="now-playing-ticker">
+        <div class="live-dot"></div>
+        <span id="ticker-ctx">CHAPTER 00:00 // INTRO</span>
+    </div>
 
+    <div class="side-floating-nav">
+        <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Email Address"><i class="fa-regular fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://github.com/therealalok" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile"><i class="fab fa-github"></i></a>
+        <a href="tel:+9779843538473" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Phone Line"><i class="fa-solid fa-phone"></i></a>
+    </div>
 
     <header>
-
         <div class="logo">AL<span>OK.</span></div>
-
         <div class="nav-container">
-
             <nav>
-
-                <a href="#home">Home</a>
-
-                <a href="#education">Education</a>
-
-                <a href="#skills">Skills</a>
-
-                <a href="#projects">Projects</a>
-
-                <a href="#contact">Contact</a>
-
+                <a href="#home" class="nav-link active" data-chapter="00:00 INTRODUCTION">00:00 HOME</a>
+                <a href="#education" class="nav-link" data-chapter="02:18 EDUCATION">02:18 EDUCATION</a>
+                <a href="#skills" class="nav-link" data-chapter="05:47 SKILLS">05:47 SKILLS</a>
+                <a href="#projects" class="nav-link" data-chapter="08:32 PROJECTS">08:32 PROJECTS</a>
+                <a href="#contact" class="nav-link" data-chapter="12:09 CONTACT">12:09 CONTACT</a>
             </nav>
-
-            <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">
-
+            <button class="theme-switch-btn" id="theme-toggle" aria-label="Change Visual State">
                 <i class="fa-solid fa-moon"></i>
-
             </button>
-
         </div>
-
     </header>
 
-
-
+    <!-- CHAPTER 00:00: INTRODUCTION ARCHITECTURE -->
     <section class="hero" id="home">
-
+        <div class="backdrop-text" style="top: 10%; left: -5%;">ALOK SHARMA</div>
         <div class="hero-text-col">
-
-            <div class="hero-subtitle">THIS IS</div>
-
+            <div class="chapter-timestamp"><i class="fa-solid fa-circle-play"></i> CHAPTER 00:00 // ORIGINAL INTRODUCTION</div>
+            <div class="hero-subtitle">ARCHIVE CHRONICLES</div>
             <div class="hero-emblem-layout">
-
                 <div class="hero-large-flag-box">
-
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
-
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Nepal Origin">
                 </div>
-
                 <h1>ALOK<br>SHARMA</h1>
-
             </div>
-
             <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+            
+            <!-- Creator Analytical Real-Time Channel Statistics -->
+            <div class="channel-stats-row">
+                <div class="stat-entry">
+                    <div class="stat-num">11</div>
+                    <div class="stat-label">ARCHIVE POSTERS</div>
+                </div>
+                <div class="stat-entry">
+                    <div class="stat-num">04</div>
+                    <div class="stat-label">CORE SKILLS</div>
+                </div>
+                <div class="stat-entry">
+                    <div class="stat-num">04</div>
+                    <div class="stat-label">SEMESTER ENGAGEMENT</div>
+                </div>
+                <div class="stat-entry">
+                    <div class="stat-num">03</div>
+                    <div class="stat-label">ACADEMIC STAGES</div>
+                </div>
+            </div>
 
             <div class="hero-buttons">
-
-                <a href="#projects" class="btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-
-                <a href="#contact" class="btn secondary-btn">Let's Connect</a>
-
+                <a href="#projects" class="btn cursor-trigger-view">EXPLORE POSTERS <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="#contact" class="btn secondary-btn">ESTABLISH CONNECTION</a>
             </div>
-
         </div>
-
         <div class="hero-image-col">
-
             <div class="image-box">
-
-                <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
-
+                <img src="alokk.jpeg" alt="Alok Sharma Portrait Image File" id="hero-img-element">
             </div>
-
         </div>
-
     </section>
 
-
-
+    <!-- CHAPTER 02:18: EDUCATION EXPERIENTIAL ARTIFACT -->
     <section id="education">
-
+        <div class="backdrop-text" style="bottom: 5%; right: -2%;">LEARNING RECORD</div>
+        <div class="chapter-timestamp"><i class="fa-solid fa-book-open"></i> CHAPTER 02:18 // PERSISTENT ARTIFACT COVERAGE</div>
         <div class="section-title-container">
-
-            <h2 class="section-title">Education Journey</h2>
-
+            <h2 class="section-title">EDUCATION<br>JOURNEY</h2>
         </div>
 
+        <div class="chapter-intro-block">
+            <p>The authentic structural pages that shaped the logical framework and analytical parameters of my creative production system.</p>
+        </div>
         
-
+        <!-- Intact Education Artifact Architecture -->
         <div class="edu-book-viewport">
-
             <div class="book-container" id="luxury-journal">
-
                 <div class="book-base-shadows"></div>
-
                 <div class="book-spine-core"></div>
-
                 
-
                 <div class="click-zone click-zone-left" id="zone-left"></div>
-
                 <div class="click-zone click-zone-right" id="zone-right"></div>
-
-
 
                 <div class="book-pages-wrapper">
 
-
-
                     <div class="sheet cover-sheet" id="sheet-1">
-
                         <div class="page-side front">
-
                             <div class="cover-subtitle-text">ALOK SHARMA'S</div>
-
                             <div class="cover-title-block">
-
                                 <h2 class="cover-main-head">EDUCATIONAL<br>JOURNEY</h2>
-
                             </div>
-
-                            <div class="cover-bottom-stamp">ACADEMIC STATUS TILL TODAY. </div>
-
+                            <div class="cover-bottom-stamp">ACADEMIC STATUS TILL TODAY.</div>
                             <div class="stable-page-number">C-01</div>
-
                         </div>
-
                         
-
                         <div class="page-side back">
-
                             <div class="editorial-meta-line">TABLE OF CONTENTS</div>
-
                             <div class="editorial-highlight-label">CHAPTERS</div>
-
                             <div class="minimal-index-list">
-
                                 <div class="index-item">
-
                                     <span class="idx-num">01</span> 
-
                                     <span class="idx-name">TILL SECONDARY LEVEL</span>
-
                                 </div>
-
                                 <div class="index-item">
-
                                     <span class="idx-num">02</span> 
-
                                     <span class="idx-name">HIGHER SECONDARY LEVEL</span>
-
                                 </div>
-
                                 <div class="index-item">
-
                                     <span class="idx-num">03</span> 
-
                                     <span class="idx-name">UNDERGRADUATE LEVEL</span>
-
                                 </div>
-
                             </div>
-
                             <div class="stable-page-number">PAGE 01</div>
-
                         </div>
-
                     </div>
-
-
 
                     <div class="sheet" id="sheet-2">
-
                         <div class="page-side front">
-
                             <div class="editorial-meta-line">FOUNDATION / SEC 01</div>
-
                             <div class="editorial-highlight-label">TILL SECONDARY LEVEL 01</div>
-
-                            <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="school-logo-frame">
-
+                            <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem Mark" class="school-logo-frame">
                             <div class="year-indicator-tag">[ TIMELINE: 2010 — 2022 ]</div>
-
                             <h3>Mahakavi Devkota Memorial Secondary School</h3>
-
                             <div class="stable-page-number">PAGE 02</div>
-
                         </div>
-
                         <div class="page-side back">
-
-                            <div class="editorial-meta-line">SCHOLASTIC RESULTS </div>
-
+                            <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
                             <div class="editorial-highlight-label">SEE</div>
-
                             <h3 style="font-size: 2rem; margin-top: 10px;">Secondary Education Examination (SEE)</h3>
-
-                            <p style="margin-bottom: 25px;"> Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
-
-                            <div style="font-family: var(--font-body); font-size: 1rem; font-weight: 700; border-left: 3px solid #f4d21f; padding-left: 15px; color: var(--book-text);">
-
-
-
-                            </div>
-
+                            <p style="margin-bottom: 25px;">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
                             <div class="stable-page-number">PAGE 03</div>
-
                         </div>
-
                     </div>
 
-
-
                     <div class="sheet" id="sheet-3">
-
                         <div class="page-side front">
-
                             <div class="editorial-meta-line">INTERMEDIATE LEVEL / SEC 02</div>
 
                             <div class="editorial-highlight-label">HIGHER SECONDARY LEVEL 02</div>
-
-                            <img src="ria-removebg-preview.png" alt="RIA Emblem" class="school-logo-frame">
-
+                            <img src="ria-removebg-preview.png" alt="RIA Emblem Mark" class="school-logo-frame">
                             <div class="year-indicator-tag">[ TIMELINE: 2022 — 2024 ]</div>
-
                             <h3>Reliance International Academy</h3>
-
                             <div class="stable-page-number">PAGE 04</div>
-
                         </div>
-
                         <div class="page-side back">
-
-                            <div class="editorial-meta-line">SCHOLASTIC RESULTS </div>
-
+                            <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
                             <div class="editorial-highlight-label">SLC</div>
-
                             <h3 style="font-size: 2rem; margin-top: 10px;">+2 Higher Secondary Science</h3>
-
                             <p style="margin-bottom: 25px;">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
-
-                            <div style="font-family: var(--font-body); font-size: 1rem; font-weight: 700; border-left: 3px solid #f4d21f; padding-left: 15px; color: var(--book-text);">
-
-                                
-
-                            </div>
-
                             <div class="stable-page-number">PAGE 05</div>
-
                         </div>
-
                     </div>
-
-
 
                     <div class="sheet cover-sheet-back" id="sheet-4">
-
                         <div class="page-side front">
-
                             <div class="editorial-meta-line">HIGHER LEVEL / SEC 03</div>
-
                             <div class="editorial-highlight-label">UNDERGRADUATE LEVEL 03</div>
-
-                            <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="school-logo-frame">
-
+                            <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem Mark" class="school-logo-frame">
                             <div class="year-indicator-tag">[ TIMELINE: 2024 — PRESENT ]</div>
-
                             <h3>Amrit Science Campus (T.U.)</h3>
-
                             <p>Currently pursuing B.Sc.CSIT.</p>
-
                             <div class="stable-page-number">PAGE 06</div>
-
                         </div>
-
                         <div class="page-side back closing-spread-layout">
-
-            
-
                             <h2>THIS MUCH<br>TILL NOW.</h2>
-
                             <p style="font-size: 0.8rem; letter-spacing: 2px;">DOCUMENT COMPLETION</p>
-
-                            <div class="minimal-signature-mark">ALOK.</div>
-
-                            
-
+                            <div style="margin-top: 35px; font-family: var(--font-body); font-size: 1.5rem; font-weight: 700; letter-spacing: 2px; color: var(--book-text);">ALOK.</div>
                             <button class="open-again-btn" id="open-again-btn">OPEN AGAIN</button>
-
                             <div class="stable-page-number">C-02</div>
-
                         </div>
-
                     </div>
 
-
-
                 </div>
-
             </div>
-
-
 
             <div class="book-hud-controls">
-
-                <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS</div>
-
+                <div class="hud-instruction">ENGAGE CORNERS OR ARCHIVE HUD KEYS</div>
                 <div class="hud-arrow-row">
-
-                    <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
-
+                    <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Spread Backward"><i class="fa-solid fa-arrow-left"></i></button>
                     <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 5</div>
-
-                    <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
-
+                    <button class="hud-arrow-btn" id="book-next" aria-label="Turn Spread Forward"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
-
             </div>
-
         </div>
-
     </section>
 
-
-
+    <!-- CHAPTER 05:47: CORE CAPABILITIES MATRIX -->
     <section id="skills">
-
+        <div class="backdrop-text" style="top: -5%; left: 10%;">PRODUCTION ENGINE</div>
+        <div class="chapter-timestamp"><i class="fa-solid fa-wand-magic-sparkles"></i> CHAPTER 05:47 // RECOGNIZED CAPABILITIES</div>
         <div class="section-title-container">
-
-            <h2 class="section-title">Core Skills</h2>
-
+            <h2 class="section-title">CORE SKILLS</h2>
         </div>
 
         <div class="skills-grid-container">
-
-            <div class="skill-item-card skill-html">
-
+            <div class="skill-item-card">
+                <div class="project-badge" style="top:12px; left:12px; background:#000;">FRONTEND</div>
                 <div class="skill-icon-wrap">
-
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5">
-
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5 Specification Asset">
                 </div>
-
                 <h3>HTML</h3>
-
+                <div class="skill-card-meta">MARKUP / METADATA STRUCTURE</div>
             </div>
-
-            <div class="skill-item-card skill-css">
-
+            <div class="skill-item-card">
+                <div class="project-badge" style="top:12px; left:12px; background:#000;">FRONTEND</div>
                 <div class="skill-icon-wrap">
-
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3">
-
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3 Layout Asset">
                 </div>
-
                 <h3>CSS</h3>
-
+                <div class="skill-card-meta">VISUAL GEOMETRY STYLE ARCHITECTURE</div>
             </div>
-
-            <div class="skill-item-card skill-python">
-
+            <div class="skill-item-card">
+                <div class="project-badge" style="top:12px; left:12px; background:#000;">LOGIC</div>
                 <div class="skill-icon-wrap">
-
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
-
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python Language Asset">
                 </div>
-
-                <h3>Python</h3>
-
+                <h3>PYTHON</h3>
+                <div class="skill-card-meta">ALGORITHMIC DATA MANIPULATION</div>
             </div>
-
-            <div class="skill-item-card skill-photoshop">
-
+            <div class="skill-item-card">
+                <div class="project-badge" style="top:12px; left:12px; background:#000;">CREATIVE</div>
                 <div class="skill-icon-wrap">
-
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop">
-
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Adobe Photoshop Manifest Asset">
                 </div>
-
-                <h3>Photoshop</h3>
-
+                <h3>PHOTOSHOP</h3>
+                <div class="skill-card-meta">EDITORIAL GRAPHIC RASTER LAB</div>
             </div>
-
         </div>
-
     </section>
 
-
-
+    <!-- CHAPTER 08:32: THE PREMIUM VISUAL DISPLAY EXHIBITION -->
     <section id="projects">
-
         <div class="section-title-container">
-
-            <h2 class="section-title">Featured Projects</h2>
-
+            <div class="chapter-timestamp"><i class="fa-solid fa-film"></i> CHAPTER 08:32 // CREATOR VISUAL TIMELINE EXHIBITS</div>
+            <h2 class="section-title">EDITORIAL<br>PROJECTIONS</h2>
         </div>
-
         
-
         <div class="projects-outer-viewport" id="swipe-slider-viewport">
-
             <div class="projects-grid" id="swipe-slider-grid">
 
-
-
-                <div class="project-card">
-
-                    <a href="psgvarsfinal copy.jpg" target="_blank">
-
-                        <img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false">
-
-                    </a>
-
+                <!-- PINNED CREATOR TRAILER / VISUALLY DOMINANT EXCLUSIVE ASSET -->
+                <div class="project-card featured-asset cursor-trigger-open" data-img="psgvarsfinal copy.jpg" data-title="Paris Saint-Germain VS Arsenal" data-desc="Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.">
+                    <div class="project-badge"><i class="fa-solid fa-thumbtack"></i> PINNED / MATCHDAY MASTER</div>
+                    <div class="project-image-container">
+                        <img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>CAMPAIGN // FINAL 2026</span>
+                            <span>CHAPTER PREVIEW</span>
+                        </div>
                         <h3>Paris Saint-Germain VS Arsenal</h3>
-
                         <p>Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="lfcvbre copy.jpg" target="_blank">
-
-                        <img src="lfcvbre copy.jpg" alt="Project 1" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="lfcvbre copy.jpg" data-title="Liverpool VS Brentford" data-desc="Matchday design of the last Premier League game of the 2025-26 campaign.">
+                    <div class="project-badge">EDITORIAL ARCHIVE</div>
+                    <div class="project-image-container">
+                        <img src="lfcvbre copy.jpg" alt="Project Entry Image Document" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>CAMPAIGN // PREVIEW</span>
+                            <span>ANFIELD RUN</span>
+                        </div>
                         <h3>Liverpool VS Brentford</h3>
-
                         <p>Matchday design of the last Premier League game of the 2025-26 campaign.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="robboxmo copy.jpg" target="_blank">
-
-                        <img src="robboxmo copy.jpg" alt="Project 2" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="robboxmo copy.jpg" data-title="ONE LAST TIME AT ANFIELD." data-desc="A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.">
+                    <div class="project-badge">HISTORIC DOCUMENTARY</div>
+                    <div class="project-image-container">
+                        <img src="robboxmo copy.jpg" alt="Project Entry Image Document" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>NARRATIVE // INSIGHT</span>
+                            <span>LEGACY SERIES</span>
+                        </div>
                         <h3>ONE LAST TIME AT ANFIELD.</h3>
-
                         <p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="wc.jpeg" target="_blank">
-
-                        <img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="wc.jpeg" data-title="FIFA World Cup 2026" data-desc="FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.">
+                    <div class="project-badge">WORLD STAGE ARCHIVE</div>
+                    <div class="project-image-container">
+                        <img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>CAMPAIGN // INTERNATIONAL</span>
+                            <span>GLOBAL REVIEW</span>
+                        </div>
                         <h3>FIFA World Cup 2026</h3>
-
                         <p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="newlivche.jpeg" target="_blank">
-
-                        <img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="newlivche.jpeg" data-title="Liverpool VS Chelsea" data-desc="Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.">
+                    <div class="project-badge">MATCHDAY ANTHOLOGY</div>
+                    <div class="project-image-container">
+                        <img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>FEATURE // HIGH ENGAGEMENT</span>
+                            <span>PREMIER MATCH</span>
+                        </div>
                         <h3>Liverpool VS Chelsea</h3>
-
                         <p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="ThankyouRobbo.jpeg" target="_blank">
-
-                        <img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="ThankyouRobbo.jpeg" data-title="Thank You, Robbo!" data-desc="A poster filled with passion and pride, celebrating Robbo’s fearless spirit and unforgettable journey in red.">
+                    <div class="project-badge">TRIBUTE MANIFESTO</div>
+                    <div class="project-image-container">
+                        <img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>STORY // LEGENDARY STATUS</span>
+                            <span>RETROSPECTIVE</span>
+                        </div>
                         <h3>Thank You, Robbo!</h3>
-
                         <p>A poster filled with passion and pride, celebrating Robbo’s fearless spirit and unforgettable journey in red.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="ThankyouMo.jpeg" target="_blank">
-
-                        <img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="ThankyouMo.jpeg" data-title="Thank You, Mo!" data-desc="A tribute poster capturing Salah’s legacy, glory, and the magic he brought to Anfield through the years.">
+                    <div class="project-badge">TRIBUTE MANIFESTO</div>
+                    <div class="project-image-container">
+                        <img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>STORY // KING STATUS</span>
+                            <span>RETROSPECTIVE</span>
+                        </div>
                         <h3>Thank You, Mo!</h3>
-
                         <p>A tribute poster capturing Salah’s legacy, glory, and the magic he brought to Anfield through the years.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="livvmci.jpeg" target="_blank">
-
-                        <img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="livvmci.jpeg" data-title="Liverpool FC VS Manchester City" data-desc="An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.">
+                    <div class="project-badge">CONCEPT CAMPAIGN</div>
+                    <div class="project-image-container">
+                        <img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>CROSSOVER // HYBRID DESIGN</span>
+                            <span>RACE TRACKSIDE</span>
+                        </div>
                         <h3>Liverpool FC VS Manchester City</h3>
-
                         <p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="livvgal.jpeg" target="_blank">
-
-                        <img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="livvgal.jpeg" data-title="Liverpool FC VS Galatasaray" data-desc="A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen staring at the camera in a dramatic neon-glow knockout match poster.">
+                    <div class="project-badge">EUROPEAN NIGHTS</div>
+                    <div class="project-image-container">
+                        <img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>CAMPAIGN // KNOCKOUT</span>
+                            <span>CHAMPIONS LEAGUE</span>
+                        </div>
                         <h3>Liverpool FC VS Galatasaray</h3>
-
                         <p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen staring at the camera in a dramatic neon-glow knockout match poster.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="livvpsg.jpeg" target="_blank">
-
-                        <img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="livvpsg.jpeg" data-title="Liverpool FC VS Paris Saint-Germain" data-desc="A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.">
+                    <div class="project-badge">EUROPEAN NIGHTS</div>
+                    <div class="project-image-container">
+                        <img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
-                        <h3>Liverpool FC VS Paris Saint-Germain </h3>
-
+                        <div class="project-meta-top">
+                            <span>CAMPAIGN // LIGHTS ON</span>
+                            <span>CHAMPIONS LEAGUE</span>
+                        </div>
+                        <h3>Liverpool FC VS Paris Saint-Germain</h3>
                         <p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p>
-
                     </div>
-
                 </div>
 
-
-
-                <div class="project-card">
-
-                    <a href="slotout.jpeg" target="_blank">
-
-                        <img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false">
-
-                    </a>
-
+                <div class="project-card cursor-trigger-open" data-img="slotout.jpeg" data-title="Slot Out!" data-desc="An emotional editorial capturing Liverpool’s downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot’s future at Anfield.">
+                    <div class="project-badge">CRITICAL EDITORIAL</div>
+                    <div class="project-image-container">
+                        <img src="slotout.jpeg" alt="Slot Out Narrative Poster Art File" draggable="false">
+                        <div class="project-hover-overlay"><div class="play-indicator"><i class="fa-solid fa-expand"></i></div></div>
+                    </div>
                     <div class="project-content">
-
+                        <div class="project-meta-top">
+                            <span>NARRATIVE // PRESS RELEASE</span>
+                            <span>ANFIELD DRAMA</span>
+                        </div>
                         <h3>Slot Out!</h3>
-
                         <p>An emotional editorial capturing Liverpool’s downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot’s future at Anfield.</p>
-
                     </div>
-
                 </div>
-
-
 
             </div>
-
         </div>
-
-
 
         <div class="slider-controls-wrapper">
-
-            <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
-
+            <div class="slider-instruction">DRAG CANVAS SPACE OR INTERACTION CONTROLS TO MANIPULATE PROGRESSION VIEWPORTS.</div>
             <div class="slider-arrows">
-
-                <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
-
-                <button class="slider-arrow-btn" id="next-project-btn" aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
-
+                <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Slide Backward"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="slider-arrow-btn" id="next-project-btn" aria-label="Slide Forward"><i class="fa-solid fa-arrow-right"></i></button>
             </div>
-
         </div>
-
     </section>
 
+    <!-- IMMERSIVE IMMODAL FILM CONTROLLER -->
+    <div id="cinematic-lightbox">
+        <button class="close-lightbox" aria-label="Terminate Viewport"><i class="fa-solid fa-xmark"></i></button>
+        <div class="lightbox-wrapper">
+            <img src="" id="lightbox-img" alt="Master Focus Projection Frame Asset">
+            <div class="lightbox-meta">
+                <h4 id="lightbox-title">ASSET NAME</h4>
+                <p id="lightbox-desc">ASSET COMPOSITION DESCRIPTION TEXT FIELD</p>
+            </div>
+        </div>
+    </div>
 
-
+    <!-- CHAPTER 12:09: OUTRO CONCLUSION CONNECTIONS -->
     <section id="contact">
-
+        <div class="backdrop-text" style="bottom: 10%; left: 5%;">COMMUNICATION CORE</div>
+        <div class="chapter-timestamp"><i class="fa-solid fa-paper-plane"></i> CHAPTER 12:09 // OUTRO TRANSMISSION CHANNELS</div>
         <div class="section-title-container">
-
-            <h2 class="section-title">Get In Touch</h2>
-
+            <h2 class="section-title">GET IN TOUCH</h2>
         </div>
-
         <div class="contact-wrapper">
-
             <div class="contact-card">
-
-                <div class="find-me-btn">Find Me ↘</div>
-
+                <div class="find-me-btn">FINALIZE THE<br>DOCUMENTARY.↗</div>
                 <div class="contact-info">
-
                     <a href="mailto:alokkynwa@gmail.com" target="_blank" class="info-mail"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
-
-                    <a href="tel:+9779843538473" target="_blank" class="info-phone"><i class="fa-solid fa-phone"></i><span class="flag-emoji">🇳🇵</span> (+977) 9843538473</a>
-
+                    <a href="tel:+9779843538473" target="_blank" class="info-phone"><i class="fa-solid fa-phone"></i><span style="font-size:1.3rem; margin: 0 4px;">🇳🇵</span> (+977) 9843538473</a>
                 </div>
-
                 <div class="socials">
-
-                    <a href="https://github.com/therealalok" target="_blank"><i class="fab fa-github"></i></a>
-
-                    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="nav-linkedin"><i class="fab fa-linkedin-in"></i></a>
-
-                    <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-
-                    <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-
-                    <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
-
+                    <a href="https://github.com/therealalok" target="_blank" aria-label="Github Platform Access"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="nav-linkedin" aria-label="LinkedIn Platform Access"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile Access"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer" aria-label="Facebook Profile Access"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer" aria-label="X Profile Access"><i class="fab fa-x-twitter"></i></a>
                 </div>
-
             </div>
-
+            
+            <!-- Safe Native Integration of Form Handling Parameters -->
             <form class="contact-form" id="portfolio-contact-form">
-
                 <div class="form-row">
-
-                    <input type="text" name="name" placeholder="NAME" required>
-
-                    <input type="email" name="email" placeholder="EMAIL" required>
-
+                    <input type="text" name="name" placeholder="YOUR INITIALIZED NAME" required>
+                    <input type="email" name="email" placeholder="YOUR VERIFIED EMAIL" required>
                 </div>
-
-                <textarea name="message" placeholder="MESSAGE" required></textarea>
-
-                <button type="submit" class="send-btn">SEND</button>
-
+                <textarea name="message" placeholder="ENTER LOGISTICAL TRANSACTION MESSAGE OR STORY DETAILS HERE" required></textarea>
+                <button type="submit" class="send-btn cursor-trigger-view">DISPATCH TRANSMISSION</button>
             </form>
-
         </div>
-
     </section>
 
-
-
+    <!-- ROLLING SYSTEM FILM CREDITS OUTRO -->
     <footer>
-
-        Copyright © Alok Sharma - All rights reserved.
-
+        <div class="footer-credits-title">THANKS FOR WATCHING</div>
+        <div class="footer-sub">THE CREATIVE ADVENTURE CONTINUES // LET'S CONSTRUCT ORIGINAL VISUALS TOGETHER</div>
+        <div class="copyright-line">Copyright © Alok Sharma — All Rights Reserved // Front-End Experience Manifest.</div>
     </footer>
 
-
-
     <script>
-
-        // --- THEME TOGGLE (CSS VARIABLE ARCHITECTURE) ---
-
-        const themeToggle = document.getElementById("theme-toggle");
-
-        const toggleIcon = themeToggle.querySelector("i");
-
-        
-
-        themeToggle.addEventListener("click", () => {
-
-            const currentTheme = document.documentElement.getAttribute("data-theme");
-
-            if(currentTheme === "dark") {
-
-                document.documentElement.removeAttribute("data-theme");
-
-                toggleIcon.className = "fa-solid fa-moon";
-
-            } else {
-
-                document.documentElement.setAttribute("data-theme", "dark");
-
-                toggleIcon.className = "fa-solid fa-sun";
-
-            }
-
-        });
-
-
-
-        // --- HORIZONTAL GALLERY ---
-
-        const grid = document.getElementById('swipe-slider-grid');
-
-        const viewport = document.getElementById('swipe-slider-viewport');
-
-        const prevBtn = document.getElementById('prev-project-btn');
-
-        const nextBtn = document.getElementById('next-project-btn');
-
-
-
-        let offset = 0;
-
-        let isPaused = false;
-
-        let isDrag = false;
-
-        let startX = 0;
-
-        let dragStartOffset = 0;
-
-        const scrollSpeed = 0.5;
-
-
-
-        function scrollLoop() {
-
-            if (!isPaused && !isDrag) {
-
-                offset -= scrollSpeed;
-
-            }
-
-            
-
-            const maxScroll = -(grid.scrollWidth - viewport.clientWidth);
-
-            if (offset < maxScroll) offset = 0;
-
-            if (offset > 0) offset = maxScroll;
-
-
-
-            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
-
-            requestAnimationFrame(scrollLoop);
-
-        }
-
-        
-
-        requestAnimationFrame(scrollLoop);
-
-        
-
-        viewport.addEventListener('mouseenter', () => isPaused = true);
-
-        viewport.addEventListener('mouseleave', () => isPaused = false);
-
-        
-
-        function getSlideAmount() {
-
-            const card = document.querySelector('.project-card');
-
-            if (!card) return 400; 
-
-            return card.offsetWidth + 40;
-
-        }
-
-
-
-        prevBtn.addEventListener('click', () => {
-
-            offset += getSlideAmount();
-
-        });
-
-        nextBtn.addEventListener('click', () => {
-
-            offset -= getSlideAmount();
-
-        });
-
-        
-
-        viewport.addEventListener('mousedown', (e) => {
-
-            isDrag = true;
-
-            startX = e.clientX;
-
-            dragStartOffset = offset;
-
-        });
-
-        
-
+        // --- CUSTOM ELITE MOUSE ARCHITECTURE ---
+        const cursor = document.getElementById('custom-cursor');
         window.addEventListener('mousemove', (e) => {
-
-            if (!isDrag) return;
-
-            const deltaX = e.clientX - startX;
-
-            offset = dragStartOffset + deltaX;
-
-            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
-
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        
-
-        window.addEventListener('mouseup', () => {
-
-            isDrag = false;
-
+        document.querySelectorAll('.cursor-trigger-view').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); cursor.innerText = 'VIEW'; });
+            el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); cursor.innerText = ''; });
+        });
+        document.querySelectorAll('.cursor-trigger-open').forEach(el => {
+            el.addEventListener('mouseenter', () => { cursor.classList.add('hovering'); cursor.innerText = 'OPEN'; });
+            el.addEventListener('mouseleave', () => { cursor.classList.remove('hovering'); cursor.innerText = ''; });
         });
 
-        
-
-        viewport.addEventListener('touchstart', (e) => {
-
-            isDrag = true;
-
-            startX = e.touches[0].clientX;
-
-            dragStartOffset = offset;
-
-        }, { passive: true });
-
-        
-
-        viewport.addEventListener('touchmove', (e) => {
-
-            if (!isDrag) return;
-
-            const deltaX = e.touches[0].clientX - startX;
-
-            offset = dragStartOffset + deltaX;
-
-            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
-
-        }, { passive: true });
-
-        
-
-        viewport.addEventListener('touchend', () => {
-
-            isDrag = false;
-
+        // --- THEME STATE MANAGER ---
+        const themeToggle = document.getElementById("theme-toggle");
+        const toggleIcon = themeToggle.querySelector("i");
+        themeToggle.addEventListener("click", () => {
+            const currentTheme = document.documentElement.getAttribute("data-theme");
+            if(currentTheme === "dark") {
+                document.documentElement.removeAttribute("data-theme");
+                toggleIcon.className = "fa-solid fa-moon";
+            } else {
+                document.documentElement.setAttribute("data-theme", "dark");
+                toggleIcon.className = "fa-solid fa-sun";
+            }
         });
 
+        // --- FILM TRACKING PROGRESSION & METABAR SCRUBBER ---
+        const navLinks = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('section');
+        const tickerText = document.getElementById('ticker-ctx');
+        const progressBar = document.getElementById('scrub-progress-bar');
 
+        window.addEventListener('scroll', () => {
+            // Scrub timeline animation math
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + '%';
 
-        // --- 3D JOURNAL SPREAD ENGINE (FIXED OCCLUSION & PHYSICS) ---
-
-        const sheets = [
-
-            document.getElementById('sheet-1'),
-
-            document.getElementById('sheet-2'),
-
-            document.getElementById('sheet-3'),
-
-            document.getElementById('sheet-4')
-
-        ];
-
-        const bookPrevBtn = document.getElementById('book-prev');
-
-        const bookNextBtn = document.getElementById('book-next');
-
-        const hudIndicator = document.getElementById('hud-page-indicator');
-
-        const zoneLeft = document.getElementById('zone-left');
-
-        const zoneRight = document.getElementById('zone-right');
-
-        const restartBtn = document.getElementById('open-again-btn');
-
-        
-
-        let currentSpreadIndex = 0; 
-
-        const totalSpreads = sheets.length;
-
-        
-
-        function updateJournalState() {
-
-            sheets.forEach((sheet, index) => {
-
-                const zOffset = 2; 
-
-
-
-                if (index < currentSpreadIndex) {
-
-                    sheet.classList.add('flipped');
-
-                    sheet.style.transform = `rotateY(-180deg) translateZ(${index * zOffset}px)`;
-
-                    sheet.style.zIndex = index + 1;
-
-
-
-                    if (index < currentSpreadIndex - 1) {
-
-                        setTimeout(() => {
-
-                            sheet.style.visibility = "hidden";
-
-                        }, 700);
-
-                    } else {
-
-                        sheet.style.visibility = "visible";
-
-                    }
-
-                    
-
-                } else {
-
-                    sheet.classList.remove('flipped');
-
-                    sheet.style.transform = `rotateY(0deg) translateZ(${-index * zOffset}px)`;
-
-                    sheet.style.zIndex = totalSpreads - index;
-
-                    sheet.style.visibility = "visible";
-
-
-
-                    if (index > currentSpreadIndex + 1) {
-
-                        setTimeout(() => {
-
-                            sheet.style.visibility = "hidden";
-
-                        }, 700);
-
-                    }
-
+            // Active Chapter context parsing matrix
+            let currentSec = "";
+            let currentChapter = "00:00 INTRODUCTION";
+            
+            sections.forEach(sec => {
+                const secTop = sec.offsetTop;
+                if (pageYOffset >= secTop - 240) {
+                    currentSec = sec.getAttribute('id');
                 }
-
             });
 
-            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentSec) {
+                    link.classList.add('active');
+                    currentChapter = link.getAttribute('data-chapter');
+                }
+            });
 
+            if(currentSec) {
+                tickerText.innerText = `NOW PLAYING // CHAPTER ${currentChapter}`;
+            }
+        });
+
+        // --- INTENSIVE DRAG FLUID GALLERY ---
+        const grid = document.getElementById('swipe-slider-grid');
+        const viewport = document.getElementById('swipe-slider-viewport');
+        const prevBtn = document.getElementById('prev-project-btn');
+        const nextBtn = document.getElementById('next-project-btn');
+
+        let offset = 0;
+        let isPaused = false;
+        let isDrag = false;
+        let startX = 0;
+        let dragStartOffset = 0;
+        const scrollSpeed = 0.4;
+
+        function scrollLoop() {
+            if (!isPaused && !isDrag) {
+                offset -= scrollSpeed;
+            }
+            const maxScroll = -(grid.scrollWidth - viewport.clientWidth);
+            if (offset < maxScroll) offset = 0;
+            if (offset > 0) offset = maxScroll;
+
+            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
+            requestAnimationFrame(scrollLoop);
+        }
+        requestAnimationFrame(scrollLoop);
+        
+        viewport.addEventListener('mouseenter', () => isPaused = true);
+        viewport.addEventListener('mouseleave', () => isPaused = false);
+        
+        function getSlideAmount() {
+            return 440;
+        }
+        prevBtn.addEventListener('click', () => { offset += getSlideAmount(); });
+        nextBtn.addEventListener('click', () => { offset -= getSlideAmount(); });
+        
+        viewport.addEventListener('mousedown', (e) => {
+            isDrag = true;
+            startX = e.clientX;
+            dragStartOffset = offset;
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!isDrag) return;
+            const deltaX = e.clientX - startX;
+            offset = dragStartOffset + deltaX;
+            grid.style.transform = `translate3d(${offset}px, 0, 0)`;
+        });
+        window.addEventListener('mouseup', () => { isDrag = false; });
+
+        // --- IMMERSIVE PREMIUM VIEWER LIGHTBOX LOGIC ---
+        const lightbox = document.getElementById('cinematic-lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDesc = document.getElementById('lightbox-desc');
+        const closeLightboxBtn = document.querySelector('.close-lightbox');
+
+        document.querySelectorAll('.cursor-trigger-open').forEach(card => {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                const imgSrc = card.getAttribute('data-img');
+                const imgTitle = card.getAttribute('data-title');
+                const imgDesc = card.getAttribute('data-desc');
+
+                lightboxImg.setAttribute('src', imgSrc);
+                lightboxTitle.innerText = imgTitle;
+                lightboxDesc.innerText = imgDesc;
+                
+                lightbox.classList.add('active');
+                cursor.classList.remove('hovering');
+            });
+        });
+
+        closeLightboxBtn.addEventListener('click', () => { lightbox.classList.remove('active'); });
+        lightbox.addEventListener('click', (e) => { if(e.target === lightbox) lightbox.classList.remove('active'); });
+
+
+        // --- Artifact Book Rendering Operations Engine ---
+        const sheets = [
+            document.getElementById('sheet-1'),
+            document.getElementById('sheet-2'),
+            document.getElementById('sheet-3'),
+            document.getElementById('sheet-4')
+        ];
+        const bookPrevBtn = document.getElementById('book-prev');
+        const bookNextBtn = document.getElementById('book-next');
+        const hudIndicator = document.getElementById('hud-page-indicator');
+        const zoneLeft = document.getElementById('zone-left');
+        const zoneRight = document.getElementById('zone-right');
+        const restartBtn = document.getElementById('open-again-btn');
+        
+        let currentSpreadIndex = 0; 
+        const totalSpreads = sheets.length;
+        
+        function updateJournalState() {
+            sheets.forEach((sheet, index) => {
+                const zOffset = 2; 
+                if (index < currentSpreadIndex) {
+                    sheet.classList.add('flipped');
+                    sheet.style.transform = `rotateY(-180deg) translateZ(${index * zOffset}px)`;
+                    sheet.style.zIndex = index + 1;
+                    if (index < currentSpreadIndex - 1) {
+                        setTimeout(() => { sheet.style.visibility = "hidden"; }, 700);
+                    } else {
+                        sheet.style.visibility = "visible";
+                    }
+                } else {
+                    sheet.classList.remove('flipped');
+                    sheet.style.transform = `rotateY(0deg) translateZ(${-index * zOffset}px)`;
+                    sheet.style.zIndex = totalSpreads - index;
+                    sheet.style.visibility = "visible";
+                    if (index > currentSpreadIndex + 1) {
+                        setTimeout(() => { sheet.style.visibility = "hidden"; }, 700);
+                    }
+                }
+            });
             hudIndicator.innerText = `SPREAD ${currentSpreadIndex + 1} / ${totalSpreads + 1}`;
-
-            
-
             zoneLeft.style.display = currentSpreadIndex === 0 ? 'none' : 'block';
-
             zoneRight.style.display = currentSpreadIndex >= totalSpreads ? 'none' : 'block';
-
         }
 
-
-
-        zoneLeft.addEventListener('click', () => {
-
-            if (currentSpreadIndex > 0) {
-
-                currentSpreadIndex--;
-
-                updateJournalState();
-
-            }
-
-        });
-
+        zoneLeft.addEventListener('click', () => { if (currentSpreadIndex > 0) { currentSpreadIndex--; updateJournalState(); } });
+        zoneRight.addEventListener('click', () => { if (currentSpreadIndex < totalSpreads) { currentSpreadIndex++; updateJournalState(); } });
+        bookPrevBtn.addEventListener('click', () => { if (currentSpreadIndex > 0) { currentSpreadIndex--; updateJournalState(); } });
+        bookNextBtn.addEventListener('click', () => { if (currentSpreadIndex < totalSpreads) { currentSpreadIndex++; updateJournalState(); } });
+        restartBtn.addEventListener('click', () => { currentSpreadIndex = 0; updateJournalState(); });
         
-
-        zoneRight.addEventListener('click', () => {
-
-            if (currentSpreadIndex < totalSpreads) {
-
-                currentSpreadIndex++;
-
-                updateJournalState();
-
-            }
-
-        });
-
-        
-
-        bookPrevBtn.addEventListener('click', () => {
-
-            if (currentSpreadIndex > 0) {
-
-                currentSpreadIndex--;
-
-                updateJournalState();
-
-            }
-
-        });
-
-        
-
-        bookNextBtn.addEventListener('click', () => {
-
-            if (currentSpreadIndex < totalSpreads) {
-
-                currentSpreadIndex++;
-
-                updateJournalState();
-
-            }
-
-        });
-
-        
-
-        restartBtn.addEventListener('click', () => {
-
-            currentSpreadIndex = 0; 
-
-            updateJournalState();
-
-        });
-
-        
-
-        // Initialize state on load
-
         updateJournalState();
-
         
-
-        // --- CONTACT SUBMISSION FORM HANDLER ---
-
+        // --- SECURE FORM DISPATCH CORE OPERATION ---
         const contactForm = document.getElementById("portfolio-contact-form");
-
         contactForm.addEventListener("submit", async (e) => {
-
             e.preventDefault();
-
             const statusButton = contactForm.querySelector(".send-btn");
-
             const originalText = statusButton.innerText;
 
-
-
-            statusButton.innerText = "SENDING...";
-
+            statusButton.innerText = "ATTEMPTING TRANSMISSION...";
             statusButton.style.pointerEvents = "none";
 
-
-
             const templateParams = {
-
                 name: contactForm.querySelector('input[name="name"]').value,
-
                 email: contactForm.querySelector('input[name="email"]').value,
-
                 message: contactForm.querySelector('textarea[name="message"]').value
-
             };
 
-
-
             try {
-
                 const response = await emailjs.send('service_qa1fl7f' , 'template_zu2bqc7', templateParams);
-
-            
-
                 if (response.status === 200) {
-
-                    statusButton.innerText = "SENT";
-
+                    statusButton.innerText = "TRANSMISSION SUCCESSFUL";
                     contactForm.reset();
-
                     setTimeout(() => {
-
                         statusButton.innerText = originalText;
-
                         statusButton.style.pointerEvents = "auto";
-
                     }, 4000);
-
                 } else {
-
-                    throw new Error("EmailJS Dispatch Error");
-
+                    throw new Error("Dispatch Parameter Rejection");
                 }
-
             } catch (error) {
-
-                statusButton.innerText = "ERROR";
-
+                statusButton.innerText = "TRANSMISSION FAILURE";
                 setTimeout(() => {
-
                     statusButton.innerText = originalText;
-
                     statusButton.style.pointerEvents = "auto";
-
                 }, 4000);
-
             }
-
         });
-
     </script>
-
 </body>
-
 </html>
