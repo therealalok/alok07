@@ -34,7 +34,6 @@
             --text-main: #2b2b2b;
             --text-muted: #4b4b4b;
             --border-color: #2b2b2b;
-
             --hand-drawn-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
             --hand-drawn-shadow: 5px 5px 0px var(--border-color);
             --border-thick: 3px solid var(--border-color);
@@ -52,7 +51,6 @@
             --text-muted: #a0a0a0;
             --border-color: #555555;
         }
-
 
         [data-theme="dark"] .image-box img,
         [data-theme="dark"] .hero-large-flag-box {
@@ -284,6 +282,7 @@
             border-radius: var(--hand-drawn-radius);
             transform: rotate(-2deg);
         }
+        
         .btn, .send-btn, .open-again-btn {
             background: var(--bg-yellow);
             color: #000;
@@ -424,7 +423,7 @@
             --book-muted: #6e6e6a;       
             --linen-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
             --paper-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paperNoise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paperNoise)' opacity='0.04'/%3E%3C/svg%3E");
-            --spine-color: #d1b110; 
+            --spine-color: #d1b110;
             --book-line: rgba(0, 0, 0, 0.07);
 
             width: 100%;
@@ -484,14 +483,16 @@
         .book-pages-wrapper { position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; pointer-events: none; }
         
         .sheet { 
-            position: absolute; width: 50%; height: 100%; right: 0; top: 0; 
+            position: absolute;
+            width: 50%; height: 100%; right: 0; top: 0; 
             transform-origin: left center; transform-style: preserve-3d; 
-            transition: transform 1.4s cubic-bezier(0.45, 0.05, 0.15, 1); 
+            transition: transform 1.4s cubic-bezier(0.45, 0.05, 0.15, 1);
             z-index: 1; 
         }
 
         .page-side {
-            position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+            position: absolute;
+            width: 100%; height: 100%; top: 0; left: 0;
             background-color: var(--paper-base); background-image: var(--paper-texture);
             padding: 75px 70px; display: flex; flex-direction: column;
             backface-visibility: hidden; transform-style: flat; overflow: hidden; pointer-events: auto; 
@@ -512,7 +513,7 @@
 
         /* FRONT COVER REALISM */
         .sheet.cover-sheet .front { 
-            border-radius: 0 6px 6px 0; 
+            border-radius: 0 6px 6px 0;
             display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; padding: 80px 40px;
             background-image: var(--linen-texture), linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(255,255,255,0.15) 7%, rgba(0,0,0,0.0) 100%);
             box-shadow: inset 8px 0 15px -5px rgba(0,0,0,0.35), inset 2px 0 4px rgba(255,255,255,0.4), 6px 6px 12px rgba(0,0,0,0.25), inset -2px 0 2px rgba(0,0,0,0.15);
@@ -523,28 +524,29 @@
 
         /* FRONT COVER HINGE CREASE */
         .sheet.cover-sheet .front::before {
-            content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 6px;
+            content: '';
+            position: absolute; left: 14px; top: 0; bottom: 0; width: 6px;
             background: linear-gradient(to right, rgba(0,0,0,0.25), rgba(255,255,255,0.1), rgba(0,0,0,0.25));
             z-index: 10; pointer-events: none;
         }
 
         /* INNER FRONT COVER */
         .sheet.cover-sheet .back { 
-            border-radius: 6px 0 0 6px; 
+            border-radius: 6px 0 0 6px;
             background-color: var(--paper-base); background-image: var(--paper-texture); 
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.15), inset -20px 0 30px rgba(0,0,0,0.08); 
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.15), inset -20px 0 30px rgba(0,0,0,0.08);
         }
 
         /* INNER BACK COVER */
         .sheet.cover-sheet-back .front { 
-            border-radius: 0 6px 6px 0; 
+            border-radius: 0 6px 6px 0;
             background-color: var(--paper-base); background-image: var(--paper-texture); 
             box-shadow: inset 0 0 10px rgba(0,0,0,0.15), inset 20px 0 30px rgba(0,0,0,0.08);
         }
 
         /* BACK COVER REALISM */
         .sheet.cover-sheet-back .back { 
-            border-radius: 6px 0 0 6px; 
+            border-radius: 6px 0 0 6px;
             background-image: var(--linen-texture), linear-gradient(to left, rgba(0,0,0,0.4) 0%, rgba(255,255,255,0.15) 7%, rgba(0,0,0,0.0) 100%);
             box-shadow: inset -8px 0 15px -5px rgba(0,0,0,0.35), inset -2px 0 4px rgba(255,255,255,0.4), -6px 6px 12px rgba(0,0,0,0.25), inset 2px 0 2px rgba(0,0,0,0.15);
             border-left: 2px solid #c9aa10;
@@ -554,7 +556,8 @@
 
         /* BACK COVER HINGE CREASE */
         .sheet.cover-sheet-back .back::before {
-            content: ''; position: absolute; right: 14px; top: 0; bottom: 0; width: 6px;
+            content: '';
+            position: absolute; right: 14px; top: 0; bottom: 0; width: 6px;
             background: linear-gradient(to left, rgba(0,0,0,0.25), rgba(255,255,255,0.1), rgba(0,0,0,0.25));
             z-index: 10; pointer-events: none;
         }
@@ -589,7 +592,8 @@
         .hud-status-text { font-family: var(--font-body); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-main);}
         
         .hud-arrow-btn {
-            width: 75px; height: 46px; 
+            width: 75px;
+            height: 46px; 
             background: var(--bg-white); border: var(--border-thick);
             border-radius: var(--hand-drawn-radius);
             box-shadow: 2px 2px 0px var(--border-color);
@@ -696,7 +700,8 @@
         .slider-arrows { display: flex; gap: 15px; }
 
         .slider-arrow-btn {
-            width: 60px; height: 48px; 
+            width: 60px;
+            height: 48px; 
             background: var(--bg-yellow);
             color: #000;
             border: var(--border-thick);
@@ -731,14 +736,16 @@
         }
 
         .find-me-btn {
-            font-family: var(--font-head); font-size: 4rem; 
+            font-family: var(--font-head);
+            font-size: 4rem; 
             color: #000; margin-bottom: 40px;
         }
 
         .contact-info { display: flex; flex-direction: column; gap: 20px; }
 
         .contact-info a {
-            text-decoration: none; color: var(--text-main);
+            text-decoration: none;
+            color: var(--text-main);
             font-size: 1.2rem; font-weight: 700;
             display: flex; align-items: center; gap: 15px;
             background: var(--bg-white);
@@ -751,7 +758,8 @@
 
         .socials { display: flex; gap: 15px; margin-top: 40px; flex-wrap: wrap; }
         .socials a {
-            width: 60px; height: 60px;
+            width: 60px;
+            height: 60px;
             display: flex; align-items: center; justify-content: center;
             background: var(--bg-white); border: var(--border-thick);
             border-radius: var(--hand-drawn-radius);
@@ -761,14 +769,16 @@
         .socials a:hover { background: var(--bg-cream); }
 
         .contact-form {
-            padding: 60px; display: flex; flex-direction: column; gap: 20px;
+            padding: 60px;
+            display: flex; flex-direction: column; gap: 20px;
             background: var(--bg-white);
         }
 
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
         .contact-form input, .contact-form textarea {
-            width: 100%; padding: 20px; 
+            width: 100%;
+            padding: 20px; 
             border: var(--border-thick);
             border-radius: var(--hand-drawn-radius);
             background: var(--bg-cream);
@@ -785,7 +795,8 @@
 
         /* --- FOOTER --- */
         footer {
-            padding: 40px; text-align: center;
+            padding: 40px;
+            text-align: center;
             font-weight: 700; background: var(--bg-cream);
             border-top: var(--border-thick);
             text-transform: uppercase;
@@ -915,7 +926,7 @@
                             <div class="cover-title-block">
                                 <h2 class="cover-main-head">EDUCATIONAL<br>JOURNEY</h2>
                             </div>
-                            <div class="cover-bottom-stamp">ACADEMIC STATUS TILL TODAY. </div>
+                            <div class="cover-bottom-stamp">ACADEMIC STATUS TILL TODAY.</div>
                             <div class="stable-page-number">C-01</div>
                         </div>
                         
@@ -934,11 +945,11 @@
                                 <div class="index-item">
                                     <span class="idx-num">03</span> 
                                     <span class="idx-name">UNDERGRADUATE LEVEL</span>
-                                </div>
+                                 </div>
                             </div>
                             <div class="stable-page-number">PAGE 01</div>
                         </div>
-                    </div>
+                     </div>
 
                     <div class="sheet" id="sheet-2">
                         <div class="page-side front">
@@ -1157,7 +1168,7 @@
                 <div class="project-card">
                     <a href="livvgal.jpeg" target="_blank">
                         <img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false">
-                    </a>
+                     </a>
                     <div class="project-content">
                         <h3>Liverpool FC VS Galatasaray</h3>
                         <p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen staring at the camera in a dramatic neon-glow knockout match poster.</p>
@@ -1251,7 +1262,7 @@
                 toggleIcon.className = "fa-solid fa-sun";
             }
         });
-
+        
         // --- HORIZONTAL GALLERY ---
         const grid = document.getElementById('swipe-slider-grid');
         const viewport = document.getElementById('swipe-slider-viewport');
@@ -1264,7 +1275,7 @@
         let startX = 0;
         let dragStartOffset = 0;
         const scrollSpeed = 0.5;
-
+        
         function scrollLoop() {
             if (!isPaused && !isDrag) {
                 offset -= scrollSpeed;
@@ -1279,10 +1290,10 @@
         }
         
         requestAnimationFrame(scrollLoop);
-
+        
         viewport.addEventListener('mouseenter', () => isPaused = true);
         viewport.addEventListener('mouseleave', () => isPaused = false);
-
+        
         function getSlideAmount() {
             const card = document.querySelector('.project-card');
             if (!card) return 400; 
@@ -1292,40 +1303,45 @@
         prevBtn.addEventListener('click', () => {
             offset += getSlideAmount();
         });
+        
         nextBtn.addEventListener('click', () => {
             offset -= getSlideAmount();
         });
-
+        
         viewport.addEventListener('mousedown', (e) => {
             isDrag = true;
             startX = e.clientX;
             dragStartOffset = offset;
         });
+        
         window.addEventListener('mousemove', (e) => {
             if (!isDrag) return;
             const deltaX = e.clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         });
+        
         window.addEventListener('mouseup', () => {
             isDrag = false;
         });
-
+        
         viewport.addEventListener('touchstart', (e) => {
             isDrag = true;
             startX = e.touches[0].clientX;
             dragStartOffset = offset;
         }, { passive: true });
+        
         viewport.addEventListener('touchmove', (e) => {
             if (!isDrag) return;
             const deltaX = e.touches[0].clientX - startX;
             offset = dragStartOffset + deltaX;
             grid.style.transform = `translate3d(${offset}px, 0, 0)`;
         }, { passive: true });
+        
         viewport.addEventListener('touchend', () => {
             isDrag = false;
         });
-
+        
         // --- 3D JOURNAL SPREAD ENGINE (FIXED Z-INDEX RENDERING) ---
         const sheets = [
             document.getElementById('sheet-1'),
@@ -1342,7 +1358,7 @@
         
         let currentSpreadIndex = 0; 
         const totalSpreads = sheets.length;
-
+        
         function updateJournalState() {
             sheets.forEach((sheet, index) => {
                 const zOffset = 3; 
@@ -1377,7 +1393,7 @@
                     }
                 }
             });
-
+            
             if (hudIndicator) hudIndicator.innerText = `SPREAD ${currentSpreadIndex + 1} / ${totalSpreads + 1}`;
             
             zoneLeft.style.display = currentSpreadIndex === 0 ? 'none' : 'block';
@@ -1390,26 +1406,28 @@
                 updateJournalState();
             }
         });
+        
         zoneRight.addEventListener('click', () => {
             if (currentSpreadIndex < totalSpreads) {
                 currentSpreadIndex++;
                 updateJournalState();
             }
         });
+        
         if (bookPrevBtn) {
             bookPrevBtn.addEventListener('click', () => {
                 if (currentSpreadIndex > 0) {
                     currentSpreadIndex--;
                     updateJournalState();
                 }
-            });
+             });
         }
         if (bookNextBtn) {
             bookNextBtn.addEventListener('click', () => {
                 if (currentSpreadIndex < totalSpreads) {
                     currentSpreadIndex++;
                     updateJournalState();
-                }
+                 }
             });
         }
         if (restartBtn) {
@@ -1421,7 +1439,7 @@
 
         // Initialize state on load
         updateJournalState();
-
+        
         // --- CONTACT SUBMISSION FORM HANDLER ---
         const contactForm = document.getElementById("portfolio-contact-form");
         contactForm.addEventListener("submit", async (e) => {
@@ -1433,7 +1451,7 @@
             statusButton.style.pointerEvents = "none";
 
             const templateParams = {
-                name: contactForm.querySelector('input[name="name"]').value,
+                 name: contactForm.querySelector('input[name="name"]').value,
                 email: contactForm.querySelector('input[name="email"]').value,
                 message: contactForm.querySelector('textarea[name="message"]').value
             };
