@@ -48,7 +48,7 @@
             --font-body: 'IBM Plex Mono', monospace;
         }
 
-        /* Dark Mode Integration */
+        /* --- DARK MODE ARCHITECTURE & CONTRAST FIXES --- */
         [data-theme="dark"] {
             --bg-cream: #121212;
             --bg-yellow: #d7df00;
@@ -57,12 +57,64 @@
             
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
-            --border-color: #ffffff;
+            --border-color: #555555;
         }
 
+        /* Image borders in dark mode */
         [data-theme="dark"] .image-box img,
         [data-theme="dark"] .hero-large-flag-box {
             border-color: var(--border-color);
+        }
+
+        /* Fix high-contrast issues for Yellow Sections in Dark Mode */
+        [data-theme="dark"] #skills {
+            background: var(--bg-yellow);
+        }
+        [data-theme="dark"] #skills .section-title {
+            color: #000;
+        }
+        [data-theme="dark"] #skills .section-title::after {
+            background: var(--bg-dark);
+        }
+        [data-theme="dark"] .skill-item-card {
+            background: var(--bg-dark);
+            color: var(--text-main);
+            border-color: #000;
+        }
+        [data-theme="dark"] .skill-item-card h3 {
+            color: var(--text-main);
+        }
+
+        [data-theme="dark"] .contact-card {
+            background: var(--bg-yellow);
+            border-color: #000;
+        }
+        [data-theme="dark"] .contact-card .find-me-btn {
+            color: #000;
+        }
+        [data-theme="dark"] .contact-info a, 
+        [data-theme="dark"] .socials a {
+            background: var(--bg-dark);
+            color: #ffffff;
+            border-color: #000;
+        }
+        [data-theme="dark"] .contact-info a i, 
+        [data-theme="dark"] .socials a i {
+            color: #ffffff;
+        }
+        [data-theme="dark"] .contact-info a:hover, 
+        [data-theme="dark"] .socials a:hover {
+            background: var(--bg-white);
+        }
+
+        [data-theme="dark"] .theme-switch-btn,
+        [data-theme="dark"] .side-nav-btn {
+            background: var(--bg-dark);
+            color: var(--bg-yellow);
+        }
+        [data-theme="dark"] .theme-switch-btn i,
+        [data-theme="dark"] .side-nav-btn i {
+            color: var(--bg-yellow);
         }
 
         * {
@@ -116,7 +168,7 @@
             background: var(--bg-cream);
             padding: 10px 4vw;
             z-index: 1000;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .logo {
@@ -143,13 +195,14 @@
             font-size: 1.1rem; 
             text-transform: uppercase;
             position: relative;
+            transition: color 0.2s ease;
         }
         
         nav a:hover { color: #d6b300; }
 
         .theme-switch-btn {
             background: var(--bg-yellow);
-            color: var(--bg-cream);
+            color: #000;
             border: var(--border-thick);
             border-radius: var(--hand-drawn-radius);
             box-shadow: 3px 3px 0px var(--border-color);
@@ -161,10 +214,9 @@
             cursor: pointer;
             font-size: 1.2rem;
             margin-left: 10px;
-            color: #000; /* Icon color */
+            transition: none !important;
         }
         .theme-switch-btn:hover { background: var(--bg-white); }
-        [data-theme="dark"] .theme-switch-btn i { color: #000; }
 
         /* --- SIDE FLOATING NAV --- */
         .side-floating-nav {
@@ -191,6 +243,7 @@
             border: var(--border-thick);
             border-radius: var(--hand-drawn-radius);
             box-shadow: 3px 3px 0px var(--border-color);
+            transition: none !important;
         }
         .side-nav-btn:hover { background: var(--bg-white); }
 
@@ -257,17 +310,15 @@
             letter-spacing: 2px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             cursor: pointer;
             transition: none !important;
         }
 
         .send-btn {
-            display: flex;
-            justify-content: center; /* Centered Text Fix */
-            align-items: center;
-            text-align: center;
             width: 100%;
+            text-align: center;
         }
 
         .btn:hover, .send-btn:hover, .open-again-btn:hover {
@@ -277,18 +328,15 @@
 
         .secondary-btn {
             background: var(--bg-white) !important;
-            color: var(--text-main);
+            color: var(--text-main) !important;
         }
         .secondary-btn:hover {
             background: var(--bg-yellow) !important;
-            color: #000;
+            color: #000 !important;
         }
 
         [data-theme="dark"] .btn, [data-theme="dark"] .send-btn, [data-theme="dark"] .open-again-btn {
-            color: #000; /* Ensure text is readable on yellow in dark mode */
-        }
-        [data-theme="dark"] .secondary-btn {
-            color: var(--text-main); /* White text in dark mode */
+            color: #000;
         }
 
         /* --- HERO SECTION --- */
@@ -329,7 +377,7 @@
             border-radius: var(--hand-drawn-radius);
             box-shadow: 3px 3px 0px var(--border-color);
             padding: 5px;
-            background: #ffffff; /* Keep white for flag accuracy */
+            background: #ffffff;
         }
 
         .hero-large-flag-box img {
@@ -445,7 +493,13 @@
         }
 
         .book-pages-wrapper { position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; pointer-events: none; }
-        .sheet { position: absolute; width: 50%; height: 100%; right: 0; top: 0; transform-origin: left center; transform-style: preserve-3d; transition: transform 1.4s cubic-bezier(0.45, 0.05, 0.15, 1); z-index: 1; }
+        
+        .sheet { 
+            position: absolute; width: 50%; height: 100%; right: 0; top: 0; 
+            transform-origin: left center; transform-style: preserve-3d; 
+            transition: transform 1.4s cubic-bezier(0.45, 0.05, 0.15, 1); 
+            z-index: 1; 
+        }
 
         .page-side {
             position: absolute; width: 100%; height: 100%; top: 0; left: 0;
@@ -554,7 +608,6 @@
         #projects { background: var(--bg-dark); }
         #projects .shape-fill { fill: var(--bg-yellow); }
         #projects .section-title { color: var(--bg-white); }
-        [data-theme="dark"] #projects .section-title { color: #000 !important; }
         
         .projects-outer-viewport {
             width: 100%;
@@ -576,21 +629,14 @@
             background: var(--bg-white);
             border: var(--border-thick);
             border-radius: var(--hand-drawn-radius);
-            box-shadow: 6px 6px 0px #000;
+            box-shadow: 6px 6px 0px #000; /* Keeping dark shadow for contrast */
             display: flex;
             flex-direction: column;
             overflow: hidden;
             transition: none !important;
         }
-
-        .project-card:hover {
-            transform: none !important;
-        }
-        
-        .project-card a {
-            display: block;
-            line-height: 0;
-        }
+        .project-card:hover { transform: none !important; }
+        .project-card a { display: block; line-height: 0; }
 
         .project-card img {
             width: 100%;
@@ -1224,7 +1270,7 @@
             isDrag = false;
         });
 
-        // --- 3D JOURNAL SPREAD ENGINE (FIXED OCCLUSION & PHYSICS) ---
+        // --- 3D JOURNAL SPREAD ENGINE (FIXED Z-INDEX RENDERING) ---
         const sheets = [
             document.getElementById('sheet-1'),
             document.getElementById('sheet-2'),
@@ -1243,11 +1289,13 @@
 
         function updateJournalState() {
             sheets.forEach((sheet, index) => {
-                const zOffset = 2; 
+                const zOffset = 3; 
 
                 if (index < currentSpreadIndex) {
+                    // Page is flipped to the left side
                     sheet.classList.add('flipped');
-                    sheet.style.transform = `rotateY(-180deg) translateZ(${index * zOffset}px)`;
+                    // Ensure perfectly ordered stacking away from viewer based on index
+                    sheet.style.transform = `rotateY(-180deg) translateZ(${-index * zOffset}px)`;
                     sheet.style.zIndex = index + 1;
 
                     if (index < currentSpreadIndex - 1) {
@@ -1259,7 +1307,9 @@
                     }
                     
                 } else {
+                    // Page is resting on the right side
                     sheet.classList.remove('flipped');
+                    // Ensure perfectly ordered stacking behind the top sheet
                     sheet.style.transform = `rotateY(0deg) translateZ(${-index * zOffset}px)`;
                     sheet.style.zIndex = totalSpreads - index;
                     sheet.style.visibility = "visible";
