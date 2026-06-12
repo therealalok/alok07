@@ -79,6 +79,20 @@ h1,h2,h3{ font-family:var(--font-head); text-transform:uppercase; line-height:1.
 p,a,span,input,textarea,button{ font-family:var(--font-body); }
 
 /* ============================================================
+   SCROLL REVEAL (FADE IN UP)
+============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ============================================================
    HEADER
 ============================================================ */
 header{
@@ -117,7 +131,8 @@ nav a:hover{ color:#c8960a; }
    SIDE FLOATING NAV
 ============================================================ */
 .side-floating-nav{
-    position:fixed; right:20px; top:50%; transform:translateY(-50%);
+    position:fixed; right:20px;
+    top:50%; transform:translateY(-50%);
     display:flex; flex-direction:column; gap:12px; z-index:1001;
 }
 .side-nav-btn{
@@ -142,7 +157,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 .section-title::after{
     content:''; position:absolute; bottom:4px; left:-5%; width:110%; height:14px;
-    background:var(--bg-yellow); z-index:-1;
+    background:var(--bg-yellow);
+    z-index:-1;
     border-radius:var(--hand-drawn-radius); transform:rotate(-1.5deg);
 }
 .btn,.send-btn,.open-again-btn{
@@ -150,7 +166,8 @@ section{ padding:130px 8vw; position:relative; }
     border-radius:var(--hand-drawn-radius); box-shadow:var(--hand-drawn-shadow);
     padding:14px 32px; font-family:var(--font-head); font-size:1.75rem;
     text-decoration:none; text-transform:uppercase; letter-spacing:2px;
-    display:inline-flex; align-items:center; justify-content:center; gap:12px;
+    display:inline-flex;
+    align-items:center; justify-content:center; gap:12px;
     cursor:pointer; transition:none !important;
 }
 .send-btn{ width:100%; text-align:center; }
@@ -164,14 +181,16 @@ section{ padding:130px 8vw; position:relative; }
 ============================================================ */
 #home{
     background:var(--bg-cream);
-    display:grid; grid-template-columns:1fr 1fr;
+    display:grid;
+    grid-template-columns:1fr 1fr;
     min-height:92vh; padding-top:60px; align-items:center;
     position:relative; overflow:hidden;
 }
 /* subtle diagonal stripe pattern behind hero */
 #home::before{
     content:'';
-    position:absolute; inset:0;
+    position:absolute;
+    inset:0;
     background:repeating-linear-gradient(
         -55deg,
         transparent,
@@ -192,7 +211,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 .hero-large-flag-box{
     width:84px; margin-bottom:20px; border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:3px 3px 0 var(--border-color);
+    border-radius:var(--hand-drawn-radius);
+    box-shadow:3px 3px 0 var(--border-color);
     padding:5px; background:#fff;
 }
 .hero-large-flag-box img{ width:100%; height:auto; display:block; border-radius:var(--hand-drawn-radius); }
@@ -359,7 +379,8 @@ section{ padding:130px 8vw; position:relative; }
 
     width:100%;
     display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
+    align-items:center;
+    justify-content:center;
     perspective:3500px; position:relative; z-index:3;
 }
 
@@ -376,20 +397,23 @@ section{ padding:130px 8vw; position:relative; }
 
 /* page stack edge */
 .book-container::after{
-    content:''; position:absolute; right:-9px; top:1.5%; width:9px; height:97%;
+    content:''; position:absolute; right:-9px; top:1.5%; width:9px;
+    height:97%;
     background:repeating-linear-gradient(to bottom,#e8e6df,#e8e6df 1px,#ccc9c0 1px,#ccc9c0 2px);
     transform:rotateY(90deg); transform-origin:left; z-index:0;
     box-shadow:inset 3px 0 8px rgba(0,0,0,.18);
 }
 
 /* click zones */
-.click-zone{ position:absolute; top:0; height:100%; width:50%; z-index:100; cursor:pointer; transform:translateZ(60px); }
+.click-zone{ position:absolute; top:0;
+    height:100%; width:50%; z-index:100; cursor:pointer; transform:translateZ(60px); }
 .click-zone-left{ left:0; }
 .click-zone-right{ right:0; }
 
 /* SPINE */
 .book-spine-core{
-    position:absolute; left:calc(50% - 15px); top:.2%; width:30px; height:99.6%;
+    position:absolute; left:calc(50% - 15px); top:.2%;
+    width:30px; height:99.6%;
     background:
         var(--linen),
         linear-gradient(to right,
@@ -406,9 +430,6 @@ section{ padding:130px 8vw; position:relative; }
 
 .book-pages-wrapper{ position:absolute; width:100%; height:100%; transform-style:preserve-3d; pointer-events:none; }
 
-
-
-
 .sheet{
     position:absolute; width:50%; height:100%; right:0; top:0;
     transform-origin:left center; transform-style:preserve-3d;
@@ -420,7 +441,8 @@ section{ padding:130px 8vw; position:relative; }
     background-color:var(--paper-base); background-image:var(--paper-tex);
     padding:72px 65px; display:flex; flex-direction:column;
     backface-visibility:hidden; transform-style:flat; overflow:hidden;
-    pointer-events:auto; border:1px solid rgba(0,0,0,.05);
+    pointer-events:auto;
+    border:1px solid rgba(0,0,0,.05);
 }
 .page-side.front{ transform:rotateY(0deg) translateZ(1px); }
 .page-side.back{ transform:rotateY(180deg) translateZ(-1px); }
@@ -465,7 +487,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 /* hinge shadow */
 .sheet.cover-sheet .front::before{
-    content:''; position:absolute; left:0; top:0; bottom:0; width:32px;
+    content:''; position:absolute; left:0;
+    top:0; bottom:0; width:32px;
     background:linear-gradient(to right,rgba(0,0,0,.7) 0%,rgba(0,0,0,.35) 50%,transparent 100%);
     z-index:25; pointer-events:none;
 }
@@ -484,7 +507,8 @@ section{ padding:130px 8vw; position:relative; }
 .cover-content-layout{
     position:relative; z-index:10; width:100%; height:100%;
     display:flex; flex-direction:column; justify-content:space-between;
-    align-items:center; padding:34px 34px 34px 48px;
+    align-items:center;
+    padding:34px 34px 34px 48px;
 }
 .cover-top-bar{ width:100%; display:flex; flex-direction:column; align-items:center; gap:7px; }
 .cover-foil-title{
@@ -504,7 +528,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 .cover-foil-subtitle{
     font-family:var(--font-body); font-size:.68rem;
-    letter-spacing:6px; font-weight:700; text-transform:uppercase;
+    letter-spacing:6px; font-weight:700;
+    text-transform:uppercase;
     color:rgba(245,197,24,.85); text-shadow:0 1px 4px rgba(0,0,0,.7);
     margin-top:5px;
 }
@@ -530,7 +555,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 .cover-medallion::after{
     content:''; position:absolute; inset:4px;
-    border-radius:50%; border:1px dashed rgba(255,255,255,.5);
+    border-radius:50%;
+    border:1px dashed rgba(255,255,255,.5);
 }
 .cover-year-badge{
     font-family:var(--font-body); 
@@ -547,7 +573,8 @@ section{ padding:130px 8vw; position:relative; }
     font-family:var(--font-body); 
     font-size:.95rem; /* Text size increased */
     letter-spacing:5px; text-transform:uppercase;
-    color:rgba(245,197,24,.85); text-shadow:0 1px 3px rgba(0,0,0,.6);
+    color:rgba(245,197,24,.85);
+    text-shadow:0 1px 3px rgba(0,0,0,.6);
 }
 
 /* INNER FRONT COVER */
@@ -598,7 +625,8 @@ section{ padding:130px 8vw; position:relative; }
 /* barrel */
 .pen-barrel{
     position:absolute; bottom:30px; left:0; right:0;
-    height:430px; border-radius:9px 9px 5px 5px;
+    height:430px;
+    border-radius:9px 9px 5px 5px;
     background:
         linear-gradient(to right,
             #b01000 0%, #e62010 10%,
@@ -611,7 +639,8 @@ section{ padding:130px 8vw; position:relative; }
 /* gold clip */
 .pen-clip{
     position:absolute; bottom:60px; left:-4px;
-    width:6px; height:380px; border-radius:3px 3px 0 0;
+    width:6px;
+    height:380px; border-radius:3px 3px 0 0;
     background:linear-gradient(to right,
         #997700 0%, #f5c518 25%, #fff176 45%,
         #f5c518 65%, #b8860b 85%, #997700 100%
@@ -626,7 +655,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 /* gold ring bands */
 .pen-ring{
-    position:absolute; left:0; right:0; height:12px;
+    position:absolute; left:0;
+    right:0; height:12px;
     background:linear-gradient(to right,
         #997700 0%, #f5c518 25%, #fff176 45%,
         #f5c518 65%, #b8860b 85%, #997700 100%
@@ -639,7 +669,8 @@ section{ padding:130px 8vw; position:relative; }
 .pen-ring.low{ bottom:28px; }
 /* cap */
 .pen-cap{
-    position:absolute; top:0; left:0; right:0; height:130px;
+    position:absolute; top:0; left:0;
+    right:0; height:130px;
     border-radius:9px 9px 3px 3px;
     background:linear-gradient(to right,
         #111 0%, #222 15%, #333 30%, #222 55%, #111 80%, #0a0a0a 100%
@@ -661,7 +692,8 @@ section{ padding:130px 8vw; position:relative; }
     border-top:26px solid #c0a060;
 }
 .pen-nib-tip{
-    position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+    position:absolute;
+    bottom:0; left:50%; transform:translateX(-50%);
     width:3px; height:7px; border-radius:0 0 2px 2px;
     background:linear-gradient(to bottom,#silver,#c8c8c8,#e0e0e0);
     background:linear-gradient(to bottom,#aaa,#ddd,#eee);
@@ -690,6 +722,7 @@ section{ padding:130px 8vw; position:relative; }
 .closing-spread-layout{ align-items:center; justify-content:center; text-align:center; padding:55px; }
 .book-hud-controls{ display:flex; flex-direction:column; align-items:center; gap:18px; margin-top:30px; }
 .hud-arrow-row{ display:flex; align-items:center; gap:22px; }
+
 /* Modified Instructions & HUD Text */
 .hud-instruction{ 
     font-family:var(--font-body); 
@@ -805,7 +838,8 @@ section{ padding:130px 8vw; position:relative; }
 
 .contact-wrapper{
     display:grid; grid-template-columns:1fr 1fr;
-    background:var(--bg-white); border:var(--border-thick);
+    background:var(--bg-white);
+    border:var(--border-thick);
     border-radius:var(--hand-drawn-radius); box-shadow:var(--hand-drawn-shadow);
     overflow:hidden;
 }
@@ -827,7 +861,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 .contact-info{ display:flex; flex-direction:column; gap:18px; }
 .contact-info a{
-    text-decoration:none; color:#fff; font-size:1.1rem; font-weight:700;
+    text-decoration:none; color:#fff; font-size:1.1rem;
+    font-weight:700;
     display:flex; align-items:center; gap:14px;
     background:rgba(255,255,255,.08); border:2px solid rgba(245,197,24,.3);
     border-radius:var(--hand-drawn-radius); padding:14px 18px;
@@ -839,7 +874,8 @@ section{ padding:130px 8vw; position:relative; }
 .socials a{
     width:56px; height:56px; display:flex; align-items:center; justify-content:center;
     background:rgba(255,255,255,.08); border:2px solid rgba(245,197,24,.3);
-    border-radius:var(--hand-drawn-radius); color:#fff; font-size:1.7rem;
+    border-radius:var(--hand-drawn-radius);
+    color:#fff; font-size:1.7rem;
     text-decoration:none; transition:none !important;
 }
 .socials a:hover{ background:var(--bg-yellow); color:#000; }
@@ -922,7 +958,6 @@ footer{
 </head>
 <body>
 
-<!-- ===== SIDE NAV ===== -->
 <div class="side-floating-nav">
     <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
     <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -930,7 +965,6 @@ footer{
     <a href="tel:+9779843538473" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
 </div>
 
-<!-- ===== HEADER ===== -->
 <header>
     <div class="logo">AL<span>OK.</span></div>
     <div class="nav-container">
@@ -947,9 +981,8 @@ footer{
     </div>
 </header>
 
-<!-- ===== HERO ===== -->
 <section class="hero" id="home">
-    <div class="hero-text-col">
+    <div class="hero-text-col reveal">
         <div class="hero-subtitle">THIS IS</div>
         <div class="hero-emblem-layout">
             <div class="hero-large-flag-box">
@@ -963,32 +996,29 @@ footer{
             <a href="#contact" class="btn secondary-btn">Let's Connect</a>
         </div>
     </div>
-    <div class="hero-image-col">
+    <div class="hero-image-col reveal">
         <div class="image-box">
             <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
         </div>
     </div>
 </section>
 
-<!-- ===== EDUCATION ===== -->
 <section id="education">
     <div class="divider-top">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Education Journey</h2>
     </div>
 
-    <!-- WOODEN TABLE SCENE -->
-    <div class="book-scene-wrapper">
+    <div class="book-scene-wrapper reveal">
         <div class="wooden-table">
             <div class="table-grain-overlay"></div>
             <div class="book-pen-scene">
                 <div class="book-shadow"></div>
 
-                <!-- BOOK -->
                 <div class="edu-book-viewport">
                     <div class="book-container" id="luxury-journal">
                         <div class="book-base-shadows"></div>
@@ -997,11 +1027,9 @@ footer{
                         <div class="click-zone click-zone-right" id="zone-right"></div>
                         <div class="book-pages-wrapper">
 
-                            <!-- SHEET 1: FRONT COVER + TOC -->
                             <div class="sheet cover-sheet" id="sheet-1">
                                 <div class="page-side front">
                                     <div class="cover-content-layout">
-                                        <!-- top ornament -->
                                         <div class="cover-top-bar">
                                             <svg class="cover-ornament-divider" viewBox="0 0 260 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <line x1="0" y1="9" x2="75" y2="9" stroke="rgba(245,197,24,0.6)" stroke-width="1.5"/>
@@ -1015,7 +1043,6 @@ footer{
                                             <div class="cover-foil-subtitle">ALOK SHARMA'S</div>
                                         </div>
 
-                                        <!-- foil title -->
                                         <div class="cover-medallion-wrap">
                                             <div class="cover-foil-title">EDUCATIONAL<br>JOURNEY</div>
                                             <svg class="cover-ornament-divider" viewBox="0 0 240 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:6px">
@@ -1027,13 +1054,11 @@ footer{
                                             </svg>
                                         </div>
 
-                                        <!-- seal -->
                                         <div class="cover-medallion-wrap">
                                             <div class="cover-medallion">AS</div>
                                             <div class="cover-year-badge">2010 — PRESENT</div>
                                         </div>
 
-                                        <!-- bottom -->
                                         <div class="cover-bottom-block">
                                             <svg class="cover-ornament-divider" viewBox="0 0 260 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <line x1="0" y1="9" x2="75" y2="9" stroke="rgba(245,197,24,0.6)" stroke-width="1.5"/>
@@ -1061,7 +1086,6 @@ footer{
                                 </div>
                             </div>
 
-                            <!-- SHEET 2 -->
                             <div class="sheet" id="sheet-2">
                                 <div class="page-side front">
                                     <div class="editorial-meta-line">FOUNDATION / SEC 01</div>
@@ -1080,7 +1104,6 @@ footer{
                                 </div>
                             </div>
 
-                            <!-- SHEET 3 -->
                             <div class="sheet" id="sheet-3">
                                 <div class="page-side front">
                                     <div class="editorial-meta-line">INTERMEDIATE LEVEL / SEC 02</div>
@@ -1099,7 +1122,6 @@ footer{
                                 </div>
                             </div>
 
-                            <!-- SHEET 4: BACK COVER -->
                             <div class="sheet cover-sheet-back" id="sheet-4">
                                 <div class="page-side front">
                                     <div class="editorial-meta-line">HIGHER LEVEL / SEC 03</div>
@@ -1119,10 +1141,7 @@ footer{
                                 </div>
                             </div>
 
-                        </div><!-- /book-pages-wrapper -->
-                    </div><!-- /book-container -->
-
-                    <div class="book-hud-controls">
+                        </div></div><div class="book-hud-controls">
                         <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS TO FLIP THE PAGE.</div>
                         <div class="hud-arrow-row">
                             <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
@@ -1130,10 +1149,7 @@ footer{
                             <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
                         </div>
                     </div>
-                </div><!-- /edu-book-viewport -->
-
-                <!-- REALISTIC PEN -->
-                <div class="realistic-pen" aria-hidden="true">
+                </div><div class="realistic-pen" aria-hidden="true">
                     <div class="pen-cap"></div>
                     <div class="pen-ring top"></div>
                     <div class="pen-ring mid"></div>
@@ -1145,22 +1161,18 @@ footer{
                         <div class="pen-nib-tip"></div>
                     </div>
                 </div>
-            </div><!-- /book-pen-scene -->
-        </div><!-- /wooden-table -->
-    </div><!-- /book-scene-wrapper -->
-</section>
+            </div></div></div></section>
 
-<!-- ===== SKILLS ===== -->
 <section id="skills">
     <div class="divider-top">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Core Skills</h2>
     </div>
-    <div class="skills-grid-container">
+    <div class="skills-grid-container reveal">
         <div class="skill-item-card">
             <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
             <h3>HTML</h3>
@@ -1180,19 +1192,17 @@ footer{
     </div>
 </section>
 
-<!-- ===== PROJECTS ===== -->
 <section id="projects">
     <div class="divider-top">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Featured Projects</h2>
     </div>
-    <div class="projects-outer-viewport" id="swipe-slider-viewport">
+    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
         <div class="projects-grid" id="swipe-slider-grid">
-            <!-- original cards -->
             <div class="project-card"><a href="heavymetalfootball.jpg" target="_blank"><img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false"></a><div class="project-content"><h3>Heavy Metal Football</h3><p>A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p></div></div>
             <div class="project-card"><a href="psgvarsfinal copy.jpg" target="_blank"><img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false"></a><div class="project-content"><h3>Paris Saint-Germain VS Arsenal</h3><p>Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p></div></div>
             <div class="project-card"><a href="lfcvbre copy.jpg" target="_blank"><img src="lfcvbre copy.jpg" alt="Project 1" draggable="false"></a><div class="project-content"><h3>Liverpool VS Brentford</h3><p>Matchday design of the last Premier League game of the 2025-26 campaign.</p></div></div>
@@ -1207,7 +1217,7 @@ footer{
             <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
         </div>
     </div>
-    <div class="slider-controls-wrapper">
+    <div class="slider-controls-wrapper reveal">
         <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
         <div class="slider-arrows">
             <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
@@ -1216,17 +1226,16 @@ footer{
     </div>
 </section>
 
-<!-- ===== CONTACT ===== -->
 <section id="contact">
     <div class="divider-top">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Get In Touch</h2>
     </div>
-    <div class="contact-wrapper">
+    <div class="contact-wrapper reveal">
         <div class="contact-card">
             <div class="find-me-btn">Find Me ↘</div>
             <div class="contact-info">
@@ -1242,7 +1251,7 @@ footer{
             </div>
         </div>
         <form class="contact-form" id="portfolio-contact-form">
-            <div class="form-row">
+             <div class="form-row">
                 <input type="text" name="name" placeholder="NAME" required>
                 <input type="email" name="email" placeholder="EMAIL" required>
             </div>
@@ -1252,12 +1261,33 @@ footer{
     </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
 <footer>
     Copyright © Alok Sharma - All rights reserved.
 </footer>
 
 <script>
+/* ============================================================
+   SCROLL REVEAL OBSERVER (FADE IN UP)
+============================================================ */
+(function() {
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Stop observing once it reveals
+            }
+        });
+    }, {
+        threshold: 0.15, // Trigger when 15% visible
+        rootMargin: "0px 0px -50px 0px"
+    });
+
+    reveals.forEach(reveal => {
+        revealObserver.observe(reveal);
+    });
+})();
+
 /* ============================================================
    THEME TOGGLE
 ============================================================ */
@@ -1316,7 +1346,7 @@ themeToggle.addEventListener("click", () => {
 
     viewport.addEventListener('mouseenter', () => isPaused = true);
     viewport.addEventListener('mouseleave', () => isPaused = false);
-
+    
     function slideAmount() {
         const card = grid.querySelector('.project-card');
         return card ? card.offsetWidth + GAP : 416;
@@ -1328,6 +1358,7 @@ themeToggle.addEventListener("click", () => {
     viewport.addEventListener('mousedown', e => { isDrag=true; startX=e.clientX; dragStart=offset; });
     window.addEventListener('mousemove', e => { if(!isDrag) return; offset=dragStart+(e.clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; });
     window.addEventListener('mouseup',   () => isDrag=false);
+    
     // Drag (touch)
     viewport.addEventListener('touchstart', e => { isDrag=true; startX=e.touches[0].clientX; dragStart=offset; }, {passive:true});
     viewport.addEventListener('touchmove',  e => { if(!isDrag) return; offset=dragStart+(e.touches[0].clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; }, {passive:true});
