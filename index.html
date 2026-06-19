@@ -859,10 +859,6 @@ section{ padding:130px 8vw; position:relative; }
 ============================================================ */
 #skills{ background:var(--bg-yellow); }
 #skills .shape-fill{ fill:var(--bg-white); }
-.skills-subtitle{
-    font-family:var(--font-body); font-weight:600; font-size:1.05rem;
-    color:var(--text-main); opacity:.75; margin-top:14px;
-}
 
 .skills-grid-container{
     display:grid; grid-template-columns:repeat(4,1fr);
@@ -872,8 +868,8 @@ section{ padding:130px 8vw; position:relative; }
 .skill-item-card{
     background:var(--bg-white); border:var(--border-thick);
     border-radius:var(--hand-drawn-radius); box-shadow:4px 4px 0 var(--border-color);
-    padding:34px 30px; display:flex; flex-direction:column;
-    align-items:flex-start; justify-content:flex-start; gap:16px;
+    padding:38px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:22px;
     transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease; position:relative; overflow:hidden;
     --skill-accent: var(--bg-yellow);
 }
@@ -885,12 +881,8 @@ section{ padding:130px 8vw; position:relative; }
 }
 .skill-item-card:hover{ background:var(--bg-cream); box-shadow:7px 7px 0 var(--border-color); }
 .skill-item-card:hover .skill-icon-wrap{ transform:scale(1.1) rotate(-4deg); }
-.skill-item-card h3{ font-size:2rem; color:var(--text-main); }
-.skill-item-card p{
-    font-size:.95rem; line-height:1.55; color:var(--text-muted);
-    font-weight:600;
-}
-.skill-icon-wrap{ width:56px; height:56px; transition:transform .3s ease;
+.skill-item-card h3{ font-size:2.8rem; color:var(--text-main); }
+.skill-icon-wrap{ width:90px; height:90px; transition:transform .3s ease;
 }
 .skill-icon-wrap img{ width:100%; height:100%; object-fit:contain; }
 /* per-skill accent colors (visual only) */
@@ -942,7 +934,7 @@ section{ padding:130px 8vw; position:relative; }
 }
 /* hover overlay with View Project label */
 .project-card a::after{
-    content:'VIEW FULL \2295';
+    content:'VIEW PROJECT \2197';
     position:absolute; inset:0;
     display:flex; align-items:center; justify-content:center;
     background:rgba(13,13,26,.55);
@@ -1060,7 +1052,6 @@ section{ padding:130px 8vw; position:relative; }
 }
 .contact-form input::placeholder,.contact-form textarea::placeholder{ color:var(--text-muted); }
 .contact-form textarea{ min-height:190px; resize:none; }
-.hp-field{ position:absolute !important; left:-9999px !important; width:1px; height:1px; opacity:0; pointer-events:none; }
 .contact-form input:focus,.contact-form textarea:focus{ background:var(--bg-white); border-color:var(--bg-yellow);
 }
 .send-btn{ box-shadow:6px 6px 0 var(--border-color); font-size:1.9rem; margin-top:8px; }
@@ -1085,96 +1076,6 @@ footer{
     background:var(--bg-dark); color:var(--bg-yellow);
     border-top:var(--border-thick); text-transform:uppercase;
     letter-spacing:2px; font-size:.9rem;
-}
-
-/* ============================================================
-   PROJECT LIGHTBOX
-============================================================ */
-.lightbox{
-    position:fixed; inset:0; z-index:2000;
-    display:flex; align-items:center; justify-content:center;
-    padding:5vh 4vw;
-    opacity:0; visibility:hidden;
-    transition:opacity .3s ease, visibility 0s linear .3s;
-}
-.lightbox.open{
-    opacity:1; visibility:visible;
-    transition:opacity .3s ease, visibility 0s linear 0s;
-}
-.lightbox-backdrop{
-    position:absolute; inset:0;
-    background:rgba(8,8,16,.88);
-    backdrop-filter:blur(6px);
-}
-.lightbox-shell{
-    position:relative; z-index:1;
-    width:min(1100px,100%); max-height:90vh;
-    background:var(--bg-white);
-    border:var(--border-thick); border-radius:24px;
-    box-shadow:10px 10px 0 rgba(0,0,0,.45);
-    display:grid; grid-template-columns:1.3fr 1fr;
-    overflow:hidden;
-    transform:translateY(24px) scale(.98);
-    transition:transform .35s cubic-bezier(.16,1,.3,1);
-}
-.lightbox.open .lightbox-shell{ transform:translateY(0) scale(1); }
-.lightbox-close{
-    position:absolute; top:16px; right:16px; z-index:5;
-    width:42px; height:42px; border-radius:50%;
-    background:var(--bg-yellow); color:#000; border:var(--border-thick);
-    box-shadow:3px 3px 0 var(--border-color);
-    display:flex; align-items:center; justify-content:center;
-    font-size:1.1rem; cursor:pointer;
-    transition:transform .2s ease;
-}
-.lightbox-close:hover{ transform:translate(-2px,-2px); }
-.lightbox-image-col{
-    background:var(--bg-dark);
-    display:flex; align-items:center; justify-content:center;
-    max-height:90vh; overflow:hidden;
-}
-.lightbox-image-col img{
-    width:100%; height:100%; max-height:90vh;
-    object-fit:contain;
-}
-.lightbox-info-col{
-    padding:48px 40px;
-    display:flex; flex-direction:column;
-    overflow-y:auto;
-}
-.lightbox-tag{
-    font-family:var(--font-head); letter-spacing:3px; font-size:.95rem;
-    color:var(--accent2); margin-bottom:10px;
-}
-.lightbox-info-col h3{
-    font-size:2.4rem; line-height:1.05; margin-bottom:18px;
-}
-.lightbox-info-col p{
-    font-size:1.05rem; line-height:1.65; color:var(--text-muted);
-    flex-grow:1;
-}
-.lightbox-actions{ margin:28px 0; }
-.lightbox-nav-row{
-    display:flex; align-items:center; justify-content:space-between;
-    border-top:2px solid var(--border-color); padding-top:24px;
-}
-.lightbox-counter{
-    font-family:var(--font-head); font-size:1.2rem; letter-spacing:2px;
-    color:var(--text-muted);
-}
-body.lightbox-active{ overflow:hidden; }
-
-@media(max-width:900px){
-    .lightbox{ padding:0; }
-    .lightbox-shell{
-        grid-template-columns:1fr; max-height:100vh; height:100%;
-        border-radius:0; border-width:0 0 0 0;
-        overflow-y:auto;
-    }
-    .lightbox-image-col{ max-height:50vh; }
-    .lightbox-image-col img{ max-height:50vh; }
-    .lightbox-info-col{ padding:32px 24px; }
-    .lightbox-info-col h3{ font-size:1.9rem; }
 }
 
 /* ============================================================
@@ -1259,9 +1160,8 @@ left:auto !important; right:auto !important; margin-top:28px; display:block; }
     .cover-main-head{ font-size:clamp(2.8rem,10vw,4rem);
 }
     .skill-item-card{ padding:24px; }
-    .skill-item-card h3{ font-size:1.6rem; }
-    .skill-item-card p{ font-size:.88rem; }
-    .skill-icon-wrap{ width:44px; height:44px;
+    .skill-item-card h3{ font-size:2rem; }
+    .skill-icon-wrap{ width:64px; height:64px;
 }
     .project-card{ width:88vw; }
     .project-content h3{ font-size:2.2rem; }
@@ -1560,28 +1460,25 @@ I achieved a GPA of 3.62 in SLC.</p>
     </div>
     <div class="section-title-container reveal">
         <h2 class="section-title">Core Skills</h2>
-        <p class="skills-subtitle">The tools behind every matchday poster, tribute piece, and reel.</p>
     </div>
     <div class="skills-grid-container reveal">
-        <div class="skill-item-card skill-photoshop">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
-            <h3>Photoshop</h3>
-            <p>Where every poster gets built — compositing, color grading, and the editorial layout work that turns a matchday into a story.</p>
-        </div>
         <div class="skill-item-card skill-html">
             <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
             <h3>HTML</h3>
-            <p>Structuring this site and anything else I build for the web, from layout to content.</p>
         </div>
         <div class="skill-item-card skill-css">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
+            <div 
+class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
             <h3>CSS</h3>
-            <p>The same eye I bring to a poster grid — composition, spacing, and rhythm — applied to interfaces.</p>
         </div>
         <div class="skill-item-card skill-python">
             <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></div>
             <h3>Python</h3>
-            <p>CS coursework and personal scripting — the analytical half of a mostly visual practice.</p>
+        </div>
+        <div class="skill-item-card skill-photoshop">
+            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
+        
+    <h3>Photoshop</h3>
         </div>
     </div>
 </section>
@@ -1597,25 +1494,25 @@ I achieved a GPA of 3.62 in SLC.</p>
     </div>
     <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
         <div class="projects-grid" id="swipe-slider-grid">
-            <div class="project-card"><a href="portugalvcongo copy.jpg" class="project-link" target="_blank"><img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false"></a><div class="project-content"><h3>Argentina VS Austria</h3><p>A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p></div></div>
-            <div class="project-card"><a href="porcong.jpeg" class="project-link" target="_blank"><img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false"></a><div class="project-content"><h3>Portugal VS Congo</h3><p>A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p></div></div>
-            <div class="project-card"><a href="heavymetalfootball.jpg" class="project-link" target="_blank"><img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false"></a><div class="project-content"><h3>Heavy Metal Football</h3><p>A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p></div></div>
-            <div class="project-card"><a href="psgvarsfinal copy.jpg" class="project-link" target="_blank"><img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false"></a><div class="project-content"><h3>Paris Saint-Germain VS Arsenal</h3><p>Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain 
+            <div class="project-card"><a href="portugalvcongo copy.jpg" target="_blank"><img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false"></a><div class="project-content"><h3>Argentina VS Austria</h3><p>A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p></div></div>
+            <div class="project-card"><a href="porcong.jpeg" target="_blank"><img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false"></a><div class="project-content"><h3>Portugal VS Congo</h3><p>A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p></div></div>
+            <div class="project-card"><a href="heavymetalfootball.jpg" target="_blank"><img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false"></a><div class="project-content"><h3>Heavy Metal Football</h3><p>A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p></div></div>
+            <div class="project-card"><a href="psgvarsfinal copy.jpg" target="_blank"><img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false"></a><div class="project-content"><h3>Paris Saint-Germain VS Arsenal</h3><p>Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain 
 and Arsenal.</p></div></div>
-            <div class="project-card"><a href="lfcvbre copy.jpg" class="project-link" target="_blank"><img src="lfcvbre copy.jpg" alt="Project 1" draggable="false"></a><div class="project-content"><h3>Liverpool VS Brentford</h3><p>Matchday design of the last Premier League game of the 2025-26 campaign.</p></div></div>
-            <div class="project-card"><a href="robboxmo copy.jpg" class="project-link" target="_blank"><img src="robboxmo copy.jpg" alt="Project 2" draggable="false"></a><div class="project-content"><h3>ONE LAST TIME AT ANFIELD.</h3><p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p></div></div>
-            <div class="project-card"><a href="wc.jpeg" class="project-link" target="_blank"><img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial 
+            <div class="project-card"><a href="lfcvbre copy.jpg" target="_blank"><img src="lfcvbre copy.jpg" alt="Project 1" draggable="false"></a><div class="project-content"><h3>Liverpool VS Brentford</h3><p>Matchday design of the last Premier League game of the 2025-26 campaign.</p></div></div>
+            <div class="project-card"><a href="robboxmo copy.jpg" target="_blank"><img src="robboxmo copy.jpg" alt="Project 2" draggable="false"></a><div class="project-content"><h3>ONE LAST TIME AT ANFIELD.</h3><p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p></div></div>
+            <div class="project-card"><a href="wc.jpeg" target="_blank"><img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial 
 Graphic Layout" draggable="false"></a><div class="project-content"><h3>FIFA World Cup 2026</h3><p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p></div></div>
-            <div class="project-card"><a href="newlivche.jpeg" class="project-link" target="_blank"><img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool VS Chelsea</h3><p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p></div></div>
-            <div class="project-card"><a href="ThankyouRobbo.jpeg" class="project-link" target="_blank"><img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false"></a><div class="project-content"><h3>Thank You, Robbo!</h3><p>A poster filled with passion and pride, celebrating Robbo's fearless spirit 
+            <div class="project-card"><a href="newlivche.jpeg" target="_blank"><img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool VS Chelsea</h3><p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p></div></div>
+            <div class="project-card"><a href="ThankyouRobbo.jpeg" target="_blank"><img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false"></a><div class="project-content"><h3>Thank You, Robbo!</h3><p>A poster filled with passion and pride, celebrating Robbo's fearless spirit 
 and unforgettable journey in red.</p></div></div>
-            <div class="project-card"><a href="ThankyouMo.jpeg" class="project-link" target="_blank"><img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false"></a><div class="project-content"><h3>Thank You, Mo!</h3><p>A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p></div></div>
-            <div class="project-card"><a href="livvmci.jpeg" class="project-link" target="_blank"><img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Manchester City</h3><p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p></div></div>
+            <div class="project-card"><a href="ThankyouMo.jpeg" target="_blank"><img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false"></a><div class="project-content"><h3>Thank You, Mo!</h3><p>A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p></div></div>
+            <div class="project-card"><a href="livvmci.jpeg" target="_blank"><img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Manchester City</h3><p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p></div></div>
          
-   <div class="project-card"><a href="livvgal.jpeg" class="project-link" target="_blank"><img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Galatasaray</h3><p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p></div></div>
-            <div class="project-card"><a href="livvpsg.jpeg" class="project-link" target="_blank"><img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Paris Saint-Germain</h3><p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p></div></div>
+   <div class="project-card"><a href="livvgal.jpeg" target="_blank"><img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Galatasaray</h3><p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p></div></div>
+            <div class="project-card"><a href="livvpsg.jpeg" target="_blank"><img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Paris Saint-Germain</h3><p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p></div></div>
            
- <div class="project-card"><a href="slotout.jpeg" class="project-link" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
+ <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
         </div>
     </div>
     <div class="slider-controls-wrapper reveal">
@@ -1627,29 +1524,6 @@ class="fa-solid fa-arrow-left"></i></button>
         </div>
     </div>
 </section>
-
-<div class="lightbox" id="project-lightbox" aria-hidden="true">
-    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
-    <div class="lightbox-shell" role="dialog" aria-modal="true" aria-labelledby="lightbox-title">
-        <button class="lightbox-close" id="lightbox-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-        <div class="lightbox-image-col">
-            <img src="" alt="" id="lightbox-img">
-        </div>
-        <div class="lightbox-info-col">
-            <div class="lightbox-tag" id="lightbox-tag">PROJECT</div>
-            <h3 id="lightbox-title"></h3>
-            <p id="lightbox-desc"></p>
-            <div class="lightbox-actions">
-                <a href="#" class="btn secondary-btn" id="lightbox-fullsize" target="_blank" rel="noopener noreferrer">Open Full Size <i class="fa-solid fa-up-right-from-square"></i></a>
-            </div>
-            <div class="lightbox-nav-row">
-                <button class="hud-arrow-btn" id="lightbox-prev" aria-label="Previous project"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="lightbox-counter" id="lightbox-counter">1 / 14</div>
-                <button class="hud-arrow-btn" id="lightbox-next" aria-label="Next project"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <section id="contact">
     <div class="divider-top">
@@ -1682,9 +1556,8 @@ class="fa-solid fa-arrow-left"></i></button>
                 <input type="text" name="name" placeholder="NAME" required>
                 <input type="email" name="email" placeholder="EMAIL" required>
              </div>
-             <input type="text" name="company" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
-     
-        <textarea name="message" placeholder="MESSAGE" required></textarea>
+       
+     <textarea name="message" placeholder="MESSAGE" required></textarea>
             <button type="submit" class="send-btn">SEND MESSAGE</button>
         </form>
     </div>
@@ -1838,88 +1711,6 @@ window.addEventListener('mousemove', e => { if(!isDrag) return; offset=dragStart
 viewport.addEventListener('touchmove',  e => { if(!isDrag) return; offset=dragStart+(e.touches[0].clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; }, {passive:true});
     viewport.addEventListener('touchend',   () => isDrag=false);
 })();
-/* ============================================================
-   PROJECT LIGHTBOX
-============================================================ */
-(function(){
-    const lightbox   = document.getElementById('project-lightbox');
-    const backdrop    = document.getElementById('lightbox-backdrop');
-    const closeBtn    = document.getElementById('lightbox-close');
-    const imgEl       = document.getElementById('lightbox-img');
-    const titleEl     = document.getElementById('lightbox-title');
-    const descEl      = document.getElementById('lightbox-desc');
-    const fullsizeBtn = document.getElementById('lightbox-fullsize');
-    const counterEl   = document.getElementById('lightbox-counter');
-    const prevBtn     = document.getElementById('lightbox-prev');
-    const nextBtn     = document.getElementById('lightbox-next');
-
-    if(!lightbox) return;
-
-    // Build a deduped list from the ORIGINAL cards only (grid has clones appended for the marquee)
-    const allLinks = Array.from(document.querySelectorAll('.project-card .project-link'));
-    const seen = new Set();
-    const items = [];
-    allLinks.forEach(a => {
-        const href = a.getAttribute('href');
-        if (seen.has(href)) return;
-        seen.add(href);
-        const card = a.closest('.project-card');
-        items.push({
-            src:   href,
-            alt:   a.querySelector('img')?.getAttribute('alt') || '',
-            title: card.querySelector('.project-content h3')?.innerText || '',
-            desc:  card.querySelector('.project-content p')?.innerText || ''
-        });
-    });
-
-    let current = 0;
-
-    function render(i){
-        current = (i + items.length) % items.length;
-        const item = items[current];
-        imgEl.src = item.src;
-        imgEl.alt = item.alt;
-        titleEl.innerText = item.title;
-        descEl.innerText = item.desc;
-        fullsizeBtn.href = item.src;
-        counterEl.innerText = `${current + 1} / ${items.length}`;
-    }
-
-    function open(i){
-        render(i);
-        lightbox.classList.add('open');
-        lightbox.setAttribute('aria-hidden','false');
-        document.body.classList.add('lightbox-active');
-    }
-
-    function close(){
-        lightbox.classList.remove('open');
-        lightbox.setAttribute('aria-hidden','true');
-        document.body.classList.remove('lightbox-active');
-    }
-
-    // Delegate clicks so it works for both original and marquee-cloned cards
-    document.addEventListener('click', e => {
-        const link = e.target.closest('.project-link');
-        if (!link) return;
-        e.preventDefault();
-        const href = link.getAttribute('href');
-        const idx = items.findIndex(it => it.src === href);
-        open(idx >= 0 ? idx : 0);
-    });
-
-    closeBtn.addEventListener('click', close);
-    backdrop.addEventListener('click', close);
-    prevBtn.addEventListener('click', () => render(current - 1));
-    nextBtn.addEventListener('click', () => render(current + 1));
-
-    document.addEventListener('keydown', e => {
-        if (!lightbox.classList.contains('open')) return;
-        if (e.key === 'Escape') close();
-        if (e.key === 'ArrowLeft') render(current - 1);
-        if (e.key === 'ArrowRight') render(current + 1);
-    });
-})();
 (function(){
     const sheets = [
         document.getElementById('sheet-1'),
@@ -1970,14 +1761,8 @@ restart   && restart.addEventListener('click',   () => { spread=0; update(); });
 })();
 (function(){
     const form = document.getElementById("portfolio-contact-form");
-    let lastSubmit = 0;
     form.addEventListener("submit", async e => {
         e.preventDefault();
-        // Honeypot: bots fill every field, humans never see/touch this one
-        if (form.querySelector('input[name="company"]').value) return;
-        // Basic cooldown to stop rapid-fire resubmits
-        if (Date.now() - lastSubmit < 15000) return;
-        lastSubmit = Date.now();
         const btn = form.querySelector(".send-btn");
         const orig = btn.innerText;
         btn.innerText = "SENDING..."; btn.style.pointerEvents = "none";
