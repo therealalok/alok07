@@ -13,1173 +13,490 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
-:root {
---bg-primary: oklch(0.97 0.01 90);
---bg-secondary: oklch(1 0 0);
---accent-primary: oklch(0.8 0.16 90);
---accent-secondary: oklch(0.7 0.18 85);
---text-main: oklch(0.2 0.02 260);
---text-muted: oklch(0.4 0.02 260);
---border-color: oklch(0.2 0.02 260);
---border-radius: 4px;
---spacing-base: clamp(1rem, 2vw, 2rem);
---font-display: 'Syne', sans-serif;
---font-body: 'Plus Jakarta Sans', sans-serif;
---font-mono: 'Geist Mono', monospace;
-}
-[data-theme="dark"] {
---bg-primary: oklch(0.15 0.02 260);
---bg-secondary: oklch(0.1 0.02 260);
---text-main: oklch(0.95 0.01 90);
---text-muted: oklch(0.7 0.01 90);
---border-color: oklch(0.3 0.02 260);
-}
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-}
-body {
-background-color: var(--bg-primary);
-color: var(--text-main);
-font-family: var(--font-body);
-overflow: hidden;
--webkit-font-smoothing: antialiased;
-}
-h1, h2, h3, .font-display {
-font-family: var(--font-display);
-text-transform: uppercase;
-letter-spacing: -0.04em;
-font-weight: 800;
-}
-#scroll-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-overflow: hidden;
-will-change: transform;
-}
-.cursor-dot {
-position: fixed;
-top: 0;
-left: 0;
-width: 6px;
-height: 6px;
-background-color: var(--text-main);
-border-radius: 50%;
-pointer-events: none;
-z-index: 9999;
-mix-blend-mode: difference;
-transform: translate(-50%, -50%);
-will-change: transform;
-}
-.cursor-ring {
-position: fixed;
-top: 0;
-left: 0;
-width: 40px;
-height: 40px;
-border: 1px solid var(--text-main);
-border-radius: 50%;
-pointer-events: none;
-z-index: 9998;
-mix-blend-mode: difference;
-transform: translate(-50%, -50%);
-will-change: transform, width, height, border-color, opacity;
-transition: width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s, border-radius 0.3s, opacity 0.3s;
-display: flex;
-align-items: center;
-justify-content: center;
-font-family: var(--font-mono);
-font-size: 0.6rem;
-color: var(--bg-primary);
-text-align: center;
-}
-.cursor-ring::after {
-content: attr(data-content);
-opacity: 0;
-transition: opacity 0.3s;
-}
-.cursor-ring.hover-active {
-width: 60px;
-height: 60px;
-background-color: var(--text-main);
-border-color: var(--text-main);
-}
-.cursor-ring.hover-active::after {
-opacity: 1;
-}
-header {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 20px 4vw;
-z-index: 1000;
-transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
-will-change: transform;
-}
-header.hidden {
-transform: translate3d(0, -100%, 0);
-}
-header.scrolled {
-background-color: color-mix(in oklch, var(--bg-primary) 80%, transparent);
-backdrop-filter: blur(12px);
-border-bottom: 1px solid var(--border-color);
-}
-.logo {
-font-family: var(--font-display);
-font-size: 1.5rem;
-font-weight: 800;
-text-transform: uppercase;
-}
-.logo span {
-color: var(--accent-primary);
-}
-.nav-container {
-display: flex;
-align-items: center;
-gap: 30px;
-position: relative;
-}
-nav {
-display: flex;
-gap: 30px;
-position: relative;
-}
-nav a {
-text-decoration: none;
-color: var(--text-main);
-font-weight: 600;
-font-size: 1rem;
-text-transform: uppercase;
-}
-.svg-underline {
-position: absolute;
-bottom: -5px;
-left: 0;
-width: 100%;
-height: 4px;
-pointer-events: none;
-}
-.svg-underline path {
-stroke: var(--accent-primary);
-stroke-width: 2;
-fill: none;
-transition: d 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.theme-switch-btn, .nav-toggle-btn {
-background: none;
-border: none;
-color: var(--text-main);
-font-size: 1.2rem;
-cursor: pointer;
-}
-.nav-toggle-btn {
-display: none;
-}
-.mobile-nav-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background-color: var(--bg-primary);
-z-index: 999;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-clip-path: circle(0px at 100% 0%);
-transition: clip-path 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.mobile-nav-overlay.open {
-clip-path: circle(150% at 100% 0%);
-}
-.mobile-nav-overlay a {
-text-decoration: none;
-color: var(--text-main);
-font-family: var(--font-display);
-font-size: 3rem;
-margin: 10px 0;
-opacity: 0;
-transform: rotateX(90deg);
-transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
-}
-.mobile-nav-overlay.open a {
-opacity: 1;
-transform: rotateX(0deg);
-}
-section {
-padding: 150px 4vw;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-justify-content: center;
-position: relative;
-}
-.section-title {
-font-size: clamp(3rem, 6vw, 5rem);
-margin-bottom: 60px;
-text-align: center;
-}
-#home {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 40px;
-align-items: center;
-}
-.hero-interaction-container {
-perspective: 1000px;
-}
-.hero-content {
-will-change: transform;
-}
-.hero-subtitle {
-font-size: 1.2rem;
-font-weight: 700;
-color: var(--text-muted);
-letter-spacing: 0.1em;
-margin-bottom: 20px;
-}
-.hero-title {
-font-size: clamp(4rem, 8vw, 8rem);
-line-height: 0.9;
-margin-bottom: 30px;
-}
-.hero-desc {
-font-size: 1.1rem;
-line-height: 1.6;
-max-width: 500px;
-margin-bottom: 40px;
-color: var(--text-muted);
-}
-.hero-image-container {
-position: relative;
-width: 100%;
-max-width: 500px;
-aspect-ratio: 3/4;
-border-radius: var(--border-radius);
-overflow: hidden;
-border: 1px solid var(--border-color);
-}
-.hero-image-container img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hero-image-container:hover img {
-transform: scale(1.05);
-}
-.hero-image-mask {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-pointer-events: none;
-mix-blend-mode: overlay;
-background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1), transparent);
-}
-[data-theme="dark"] .hero-image-container img {
-filter: contrast(1.1) brightness(0.95) saturate(0.85);
-}
-.btn {
-display: inline-block;
-padding: 15px 30px;
-background-color: var(--accent-primary);
-color: oklch(0.1 0 0);
-text-decoration: none;
-font-family: var(--font-display);
-font-weight: 700;
-font-size: 1.2rem;
-border-radius: var(--border-radius);
-transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-border: 1px solid transparent;
-}
-.btn.secondary {
-background-color: transparent;
-color: var(--text-main);
-border-color: var(--border-color);
-}
-#education {
-background-color: var(--bg-secondary);
-}
-.book-scene {
-perspective: 1500px;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 600px;
-width: 100%;
-}
-.book-wrapper {
-position: relative;
-width: 400px;
-height: 500px;
-transform-style: preserve-3d;
-transition: transform 0.1s;
-}
-.sheet {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-transform-origin: left center;
-transform-style: preserve-3d;
-transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-cursor: pointer;
-}
-.page-side {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-backface-visibility: hidden;
-background-color: var(--bg-primary);
-border: 1px solid var(--border-color);
-padding: 40px;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-overflow: hidden;
-}
-.page-side.back {
-transform: rotateY(180deg);
-}
-.book-text-container {
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-height: 100%;
-width: 100%;
-overflow: hidden;
-}
-.book-paragraph-node {
-overflow: hidden;
-display: -webkit-box;
--webkit-line-clamp: 3;
--webkit-box-orient: vertical;
-text-overflow: ellipsis;
-max-height: 4.2em;
-font-family: var(--font-mono);
-font-size: clamp(0.8rem, 1vw, 1rem);
-line-height: 1.3;
-}
-.page-side h3 {
-font-size: clamp(1.2rem, 2vw, 1.8rem);
-margin-bottom: 20px;
-}
-#projects {
-background-color: var(--bg-primary);
-overflow: hidden;
-}
-.projects-track-container {
-width: 100%;
-overflow: hidden;
-cursor: grab;
-}
-.projects-track-container:active {
-cursor: grabbing;
-}
-.projects-track {
-display: flex;
-gap: 40px;
-width: max-content;
-padding: 50px 4vw;
-will-change: transform;
-}
-.project-card {
-width: 400px;
-height: 550px;
-background-color: var(--bg-secondary);
-border: 1px solid var(--border-color);
-border-radius: var(--border-radius);
-overflow: hidden;
-display: flex;
-flex-direction: column;
-transition: opacity 0.3s, filter 0.3s, transform 0.3s;
-will-change: transform;
-}
-.project-card img {
-width: 100%;
-height: 65%;
-object-fit: cover;
-}
-.project-info {
-padding: 20px;
-flex-grow: 1;
-display: flex;
-flex-direction: column;
-}
-.project-meta {
-font-family: var(--font-mono);
-font-size: 0.8rem;
-color: var(--accent-primary);
-margin-bottom: 10px;
-text-transform: uppercase;
-}
-.project-title {
-font-size: 1.5rem;
-margin-bottom: 10px;
-overflow: hidden;
-display: flex;
-flex-wrap: wrap;
-}
-.project-title span {
-display: inline-block;
-transform: translateY(100%);
-transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.project-card:hover .project-title span {
-transform: translateY(0);
-}
-.project-desc {
-font-size: 0.9rem;
-color: var(--text-muted);
-display: -webkit-box;
--webkit-line-clamp: 2;
--webkit-box-orient: vertical;
-overflow: hidden;
-}
-#skills {
-background-color: var(--bg-secondary);
-}
-.skills-grid {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-gap: 30px;
-}
-.skill-card {
-position: relative;
-padding: 40px;
-border: 1px solid var(--border-color);
-border-radius: var(--border-radius);
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-background-color: var(--bg-primary);
-overflow: hidden;
-will-change: transform;
-}
-.skill-card img {
-width: 60px;
-height: 60px;
-margin-bottom: 20px;
-z-index: 2;
-}
-.skill-card h3 {
-z-index: 2;
-font-size: 1.2rem;
-}
-.skill-glow {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), var(--glow-color, rgba(255,255,255,0.1)) 0%, transparent 70%);
-opacity: 0;
-transition: opacity 0.3s;
-z-index: 1;
-pointer-events: none;
-}
-.skill-card:hover .skill-glow {
-opacity: 1;
-}
-#contact {
-background-color: var(--bg-primary);
-}
-.contact-container {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 60px;
-}
-.contact-info-block a {
-display: block;
-font-family: var(--font-display);
-font-size: 2rem;
-color: var(--text-main);
-text-decoration: none;
-margin-bottom: 20px;
-transition: color 0.3s;
-}
-.contact-info-block a:hover {
-color: var(--accent-primary);
-}
-.form-group {
-position: relative;
-margin-bottom: 40px;
-}
-.form-group input, .form-group textarea {
-width: 100%;
-background: transparent;
-border: none;
-border-bottom: 1px solid var(--border-color);
-padding: 10px 0;
-font-family: var(--font-body);
-font-size: 1.2rem;
-color: var(--text-main);
-outline: none;
-}
-.form-group label {
-position: absolute;
-top: 10px;
-left: 0;
-font-family: var(--font-mono);
-color: var(--text-muted);
-pointer-events: none;
-transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.form-group input:focus ~ label, .form-group textarea:focus ~ label,
-.form-group input:valid ~ label, .form-group textarea:valid ~ label {
-transform: translate3d(0, -120%, 0) scale(0.8);
-color: var(--text-main);
-}
-.form-group .border-line {
-position: absolute;
-bottom: 0;
-left: 50%;
-width: 0;
-height: 2px;
-background-color: var(--accent-primary);
-transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.form-group input:focus ~ .border-line, .form-group textarea:focus ~ .border-line {
-width: 100%;
-left: 0;
-}
-.send-btn {
-background-color: var(--text-main);
-color: var(--bg-primary);
-border: none;
-padding: 20px 40px;
-font-family: var(--font-display);
-font-size: 1.5rem;
-cursor: pointer;
-border-radius: var(--border-radius);
-transition: transform 0.3s;
-position: relative;
-overflow: hidden;
-}
-.canvas-confetti {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-pointer-events: none;
-z-index: 100;
-}
-@media (max-width: 1199px) {
-.book-wrapper { width: 300px; height: 400px; }
-.projects-track { gap: 20px; }
-}
-@media (max-width: 767px) {
-nav { display: none; }
-.nav-toggle-btn { display: block; }
-#home, .contact-container { grid-template-columns: 1fr; }
-.cursor-dot, .cursor-ring { display: none; }
-.book-scene { height: auto; perspective: none; }
-.book-wrapper { width: 100%; height: auto; transform: none !important; }
-.sheet { position: relative; width: 100%; height: auto; transform: none !important; margin-bottom: 20px; }
-.page-side { position: relative; transform: none !important; padding: 20px; }
-.page-side.back { display: block; margin-top: 20px; }
-}
-@media (prefers-reduced-motion: reduce) {
-* {
-transition-duration: 0.01ms !important;
-animation-duration: 0.01ms !important;
-animation-iteration-count: 1 !important;
-scroll-behavior: auto !important;
-}
-#scroll-container {
-position: static;
-transform: none !important;
-overflow: visible;
-}
-body { overflow: auto; }
-.project-card, .skill-card, .sheet, header { transform: none !important; }
-}
+__CSS_INJECT__
 </style>
 </head>
 <body>
-<div class="cursor-dot"></div>
-<div class="cursor-ring" data-content=""></div>
-<header id="main-header">
-<div class="logo">AL<span>OK.</span></div>
-<div class="nav-container">
-<nav id="desktop-nav">
-<a href="#home" data-cursor-mode="magnetic">Home</a>
-<a href="#education" data-cursor-mode="magnetic">Education</a>
-<a href="#skills" data-cursor-mode="magnetic">Skills</a>
-<a href="#projects" data-cursor-mode="magnetic">Projects</a>
-<a href="#contact" data-cursor-mode="magnetic">Contact</a>
-<svg class="svg-underline" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 5 100 5"></path></svg>
-</nav>
-<button class="theme-switch-btn" id="theme-toggle" data-cursor-mode="magnetic">
-<i class="fa-solid fa-moon"></i>
-</button>
-<button class="nav-toggle-btn" id="nav-toggle">
-<i class="fa-solid fa-bars"></i>
-</button>
-</div>
+
+<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursor-ring" aria-hidden="true"><span class="cursor-ring-label" id="cursor-ring-label"></span></div>
+
+<div id="scroll-spacer" aria-hidden="true"></div>
+
+<header id="site-header">
+  <div class="header-inner">
+    <a href="#home" class="logo" data-magnetic data-cursor="link">AL<span>OK.</span></a>
+    <nav id="primary-nav" aria-label="Primary">
+      <div class="nav-links" id="nav-links">
+        <a href="#home" class="nav-link active-link" data-nav-link data-cursor="link">Home</a>
+        <a href="#education" class="nav-link" data-nav-link data-cursor="link">Education</a>
+        <a href="#skills" class="nav-link" data-nav-link data-cursor="link">Skills</a>
+        <a href="#projects" class="nav-link" data-nav-link data-cursor="link">Projects</a>
+        <a href="#contact" class="nav-link" data-nav-link data-cursor="link">Contact</a>
+      </div>
+      <svg class="nav-underline" id="nav-underline" preserveAspectRatio="none" aria-hidden="true">
+        <path id="nav-underline-path" d=""></path>
+      </svg>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-toggle" data-magnetic data-cursor="link" aria-label="Toggle dark theme">
+        <i class="fa-solid fa-moon"></i>
+      </button>
+      <button class="icon-btn menu-toggle-btn" id="menu-toggle" data-magnetic data-cursor="link" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-overlay">
+        <span class="menu-toggle-bar"></span>
+        <span class="menu-toggle-bar"></span>
+      </button>
+    </div>
+  </div>
 </header>
-<div class="mobile-nav-overlay" id="mobile-nav">
-<a href="#home">Home</a>
-<a href="#education">Education</a>
-<a href="#skills">Skills</a>
-<a href="#projects">Projects</a>
-<a href="#contact">Contact</a>
+
+<div class="mobile-overlay" id="mobile-overlay" aria-hidden="true">
+  <nav class="mobile-overlay-nav" aria-label="Mobile">
+    <a href="#home" data-overlay-link>Home</a>
+    <a href="#education" data-overlay-link>Education</a>
+    <a href="#skills" data-overlay-link>Skills</a>
+    <a href="#projects" data-overlay-link>Projects</a>
+    <a href="#contact" data-overlay-link>Contact</a>
+  </nav>
+  <div class="mobile-overlay-foot">
+    <a href="mailto:alokkynwa@gmail.com" target="_blank">alokkynwa@gmail.com</a>
+    <a href="tel:+9779843538473" target="_blank">(+977) 9843538473</a>
+  </div>
 </div>
+
+<nav class="side-nav" id="side-nav" aria-label="Quick contact">
+  <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" data-magnetic data-cursor="link" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+  <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" data-magnetic data-cursor="link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+  <a href="tel:+9779843538473" class="side-nav-btn" data-magnetic data-cursor="link" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
+</nav>
+
 <div id="scroll-container">
-<section id="home">
-<div class="hero-interaction-container">
-<div class="hero-content">
-<div class="hero-subtitle">THIS IS</div>
-<h1 class="hero-title">ALOK<br>SHARMA</h1>
-<p class="hero-desc">I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
-<div style="display:flex; gap:20px;">
-<a href="#projects" class="btn" data-cursor-mode="magnetic">View Projects</a>
-<a href="#contact" class="btn secondary" data-cursor-mode="magnetic">Let's Connect</a>
-</div>
-</div>
-</div>
-<div class="hero-image-container" data-cursor-mode="magnetic">
-<img src="alokk.jpeg" alt="Alok Sharma">
-<div class="hero-image-mask"></div>
-</div>
+<main>
+
+<section class="hero-section" id="home">
+  <div class="hero-grid">
+    <div class="hero-copy reveal">
+      <p class="hero-eyebrow" data-parallax data-depth="0.2">THIS IS</p>
+      <div class="hero-name-row">
+        <span class="hero-flag" data-parallax data-depth="0.5">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
+        </span>
+        <h1 class="hero-name" data-parallax data-depth="0.65">ALOK<br>SHARMA</h1>
+      </div>
+      <p class="hero-bio" data-parallax data-depth="0.3">I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary" data-magnetic data-cursor="link">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#contact" class="btn btn-ghost" data-magnetic data-cursor="link">Let's Connect</a>
+      </div>
+    </div>
+    <div class="hero-portrait reveal" data-parallax data-depth="0.85">
+      <div class="portrait-frame" id="portrait-frame">
+        <img src="alokk.jpeg" alt="Alok Sharma" id="hero-portrait-img">
+      </div>
+    </div>
+  </div>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <filter id="portraitRipple">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise"></feTurbulence>
+      <feDisplacementMap id="portraitDisplace" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    </filter>
+  </svg>
 </section>
+
 <section id="education">
-<h2 class="section-title">Education Journey</h2>
-<div class="book-scene" data-cursor-mode="book">
-<div class="book-wrapper" id="book">
-<div class="sheet" style="z-index: 3;">
-<div class="page-side front">
-<div class="book-text-container">
-<h3>Amrit Science Campus (T.U.)</h3>
-<img src="ascol-removebg-preview.png" alt="Ascol Campus" style="max-width: 50px; margin-bottom: 10px;">
-<p class="book-paragraph-node">Undergraduate Level. Currently pursuing B.Sc.CSIT.</p>
-<p class="book-paragraph-node">2024 — PRESENT</p>
-</div>
-</div>
-<div class="page-side back">
-<div class="book-text-container">
-<h3>Details</h3>
-<p class="book-paragraph-node">Focusing on core computer science fundamentals, software engineering, and advanced web technologies.</p>
-</div>
-</div>
-</div>
-<div class="sheet" style="z-index: 2;">
-<div class="page-side front">
-<div class="book-text-container">
-<h3>Reliance International Academy</h3>
-<img src="ria-removebg-preview.png" alt="RIA" style="max-width: 50px; margin-bottom: 10px;">
-<p class="book-paragraph-node">+2 Higher Secondary Science. Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics.</p>
-<p class="book-paragraph-node">2022 — 2024</p>
-</div>
-</div>
-<div class="page-side back">
-<div class="book-text-container">
-<h3>Results</h3>
-<p class="book-paragraph-node">I achieved a GPA of 3.62 in SLC.</p>
-</div>
-</div>
-</div>
-<div class="sheet" style="z-index: 1;">
-<div class="page-side front">
-<div class="book-text-container">
-<h3>Mahakavi Devkota Memorial Secondary School</h3>
-<img src="mdmss-removebg-preview.png" alt="MDMSS" style="max-width: 50px; margin-bottom: 10px;">
-<p class="book-paragraph-node">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science.</p>
-<p class="book-paragraph-node">2010 — 2022</p>
-</div>
-</div>
-<div class="page-side back">
-<div class="book-text-container">
-<h3>Results</h3>
-<p class="book-paragraph-node">I achieved a 3.75 GPA in SEE.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="section-head reveal">
+    <span class="section-eyebrow">02 / EDUCATION</span>
+    <h2 class="section-title">Education Journey</h2>
+  </div>
+
+  <div class="book-stage reveal">
+    <div class="book-stage-glow" id="book-glow" aria-hidden="true"></div>
+    <div class="book-viewport" id="book-viewport">
+      <div class="book" id="book" tabindex="0" aria-label="Education journey book. Use left and right arrow keys to turn pages.">
+        <div class="book-spine" aria-hidden="true"></div>
+        <div class="book-edge book-edge-left" id="edge-left"></div>
+        <div class="book-edge book-edge-right" id="edge-right"></div>
+
+        <div class="book-sheet is-cover-front" id="sheet-1" style="z-index:8">
+          <div class="book-face is-front">
+            <div class="cover-face">
+              <div class="cover-rule" aria-hidden="true"></div>
+              <p class="cover-kicker">ALOK SHARMA'S</p>
+              <h3 class="cover-title">EDUCATIONAL<br>JOURNEY</h3>
+              <div class="cover-seal">
+                <span class="seal-mark">AS</span>
+              </div>
+              <p class="cover-year">2010 — PRESENT</p>
+              <div class="cover-rule" aria-hidden="true"></div>
+              <p class="cover-foot">ACADEMIC STATUS TILL TODAY</p>
+            </div>
+          </div>
+          <div class="book-face is-back">
+            <div class="toc-face">
+              <p class="face-eyebrow">TABLE OF CONTENTS</p>
+              <p class="face-label">CHAPTERS</p>
+              <ol class="toc-list">
+                <li><span class="toc-index">01</span><span class="toc-name">TILL SECONDARY LEVEL</span></li>
+                <li><span class="toc-index">02</span><span class="toc-name">HIGHER SECONDARY LEVEL</span></li>
+                <li><span class="toc-index">03</span><span class="toc-name">UNDERGRADUATE LEVEL</span></li>
+              </ol>
+              <span class="page-number">PAGE 01</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="book-sheet" id="sheet-2" style="z-index:6">
+          <div class="book-face is-front">
+            <div class="entry-face">
+              <p class="face-eyebrow">FOUNDATION / SEC 01</p>
+              <p class="face-label">TILL SECONDARY LEVEL 01</p>
+              <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="entry-emblem">
+              <p class="entry-timeline">[ TIMELINE: 2010 — 2022 ]</p>
+              <h3 class="entry-title">Mahakavi Devkota Memorial Secondary School</h3>
+              <span class="page-number">PAGE 02</span>
+            </div>
+          </div>
+          <div class="book-face is-back">
+            <div class="entry-face">
+              <p class="face-eyebrow">SCHOLASTIC RESULTS</p>
+              <p class="face-label">SEE</p>
+              <h3 class="entry-subtitle">Secondary Education Examination (SEE)</h3>
+              <p class="entry-copy">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
+              <span class="page-number">PAGE 03</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="book-sheet" id="sheet-3" style="z-index:4">
+          <div class="book-face is-front">
+            <div class="entry-face">
+              <p class="face-eyebrow">INTERMEDIATE LEVEL / SEC 02</p>
+              <p class="face-label">HIGHER SECONDARY LEVEL 02</p>
+              <img src="ria-removebg-preview.png" alt="RIA Emblem" class="entry-emblem">
+              <p class="entry-timeline">[ TIMELINE: 2022 — 2024 ]</p>
+              <h3 class="entry-title">Reliance International Academy</h3>
+              <span class="page-number">PAGE 04</span>
+            </div>
+          </div>
+          <div class="book-face is-back">
+            <div class="entry-face">
+              <p class="face-eyebrow">SCHOLASTIC RESULTS</p>
+              <p class="face-label">SLC</p>
+              <h3 class="entry-subtitle">+2 Higher Secondary Science</h3>
+              <p class="entry-copy">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
+              <span class="page-number">PAGE 05</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="book-sheet is-cover-back" id="sheet-4" style="z-index:2">
+          <div class="book-face is-front">
+            <div class="entry-face">
+              <p class="face-eyebrow">HIGHER LEVEL / SEC 03</p>
+              <p class="face-label">UNDERGRADUATE LEVEL 03</p>
+              <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="entry-emblem">
+              <p class="entry-timeline">[ TIMELINE: 2024 — PRESENT ]</p>
+              <h3 class="entry-title">Amrit Science Campus (T.U.)</h3>
+              <p class="entry-copy">Currently pursuing B.Sc.CSIT.</p>
+              <span class="page-number">PAGE 06</span>
+            </div>
+          </div>
+          <div class="book-face is-back">
+            <div class="closing-face">
+              <h2 class="closing-title">THIS MUCH<br>TILL NOW.</h2>
+              <p class="closing-meta">DOCUMENT COMPLETION</p>
+              <p class="closing-signature">ALOK.</p>
+              <button class="btn btn-ghost" id="open-again-btn" data-magnetic data-cursor="link">OPEN AGAIN</button>
+              <span class="page-number">C-02</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-hud">
+      <p class="book-hud-instruction">DRAG A PAGE EDGE OR USE THE CONTROLS TO TURN THE PAGE.</p>
+      <div class="book-hud-controls">
+        <button class="hud-btn" id="book-prev" data-magnetic aria-label="Turn page back"><i class="fa-solid fa-arrow-left"></i></button>
+        <span class="book-hud-status" id="book-status">SPREAD 1 / 5</span>
+        <button class="hud-btn" id="book-next" data-magnetic aria-label="Turn page forward"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
 </section>
+
 <section id="skills">
-<h2 class="section-title">Core Skills</h2>
-<div class="skills-grid">
-<div class="skill-card" data-cursor-mode="magnetic" data-color="#e34c26">
-<div class="skill-glow"></div>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5">
-<h3>HTML</h3>
-</div>
-<div class="skill-card" data-cursor-mode="magnetic" data-color="#2965f1">
-<div class="skill-glow"></div>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3">
-<h3>CSS</h3>
-</div>
-<div class="skill-card" data-cursor-mode="magnetic" data-color="#f5c518">
-<div class="skill-glow"></div>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python">
-<h3>Python</h3>
-</div>
-<div class="skill-card" data-cursor-mode="magnetic" data-color="#31c5e8">
-<div class="skill-glow"></div>
-<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop">
-<h3>Photoshop</h3>
-</div>
-</div>
+  <div class="section-head reveal">
+    <span class="section-eyebrow">03 / SKILLS</span>
+    <h2 class="section-title">Core Skills</h2>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-card" data-skill-color="#e34c26" data-magnetic-tilt>
+      <div class="skill-glow" aria-hidden="true"></div>
+      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
+      <h3>HTML</h3>
+    </div>
+    <div class="skill-card" data-skill-color="#2965f1" data-magnetic-tilt>
+      <div class="skill-glow" aria-hidden="true"></div>
+      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
+      <h3>CSS</h3>
+    </div>
+    <div class="skill-card" data-skill-color="#f5c518" data-magnetic-tilt>
+      <div class="skill-glow" aria-hidden="true"></div>
+      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></div>
+      <h3>Python</h3>
+    </div>
+    <div class="skill-card" data-skill-color="#31c5e8" data-magnetic-tilt>
+      <div class="skill-glow" aria-hidden="true"></div>
+      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
+      <h3>Photoshop</h3>
+    </div>
+  </div>
 </section>
-<section id="projects" style="padding: 150px 0;">
-<h2 class="section-title">Featured Projects</h2>
-<div class="projects-track-container" id="projects-container">
-<div class="projects-track" id="projects-track" data-cursor-mode="drag">
-<div class="project-card">
-<img src="poruzb copy.jpg" alt="Portugal VS Colombia">
-<div class="project-info">
-<span class="project-meta">June 27, 2026</span>
-<h3 class="project-title">Portugal VS Colombia</h3>
-<p class="project-desc">Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="portugalvcongo copy.jpg" alt="Argentina VS Austria">
-<div class="project-info">
-<span class="project-meta">June 20, 2026</span>
-<h3 class="project-title">Argentina VS Austria</h3>
-<p class="project-desc">A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="porcong.jpeg" alt="Portugal VS Congo">
-<div class="project-info">
-<span class="project-meta">June 17, 2026</span>
-<h3 class="project-title">Portugal VS Congo</h3>
-<p class="project-desc">A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="heavymetalfootball.jpg" alt="Heavy Metal Football">
-<div class="project-info">
-<span class="project-meta">June 1, 2026</span>
-<h3 class="project-title">Heavy Metal Football</h3>
-<p class="project-desc">A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp and Andoni Iraola.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="psgvarsfinal copy.jpg" alt="PSG VS Arsenal">
-<div class="project-info">
-<span class="project-meta">May 28, 2026</span>
-<h3 class="project-title">Paris Saint-Germain VS Arsenal</h3>
-<p class="project-desc">Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="lfcvbre copy.jpg" alt="Liverpool VS Brentford">
-<div class="project-info">
-<span class="project-meta">May 24, 2026</span>
-<h3 class="project-title">Liverpool VS Brentford</h3>
-<p class="project-desc">Matchday design of the last Premier League game of the 2025-26 campaign.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="robboxmo copy.jpg" alt="One Last Time">
-<div class="project-info">
-<span class="project-meta">May 21, 2026</span>
-<h3 class="project-title">ONE LAST TIME AT ANFIELD.</h3>
-<p class="project-desc">A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="wc.jpeg" alt="World Cup 2026">
-<div class="project-info">
-<span class="project-meta">May 13, 2026</span>
-<h3 class="project-title">FIFA World Cup 2026</h3>
-<p class="project-desc">FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="newlivche.jpeg" alt="Liverpool VS Chelsea">
-<div class="project-info">
-<span class="project-meta">May 8, 2026</span>
-<h3 class="project-title">Liverpool VS Chelsea</h3>
-<p class="project-desc">Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="ThankyouRobbo.jpeg" alt="Thank You Robbo">
-<div class="project-info">
-<span class="project-meta">April 10, 2026</span>
-<h3 class="project-title">Thank You, Robbo!</h3>
-<p class="project-desc">A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="ThankyouMo.jpeg" alt="Thank You Mo">
-<div class="project-info">
-<span class="project-meta">March 27, 2026</span>
-<h3 class="project-title">Thank You, Mo!</h3>
-<p class="project-desc">A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="livvmci.jpeg" alt="Liverpool VS Man City">
-<div class="project-info">
-<span class="project-meta">February 7, 2026</span>
-<h3 class="project-title">Liverpool FC VS Manchester City</h3>
-<p class="project-desc">An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="livvgal.jpeg" alt="Liverpool VS Galatasaray">
-<div class="project-info">
-<span class="project-meta">March 17, 2026</span>
-<h3 class="project-title">Liverpool FC VS Galatasaray</h3>
-<p class="project-desc">A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow poster.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="livvpsg.jpeg" alt="Liverpool VS PSG">
-<div class="project-info">
-<span class="project-meta">April 14, 2026</span>
-<h3 class="project-title">Liverpool FC VS Paris Saint-Germain</h3>
-<p class="project-desc">A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia.</p>
-</div>
-</div>
-<div class="project-card">
-<img src="slotout.jpeg" alt="Slot Out">
-<div class="project-info">
-<span class="project-meta">April 4, 2026</span>
-<h3 class="project-title">Slot Out!</h3>
-<p class="project-desc">An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise.</p>
-</div>
-</div>
-</div>
-</div>
+
+<section id="projects">
+  <div class="section-head reveal">
+    <span class="section-eyebrow">04 / PROJECTS</span>
+    <h2 class="section-title">Featured Projects</h2>
+  </div>
+  <div class="projects-viewport reveal" id="projects-viewport">
+    <div class="projects-track" id="projects-track">
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">01</span><span class="project-date">JUN 27, 2026</span></div>
+        <a href="poruzb copy.jpg" target="_blank" class="project-media" data-cursor="project">
+          <img src="poruzb copy.jpg" alt="Portugal VS Colombia Matchday Graphic" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Portugal VS Colombia</h3>
+          <p class="project-desc">Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">02</span><span class="project-date">JUN 20, 2026</span></div>
+        <a href="portugalvcongo copy.jpg" target="_blank" class="project-media" data-cursor="project">
+          <img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Argentina VS Austria</h3>
+          <p class="project-desc">A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">03</span><span class="project-date">JUN 17, 2026</span></div>
+        <a href="porcong.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Portugal VS Congo</h3>
+          <p class="project-desc">A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">04</span><span class="project-date">JUN 01, 2026</span></div>
+        <a href="heavymetalfootball.jpg" target="_blank" class="project-media" data-cursor="project">
+          <img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Heavy Metal Football</h3>
+          <p class="project-desc">A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">05</span><span class="project-date">MAY 28, 2026</span></div>
+        <a href="psgvarsfinal copy.jpg" target="_blank" class="project-media" data-cursor="project">
+          <img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Paris Saint-Germain VS Arsenal</h3>
+          <p class="project-desc">Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">06</span><span class="project-date">MAY 24, 2026</span></div>
+        <a href="lfcvbre copy.jpg" target="_blank" class="project-media" data-cursor="project">
+          <img src="lfcvbre copy.jpg" alt="Project 1" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Liverpool VS Brentford</h3>
+          <p class="project-desc">Matchday design of the last Premier League game of the 2025-26 campaign.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">07</span><span class="project-date">MAY 21, 2026</span></div>
+        <a href="robboxmo copy.jpg" target="_blank" class="project-media" data-cursor="project">
+          <img src="robboxmo copy.jpg" alt="Project 2" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">ONE LAST TIME AT ANFIELD.</h3>
+          <p class="project-desc">A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">08</span><span class="project-date">MAY 13, 2026</span></div>
+        <a href="wc.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">FIFA World Cup 2026</h3>
+          <p class="project-desc">FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">09</span><span class="project-date">MAY 08, 2026</span></div>
+        <a href="newlivche.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Liverpool VS Chelsea</h3>
+          <p class="project-desc">Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">10</span><span class="project-date">APR 10, 2026</span></div>
+        <a href="ThankyouRobbo.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Thank You, Robbo!</h3>
+          <p class="project-desc">A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">11</span><span class="project-date">MAR 27, 2026</span></div>
+        <a href="ThankyouMo.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Thank You, Mo!</h3>
+          <p class="project-desc">A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">12</span><span class="project-date">FEB 07, 2026</span></div>
+        <a href="livvmci.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Liverpool FC VS Manchester City</h3>
+          <p class="project-desc">An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">13</span><span class="project-date">MAR 17, 2026</span></div>
+        <a href="livvgal.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Liverpool FC VS Galatasaray</h3>
+          <p class="project-desc">A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">14</span><span class="project-date">APR 14, 2026</span></div>
+        <a href="livvpsg.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Liverpool FC VS Paris Saint-Germain</h3>
+          <p class="project-desc">A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <div class="project-meta-row"><span class="project-index">15</span><span class="project-date">APR 04, 2026</span></div>
+        <a href="slotout.jpeg" target="_blank" class="project-media" data-cursor="project">
+          <img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false">
+        </a>
+        <div class="project-content">
+          <h3 class="project-title">Slot Out!</h3>
+          <p class="project-desc">An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+  <div class="projects-footer reveal">
+    <p class="projects-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</p>
+    <div class="projects-arrows">
+      <button class="arrow-btn" id="projects-prev" data-magnetic aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
+      <button class="arrow-btn" id="projects-next" data-magnetic aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
 </section>
+
 <section id="contact">
-<h2 class="section-title">Get in Touch</h2>
-<div class="contact-container">
-<div class="contact-info-block">
-<a href="mailto:alokkynwa@gmail.com" data-cursor-mode="magnetic">alokkynwa@gmail.com</a>
-<a href="tel:+9779843538473" data-cursor-mode="magnetic">+977 9843538473</a>
-<a href="https://www.linkedin.com/in/alok-sharma-511993280" data-cursor-mode="magnetic">LinkedIn</a>
-<a href="https://instagram.com/alok.ynwa" data-cursor-mode="magnetic">Instagram (alok.ynwa)</a>
-<a href="#" data-cursor-mode="magnetic">Facebook</a>
-<a href="#" data-cursor-mode="magnetic">X (Twitter)</a>
-</div>
-<form id="contact-form">
-<div class="form-group">
-<input type="text" id="user_name" required>
-<label>NAME</label>
-<div class="border-line"></div>
-</div>
-<div class="form-group">
-<input type="email" id="user_email" required>
-<label>EMAIL</label>
-<div class="border-line"></div>
-</div>
-<div class="form-group">
-<textarea id="message" required></textarea>
-<label>MESSAGE</label>
-<div class="border-line"></div>
-</div>
-<button type="submit" class="send-btn" data-cursor-mode="magnetic">SEND MESSAGE</button>
-<canvas id="confetti-canvas" class="canvas-confetti"></canvas>
-</form>
-</div>
+  <div class="section-head reveal">
+    <span class="section-eyebrow">05 / CONTACT</span>
+    <h2 class="section-title">Get In Touch</h2>
+  </div>
+  <div class="contact-wrapper reveal">
+    <div class="contact-card">
+      <p class="contact-find">Find Me ↘</p>
+      <div class="contact-links">
+        <a href="mailto:alokkynwa@gmail.com" target="_blank" class="contact-link" data-magnetic data-cursor="link"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
+        <a href="tel:+9779843538473" target="_blank" class="contact-link" data-magnetic data-cursor="link"><i class="fa-solid fa-phone"></i><span>🇳🇵</span> (+977) 9843538473</a>
+      </div>
+      <div class="contact-socials">
+        <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-btn" data-magnetic data-cursor="link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer" class="social-btn" data-magnetic data-cursor="link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer" class="social-btn" data-magnetic data-cursor="link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer" class="social-btn" data-magnetic data-cursor="link" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <form class="contact-form" id="contact-form" novalidate>
+      <div class="form-row">
+        <div class="field" data-field="name">
+          <input type="text" name="name" id="field-name" required autocomplete="name">
+          <label for="field-name">NAME</label>
+          <span class="field-line"></span>
+        </div>
+        <div class="field" data-field="email">
+          <input type="email" name="email" id="field-email" required autocomplete="email">
+          <label for="field-email">EMAIL</label>
+          <span class="field-line"></span>
+        </div>
+      </div>
+      <div class="field" data-field="message">
+        <textarea name="message" id="field-message" required></textarea>
+        <label for="field-message">MESSAGE</label>
+        <span class="field-line"></span>
+      </div>
+      <button type="submit" class="send-btn" id="send-btn" data-magnetic>
+        <span class="send-btn-label">SEND MESSAGE</span>
+        <svg class="send-btn-spinner" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle></svg>
+        <svg class="send-btn-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg>
+      </button>
+      <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+    </form>
+  </div>
 </section>
+
+</main>
+
+<footer>
+  <p>Copyright © Alok Sharma - All rights reserved.</p>
+</footer>
 </div>
+
 <script>
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-let currentScrollY = 0;
-let targetScrollY = 0;
-const scrollContainer = document.getElementById('scroll-container');
-let windowHeight = window.innerHeight;
-let documentHeight = 0;
-function updateHeights() {
-if (prefersReducedMotion) return;
-documentHeight = scrollContainer.getBoundingClientRect().height;
-document.body.style.height = `${documentHeight}px`;
-}
-window.addEventListener('resize', () => {
-windowHeight = window.innerHeight;
-updateHeights();
-});
-window.addEventListener('load', updateHeights);
-if (!prefersReducedMotion) {
-window.addEventListener('scroll', () => {
-targetScrollY = window.scrollY;
-});
-function scrollLoop() {
-currentScrollY += (targetScrollY - currentScrollY) * 0.08;
-scrollContainer.style.transform = `translate3d(0, ${-currentScrollY}px, 0)`;
-requestAnimationFrame(scrollLoop);
-}
-requestAnimationFrame(scrollLoop);
-}
-const cursorDot = document.querySelector('.cursor-dot');
-const cursorRing = document.querySelector('.cursor-ring');
-let mouseX = window.innerWidth / 2;
-let mouseY = window.innerHeight / 2;
-let ringX = mouseX;
-let ringY = mouseY;
-if (!prefersReducedMotion && window.innerWidth > 768) {
-window.addEventListener('mousemove', (e) => {
-mouseX = e.clientX;
-mouseY = e.clientY;
-cursorDot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-});
-function cursorLoop() {
-ringX += (mouseX - ringX) * 0.15;
-ringY += (mouseY - ringY) * 0.15;
-cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-requestAnimationFrame(cursorLoop);
-}
-requestAnimationFrame(cursorLoop);
-const interactiveElements = document.querySelectorAll('[data-cursor-mode]');
-interactiveElements.forEach(el => {
-el.addEventListener('mouseenter', () => {
-const mode = el.getAttribute('data-cursor-mode');
-cursorRing.classList.add('hover-active');
-if (mode === 'drag') cursorRing.setAttribute('data-content', 'DRAG');
-else if (mode === 'book') cursorRing.setAttribute('data-content', 'FLIP');
-else cursorRing.setAttribute('data-content', '↗');
-});
-el.addEventListener('mouseleave', () => {
-cursorRing.classList.remove('hover-active');
-cursorRing.setAttribute('data-content', '');
-el.style.transform = '';
-});
-if (el.getAttribute('data-cursor-mode') === 'magnetic') {
-el.addEventListener('mousemove', (e) => {
-const rect = el.getBoundingClientRect();
-const x = e.clientX - rect.left - rect.width / 2;
-const y = e.clientY - rect.top - rect.height / 2;
-el.style.transform = `translate3d(${x * 0.35}px, ${y * 0.35}px, 0)`;
-});
-}
-});
-}
-let lastScrollY = 0;
-const header = document.getElementById('main-header');
-window.addEventListener('scroll', () => {
-if (window.scrollY > 150) {
-header.classList.add('scrolled');
-if (window.scrollY > lastScrollY && window.scrollY > 300) {
-header.classList.add('hidden');
-} else {
-header.classList.remove('hidden');
-}
-} else {
-header.classList.remove('scrolled', 'hidden');
-}
-lastScrollY = window.scrollY;
-});
-const heroContent = document.querySelector('.hero-content');
-const heroImage = document.querySelector('.hero-image-container');
-if (!prefersReducedMotion && window.innerWidth > 768) {
-window.addEventListener('mousemove', (e) => {
-const x = (e.clientX / window.innerWidth - 0.5) * 2;
-const y = (e.clientY / window.innerHeight - 0.5) * 2;
-heroContent.style.transform = `translate3d(${x * -20}px, ${y * -20}px, 0) rotateX(${y * 5}deg) rotateY(${x * -5}deg)`;
-heroImage.style.transform = `translate3d(${x * 20}px, ${y * 20}px, 0) rotateX(${y * -2}deg) rotateY(${x * 2}deg)`;
-});
-}
-const sheets = document.querySelectorAll('.sheet');
-let currentSheetIndex = 0;
-sheets.forEach((sheet, index) => {
-sheet.style.zIndex = sheets.length - index;
-let isDragging = false;
-let startX = 0;
-let currentRotation = 0;
-sheet.addEventListener('pointerdown', (e) => {
-if (index < currentSheetIndex) return;
-isDragging = true;
-startX = e.clientX;
-sheet.style.transition = 'none';
-});
-window.addEventListener('pointermove', (e) => {
-if (!isDragging) return;
-const deltaX = e.clientX - startX;
-currentRotation = Math.max(-180, Math.min(0, (deltaX / window.innerWidth) * 180));
-if (index === currentSheetIndex) {
-sheet.style.transform = `rotateY(${currentRotation}deg)`;
-}
-});
-window.addEventListener('pointerup', () => {
-if (!isDragging) return;
-isDragging = false;
-sheet.style.transition = 'transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
-if (currentRotation < -90) {
-sheet.style.transform = `rotateY(-180deg)`;
-currentSheetIndex++;
-} else {
-sheet.style.transform = `rotateY(0deg)`;
-}
-currentRotation = 0;
-});
-});
-const track = document.getElementById('projects-track');
-const container = document.getElementById('projects-container');
-let trackPos = 0;
-let trackVel = 0;
-let isTrackDragging = false;
-let startTrackX = 0;
-let prevTrackX = 0;
-const cards = document.querySelectorAll('.project-card');
-const titles = document.querySelectorAll('.project-title');
-titles.forEach(title => {
-const text = title.textContent;
-title.innerHTML = text.split('').map(char => `<span>${char === ' ' ? '&nbsp;' : char}</span>`).join('');
-const spans = title.querySelectorAll('span');
-spans.forEach((span, i) => {
-span.style.transitionDelay = `${i * 0.02}s`;
-});
-});
-container.addEventListener('pointerdown', (e) => {
-isTrackDragging = true;
-startTrackX = e.clientX;
-prevTrackX = e.clientX;
-trackVel = 0;
-});
-window.addEventListener('pointermove', (e) => {
-if (!isTrackDragging) return;
-const delta = e.clientX - prevTrackX;
-trackPos += delta;
-trackVel = delta;
-prevTrackX = e.clientX;
-track.style.transform = `translate3d(${trackPos}px, 0, 0)`;
-});
-window.addEventListener('pointerup', () => {
-isTrackDragging = false;
-});
-if (!prefersReducedMotion && window.innerWidth > 1199) {
-function trackLoop() {
-if (!isTrackDragging) {
-trackVel *= 0.95;
-trackPos += trackVel;
-const maxScroll = -(track.scrollWidth - container.clientWidth);
-if (trackPos > 0) { trackPos = 0; trackVel = 0; }
-if (trackPos < maxScroll) { trackPos = maxScroll; trackVel = 0; }
-track.style.transform = `translate3d(${trackPos}px, 0, 0)`;
-}
-cards.forEach(card => {
-card.style.transform = `skewX(${trackVel * 0.12}deg) scale(${1 - Math.abs(trackVel) * 0.001})`;
-});
-requestAnimationFrame(trackLoop);
-}
-requestAnimationFrame(trackLoop);
-}
-cards.forEach(card => {
-card.addEventListener('mouseenter', () => {
-cards.forEach(c => {
-if (c !== card) {
-c.style.opacity = '0.35';
-c.style.filter = 'grayscale(0.5) blur(2px)';
-}
-});
-});
-card.addEventListener('mouseleave', () => {
-cards.forEach(c => {
-c.style.opacity = '1';
-c.style.filter = 'none';
-});
-});
-});
-const skillCards = document.querySelectorAll('.skill-card');
-skillCards.forEach(card => {
-card.addEventListener('mousemove', (e) => {
-if (prefersReducedMotion) return;
-const rect = card.getBoundingClientRect();
-const x = e.clientX - rect.left;
-const y = e.clientY - rect.top;
-card.style.setProperty('--mouse-x', `${x}px`);
-card.style.setProperty('--mouse-y', `${y}px`);
-card.style.setProperty('--glow-color', card.getAttribute('data-color'));
-const centerX = rect.width / 2;
-const centerY = rect.height / 2;
-card.style.transform = `rotateX(${(y - centerY) / 10}deg) rotateY(${-(x - centerX) / 10}deg)`;
-});
-card.addEventListener('mouseleave', () => {
-card.style.transform = '';
-});
-});
-const themeBtn = document.getElementById('theme-toggle');
-themeBtn.addEventListener('click', () => {
-if (document.documentElement.getAttribute('data-theme') === 'dark') {
-document.documentElement.removeAttribute('data-theme');
-} else {
-document.documentElement.setAttribute('data-theme', 'dark');
-}
-});
-const navToggle = document.getElementById('nav-toggle');
-const mobileNav = document.getElementById('mobile-nav');
-navToggle.addEventListener('click', () => {
-mobileNav.classList.toggle('open');
-});
-mobileNav.querySelectorAll('a').forEach(link => {
-link.addEventListener('click', () => {
-mobileNav.classList.remove('open');
-});
-});
-const form = document.getElementById('contact-form');
-const canvas = document.getElementById('confetti-canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = canvas.offsetWidth;
-canvas.height = canvas.offsetHeight;
-let particles = [];
-function createParticles(x, y) {
-for (let i = 0; i < 50; i++) {
-particles.push({
-x, y,
-vx: (Math.random() - 0.5) * 10,
-vy: (Math.random() - 0.5) * 10 - 5,
-alpha: 1,
-color: Math.random() > 0.5 ? '#f5c518' : '#1a1a2e'
-});
-}
-}
-function animateParticles() {
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-particles.forEach((p, index) => {
-p.vy += 0.2;
-p.x += p.vx;
-p.y += p.vy;
-p.alpha -= 0.02;
-ctx.fillStyle = p.color;
-ctx.globalAlpha = Math.max(0, p.alpha);
-ctx.fillRect(p.x, p.y, 4, 4);
-if (p.alpha <= 0) particles.splice(index, 1);
-});
-if (particles.length > 0) requestAnimationFrame(animateParticles);
-}
-form.addEventListener('submit', (e) => {
-e.preventDefault();
-const btn = form.querySelector('.send-btn');
-const rect = btn.getBoundingClientRect();
-const canvasRect = canvas.getBoundingClientRect();
-const x = rect.left + rect.width / 2 - canvasRect.left;
-const y = rect.top + rect.height / 2 - canvasRect.top;
-btn.innerHTML = '<i class="fa-solid fa-check"></i>';
-createParticles(x, y);
-animateParticles();
-setTimeout(() => {
-btn.innerHTML = 'SEND MESSAGE';
-form.reset();
-}, 2000);
-});
+__JS_INJECT__
 </script>
 </body>
 </html>
