@@ -1,502 +1,726 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alok Sharma - Portfolio</title>
-<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
-<link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-(function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-<style>
-__CSS_INJECT__
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alok Sharma - Portfolio</title>
+    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
+    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <style>
+        :root {
+            --bg-cream: #F4F4F5;
+            --bg-yellow: #f5c518;
+            --bg-white: #FFFFFF;
+            --bg-dark: #09090B;
+            --accent: #f5c518;
+            --text-main: #18181B;
+            --text-muted: #71717A;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --font-head: 'Clash Display', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.08);
+            --shadow-float: 0 24px 48px rgba(0, 0, 0, 0.12);
+            --transition: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-cream: #09090B;
+            --bg-white: #18181B;
+            --bg-dark: #000000;
+            --text-main: #FAFAFA;
+            --text-muted: #A1A1AA;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.4);
+            --shadow-float: 0 24px 48px rgba(0, 0, 0, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg-cream); color: var(--text-main); font-family: var(--font-body); overflow-x: hidden; -webkit-font-smoothing: antialiased; transition: background-color 0.5s ease, color 0.5s ease; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--bg-yellow); border-radius: 10px; }
+        
+        h1, h2, h3 { font-family: var(--font-head); font-weight: 600; line-height: 1.1; color: var(--text-main); }
+        p, a, span, input, textarea, button { font-family: var(--font-body); }
+        a { text-decoration: none; color: inherit; }
+
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s var(--transition); will-change: opacity, transform; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        header { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 24px 5vw; z-index: 1000; background: transparent; transition: all 0.4s ease; backdrop-filter: blur(0px); }
+        header.scrolled { padding: 16px 5vw; background: rgba(var(--bg-cream), 0.8); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-color); }
+        .logo { font-size: 1.5rem; font-family: var(--font-head); font-weight: 700; letter-spacing: 2px; }
+        .logo span { color: var(--accent); }
+        .nav-container { display: flex; align-items: center; gap: 32px; }
+        nav { display: flex; gap: 32px; }
+        nav a { font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; position: relative; padding: 8px 0; overflow: hidden; }
+        nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: var(--accent); transform: translateX(-101%); transition: transform 0.4s var(--transition); }
+        nav a:hover::after, nav a.active-link::after { transform: translateX(0); }
+        
+        .theme-switch-btn, .nav-toggle-btn { background: var(--bg-white); border: 1px solid var(--border-color); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-main); transition: all 0.3s ease; }
+        .theme-switch-btn:hover { background: var(--accent); color: #000; transform: scale(1.05); }
+        .nav-toggle-btn { display: none; }
+        
+        .mobile-nav-menu { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--bg-white); border-bottom: 1px solid var(--border-color); flex-direction: column; z-index: 999; }
+        .mobile-nav-menu.open { display: flex; }
+        .mobile-nav-menu a { padding: 24px 5vw; font-size: 1rem; border-top: 1px solid var(--border-color); font-weight: 500; }
+        
+        .side-floating-nav { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 16px; z-index: 1001; }
+        .side-nav-btn { width: 48px; height: 48px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid var(--border-color); border-radius: 50%; color: var(--text-main); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; transition: all 0.3s var(--transition); box-shadow: var(--shadow-sm); }
+        .side-nav-btn:hover { background: var(--accent); color: #000; transform: translateY(-4px) scale(1.1); box-shadow: var(--shadow-float); }
+
+        section { padding: 160px 5vw; position: relative; }
+        .section-title-container { margin-bottom: 100px; text-align: center; }
+        .section-title { font-size: clamp(3rem, 6vw, 5rem); letter-spacing: -1px; }
+        
+        .btn, .send-btn, .open-again-btn { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: var(--text-main); color: var(--bg-white); padding: 16px 36px; border-radius: 40px; font-weight: 500; font-size: 1rem; cursor: pointer; border: none; transition: all 0.4s var(--transition); text-transform: uppercase; letter-spacing: 1px; overflow: hidden; position: relative; z-index: 1; }
+        .btn::before, .send-btn::before, .open-again-btn::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--accent); z-index: -1; transform: scaleX(0); transform-origin: right; transition: transform 0.5s var(--transition); border-radius: 40px; }
+        .btn:hover::before, .send-btn:hover::before, .open-again-btn:hover::before { transform: scaleX(1); transform-origin: left; }
+        .btn:hover, .send-btn:hover, .open-again-btn:hover { color: #000; box-shadow: 0 10px 20px rgba(245, 197, 24, 0.2); }
+        .secondary-btn { background: transparent; color: var(--text-main); border: 1px solid var(--border-color); }
+        .secondary-btn:hover { background: transparent; border-color: var(--text-main); }
+        .secondary-btn::before { display: none; }
+
+        #home { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; min-height: 100vh; padding-top: 120px; align-items: center; }
+        .hero-text-col { z-index: 2; }
+        .hero-subtitle { font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; color: var(--text-muted); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+        .hero-emblem-layout { display: flex; align-items: center; gap: 24px; margin-bottom: 24px; }
+        .hero-large-flag-box { width: 48px; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-sm); }
+        .hero-large-flag-box img { width: 100%; display: block; }
+        .hero h1 { font-size: clamp(4rem, 8vw, 8rem); line-height: 0.9; letter-spacing: -2px; text-transform: uppercase; margin-bottom: 32px; }
+        .hero p { font-size: 1.125rem; line-height: 1.6; color: var(--text-muted); max-width: 500px; margin-bottom: 48px; font-weight: 300; }
+        .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+        
+        .hero-image-col { position: relative; display: flex; justify-content: center; z-index: 2; }
+        .image-box { width: 100%; max-width: 480px; aspect-ratio: 4/5; border-radius: var(--radius-md); overflow: hidden; position: relative; }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; filter: contrast(1.05) saturate(1.1); transition: transform 0.8s var(--transition); }
+        .image-box:hover img { transform: scale(1.05); }
+        .hero-image-col::after { content: ''; position: absolute; width: 80%; height: 80%; background: var(--accent); filter: blur(100px); opacity: 0.15; z-index: -1; top: 10%; left: 10%; border-radius: 50%; animation: pulse 8s infinite alternate; }
+        
+        @keyframes pulse { 0% { transform: scale(0.8); opacity: 0.1; } 100% { transform: scale(1.2); opacity: 0.2; } }
+
+        #education { background: var(--bg-white); }
+        .book-scene-wrapper { display: flex; justify-content: center; perspective: 2000px; padding: 60px 0; }
+        .wooden-table { width: min(1100px, 100%); background: #1a1a1a; border-radius: var(--radius-lg); padding: 80px 40px; box-shadow: inset 0 20px 40px rgba(0,0,0,0.5), 0 40px 80px rgba(0,0,0,0.1); position: relative; display: flex; justify-content: center; align-items: center; }
+        
+        .edu-book-viewport { width: 100%; max-width: 800px; perspective: 3000px; z-index: 3; }
+        .book-container { width: 100%; height: 500px; position: relative; transform-style: preserve-3d; transform: rotateX(25deg) rotateY(0deg) rotateZ(0deg); transition: transform 1s var(--transition); }
+        .book-container:hover { transform: rotateX(15deg) rotateY(5deg) rotateZ(0deg); }
+        
+        .book-spine-core { position: absolute; left: 50%; transform: translateX(-50%) translateZ(-15px); width: 40px; height: 100%; background: linear-gradient(90deg, #111, #222, #111); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .book-pages-wrapper { position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; }
+        .click-zone { position: absolute; top: 0; width: 50%; height: 100%; z-index: 100; cursor: pointer; transform: translateZ(50px); }
+        .click-zone-left { left: 0; } .click-zone-right { right: 0; }
+        
+        .sheet { position: absolute; width: 50%; height: 100%; right: 0; top: 0; transform-origin: left center; transform-style: preserve-3d; transition: transform 1.2s var(--transition); z-index: 1; }
+        .page-side { position: absolute; width: 100%; height: 100%; top: 0; left: 0; background: #F9F9FB; padding: 60px 50px; backface-visibility: hidden; display: flex; flex-direction: column; box-shadow: inset 0 0 40px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.05); }
+        .page-side.front { transform: rotateY(0deg) translateZ(1px); }
+        .page-side.back { transform: rotateY(180deg) translateZ(-1px); }
+        
+        .sheet.cover-sheet, .sheet.cover-sheet-back { width: 51%; height: 104%; top: -2%; }
+        .sheet.cover-sheet .front, .sheet.cover-sheet-back .back { background: #0A0A0A; border: 1px solid #222; box-shadow: inset 10px 0 30px rgba(0,0,0,0.8), 10px 20px 40px rgba(0,0,0,0.4); border-radius: 0 8px 8px 0; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .sheet.cover-sheet-back .back { border-radius: 8px 0 0 8px; }
+        
+        .cover-content-layout { border: 2px solid rgba(245, 197, 24, 0.3); padding: 40px; width: 85%; height: 90%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; border-radius: 4px; }
+        .cover-foil-title { font-family: var(--font-head); font-size: 3.5rem; background: linear-gradient(135deg, #f5c518, #ffe066, #b8860b); -webkit-background-clip: text; color: transparent; text-transform: uppercase; letter-spacing: 2px; }
+        .cover-foil-subtitle { font-size: 0.75rem; letter-spacing: 4px; color: rgba(245, 197, 24, 0.7); text-transform: uppercase; margin-bottom: 20px; }
+        .cover-medallion { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(245, 197, 24, 0.5); display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 1.5rem; color: #f5c518; margin: 20px 0; }
+        .cover-year-badge { font-size: 0.8rem; letter-spacing: 2px; color: rgba(245, 197, 24, 0.7); }
+        
+        .page-side h3 { font-size: 1.8rem; margin-bottom: 16px; font-weight: 500; }
+        .page-side p { font-size: 0.9rem; line-height: 1.7; color: #555; }
+        .editorial-meta-line { font-size: 0.7rem; letter-spacing: 2px; color: #999; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 24px; }
+        .editorial-highlight-label { font-family: var(--font-head); font-size: 1.2rem; background: var(--bg-dark); color: var(--bg-white); padding: 4px 12px; display: inline-block; margin-bottom: 24px; border-radius: 4px; }
+        .school-logo-frame { width: 50px; margin-bottom: 20px; filter: grayscale(100%); opacity: 0.8; }
+        .year-indicator-tag { font-size: 0.75rem; color: #888; margin-bottom: 8px; letter-spacing: 1px; }
+        .stable-page-number { position: absolute; bottom: 40px; font-size: 0.7rem; color: #aaa; letter-spacing: 2px; }
+        .front .stable-page-number { right: 50px; } .back .stable-page-number { left: 50px; }
+        
+        .minimal-index-list { display: flex; flex-direction: column; gap: 16px; }
+        .index-item { display: flex; align-items: center; gap: 16px; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px; }
+        .idx-num { font-size: 0.7rem; background: #eee; padding: 4px 8px; border-radius: 4px; }
+        .idx-name { font-size: 0.9rem; font-weight: 500; }
+        
+        .closing-spread-layout { align-items: center; justify-content: center; text-align: center; }
+        .minimal-signature-mark { font-family: var(--font-head); font-size: 2rem; margin: 30px 0; }
+        
+        .book-hud-controls { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 60px; }
+        .hud-instruction { font-size: 0.8rem; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+        .hud-arrow-row { display: flex; align-items: center; gap: 24px; }
+        .hud-arrow-btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--bg-white); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
+        .hud-arrow-btn:hover { background: var(--accent); border-color: var(--accent); }
+        .hud-status-text { font-size: 0.9rem; font-weight: 600; letter-spacing: 1px; }
+
+        .realistic-pen { position: absolute; right: 20px; bottom: 20px; width: 14px; height: 400px; transform: rotate(-10deg); filter: drop-shadow(-10px 20px 20px rgba(0,0,0,0.5)); }
+        .pen-barrel { width: 100%; height: 320px; background: linear-gradient(90deg, #333, #555, #222); border-radius: 8px 8px 4px 4px; position: absolute; bottom: 30px; }
+        .pen-cap { width: 100%; height: 100px; background: linear-gradient(90deg, #111, #333, #111); position: absolute; top: -50px; border-radius: 6px 6px 0 0; }
+        .pen-clip { width: 4px; height: 80px; background: #d4af37; position: absolute; top: -40px; left: -4px; border-radius: 2px; }
+        .pen-ring { width: 100%; height: 6px; background: #d4af37; position: absolute; }
+        .pen-ring.top { bottom: 345px; } .pen-ring.mid { bottom: 335px; } .pen-ring.low { bottom: 30px; }
+        .pen-nib-wrapper { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
+        .pen-nib-taper { border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 25px solid #d4af37; }
+        
+        #skills { background: var(--bg-cream); }
+        .skills-grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
+        .skill-item-card { background: var(--bg-white); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 48px 32px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; transition: all 0.4s var(--transition); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+        .skill-item-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent, rgba(0,0,0,0.02)); opacity: 0; transition: opacity 0.4s ease; }
+        .skill-item-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-float); }
+        .skill-item-card:hover::after { opacity: 1; }
+        .skill-icon-wrap { width: 80px; height: 80px; transition: transform 0.4s var(--transition); }
+        .skill-item-card:hover .skill-icon-wrap { transform: scale(1.1) rotate(-5deg); }
+        .skill-icon-wrap img { width: 100%; height: 100%; object-fit: contain; }
+        .skill-item-card h3 { font-size: 1.5rem; font-weight: 500; }
+
+        #projects { background: var(--bg-dark); color: var(--bg-white); }
+        #projects .section-title { color: var(--bg-white); }
+        .projects-outer-viewport { width: 100%; overflow: hidden; padding: 40px 0 80px; cursor: grab; }
+        .projects-outer-viewport:active { cursor: grabbing; }
+        .projects-grid { display: flex; gap: 40px; width: max-content; will-change: transform; }
+        .project-card { width: 450px; flex-shrink: 0; background: var(--bg-white); border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.5s var(--transition); opacity: 0.9; }
+        .project-card:hover { transform: scale(1.02); opacity: 1; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .project-card a { display: block; position: relative; overflow: hidden; aspect-ratio: 4/5; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--transition); }
+        .project-card a:hover img { transform: scale(1.05); }
+        .project-card a::after { content: 'VIEW PROJECT \2197'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); color: var(--bg-white); font-family: var(--font-head); font-size: 1.5rem; letter-spacing: 2px; opacity: 0; transition: opacity 0.4s ease; backdrop-filter: blur(4px); }
+        .project-card a:hover::after { opacity: 1; }
+        
+        .project-content { padding: 32px; background: var(--bg-white); color: #000; flex-grow: 1; display: flex; flex-direction: column; }
+        .project-content::before { font-size: 0.75rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px; display: block; }
+        .project-card:nth-child(1) .project-content::before { content: 'June 27, 2026'; }
+        .project-card:nth-child(2) .project-content::before { content: 'June 20, 2026'; }
+        .project-card:nth-child(3) .project-content::before { content: 'June 17, 2026'; }
+        .project-card:nth-child(4) .project-content::before { content: 'June 1, 2026'; }
+        .project-card:nth-child(5) .project-content::before { content: 'May 28, 2026'; }
+        .project-card:nth-child(6) .project-content::before { content: 'May 24, 2026'; }
+        .project-card:nth-child(7) .project-content::before { content: 'May 21, 2026'; }
+        .project-card:nth-child(8) .project-content::before { content: 'May 13, 2026'; }
+        .project-card:nth-child(9) .project-content::before { content: 'May 8, 2026'; }
+        .project-card:nth-child(10) .project-content::before { content: 'April 10, 2026'; }
+        .project-card:nth-child(11) .project-content::before { content: 'March 27, 2026'; }
+        .project-card:nth-child(12) .project-content::before { content: 'February 7, 2026'; }
+        .project-card:nth-child(13) .project-content::before { content: 'March 17, 2026'; }
+        .project-card:nth-child(14) .project-content::before { content: 'April 14, 2026'; }
+        .project-card:nth-child(15) .project-content::before { content: 'April 4, 2026'; }
+        
+        .project-content h3 { font-size: 1.8rem; margin-bottom: 16px; color: #000; }
+        .project-content p { font-size: 0.95rem; color: #555; line-height: 1.6; }
+        
+        .slider-controls-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 0 5vw; }
+        .slider-instruction { font-size: 0.85rem; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; }
+        .slider-arrows { display: flex; gap: 16px; }
+        .slider-arrow-btn { width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: var(--bg-white); font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .slider-arrow-btn:hover { background: var(--bg-white); color: var(--bg-dark); transform: scale(1.05); }
+
+        #contact { background: var(--bg-cream); }
+        .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; background: var(--bg-white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); border: 1px solid var(--border-color); }
+        .contact-card { padding: 80px; background: var(--bg-dark); color: var(--bg-white); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+        .contact-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(245,197,24,0.1) 0%, transparent 70%); }
+        .find-me-btn { font-family: var(--font-head); font-size: 4rem; color: var(--bg-white); line-height: 1; margin-bottom: 40px; position: relative; z-index: 1; }
+        .contact-info { display: flex; flex-direction: column; gap: 24px; position: relative; z-index: 1; }
+        .contact-info a { font-size: 1.1rem; display: flex; align-items: center; gap: 16px; transition: color 0.3s ease; }
+        .contact-info a i { color: var(--accent); font-size: 1.2rem; }
+        .contact-info a:hover { color: var(--accent); }
+        .socials { display: flex; gap: 16px; margin-top: 40px; position: relative; z-index: 1; }
+        .socials a { width: 56px; height: 56px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.3s ease; }
+        .socials a:hover { background: var(--bg-white); color: var(--bg-dark); transform: translateY(-4px); }
+        
+        .contact-form { padding: 80px; display: flex; flex-direction: column; gap: 32px; background: var(--bg-white); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .contact-form input, .contact-form textarea { width: 100%; padding: 20px 0; border: none; border-bottom: 1px solid var(--border-color); background: transparent; color: var(--text-main); font-size: 1rem; font-family: var(--font-body); outline: none; transition: border-color 0.3s ease; }
+        .contact-form textarea { min-height: 120px; resize: vertical; }
+        .contact-form input:focus, .contact-form textarea:focus { border-bottom-color: var(--text-main); }
+        .contact-form .send-btn { margin-top: 16px; width: fit-content; }
+
+        footer { padding: 40px; text-align: center; font-size: 0.85rem; letter-spacing: 1px; color: var(--text-muted); background: var(--bg-cream); border-top: 1px solid var(--border-color); text-transform: uppercase; }
+
+        @media(max-width: 1200px) {
+            #home { grid-template-columns: 1fr; text-align: center; }
+            .hero-text-col { display: flex; flex-direction: column; align-items: center; }
+            .hero p { text-align: center; }
+            .hero-buttons { justify-content: center; }
+            .contact-wrapper { grid-template-columns: 1fr; }
+            .book-container { height: 400px; }
+            .page-side { padding: 40px 30px; }
+        }
+        @media(max-width: 768px) {
+            nav { display: none; }
+            .nav-toggle-btn { display: flex; }
+            .side-floating-nav { display: none; }
+            section { padding: 100px 5vw; }
+            .hero h1 { font-size: clamp(3rem, 10vw, 5rem); }
+            .skills-grid-container { grid-template-columns: repeat(2, 1fr); }
+            
+            .book-scene-wrapper { perspective: none; }
+            .wooden-table { background: transparent; box-shadow: none; padding: 0; }
+            .book-container { height: auto; transform: none !important; }
+            .book-spine-core, .realistic-pen, .click-zone, .book-hud-controls, .book-container::after { display: none; }
+            .book-pages-wrapper { position: relative; display: flex; flex-direction: column; gap: 24px; }
+            .sheet { position: relative; width: 100%; height: auto; transform: none !important; opacity: 1 !important; visibility: visible !important; }
+            .page-side { position: relative; width: 100%; height: auto; transform: none !important; border-radius: var(--radius-md) !important; padding: 40px 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
+            .page-side.back { display: flex; margin-top: 24px; }
+            .stable-page-number { position: relative; bottom: auto; right: auto !important; left: auto !important; margin-top: 32px; display: block; text-align: center; }
+            
+            .slider-controls-wrapper { flex-direction: column; gap: 24px; text-align: center; }
+            .project-card { width: 85vw; }
+            .contact-card, .contact-form { padding: 40px 24px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media(max-width: 480px) {
+            .skills-grid-container { grid-template-columns: 1fr; }
+            .project-content h3 { font-size: 1.5rem; }
+            .find-me-btn { font-size: 2.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
-<div class="cursor-ring" id="cursor-ring" aria-hidden="true"><span class="cursor-ring-label" id="cursor-ring-label"></span></div>
-
-<div id="scroll-spacer" aria-hidden="true"></div>
-
-<header id="site-header">
-  <div class="header-inner">
-    <a href="#home" class="logo" data-magnetic data-cursor="link">AL<span>OK.</span></a>
-    <nav id="primary-nav" aria-label="Primary">
-      <div class="nav-links" id="nav-links">
-        <a href="#home" class="nav-link active-link" data-nav-link data-cursor="link">Home</a>
-        <a href="#education" class="nav-link" data-nav-link data-cursor="link">Education</a>
-        <a href="#skills" class="nav-link" data-nav-link data-cursor="link">Skills</a>
-        <a href="#projects" class="nav-link" data-nav-link data-cursor="link">Projects</a>
-        <a href="#contact" class="nav-link" data-nav-link data-cursor="link">Contact</a>
-      </div>
-      <svg class="nav-underline" id="nav-underline" preserveAspectRatio="none" aria-hidden="true">
-        <path id="nav-underline-path" d=""></path>
-      </svg>
-    </nav>
-    <div class="header-actions">
-      <button class="icon-btn" id="theme-toggle" data-magnetic data-cursor="link" aria-label="Toggle dark theme">
-        <i class="fa-solid fa-moon"></i>
-      </button>
-      <button class="icon-btn menu-toggle-btn" id="menu-toggle" data-magnetic data-cursor="link" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-overlay">
-        <span class="menu-toggle-bar"></span>
-        <span class="menu-toggle-bar"></span>
-      </button>
-    </div>
-  </div>
-</header>
-
-<div class="mobile-overlay" id="mobile-overlay" aria-hidden="true">
-  <nav class="mobile-overlay-nav" aria-label="Mobile">
-    <a href="#home" data-overlay-link>Home</a>
-    <a href="#education" data-overlay-link>Education</a>
-    <a href="#skills" data-overlay-link>Skills</a>
-    <a href="#projects" data-overlay-link>Projects</a>
-    <a href="#contact" data-overlay-link>Contact</a>
-  </nav>
-  <div class="mobile-overlay-foot">
-    <a href="mailto:alokkynwa@gmail.com" target="_blank">alokkynwa@gmail.com</a>
-    <a href="tel:+9779843538473" target="_blank">(+977) 9843538473</a>
-  </div>
+<div class="side-floating-nav">
+    <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="tel:+9779843538473" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
 </div>
 
-<nav class="side-nav" id="side-nav" aria-label="Quick contact">
-  <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" data-magnetic data-cursor="link" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-  <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" data-magnetic data-cursor="link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-  <a href="tel:+9779843538473" class="side-nav-btn" data-magnetic data-cursor="link" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
-</nav>
-
-<div id="scroll-container">
-<main>
-
-<section class="hero-section" id="home">
-  <div class="hero-grid">
-    <div class="hero-copy reveal">
-      <p class="hero-eyebrow" data-parallax data-depth="0.2">THIS IS</p>
-      <div class="hero-name-row">
-        <span class="hero-flag" data-parallax data-depth="0.5">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
-        </span>
-        <h1 class="hero-name" data-parallax data-depth="0.65">ALOK<br>SHARMA</h1>
-      </div>
-      <p class="hero-bio" data-parallax data-depth="0.3">I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
-      <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary" data-magnetic data-cursor="link">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-        <a href="#contact" class="btn btn-ghost" data-magnetic data-cursor="link">Let's Connect</a>
-      </div>
+<header>
+    <div class="logo">AL<span>OK.</span></div>
+    <div class="nav-container">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="nav-toggle-btn" id="nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
-    <div class="hero-portrait reveal" data-parallax data-depth="0.85">
-      <div class="portrait-frame" id="portrait-frame">
-        <img src="alokk.jpeg" alt="Alok Sharma" id="hero-portrait-img">
-      </div>
+    <div class="mobile-nav-menu" id="mobile-nav-menu">
+        <a href="#home">Home</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
     </div>
-  </div>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <filter id="portraitRipple">
-      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise"></feTurbulence>
-      <feDisplacementMap id="portraitDisplace" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
-    </filter>
-  </svg>
+</header>
+
+<section class="hero" id="home">
+    <div class="hero-text-col reveal">
+        <div class="hero-subtitle">THIS IS</div>
+        <div class="hero-emblem-layout">
+            <div class="hero-large-flag-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
+            </div>
+            <h1>ALOK<br>SHARMA</h1>
+        </div>
+        <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+        <div class="hero-buttons">
+            <a href="#projects" class="btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#contact" class="btn secondary-btn">Let's Connect</a>
+        </div>
+    </div>
+    <div class="hero-image-col reveal">
+        <div class="image-box">
+            <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
+        </div>
+    </div>
 </section>
 
 <section id="education">
-  <div class="section-head reveal">
-    <span class="section-eyebrow">02 / EDUCATION</span>
-    <h2 class="section-title">Education Journey</h2>
-  </div>
-
-  <div class="book-stage reveal">
-    <div class="book-stage-glow" id="book-glow" aria-hidden="true"></div>
-    <div class="book-viewport" id="book-viewport">
-      <div class="book" id="book" tabindex="0" aria-label="Education journey book. Use left and right arrow keys to turn pages.">
-        <div class="book-spine" aria-hidden="true"></div>
-        <div class="book-edge book-edge-left" id="edge-left"></div>
-        <div class="book-edge book-edge-right" id="edge-right"></div>
-
-        <div class="book-sheet is-cover-front" id="sheet-1" style="z-index:8">
-          <div class="book-face is-front">
-            <div class="cover-face">
-              <div class="cover-rule" aria-hidden="true"></div>
-              <p class="cover-kicker">ALOK SHARMA'S</p>
-              <h3 class="cover-title">EDUCATIONAL<br>JOURNEY</h3>
-              <div class="cover-seal">
-                <span class="seal-mark">AS</span>
-              </div>
-              <p class="cover-year">2010 — PRESENT</p>
-              <div class="cover-rule" aria-hidden="true"></div>
-              <p class="cover-foot">ACADEMIC STATUS TILL TODAY</p>
-            </div>
-          </div>
-          <div class="book-face is-back">
-            <div class="toc-face">
-              <p class="face-eyebrow">TABLE OF CONTENTS</p>
-              <p class="face-label">CHAPTERS</p>
-              <ol class="toc-list">
-                <li><span class="toc-index">01</span><span class="toc-name">TILL SECONDARY LEVEL</span></li>
-                <li><span class="toc-index">02</span><span class="toc-name">HIGHER SECONDARY LEVEL</span></li>
-                <li><span class="toc-index">03</span><span class="toc-name">UNDERGRADUATE LEVEL</span></li>
-              </ol>
-              <span class="page-number">PAGE 01</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-sheet" id="sheet-2" style="z-index:6">
-          <div class="book-face is-front">
-            <div class="entry-face">
-              <p class="face-eyebrow">FOUNDATION / SEC 01</p>
-              <p class="face-label">TILL SECONDARY LEVEL 01</p>
-              <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="entry-emblem">
-              <p class="entry-timeline">[ TIMELINE: 2010 — 2022 ]</p>
-              <h3 class="entry-title">Mahakavi Devkota Memorial Secondary School</h3>
-              <span class="page-number">PAGE 02</span>
-            </div>
-          </div>
-          <div class="book-face is-back">
-            <div class="entry-face">
-              <p class="face-eyebrow">SCHOLASTIC RESULTS</p>
-              <p class="face-label">SEE</p>
-              <h3 class="entry-subtitle">Secondary Education Examination (SEE)</h3>
-              <p class="entry-copy">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
-              <span class="page-number">PAGE 03</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-sheet" id="sheet-3" style="z-index:4">
-          <div class="book-face is-front">
-            <div class="entry-face">
-              <p class="face-eyebrow">INTERMEDIATE LEVEL / SEC 02</p>
-              <p class="face-label">HIGHER SECONDARY LEVEL 02</p>
-              <img src="ria-removebg-preview.png" alt="RIA Emblem" class="entry-emblem">
-              <p class="entry-timeline">[ TIMELINE: 2022 — 2024 ]</p>
-              <h3 class="entry-title">Reliance International Academy</h3>
-              <span class="page-number">PAGE 04</span>
-            </div>
-          </div>
-          <div class="book-face is-back">
-            <div class="entry-face">
-              <p class="face-eyebrow">SCHOLASTIC RESULTS</p>
-              <p class="face-label">SLC</p>
-              <h3 class="entry-subtitle">+2 Higher Secondary Science</h3>
-              <p class="entry-copy">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
-              <span class="page-number">PAGE 05</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="book-sheet is-cover-back" id="sheet-4" style="z-index:2">
-          <div class="book-face is-front">
-            <div class="entry-face">
-              <p class="face-eyebrow">HIGHER LEVEL / SEC 03</p>
-              <p class="face-label">UNDERGRADUATE LEVEL 03</p>
-              <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="entry-emblem">
-              <p class="entry-timeline">[ TIMELINE: 2024 — PRESENT ]</p>
-              <h3 class="entry-title">Amrit Science Campus (T.U.)</h3>
-              <p class="entry-copy">Currently pursuing B.Sc.CSIT.</p>
-              <span class="page-number">PAGE 06</span>
-            </div>
-          </div>
-          <div class="book-face is-back">
-            <div class="closing-face">
-              <h2 class="closing-title">THIS MUCH<br>TILL NOW.</h2>
-              <p class="closing-meta">DOCUMENT COMPLETION</p>
-              <p class="closing-signature">ALOK.</p>
-              <button class="btn btn-ghost" id="open-again-btn" data-magnetic data-cursor="link">OPEN AGAIN</button>
-              <span class="page-number">C-02</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="section-title-container reveal">
+        <h2 class="section-title">Education Journey</h2>
     </div>
 
-    <div class="book-hud">
-      <p class="book-hud-instruction">DRAG A PAGE EDGE OR USE THE CONTROLS TO TURN THE PAGE.</p>
-      <div class="book-hud-controls">
-        <button class="hud-btn" id="book-prev" data-magnetic aria-label="Turn page back"><i class="fa-solid fa-arrow-left"></i></button>
-        <span class="book-hud-status" id="book-status">SPREAD 1 / 5</span>
-        <button class="hud-btn" id="book-next" data-magnetic aria-label="Turn page forward"><i class="fa-solid fa-arrow-right"></i></button>
-      </div>
+    <div class="book-scene-wrapper reveal">
+        <div class="wooden-table">
+            <div class="edu-book-viewport">
+                <div class="book-container" id="luxury-journal">
+                    <div class="book-spine-core"></div>
+                    <div class="click-zone click-zone-left" id="zone-left"></div>
+                    <div class="click-zone click-zone-right" id="zone-right"></div>
+                    <div class="book-pages-wrapper">
+
+                        <div class="sheet cover-sheet" id="sheet-1">
+                            <div class="page-side front">
+                                <div class="cover-content-layout">
+                                    <div class="cover-foil-subtitle">ALOK SHARMA'S</div>
+                                    <div class="cover-foil-title">EDUCATIONAL<br>JOURNEY</div>
+                                    <div class="cover-medallion">AS</div>
+                                    <div class="cover-year-badge">2010 — PRESENT</div>
+                                    <div class="cover-foil-subtitle" style="margin-top:20px; font-size: 0.65rem;">ACADEMIC STATUS TILL TODAY</div>
+                                </div>
+                                <div class="stable-page-number"></div>
+                            </div>
+                            <div class="page-side back">
+                                <div class="editorial-meta-line">TABLE OF CONTENTS</div>
+                                <div class="editorial-highlight-label">CHAPTERS</div>
+                                <div class="minimal-index-list">
+                                    <div class="index-item"><span class="idx-num">01</span><span class="idx-name">TILL SECONDARY LEVEL</span></div>
+                                    <div class="index-item"><span class="idx-num">02</span><span class="idx-name">HIGHER SECONDARY LEVEL</span></div>
+                                    <div class="index-item"><span class="idx-num">03</span><span class="idx-name">UNDERGRADUATE LEVEL</span></div>
+                                </div>
+                                <div class="stable-page-number">PAGE 01</div>
+                            </div>
+                        </div>
+
+                        <div class="sheet" id="sheet-2">
+                            <div class="page-side front">
+                                <div class="editorial-meta-line">FOUNDATION / SEC 01</div>
+                                <div class="editorial-highlight-label">TILL SECONDARY LEVEL 01</div>
+                                <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="school-logo-frame">
+                                <div class="year-indicator-tag">[ TIMELINE: 2010 — 2022 ]</div>
+                                <h3>Mahakavi Devkota Memorial Secondary School</h3>
+                                <div class="stable-page-number">PAGE 02</div>
+                            </div>
+                            <div class="page-side back">
+                                <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
+                                <div class="editorial-highlight-label">SEE</div>
+                                <h3>Secondary Education Examination (SEE)</h3>
+                                <p>Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
+                                <div class="stable-page-number">PAGE 03</div>
+                            </div>
+                        </div>
+
+                        <div class="sheet" id="sheet-3">
+                            <div class="page-side front">
+                                <div class="editorial-meta-line">INTERMEDIATE LEVEL / SEC 02</div>
+                                <div class="editorial-highlight-label">HIGHER SECONDARY LEVEL 02</div>
+                                <img src="ria-removebg-preview.png" alt="RIA Emblem" class="school-logo-frame">
+                                <div class="year-indicator-tag">[ TIMELINE: 2022 — 2024 ]</div>
+                                <h3>Reliance International Academy</h3>
+                                <div class="stable-page-number">PAGE 04</div>
+                            </div>
+                            <div class="page-side back">
+                                <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
+                                <div class="editorial-highlight-label">SLC</div>
+                                <h3>+2 Higher Secondary Science</h3>
+                                <p>Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
+                                <div class="stable-page-number">PAGE 05</div>
+                            </div>
+                        </div>
+
+                        <div class="sheet cover-sheet-back" id="sheet-4">
+                            <div class="page-side front">
+                                <div class="editorial-meta-line">HIGHER LEVEL / SEC 03</div>
+                                <div class="editorial-highlight-label">UNDERGRADUATE LEVEL 03</div>
+                                <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="school-logo-frame">
+                                <div class="year-indicator-tag">[ TIMELINE: 2024 — PRESENT ]</div>
+                                <h3>Amrit Science Campus (T.U.)</h3>
+                                <p>Currently pursuing B.Sc.CSIT.</p>
+                                <div class="stable-page-number">PAGE 06</div>
+                            </div>
+                            <div class="page-side back closing-spread-layout">
+                                <h2>THIS MUCH<br>TILL NOW.</h2>
+                                <p style="font-size:0.7rem;letter-spacing:2px;margin: 10px 0;">DOCUMENT COMPLETION</p>
+                                <div class="minimal-signature-mark">ALOK.</div>
+                                <button class="btn open-again-btn" id="open-again-btn" style="color:#000;">OPEN AGAIN</button>
+                                <div class="stable-page-number">C-02</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="book-hud-controls">
+                    <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS TO FLIP THE PAGE.</div>
+                    <div class="hud-arrow-row">
+                        <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
+                        <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 5</div>
+                        <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="realistic-pen" aria-hidden="true">
+                <div class="pen-cap"></div>
+                <div class="pen-ring top"></div>
+                <div class="pen-ring mid"></div>
+                <div class="pen-barrel"></div>
+                <div class="pen-clip"></div>
+                <div class="pen-ring low"></div>
+                <div class="pen-nib-wrapper">
+                    <div class="pen-nib-taper"></div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
 <section id="skills">
-  <div class="section-head reveal">
-    <span class="section-eyebrow">03 / SKILLS</span>
-    <h2 class="section-title">Core Skills</h2>
-  </div>
-  <div class="skills-grid reveal">
-    <div class="skill-card" data-skill-color="#e34c26" data-magnetic-tilt>
-      <div class="skill-glow" aria-hidden="true"></div>
-      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
-      <h3>HTML</h3>
+    <div class="section-title-container reveal">
+        <h2 class="section-title">Core Skills</h2>
     </div>
-    <div class="skill-card" data-skill-color="#2965f1" data-magnetic-tilt>
-      <div class="skill-glow" aria-hidden="true"></div>
-      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
-      <h3>CSS</h3>
+    <div class="skills-grid-container reveal">
+        <div class="skill-item-card skill-html">
+            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
+            <h3>HTML</h3>
+        </div>
+        <div class="skill-item-card skill-css">
+            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
+            <h3>CSS</h3>
+        </div>
+        <div class="skill-item-card skill-python">
+            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></div>
+            <h3>Python</h3>
+        </div>
+        <div class="skill-item-card skill-photoshop">
+            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
+            <h3>Photoshop</h3>
+        </div>
     </div>
-    <div class="skill-card" data-skill-color="#f5c518" data-magnetic-tilt>
-      <div class="skill-glow" aria-hidden="true"></div>
-      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></div>
-      <h3>Python</h3>
-    </div>
-    <div class="skill-card" data-skill-color="#31c5e8" data-magnetic-tilt>
-      <div class="skill-glow" aria-hidden="true"></div>
-      <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
-      <h3>Photoshop</h3>
-    </div>
-  </div>
 </section>
 
 <section id="projects">
-  <div class="section-head reveal">
-    <span class="section-eyebrow">04 / PROJECTS</span>
-    <h2 class="section-title">Featured Projects</h2>
-  </div>
-  <div class="projects-viewport reveal" id="projects-viewport">
-    <div class="projects-track" id="projects-track">
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">01</span><span class="project-date">JUN 27, 2026</span></div>
-        <a href="poruzb copy.jpg" target="_blank" class="project-media" data-cursor="project">
-          <img src="poruzb copy.jpg" alt="Portugal VS Colombia Matchday Graphic" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Portugal VS Colombia</h3>
-          <p class="project-desc">Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">02</span><span class="project-date">JUN 20, 2026</span></div>
-        <a href="portugalvcongo copy.jpg" target="_blank" class="project-media" data-cursor="project">
-          <img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Argentina VS Austria</h3>
-          <p class="project-desc">A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">03</span><span class="project-date">JUN 17, 2026</span></div>
-        <a href="porcong.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Portugal VS Congo</h3>
-          <p class="project-desc">A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">04</span><span class="project-date">JUN 01, 2026</span></div>
-        <a href="heavymetalfootball.jpg" target="_blank" class="project-media" data-cursor="project">
-          <img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Heavy Metal Football</h3>
-          <p class="project-desc">A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">05</span><span class="project-date">MAY 28, 2026</span></div>
-        <a href="psgvarsfinal copy.jpg" target="_blank" class="project-media" data-cursor="project">
-          <img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Paris Saint-Germain VS Arsenal</h3>
-          <p class="project-desc">Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">06</span><span class="project-date">MAY 24, 2026</span></div>
-        <a href="lfcvbre copy.jpg" target="_blank" class="project-media" data-cursor="project">
-          <img src="lfcvbre copy.jpg" alt="Project 1" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Liverpool VS Brentford</h3>
-          <p class="project-desc">Matchday design of the last Premier League game of the 2025-26 campaign.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">07</span><span class="project-date">MAY 21, 2026</span></div>
-        <a href="robboxmo copy.jpg" target="_blank" class="project-media" data-cursor="project">
-          <img src="robboxmo copy.jpg" alt="Project 2" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">ONE LAST TIME AT ANFIELD.</h3>
-          <p class="project-desc">A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">08</span><span class="project-date">MAY 13, 2026</span></div>
-        <a href="wc.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">FIFA World Cup 2026</h3>
-          <p class="project-desc">FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">09</span><span class="project-date">MAY 08, 2026</span></div>
-        <a href="newlivche.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Liverpool VS Chelsea</h3>
-          <p class="project-desc">Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">10</span><span class="project-date">APR 10, 2026</span></div>
-        <a href="ThankyouRobbo.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Thank You, Robbo!</h3>
-          <p class="project-desc">A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">11</span><span class="project-date">MAR 27, 2026</span></div>
-        <a href="ThankyouMo.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Thank You, Mo!</h3>
-          <p class="project-desc">A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">12</span><span class="project-date">FEB 07, 2026</span></div>
-        <a href="livvmci.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Liverpool FC VS Manchester City</h3>
-          <p class="project-desc">An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">13</span><span class="project-date">MAR 17, 2026</span></div>
-        <a href="livvgal.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Liverpool FC VS Galatasaray</h3>
-          <p class="project-desc">A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">14</span><span class="project-date">APR 14, 2026</span></div>
-        <a href="livvpsg.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Liverpool FC VS Paris Saint-Germain</h3>
-          <p class="project-desc">A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-meta-row"><span class="project-index">15</span><span class="project-date">APR 04, 2026</span></div>
-        <a href="slotout.jpeg" target="_blank" class="project-media" data-cursor="project">
-          <img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false">
-        </a>
-        <div class="project-content">
-          <h3 class="project-title">Slot Out!</h3>
-          <p class="project-desc">An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p>
-        </div>
-      </article>
-
+    <div class="section-title-container reveal">
+        <h2 class="section-title">Featured Projects</h2>
     </div>
-  </div>
-  <div class="projects-footer reveal">
-    <p class="projects-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</p>
-    <div class="projects-arrows">
-      <button class="arrow-btn" id="projects-prev" data-magnetic aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
-      <button class="arrow-btn" id="projects-next" data-magnetic aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
+    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
+        <div class="projects-grid" id="swipe-slider-grid">
+            <div class="project-card">
+                <a href="poruzb copy.jpg" target="_blank">
+                    <img src="poruzb copy.jpg" alt="Portugal VS Colombia Matchday Graphic" draggable="false">
+                </a>
+                <div class="project-content">
+                    <h3>Portugal VS Colombia</h3>
+                    <p>Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami</p>
+                </div>
+            </div>
+            <div class="project-card"><a href="portugalvcongo copy.jpg" target="_blank"><img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false"></a><div class="project-content"><h3>Argentina VS Austria</h3><p>A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p></div></div>
+            <div class="project-card"><a href="porcong.jpeg" target="_blank"><img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false"></a><div class="project-content"><h3>Portugal VS Congo</h3><p>A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p></div></div>
+            <div class="project-card"><a href="heavymetalfootball.jpg" target="_blank"><img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false"></a><div class="project-content"><h3>Heavy Metal Football</h3><p>A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p></div></div>
+            <div class="project-card"><a href="psgvarsfinal copy.jpg" target="_blank"><img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false"></a><div class="project-content"><h3>Paris Saint-Germain VS Arsenal</h3><p>Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p></div></div>
+            <div class="project-card"><a href="lfcvbre copy.jpg" target="_blank"><img src="lfcvbre copy.jpg" alt="Project 1" draggable="false"></a><div class="project-content"><h3>Liverpool VS Brentford</h3><p>Matchday design of the last Premier League game of the 2025-26 campaign.</p></div></div>
+            <div class="project-card"><a href="robboxmo copy.jpg" target="_blank"><img src="robboxmo copy.jpg" alt="Project 2" draggable="false"></a><div class="project-content"><h3>ONE LAST TIME AT ANFIELD.</h3><p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p></div></div>
+            <div class="project-card"><a href="wc.jpeg" target="_blank"><img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout" draggable="false"></a><div class="project-content"><h3>FIFA World Cup 2026</h3><p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p></div></div>
+            <div class="project-card"><a href="newlivche.jpeg" target="_blank"><img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool VS Chelsea</h3><p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p></div></div>
+            <div class="project-card"><a href="ThankyouRobbo.jpeg" target="_blank"><img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false"></a><div class="project-content"><h3>Thank You, Robbo!</h3><p>A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.</p></div></div>
+            <div class="project-card"><a href="ThankyouMo.jpeg" target="_blank"><img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false"></a><div class="project-content"><h3>Thank You, Mo!</h3><p>A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p></div></div>
+            <div class="project-card"><a href="livvmci.jpeg" target="_blank"><img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Manchester City</h3><p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p></div></div>
+            <div class="project-card"><a href="livvgal.jpeg" target="_blank"><img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Galatasaray</h3><p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p></div></div>
+            <div class="project-card"><a href="livvpsg.jpeg" target="_blank"><img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Paris Saint-Germain</h3><p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p></div></div>
+            <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
+        </div>
     </div>
-  </div>
+    <div class="slider-controls-wrapper reveal">
+        <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
+        <div class="slider-arrows">
+            <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="slider-arrow-btn" id="next-project-btn" aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
 </section>
 
 <section id="contact">
-  <div class="section-head reveal">
-    <span class="section-eyebrow">05 / CONTACT</span>
-    <h2 class="section-title">Get In Touch</h2>
-  </div>
-  <div class="contact-wrapper reveal">
-    <div class="contact-card">
-      <p class="contact-find">Find Me ↘</p>
-      <div class="contact-links">
-        <a href="mailto:alokkynwa@gmail.com" target="_blank" class="contact-link" data-magnetic data-cursor="link"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
-        <a href="tel:+9779843538473" target="_blank" class="contact-link" data-magnetic data-cursor="link"><i class="fa-solid fa-phone"></i><span>🇳🇵</span> (+977) 9843538473</a>
-      </div>
-      <div class="contact-socials">
-        <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-btn" data-magnetic data-cursor="link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-        <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer" class="social-btn" data-magnetic data-cursor="link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer" class="social-btn" data-magnetic data-cursor="link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer" class="social-btn" data-magnetic data-cursor="link" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-      </div>
+    <div class="section-title-container reveal">
+        <h2 class="section-title">Get In Touch</h2>
     </div>
-    <form class="contact-form" id="contact-form" novalidate>
-      <div class="form-row">
-        <div class="field" data-field="name">
-          <input type="text" name="name" id="field-name" required autocomplete="name">
-          <label for="field-name">NAME</label>
-          <span class="field-line"></span>
+    <div class="contact-wrapper reveal">
+        <div class="contact-card">
+            <div class="find-me-btn">Find Me ↘</div>
+            <div class="contact-info">
+                <a href="mailto:alokkynwa@gmail.com" target="_blank"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
+                <a href="tel:+9779843538473" target="_blank"><i class="fa-solid fa-phone"></i><span>🇳🇵</span> (+977) 9843538473</a>
+            </div>
+            <div class="socials">
+                <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                 <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
+            </div>
         </div>
-        <div class="field" data-field="email">
-          <input type="email" name="email" id="field-email" required autocomplete="email">
-          <label for="field-email">EMAIL</label>
-          <span class="field-line"></span>
-        </div>
-      </div>
-      <div class="field" data-field="message">
-        <textarea name="message" id="field-message" required></textarea>
-        <label for="field-message">MESSAGE</label>
-        <span class="field-line"></span>
-      </div>
-      <button type="submit" class="send-btn" id="send-btn" data-magnetic>
-        <span class="send-btn-label">SEND MESSAGE</span>
-        <svg class="send-btn-spinner" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle></svg>
-        <svg class="send-btn-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12l5 5L20 6"></path></svg>
-      </button>
-      <canvas id="confetti-canvas" aria-hidden="true"></canvas>
-    </form>
-  </div>
+        <form class="contact-form" id="portfolio-contact-form">
+             <div class="form-row">
+                <input type="text" name="name" placeholder="NAME" required>
+                <input type="email" name="email" placeholder="EMAIL" required>
+             </div>
+            <textarea name="message" placeholder="MESSAGE" required></textarea>
+            <button type="submit" class="btn send-btn" style="color:#000;">SEND MESSAGE</button>
+        </form>
+    </div>
 </section>
 
-</main>
-
 <footer>
-  <p>Copyright © Alok Sharma - All rights reserved.</p>
+    Copyright © Alok Sharma - All rights reserved.
 </footer>
-</div>
 
 <script>
-__JS_INJECT__
+(function() {
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    reveals.forEach(reveal => revealObserver.observe(reveal));
+})();
+
+(function(){
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('nav a, .mobile-nav-menu a');
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive:true });
+    const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active-link', link.getAttribute('href') === '#' + entry.target.id);
+                });
+            }
+        });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    sections.forEach(sec => navObserver.observe(sec));
+})();
+
+(function(){
+    const toggleBtn = document.getElementById("nav-toggle");
+    const menu = document.getElementById("mobile-nav-menu");
+    if(!toggleBtn || !menu) return;
+    const icon = toggleBtn.querySelector("i");
+    toggleBtn.addEventListener("click", () => {
+        const open = menu.classList.toggle("open");
+        toggleBtn.setAttribute("aria-expanded", open);
+        icon.className = open ? "fa-solid fa-xmark" : "fa-solid fa-bars";
+    });
+    menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+        menu.classList.remove("open");
+        toggleBtn.setAttribute("aria-expanded","false");
+        icon.className = "fa-solid fa-bars";
+    }));
+})();
+
+const themeToggle = document.getElementById("theme-toggle");
+const toggleIcon  = themeToggle.querySelector("i");
+themeToggle.addEventListener("click", () => {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    if (dark) {
+        document.documentElement.removeAttribute("data-theme");
+        toggleIcon.className = "fa-solid fa-moon";
+    } else {
+        document.documentElement.setAttribute("data-theme","dark");
+        toggleIcon.className = "fa-solid fa-sun";
+    }
+});
+
+(function(){
+    const grid     = document.getElementById('swipe-slider-grid');
+    const viewport = document.getElementById('swipe-slider-viewport');
+    const prevBtn  = document.getElementById('prev-project-btn');
+    const nextBtn  = document.getElementById('next-project-btn');
+    const originals = Array.from(grid.children);
+    originals.forEach(card => grid.appendChild(card.cloneNode(true)));
+    
+    let offset = 0, isPaused = false, isDrag = false, startX = 0, dragStart = 0;
+    const GAP = 40, SPEED = 0.6;
+    function halfWidth() { return originals.reduce((w, c) => w + c.offsetWidth + GAP, 0); }
+    function loop() {
+        if (!isPaused && !isDrag) offset -= SPEED;
+        const half = halfWidth();
+        if (offset <= -half) offset += half;
+        if (offset >  0)     offset  = -half + offset;
+        grid.style.transform = `translate3d(${offset}px,0,0)`;
+        requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+    viewport.addEventListener('mouseenter', () => isPaused = true);
+    viewport.addEventListener('mouseleave', () => isPaused = false);
+    function slideAmount() { const card = grid.querySelector('.project-card'); return card ? card.offsetWidth + GAP : 490; }
+    prevBtn.addEventListener('click', () => { offset += slideAmount(); });
+    nextBtn.addEventListener('click', () => { offset -= slideAmount(); });
+    viewport.addEventListener('mousedown', e => { isDrag=true; startX=e.clientX; dragStart=offset; });
+    window.addEventListener('mousemove', e => { if(!isDrag) return; offset=dragStart+(e.clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; });
+    window.addEventListener('mouseup',   () => isDrag=false);
+    viewport.addEventListener('touchstart', e => { isDrag=true; startX=e.touches[0].clientX; dragStart=offset; }, {passive:true});
+    viewport.addEventListener('touchmove',  e => { if(!isDrag) return; offset=dragStart+(e.touches[0].clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; }, {passive:true});
+    viewport.addEventListener('touchend',   () => isDrag=false);
+})();
+
+(function(){
+    const sheets = [
+        document.getElementById('sheet-1'),
+        document.getElementById('sheet-2'),
+        document.getElementById('sheet-3'),
+        document.getElementById('sheet-4')
+    ];
+    const bookPrev  = document.getElementById('book-prev');
+    const bookNext  = document.getElementById('book-next');
+    const hud       = document.getElementById('hud-page-indicator');
+    const zoneLeft  = document.getElementById('zone-left');
+    const zoneRight = document.getElementById('zone-right');
+    const restart   = document.getElementById('open-again-btn');
+    
+    let spread = 0;
+    const total = sheets.length;
+    function update() {
+        sheets.forEach((sheet, i) => {
+            const z = 2;
+            if (i < spread) {
+                sheet.classList.add('flipped');
+                sheet.style.transform = `rotateY(-180deg) translateZ(${-i*z}px)`;
+                sheet.style.zIndex = i + 1;
+                if (i < spread - 1) setTimeout(() => sheet.style.visibility='hidden', 700);
+                else sheet.style.visibility = 'visible';
+            } else {
+                sheet.classList.remove('flipped');
+                sheet.style.transform = `rotateY(0deg) translateZ(${-i*z}px)`;
+                sheet.style.zIndex = total - i;
+                sheet.style.visibility = 'visible';
+                if (i > spread + 1) setTimeout(() => sheet.style.visibility='hidden', 700);
+            }
+        });
+        if (hud) hud.innerText = `SPREAD ${spread+1} / ${total+1}`;
+        if (zoneLeft)  zoneLeft.style.display  = spread === 0     ? 'none':'block';
+        if (zoneRight) zoneRight.style.display = spread >= total  ? 'none':'block';
+    }
+    zoneLeft  && zoneLeft.addEventListener('click',  () => { if(spread>0)     { spread--; update(); } });
+    zoneRight && zoneRight.addEventListener('click', () => { if(spread<total) { spread++; update(); } });
+    bookPrev  && bookPrev.addEventListener('click',  () => { if(spread>0)     { spread--; update(); } });
+    bookNext  && bookNext.addEventListener('click',  () => { if(spread<total) { spread++; update(); } });
+    restart   && restart.addEventListener('click',   () => { spread=0; update(); });
+    update();
+})();
+
+(function(){
+    const form = document.getElementById("portfolio-contact-form");
+    form.addEventListener("submit", async e => {
+        e.preventDefault();
+        const btn = form.querySelector(".send-btn");
+        const orig = btn.innerText;
+        btn.innerText = "SENDING..."; btn.style.pointerEvents = "none";
+        const p = {
+            name:    form.querySelector('input[name="name"]').value,
+            email:   form.querySelector('input[name="email"]').value,
+            message: form.querySelector('textarea[name="message"]').value
+        };
+        try {
+            const r = await emailjs.send('service_qa1fl7f','template_zu2bqc7',p);
+            if (r.status === 200) {
+                btn.innerText = "SENT ✓"; form.reset();
+            } else throw new Error();
+        } catch {
+            btn.innerText = "ERROR – TRY AGAIN";
+        }
+        setTimeout(() => { btn.innerText=orig; btn.style.pointerEvents="auto"; }, 4000);
+    });
+})();
 </script>
 </body>
 </html>
