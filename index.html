@@ -11,8 +11,6 @@
     <script type="text/javascript">
         (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,64 +34,6 @@
     --border-thick: 3px solid var(--border-color);
     --font-head: 'Bebas Neue', sans-serif;
     --font-body: 'IBM Plex Mono', monospace;
-    --ease-premium: cubic-bezier(.16,1,.3,1);
-    --ease-soft:    cubic-bezier(.22,1,.36,1);
-    --ease-snap:    cubic-bezier(.65,0,.35,1);
-}
-
-/* ============================================================
-   MOTION SYSTEM — grain, kinetic type masks, curtain, ripple
-============================================================ */
-/* fixed film-grain layer, sits above everything, never blocks input */
-.grain-overlay{
-    position:fixed; inset:0; z-index:9999; pointer-events:none;
-    opacity:.045; mix-blend-mode:overlay;
-    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-[data-theme="dark"] .grain-overlay{ opacity:.06; }
-
-/* kinetic character masks — outer clips, inner slides */
-.char-mask{ display:inline-block; overflow:hidden; vertical-align:top; }
-.char-inner{ display:inline-block; will-change:transform; }
-.line-mask{ display:block; overflow:hidden; }
-.line-mask > .line-inner{ display:block; will-change:transform; }
-.hero-subtitle.line-mask, .hero p.line-mask{ display:block; }
-
-/* hero curtain intro */
-.hero-curtain{
-    position:absolute; inset:0; z-index:50;
-    background:var(--bg-dark);
-    display:flex; align-items:center; justify-content:center;
-    pointer-events:none;
-}
-.hero-curtain-line{
-    width:1px; height:64px; background:var(--bg-yellow);
-    transform:scaleY(0); transform-origin:center;
-}
-
-/* ambient hero particles */
-.hero-particles{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
-.hero-particle{
-    position:absolute; width:4px; height:4px; border-radius:50%;
-    background:var(--bg-yellow); opacity:0; will-change:transform,opacity;
-}
-
-/* click ripple for buttons */
-.btn,.send-btn,.open-again-btn{ position:relative; overflow:hidden; }
-.btn-ripple{
-    position:absolute; border-radius:50%; background:rgba(0,0,0,.16);
-    transform:scale(0); pointer-events:none; width:16px; height:16px; margin:-8px;
-}
-[data-theme="dark"] .btn-ripple{ background:rgba(255,255,255,.22); }
-
-/* tactile press */
-.btn:active,.send-btn:active,.open-again-btn:active,.side-nav-btn:active,
-.theme-switch-btn:active,.hud-arrow-btn:active,.slider-arrow-btn:active{
-    transform:scale(.96) !important;
-}
-
-@media (prefers-reduced-motion: reduce){
-    .grain-overlay,.hero-particles{ display:none; }
 }
 
 /* Subtle hover lift for interactive elements */
@@ -156,6 +96,20 @@ body{
 h1,h2,h3{ font-family:var(--font-head); text-transform:uppercase; line-height:1.1; letter-spacing:1px;
 color:var(--text-main); }
 p,a,span,input,textarea,button{ font-family:var(--font-body); }
+
+/* ============================================================
+   SCROLL REVEAL (FADE IN UP)
+============================================================ */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
 
 /* ============================================================
    HEADER
@@ -1236,8 +1190,6 @@ footer{
 </head>
 <body>
 
-<div class="grain-overlay" aria-hidden="true"></div>
-
 <div class="side-floating-nav">
     <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
     <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
@@ -1271,26 +1223,22 @@ footer{
 </header>
 
 <section class="hero" id="home">
-    <div class="hero-curtain" id="heroCurtain" aria-hidden="true">
-        <div class="hero-curtain-line" id="heroCurtainLine"></div>
-    </div>
-    <div class="hero-particles" id="heroParticles" aria-hidden="true"></div>
-    <div class="hero-text-col" id="heroTextCol">
-        <div class="hero-subtitle" id="heroSubtitle">THIS IS</div>
+    <div class="hero-text-col reveal">
+        <div class="hero-subtitle">THIS IS</div>
         <div class="hero-emblem-layout">
-            <div class="hero-large-flag-box" id="heroFlagBox">
+            <div class="hero-large-flag-box">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
             </div>
-            <h1 id="heroName">ALOK<br>SHARMA</h1>
+            <h1>ALOK<br>SHARMA</h1>
         </div>
-        <p id="heroPara">I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
-        <div class="hero-buttons" id="heroButtons">
+        <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+        <div class="hero-buttons">
             <a href="#projects" class="btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
             <a href="#contact" class="btn secondary-btn">Let's Connect</a>
         </div>
     </div>
-    <div class="hero-image-col" id="heroImageCol">
-        <div class="image-box" id="heroImageBox">
+    <div class="hero-image-col reveal">
+        <div class="image-box">
             <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
         </div>
     </div>
@@ -1302,11 +1250,11 @@ footer{
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Education Journey</h2>
     </div>
 
-    <div class="book-scene-wrapper">
+    <div class="book-scene-wrapper reveal">
         <div class="wooden-table">
             <div class="table-grain-overlay"></div>
             <div class="book-pen-scene">
@@ -1462,10 +1410,10 @@ footer{
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Core Skills</h2>
     </div>
-    <div class="skills-grid-container">
+    <div class="skills-grid-container reveal">
         <div class="skill-item-card skill-html">
             <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
             <h3>HTML</h3>
@@ -1491,10 +1439,10 @@ footer{
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Featured Projects</h2>
     </div>
-    <div class="projects-outer-viewport" id="swipe-slider-viewport">
+    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
         <div class="projects-grid" id="swipe-slider-grid">
             <div class="project-card">
     <a href="poruzb copy.jpg" target="_blank">
@@ -1521,7 +1469,7 @@ footer{
             <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
         </div>
     </div>
-    <div class="slider-controls-wrapper">
+    <div class="slider-controls-wrapper reveal">
         <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
         <div class="slider-arrows">
             <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
@@ -1536,10 +1484,10 @@ footer{
             <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
         </svg>
     </div>
-    <div class="section-title-container">
+    <div class="section-title-container reveal">
         <h2 class="section-title">Get In Touch</h2>
     </div>
-    <div class="contact-wrapper">
+    <div class="contact-wrapper reveal">
         <div class="contact-card">
             <div class="find-me-btn">Find Me ↘</div>
             <div class="contact-info">
@@ -1570,290 +1518,26 @@ footer{
 
 <script>
 /* ============================================================
-   SAFETY NET — guarantees the hero curtain can never permanently
-   hide content, even if the GSAP CDN fails to load.
+   SCROLL REVEAL OBSERVER (FADE IN UP)
 ============================================================ */
-(function(){
-    const curtain = document.getElementById('heroCurtain');
-    if (curtain) {
-        setTimeout(function(){ curtain.style.display = 'none'; }, 2500);
-    }
-})();
-
-/* ============================================================
-   MOTION SYSTEM — kinetic type, choreography, magnetic UI, tilt
-   Built on GSAP + ScrollTrigger. Respects prefers-reduced-motion.
-============================================================ */
-const Motion = (function(){
-
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const ready = !!(window.gsap && window.ScrollTrigger);
-    if (ready) gsap.registerPlugin(ScrollTrigger);
-
-    /* Wrap each character in a double span (outer clips, inner
-       slides) so text can "emerge" from a mask. Real text is kept
-       for screen readers via aria-label; the split markup is
-       hidden from assistive tech. */
-    function splitChars(el) {
-        if (!el) return [];
-        const label = el.textContent.replace(/\s+/g,' ').trim();
-        el.setAttribute('aria-label', label);
-        const inner = Array.from(el.childNodes).map(node => {
-            if (node.nodeType === 3) {
-                return node.textContent.split('').map(ch => ch === ' ' ? ' ' :
-                    '<span class="char-mask"><span class="char-inner">' + ch + '</span></span>'
-                ).join('');
+(function() {
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); // Stop observing once it reveals
             }
-            if (node.nodeName === 'BR') return '<br>';
-            return node.outerHTML || '';
-        }).join('');
-        el.innerHTML = '<span aria-hidden="true">' + inner + '</span>';
-        return el.querySelectorAll('.char-inner');
-    }
-
-    /* Wrap an element's text in a single line-mask (outer clips,
-       inner slides up). Same aria treatment as splitChars. */
-    function splitLine(el) {
-        if (!el) return null;
-        const text = el.textContent;
-        el.setAttribute('aria-label', text.trim());
-        el.innerHTML = '<span class="line-mask" aria-hidden="true"><span class="line-inner">' + text + '</span></span>';
-        return el.querySelector('.line-inner');
-    }
-
-    function buildParticles(container, count) {
-        if (!ready || reduced || !container) return;
-        const frag = document.createDocumentFragment();
-        const dots = [];
-        for (let i = 0; i < count; i++) {
-            const d = document.createElement('div');
-            d.className = 'hero-particle';
-            d.style.left = (Math.random()*100) + '%';
-            d.style.top = (Math.random()*100) + '%';
-            frag.appendChild(d);
-            dots.push(d);
-        }
-        container.appendChild(frag);
-        dots.forEach(d => {
-            gsap.to(d, {
-                opacity: .25 + Math.random()*.35,
-                y: '-=' + (40 + Math.random()*60),
-                x: '+=' + (Math.random()*40 - 20),
-                duration: 4 + Math.random()*5,
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut',
-                delay: Math.random()*3
-            });
         });
-    }
+    }, {
+        threshold: 0.15, // Trigger when 15% visible
+        rootMargin: "0px 0px -50px 0px"
+    });
 
-    /* Subtle magnetic pull toward the cursor within an element's
-       own bounds — mouse-only, no-op on touch. */
-    function magnetize(selector, strength) {
-        if (!ready || reduced) return;
-        document.querySelectorAll(selector).forEach(el => {
-            const xTo = gsap.quickTo(el, 'x', { duration:.5, ease:'power3' });
-            const yTo = gsap.quickTo(el, 'y', { duration:.5, ease:'power3' });
-            el.addEventListener('mousemove', e => {
-                const r = el.getBoundingClientRect();
-                xTo((e.clientX - (r.left + r.width/2)) * strength);
-                yTo((e.clientY - (r.top + r.height/2)) * strength);
-            });
-            el.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
-        });
-    }
-
-    /* Gentle perspective tilt following the cursor. */
-    function tiltize(selector, max) {
-        if (!ready || reduced) return;
-        document.querySelectorAll(selector).forEach(el => {
-            gsap.set(el, { transformPerspective: 700 });
-            const rxTo = gsap.quickTo(el, 'rotateX', { duration:.5, ease:'power3' });
-            const ryTo = gsap.quickTo(el, 'rotateY', { duration:.5, ease:'power3' });
-            const yTo  = gsap.quickTo(el, 'y', { duration:.5, ease:'power3' });
-            el.addEventListener('mousemove', e => {
-                const r = el.getBoundingClientRect();
-                const px = (e.clientX - r.left) / r.width - 0.5;
-                const py = (e.clientY - r.top) / r.height - 0.5;
-                ryTo(px * max * 2);
-                rxTo(-py * max * 2);
-                yTo(-6);
-            });
-            el.addEventListener('mouseleave', () => { rxTo(0); ryTo(0); yTo(0); });
-        });
-    }
-
-    /* Tactile ripple expanding from the click point. */
-    function rippleize(selector) {
-        if (!ready) return;
-        document.querySelectorAll(selector).forEach(el => {
-            el.addEventListener('click', function(e){
-                const r = this.getBoundingClientRect();
-                const ripple = document.createElement('span');
-                ripple.className = 'btn-ripple';
-                ripple.style.left = (e.clientX - r.left) + 'px';
-                ripple.style.top  = (e.clientY - r.top) + 'px';
-                this.appendChild(ripple);
-                gsap.to(ripple, {
-                    scale: Math.max(r.width, r.height) / 8,
-                    opacity: 0,
-                    duration: .6,
-                    ease: 'power2.out',
-                    onComplete: () => ripple.remove()
-                });
-            });
-        });
-    }
-
-    return { reduced, ready, splitChars, splitLine, buildParticles, magnetize, tiltize, rippleize };
-})();
-
-/* ============================================================
-   HERO INTRO — cinematic load sequence
-============================================================ */
-(function(){
-    const curtain = document.getElementById('heroCurtain');
-    if (!Motion.ready) { if (curtain) curtain.style.display = 'none'; return; }
-
-    if (Motion.reduced) {
-        if (curtain) curtain.style.display = 'none';
-        return; // content is visible by default; skip the choreography
-    }
-
-    const nameChars = Motion.splitChars(document.getElementById('heroName'));
-    const subtitleLine = Motion.splitLine(document.getElementById('heroSubtitle'));
-    Motion.buildParticles(document.getElementById('heroParticles'), 16);
-
-    gsap.set(nameChars, { yPercent: 120 });
-    if (subtitleLine) gsap.set(subtitleLine, { yPercent: 120 });
-    gsap.set('#heroFlagBox', { autoAlpha:0, scale:.7, rotate:-8 });
-    gsap.set('#heroPara', { autoAlpha:0, y:24 });
-    gsap.set('#heroButtons .btn', { autoAlpha:0, y:20 });
-    gsap.set('#heroImageBox', { autoAlpha:0, scale:1.12, filter:'blur(14px)' });
-
-    const tl = gsap.timeline({ delay:.1 });
-    tl.to('#heroCurtainLine', { scaleY:1, duration:.45, ease:'power2.out' })
-      .to('#heroCurtainLine', { opacity:0, duration:.3, ease:'power1.out' }, '+=.05')
-      .to(curtain, { yPercent:-100, duration:1, ease:'power4.inOut' }, '<')
-      .to('#heroFlagBox', { autoAlpha:1, scale:1, rotate:0, duration:.7, ease:'back.out(1.6)' }, '-=.55')
-      .to(subtitleLine, { yPercent:0, duration:.7, ease:'power4.out' }, '-=.5')
-      .to(nameChars, { yPercent:0, duration:.95, stagger:.028, ease:'power4.out' }, '-=.45')
-      .to('#heroImageBox', { autoAlpha:1, scale:1, filter:'blur(0px)', duration:1.1, ease:'power3.out' }, '-=.9')
-      .to('#heroPara', { autoAlpha:1, y:0, duration:.7, ease:'power2.out' }, '-=.6')
-      .to('#heroButtons .btn', { autoAlpha:1, y:0, duration:.6, stagger:.12, ease:'back.out(1.5)' }, '-=.4')
-      .add(() => { if (curtain) curtain.style.display = 'none'; });
-
-    // gentle parallax drift on the portrait as the hero scrolls away
-    gsap.to('#heroImageBox', {
-        y: 60, ease:'none',
-        scrollTrigger:{ trigger:'#home', start:'top top', end:'bottom top', scrub:true }
+    reveals.forEach(reveal => {
+        revealObserver.observe(reveal);
     });
 })();
-
-/* ============================================================
-   SECTION TITLES — kinetic line-mask reveal on scroll
-============================================================ */
-(function(){
-    if (!Motion.ready || Motion.reduced) return;
-    document.querySelectorAll('.section-title').forEach(title => {
-        const inner = Motion.splitLine(title);
-        if (!inner) return;
-        gsap.set(inner, { yPercent:110 });
-        gsap.to(inner, {
-            yPercent:0, duration:1, ease:'power4.out',
-            scrollTrigger:{ trigger:title, start:'top 85%', toggleActions:'play none none none' }
-        });
-    });
-})();
-
-/* ============================================================
-   EDUCATION — table + book assemble into view (flip logic untouched)
-============================================================ */
-(function(){
-    if (!Motion.ready || Motion.reduced) return;
-    const wrapper = document.querySelector('.book-scene-wrapper');
-    const table = document.querySelector('.wooden-table');
-    const pen = document.querySelector('.realistic-pen');
-    if (!wrapper || !table) return;
-    gsap.set(table, { autoAlpha:0, y:60, scale:.94, filter:'blur(10px)' });
-    if (pen) gsap.set(pen, { autoAlpha:0, x:40, rotate:10 });
-    const tl = gsap.timeline({
-        scrollTrigger:{ trigger:wrapper, start:'top 78%', toggleActions:'play none none none' }
-    });
-    tl.to(table, { autoAlpha:1, y:0, scale:1, filter:'blur(0px)', duration:1.2, ease:'power3.out' });
-    if (pen) tl.to(pen, { autoAlpha:1, x:0, rotate:-2, duration:.9, ease:'back.out(1.4)' }, '-=.5');
-})();
-
-/* ============================================================
-   SKILLS — staggered card reveal + perspective tilt
-============================================================ */
-(function(){
-    if (!Motion.ready) return;
-    const cards = gsap.utils.toArray('.skill-item-card');
-    if (!cards.length) return;
-    if (!Motion.reduced) {
-        gsap.set(cards, { autoAlpha:0, y:50, rotate:-2 });
-        gsap.to(cards, {
-            autoAlpha:1, y:0, rotate:0, duration:.8, stagger:.12, ease:'power3.out',
-            scrollTrigger:{ trigger:'.skills-grid-container', start:'top 80%', toggleActions:'play none none none' }
-        });
-    }
-    Motion.tiltize('.skill-item-card', 5);
-})();
-
-/* ============================================================
-   PROJECTS — gallery wipe reveal for the marquee viewport
-============================================================ */
-(function(){
-    if (!Motion.ready || Motion.reduced) return;
-    const vp = document.getElementById('swipe-slider-viewport');
-    if (!vp) return;
-    gsap.set(vp, { clipPath:'inset(0 100% 0 0)' });
-    gsap.to(vp, {
-        clipPath:'inset(0 0% 0 0)', duration:1.1, ease:'power4.inOut',
-        scrollTrigger:{ trigger:vp, start:'top 80%', toggleActions:'play none none none' }
-    });
-    const controls = document.querySelector('.slider-controls-wrapper');
-    if (controls) {
-        gsap.set(controls, { autoAlpha:0, y:24 });
-        gsap.to(controls, {
-            autoAlpha:1, y:0, duration:.8, ease:'power2.out',
-            scrollTrigger:{ trigger:controls, start:'top 92%', toggleActions:'play none none none' }
-        });
-    }
-})();
-
-/* ============================================================
-   CONTACT — memorable, slower-paced closing choreography
-============================================================ */
-(function(){
-    if (!Motion.ready || Motion.reduced) return;
-    const card = document.querySelector('.contact-card');
-    const form = document.querySelector('.contact-form');
-    const socialIcons = gsap.utils.toArray('.socials a');
-    const infoLinks = gsap.utils.toArray('.contact-info a');
-    if (!card || !form) return;
-    gsap.set(card, { autoAlpha:0, x:-50 });
-    gsap.set(form, { autoAlpha:0, x:50 });
-    gsap.set(socialIcons, { autoAlpha:0, y:20, rotate:-8 });
-    gsap.set(infoLinks, { autoAlpha:0, y:14 });
-    const tl = gsap.timeline({
-        scrollTrigger:{ trigger:'.contact-wrapper', start:'top 78%', toggleActions:'play none none none' }
-    });
-    tl.to(card, { autoAlpha:1, x:0, duration:1, ease:'power3.out' })
-      .to(form, { autoAlpha:1, x:0, duration:1, ease:'power3.out' }, '<')
-      .to(infoLinks, { autoAlpha:1, y:0, duration:.6, stagger:.1, ease:'power2.out' }, '-=.5')
-      .to(socialIcons, { autoAlpha:1, y:0, rotate:0, duration:.6, stagger:.08, ease:'back.out(1.6)' }, '-=.3');
-})();
-
-/* ============================================================
-   MICRO-INTERACTIONS — magnetic buttons + click ripple
-   (kept off elements inside the cloned project marquee, since
-   clones don't inherit JS listeners)
-============================================================ */
-Motion.magnetize('.btn, .send-btn, .open-again-btn, .side-nav-btn, .theme-switch-btn, .hud-arrow-btn, .slider-arrow-btn', 0.25);
-Motion.rippleize('.btn, .send-btn, .open-again-btn');
 
 /* ============================================================
    HEADER SCROLL STATE + ACTIVE LINK HIGHLIGHT
