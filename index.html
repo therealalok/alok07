@@ -562,11 +562,6 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <div class="desktop-trash desktop-icon" ondblclick="openApp('trash')" onclick="selectIcon(this)">
-    <svg class="desktop-icon-svg" viewBox="0 0 50 50"><use href="#macos-trash"></use></svg>
-    <span>Trash</span>
-  </div>
-
   <div id="windows-layer"></div>
 
   <div class="dock-wrap" id="dock">
@@ -1373,19 +1368,38 @@ const APPS = {
   terminal: makeTerminal(),
 
   contact: {
-    title: "Mail",
-    render: () => `
-      <div class="app-pad">
-        <h1 class="app-h1">Contact Me</h1>
-        <div style="margin-top: 20px; font-size: 15px; color: var(--text-secondary); line-height: 2;">
-          <p><i class="fa-solid fa-envelope" style="width: 25px;"></i> ${PROFILE.email}</p>
-          <p><i class="fa-solid fa-phone" style="width: 25px;"></i> +9779843538473</p>
-          <p><i class="fa-brands fa-instagram" style="width: 25px;"></i> alokynwa / alok.ynwa</p>
-          <p><i class="fa-brands fa-x-twitter" style="width: 25px;"></i> alokynwa</p>
-        </div>
+  title: "Mail",
+  render: () => `
+    <div class="app-pad">
+      <h1 class="app-h1">Contact Me</h1>
+
+      <div class="contact-info"
+           style="margin-top:20px;font-size:15px;color:var(--text-secondary);line-height:2;user-select:text;-webkit-user-select:text;">
+
+        <p>
+          <i class="fa-solid fa-envelope" style="width:25px;"></i>
+          <span>${PROFILE.email}</span>
+        </p>
+
+        <p>
+          <i class="fa-solid fa-phone" style="width:25px;"></i>
+          <span>+9779843538473</span>
+        </p>
+
+        <p>
+          <i class="fa-brands fa-instagram" style="width:25px;"></i>
+          <span>alokynwa / alok.ynwa</span>
+        </p>
+
+        <p>
+          <i class="fa-brands fa-x-twitter" style="width:25px;"></i>
+          <span>alokynwa</span>
+        </p>
+
       </div>
-    `
-  },
+    </div>
+  `
+},
 
   trash: {
     title: "Trash",
