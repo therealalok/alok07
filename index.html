@@ -18,39 +18,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
-/* =========================================================================
-   REAL macOS COLOR PALETTE & TOKENS
-========================================================================= */
 :root {
-  --bg1: #f5f5f7;
-  --bg2: #1c1c1e;
-  --bg3: #2c2c2e;
-  --bg4: #3a3a3c;
-  
   --text-primary: #ffffff;
   --text-secondary: #b8b8be;
   --text-tertiary: #8e8e93;
-  
   --blue: #0A84FF;
-  --red: #FF453A;
-  --yellow: #FFD60A;
-  --green: #32D74B;
-  --orange: #FF9F0A;
-
-  --os-accent: #0A84FF;
   
-  --window-glass: rgba(32,34,38,0.72);
+  --window-glass: rgba(30, 30, 32, 0.75);
   --sidebar-glass: rgba(255,255,255,0.04);
   --dock-glass: rgba(255,255,255,0.12);
-  --menubar-glass: rgba(255,255,255,0.12);
+  --menubar-glass: rgba(0, 0, 0, 0.2);
   
-  --win-border: rgba(255,255,255,0.10);
+  --win-border: rgba(255,255,255,0.15);
   --dock-border: rgba(255,255,255,0.15);
-  --shadow-color: rgba(0,0,0,.25);
-  --icon-shadow: rgba(0,0,0,.35);
+  --shadow-color: rgba(0,0,0,.4);
+  --icon-shadow: rgba(0,0,0,.45);
 
-  --radius-win: 16px;
-  --radius-dock: 22px;
+  --radius-win: 12px;
   --ease: cubic-bezier(0.25, 1, 0.5, 1);
   --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
   --font-mono: ui-monospace, 'IBM Plex Mono', monospace;
@@ -67,509 +51,395 @@ body {
   user-select: none;
 }
 img { -webkit-user-drag: none; user-drag: none; }
-button { font-family: inherit; border: none; background: none; color: inherit; cursor: pointer; }
-input, textarea { font-family: inherit; color: inherit; }
+button { font-family: inherit; border: none; background: none; color: inherit; cursor: pointer; outline: none; }
+input, textarea { font-family: inherit; color: inherit; outline: none; }
 a { color: inherit; text-decoration: none; }
-::selection { background: var(--blue); color: #fff; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.4); border: 2px solid transparent; background-clip: padding-box; }
 
-/* =========================================================================
-   DESKTOP & WALLPAPER
-========================================================================= */
 #desktop {
   position: fixed; inset: 0; z-index: 1;
   background: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
-  animation: desktopEntry 0.6s var(--ease) forwards;
 }
 
-@keyframes desktopEntry {
-  from { opacity: 0; transform: scale(1.02); filter: blur(10px); }
-  to { opacity: 1; transform: scale(1); filter: blur(0); }
-}
-
-/* =========================================================================
-   WIDGETS (SPOTIFY with Glass Effect)
-========================================================================= */
-.widgets-container {
-  position: fixed;
-  top: 60px;
-  right: 20px;
-  z-index: 10;
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  pointer-events: auto; /* Ensure it is clickable */
-}
-
-/* Glassy wrapper for the Spotify widget */
-.spotify-glass-wrapper {
-  background: var(--window-glass);
-  backdrop-filter: blur(35px);
-  -webkit-backdrop-filter: blur(35px);
-  border: 1px solid var(--win-border);
-  border-radius: 18px;
-  padding: 10px;
-  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
-  transition: transform 0.2s var(--ease);
-}
-.spotify-glass-wrapper:hover {
-  transform: translateY(-2px);
-}
-
-/* =========================================================================
-   MENU BAR
-========================================================================= */
+/* MENUBAR */
 .menubar {
-  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 500;
+  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 16px;
   background: var(--menubar-glass);
-  backdrop-filter: blur(35px);
-  -webkit-backdrop-filter: blur(35px);
-  border-bottom: 1px solid var(--win-border);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   font-size: 13px; font-weight: 500; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 .menubar-left, .menubar-right { display: flex; align-items: center; gap: 16px; height: 100%; }
 .menubar-left .mb-apple { font-size: 15px; cursor: pointer; }
 .menubar-app-name { font-weight: 700; cursor: default; }
-
-.menu-wrapper {
-  position: relative;
-  display: inline-block;
-  outline: none;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
 .menubar-item { opacity: 0.9; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
-.menu-wrapper:focus-within .menubar-item, .menubar-item:hover { background: rgba(255,255,255,0.1); }
-.menu-dropdown {
-  display: none;
-  position: absolute;
-  top: 28px;
-  left: 0;
-  background: rgba(30, 30, 30, 0.85);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 8px;
-  min-width: 180px;
-  padding: 6px 0;
-  box-shadow: 0 10px 30px var(--shadow-color);
-  z-index: 1000;
-}
-.menu-wrapper:focus-within .menu-dropdown { display: block; }
-.dropdown-item { padding: 4px 16px; font-size: 13px; cursor: pointer; color: var(--text-primary); display: flex; justify-content: space-between; }
-.dropdown-item:hover { background: var(--blue); color: #fff; }
-.dropdown-item.disabled { color: var(--text-tertiary); pointer-events: none; }
-.dropdown-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 4px 0; }
+.menubar-item:hover { background: rgba(255,255,255,0.1); }
 
-@media (max-width: 860px) { .menu-wrapper { display: none; } }
-.menubar-right i { font-size: 14px; opacity: 0.9; cursor: pointer; }
-.menubar-right button { display: flex; align-items: center; gap: 6px; }
-.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 4px; cursor: default; }
+.menubar-right i { font-size: 14px; opacity: 0.9; cursor: pointer; padding: 2px 4px; border-radius: 4px;}
+.menubar-right i:hover { background: rgba(255,255,255,0.1); }
+.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 4px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+.menubar-clock:hover { background: rgba(255,255,255,0.1); }
 
-/* =========================================================================
-   DESKTOP ICONS (Left Aligned)
-========================================================================= */
-.desktop-icons {
-  position: fixed; top: 60px; left: 20px; z-index: 5;
-  display: flex; flex-direction: column; gap: 25px; /* Reduced gap slightly for standard look */
-  align-items: center;
+/* SPOTLIGHT SEARCH */
+#spotlight-overlay {
+  display: none; position: fixed; top: 15vh; left: 50%; transform: translateX(-50%);
+  width: 650px; max-width: 90vw; z-index: 9999;
+  background: rgba(30, 30, 32, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--win-border); border-radius: 12px;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5); padding: 0;
 }
-.desktop-icon {
-  width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 6px; border-radius: 6px; cursor: pointer; transition: background 0.1s;
-  pointer-events: auto;
+.spotlight-input-wrapper { display: flex; align-items: center; padding: 16px 20px; font-size: 24px; color: #fff; }
+.spotlight-input-wrapper i { margin-right: 15px; font-size: 22px; color: var(--text-secondary); }
+.spotlight-input-wrapper input { flex: 1; background: transparent; border: none; font-size: 22px; color: #fff; }
+.spotlight-input-wrapper input::placeholder { color: var(--text-tertiary); }
+
+/* CONTROL CENTER */
+#control-center {
+  display: none; position: fixed; top: 35px; right: 10px; width: 320px; z-index: 9999;
+  background: rgba(30, 30, 32, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--win-border); border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4); padding: 16px;
 }
-.desktop-icon:hover { background: rgba(255,255,255,0.15); border-radius: 8px; }
-.desktop-icon-svg { width: 64px; height: 64px; filter: drop-shadow(0 4px 6px var(--icon-shadow)); }
-.desktop-icon span { 
-  font-size: 12px; text-align: center; color: #fff; 
-  text-shadow: 0 1px 3px rgba(0,0,0,.8); font-weight: 500;
-  background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 4px;
+.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cc-module { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.1s;}
+.cc-module:hover { background: rgba(255,255,255,0.15); }
+.cc-icon-wrapper { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; font-size: 14px; }
+.cc-text h4 { font-size: 13px; font-weight: 600; }
+.cc-text p { font-size: 11px; color: var(--text-secondary); margin-top: 2px;}
+
+/* WIDGETS */
+.widgets-container { position: fixed; top: 60px; right: 20px; z-index: 10; width: 320px; }
+.spotify-glass-wrapper {
+  background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
+  border: 1px solid var(--win-border); border-radius: 18px; padding: 10px;
+  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset; transition: transform 0.2s;
 }
 
-/* =========================================================================
-   DOCK
-========================================================================= */
+/* DESKTOP ICONS */
+.desktop-icons { position: fixed; top: 60px; left: 20px; z-index: 5; display: flex; flex-direction: column; gap: 20px; align-items: center; pointer-events: auto; }
+.desktop-icon { width: 76px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 6px; cursor: pointer; pointer-events: auto; }
+.desktop-icon:hover { background: rgba(255,255,255,0.15); }
+.desktop-icon-svg { width: 56px; height: 56px; filter: drop-shadow(0 3px 5px var(--icon-shadow)); }
+.desktop-icon span { font-size: 12px; text-align: center; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); font-weight: 500; padding: 2px 6px; border-radius: 4px; line-height: 1.2; }
+
+/* DOCK */
 .dock-wrap {
   position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 600;
-  display: flex; align-items: flex-end; gap: 8px;
-  padding: 9px 12px; height: 74px; border-radius: var(--radius-dock);
-  background: var(--dock-glass);
-  backdrop-filter: blur(35px) saturate(180%);
-  -webkit-backdrop-filter: blur(35px) saturate(180%);
-  border: 1px solid var(--dock-border);
-  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
-  pointer-events: auto;
+  display: flex; align-items: flex-end; gap: 8px; padding: 9px 12px; height: 74px; border-radius: 22px;
+  background: var(--dock-glass); backdrop-filter: blur(35px) saturate(180%); -webkit-backdrop-filter: blur(35px) saturate(180%);
+  border: 1px solid var(--dock-border); box-shadow: 0 10px 40px var(--shadow-color);
 }
 .dock-item {
   position: relative; width: 56px; height: 56px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: linear-gradient(180deg, #333, #111);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-  font-size: 26px; color: #fff;
-  transform-origin: bottom center;
+  background: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 26px; color: #fff;
+  transform-origin: bottom center; transition: all 0.2s var(--ease);
 }
-
-.dock-wrap:hover .dock-item { transform: scale(1); margin: 0 0px; }
+.dock-wrap:hover .dock-item { transform: scale(1); }
 .dock-item:hover { transform: scale(1.35) translateY(-5px) !important; margin: 0 15px !important; z-index: 10; }
 .dock-item:has(+ .dock-item:hover), .dock-item:hover + .dock-item { transform: scale(1.15) translateY(-2px) !important; margin: 0 8px !important; z-index: 5; }
-
-.dock-item::after { 
-  content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; 
-  border-radius: 50%; background: rgba(255,255,255,0.5); opacity: 0; transition: opacity 0.2s; 
-}
+.dock-item::after { content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); opacity: 0; transition: opacity 0.2s; }
 .dock-item.running::after { opacity: 1; }
 .dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.15); }
 
-/* =========================================================================
-   WINDOWS LAYER (pointer-events: none ensures it doesn't block background clicks)
-========================================================================= */
+/* WINDOWS */
 #windows-layer { position: fixed; inset: 0; top: 28px; z-index: 50; pointer-events: none; }
 .os-win {
-  position: absolute; top: 80px; left: 50%;
+  position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
   width: 720px; max-width: 90vw; height: 500px; max-height: 80vh;
-  transform: translate(-50%, 0);
-  background: var(--window-glass);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--win-border); 
-  border-radius: var(--radius-win);
-  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
-  display: flex; flex-direction: column; overflow: hidden;
-  opacity: 0; pointer-events: auto; /* Enables clicking inside the window */
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), filter 0.3s var(--ease);
-  filter: blur(10px);
+  background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
+  border: 1px solid var(--win-border); border-radius: var(--radius-win);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,.1) inset;
+  display: flex; flex-direction: column; overflow: hidden; pointer-events: auto;
 }
-.os-win.open { opacity: 1; transform: translate(-50%, 0); filter: blur(0); }
-.os-win.minimized { opacity: 0; transform: translate(-50%, 40vh) scale(0.4); pointer-events: none; }
-.os-win.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100vh - 28px) !important; max-width: 100%; transform: translate(0,0) !important; border-radius: 0; }
-.os-win.dragging { transition: none; }
-.os-win.closing { opacity: 0; transform: translate(-50%, 20px); filter: blur(5px); pointer-events: none; }
-
-.os-win-header {
-  height: 48px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px;
-  background: transparent; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab;
-}
+.os-win.minimized { display: none; }
+.os-win-header { height: 48px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab; }
 .os-win-header:active { cursor: grabbing; }
-.traffic { display: flex; gap: 8px; cursor: default; }
-.traffic button { 
-  width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.1) inset; cursor: pointer;
-}
-.traffic .t-close { background: #FF5F57; } 
-.traffic .t-min { background: #FEBC2E; } 
-.traffic .t-max { background: #28C840; }
-.traffic button i { font-size: 7px; opacity: 0; color: rgba(0,0,0,0.6); transition: opacity 0.1s; }
-.os-win-header:hover .traffic button i { opacity: 1; }
-.os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-left: -48px; pointer-events: none;}
-.os-win-body { flex: 1; overflow: auto; position: relative; background: transparent; display: flex; cursor: default;}
+.traffic { display: flex; gap: 8px; }
+.traffic button { width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.traffic .t-close { background: #FF5F57; } .traffic .t-min { background: #FEBC2E; } .traffic .t-max { background: #28C840; }
+.os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; margin-left: -48px; pointer-events: none; }
+.os-win-body { flex: 1; overflow: auto; display: flex; }
 
-/* =========================================================================
-   FINDER & APP CONTENT STYLES
-========================================================================= */
+/* APP STYLES */
 .app-pad { padding: 30px; width: 100%; overflow-y: auto; }
-.app-h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.app-h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
 .app-lead { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
-
-.finder-sidebar { 
-  width: 200px; flex: 0 0 auto; background: var(--sidebar-glass); 
-  border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; overflow-y: auto;
-}
+.finder-sidebar { width: 200px; background: var(--sidebar-glass); border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; }
 .finder-sb-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); padding: 4px 8px; margin-bottom: 4px; }
-.finder-sb-item { 
-  display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; 
-  font-size: 13px; cursor: pointer; color: var(--text-primary); transition: background 0.1s; 
-}
-.finder-sb-item i { width: 16px; color: #0A84FF; font-size: 14px; text-align: center; }
+.finder-sb-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-size: 13px; cursor: pointer; }
 .finder-sb-item:hover { background: rgba(255,255,255,0.1); }
 .finder-sb-item.active { background: rgba(255,255,255,0.15); font-weight: 500; }
-
-.finder-main { flex: 1; overflow-y: auto; padding: 24px; }
+.finder-main { flex: 1; padding: 24px; overflow-y: auto; }
 .finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
 .finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; display: block; }
 .finder-file:hover { background: rgba(255,255,255,0.1); }
-.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-.finder-file-name { font-size: 12px; color: var(--text-primary); line-height: 1.2; word-break: break-word; }
-
-/* Terminal */
-.term-body { background: rgba(30,30,30,0.9); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; }
+.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
+.term-body { background: rgba(30,30,30,0.95); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; }
 .term-prompt { color: #32D74B; font-weight: 600; margin-right: 8px; }
-.term-input-row { display: flex; align-items: center; margin-top: 4px; }
-.term-input { flex: 1; background: transparent; border: none; color: #fff; font-family: inherit; font-size: inherit; outline: none; }
 
 @media (max-width: 768px) {
-  .os-win { 
-    width: 100% !important; height: calc(100% - 28px) !important; 
-    max-width: none; max-height: none; 
-    top: 28px !important; left: 0 !important; 
-    transform: none !important; border-radius: 0; 
-  }
+  .os-win { width: 100% !important; height: calc(100% - 28px) !important; top: 28px !important; left: 0 !important; transform: none !important; border-radius: 0; }
   .dock-wrap { bottom: 10px; width: 95%; overflow-x: auto; padding: 6px 8px; height: 64px; }
   .dock-item { width: 44px; height: 44px; font-size: 20px; }
   .dock-item:hover, .dock-wrap:hover .dock-item { transform: none !important; margin: 0 !important; }
-  
-  .desktop-icons {
-    top: 40px; left: 20px; right: auto; gap: 20px;
-    display: grid; grid-template-columns: 1fr 1fr; 
-  }
-  .finder-sidebar { width: 60px; padding: 16px 4px; }
-  .finder-sb-label { display: none; }
-  .finder-sb-item span { display: none; }
   .widgets-container { display: none; }
+  .desktop-icons { flex-direction: row; flex-wrap: wrap; justify-content: center; }
 }
 </style>
 </head>
 <body>
 
-<svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
+<svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
   <defs>
-    <!-- Updated to authentic macOS Big Sur/Monterey blue folder colors -->
-    <g id="macos-folder">
-      <linearGradient id="fGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#4CB3FF" />
-        <stop offset="100%" stop-color="#147BFF" />
-      </linearGradient>
-      <linearGradient id="fGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#3FA6FF" />
-        <stop offset="100%" stop-color="#0A68FF" />
-      </linearGradient>
-      <filter id="fShadow">
-        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.2)"/>
-      </filter>
-      <path d="M5,20 Q5,10 15,10 L35,10 Q40,10 42,15 L48,25 L85,25 Q95,25 95,35 L95,70 Q95,80 85,80 L15,80 Q5,80 5,70 Z" fill="url(#fGrad1)" />
-      <path d="M5,35 Q5,25 15,25 L85,25 Q95,25 95,35 L95,70 Q95,80 85,80 L15,80 Q5,80 5,70 Z" fill="url(#fGrad2)" filter="url(#fShadow)" />
-      <path d="M15,26 L85,26 Q92,26 93,32" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
+    <linearGradient id="macFolderBack" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#73cbff" />
+      <stop offset="40%" stop-color="#1993ff" />
+      <stop offset="100%" stop-color="#006ad9" />
+    </linearGradient>
+    <linearGradient id="macFolderFront" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#54beff" />
+      <stop offset="30%" stop-color="#0084ff" />
+      <stop offset="100%" stop-color="#005cd9" />
+    </linearGradient>
+    <g id="macos-blue-folder">
+      <path d="M2,10 L16,10 C18,10 19,8 21,5 L28,5 C30,5 32,7 32,9 L32,14 L2,14 Z" fill="url(#macFolderBack)"/>
+      <rect x="2" y="12" width="46" height="32" rx="4" fill="url(#macFolderBack)" />
+      <path d="M2,16 C2,13.5 3.5,12 6,12 L44,12 C46.5,12 48,13.5 48,16 L48,40 C48,42.5 46.5,44 44,44 L6,44 C3.5,44 2,42.5 2,40 Z" fill="url(#macFolderFront)"/>
     </g>
   </defs>
 </svg>
 
-<!-- ================= DESKTOP ================= -->
 <div id="desktop">
-  
-  <!-- Menu bar -->
+  <!-- Top Menubar -->
   <div class="menubar">
     <div class="menubar-left">
       <i class="fa-brands fa-apple mb-apple"></i>
       <span class="menubar-app-name" id="mb-app-name">Finder</span>
-      
-      <!-- Functional Menus -->
-      <div class="menu-wrapper" tabindex="0">
-        <span class="menubar-item">File</span>
-        <div class="menu-dropdown">
-          <div class="dropdown-item">New Finder Window <span>⌘N</span></div>
-          <div class="dropdown-item">New Folder <span>⇧⌘N</span></div>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-item disabled">Close Window <span>⌘W</span></div>
-        </div>
-      </div>
-      
-      <div class="menu-wrapper" tabindex="0">
-        <span class="menubar-item">Edit</span>
-        <div class="menu-dropdown">
-          <div class="dropdown-item disabled">Undo <span>⌘Z</span></div>
-          <div class="dropdown-item disabled">Redo <span>⇧⌘Z</span></div>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-item">Cut <span>⌘X</span></div>
-          <div class="dropdown-item">Copy <span>⌘C</span></div>
-          <div class="dropdown-item">Paste <span>⌘V</span></div>
-        </div>
-      </div>
-      
-      <div class="menu-wrapper" tabindex="0">
-        <span class="menubar-item">View</span>
-        <div class="menu-dropdown">
-          <div class="dropdown-item">As Icons <span>⌘1</span></div>
-          <div class="dropdown-item">As List <span>⌘2</span></div>
-          <div class="dropdown-item">As Columns <span>⌘3</span></div>
-        </div>
-      </div>
-      
-      <div class="menu-wrapper" tabindex="0">
-        <span class="menubar-item">Go</span>
-        <div class="menu-dropdown">
-          <div class="dropdown-item">Back <span>⌘[</span></div>
-          <div class="dropdown-item">Forward <span>⌘]</span></div>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-item">Desktop <span>⇧⌘D</span></div>
-          <div class="dropdown-item">Downloads <span>⌥⌘L</span></div>
-        </div>
-      </div>
-
-      <div class="menu-wrapper" tabindex="0">
-        <span class="menubar-item">Window</span>
-        <div class="menu-dropdown">
-          <div class="dropdown-item">Minimize <span>⌘M</span></div>
-          <div class="dropdown-item">Zoom</div>
-          <div class="dropdown-divider"></div>
-          <div class="dropdown-item">Bring All to Front</div>
-        </div>
-      </div>
-
-      <div class="menu-wrapper" tabindex="0">
-        <span class="menubar-item">Help</span>
-        <div class="menu-dropdown">
-          <div class="dropdown-item">macOS Help</div>
-          <div class="dropdown-item">What's New</div>
-        </div>
-      </div>
-      
+      <span class="menubar-item" style="margin-left: 10px;">File</span>
+      <span class="menubar-item">Edit</span>
+      <span class="menubar-item">View</span>
+      <span class="menubar-item">Go</span>
+      <span class="menubar-item">Window</span>
+      <span class="menubar-item">Help</span>
     </div>
+    
     <div class="menubar-right">
-      <i class="fa-solid fa-wifi"></i>
-      <i class="fa-solid fa-battery-three-quarters"></i>
-      <i class="fa-solid fa-sliders"></i>
-      <button id="mb-spotlight-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
-      <span class="menubar-clock" id="mb-clock">—</span>
+      <i class="fa-solid fa-wifi" onclick="toggleControlCenter()" aria-label="Wi-Fi"></i>
+      <i class="fa-solid fa-battery-three-quarters" onclick="toggleControlCenter()" aria-label="Battery"></i>
+      <i class="fa-solid fa-magnifying-glass" onclick="toggleSpotlight()" aria-label="Spotlight Search"></i>
+      <span class="menubar-clock" id="mb-clock" onclick="toggleControlCenter()">—</span>
     </div>
   </div>
 
-  <!-- Widgets Container (Spotify wrapped in Glass Effect) -->
+  <!-- Spotlight Search Overlay -->
+  <div id="spotlight-overlay">
+    <div class="spotlight-input-wrapper">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="spotlight-input" placeholder="Spotlight Search" autocomplete="off" onkeydown="handleSpotlightSearch(event)">
+    </div>
+  </div>
+
+  <!-- Control Center Overlay -->
+  <div id="control-center">
+    <div class="cc-grid">
+      <div class="cc-module">
+        <div class="cc-icon-wrapper"><i class="fa-solid fa-wifi"></i></div>
+        <div class="cc-text"><h4>Wi-Fi</h4><p>Home_Network_5G</p></div>
+      </div>
+      <div class="cc-module">
+        <div class="cc-icon-wrapper" style="background: var(--blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
+        <div class="cc-text"><h4>Bluetooth</h4><p>On</p></div>
+      </div>
+    </div>
+    <div class="cc-module" style="margin-top: 12px; width: 100%;">
+      <div class="cc-icon-wrapper" style="background: var(--green);"><i class="fa-solid fa-battery-three-quarters"></i></div>
+      <div class="cc-text"><h4>Battery</h4><p>78% - Power Source: Battery</p></div>
+    </div>
+  </div>
+
+  <!-- Spotify Widget -->
   <div class="widgets-container">
     <div class="spotify-glass-wrapper">
       <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 
-  <!-- Real-looking Desktop icons -->
+  <!-- Desktop Icons (Hardcoded onclick for absolute reliability) -->
   <div class="desktop-icons">
-    <div class="desktop-icon" data-app="projects">
-      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+    <div class="desktop-icon" onclick="openApp('projects')">
+      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
       <span>Projects</span>
     </div>
-    <div class="desktop-icon" data-app="terminal">
-      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+    <div class="desktop-icon" onclick="openApp('terminal')">
+      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
       <span>Terminal</span>
     </div>
-    <div class="desktop-icon" data-app="about">
-      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+    <div class="desktop-icon" onclick="openApp('about')">
+      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
       <span>Resume</span>
     </div>
-    <div class="desktop-icon" data-app="education">
-      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+    <div class="desktop-icon" onclick="openApp('education')">
+      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
       <span>Certificates</span>
     </div>
   </div>
 
-  <!-- Windows layer -->
   <div id="windows-layer"></div>
 
-  <!-- Dock -->
+  <!-- Dock (Hardcoded onclick for absolute reliability) -->
   <div class="dock-wrap" id="dock">
-    <div class="dock-item" data-app="about" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
-    <div class="dock-item" data-app="education" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
-    <div class="dock-item" data-app="projects" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i></div>
-    <div class="dock-item" data-app="contact" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i></div>
+    <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
+    <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div class="dock-item" onclick="openApp('projects')" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i></div>
+    <div class="dock-item" onclick="openApp('contact')" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i></div>
     <div class="dock-sep"></div>
-    <div class="dock-item" data-app="terminal" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
+    <div class="dock-item" onclick="openApp('terminal')" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
     <div class="dock-sep"></div>
-    <!-- Functional Trash Icon -->
-    <div class="dock-item" data-app="trash" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC); color: #333;"><i class="fa-regular fa-trash-can"></i></div>
+    <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC); color: #333;"><i class="fa-regular fa-trash-can"></i></div>
   </div>
 
 </div>
 
+<!-- Unwrapped Global Script -->
 <script>
-// Ensuring the script runs after everything is ready to avoid missed clicks
-document.addEventListener('DOMContentLoaded', () => {
-  "use strict";
-
-  const PROFILE = {
-    name: "Alok Sharma",
-    bio: "Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels.",
-    email: "alokkynwa@gmail.com",
-  };
-
+  const PROFILE = { name: "Alok Sharma", bio: "Computer Science student designing premium football posters.", email: "alokkynwa@gmail.com" };
   const PROJECTS = {
-    "Matchday Graphics": [
-      { id:"p1", title:"Portugal VS Colombia", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
-      { id:"p2", title:"Argentina VS Austria", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" },
-      { id:"p3", title:"PSG VS Arsenal", img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500&q=80" }
-    ],
-    "Tribute Posters": [
-      { id:"p7", title:"ONE LAST TIME AT ANFIELD.", img:"https://images.unsplash.com/photo-1614632537197-38a4705f46c6?w=500&q=80" }
+    "Graphics": [
+      { id:"p1", title:"Portugal", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
+      { id:"p2", title:"Argentina", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" }
     ]
   };
 
   // Clock
-  function fmtTime(d){ return d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}); }
   function tickClock(){
-    const now = new Date();
-    document.getElementById("mb-clock").textContent = fmtTime(now).replace(/,/g, '');
+    const clk = document.getElementById("mb-clock");
+    if(clk) {
+      const d = new Date();
+      clk.textContent = d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}).replace(/,/g, '');
+    }
   }
   tickClock(); setInterval(tickClock, 1000);
 
-  // Window Management
-  const winLayer = document.getElementById("windows-layer");
-  const mbAppName = document.getElementById("mb-app-name");
-  let zTop = 60;
-  const openWins = new Map();
-
-  function bringToFront(win){
-    zTop += 1;
-    win.style.zIndex = zTop;
-    mbAppName.textContent = win.dataset.title || "Finder";
-    
-    // Sync dock running dots
-    document.querySelectorAll(".dock-item").forEach(d => {
-      d.classList.toggle("running", openWins.has(d.dataset.app));
-    });
+  // Status Bar Functions
+  function toggleSpotlight() {
+    const el = document.getElementById("spotlight-overlay");
+    const input = document.getElementById("spotlight-input");
+    if(el.style.display === "block") {
+      el.style.display = "none";
+    } else {
+      document.getElementById("control-center").style.display = "none";
+      el.style.display = "block";
+      setTimeout(() => input.focus(), 50);
+    }
   }
 
-  function makeWindow({id, title, content, onMount}){
+  function handleSpotlightSearch(e) {
+    if(e.key === "Enter") {
+      alert("Searching macOS for: " + e.target.value);
+      toggleSpotlight();
+      e.target.value = "";
+    }
+    if(e.key === "Escape") toggleSpotlight();
+  }
+
+  function toggleControlCenter() {
+    const el = document.getElementById("control-center");
+    if(el.style.display === "block") {
+      el.style.display = "none";
+    } else {
+      document.getElementById("spotlight-overlay").style.display = "none";
+      el.style.display = "block";
+    }
+  }
+
+  // Hide popovers when clicking outside
+  document.getElementById("desktop").addEventListener("click", function(e) {
+    if(!e.target.closest("#control-center") && !e.target.closest(".menubar-right")) {
+      document.getElementById("control-center").style.display = "none";
+    }
+    if(!e.target.closest("#spotlight-overlay") && !e.target.closest(".fa-magnifying-glass")) {
+      document.getElementById("spotlight-overlay").style.display = "none";
+    }
+  });
+
+  // Windows System
+  const winLayer = document.getElementById("windows-layer");
+  const openWins = new Map();
+  let zTop = 100;
+
+  function closeApp(id) {
+    if(openWins.has(id)) {
+      openWins.get(id).remove();
+      openWins.delete(id);
+      document.querySelectorAll(".dock-item").forEach(d => {
+        if(d.getAttribute("onclick").includes(id)) d.classList.remove("running");
+      });
+    }
+  }
+
+  function bringToFront(win) {
+    if(!win) return;
+    zTop++;
+    win.style.zIndex = zTop;
+    document.getElementById("mb-app-name").textContent = win.dataset.title || "Finder";
+  }
+
+  function openApp(id) {
+    // Hide popovers when opening an app
+    document.getElementById("control-center").style.display = "none";
+    document.getElementById("spotlight-overlay").style.display = "none";
+
+    const appData = APPS[id];
+    if(!appData) return;
+
     if(openWins.has(id)){
       const existing = openWins.get(id);
       existing.classList.remove("minimized");
       bringToFront(existing);
-      return existing;
+      return;
     }
     
     const win = document.createElement("div");
     win.className = "os-win";
-    win.dataset.title = title;
+    win.dataset.title = appData.title;
     
     win.innerHTML = `
       <div class="os-win-header">
         <div class="traffic">
-          <button class="t-close"><i class="fa-solid fa-xmark"></i></button>
-          <button class="t-min"><i class="fa-solid fa-minus"></i></button>
-          <button class="t-max"><i class="fa-solid fa-expand"></i></button>
+          <button class="t-close" onclick="closeApp('${id}')"></button>
+          <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"></button>
+          <button class="t-max"></button>
         </div>
-        <div class="os-win-title">${title}</div>
+        <div class="os-win-title">${appData.title}</div>
       </div>
-      <div class="os-win-body">${content}</div>
+      <div class="os-win-body">${appData.render()}</div>
     `;
     
     winLayer.appendChild(win);
     openWins.set(id, win);
+    bringToFront(win);
 
-    // Native Window Controls
-    win.querySelector(".t-close").addEventListener("click", () => {
-      win.classList.add("closing");
-      setTimeout(() => { win.remove(); openWins.delete(id); bringToFront(document.body); }, 300);
+    // Update dock dot
+    document.querySelectorAll(".dock-item").forEach(d => {
+      if(d.getAttribute("onclick").includes(id)) d.classList.add("running");
     });
-    
-    win.querySelector(".t-min").addEventListener("click", () => win.classList.add("minimized"));
-    win.querySelector(".t-max").addEventListener("click", () => win.classList.toggle("maximized"));
-    
+
     win.addEventListener("mousedown", () => bringToFront(win));
     
-    // Smooth Window Dragging
+    // Drag logic
     const header = win.querySelector(".os-win-header");
     let isDragging = false, sx, sy, sl, st;
     
     header.addEventListener("mousedown", (e) => {
-      if(e.target.closest(".traffic") || win.classList.contains("maximized")) return;
+      if(e.target.tagName === 'BUTTON') return;
       isDragging = true;
-      win.style.transition = "none";
       const rect = win.getBoundingClientRect();
       sx = e.clientX; sy = e.clientY; sl = rect.left; st = rect.top;
     });
@@ -581,110 +451,50 @@ document.addEventListener('DOMContentLoaded', () => {
       win.style.transform = "none";
     });
     
-    document.addEventListener("mouseup", () => {
-      if(isDragging) { isDragging = false; win.style.transition = ""; }
-    });
-
-    setTimeout(() => { win.classList.add("open"); bringToFront(win); }, 10);
-    if(onMount) setTimeout(onMount, 50);
-    return win;
-  }
-
-  // App Renderers
-  function renderAbout() {
-    return `<div class="app-pad">
-      <h1 class="app-h1">${PROFILE.name}</h1>
-      <p class="app-lead">${PROFILE.bio}</p>
-      <p style="color:var(--text-tertiary)">Email: ${PROFILE.email}</p>
-    </div>`;
-  }
-
-  function renderProjectsFinder(activeCat = "Matchday Graphics"){
-    const cats = Object.keys(PROJECTS);
-    const sidebar = cats.map(c => `<div class="finder-sb-item ${c===activeCat?'active':''}" data-cat="${c}"><i class="fa-solid fa-folder"></i><span>${c}</span></div>`).join("");
+    document.addEventListener("mouseup", () => { isDragging = false; });
     
-    const files = PROJECTS[activeCat].map(p => `
-      <a href="${p.img}" target="_blank" class="finder-file">
-        <img class="finder-thumb" src="${p.img}" alt="${p.title}">
-        <div class="finder-file-name">${p.title}</div>
-      </a>`).join("");
-      
-    return `
-      <div class="finder-sidebar">
-        <div class="finder-sb-label">Favorites</div>
-        <div class="finder-sb-item"><i class="fa-solid fa-desktop" style="color:var(--text-tertiary)"></i><span>Desktop</span></div>
-        <div class="finder-sb-item"><i class="fa-regular fa-file" style="color:var(--text-tertiary)"></i><span>Documents</span></div>
-        <div class="finder-sb-label" style="margin-top:16px;">Tags</div>
-        ${sidebar}
-      </div>
-      <div class="finder-main">
-        <h2 style="font-size: 20px; margin-bottom: 20px;">${activeCat}</h2>
-        <div class="finder-grid">${files}</div>
-      </div>`;
+    if(appData.wire) setTimeout(() => appData.wire(win), 50);
   }
 
-  function renderTerminal() {
-    return `<div class="term-body" id="term-body">
-      <div>Last login: ${new Date().toDateString()} on ttys000</div>
-      <div>alok@macbook-pro ~ % Welcome to the portfolio.</div>
-      <div id="term-log"></div>
-      <div class="term-input-row">
-        <span class="term-prompt">alok@macbook-pro ~ %</span>
-        <input class="term-input" id="term-input" autocomplete="off">
-      </div>
-    </div>`;
-  }
-
-  // Global App Registry
+  // App Content
   const APPS = {
-    about: { title: "About", render: renderAbout },
-    education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT - Amrit Science Campus</p></div>` },
+    about: { title: "About", render: () => `<div class="app-pad"><h1 class="app-h1">${PROFILE.name}</h1><p class="app-lead">${PROFILE.bio}</p></div>` },
+    education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT</p></div>` },
     projects: { 
       title: "Finder", 
-      render: () => renderProjectsFinder(),
-      wire: (win) => {
-        win.querySelectorAll(".finder-sb-item[data-cat]").forEach(item => {
-          item.addEventListener("click", () => {
-            win.querySelector(".os-win-body").innerHTML = renderProjectsFinder(item.dataset.cat);
-            APPS.projects.wire(win);
-          });
-        });
-      }
+      render: () => `
+        <div class="finder-sidebar">
+          <div class="finder-sb-label">Favorites</div>
+          <div class="finder-sb-item active"><i class="fa-solid fa-folder"></i> Graphics</div>
+        </div>
+        <div class="finder-main">
+          <h2>Graphics</h2><br>
+          <div class="finder-grid">
+            <div class="finder-file"><img class="finder-thumb" src="${PROJECTS.Graphics[0].img}"><div class="finder-file-name">Portugal</div></div>
+            <div class="finder-file"><img class="finder-thumb" src="${PROJECTS.Graphics[1].img}"><div class="finder-file-name">Argentina</div></div>
+          </div>
+        </div>`
     },
     terminal: {
       title: "Terminal",
-      render: renderTerminal,
+      render: () => `<div class="term-body" id="term-body"><div>Last login: ${new Date().toDateString()}</div><div id="term-log"></div><div style="display:flex;"><span class="term-prompt">alok@macbook ~ %</span><input class="term-input" id="term-input" autocomplete="off"></div></div>`,
       wire: (win) => {
         const input = win.querySelector("#term-input");
-        input.addEventListener("keydown", (e) => {
-          if(e.key === "Enter" && input.value.trim()){
-            win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook-pro ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
-            input.value = "";
-          }
-        });
-        win.addEventListener("click", () => input.focus());
+        if(input) {
+          input.focus();
+          input.addEventListener("keydown", (e) => {
+            if(e.key === "Enter" && input.value) {
+              win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
+              input.value = "";
+            }
+          });
+          win.addEventListener("click", () => input.focus());
+        }
       }
     },
-    contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Reach out at: ${PROFILE.email}</p></div>` },
-    trash: { title: "Trash", render: () => `<div class="app-pad" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--text-secondary);"><i class="fa-regular fa-trash-can" style="font-size: 48px; margin-bottom:15px; opacity:0.5;"></i><h2 style="font-weight:500;">Trash is empty</h2></div>` }
+    contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Email: ${PROFILE.email}</p></div>` },
+    trash: { title: "Trash", render: () => `<div class="app-pad" style="text-align:center;"><i class="fa-regular fa-trash-can" style="font-size:48px; opacity:0.5;"></i><br><br><h2>Trash is empty</h2></div>` }
   };
-
-  function openApp(id) {
-    const app = APPS[id];
-    if(!app) return;
-    const win = makeWindow({ id, title: app.title, content: app.render(), onMount: () => app.wire && app.wire(win) });
-  }
-
-  // Bind clicks with explicit listener reinforcement
-  const triggerElements = document.querySelectorAll(".dock-item, .desktop-icon");
-  triggerElements.forEach(el => {
-    el.addEventListener("click", function(e) {
-      const appId = this.getAttribute("data-app");
-      if (appId) openApp(appId);
-    });
-  });
-
-});
 </script>
 </body>
 </html>
