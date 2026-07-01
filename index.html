@@ -306,7 +306,6 @@ const PROFILE = {
   name: "Alok Sharma",
   bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
   email: "alokkynwa@gmail.com"
-  
 };
 
 const PROJECTS = {
@@ -335,10 +334,10 @@ const PROJECTS = {
 
 const SKILLS = {
   "Skills": [
-    { title: "html", img: "latest/icons/html5/html5-original.svg" }, 
-    { title: "css", img: "latest/icons/css3/css3-original.svg" },
-    { title: "python", img: "latest/icons/python/python-original.svg" },
-    { title: "photoshop", img: "latest/icons/photoshop/photoshop-original.svg" }
+    { title: "html", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" }, 
+    { title: "css", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
+    { title: "python", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+    { title: "photoshop", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" }
   ]
 };
 
@@ -452,6 +451,49 @@ function closeApp(id) {
   });
 }
 
+/* DRAG FUNCTIONALITY */
+function makeDraggable(win, header) {
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  
+  if (header) {
+    header.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    
+    // Convert translation offset to standard top/left on first drag to prevent jump
+    if(window.getComputedStyle(win).transform !== 'none') {
+        const rect = win.getBoundingClientRect();
+        win.style.transform = 'none';
+        win.style.left = rect.left + 'px';
+        win.style.top = rect.top + 'px';
+    }
+
+    document.onmouseup = closeDragElement;
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    win.style.top = (win.offsetTop - pos2) + "px";
+    win.style.left = (win.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+
 /* FULL IMAGE VIEWER IN SEPARATE WINDOW */
 function openImageViewer(title, imgSrc) {
   const win = document.createElement("div");
@@ -478,6 +520,9 @@ function openImageViewer(title, imgSrc) {
 
   winLayer.appendChild(win);
   bringToFront(win);
+  
+  // Apply drag functionality to the viewer window
+  makeDraggable(win, win.querySelector('.os-win-header'));
 
   win.addEventListener("mousedown", () => {
     bringToFront(win);
@@ -674,11 +719,12 @@ const APPS = {
     render: () => `
       <div class="app-pad">
         <h1 class="app-h1">Contact Me</h1>
-        <p class="app-lead">${PROFILE.email}</p>
-        <p> Phone no.: +9779843538473</p>
-        <p> Instagram: alokynwa and alok.ynwa</p>
-        <p> X: alokynwa </p>
-        
+        <div style="margin-top: 20px; font-size: 15px; color: var(--text-secondary); line-height: 2;">
+          <p><i class="fa-solid fa-envelope" style="width: 25px;"></i> ${PROFILE.email}</p>
+          <p><i class="fa-solid fa-phone" style="width: 25px;"></i> +9779843538473</p>
+          <p><i class="fa-brands fa-instagram" style="width: 25px;"></i> alokynwa / alok.ynwa</p>
+          <p><i class="fa-brands fa-x-twitter" style="width: 25px;"></i> alokynwa</p>
+        </div>
       </div>
     `
   },
@@ -737,6 +783,9 @@ function openApp(id) {
   openWins.set(id, win);
 
   bringToFront(win);
+  
+  // Apply drag functionality to general app windows
+  makeDraggable(win, win.querySelector('.os-win-header'));
 
   document.querySelectorAll(".dock-item").forEach(item => {
     const click = item.getAttribute("onclick") || "";
