@@ -309,192 +309,329 @@ a { color: inherit; text-decoration: none; }
 
 <!-- Unwrapped Global Script -->
 <script>
-  const PROFILE = { name: "Alok Sharma", bio: "Computer Science student designing premium football posters.", email: "alokkynwa@gmail.com" };
-  const PROJECTS = {
-    "Graphics": [
-      { id:"p1", title:"Portugal", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
-      { id:"p2", title:"Argentina", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" }
-    ]
-  };
+const PROFILE = {
+  name: "Alok Sharma",
+  bio: "Computer Science student designing premium football posters.",
+  email: "alokkynwa@gmail.com"
+};
 
-  // Clock
-  function tickClock(){
-    const clk = document.getElementById("mb-clock");
-    if(clk) {
-      const d = new Date();
-      clk.textContent = d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}).replace(/,/g, '');
+const PROJECTS = {
+  Graphics: [
+    {
+      title: "Portugal",
+      img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80"
+    },
+    {
+      title: "Argentina",
+      img: "https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80"
     }
+  ]
+};
+
+const winLayer = document.getElementById("windows-layer");
+const openWins = new Map();
+let zTop = 100;
+
+/* CLOCK */
+function tickClock() {
+  const clock = document.getElementById("mb-clock");
+  if (!clock) return;
+
+  const d = new Date();
+  clock.textContent = d.toLocaleString([], {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit"
+  });
+}
+
+tickClock();
+setInterval(tickClock, 1000);
+
+/* SPOTLIGHT */
+function toggleSpotlight() {
+  const spotlight = document.getElementById("spotlight-overlay");
+  const control = document.getElementById("control-center");
+
+  if (!spotlight) return;
+
+  control.style.display = "none";
+
+  spotlight.style.display =
+    spotlight.style.display === "block" ? "none" : "block";
+
+  const input = document.getElementById("spotlight-input");
+  if (spotlight.style.display === "block" && input) {
+    setTimeout(() => input.focus(), 50);
   }
-  tickClock(); setInterval(tickClock, 1000);
+}
 
-  // Status Bar Functions
-  function toggleSpotlight() {
-    const el = document.getElementById("spotlight-overlay");
-    const input = document.getElementById("spotlight-input");
-    if(el.style.display === "block") {
-      el.style.display = "none";
-    } else {
-      document.getElementById("control-center").style.display = "none";
-      el.style.display = "block";
-      setTimeout(() => input.focus(), 50);
-    }
+function handleSpotlightSearch(e) {
+  if (e.key === "Escape") {
+    toggleSpotlight();
   }
 
-  function handleSpotlightSearch(e) {
-    if(e.key === "Enter") {
-      alert("Searching macOS for: " + e.target.value);
-      toggleSpotlight();
-      e.target.value = "";
-    }
-    if(e.key === "Escape") toggleSpotlight();
+  if (e.key === "Enter") {
+    alert("Searching for: " + e.target.value);
+    e.target.value = "";
+    toggleSpotlight();
+  }
+}
+
+/* CONTROL CENTER */
+function toggleControlCenter() {
+  const control = document.getElementById("control-center");
+  const spotlight = document.getElementById("spotlight-overlay");
+
+  if (!control) return;
+
+  spotlight.style.display = "none";
+
+  control.style.display =
+    control.style.display === "block" ? "none" : "block";
+}
+
+/* CLOSE POPOVERS */
+document.addEventListener("click", function (e) {
+  const control = document.getElementById("control-center");
+  const spotlight = document.getElementById("spotlight-overlay");
+
+  if (
+    control &&
+    !e.target.closest("#control-center") &&
+    !e.target.closest(".fa-wifi") &&
+    !e.target.closest(".fa-battery-three-quarters")
+  ) {
+    control.style.display = "none";
   }
 
-  function toggleControlCenter() {
-    const el = document.getElementById("control-center");
-    if(el.style.display === "block") {
-      el.style.display = "none";
-    } else {
-      document.getElementById("spotlight-overlay").style.display = "none";
-      el.style.display = "block";
+  if (
+    spotlight &&
+    !e.target.closest("#spotlight-overlay") &&
+    !e.target.closest(".fa-magnifying-glass")
+  ) {
+    spotlight.style.display = "none";
+  }
+});
+
+/* WINDOW FUNCTIONS */
+function bringToFront(win) {
+  zTop++;
+  win.style.zIndex = zTop;
+
+  const title = document.getElementById("mb-app-name");
+  if (title) {
+    title.textContent = win.dataset.title || "Finder";
+  }
+}
+
+function closeApp(id) {
+  if (!openWins.has(id)) return;
+
+  openWins.get(id).remove();
+  openWins.delete(id);
+
+  document.querySelectorAll(".dock-item").forEach(item => {
+    const click = item.getAttribute("onclick") || "";
+    if (click.includes(id)) {
+      item.classList.remove("running");
     }
+  });
+}
+
+/* APPS */
+const APPS = {
+  about: {
+    title: "About",
+    render: () => `
+      <div class="app-pad">
+        <h1 class="app-h1">${PROFILE.name}</h1>
+        <p class="app-lead">${PROFILE.bio}</p>
+      </div>
+    `
+  },
+
+  education: {
+    title: "Certifications",
+    render: () => `
+      <div class="app-pad">
+        <h1 class="app-h1">Certifications</h1>
+        <p class="app-lead">B.Sc.CSIT</p>
+      </div>
+    `
+  },
+
+  projects: {
+    title: "Finder",
+    render: () => `
+      <div class="finder-sidebar">
+        <div class="finder-sb-label">Favorites</div>
+        <div class="finder-sb-item active">
+          <i class="fa-solid fa-folder"></i> Graphics
+        </div>
+      </div>
+
+      <div class="finder-main">
+        <h2>Graphics</h2>
+        <br>
+
+        <div class="finder-grid">
+          ${PROJECTS.Graphics.map(
+            p => `
+            <div class="finder-file">
+              <img class="finder-thumb" src="${p.img}">
+              <div>${p.title}</div>
+            </div>
+          `
+          ).join("")}
+        </div>
+      </div>
+    `
+  },
+
+  terminal: {
+    title: "Terminal",
+    render: () => `
+      <div class="term-body">
+        <div>Last login: ${new Date().toDateString()}</div>
+        <div id="term-log"></div>
+
+        <div style="display:flex;">
+          <span class="term-prompt">
+            alok@macbook ~ %
+          </span>
+
+          <input
+            id="term-input"
+            style="
+              background:none;
+              border:none;
+              color:white;
+              flex:1;
+            "
+          >
+        </div>
+      </div>
+    `,
+    wire: win => {
+      const input = win.querySelector("#term-input");
+      const log = win.querySelector("#term-log");
+
+      if (!input) return;
+
+      input.focus();
+
+      input.addEventListener("keydown", e => {
+        if (e.key === "Enter") {
+          const value = input.value.trim();
+
+          if (!value) return;
+
+          log.innerHTML += `
+            <div>
+              <span class="term-prompt">
+                alok@macbook ~ %
+              </span>
+              ${value}
+            </div>
+
+            <div>
+              zsh: command not found:
+              ${value}
+            </div>
+          `;
+
+          input.value = "";
+        }
+      });
+    }
+  },
+
+  contact: {
+    title: "Mail",
+    render: () => `
+      <div class="app-pad">
+        <h1 class="app-h1">New Message</h1>
+        <p class="app-lead">${PROFILE.email}</p>
+      </div>
+    `
+  },
+
+  trash: {
+    title: "Trash",
+    render: () => `
+      <div class="app-pad" style="text-align:center;">
+        <h2>Trash is empty</h2>
+      </div>
+    `
+  }
+};
+
+/* OPEN APP */
+function openApp(id) {
+  const app = APPS[id];
+  if (!app) return;
+
+  if (openWins.has(id)) {
+    const existing = openWins.get(id);
+    existing.classList.remove("minimized");
+    bringToFront(existing);
+    return;
   }
 
-  // Hide popovers when clicking outside
-  document.getElementById("desktop").addEventListener("click", function(e) {
-    if(!e.target.closest("#control-center") && !e.target.closest(".menubar-right")) {
-      document.getElementById("control-center").style.display = "none";
-    }
-    if(!e.target.closest("#spotlight-overlay") && !e.target.closest(".fa-magnifying-glass")) {
-      document.getElementById("spotlight-overlay").style.display = "none";
+  const win = document.createElement("div");
+  win.className = "os-win";
+  win.dataset.title = app.title;
+
+  win.innerHTML = `
+    <div class="os-win-header">
+      <div class="traffic">
+        <button
+          class="t-close"
+          onclick="closeApp('${id}')"
+        ></button>
+
+        <button
+          class="t-min"
+          onclick="this.closest('.os-win').classList.add('minimized')"
+        ></button>
+
+        <button class="t-max"></button>
+      </div>
+
+      <div class="os-win-title">
+        ${app.title}
+      </div>
+    </div>
+
+    <div class="os-win-body">
+      ${app.render()}
+    </div>
+  `;
+
+  winLayer.appendChild(win);
+  openWins.set(id, win);
+
+  bringToFront(win);
+
+  document.querySelectorAll(".dock-item").forEach(item => {
+    const click = item.getAttribute("onclick") || "";
+
+    if (click.includes(id)) {
+      item.classList.add("running");
     }
   });
 
-  // Windows System
-  const winLayer = document.getElementById("windows-layer");
-  const openWins = new Map();
-  let zTop = 100;
-
-  function closeApp(id) {
-    if(openWins.has(id)) {
-      openWins.get(id).remove();
-      openWins.delete(id);
-      document.querySelectorAll(".dock-item").forEach(d => {
-        if(d.getAttribute("onclick").includes(id)) d.classList.remove("running");
-      });
-    }
-  }
-
-  function bringToFront(win) {
-    if(!win) return;
-    zTop++;
-    win.style.zIndex = zTop;
-    document.getElementById("mb-app-name").textContent = win.dataset.title || "Finder";
-  }
-
-  function openApp(id) {
-    // Hide popovers when opening an app
-    document.getElementById("control-center").style.display = "none";
-    document.getElementById("spotlight-overlay").style.display = "none";
-
-    const appData = APPS[id];
-    if(!appData) return;
-
-    if(openWins.has(id)){
-      const existing = openWins.get(id);
-      existing.classList.remove("minimized");
-      bringToFront(existing);
-      return;
-    }
-    
-    const win = document.createElement("div");
-    win.className = "os-win";
-    win.dataset.title = appData.title;
-    
-    win.innerHTML = `
-      <div class="os-win-header">
-        <div class="traffic">
-          <button class="t-close" onclick="closeApp('${id}')"></button>
-          <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"></button>
-          <button class="t-max"></button>
-        </div>
-        <div class="os-win-title">${appData.title}</div>
-      </div>
-      <div class="os-win-body">${appData.render()}</div>
-    `;
-    
-    winLayer.appendChild(win);
-    openWins.set(id, win);
+  win.addEventListener("mousedown", () => {
     bringToFront(win);
+  });
 
-    // Update dock dot
-    document.querySelectorAll(".dock-item").forEach(d => {
-      if(d.getAttribute("onclick").includes(id)) d.classList.add("running");
-    });
-
-    win.addEventListener("mousedown", () => bringToFront(win));
-    
-    // Drag logic
-    const header = win.querySelector(".os-win-header");
-    let isDragging = false, sx, sy, sl, st;
-    
-    header.addEventListener("mousedown", (e) => {
-      if(e.target.tagName === 'BUTTON') return;
-      isDragging = true;
-      const rect = win.getBoundingClientRect();
-      sx = e.clientX; sy = e.clientY; sl = rect.left; st = rect.top;
-    });
-    
-    document.addEventListener("mousemove", (e) => {
-      if(!isDragging) return;
-      win.style.left = (sl + (e.clientX - sx)) + "px";
-      win.style.top = Math.max(28, st + (e.clientY - sy)) + "px";
-      win.style.transform = "none";
-    });
-    
-    document.addEventListener("mouseup", () => { isDragging = false; });
-    
-    if(appData.wire) setTimeout(() => appData.wire(win), 50);
+  if (app.wire) {
+    setTimeout(() => app.wire(win), 50);
   }
-
-  // App Content
-  const APPS = {
-    about: { title: "About", render: () => `<div class="app-pad"><h1 class="app-h1">${PROFILE.name}</h1><p class="app-lead">${PROFILE.bio}</p></div>` },
-    education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT</p></div>` },
-    projects: { 
-      title: "Finder", 
-      render: () => `
-        <div class="finder-sidebar">
-          <div class="finder-sb-label">Favorites</div>
-          <div class="finder-sb-item active"><i class="fa-solid fa-folder"></i> Graphics</div>
-        </div>
-        <div class="finder-main">
-          <h2>Graphics</h2><br>
-          <div class="finder-grid">
-            <div class="finder-file"><img class="finder-thumb" src="${PROJECTS.Graphics[0].img}"><div class="finder-file-name">Portugal</div></div>
-            <div class="finder-file"><img class="finder-thumb" src="${PROJECTS.Graphics[1].img}"><div class="finder-file-name">Argentina</div></div>
-          </div>
-        </div>`
-    },
-    terminal: {
-      title: "Terminal",
-      render: () => `<div class="term-body" id="term-body"><div>Last login: ${new Date().toDateString()}</div><div id="term-log"></div><div style="display:flex;"><span class="term-prompt">alok@macbook ~ %</span><input class="term-input" id="term-input" autocomplete="off"></div></div>`,
-      wire: (win) => {
-        const input = win.querySelector("#term-input");
-        if(input) {
-          input.focus();
-          input.addEventListener("keydown", (e) => {
-            if(e.key === "Enter" && input.value) {
-              win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
-              input.value = "";
-            }
-          });
-          win.addEventListener("click", () => input.focus());
-        }
-      }
-    },
-    contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Email: ${PROFILE.email}</p></div>` },
-    trash: { title: "Trash", render: () => `<div class="app-pad" style="text-align:center;"><i class="fa-regular fa-trash-can" style="font-size:48px; opacity:0.5;"></i><br><br><h2>Trash is empty</h2></div>` }
-  };
+}
 </script>
 </body>
 </html>
