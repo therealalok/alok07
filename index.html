@@ -1411,10 +1411,13 @@ const APPS = {
   }
 };
 
-/* ============ OPEN APP ============ */
 function openApp(id) {
   const app = APPS[id];
   if (!app) return;
+
+  document
+    .querySelector(`.dock-item[data-app="${id}"]`)
+    ?.classList.add("running");
 
   if (openWins.has(id)) {
     const existing = openWins.get(id);
@@ -1469,7 +1472,7 @@ function updateBatteryUI(level, charging, unsupported) {
   if (ccText) {
     ccText.textContent = unsupported
       ? "Battery status unavailable in this browser"
-      : `${level}% — Power Source: ${charging ? "Power Adapter (Charging)" : "Battery"}`;
+      : `${level}% : "Battery"}`;
   }
 }
 
