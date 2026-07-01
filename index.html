@@ -23,7 +23,6 @@
   --text-secondary: #b8b8be;
   --text-tertiary: #8e8e93;
   --blue: #0A84FF;
-  
   --window-glass: rgba(30, 30, 32, 0.75);
   --sidebar-glass: rgba(255,255,255,0.04);
   --dock-glass: rgba(255,255,255,0.12);
@@ -73,7 +72,8 @@ a { color: inherit; text-decoration: none; }
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 13px; font-weight: 500; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 .menubar-left, .menubar-right { display: flex; align-items: center; gap: 16px; height: 100%; }
 .menubar-left .mb-apple { font-size: 15px; cursor: pointer; }
@@ -216,7 +216,6 @@ a { color: inherit; text-decoration: none; }
 </svg>
 
 <div id="desktop">
-  <!-- Top Menubar -->
   <div class="menubar">
     <div class="menubar-left">
       <i class="fa-brands fa-apple mb-apple"></i>
@@ -237,7 +236,6 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <!-- Spotlight Search Overlay -->
   <div id="spotlight-overlay">
     <div class="spotlight-input-wrapper">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -245,7 +243,6 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <!-- Control Center Overlay -->
   <div id="control-center">
     <div class="cc-grid">
       <div class="cc-module">
@@ -263,14 +260,12 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <!-- Spotify Widget -->
   <div class="widgets-container">
     <div class="spotify-glass-wrapper">
      <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 
-  <!-- Desktop Icons -->
   <div class="desktop-icons">
     <div class="desktop-icon" onclick="openApp('projects')">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
@@ -292,7 +287,6 @@ a { color: inherit; text-decoration: none; }
 
   <div id="windows-layer"></div>
 
-  <!-- Dock -->
   <div class="dock-wrap" id="dock">
     <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
     <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -302,7 +296,7 @@ a { color: inherit; text-decoration: none; }
     <div class="dock-sep"></div>
     <div class="dock-item" onclick="openApp('terminal')" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
     <div class="dock-sep"></div>
-    <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC); color: #333;"><i class="fa-regular fa-trash-can"></i></div>
+    <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC; color: #333;"><i class="fa-regular fa-trash-can"></i></div>
   </div>
 
 </div>
@@ -335,14 +329,6 @@ const PROJECTS = {
   ],
   "Supporters' voice": [
     { title: "slotout.jpeg", img: "slotout.jpeg" }
-  ]
-};
-
-const EDUCATION = {
-  "Education": [
-    { title: "ascol.jpg", img: "ascol.jpg" },
-    { title: "mdmss-removebg-preview.png", img: "mdmss-removebg-preview.png" },
-    { title: "ria-removebg-preview.png", img: "ria-removebg-preview.png" }
   ]
 };
 
@@ -383,7 +369,6 @@ function toggleSpotlight() {
   const control = document.getElementById("control-center");
 
   if (!spotlight) return;
-
   control.style.display = "none";
 
   spotlight.style.display =
@@ -413,7 +398,6 @@ function toggleControlCenter() {
   const spotlight = document.getElementById("spotlight-overlay");
 
   if (!control) return;
-
   spotlight.style.display = "none";
 
   control.style.display =
@@ -459,12 +443,43 @@ function closeApp(id) {
 
   openWins.get(id).remove();
   openWins.delete(id);
-
   document.querySelectorAll(".dock-item").forEach(item => {
     const click = item.getAttribute("onclick") || "";
     if (click.includes(id)) {
       item.classList.remove("running");
     }
+  });
+}
+
+/* FULL IMAGE VIEWER IN SEPARATE WINDOW */
+function openImageViewer(title, imgSrc) {
+  const win = document.createElement("div");
+  win.className = "os-win";
+  win.style.width = "640px";
+  win.style.height = "500px";
+  win.dataset.title = title;
+
+  win.innerHTML = `
+    <div class="os-win-header">
+      <div class="traffic">
+        <button class="t-close" onclick="this.closest('.os-win').remove()"></button>
+        <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"></button>
+        <button class="t-max"></button>
+      </div>
+      <div class="os-win-title">
+        ${title}
+      </div>
+    </div>
+    <div class="os-win-body" style="background: rgba(15, 15, 17, 0.9); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden;">
+      <img src="${imgSrc}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
+    </div>
+  `;
+
+  winLayer.appendChild(win);
+  bringToFront(win);
+
+  win.addEventListener("mousedown", () => {
+    bringToFront(win);
   });
 }
 
@@ -483,7 +498,7 @@ function renderFiles(files) {
   }).join("");
 }
 
-/* HELPER TO BUILD FINDER-LIKE APPS WITH PREVIEW */
+/* HELPER TO BUILD FINDER-LIKE APPS WITHOUT PREVIEW PANEL */
 function createFinderApp(appTitle, dataObj) {
   return {
     title: appTitle,
@@ -511,9 +526,6 @@ function createFinderApp(appTitle, dataObj) {
                 ${renderFiles(dataObj[activeFolder])}
               </div>
             </div>
-            <!-- Half-width preview section -->
-            <div class="finder-preview" style="display:none; width:50%; background:rgba(0,0,0,0.15); border-left:1px solid rgba(255,255,255,0.05); padding:24px; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-            </div>
           </div>
         </div>
       `;
@@ -522,7 +534,6 @@ function createFinderApp(appTitle, dataObj) {
       const sidebarItems = win.querySelectorAll('.finder-sb-item');
       const grid = win.querySelector('.finder-grid');
       const titleEl = win.querySelector('.folder-title');
-      const preview = win.querySelector('.finder-preview');
 
       function bindFileClicks(folderName) {
         const fileEls = grid.querySelectorAll('.finder-file');
@@ -533,22 +544,9 @@ function createFinderApp(appTitle, dataObj) {
             fileEl.style.background = 'rgba(255,255,255,0.15)';
             fileEl.style.borderRadius = '8px';
             
-            // Show preview pane
             const fileData = dataObj[folderName][index];
             if (fileData.img) {
-              preview.style.display = 'flex';
-              preview.innerHTML = `
-                <img src="${fileData.img}" style="max-width:100%; max-height:75%; object-fit:contain; border-radius:8px; margin-bottom:16px; box-shadow:0 10px 40px rgba(0,0,0,0.6);">
-                <h3 style="font-size:15px; font-weight:600; word-wrap:break-word; max-width:100%;">${fileData.title}</h3>
-              `;
-            } else {
-              preview.style.display = 'flex';
-              preview.innerHTML = `
-                <div style="width:120px; height:120px; background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
-                  <i class="fa-solid fa-file-code" style="font-size:48px; color:var(--text-secondary);"></i>
-                </div>
-                <h3 style="font-size:15px; font-weight:600; word-wrap:break-word; max-width:100%;">${fileData.title}</h3>
-              `;
+              openImageViewer(fileData.title, fileData.img);
             }
           });
         });
@@ -558,10 +556,10 @@ function createFinderApp(appTitle, dataObj) {
         item.addEventListener('click', () => {
           sidebarItems.forEach(sb => sb.classList.remove('active'));
           item.classList.add('active');
+          
           const folderName = item.dataset.folder;
           titleEl.textContent = folderName;
           grid.innerHTML = renderFiles(dataObj[folderName]);
-          preview.style.display = 'none'; // reset preview on folder change
           bindFileClicks(folderName);
         });
       });
@@ -585,7 +583,31 @@ const APPS = {
   },
 
   projects: createFinderApp("Finder", PROJECTS),
-  education: createFinderApp("Education", EDUCATION),
+  
+  education: {
+    title: "Education",
+    render: () => `
+      <div class="app-pad" style="max-width: 650px;">
+        <h1 class="app-h1" style="margin-bottom: 24px;">Education</h1>
+        
+        <div style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+          <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Mahakavi Devkota Memorial Secondary School (2010-2022)</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
+        </div>
+        
+        <div style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
+          <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Reliance International Academy (2022-2024)</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+          <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Amrit Campus (2024-current)</h3>
+          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Currently pursuing B.Sc.CSIT.</p>
+        </div>
+      </div>
+    `
+  },
+
   skills: createFinderApp("Skills", SKILLS),
 
   terminal: {
@@ -681,7 +703,6 @@ function openApp(id) {
   const win = document.createElement("div");
   win.className = "os-win";
   win.dataset.title = app.title;
-
   win.innerHTML = `
     <div class="os-win-header">
       <div class="traffic">
@@ -707,7 +728,6 @@ function openApp(id) {
       ${app.render()}
     </div>
   `;
-
   winLayer.appendChild(win);
   openWins.set(id, win);
 
@@ -720,7 +740,6 @@ function openApp(id) {
       item.classList.add("running");
     }
   });
-
   win.addEventListener("mousedown", () => {
     bringToFront(win);
   });
