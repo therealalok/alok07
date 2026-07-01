@@ -171,14 +171,13 @@ a { color: inherit; text-decoration: none; }
 .app-pad { padding: 30px; width: 100%; overflow-y: auto; }
 .app-h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
 .app-lead { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
-.finder-sidebar { width: 200px; background: var(--sidebar-glass); border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; }
+.finder-sidebar { width: 200px; background: var(--sidebar-glass); border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; flex-shrink: 0; }
 .finder-sb-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); padding: 4px 8px; margin-bottom: 4px; }
 .finder-sb-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-size: 13px; cursor: pointer; }
 .finder-sb-item:hover { background: rgba(255,255,255,0.1); }
 .finder-sb-item.active { background: rgba(255,255,255,0.15); font-weight: 500; }
-.finder-main { flex: 1; padding: 24px; overflow-y: auto; }
 .finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
-.finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; display: block; }
+.finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; display: block; border: 1px solid transparent; transition: background 0.1s; }
 .finder-file:hover { background: rgba(255,255,255,0.1); }
 .finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
 .term-body { background: rgba(30,30,30,0.95); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; }
@@ -271,15 +270,11 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <!-- Desktop Icons (Hardcoded onclick for absolute reliability) -->
+  <!-- Desktop Icons -->
   <div class="desktop-icons">
     <div class="desktop-icon" onclick="openApp('projects')">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
       <span>Projects</span>
-    </div>
-    <div class="desktop-icon" onclick="openApp('terminal')">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Terminal</span>
     </div>
     <div class="desktop-icon" onclick="openApp('about')">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
@@ -287,7 +282,7 @@ a { color: inherit; text-decoration: none; }
     </div>
     <div class="desktop-icon" onclick="openApp('education')">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Certificates</span>
+      <span>Education</span>
     </div>
     <div class="desktop-icon" onclick="openApp('skills')">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
@@ -297,7 +292,7 @@ a { color: inherit; text-decoration: none; }
 
   <div id="windows-layer"></div>
 
-  <!-- Dock (Hardcoded onclick for absolute reliability) -->
+  <!-- Dock -->
   <div class="dock-wrap" id="dock">
     <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
     <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -315,7 +310,7 @@ a { color: inherit; text-decoration: none; }
 <script>
 const PROFILE = {
   name: "Alok Sharma",
-  bio: "Computer Science student designing premium football posters.",
+  bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
   email: "alokkynwa@gmail.com"
 };
 
@@ -344,7 +339,7 @@ const PROJECTS = {
 };
 
 const EDUCATION = {
-  "Certificates": [
+  "Education": [
     { title: "ascol.jpg", img: "ascol.jpg" },
     { title: "mdmss-removebg-preview.png", img: "mdmss-removebg-preview.png" },
     { title: "ria-removebg-preview.png", img: "ria-removebg-preview.png" }
@@ -353,10 +348,10 @@ const EDUCATION = {
 
 const SKILLS = {
   "Skills": [
-    { title: "html", img: "" }, 
-    { title: "css", img: "" },
-    { title: "python", img: "" },
-    { title: "photoshop", img: "" }
+    { title: "html", img: "latest/icons/html5/html5-original.svg" }, 
+    { title: "css", img: "latest/icons/css3/css3-original.svg" },
+    { title: "python", img: "latest/icons/python/python-original.svg" },
+    { title: "photoshop", img: "latest/icons/photoshop/photoshop-original.svg" }
   ]
 };
 
@@ -488,7 +483,7 @@ function renderFiles(files) {
   }).join("");
 }
 
-/* HELPER TO BUILD FINDER-LIKE APPS */
+/* HELPER TO BUILD FINDER-LIKE APPS WITH PREVIEW */
 function createFinderApp(appTitle, dataObj) {
   return {
     title: appTitle,
@@ -503,15 +498,22 @@ function createFinderApp(appTitle, dataObj) {
       `).join('');
 
       return `
-        <div class="finder-sidebar">
-          <div class="finder-sb-label">Favorites</div>
-          ${sidebarHTML}
-        </div>
-        <div class="finder-main">
-          <h2>${activeFolder}</h2>
-          <br>
-          <div class="finder-grid">
-            ${renderFiles(dataObj[activeFolder])}
+        <div style="display:flex; height:100%; width:100%;">
+          <div class="finder-sidebar">
+            <div class="finder-sb-label">Favorites</div>
+            ${sidebarHTML}
+          </div>
+          <div style="display:flex; flex:1; overflow:hidden;">
+            <div class="finder-main" style="flex:1; padding: 24px; overflow-y: auto;">
+              <h2 class="folder-title">${activeFolder}</h2>
+              <br>
+              <div class="finder-grid">
+                ${renderFiles(dataObj[activeFolder])}
+              </div>
+            </div>
+            <!-- Half-width preview section -->
+            <div class="finder-preview" style="display:none; width:50%; background:rgba(0,0,0,0.15); border-left:1px solid rgba(255,255,255,0.05); padding:24px; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+            </div>
           </div>
         </div>
       `;
@@ -519,7 +521,38 @@ function createFinderApp(appTitle, dataObj) {
     wire: win => {
       const sidebarItems = win.querySelectorAll('.finder-sb-item');
       const grid = win.querySelector('.finder-grid');
-      const titleEl = win.querySelector('.finder-main h2');
+      const titleEl = win.querySelector('.folder-title');
+      const preview = win.querySelector('.finder-preview');
+
+      function bindFileClicks(folderName) {
+        const fileEls = grid.querySelectorAll('.finder-file');
+        fileEls.forEach((fileEl, index) => {
+          fileEl.addEventListener('click', () => {
+            // Highlight selected file
+            fileEls.forEach(f => f.style.background = 'transparent');
+            fileEl.style.background = 'rgba(255,255,255,0.15)';
+            fileEl.style.borderRadius = '8px';
+            
+            // Show preview pane
+            const fileData = dataObj[folderName][index];
+            if (fileData.img) {
+              preview.style.display = 'flex';
+              preview.innerHTML = `
+                <img src="${fileData.img}" style="max-width:100%; max-height:75%; object-fit:contain; border-radius:8px; margin-bottom:16px; box-shadow:0 10px 40px rgba(0,0,0,0.6);">
+                <h3 style="font-size:15px; font-weight:600; word-wrap:break-word; max-width:100%;">${fileData.title}</h3>
+              `;
+            } else {
+              preview.style.display = 'flex';
+              preview.innerHTML = `
+                <div style="width:120px; height:120px; background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:16px;">
+                  <i class="fa-solid fa-file-code" style="font-size:48px; color:var(--text-secondary);"></i>
+                </div>
+                <h3 style="font-size:15px; font-weight:600; word-wrap:break-word; max-width:100%;">${fileData.title}</h3>
+              `;
+            }
+          });
+        });
+      }
 
       sidebarItems.forEach(item => {
         item.addEventListener('click', () => {
@@ -528,12 +561,16 @@ function createFinderApp(appTitle, dataObj) {
           const folderName = item.dataset.folder;
           titleEl.textContent = folderName;
           grid.innerHTML = renderFiles(dataObj[folderName]);
+          preview.style.display = 'none'; // reset preview on folder change
+          bindFileClicks(folderName);
         });
       });
+
+      // Bind initial clicks on load
+      bindFileClicks(sidebarItems[0].dataset.folder);
     }
   };
 }
-
 
 /* APPS */
 const APPS = {
@@ -666,7 +703,7 @@ function openApp(id) {
       </div>
     </div>
 
-    <div class="os-win-body">
+    <div class="os-win-body" style="flex-direction: column;">
       ${app.render()}
     </div>
   `;
