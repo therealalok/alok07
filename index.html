@@ -23,14 +23,15 @@
   --text-secondary: #b8b8be;
   --text-tertiary: #8e8e93;
   --blue: #0A84FF;
+  --green: #32D74B;
   --window-glass: rgba(30, 30, 32, 0.75);
   --sidebar-glass: rgba(255,255,255,0.04);
-  --dock-glass: rgba(255,255,255,0.12);
-  --menubar-glass: rgba(0, 0, 0, 0.2);
+  --dock-glass: rgba(255,255,255,0.15);
+  --menubar-glass: rgba(0, 0, 0, 0.25);
   
   --win-border: rgba(255,255,255,0.15);
-  --dock-border: rgba(255,255,255,0.15);
-  --shadow-color: rgba(0,0,0,.4);
+  --dock-border: rgba(255,255,255,0.2);
+  --shadow-color: rgba(0,0,0,.5);
   --icon-shadow: rgba(0,0,0,.45);
 
   --radius-win: 12px;
@@ -60,17 +61,16 @@ a { color: inherit; text-decoration: none; }
 
 #desktop {
   position: fixed; inset: 0; z-index: 1;
-  background: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+  /* Updated to a realistic macOS Monterey/Ventura abstract wallpaper */
+  background: url('https://images.unsplash.com/photo-1628155930542-3c7a64e2c833?q=80&w=2574&auto=format&fit=crop') center/cover no-repeat;
 }
 
 /* MENUBAR */
 .menubar {
   position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px;
-  background: var(--menubar-glass);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  padding: 0 16px; background: var(--menubar-glass);
+  backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
   font-size: 13px; font-weight: 500; letter-spacing: 0.3px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.2);
@@ -78,8 +78,22 @@ a { color: inherit; text-decoration: none; }
 .menubar-left, .menubar-right { display: flex; align-items: center; gap: 16px; height: 100%; }
 .menubar-left .mb-apple { font-size: 15px; cursor: pointer; }
 .menubar-app-name { font-weight: 700; cursor: default; }
-.menubar-item { opacity: 0.9; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
+.menubar-item { opacity: 0.9; cursor: pointer; padding: 2px 6px; border-radius: 4px; position: relative; }
 .menubar-item:hover { background: rgba(255,255,255,0.1); }
+
+/* DROPDOWN MENU */
+.menu-dropdown {
+  display: none; position: absolute; top: 100%; left: 0;
+  background: rgba(30, 30, 32, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--win-border); border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); padding: 6px; min-width: 150px; z-index: 2000;
+}
+.menubar-item:hover .menu-dropdown { display: flex; flex-direction: column; }
+.menu-dropdown-item {
+  padding: 6px 12px; font-size: 13px; color: #fff; cursor: pointer; border-radius: 4px;
+}
+.menu-dropdown-item:hover { background: var(--blue); }
+.menu-sep { height: 1px; background: rgba(255,255,255,0.1); margin: 4px 0; }
 
 .menubar-right i { font-size: 14px; opacity: 0.9; cursor: pointer; padding: 2px 4px; border-radius: 4px;}
 .menubar-right i:hover { background: rgba(255,255,255,0.1); }
@@ -109,9 +123,10 @@ a { color: inherit; text-decoration: none; }
 .cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .cc-module { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.1s;}
 .cc-module:hover { background: rgba(255,255,255,0.15); }
-.cc-icon-wrapper { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; font-size: 14px; }
+.cc-icon-wrapper { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; font-size: 14px; transition: background 0.2s;}
 .cc-text h4 { font-size: 13px; font-weight: 600; }
 .cc-text p { font-size: 11px; color: var(--text-secondary); margin-top: 2px;}
+.cc-module.disabled .cc-icon-wrapper { background: rgba(255,255,255,0.2); }
 
 /* WIDGETS */
 .widgets-container { position: fixed; top: 60px; right: 20px; z-index: 10; width: 320px; }
@@ -138,15 +153,16 @@ a { color: inherit; text-decoration: none; }
 .dock-item {
   position: relative; width: 56px; height: 56px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 26px; color: #fff;
+  background: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.2);
+  font-size: 26px; color: #fff;
   transform-origin: bottom center; transition: all 0.2s var(--ease);
 }
 .dock-wrap:hover .dock-item { transform: scale(1); }
 .dock-item:hover { transform: scale(1.35) translateY(-5px) !important; margin: 0 15px !important; z-index: 10; }
 .dock-item:has(+ .dock-item:hover), .dock-item:hover + .dock-item { transform: scale(1.15) translateY(-2px) !important; margin: 0 8px !important; z-index: 5; }
-.dock-item::after { content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); opacity: 0; transition: opacity 0.2s; }
+.dock-item::after { content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.8); opacity: 0; transition: opacity 0.2s; }
 .dock-item.running::after { opacity: 1; }
-.dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.15); }
+.dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.25); }
 
 /* WINDOWS */
 #windows-layer { position: fixed; inset: 0; top: 28px; z-index: 50; pointer-events: none; }
@@ -155,15 +171,20 @@ a { color: inherit; text-decoration: none; }
   width: 720px; max-width: 90vw; height: 500px; max-height: 80vh;
   background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
   border: 1px solid var(--win-border); border-radius: var(--radius-win);
-  box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,.1) inset;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,.1) inset;
   display: flex; flex-direction: column; overflow: hidden; pointer-events: auto;
+  transition: opacity 0.2s, transform 0.2s;
 }
-.os-win.minimized { display: none; }
+.os-win.minimized { opacity: 0; pointer-events: none; transform: translateX(-50%) scale(0.8) translateY(200px); }
+.os-win.maximized { width: 100vw !important; height: calc(100vh - 28px) !important; top: 0 !important; left: 0 !important; transform: none !important; border-radius: 0; max-width: 100vw; max-height: 100vh;}
 .os-win-header { height: 48px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab; }
 .os-win-header:active { cursor: grabbing; }
 .traffic { display: flex; gap: 8px; }
-.traffic button { width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.traffic button { width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: rgba(0,0,0,0.5); transition: background 0.1s; }
+.traffic:hover button { color: rgba(0,0,0,0.7); }
 .traffic .t-close { background: #FF5F57; } .traffic .t-min { background: #FEBC2E; } .traffic .t-max { background: #28C840; }
+.traffic .t-close:active { background: #bf4943; } .traffic .t-min:active { background: #bf8e23; } .traffic .t-max:active { background: #1e9630; }
+
 .os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; margin-left: -48px; pointer-events: none; }
 .os-win-body { flex: 1; overflow: auto; display: flex; }
 
@@ -179,7 +200,7 @@ a { color: inherit; text-decoration: none; }
 .finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
 .finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; display: block; border: 1px solid transparent; transition: background 0.1s; }
 .finder-file:hover { background: rgba(255,255,255,0.1); }
-.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
+.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; background: #fff;}
 .term-body { background: rgba(30,30,30,0.95); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; }
 .term-prompt { color: #32D74B; font-weight: 600; margin-right: 8px; }
 
@@ -220,17 +241,53 @@ a { color: inherit; text-decoration: none; }
     <div class="menubar-left">
       <i class="fa-brands fa-apple mb-apple"></i>
       <span class="menubar-app-name" id="mb-app-name">Finder</span>
-      <span class="menubar-item" style="margin-left: 10px;">File</span>
-      <span class="menubar-item">Edit</span>
-      <span class="menubar-item">View</span>
-      <span class="menubar-item">Go</span>
-      <span class="menubar-item">Window</span>
-      <span class="menubar-item">Help</span>
+      
+      <span class="menubar-item" style="margin-left: 10px;">File
+        <div class="menu-dropdown">
+            <div class="menu-dropdown-item" onclick="openApp('projects')">New Window</div>
+            <div class="menu-dropdown-item" onclick="alert('Feature coming soon')">New Folder</div>
+            <div class="menu-sep"></div>
+            <div class="menu-dropdown-item" onclick="closeActiveWindow()">Close Window</div>
+        </div>
+      </span>
+      <span class="menubar-item">Edit
+        <div class="menu-dropdown">
+            <div class="menu-dropdown-item">Undo</div>
+            <div class="menu-dropdown-item">Redo</div>
+            <div class="menu-sep"></div>
+            <div class="menu-dropdown-item">Cut</div>
+            <div class="menu-dropdown-item">Copy</div>
+            <div class="menu-dropdown-item">Paste</div>
+        </div>
+      </span>
+      <span class="menubar-item">View
+         <div class="menu-dropdown">
+            <div class="menu-dropdown-item" onclick="toggleMaximizeActive()">Toggle Full Screen</div>
+        </div>
+      </span>
+      <span class="menubar-item">Go
+         <div class="menu-dropdown">
+            <div class="menu-dropdown-item" onclick="openApp('projects')">Projects</div>
+            <div class="menu-dropdown-item" onclick="openApp('skills')">Skills</div>
+            <div class="menu-dropdown-item" onclick="openApp('education')">Education</div>
+        </div>
+      </span>
+      <span class="menubar-item">Window
+        <div class="menu-dropdown">
+            <div class="menu-dropdown-item" onclick="minimizeActiveWindow()">Minimize</div>
+        </div>
+      </span>
+      <span class="menubar-item">Help
+         <div class="menu-dropdown">
+            <div class="menu-dropdown-item" onclick="openApp('terminal')">Open Terminal</div>
+            <div class="menu-dropdown-item" onclick="openApp('contact')">Contact Support</div>
+        </div>
+      </span>
     </div>
     
     <div class="menubar-right">
-      <i class="fa-solid fa-wifi" onclick="toggleControlCenter()" aria-label="Wi-Fi"></i>
-      <i class="fa-solid fa-battery-three-quarters" onclick="toggleControlCenter()" aria-label="Battery"></i>
+      <i class="fa-solid fa-wifi" id="mb-wifi" onclick="toggleControlCenter()" aria-label="Wi-Fi"></i>
+      <i class="fa-solid fa-battery-three-quarters" id="mb-battery" onclick="toggleControlCenter()" aria-label="Battery"></i>
       <i class="fa-solid fa-magnifying-glass" onclick="toggleSpotlight()" aria-label="Spotlight Search"></i>
       <span class="menubar-clock" id="mb-clock" onclick="toggleControlCenter()">—</span>
     </div>
@@ -245,9 +302,9 @@ a { color: inherit; text-decoration: none; }
 
   <div id="control-center">
     <div class="cc-grid">
-      <div class="cc-module">
+      <div class="cc-module" id="cc-wifi">
         <div class="cc-icon-wrapper"><i class="fa-solid fa-wifi"></i></div>
-        <div class="cc-text"><h4>Wi-Fi</h4><p>Home_Network_5G</p></div>
+        <div class="cc-text"><h4>Wi-Fi</h4><p id="cc-wifi-text">Checking...</p></div>
       </div>
       <div class="cc-module">
         <div class="cc-icon-wrapper" style="background: var(--blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
@@ -256,13 +313,13 @@ a { color: inherit; text-decoration: none; }
     </div>
     <div class="cc-module" style="margin-top: 12px; width: 100%;">
       <div class="cc-icon-wrapper" style="background: var(--green);"><i class="fa-solid fa-battery-three-quarters"></i></div>
-      <div class="cc-text"><h4>Battery</h4><p>78% - Power Source: Battery</p></div>
+      <div class="cc-text"><h4>Battery</h4><p id="cc-battery-text">78% - Power Source: Battery</p></div>
     </div>
   </div>
 
   <div class="widgets-container">
     <div class="spotify-glass-wrapper">
-     <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+     <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 
@@ -288,15 +345,25 @@ a { color: inherit; text-decoration: none; }
   <div id="windows-layer"></div>
 
   <div class="dock-wrap" id="dock">
-    <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
-    <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
-    <div class="dock-item" onclick="openApp('projects')" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i></div>
+    <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #333);"><i class="fa-solid fa-id-badge"></i></div>
+    <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FFB340, #FF3B30);"><i class="fa-solid fa-graduation-cap"></i></div>
+    
+    <div class="dock-item" onclick="openApp('projects')" style="background: linear-gradient(180deg, #e5e5e5, #fff); color: #0084ff; border: 1px solid #ccc;">
+        <i class="fa-brands fa-wpexplorer"></i>
+    </div>
+    
     <div class="dock-item" onclick="openApp('skills')" style="background: linear-gradient(180deg, #BF5AF2, #5E5CE6);"><i class="fa-solid fa-code"></i></div>
-    <div class="dock-item" onclick="openApp('contact')" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i></div>
+    <div class="dock-item" onclick="openApp('contact')" style="background: linear-gradient(180deg, #34C759, #28CD41);"><i class="fa-solid fa-envelope"></i></div>
     <div class="dock-sep"></div>
-    <div class="dock-item" onclick="openApp('terminal')" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
+    
+    <div class="dock-item" onclick="openApp('terminal')" style="background: #1e1e1e; border: 2px solid #555; position: relative;">
+        <span style="color:#32D74B; font-family: monospace; font-size: 14px; position: absolute; top: 4px; left: 6px;">>_</span>
+    </div>
+    
     <div class="dock-sep"></div>
-    <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC; color: #333;"><i class="fa-regular fa-trash-can"></i></div>
+    <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.5)); border: 1px solid rgba(255,255,255,0.4); color: #444; backdrop-filter: blur(10px);">
+        <i class="fa-regular fa-trash-can" style="font-size: 22px;"></i>
+    </div>
   </div>
 
 </div>
@@ -344,22 +411,66 @@ const SKILLS = {
 const winLayer = document.getElementById("windows-layer");
 const openWins = new Map();
 let zTop = 100;
+let activeWindowId = null;
+
+/* HARDWARE DATA LOGIC (Battery & Wi-Fi) */
+function initRealDeviceData() {
+  // Wi-Fi / Connection Status
+  function updateConnectionStatus() {
+    const isOnline = navigator.onLine;
+    const wifiText = document.getElementById('cc-wifi-text');
+    const wifiModule = document.getElementById('cc-wifi');
+    
+    if(isOnline) {
+        wifiText.textContent = "Connected (Network Hidden)";
+        wifiModule.classList.remove('disabled');
+    } else {
+        wifiText.textContent = "Offline";
+        wifiModule.classList.add('disabled');
+    }
+  }
+  window.addEventListener('online', updateConnectionStatus);
+  window.addEventListener('offline', updateConnectionStatus);
+  updateConnectionStatus();
+
+  // Battery Status API (Only works on supported browsers like Chrome)
+  if ('getBattery' in navigator) {
+    navigator.getBattery().then(function(battery) {
+      function updateBatteryStatus() {
+        const level = Math.round(battery.level * 100);
+        const source = battery.charging ? 'Power Adapter' : 'Battery';
+        document.getElementById('cc-battery-text').textContent = `${level}% - Power Source: ${source}`;
+        
+        // Update Menubar icon based on status
+        const mbBattery = document.getElementById('mb-battery');
+        mbBattery.className = ''; 
+        if(battery.charging) {
+            mbBattery.classList.add('fa-solid', 'fa-battery-full');
+            mbBattery.style.color = 'var(--green)';
+        } else {
+            mbBattery.style.color = 'inherit';
+            if(level > 75) mbBattery.classList.add('fa-solid', 'fa-battery-full');
+            else if(level > 50) mbBattery.classList.add('fa-solid', 'fa-battery-three-quarters');
+            else if(level > 25) mbBattery.classList.add('fa-solid', 'fa-battery-half');
+            else if(level > 10) mbBattery.classList.add('fa-solid', 'fa-battery-quarter');
+            else mbBattery.classList.add('fa-solid', 'fa-battery-empty', 'fa-fade');
+        }
+      }
+      updateBatteryStatus();
+      battery.addEventListener('levelchange', updateBatteryStatus);
+      battery.addEventListener('chargingchange', updateBatteryStatus);
+    });
+  }
+}
+initRealDeviceData();
 
 /* CLOCK */
 function tickClock() {
   const clock = document.getElementById("mb-clock");
   if (!clock) return;
-
   const d = new Date();
-  clock.textContent = d.toLocaleString([], {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit"
-  });
+  clock.textContent = d.toLocaleString([], { weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 }
-
 tickClock();
 setInterval(tickClock, 1000);
 
@@ -370,9 +481,7 @@ function toggleSpotlight() {
 
   if (!spotlight) return;
   control.style.display = "none";
-
-  spotlight.style.display =
-    spotlight.style.display === "block" ? "none" : "block";
+  spotlight.style.display = spotlight.style.display === "block" ? "none" : "block";
 
   const input = document.getElementById("spotlight-input");
   if (spotlight.style.display === "block" && input) {
@@ -386,7 +495,18 @@ function handleSpotlightSearch(e) {
   }
 
   if (e.key === "Enter") {
-    alert("Searching for: " + e.target.value);
+    const query = e.target.value.toLowerCase().trim();
+    
+    // Simple routing logic for spotlight
+    if(query.includes('project') || query.includes('finder')) openApp('projects');
+    else if(query.includes('skill')) openApp('skills');
+    else if(query.includes('edu')) openApp('education');
+    else if(query.includes('term')) openApp('terminal');
+    else if(query.includes('about') || query.includes('resume') || query.includes('alok')) openApp('about');
+    else if(query.includes('contact') || query.includes('mail')) openApp('contact');
+    else if(query.includes('trash')) openApp('trash');
+    else alert(`No results found on this Mac for: "${query}"`);
+
     e.target.value = "";
     toggleSpotlight();
   }
@@ -396,12 +516,9 @@ function handleSpotlightSearch(e) {
 function toggleControlCenter() {
   const control = document.getElementById("control-center");
   const spotlight = document.getElementById("spotlight-overlay");
-
   if (!control) return;
   spotlight.style.display = "none";
-
-  control.style.display =
-    control.style.display === "block" ? "none" : "block";
+  control.style.display = control.style.display === "block" ? "none" : "block";
 }
 
 /* CLOSE POPOVERS */
@@ -409,28 +526,34 @@ document.addEventListener("click", function (e) {
   const control = document.getElementById("control-center");
   const spotlight = document.getElementById("spotlight-overlay");
 
-  if (
-    control &&
-    !e.target.closest("#control-center") &&
-    !e.target.closest(".fa-wifi") &&
-    !e.target.closest(".fa-battery-three-quarters")
-  ) {
+  if (control && !e.target.closest("#control-center") && !e.target.closest(".fa-wifi") && !e.target.closest(".fa-battery-three-quarters") && !e.target.closest(".menubar-clock")) {
     control.style.display = "none";
   }
-
-  if (
-    spotlight &&
-    !e.target.closest("#spotlight-overlay") &&
-    !e.target.closest(".fa-magnifying-glass")
-  ) {
+  if (spotlight && !e.target.closest("#spotlight-overlay") && !e.target.closest(".fa-magnifying-glass")) {
     spotlight.style.display = "none";
   }
 });
 
+/* MENU BAR HELPERS */
+function closeActiveWindow() {
+    if(activeWindowId) closeApp(activeWindowId);
+}
+function minimizeActiveWindow() {
+    if(activeWindowId && openWins.has(activeWindowId)) {
+        openWins.get(activeWindowId).classList.add('minimized');
+    }
+}
+function toggleMaximizeActive() {
+    if(activeWindowId && openWins.has(activeWindowId)) {
+        openWins.get(activeWindowId).classList.toggle('maximized');
+    }
+}
+
 /* WINDOW FUNCTIONS */
-function bringToFront(win) {
+function bringToFront(win, id = null) {
   zTop++;
   win.style.zIndex = zTop;
+  if(id) activeWindowId = id;
 
   const title = document.getElementById("mb-app-name");
   if (title) {
@@ -440,9 +563,10 @@ function bringToFront(win) {
 
 function closeApp(id) {
   if (!openWins.has(id)) return;
-
   openWins.get(id).remove();
   openWins.delete(id);
+  if(activeWindowId === id) activeWindowId = null;
+
   document.querySelectorAll(".dock-item").forEach(item => {
     const click = item.getAttribute("onclick") || "";
     if (click.includes(id)) {
@@ -454,18 +578,17 @@ function closeApp(id) {
 /* DRAG FUNCTIONALITY */
 function makeDraggable(win, header) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  
   if (header) {
     header.onmousedown = dragMouseDown;
   }
 
   function dragMouseDown(e) {
+    if(win.classList.contains('maximized')) return; // Prevent dragging maximized windows
     e = e || window.event;
     e.preventDefault();
     pos3 = e.clientX;
     pos4 = e.clientY;
     
-    // Convert translation offset to standard top/left on first drag to prevent jump
     if(window.getComputedStyle(win).transform !== 'none') {
         const rect = win.getBoundingClientRect();
         win.style.transform = 'none';
@@ -494,8 +617,9 @@ function makeDraggable(win, header) {
   }
 }
 
-/* FULL IMAGE VIEWER IN SEPARATE WINDOW */
+/* FULL IMAGE VIEWER */
 function openImageViewer(title, imgSrc) {
+  const viewerId = 'viewer_' + Date.now();
   const win = document.createElement("div");
   win.className = "os-win";
   win.style.width = "640px";
@@ -505,28 +629,21 @@ function openImageViewer(title, imgSrc) {
   win.innerHTML = `
     <div class="os-win-header">
       <div class="traffic">
-        <button class="t-close" onclick="this.closest('.os-win').remove()"></button>
-        <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"></button>
-        <button class="t-max"></button>
+        <button class="t-close" onclick="closeApp('${viewerId}')"><i class="fa-solid fa-xmark"></i></button>
+        <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"><i class="fa-solid fa-minus"></i></button>
+        <button class="t-max" onclick="this.closest('.os-win').classList.toggle('maximized')"><i class="fa-solid fa-plus"></i></button>
       </div>
-      <div class="os-win-title">
-        ${title}
-      </div>
+      <div class="os-win-title">${title}</div>
     </div>
     <div class="os-win-body" style="background: rgba(15, 15, 17, 0.9); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden;">
       <img src="${imgSrc}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
     </div>
   `;
-
   winLayer.appendChild(win);
-  bringToFront(win);
-  
-  // Apply drag functionality to the viewer window
+  openWins.set(viewerId, win);
+  bringToFront(win, viewerId);
   makeDraggable(win, win.querySelector('.os-win-header'));
-
-  win.addEventListener("mousedown", () => {
-    bringToFront(win);
-  });
+  win.addEventListener("mousedown", () => bringToFront(win, viewerId));
 }
 
 /* HELPER TO RENDER FILES */
@@ -544,7 +661,7 @@ function renderFiles(files) {
   }).join("");
 }
 
-/* HELPER TO BUILD FINDER-LIKE APPS WITHOUT PREVIEW PANEL */
+/* HELPER TO BUILD FINDER-LIKE APPS */
 function createFinderApp(appTitle, dataObj) {
   return {
     title: appTitle,
@@ -585,7 +702,6 @@ function createFinderApp(appTitle, dataObj) {
         const fileEls = grid.querySelectorAll('.finder-file');
         fileEls.forEach((fileEl, index) => {
           fileEl.addEventListener('click', () => {
-            // Highlight selected file
             fileEls.forEach(f => f.style.background = 'transparent');
             fileEl.style.background = 'rgba(255,255,255,0.15)';
             fileEl.style.borderRadius = '8px';
@@ -609,8 +725,6 @@ function createFinderApp(appTitle, dataObj) {
           bindFileClicks(folderName);
         });
       });
-
-      // Bind initial clicks on load
       bindFileClicks(sidebarItems[0].dataset.folder);
     }
   };
@@ -635,17 +749,14 @@ const APPS = {
     render: () => `
       <div class="app-pad" style="max-width: 650px;">
         <h1 class="app-h1" style="margin-bottom: 24px;">Education</h1>
-        
         <div style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
           <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Mahakavi Devkota Memorial Secondary School (2010-2022)</h3>
           <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
         </div>
-        
         <div style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
           <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Reliance International Academy (2022-2024)</h3>
           <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
         </div>
-        
         <div style="margin-bottom: 16px;">
           <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Amrit Campus (2024-current)</h3>
           <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Currently pursuing B.Sc.CSIT.</p>
@@ -659,56 +770,71 @@ const APPS = {
   terminal: {
     title: "Terminal",
     render: () => `
-      <div class="term-body">
-        <div>Last login: ${new Date().toDateString()}</div>
+      <div class="term-body" id="term-body-scroll">
+        <div>Last login: ${new Date().toDateString()} on ttys001</div>
+        <div style="color: var(--text-tertiary); margin-bottom: 10px;">Type 'help' to see available commands.</div>
         <div id="term-log"></div>
-
         <div style="display:flex;">
-          <span class="term-prompt">
-            alok@macbook ~ %
-          </span>
-
-          <input
-            id="term-input"
-            style="
-              background:none;
-              border:none;
-              color:white;
-              flex:1;
-            "
-          >
+          <span class="term-prompt">alok@macbook ~ %</span>
+          <input id="term-input" style="background:none; border:none; color:white; flex:1; font-family: monospace; font-size: 13px;" autocomplete="off" spellcheck="false">
         </div>
       </div>
     `,
     wire: win => {
       const input = win.querySelector("#term-input");
       const log = win.querySelector("#term-log");
+      const scroller = win.querySelector("#term-body-scroll");
 
       if (!input) return;
-
       input.focus();
+
+      win.addEventListener('click', () => input.focus());
 
       input.addEventListener("keydown", e => {
         if (e.key === "Enter") {
           const value = input.value.trim();
-
+          const cmd = value.toLowerCase().split(' ')[0];
+          
           if (!value) return;
+
+          let response = "";
+          
+          // Terminal Logic Engine
+          switch(cmd) {
+              case 'help':
+                  response = "Available commands: help, clear, whoami, date, ls, echo";
+                  break;
+              case 'clear':
+                  log.innerHTML = '';
+                  input.value = '';
+                  return;
+              case 'whoami':
+                  response = "alok_sharma";
+                  break;
+              case 'date':
+                  response = new Date().toString();
+                  break;
+              case 'ls':
+                  response = `<span style="color: #5FB5FF;">Projects</span> &nbsp;&nbsp; <span style="color: #5FB5FF;">Resume</span> &nbsp;&nbsp; <span style="color: #5FB5FF;">Education</span> &nbsp;&nbsp; <span style="color: #5FB5FF;">Skills</span>`;
+                  break;
+              case 'echo':
+                  response = value.substring(5);
+                  break;
+              default:
+                  response = `zsh: command not found: ${cmd}`;
+          }
 
           log.innerHTML += `
             <div>
-              <span class="term-prompt">
-                alok@macbook ~ %
-              </span>
-              ${value}
+              <span class="term-prompt">alok@macbook ~ %</span> ${value}
             </div>
-
-            <div>
-              zsh: command not found:
-              ${value}
+            <div style="margin-bottom: 8px; margin-top: 4px;">
+              ${response}
             </div>
           `;
 
           input.value = "";
+          scroller.scrollTop = scroller.scrollHeight;
         }
       });
     }
@@ -732,8 +858,9 @@ const APPS = {
   trash: {
     title: "Trash",
     render: () => `
-      <div class="app-pad" style="text-align:center;">
-        <h2>Trash is empty</h2>
+      <div class="app-pad" style="text-align:center; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%;">
+        <i class="fa-regular fa-trash-can" style="font-size: 64px; color: var(--text-tertiary); margin-bottom: 16px;"></i>
+        <h2 style="color: var(--text-secondary);">Trash is empty</h2>
       </div>
     `
   }
@@ -743,11 +870,11 @@ const APPS = {
 function openApp(id) {
   const app = APPS[id];
   if (!app) return;
-
+  
   if (openWins.has(id)) {
     const existing = openWins.get(id);
     existing.classList.remove("minimized");
-    bringToFront(existing);
+    bringToFront(existing, id);
     return;
   }
 
@@ -757,24 +884,14 @@ function openApp(id) {
   win.innerHTML = `
     <div class="os-win-header">
       <div class="traffic">
-        <button
-          class="t-close"
-          onclick="closeApp('${id}')"
-        ></button>
-
-        <button
-          class="t-min"
-          onclick="this.closest('.os-win').classList.add('minimized')"
-        ></button>
-
-        <button class="t-max"></button>
+        <button class="t-close" onclick="closeApp('${id}')"><i class="fa-solid fa-xmark"></i></button>
+        <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"><i class="fa-solid fa-minus"></i></button>
+        <button class="t-max" onclick="this.closest('.os-win').classList.toggle('maximized')"><i class="fa-solid fa-plus"></i></button>
       </div>
-
       <div class="os-win-title">
         ${app.title}
       </div>
     </div>
-
     <div class="os-win-body" style="flex-direction: column;">
       ${app.render()}
     </div>
@@ -782,20 +899,19 @@ function openApp(id) {
   winLayer.appendChild(win);
   openWins.set(id, win);
 
-  bringToFront(win);
+  bringToFront(win, id);
   
-  // Apply drag functionality to general app windows
   makeDraggable(win, win.querySelector('.os-win-header'));
-
+  
   document.querySelectorAll(".dock-item").forEach(item => {
     const click = item.getAttribute("onclick") || "";
-
     if (click.includes(id)) {
       item.classList.add("running");
     }
   });
+
   win.addEventListener("mousedown", () => {
-    bringToFront(win);
+    bringToFront(win, id);
   });
 
   if (app.wire) {
