@@ -289,6 +289,10 @@ a { color: inherit; text-decoration: none; }
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
       <span>Certificates</span>
     </div>
+    <div class="desktop-icon" onclick="openApp('skills')">
+      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
+      <span>Skills</span>
+    </div>
   </div>
 
   <div id="windows-layer"></div>
@@ -298,6 +302,7 @@ a { color: inherit; text-decoration: none; }
     <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
     <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
     <div class="dock-item" onclick="openApp('projects')" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i></div>
+    <div class="dock-item" onclick="openApp('skills')" style="background: linear-gradient(180deg, #BF5AF2, #5E5CE6);"><i class="fa-solid fa-code"></i></div>
     <div class="dock-item" onclick="openApp('contact')" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i></div>
     <div class="dock-sep"></div>
     <div class="dock-item" onclick="openApp('terminal')" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
@@ -307,7 +312,6 @@ a { color: inherit; text-decoration: none; }
 
 </div>
 
-<!-- Unwrapped Global Script -->
 <script>
 const PROFILE = {
   name: "Alok Sharma",
@@ -316,15 +320,43 @@ const PROFILE = {
 };
 
 const PROJECTS = {
-  Graphics: [
-    {
-      title: "Portugal",
-      img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80"
-    },
-    {
-      title: "Argentina",
-      img: "https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80"
-    }
+  "Danke": [
+    { title: "ThankyouMo.jpeg", img: "ThankyouMo.jpeg" },
+    { title: "ThankyouRobbo.jpeg", img: "ThankyouRobbo.jpeg" },
+    { title: "robboxmo copy.jpg", img: "robboxmo copy.jpg" },
+    { title: "heavymetalfootball.jpg", img: "heavymetalfootball.jpg" }
+  ],
+  "Matchday": [
+    { title: "lfcvbre copy.jpg", img: "lfcvbre copy.jpg" },
+    { title: "livche.jpeg", img: "livche.jpeg" },
+    { title: "livvgal.jpeg", img: "livvgal.jpeg" },
+    { title: "livvmci.jpeg", img: "livvmci.jpeg" },
+    { title: "livvpsg.jpeg", img: "livvpsg.jpeg" },
+    { title: "newlivche.jpeg", img: "newlivche.jpeg" },
+    { title: "porcong.jpeg", img: "porcong.jpeg" },
+    { title: "portugalvcongo copy.jpg", img: "portugalvcongo copy.jpg" },
+    { title: "poruzb copy.jpg", img: "poruzb copy.jpg" },
+    { title: "psgvarsfinal copy.jpg", img: "psgvarsfinal copy.jpg" }
+  ],
+  "Supporters' voice": [
+    { title: "slotout.jpeg", img: "slotout.jpeg" }
+  ]
+};
+
+const EDUCATION = {
+  "Certificates": [
+    { title: "ascol.jpg", img: "ascol.jpg" },
+    { title: "mdmss-removebg-preview.png", img: "mdmss-removebg-preview.png" },
+    { title: "ria-removebg-preview.png", img: "ria-removebg-preview.png" }
+  ]
+};
+
+const SKILLS = {
+  "Skills": [
+    { title: "html", img: "" }, 
+    { title: "css", img: "" },
+    { title: "python", img: "" },
+    { title: "photoshop", img: "" }
   ]
 };
 
@@ -441,6 +473,68 @@ function closeApp(id) {
   });
 }
 
+/* HELPER TO RENDER FILES */
+function renderFiles(files) {
+  return files.map(f => {
+    let thumb = f.img 
+      ? `<img class="finder-thumb" src="${f.img}" alt="${f.title}">`
+      : `<div class="finder-thumb" style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-file-code" style="font-size:32px; color:var(--text-secondary);"></i></div>`;
+    return `
+      <div class="finder-file">
+        ${thumb}
+        <div style="font-size: 11px; margin-top: 4px; word-break: break-word;">${f.title}</div>
+      </div>
+    `;
+  }).join("");
+}
+
+/* HELPER TO BUILD FINDER-LIKE APPS */
+function createFinderApp(appTitle, dataObj) {
+  return {
+    title: appTitle,
+    render: () => {
+      const folders = Object.keys(dataObj);
+      const activeFolder = folders[0];
+      
+      let sidebarHTML = folders.map((f, i) => `
+        <div class="finder-sb-item ${i === 0 ? 'active' : ''}" data-folder="${f}">
+          <i class="fa-solid fa-folder"></i> ${f}
+        </div>
+      `).join('');
+
+      return `
+        <div class="finder-sidebar">
+          <div class="finder-sb-label">Favorites</div>
+          ${sidebarHTML}
+        </div>
+        <div class="finder-main">
+          <h2>${activeFolder}</h2>
+          <br>
+          <div class="finder-grid">
+            ${renderFiles(dataObj[activeFolder])}
+          </div>
+        </div>
+      `;
+    },
+    wire: win => {
+      const sidebarItems = win.querySelectorAll('.finder-sb-item');
+      const grid = win.querySelector('.finder-grid');
+      const titleEl = win.querySelector('.finder-main h2');
+
+      sidebarItems.forEach(item => {
+        item.addEventListener('click', () => {
+          sidebarItems.forEach(sb => sb.classList.remove('active'));
+          item.classList.add('active');
+          const folderName = item.dataset.folder;
+          titleEl.textContent = folderName;
+          grid.innerHTML = renderFiles(dataObj[folderName]);
+        });
+      });
+    }
+  };
+}
+
+
 /* APPS */
 const APPS = {
   about: {
@@ -453,43 +547,9 @@ const APPS = {
     `
   },
 
-  education: {
-    title: "Certifications",
-    render: () => `
-      <div class="app-pad">
-        <h1 class="app-h1">Certifications</h1>
-        <p class="app-lead">B.Sc.CSIT</p>
-      </div>
-    `
-  },
-
-  projects: {
-    title: "Finder",
-    render: () => `
-      <div class="finder-sidebar">
-        <div class="finder-sb-label">Favorites</div>
-        <div class="finder-sb-item active">
-          <i class="fa-solid fa-folder"></i> Graphics
-        </div>
-      </div>
-
-      <div class="finder-main">
-        <h2>Graphics</h2>
-        <br>
-
-        <div class="finder-grid">
-          ${PROJECTS.Graphics.map(
-            p => `
-            <div class="finder-file">
-              <img class="finder-thumb" src="${p.img}">
-              <div>${p.title}</div>
-            </div>
-          `
-          ).join("")}
-        </div>
-      </div>
-    `
-  },
+  projects: createFinderApp("Finder", PROJECTS),
+  education: createFinderApp("Education", EDUCATION),
+  skills: createFinderApp("Skills", SKILLS),
 
   terminal: {
     title: "Terminal",
