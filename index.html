@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Alok Sharma — macOS Portfolio</title>
+<title>Alok Sharma — Portfolio OS</title>
 <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
 
@@ -18,179 +18,245 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
-:root {
-  --text-primary: #ffffff;
-  --text-secondary: #b8b8be;
-  --text-tertiary: #8e8e93;
-  --blue: #0A84FF;
-  
-  --window-glass: rgba(30, 30, 32, 0.75);
-  --sidebar-glass: rgba(255,255,255,0.04);
-  --dock-glass: rgba(255,255,255,0.12);
-  --menubar-glass: rgba(0, 0, 0, 0.2);
-  
-  --win-border: rgba(255,255,255,0.15);
-  --dock-border: rgba(255,255,255,0.15);
-  --shadow-color: rgba(0,0,0,.4);
-  --icon-shadow: rgba(0,0,0,.45);
-
-  --radius-win: 12px;
-  --ease: cubic-bezier(0.25, 1, 0.5, 1);
-  --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, 'IBM Plex Mono', monospace;
+/* =========================================================================
+   ROOT TOKENS
+========================================================================= */
+:root{
+  --os-black:#000000;
+  --os-void:#07070a;
+  --os-panel:#111114;
+  --os-panel-2:#17171b;
+  --os-glass:rgba(255,255,255,.06);
+  --os-glass-strong:rgba(255,255,255,.10);
+  --os-border:rgba(255,255,255,.10);
+  --os-border-soft:rgba(255,255,255,.06);
+  --os-text:#f5f5f7;
+  --os-text-dim:#9a9aa2;
+  --os-text-faint:#68686f;
+  --os-accent:#f5c518;
+  --os-accent-2:#e8a000;
+  --os-blue:#0a84ff;
+  --os-red:#ff5f57;
+  --os-yellow:#febc2e;
+  --os-green:#28c840;
+  --radius-lg:20px;
+  --radius-md:14px;
+  --radius-sm:9px;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --font-ui:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,monospace;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; overscroll-behavior:none; }
-body {
-  font-family: var(--font-ui);
-  background: #000;
-  color: var(--text-primary);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  user-select: none;
+*{ margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html,body{ height:100%; overscroll-behavior:none; }
+body{
+  font-family:var(--font-ui);
+  background:var(--os-black);
+  color:var(--os-text);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
 }
-img { -webkit-user-drag: none; user-drag: none; }
-button { font-family: inherit; border: none; background: none; color: inherit; cursor: pointer; outline: none; }
-input, textarea { font-family: inherit; color: inherit; outline: none; }
-a { color: inherit; text-decoration: none; }
+img{ -webkit-user-drag:none; user-drag:none; }
+button{ font-family:inherit; border:none; background:none; color:inherit; cursor:pointer; }
+input,textarea{ font-family:inherit; color:inherit; outline:none; }
+a{ color:inherit; text-decoration:none; }
+::selection{ background:var(--os-accent); color:#000; }
+::-webkit-scrollbar{ width:9px; height:9px; }
+::-webkit-scrollbar-track{ background:transparent; }
+::-webkit-scrollbar-thumb{ background:rgba(255,255,255,.18); border-radius:10px; }
+::-webkit-scrollbar-thumb:hover{ background:rgba(255,255,255,.3); }
 
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
-
-#desktop {
-  position: fixed; inset: 0; z-index: 1;
-  background: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+/* =========================================================================
+   WALLPAPER
+========================================================================= */
+.wallpaper{
+  position:fixed; inset:0; z-index:0;
+  background:
+    radial-gradient(ellipse 900px 700px at 18% 12%, rgba(245,197,24,.10), transparent 60%),
+    radial-gradient(ellipse 1000px 800px at 85% 90%, rgba(10,132,255,.10), transparent 60%),
+    radial-gradient(ellipse 1200px 900px at 50% 50%, #1c1c22 0%, #101013 45%, #050506 100%);
+  overflow:hidden;
 }
-
-/* MENUBAR */
-.menubar {
-  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 1000;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px;
-  background: var(--menubar-glass);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 13px; font-weight: 500; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+.wallpaper::before{
+  content:''; position:absolute; inset:-10%;
+  background:
+    radial-gradient(circle at 30% 70%, rgba(245,197,24,.06), transparent 40%),
+    radial-gradient(circle at 75% 25%, rgba(255,255,255,.04), transparent 35%);
+  filter:blur(60px);
+  animation:driftGlow 26s ease-in-out infinite alternate;
 }
-.menubar-left, .menubar-right { display: flex; align-items: center; gap: 16px; height: 100%; }
-.menubar-left .mb-apple { font-size: 15px; cursor: pointer; }
-.menubar-app-name { font-weight: 700; cursor: default; }
-.menubar-item { opacity: 0.9; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
-.menubar-item:hover { background: rgba(255,255,255,0.1); }
+@keyframes driftGlow{ 0%{ transform:translate(0,0) scale(1);} 100%{ transform:translate(3%,-2%) scale(1.06);} }
 
-.menubar-right i { font-size: 14px; opacity: 0.9; cursor: pointer; padding: 2px 4px; border-radius: 4px;}
-.menubar-right i:hover { background: rgba(255,255,255,0.1); }
-.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 4px; cursor: pointer; padding: 2px 6px; border-radius: 4px; }
-.menubar-clock:hover { background: rgba(255,255,255,0.1); }
+/* =========================================================================
+   BOOT & LOGIN SCREENS
+========================================================================= */
+#boot-screen{ position:fixed; inset:0; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:34px; background:#000; transition:opacity .7s var(--ease), visibility .7s; }
+#boot-screen.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+.boot-logo{ font-size:64px; color:#f2f2f2; animation:bootPulse 2.2s ease-in-out infinite; }
+@keyframes bootPulse{ 0%,100%{ opacity:.85; } 50%{ opacity:1; } }
+.boot-bar-track{ width:220px; height:5px; border-radius:6px; background:rgba(255,255,255,.12); overflow:hidden; }
+.boot-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--os-accent-2),var(--os-accent)); border-radius:6px; transition:width 1.6s var(--ease); }
+.boot-caption{ font-size:12.5px; color:var(--os-text-faint); }
 
-/* SPOTLIGHT SEARCH */
-#spotlight-overlay {
-  display: none; position: fixed; top: 15vh; left: 50%; transform: translateX(-50%);
-  width: 650px; max-width: 90vw; z-index: 9999;
-  background: rgba(30, 30, 32, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--win-border); border-radius: 12px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.5); padding: 0;
+#login-screen{ position:fixed; inset:0; z-index:9998; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; opacity:0; visibility:hidden; transition:opacity .8s var(--ease), visibility .8s; }
+#login-screen.show{ opacity:1; visibility:visible; }
+#login-screen.hide{ opacity:0; visibility:hidden; transform:scale(1.03); transition:opacity .6s var(--ease), transform .6s, visibility .6s; }
+.login-clock{ font-size:15px; color:var(--os-text-dim); position:absolute; top:26px; left:50%; transform:translateX(-50%); letter-spacing:.5px; }
+.login-avatar{ width:118px; height:118px; border-radius:50%; overflow:hidden; border:2px solid rgba(255,255,255,.14); box-shadow:0 18px 50px rgba(0,0,0,.6); cursor:pointer; transition:transform .35s var(--ease-spring); animation:floatSoft 5s ease-in-out infinite; }
+.login-avatar:hover{ transform:translateY(-4px) scale(1.03); box-shadow:0 22px 60px rgba(0,0,0,.65), 0 0 0 8px rgba(245,197,24,.12); }
+.login-avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+@keyframes floatSoft{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-5px);} }
+.login-name{ font-size:22px; font-weight:600; margin-top:4px; }
+.login-hint{ font-size:12.5px; color:var(--os-text-faint); display:flex; align-items:center; gap:8px; }
+.login-enter-btn{ margin-top:14px; padding:10px 26px; border-radius:99px; font-size:13.5px; font-weight:600; background:var(--os-glass); border:1px solid var(--os-border); backdrop-filter:blur(10px); transition:background .25s, transform .2s; }
+.login-enter-btn:hover{ background:var(--os-glass-strong); transform:translateY(-2px); }
+
+/* =========================================================================
+   DESKTOP & MENUBAR
+========================================================================= */
+#desktop{ position:fixed; inset:0; z-index:1; opacity:0; visibility:hidden; transition:opacity .9s, visibility .9s; }
+#desktop.show{ opacity:1; visibility:visible; }
+
+.menubar{
+  position:fixed; top:0; left:0; right:0; height:30px; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:0 16px; background:rgba(20,20,23,.55); backdrop-filter:blur(24px) saturate(160%); border-bottom:1px solid var(--os-border-soft); font-size:12.5px; font-weight:500;
 }
-.spotlight-input-wrapper { display: flex; align-items: center; padding: 16px 20px; font-size: 24px; color: #fff; }
-.spotlight-input-wrapper i { margin-right: 15px; font-size: 22px; color: var(--text-secondary); }
-.spotlight-input-wrapper input { flex: 1; background: transparent; border: none; font-size: 22px; color: #fff; }
-.spotlight-input-wrapper input::placeholder { color: var(--text-tertiary); }
+.menubar-left, .menubar-right{ display:flex; align-items:center; gap:18px; height:100%; }
+.menubar-item{ opacity:.8; cursor:pointer; }
+.menubar-item:hover{ background:rgba(255,255,255,.1); padding:2px 6px; border-radius:4px; }
+.menubar-right i{ font-size:13.5px; opacity:.85; cursor:pointer; padding:4px; border-radius:4px; }
+.menubar-right i:hover{ background:rgba(255,255,255,.1); }
 
-/* CONTROL CENTER */
+/* =========================================================================
+   CONTROL CENTER & WIDGETS
+========================================================================= */
 #control-center {
-  display: none; position: fixed; top: 35px; right: 10px; width: 320px; z-index: 9999;
-  background: rgba(30, 30, 32, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--win-border); border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4); padding: 16px;
+  display:none; position:fixed; top:35px; right:10px; width:320px; z-index:9999;
+  background:rgba(30,30,32,0.85); backdrop-filter:blur(40px); border:1px solid var(--os-border); border-radius:16px; box-shadow:0 15px 40px rgba(0,0,0,0.4); padding:16px;
 }
-.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.cc-module { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.1s;}
-.cc-module:hover { background: rgba(255,255,255,0.15); }
-.cc-icon-wrapper { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; font-size: 14px; }
-.cc-text h4 { font-size: 13px; font-weight: 600; }
-.cc-text p { font-size: 11px; color: var(--text-secondary); margin-top: 2px;}
+.cc-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.cc-module { background:rgba(255,255,255,0.1); border-radius:12px; padding:12px; display:flex; align-items:center; gap:12px; }
+.cc-icon-wrapper { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; }
+.cc-text h4 { font-size:13px; font-weight:600; }
+.cc-text p { font-size:11px; color:var(--os-text-dim); margin-top:2px; }
 
-/* WIDGETS */
-.widgets-container { position: fixed; top: 60px; right: 20px; z-index: 10; width: 320px; }
-.spotify-glass-wrapper {
-  background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
-  border: 1px solid var(--win-border); border-radius: 18px; padding: 10px;
-  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset; transition: transform 0.2s;
+.widgets-container { position:fixed; top:60px; right:20px; z-index:10; width:320px; }
+.spotify-wrapper {
+  background:rgba(30,30,32,0.75); backdrop-filter:blur(35px); border:1px solid var(--os-border); border-radius:18px; padding:10px; box-shadow:0 10px 40px rgba(0,0,0,0.4);
 }
 
-/* DESKTOP ICONS */
-.desktop-icons { position: fixed; top: 60px; left: 20px; z-index: 5; display: flex; flex-direction: column; gap: 20px; align-items: center; pointer-events: auto; }
-.desktop-icon { width: 76px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 6px; cursor: pointer; pointer-events: auto; }
-.desktop-icon:hover { background: rgba(255,255,255,0.15); }
-.desktop-icon-svg { width: 56px; height: 56px; filter: drop-shadow(0 3px 5px var(--icon-shadow)); }
-.desktop-icon span { font-size: 12px; text-align: center; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); font-weight: 500; padding: 2px 6px; border-radius: 4px; line-height: 1.2; }
+/* =========================================================================
+   DESKTOP ICONS & DOCK
+========================================================================= */
+.desktop-icons{ position:fixed; top:60px; left:20px; z-index:5; display:flex; flex-direction:column; gap:20px; align-items:center; }
+.desktop-icon{ width:82px; display:flex; flex-direction:column; align-items:center; gap:6px; padding:8px 4px; border-radius:8px; cursor:pointer; }
+.desktop-icon:hover{ background:rgba(255,255,255,.1); }
+.desktop-icon-svg { width:56px; height:56px; filter:drop-shadow(0 4px 10px rgba(0,0,0,.5)); }
+.desktop-icon span{ font-size:12px; text-align:center; text-shadow:0 1px 3px rgba(0,0,0,.8); font-weight:500; }
 
-/* DOCK */
-.dock-wrap {
-  position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 600;
-  display: flex; align-items: flex-end; gap: 8px; padding: 9px 12px; height: 74px; border-radius: 22px;
-  background: var(--dock-glass); backdrop-filter: blur(35px) saturate(180%); -webkit-backdrop-filter: blur(35px) saturate(180%);
-  border: 1px solid var(--dock-border); box-shadow: 0 10px 40px var(--shadow-color);
+.dock-wrap{
+  position:fixed; bottom:10px; left:50%; transform:translateX(-50%); z-index:600; display:flex; align-items:flex-end; gap:10px; padding:9px 12px; border-radius:22px; background:rgba(28,28,32,.5); backdrop-filter:blur(26px) saturate(180%); border:1px solid var(--os-border-soft); box-shadow:0 20px 50px rgba(0,0,0,.5);
 }
-.dock-item {
-  position: relative; width: 56px; height: 56px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 26px; color: #fff;
-  transform-origin: bottom center; transition: all 0.2s var(--ease);
+.dock-item{
+  position:relative; width:52px; height:52px; border-radius:13px; display:flex; align-items:center; justify-content:center; cursor:pointer; background:linear-gradient(160deg, var(--os-panel-2), var(--os-panel)); border:1px solid rgba(255,255,255,.06); transition:transform .22s var(--ease-spring), margin .22s var(--ease); font-size:22px; color:#e9e9ee;
 }
-.dock-wrap:hover .dock-item { transform: scale(1); }
-.dock-item:hover { transform: scale(1.35) translateY(-5px) !important; margin: 0 15px !important; z-index: 10; }
-.dock-item:has(+ .dock-item:hover), .dock-item:hover + .dock-item { transform: scale(1.15) translateY(-2px) !important; margin: 0 8px !important; z-index: 5; }
-.dock-item::after { content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); opacity: 0; transition: opacity 0.2s; }
-.dock-item.running::after { opacity: 1; }
-.dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.15); }
+.dock-item:hover{ transform:translateY(-14px) scale(1.14); }
+.dock-item::after{ content:''; position:absolute; bottom:-8px; width:4px; height:4px; border-radius:50%; background:var(--os-text-dim); opacity:0; transition:opacity .2s; }
+.dock-item.running::after{ opacity:1; }
+.dock-sep{ width:1px; align-self:stretch; margin:2px 2px; background:var(--os-border-soft); }
+.dock-tooltip{ position:absolute; bottom:64px; left:50%; transform:translateX(-50%) translateY(4px); background:rgba(30,30,34,.92); border:1px solid var(--os-border-soft); padding:4px 10px; border-radius:7px; font-size:11.5px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .18s, transform .18s; }
+.dock-item:hover .dock-tooltip{ opacity:1; transform:translateX(-50%) translateY(0); }
 
-/* WINDOWS */
-#windows-layer { position: fixed; inset: 0; top: 28px; z-index: 50; pointer-events: none; }
-.os-win {
-  position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
-  width: 720px; max-width: 90vw; height: 500px; max-height: 80vh;
-  background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
-  border: 1px solid var(--win-border); border-radius: var(--radius-win);
-  box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,.1) inset;
-  display: flex; flex-direction: column; overflow: hidden; pointer-events: auto;
+/* =========================================================================
+   WINDOWS
+========================================================================= */
+#windows-layer{ position:fixed; inset:0; top:30px; z-index:50; pointer-events:none; }
+.os-win{
+  position:absolute; top:90px; left:50%; width:640px; max-width:94vw; height:480px; max-height:82vh; transform:translate(-50%,0) scale(.96); background:rgba(24,24,27,.86); backdrop-filter:blur(30px) saturate(160%); border:1px solid var(--os-border); border-radius:var(--radius-lg); box-shadow:0 30px 80px rgba(0,0,0,.6), 0 2px 0 rgba(255,255,255,.04) inset; display:flex; flex-direction:column; overflow:hidden; opacity:0; pointer-events:auto; transition:opacity .32s var(--ease), transform .32s var(--ease-spring);
 }
-.os-win.minimized { display: none; }
-.os-win-header { height: 48px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab; }
-.os-win-header:active { cursor: grabbing; }
-.traffic { display: flex; gap: 8px; }
-.traffic button { width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.traffic .t-close { background: #FF5F57; } .traffic .t-min { background: #FEBC2E; } .traffic .t-max { background: #28C840; }
-.os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; margin-left: -48px; pointer-events: none; }
-.os-win-body { flex: 1; overflow: auto; display: flex; }
+.os-win.open{ opacity:1; transform:translate(-50%,0) scale(1); }
+.os-win.minimized{ opacity:0; transform:translate(-50%,40vh) scale(.35); pointer-events:none; }
+.os-win.maximized{ top:30px !important; left:50% !important; width:100% !important; height:calc(100vh - 30px - 78px) !important; max-width:100%; max-height:none; transform:translate(-50%,0) scale(1) !important; border-radius:0; }
+.os-win.dragging{ transition:none; }
+.os-win.closing{ opacity:0; transform:translate(-50%,0) scale(.92); }
 
-/* APP STYLES */
-.app-pad { padding: 30px; width: 100%; overflow-y: auto; }
-.app-h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-.app-lead { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
-.finder-sidebar { width: 200px; background: var(--sidebar-glass); border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; }
-.finder-sb-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); padding: 4px 8px; margin-bottom: 4px; }
-.finder-sb-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-size: 13px; cursor: pointer; }
-.finder-sb-item:hover { background: rgba(255,255,255,0.1); }
-.finder-sb-item.active { background: rgba(255,255,255,0.15); font-weight: 500; }
-.finder-main { flex: 1; padding: 24px; overflow-y: auto; }
-.finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
-.finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; display: block; }
-.finder-file:hover { background: rgba(255,255,255,0.1); }
-.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
-.term-body { background: rgba(30,30,30,0.95); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; }
-.term-prompt { color: #32D74B; font-weight: 600; margin-right: 8px; }
+.os-win-header{ height:38px; flex:0 0 auto; display:flex; align-items:center; gap:10px; padding:0 14px; background:rgba(255,255,255,.03); border-bottom:1px solid var(--os-border-soft); cursor:grab; }
+.os-win-header:active{ cursor:grabbing; }
+.traffic{ display:flex; gap:8px; }
+.traffic button{ width:12px; height:12px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.traffic .t-close{ background:var(--os-red); } .traffic .t-min{ background:var(--os-yellow); } .traffic .t-max{ background:var(--os-green); }
+.traffic button i{ font-size:7px; opacity:0; color:#3a1200; }
+.os-win-header:hover .traffic button i{ opacity:1; }
+.os-win-title{ flex:1; text-align:center; font-size:12.5px; font-weight:600; color:var(--os-text-dim); display:flex; align-items:center; justify-content:center; gap:7px; }
+.os-win-title i{ font-size:11px; color:var(--os-accent); }
+.os-win-body{ flex:1; overflow:auto; position:relative; }
 
-@media (max-width: 768px) {
-  .os-win { width: 100% !important; height: calc(100% - 28px) !important; top: 28px !important; left: 0 !important; transform: none !important; border-radius: 0; }
-  .dock-wrap { bottom: 10px; width: 95%; overflow-x: auto; padding: 6px 8px; height: 64px; }
-  .dock-item { width: 44px; height: 44px; font-size: 20px; }
-  .dock-item:hover, .dock-wrap:hover .dock-item { transform: none !important; margin: 0 !important; }
-  .widgets-container { display: none; }
-  .desktop-icons { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+/* =========================================================================
+   APP STYLES
+========================================================================= */
+.app-pad{ padding:26px 28px; }
+.app-eyebrow{ font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--os-accent); font-weight:700; margin-bottom:6px; }
+.app-h1{ font-size:26px; font-weight:800; letter-spacing:-.3px; margin-bottom:10px; }
+.app-lead{ font-size:14px; line-height:1.7; color:var(--os-text-dim); max-width:52ch; }
+
+.about-hero{ display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
+.about-photo{ width:112px; height:112px; border-radius:26px; overflow:hidden; border:1px solid var(--os-border); box-shadow:0 14px 40px rgba(0,0,0,.5); }
+.about-photo img{ width:100%; height:100%; object-fit:cover; }
+.about-flag{ width:22px; height:15px; border-radius:2px; }
+.about-name-row{ display:flex; align-items:center; gap:9px; }
+.about-cta-row{ display:flex; gap:12px; margin-top:20px; }
+.os-btn-primary{ padding:10px 18px; border-radius:10px; font-size:13px; font-weight:700; background:linear-gradient(180deg,var(--os-accent),var(--os-accent-2)); color:#1a1200; display:inline-flex; align-items:center; gap:8px; }
+.os-btn-ghost{ padding:10px 18px; border-radius:10px; font-size:13px; font-weight:700; background:var(--os-glass); border:1px solid var(--os-border); display:inline-flex; align-items:center; gap:8px; }
+
+/* Projects Finder */
+.finder{ display:flex; height:100%; }
+.finder-sidebar{ width:168px; background:rgba(255,255,255,.02); border-right:1px solid var(--os-border-soft); padding:14px 8px; }
+.finder-sb-label{ font-size:10px; letter-spacing:1.4px; text-transform:uppercase; color:var(--os-text-faint); padding:6px 10px; }
+.finder-sb-item{ display:flex; align-items:center; gap:9px; padding:7px 10px; border-radius:7px; font-size:12.5px; cursor:pointer; color:var(--os-text-dim); }
+.finder-sb-item.active{ background:rgba(245,197,24,.14); color:var(--os-text); }
+.finder-main{ flex:1; padding:18px; overflow-y:auto; }
+.finder-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:16px; }
+.finder-file{ cursor:pointer; text-align:center; padding:10px 6px; border-radius:10px; }
+.finder-file:hover{ background:rgba(255,255,255,.05); }
+.finder-thumb{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:8px; }
+.finder-file-name{ font-size:11px; color:var(--os-text-dim); margin-top:8px;}
+
+/* Preview Window */
+.preview-body{ display:flex; flex-direction:column; height:100%; }
+.preview-img-wrap{ flex:1; min-height:0; background:#000; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.preview-info{ padding:16px 20px; border-top:1px solid var(--os-border-soft); background:rgba(255,255,255,.02); }
+.preview-badge{ display:inline-block; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#1a1200; background:var(--os-accent); padding:3px 9px; border-radius:6px; font-weight:700; margin-bottom:8px; }
+.preview-title{ font-size:15.5px; font-weight:700; }
+.preview-date{ font-size:11.5px; color:var(--os-text-faint); margin-bottom:8px; }
+
+/* Terminal */
+.term-body{ background:#050506; height:100%; padding:14px 16px; font-family:var(--font-mono); font-size:12.8px; overflow-y:auto; color:#d6d6da; }
+.term-line{ line-height:1.65; }
+.term-prompt{ color:var(--os-accent); font-weight:700; }
+.term-input-row{ display:flex; align-items:center; gap:8px; }
+.term-input{ flex:1; background:transparent; border:none; color:#fff; font-family:var(--font-mono); font-size:12.8px; }
+
+/* =========================================================================
+   SPOTLIGHT
+========================================================================= */
+#spotlight{ position:fixed; inset:0; z-index:900; display:flex; align-items:flex-start; justify-content:center; padding-top:14vh; background:rgba(0,0,0,.35); backdrop-filter:blur(4px); opacity:0; visibility:hidden; transition:opacity .22s, visibility .22s; }
+#spotlight.open{ opacity:1; visibility:visible; }
+.spotlight-box{ width:min(560px,90vw); background:rgba(30,30,34,.9); backdrop-filter:blur(30px) saturate(180%); border:1px solid var(--os-border); border-radius:16px; box-shadow:0 30px 80px rgba(0,0,0,.6); transform:translateY(-10px); transition:transform .22s; }
+#spotlight.open .spotlight-box{ transform:translateY(0); }
+.spotlight-input-row{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--os-border-soft); }
+#spotlight-input{ flex:1; background:transparent; border:none; font-size:18px; color:var(--os-text); }
+.spotlight-results{ max-height:320px; overflow-y:auto; padding:8px; }
+.spotlight-result{ display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:9px; cursor:pointer; font-size:13.5px; }
+.spotlight-result i{ width:26px; height:26px; display:flex; align-items:center; justify-content:center; border-radius:7px; background:var(--os-glass); color:var(--os-accent); }
+.spotlight-result:hover, .spotlight-result.active{ background:rgba(255,255,255,.08); }
+.spotlight-result small{ display:block; color:var(--os-text-faint); font-size:11px; }
+
+@media (max-width:768px){
+  .os-win{ top:30px !important; left:0 !important; width:100% !important; height:calc(100vh - 30px - 82px) !important; max-width:100%; transform:none !important; border-radius:0; }
+  .os-win.open{ transform:none !important; }
+  .dock-item{ width:46px; height:46px; font-size:19px; }
+  .widgets-container { display:none; }
 }
 </style>
 </head>
@@ -198,303 +264,432 @@ a { color: inherit; text-decoration: none; }
 
 <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
   <defs>
-    <linearGradient id="macFolderBack" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#73cbff" />
-      <stop offset="40%" stop-color="#1993ff" />
-      <stop offset="100%" stop-color="#006ad9" />
-    </linearGradient>
-    <linearGradient id="macFolderFront" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#54beff" />
-      <stop offset="30%" stop-color="#0084ff" />
-      <stop offset="100%" stop-color="#005cd9" />
-    </linearGradient>
     <g id="macos-blue-folder">
-      <path d="M2,10 L16,10 C18,10 19,8 21,5 L28,5 C30,5 32,7 32,9 L32,14 L2,14 Z" fill="url(#macFolderBack)"/>
-      <rect x="2" y="12" width="46" height="32" rx="4" fill="url(#macFolderBack)" />
-      <path d="M2,16 C2,13.5 3.5,12 6,12 L44,12 C46.5,12 48,13.5 48,16 L48,40 C48,42.5 46.5,44 44,44 L6,44 C3.5,44 2,42.5 2,40 Z" fill="url(#macFolderFront)"/>
+      <path d="M4 8.5C4 6.01472 6.01472 4 8.5 4H20.2764C21.7874 4 23.2016 4.75708 24.0537 6.03513L25.9463 8.87422C26.3724 9.51325 27.0795 9.89189 27.8441 9.89189H43.5C45.9853 9.89189 48 11.9066 48 14.3919V41.5C48 43.9853 45.9853 46 43.5 46H8.5C6.01472 46 4 43.9853 4 41.5V8.5Z" fill="#1fb0ff"/>
+      <path d="M4.14844 18.2393C4.14844 16.5824 5.49158 15.2393 7.14844 15.2393H44.8516C46.5084 15.2393 47.8516 16.5824 47.8516 18.2393V41.5C47.8516 43.9853 45.8368 46 43.3516 46H8.64844C6.16316 46 4.14844 43.9853 4.14844 41.5V18.2393Z" fill="#71caff"/>
+      <path d="M4.14844 18.2393C4.14844 16.5824 5.49158 15.2393 7.14844 15.2393H44.8516C46.5084 15.2393 47.8516 16.5824 47.8516 18.2393V19H4.14844V18.2393Z" fill="#ffffff" fill-opacity="0.4"/>
     </g>
   </defs>
 </svg>
 
+<div id="boot-screen">
+  <div class="boot-logo"><i class="fa-brands fa-apple"></i></div>
+  <div class="boot-bar-track"><div class="boot-bar-fill" id="boot-bar"></div></div>
+  <div class="boot-caption">Starting Alok Sharma's Portfolio…</div>
+</div>
+
+<div id="login-screen">
+  <div class="login-clock" id="login-clock">—</div>
+  <div class="login-avatar" id="login-avatar">
+    <img src="alokk.jpeg" alt="Alok" onerror="this.style.display='none'; this.parentElement.innerHTML+='<div style=\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:38px;background:#1a1a1e;color:#f5c518;\'><i class=\'fa-solid fa-user\'></i></div>'">
+  </div>
+  <div class="login-name">Alok Sharma</div>
+  <div class="login-hint">Click your avatar to enter</div>
+</div>
+
 <div id="desktop">
-  <!-- Top Menubar -->
+  <div class="wallpaper"><div class="grain"></div></div>
+
   <div class="menubar">
     <div class="menubar-left">
       <i class="fa-brands fa-apple mb-apple"></i>
-      <span class="menubar-app-name" id="mb-app-name">Finder</span>
-      <span class="menubar-item" style="margin-left: 10px;">File</span>
+      <span class="menubar-app-name" id="mb-app-name" style="font-weight:700">Finder</span>
+      <span class="menubar-item">File</span>
       <span class="menubar-item">Edit</span>
       <span class="menubar-item">View</span>
-      <span class="menubar-item">Go</span>
       <span class="menubar-item">Window</span>
-      <span class="menubar-item">Help</span>
     </div>
-    
     <div class="menubar-right">
-      <i class="fa-solid fa-wifi" onclick="toggleControlCenter()" aria-label="Wi-Fi"></i>
-      <i class="fa-solid fa-battery-three-quarters" onclick="toggleControlCenter()" aria-label="Battery"></i>
-      <i class="fa-solid fa-magnifying-glass" onclick="toggleSpotlight()" aria-label="Spotlight Search"></i>
-      <span class="menubar-clock" id="mb-clock" onclick="toggleControlCenter()">—</span>
+      <i class="fa-solid fa-magnifying-glass" id="mb-spotlight-btn"></i>
+      <i class="fa-solid fa-wifi" id="status-wifi" onclick="toggleControlCenter()"></i>
+      <i class="fa-solid fa-battery-three-quarters" id="status-battery" onclick="toggleControlCenter()"></i>
+      <span class="menubar-clock" id="mb-clock">—</span>
     </div>
   </div>
 
-  <!-- Spotlight Search Overlay -->
-  <div id="spotlight-overlay">
-    <div class="spotlight-input-wrapper">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" id="spotlight-input" placeholder="Spotlight Search" autocomplete="off" onkeydown="handleSpotlightSearch(event)">
-    </div>
-  </div>
-
-  <!-- Control Center Overlay -->
   <div id="control-center">
     <div class="cc-grid">
       <div class="cc-module">
-        <div class="cc-icon-wrapper"><i class="fa-solid fa-wifi"></i></div>
-        <div class="cc-text"><h4>Wi-Fi</h4><p>Home_Network_5G</p></div>
+        <div class="cc-icon-wrapper" style="background:var(--os-blue);"><i class="fa-solid fa-wifi"></i></div>
+        <div class="cc-text"><h4>Wi-Fi</h4><p id="wifi-name">Connected</p></div>
       </div>
       <div class="cc-module">
-        <div class="cc-icon-wrapper" style="background: var(--blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
+        <div class="cc-icon-wrapper" style="background:var(--os-blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
         <div class="cc-text"><h4>Bluetooth</h4><p>On</p></div>
       </div>
     </div>
-    <div class="cc-module" style="margin-top: 12px; width: 100%;">
-      <div class="cc-icon-wrapper" style="background: var(--green);"><i class="fa-solid fa-battery-three-quarters"></i></div>
-      <div class="cc-text"><h4>Battery</h4><p>78% - Power Source: Battery</p></div>
+    <div class="cc-module" style="margin-top:12px; width:100%;">
+      <div class="cc-icon-wrapper" style="background:var(--os-green);" id="cc-batt-icon"><i class="fa-solid fa-battery-full"></i></div>
+      <div class="cc-text"><h4>Battery</h4><p id="cc-batt-text">Calculating...</p></div>
     </div>
   </div>
 
-  <!-- Spotify Widget -->
   <div class="widgets-container">
-    <div class="spotify-glass-wrapper">
-      <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <div class="spotify-wrapper">
+      <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 
-  <!-- Desktop Icons (Hardcoded onclick for absolute reliability) -->
   <div class="desktop-icons">
-    <div class="desktop-icon" onclick="openApp('projects')">
+    <div class="desktop-icon" data-app="projects">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Projects</span>
+      <span>My Projects</span>
     </div>
-    <div class="desktop-icon" onclick="openApp('terminal')">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
+    <div class="desktop-icon" data-app="terminal">
+      <i class="fa-solid fa-terminal" style="font-size:46px; color:#32D74B; filter:drop-shadow(0 4px 10px rgba(0,0,0,.5)); margin-bottom:10px;"></i>
       <span>Terminal</span>
-    </div>
-    <div class="desktop-icon" onclick="openApp('about')">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Resume</span>
-    </div>
-    <div class="desktop-icon" onclick="openApp('education')">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Certificates</span>
     </div>
   </div>
 
   <div id="windows-layer"></div>
 
-  <!-- Dock (Hardcoded onclick for absolute reliability) -->
   <div class="dock-wrap" id="dock">
-    <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
-    <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
-    <div class="dock-item" onclick="openApp('projects')" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i></div>
-    <div class="dock-item" onclick="openApp('contact')" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i></div>
+    <div class="dock-item" data-app="about" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i><span class="dock-tooltip">About Me</span></div>
+    <div class="dock-item" data-app="education" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i><span class="dock-tooltip">Education</span></div>
+    <div class="dock-item" data-app="skills" style="background: linear-gradient(180deg, #5856D6, #AF52DE);"><i class="fa-solid fa-layer-group"></i><span class="dock-tooltip">Skills</span></div>
+    <div class="dock-item" data-app="projects" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i><span class="dock-tooltip">Projects</span></div>
+    <div class="dock-item" data-app="contact" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i><span class="dock-tooltip">Contact</span></div>
     <div class="dock-sep"></div>
-    <div class="dock-item" onclick="openApp('terminal')" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
-    <div class="dock-sep"></div>
-    <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC); color: #333;"><i class="fa-regular fa-trash-can"></i></div>
+    <div class="dock-item" data-app="terminal" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B;"></i><span class="dock-tooltip">Terminal</span></div>
+    
+    <div class="dock-item" data-app="trash" style="background: rgba(255,255,255,0.05);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6"></path>
+      </svg>
+      <span class="dock-tooltip">Trash</span>
+    </div>
   </div>
 
+  <div id="spotlight">
+    <div class="spotlight-box">
+      <div class="spotlight-input-row">
+        <i class="fa-solid fa-magnifying-glass" style="color:var(--os-text-faint)"></i>
+        <input id="spotlight-input" type="text" placeholder="Spotlight Search..." autocomplete="off">
+      </div>
+      <div class="spotlight-results" id="spotlight-results"></div>
+    </div>
+  </div>
 </div>
 
-<!-- Unwrapped Global Script -->
 <script>
-  const PROFILE = { name: "Alok Sharma", bio: "Computer Science student designing premium football posters.", email: "alokkynwa@gmail.com" };
-  const PROJECTS = {
-    "Graphics": [
-      { id:"p1", title:"Portugal", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
-      { id:"p2", title:"Argentina", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" }
-    ]
-  };
+(function(){
+"use strict";
 
-  // Clock
-  function tickClock(){
-    const clk = document.getElementById("mb-clock");
-    if(clk) {
-      const d = new Date();
-      clk.textContent = d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}).replace(/,/g, '');
-    }
-  }
-  tickClock(); setInterval(tickClock, 1000);
+/* =========================================================================
+   DATA
+========================================================================= */
+const PROFILE = {
+  name:"Alok Sharma",
+  photo:"alokk.jpeg",
+  bio:"I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
+  email:"alokkynwa@gmail.com",
+};
 
-  // Status Bar Functions
-  function toggleSpotlight() {
-    const el = document.getElementById("spotlight-overlay");
-    const input = document.getElementById("spotlight-input");
-    if(el.style.display === "block") {
-      el.style.display = "none";
+const PROJECTS = {
+  "Matchday Graphics":[
+    { id:"p1", title:"Portugal VS Colombia", date:"June 27, 2026", desc:"Matchday poster featuring Cristiano Ronaldo.", img:"poruzb copy.jpg" },
+    { id:"p2", title:"Argentina VS Austria", date:"June 20, 2026", desc:"World Cup group stage match.", img:"portugalvcongo copy.jpg" }
+  ],
+  "Editorial Concepts":[
+    { id:"p4", title:"Heavy Metal Football", date:"June 1, 2026", desc:"Minimal graphic showing heavy metal football is back.", img:"heavymetalfootball.jpg" }
+  ]
+};
+
+const onerr = `this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23222227"/%3E%3Ctext x="50" y="53" fill="%23888" font-size="9" text-anchor="middle"%3EIMAGE%3C/text%3E%3C/svg%3E'`;
+
+/* =========================================================================
+   CLOCKS & SYSTEM STATUS
+========================================================================= */
+function tickClocks(){
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  const dateStr = now.toLocaleDateString([], {weekday:'short', month:'short', day:'numeric'});
+  document.getElementById("mb-clock").textContent = dateStr + "  " + timeStr;
+  document.getElementById("login-clock").textContent = dateStr + "   " + timeStr;
+}
+tickClocks(); setInterval(tickClocks, 1000);
+
+// Realtime Battery and Network
+function initSystemStatus() {
+  const wifiIcon = document.getElementById('status-wifi');
+  const wifiText = document.getElementById('wifi-name');
+  const batteryIcon = document.getElementById('status-battery');
+  const ccBattIcon = document.getElementById('cc-batt-icon');
+  const ccBattText = document.getElementById('cc-batt-text');
+
+  function updateNetwork() {
+    if (navigator.onLine) {
+      wifiIcon.className = "fa-solid fa-wifi";
+      wifiIcon.style.opacity = "0.9";
+      wifiText.textContent = "Connected";
     } else {
-      document.getElementById("control-center").style.display = "none";
-      el.style.display = "block";
-      setTimeout(() => input.focus(), 50);
+      wifiIcon.className = "fa-solid fa-plane";
+      wifiIcon.style.opacity = "0.4";
+      wifiText.textContent = "Offline";
     }
   }
+  window.addEventListener('online', updateNetwork);
+  window.addEventListener('offline', updateNetwork);
+  updateNetwork();
 
-  function handleSpotlightSearch(e) {
-    if(e.key === "Enter") {
-      alert("Searching macOS for: " + e.target.value);
-      toggleSpotlight();
-      e.target.value = "";
-    }
-    if(e.key === "Escape") toggleSpotlight();
+  if ('getBattery' in navigator) {
+    navigator.getBattery().then(function(battery) {
+      function updateBattery() {
+        const level = Math.round(battery.level * 100);
+        let iconClass = "fa-solid fa-battery-full";
+        
+        if (battery.charging) iconClass = "fa-solid fa-battery-bolt";
+        else if (level > 75) iconClass = "fa-solid fa-battery-full";
+        else if (level > 35) iconClass = "fa-solid fa-battery-half";
+        else {
+            iconClass = "fa-solid fa-battery-quarter";
+            batteryIcon.style.color = "#ff5f57";
+        }
+        
+        batteryIcon.className = iconClass;
+        ccBattIcon.innerHTML = `<i class="${iconClass}"></i>`;
+        ccBattText.textContent = `${level}% - ${battery.charging ? 'Charging' : 'Battery'}`;
+      }
+      battery.addEventListener('levelchange', updateBattery);
+      battery.addEventListener('chargingchange', updateBattery);
+      updateBattery();
+    });
+  } else {
+    ccBattText.textContent = "Status unavailable";
   }
+}
+initSystemStatus();
 
-  function toggleControlCenter() {
-    const el = document.getElementById("control-center");
-    if(el.style.display === "block") {
-      el.style.display = "none";
-    } else {
-      document.getElementById("spotlight-overlay").style.display = "none";
-      el.style.display = "block";
-    }
+window.toggleControlCenter = function() {
+  const cc = document.getElementById("control-center");
+  cc.style.display = cc.style.display === "block" ? "none" : "block";
+};
+document.getElementById("desktop").addEventListener("click", (e) => {
+  if(!e.target.closest("#control-center") && !e.target.closest(".menubar-right")) {
+    document.getElementById("control-center").style.display = "none";
   }
+});
 
-  // Hide popovers when clicking outside
-  document.getElementById("desktop").addEventListener("click", function(e) {
-    if(!e.target.closest("#control-center") && !e.target.closest(".menubar-right")) {
-      document.getElementById("control-center").style.display = "none";
-    }
-    if(!e.target.closest("#spotlight-overlay") && !e.target.closest(".fa-magnifying-glass")) {
-      document.getElementById("spotlight-overlay").style.display = "none";
-    }
+/* =========================================================================
+   BOOT → LOGIN → DESKTOP
+========================================================================= */
+requestAnimationFrame(()=>{ document.getElementById("boot-bar").style.width = "100%"; });
+setTimeout(()=>{
+  document.getElementById("boot-screen").classList.add("hide");
+  document.getElementById("login-screen").classList.add("show");
+}, 2000);
+
+function enterDesktop(){
+  document.getElementById("login-screen").classList.add("hide");
+  setTimeout(()=>{
+    document.getElementById("desktop").classList.add("show");
+    setTimeout(()=> openApp("about"), 500);
+  }, 400);
+}
+document.getElementById("login-avatar").addEventListener("click", enterDesktop);
+
+/* =========================================================================
+   WINDOW MANAGER
+========================================================================= */
+const winLayer = document.getElementById("windows-layer");
+const mbAppName = document.getElementById("mb-app-name");
+let zTop = 60;
+const openWins = new Map();
+
+function bringToFront(win){
+  zTop++; win.style.zIndex = zTop;
+  document.querySelectorAll(".os-win").forEach(w=>w.classList.remove("focused"));
+  win.classList.add("focused");
+  mbAppName.textContent = win.dataset.title || "Finder";
+  syncDockRunning();
+}
+
+function makeWindow({id, title, icon, width, height, content, onMount}){
+  if(openWins.has(id)){
+    const existing = openWins.get(id);
+    existing.classList.remove("minimized");
+    bringToFront(existing);
+    return existing;
+  }
+  const win = document.createElement("div");
+  win.className = "os-win";
+  win.dataset.title = title;
+  win.style.width = (width||640)+"px";
+  win.style.height = (height||480)+"px";
+  win.style.left = "50%";
+  win.style.top = (70 + openWins.size*22)+"px";
+
+  win.innerHTML = `
+    <div class="os-win-header">
+      <div class="traffic">
+        <button class="t-close"><i class="fa-solid fa-xmark"></i></button>
+        <button class="t-min"><i class="fa-solid fa-minus"></i></button>
+        <button class="t-max"><i class="fa-solid fa-expand"></i></button>
+      </div>
+      <div class="os-win-title"><i class="${icon}"></i>${title}</div>
+    </div>
+    <div class="os-win-body">${content}</div>`;
+    
+  winLayer.appendChild(win); openWins.set(id, win);
+
+  win.querySelector(".t-close").addEventListener("click", ()=> {
+    win.classList.add("closing"); win.classList.remove("open");
+    setTimeout(()=>{ win.remove(); openWins.delete(id); syncDockRunning(); }, 260);
   });
+  win.querySelector(".t-min").addEventListener("click", ()=> { win.classList.add("minimized"); syncDockRunning(); });
+  win.querySelector(".t-max").addEventListener("click", ()=> win.classList.toggle("maximized"));
+  win.addEventListener("mousedown", ()=>bringToFront(win));
+  
+  // Drag logic
+  const header = win.querySelector(".os-win-header");
+  let dragging=false, sx, sy, sl, st;
+  header.addEventListener("mousedown", (e)=>{
+    if(e.target.closest(".traffic") || win.classList.contains("maximized")) return;
+    dragging=true; win.classList.add("dragging"); bringToFront(win);
+    const rect = win.getBoundingClientRect();
+    sx=e.clientX; sy=e.clientY; sl=rect.left; st=rect.top;
+    win.style.left = rect.left+"px"; win.style.top = rect.top+"px"; win.style.transform = "none";
+  });
+  document.addEventListener("mousemove", (e)=>{
+    if(!dragging) return;
+    win.style.left = (sl + (e.clientX-sx)) + "px";
+    win.style.top = Math.max(30, st + (e.clientY-sy)) + "px";
+  });
+  document.addEventListener("mouseup", ()=>{ dragging=false; win.classList.remove("dragging"); });
 
-  // Windows System
-  const winLayer = document.getElementById("windows-layer");
-  const openWins = new Map();
-  let zTop = 100;
+  setTimeout(()=>{ win.classList.add("open"); bringToFront(win); }, 10);
+  if(onMount) setTimeout(onMount, 20);
+  return win;
+}
 
-  function closeApp(id) {
-    if(openWins.has(id)) {
-      openWins.get(id).remove();
-      openWins.delete(id);
-      document.querySelectorAll(".dock-item").forEach(d => {
-        if(d.getAttribute("onclick").includes(id)) d.classList.remove("running");
+function syncDockRunning(){
+  document.querySelectorAll(".dock-item").forEach(d=>{
+    const running = [...openWins.keys()].some(k=> k===d.dataset.app || k.startsWith(d.dataset.app+":"));
+    d.classList.toggle("running", running);
+  });
+}
+
+/* =========================================================================
+   APP RENDERERS
+========================================================================= */
+const APPS = {
+  about: { title:"About Me", icon:"fa-solid fa-id-badge", render:()=>`<div class="app-pad"><div class="about-hero"><div class="about-photo"><img src="${PROFILE.photo}" onerror="${onerr}"></div><div><h1 class="app-h1">${PROFILE.name}</h1><p class="app-lead">${PROFILE.bio}</p></div></div></div>` },
+  education: { title:"Education", icon:"fa-solid fa-graduation-cap", render:()=>`<div class="app-pad"><h1 class="app-h1">Education Status</h1><p class="app-lead">B.Sc.CSIT at Amrit Science Campus.</p></div>` },
+  skills: { title:"Skills", icon:"fa-solid fa-layer-group", render:()=>`<div class="app-pad"><h1 class="app-h1">Skills</h1><p class="app-lead">HTML, CSS, Python, Photoshop</p></div>` },
+  contact: { title:"Contact", icon:"fa-solid fa-envelope", render:()=>`<div class="app-pad"><h1 class="app-h1">Let's Connect</h1><p class="app-lead">Email: ${PROFILE.email}</p></div>` },
+  terminal: { 
+    title:"Terminal", icon:"fa-solid fa-terminal", 
+    render:()=>`<div class="term-body"><div class="term-line term-accent">alok@portfolio ~ % Welcome to Alok's terminal. Type 'help'.</div><div id="term-log"></div><div class="term-input-row"><span class="term-prompt">alok@portfolio ~ %</span><input class="term-input" id="term-input" autocomplete="off"></div></div>`,
+    wire:(win)=>{
+      const input = win.querySelector("#term-input");
+      input.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" && input.value.trim()){
+          win.querySelector("#term-log").innerHTML += `<div class="term-line"><span class="term-prompt">alok@portfolio ~ %</span> ${input.value}</div><div class="term-line term-dim">zsh: command not found: ${input.value}</div>`;
+          input.value = "";
+        }
+      });
+      win.addEventListener("click", ()=>input.focus());
+    }
+  },
+  projects: {
+    title:"Projects", icon:"fa-regular fa-folder-open", w:760, h:520,
+    render:()=>{
+      const cats = Object.keys(PROJECTS);
+      const sidebar = cats.map((c,i)=>`<div class="finder-sb-item ${i===0?'active':''}" data-cat="${c}"><i class="fa-solid fa-folder" style="color:var(--os-blue)"></i>${c}</div>`).join("");
+      const files = PROJECTS[cats[0]].map(p=>`<div class="finder-file" data-id="${p.id}" data-cat="${cats[0]}"><img class="finder-thumb" src="${p.img}" onerror="${onerr}"><div class="finder-file-name">${p.title}</div></div>`).join("");
+      return `<div class="finder"><div class="finder-sidebar"><div class="finder-sb-label">Categories</div>${sidebar}</div><div class="finder-main"><div class="finder-grid">${files}</div></div></div>`;
+    },
+    wire:(win)=>{
+      win.querySelectorAll(".finder-file").forEach(f=>{
+        f.addEventListener("dblclick", ()=> openProjectPreview(f.dataset.id, f.dataset.cat));
       });
     }
   }
+};
 
-  function bringToFront(win) {
-    if(!win) return;
-    zTop++;
-    win.style.zIndex = zTop;
-    document.getElementById("mb-app-name").textContent = win.dataset.title || "Finder";
-  }
-
-  function openApp(id) {
-    // Hide popovers when opening an app
-    document.getElementById("control-center").style.display = "none";
-    document.getElementById("spotlight-overlay").style.display = "none";
-
-    const appData = APPS[id];
-    if(!appData) return;
-
-    if(openWins.has(id)){
-      const existing = openWins.get(id);
-      existing.classList.remove("minimized");
-      bringToFront(existing);
-      return;
-    }
-    
-    const win = document.createElement("div");
-    win.className = "os-win";
-    win.dataset.title = appData.title;
-    
-    win.innerHTML = `
-      <div class="os-win-header">
-        <div class="traffic">
-          <button class="t-close" onclick="closeApp('${id}')"></button>
-          <button class="t-min" onclick="this.closest('.os-win').classList.add('minimized')"></button>
-          <button class="t-max"></button>
+function openProjectPreview(id, cat){
+  const proj = PROJECTS[cat].find(p=>p.id===id);
+  if(!proj) return;
+  const win = makeWindow({
+    id:"preview:"+id, title:proj.title, icon:"fa-regular fa-image", width:800, height:600,
+    content:`
+      <div class="preview-body" style="height: 100%;">
+        <div class="preview-img-wrap" style="flex: 1; background: #000; text-align: center;">
+            <img src="${proj.img}" alt="${proj.title}" onerror="${onerr}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
         </div>
-        <div class="os-win-title">${appData.title}</div>
-      </div>
-      <div class="os-win-body">${appData.render()}</div>
-    `;
-    
-    winLayer.appendChild(win);
-    openWins.set(id, win);
-    bringToFront(win);
-
-    // Update dock dot
-    document.querySelectorAll(".dock-item").forEach(d => {
-      if(d.getAttribute("onclick").includes(id)) d.classList.add("running");
-    });
-
-    win.addEventListener("mousedown", () => bringToFront(win));
-    
-    // Drag logic
-    const header = win.querySelector(".os-win-header");
-    let isDragging = false, sx, sy, sl, st;
-    
-    header.addEventListener("mousedown", (e) => {
-      if(e.target.tagName === 'BUTTON') return;
-      isDragging = true;
-      const rect = win.getBoundingClientRect();
-      sx = e.clientX; sy = e.clientY; sl = rect.left; st = rect.top;
-    });
-    
-    document.addEventListener("mousemove", (e) => {
-      if(!isDragging) return;
-      win.style.left = (sl + (e.clientX - sx)) + "px";
-      win.style.top = Math.max(28, st + (e.clientY - sy)) + "px";
-      win.style.transform = "none";
-    });
-    
-    document.addEventListener("mouseup", () => { isDragging = false; });
-    
-    if(appData.wire) setTimeout(() => appData.wire(win), 50);
-  }
-
-  // App Content
-  const APPS = {
-    about: { title: "About", render: () => `<div class="app-pad"><h1 class="app-h1">${PROFILE.name}</h1><p class="app-lead">${PROFILE.bio}</p></div>` },
-    education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT</p></div>` },
-    projects: { 
-      title: "Finder", 
-      render: () => `
-        <div class="finder-sidebar">
-          <div class="finder-sb-label">Favorites</div>
-          <div class="finder-sb-item active"><i class="fa-solid fa-folder"></i> Graphics</div>
+        <div class="preview-info">
+          <span class="preview-badge">${cat}</span>
+          <div class="preview-title">${proj.title}</div>
+          <div class="preview-desc">${proj.desc}</div>
         </div>
-        <div class="finder-main">
-          <h2>Graphics</h2><br>
-          <div class="finder-grid">
-            <div class="finder-file"><img class="finder-thumb" src="${PROJECTS.Graphics[0].img}"><div class="finder-file-name">Portugal</div></div>
-            <div class="finder-file"><img class="finder-thumb" src="${PROJECTS.Graphics[1].img}"><div class="finder-file-name">Argentina</div></div>
-          </div>
-        </div>`
-    },
-    terminal: {
-      title: "Terminal",
-      render: () => `<div class="term-body" id="term-body"><div>Last login: ${new Date().toDateString()}</div><div id="term-log"></div><div style="display:flex;"><span class="term-prompt">alok@macbook ~ %</span><input class="term-input" id="term-input" autocomplete="off"></div></div>`,
-      wire: (win) => {
-        const input = win.querySelector("#term-input");
-        if(input) {
-          input.focus();
-          input.addEventListener("keydown", (e) => {
-            if(e.key === "Enter" && input.value) {
-              win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
-              input.value = "";
-            }
-          });
-          win.addEventListener("click", () => input.focus());
-        }
-      }
-    },
-    contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Email: ${PROFILE.email}</p></div>` },
-    trash: { title: "Trash", render: () => `<div class="app-pad" style="text-align:center;"><i class="fa-regular fa-trash-can" style="font-size:48px; opacity:0.5;"></i><br><br><h2>Trash is empty</h2></div>` }
-  };
+      </div>`
+  });
+  // Maximize the project window automatically
+  setTimeout(() => { if(win) win.classList.add("maximized"); }, 50);
+  syncDockRunning();
+}
+
+function openApp(id){
+  if(id === "trash"){
+    alert("Trash is empty."); return;
+  }
+  const app = APPS[id];
+  if(!app) return;
+  const win = makeWindow({ id, title:app.title, icon:app.icon, width:app.w, height:app.h, content:app.render(), onMount:()=>{ if(app.wire) app.wire(win); } });
+  syncDockRunning();
+}
+
+// Universal Click Handler for Dock and Desktop Icons
+document.querySelectorAll(".dock-item, .desktop-icon").forEach(el=>{
+  el.addEventListener("click", ()=> openApp(el.dataset.app));
+});
+
+/* =========================================================================
+   SPOTLIGHT SEARCH
+========================================================================= */
+const spotlight = document.getElementById("spotlight");
+const spotlightInput = document.getElementById("spotlight-input");
+const spotlightResults = document.getElementById("spotlight-results");
+
+const SEARCH_INDEX = [
+  {id:"about", icon:"fa-solid fa-id-badge", title:"About Me", sub:"Profile & bio"},
+  {id:"education", icon:"fa-solid fa-graduation-cap", title:"Education Status", sub:"Academic timeline"},
+  {id:"skills", icon:"fa-solid fa-layer-group", title:"Skills", sub:"HTML, CSS, Python, Photoshop"},
+  {id:"projects", icon:"fa-regular fa-folder-open", title:"Projects", sub:"Matchday · Tribute · Editorial"},
+  {id:"contact", icon:"fa-solid fa-envelope", title:"Contact", sub:PROFILE.email},
+  {id:"terminal", icon:"fa-solid fa-terminal", title:"Terminal", sub:"Type commands"}
+];
+
+function openSpotlight(){
+  document.getElementById("control-center").style.display = "none";
+  spotlight.classList.add("open");
+  spotlightInput.value = "";
+  renderSpotlightResults("");
+  setTimeout(()=>spotlightInput.focus(), 60);
+}
+function closeSpotlight(){ spotlight.classList.remove("open"); }
+function renderSpotlightResults(q){
+  q = q.toLowerCase();
+  const matches = SEARCH_INDEX.filter(i => !q || i.title.toLowerCase().includes(q) || i.sub.toLowerCase().includes(q));
+  spotlightResults.innerHTML = matches.map((m,i)=>`
+    <div class="spotlight-result ${i===0?'active':''}" data-app="${m.id}">
+      <i class="${m.icon}"></i>
+      <div><div>${m.title}</div><small>${m.sub}</small></div>
+    </div>`).join("") || `<div class="spotlight-result" style="cursor:default;">No results</div>`;
+    
+  spotlightResults.querySelectorAll(".spotlight-result[data-app]").forEach(r=>{
+    r.addEventListener("click", ()=>{ openApp(r.dataset.app); closeSpotlight(); });
+  });
+}
+spotlightInput.addEventListener("input", (e)=> renderSpotlightResults(e.target.value));
+spotlightInput.addEventListener("keydown", (e)=>{
+  if(e.key==="Escape") closeSpotlight();
+  if(e.key==="Enter"){ const first = spotlightResults.querySelector(".spotlight-result[data-app]"); if(first){ openApp(first.dataset.app); closeSpotlight(); } }
+});
+spotlight.addEventListener("click", (e)=>{ if(e.target===spotlight) closeSpotlight(); });
+document.getElementById("mb-spotlight-btn").addEventListener("click", openSpotlight);
+
+})();
 </script>
 </body>
 </html>
