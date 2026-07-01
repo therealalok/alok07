@@ -82,7 +82,6 @@ a { color: inherit; text-decoration: none; }
 ========================================================================= */
 #desktop {
   position: fixed; inset: 0; z-index: 1;
-  /* Updated to macOS Big Sur vibrant style wallpaper */
   background: url('https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
   animation: desktopEntry 0.6s var(--ease) forwards;
 }
@@ -93,7 +92,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =========================================================================
-   WIDGETS (SPOTIFY)
+   WIDGETS (SPOTIFY with Glass Effect)
 ========================================================================= */
 .widgets-container {
   position: fixed;
@@ -104,6 +103,22 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   gap: 15px;
+  pointer-events: auto; /* Ensure it is clickable */
+}
+
+/* Glassy wrapper for the Spotify widget */
+.spotify-glass-wrapper {
+  background: var(--window-glass);
+  backdrop-filter: blur(35px);
+  -webkit-backdrop-filter: blur(35px);
+  border: 1px solid var(--win-border);
+  border-radius: 18px;
+  padding: 10px;
+  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
+  transition: transform 0.2s var(--ease);
+}
+.spotify-glass-wrapper:hover {
+  transform: translateY(-2px);
 }
 
 /* =========================================================================
@@ -120,10 +135,9 @@ a { color: inherit; text-decoration: none; }
   font-size: 13px; font-weight: 500; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 .menubar-left, .menubar-right { display: flex; align-items: center; gap: 16px; height: 100%; }
-.menubar-left .mb-apple { font-size: 15px; }
-.menubar-app-name { font-weight: 700; }
+.menubar-left .mb-apple { font-size: 15px; cursor: pointer; }
+.menubar-app-name { font-weight: 700; cursor: default; }
 
-/* Functional Menu Bar Dropdowns */
 .menu-wrapper {
   position: relative;
   display: inline-block;
@@ -149,43 +163,36 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 10px 30px var(--shadow-color);
   z-index: 1000;
 }
-.menu-wrapper:focus-within .menu-dropdown {
-  display: block;
-}
-.dropdown-item {
-  padding: 4px 16px;
-  font-size: 13px;
-  cursor: pointer;
-  color: var(--text-primary);
-  display: flex;
-  justify-content: space-between;
-}
+.menu-wrapper:focus-within .menu-dropdown { display: block; }
+.dropdown-item { padding: 4px 16px; font-size: 13px; cursor: pointer; color: var(--text-primary); display: flex; justify-content: space-between; }
 .dropdown-item:hover { background: var(--blue); color: #fff; }
 .dropdown-item.disabled { color: var(--text-tertiary); pointer-events: none; }
 .dropdown-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 4px 0; }
 
 @media (max-width: 860px) { .menu-wrapper { display: none; } }
-.menubar-right i { font-size: 14px; opacity: 0.9; }
+.menubar-right i { font-size: 14px; opacity: 0.9; cursor: pointer; }
 .menubar-right button { display: flex; align-items: center; gap: 6px; }
-.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 4px; }
+.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 4px; cursor: default; }
 
 /* =========================================================================
    DESKTOP ICONS (Left Aligned)
 ========================================================================= */
 .desktop-icons {
-  position: fixed; top: 60px; left: 20px; /* Moved to left */ z-index: 5;
-  display: flex; flex-direction: column; gap: 95px; align-items: center;
+  position: fixed; top: 60px; left: 20px; z-index: 5;
+  display: flex; flex-direction: column; gap: 25px; /* Reduced gap slightly for standard look */
+  align-items: center;
 }
 .desktop-icon {
-  width: 72px; display: flex; flex-direction: column; align-items: center; gap: 6px;
-  padding: 4px; border-radius: 6px; cursor: pointer; transition: background 0.1s;
+  width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 6px; border-radius: 6px; cursor: pointer; transition: background 0.1s;
+  pointer-events: auto;
 }
-.desktop-icon:hover { background: rgba(255,255,255,0.1); }
-.desktop-icon-svg { width: 56px; height: 56px; filter: drop-shadow(0 4px 6px var(--icon-shadow)); }
+.desktop-icon:hover { background: rgba(255,255,255,0.15); border-radius: 8px; }
+.desktop-icon-svg { width: 64px; height: 64px; filter: drop-shadow(0 4px 6px var(--icon-shadow)); }
 .desktop-icon span { 
-  font-size: 11.5px; text-align: center; color: #fff; 
+  font-size: 12px; text-align: center; color: #fff; 
   text-shadow: 0 1px 3px rgba(0,0,0,.8); font-weight: 500;
-  background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 4px;
+  background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 4px;
 }
 
 /* =========================================================================
@@ -200,6 +207,7 @@ a { color: inherit; text-decoration: none; }
   -webkit-backdrop-filter: blur(35px) saturate(180%);
   border: 1px solid var(--dock-border);
   box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
+  pointer-events: auto;
 }
 .dock-item {
   position: relative; width: 56px; height: 56px; border-radius: 12px;
@@ -223,11 +231,11 @@ a { color: inherit; text-decoration: none; }
 .dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.15); }
 
 /* =========================================================================
-   WINDOWS LAYER
+   WINDOWS LAYER (pointer-events: none ensures it doesn't block background clicks)
 ========================================================================= */
 #windows-layer { position: fixed; inset: 0; top: 28px; z-index: 50; pointer-events: none; }
 .os-win {
-  position: absolute; top: 100px; left: 50%;
+  position: absolute; top: 80px; left: 50%;
   width: 720px; max-width: 90vw; height: 500px; max-height: 80vh;
   transform: translate(-50%, 0);
   background: var(--window-glass);
@@ -237,7 +245,7 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius-win);
   box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
   display: flex; flex-direction: column; overflow: hidden;
-  opacity: 0; pointer-events: auto;
+  opacity: 0; pointer-events: auto; /* Enables clicking inside the window */
   transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), filter 0.3s var(--ease);
   filter: blur(10px);
 }
@@ -245,16 +253,17 @@ a { color: inherit; text-decoration: none; }
 .os-win.minimized { opacity: 0; transform: translate(-50%, 40vh) scale(0.4); pointer-events: none; }
 .os-win.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100vh - 28px) !important; max-width: 100%; transform: translate(0,0) !important; border-radius: 0; }
 .os-win.dragging { transition: none; }
-.os-win.closing { opacity: 0; transform: translate(-50%, 20px); filter: blur(5px); }
+.os-win.closing { opacity: 0; transform: translate(-50%, 20px); filter: blur(5px); pointer-events: none; }
 
 .os-win-header {
-  height: 38px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px;
-  background: transparent; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: default;
+  height: 48px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px;
+  background: transparent; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab;
 }
-.traffic { display: flex; gap: 8px; }
+.os-win-header:active { cursor: grabbing; }
+.traffic { display: flex; gap: 8px; cursor: default; }
 .traffic button { 
   width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.1) inset; cursor: default;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.1) inset; cursor: pointer;
 }
 .traffic .t-close { background: #FF5F57; } 
 .traffic .t-min { background: #FEBC2E; } 
@@ -262,7 +271,7 @@ a { color: inherit; text-decoration: none; }
 .traffic button i { font-size: 7px; opacity: 0; color: rgba(0,0,0,0.6); transition: opacity 0.1s; }
 .os-win-header:hover .traffic button i { opacity: 1; }
 .os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-left: -48px; pointer-events: none;}
-.os-win-body { flex: 1; overflow: auto; position: relative; background: transparent; display: flex; }
+.os-win-body { flex: 1; overflow: auto; position: relative; background: transparent; display: flex; cursor: default;}
 
 /* =========================================================================
    FINDER & APP CONTENT STYLES
@@ -323,21 +332,22 @@ a { color: inherit; text-decoration: none; }
 
 <svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
   <defs>
+    <!-- Updated to authentic macOS Big Sur/Monterey blue folder colors -->
     <g id="macos-folder">
       <linearGradient id="fGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#6EC1FF" />
-        <stop offset="100%" stop-color="#4DA3FF" />
+        <stop offset="0%" stop-color="#4CB3FF" />
+        <stop offset="100%" stop-color="#147BFF" />
       </linearGradient>
       <linearGradient id="fGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#5FB5FF" />
-        <stop offset="100%" stop-color="#3A92FF" />
+        <stop offset="0%" stop-color="#3FA6FF" />
+        <stop offset="100%" stop-color="#0A68FF" />
       </linearGradient>
       <filter id="fShadow">
         <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.2)"/>
       </filter>
       <path d="M5,20 Q5,10 15,10 L35,10 Q40,10 42,15 L48,25 L85,25 Q95,25 95,35 L95,70 Q95,80 85,80 L15,80 Q5,80 5,70 Z" fill="url(#fGrad1)" />
       <path d="M5,35 Q5,25 15,25 L85,25 Q95,25 95,35 L95,70 Q95,80 85,80 L15,80 Q5,80 5,70 Z" fill="url(#fGrad2)" filter="url(#fShadow)" />
-      <path d="M15,26 L85,26 Q92,26 93,32" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
+      <path d="M15,26 L85,26 Q92,26 93,32" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" />
     </g>
   </defs>
 </svg>
@@ -422,26 +432,28 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
-  <!-- Widgets Container (Spotify) -->
+  <!-- Widgets Container (Spotify wrapped in Glass Effect) -->
   <div class="widgets-container">
-    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <div class="spotify-glass-wrapper">
+      <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
   </div>
 
   <!-- Real-looking Desktop icons -->
   <div class="desktop-icons">
-    <div class="desktop-icon" data-app="projects" tabindex="0" role="button">
+    <div class="desktop-icon" data-app="projects">
       <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
       <span>Projects</span>
     </div>
-    <div class="desktop-icon" data-app="terminal" tabindex="0" role="button">
+    <div class="desktop-icon" data-app="terminal">
       <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
       <span>Terminal</span>
     </div>
-    <div class="desktop-icon" data-app="about" tabindex="0" role="button">
+    <div class="desktop-icon" data-app="about">
       <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
       <span>Resume</span>
     </div>
-    <div class="desktop-icon" data-app="education" tabindex="0" role="button">
+    <div class="desktop-icon" data-app="education">
       <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
       <span>Certificates</span>
     </div>
@@ -459,216 +471,220 @@ a { color: inherit; text-decoration: none; }
     <div class="dock-sep"></div>
     <div class="dock-item" data-app="terminal" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
     <div class="dock-sep"></div>
-    <!-- Added Trash Icon -->
+    <!-- Functional Trash Icon -->
     <div class="dock-item" data-app="trash" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC); color: #333;"><i class="fa-regular fa-trash-can"></i></div>
   </div>
 
 </div>
 
 <script>
-(function(){
-"use strict";
+// Ensuring the script runs after everything is ready to avoid missed clicks
+document.addEventListener('DOMContentLoaded', () => {
+  "use strict";
 
-const PROFILE = {
-  name: "Alok Sharma",
-  bio: "Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels.",
-  email: "alokkynwa@gmail.com",
-};
+  const PROFILE = {
+    name: "Alok Sharma",
+    bio: "Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels.",
+    email: "alokkynwa@gmail.com",
+  };
 
-const PROJECTS = {
-  "Matchday Graphics": [
-    { id:"p1", title:"Portugal VS Colombia", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
-    { id:"p2", title:"Argentina VS Austria", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" },
-    { id:"p3", title:"PSG VS Arsenal", img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500&q=80" }
-  ],
-  "Tribute Posters": [
-    { id:"p7", title:"ONE LAST TIME AT ANFIELD.", img:"https://images.unsplash.com/photo-1614632537197-38a4705f46c6?w=500&q=80" }
-  ]
-};
+  const PROJECTS = {
+    "Matchday Graphics": [
+      { id:"p1", title:"Portugal VS Colombia", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
+      { id:"p2", title:"Argentina VS Austria", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" },
+      { id:"p3", title:"PSG VS Arsenal", img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500&q=80" }
+    ],
+    "Tribute Posters": [
+      { id:"p7", title:"ONE LAST TIME AT ANFIELD.", img:"https://images.unsplash.com/photo-1614632537197-38a4705f46c6?w=500&q=80" }
+    ]
+  };
 
-// Clock
-function fmtTime(d){ return d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}); }
-function tickClock(){
-  const now = new Date();
-  document.getElementById("mb-clock").textContent = fmtTime(now).replace(/,/g, '');
-}
-tickClock(); setInterval(tickClock, 1000);
-
-// Window Management
-const winLayer = document.getElementById("windows-layer");
-const mbAppName = document.getElementById("mb-app-name");
-let zTop = 60;
-const openWins = new Map();
-
-function bringToFront(win){
-  zTop += 1;
-  win.style.zIndex = zTop;
-  mbAppName.textContent = win.dataset.title || "Finder";
-  
-  // Sync dock running dots
-  document.querySelectorAll(".dock-item").forEach(d => {
-    d.classList.toggle("running", openWins.has(d.dataset.app));
-  });
-}
-
-function makeWindow({id, title, content, onMount}){
-  if(openWins.has(id)){
-    const existing = openWins.get(id);
-    existing.classList.remove("minimized");
-    bringToFront(existing);
-    return existing;
+  // Clock
+  function fmtTime(d){ return d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}); }
+  function tickClock(){
+    const now = new Date();
+    document.getElementById("mb-clock").textContent = fmtTime(now).replace(/,/g, '');
   }
-  
-  const win = document.createElement("div");
-  win.className = "os-win";
-  win.dataset.title = title;
-  
-  win.innerHTML = `
-    <div class="os-win-header">
-      <div class="traffic">
-        <button class="t-close"><i class="fa-solid fa-xmark"></i></button>
-        <button class="t-min"><i class="fa-solid fa-minus"></i></button>
-        <button class="t-max"><i class="fa-solid fa-expand"></i></button>
-      </div>
-      <div class="os-win-title">${title}</div>
-    </div>
-    <div class="os-win-body">${content}</div>
-  `;
-  
-  winLayer.appendChild(win);
-  openWins.set(id, win);
+  tickClock(); setInterval(tickClock, 1000);
 
-  // Native Window Controls
-  win.querySelector(".t-close").addEventListener("click", () => {
-    win.classList.add("closing");
-    setTimeout(() => { win.remove(); openWins.delete(id); bringToFront(document.body); }, 300);
-  });
-  
-  win.querySelector(".t-min").addEventListener("click", () => win.classList.add("minimized"));
-  win.querySelector(".t-max").addEventListener("click", () => win.classList.toggle("maximized"));
-  
-  win.addEventListener("mousedown", () => bringToFront(win));
-  
-  // Simple Dragging
-  const header = win.querySelector(".os-win-header");
-  let isDragging = false, sx, sy, sl, st;
-  
-  header.addEventListener("mousedown", (e) => {
-    if(e.target.closest(".traffic") || win.classList.contains("maximized")) return;
-    isDragging = true;
-    win.style.transition = "none";
-    const rect = win.getBoundingClientRect();
-    sx = e.clientX; sy = e.clientY; sl = rect.left; st = rect.top;
-  });
-  
-  document.addEventListener("mousemove", (e) => {
-    if(!isDragging) return;
-    win.style.left = (sl + (e.clientX - sx)) + "px";
-    win.style.top = Math.max(28, st + (e.clientY - sy)) + "px";
-    win.style.transform = "none";
-  });
-  
-  document.addEventListener("mouseup", () => {
-    if(isDragging) { isDragging = false; win.style.transition = ""; }
-  });
+  // Window Management
+  const winLayer = document.getElementById("windows-layer");
+  const mbAppName = document.getElementById("mb-app-name");
+  let zTop = 60;
+  const openWins = new Map();
 
-  setTimeout(() => { win.classList.add("open"); bringToFront(win); }, 10);
-  if(onMount) setTimeout(onMount, 50);
-  return win;
-}
-
-// App Renderers
-function renderAbout() {
-  return `<div class="app-pad">
-    <h1 class="app-h1">${PROFILE.name}</h1>
-    <p class="app-lead">${PROFILE.bio}</p>
-    <p style="color:var(--text-tertiary)">Email: ${PROFILE.email}</p>
-  </div>`;
-}
-
-function renderProjectsFinder(activeCat = "Matchday Graphics"){
-  const cats = Object.keys(PROJECTS);
-  const sidebar = cats.map(c => `<div class="finder-sb-item ${c===activeCat?'active':''}" data-cat="${c}"><i class="fa-solid fa-folder"></i><span>${c}</span></div>`).join("");
-  
-  // Projects now render as actual links using target="_blank"
-  const files = PROJECTS[activeCat].map(p => `
-    <a href="${p.img}" target="_blank" class="finder-file">
-      <img class="finder-thumb" src="${p.img}" alt="${p.title}">
-      <div class="finder-file-name">${p.title}</div>
-    </a>`).join("");
+  function bringToFront(win){
+    zTop += 1;
+    win.style.zIndex = zTop;
+    mbAppName.textContent = win.dataset.title || "Finder";
     
-  return `
-    <div class="finder-sidebar">
-      <div class="finder-sb-label">Favorites</div>
-      <div class="finder-sb-item"><i class="fa-solid fa-desktop" style="color:var(--text-tertiary)"></i><span>Desktop</span></div>
-      <div class="finder-sb-item"><i class="fa-regular fa-file" style="color:var(--text-tertiary)"></i><span>Documents</span></div>
-      <div class="finder-sb-label" style="margin-top:16px;">Tags</div>
-      ${sidebar}
-    </div>
-    <div class="finder-main">
-      <h2 style="font-size: 20px; margin-bottom: 20px;">${activeCat}</h2>
-      <div class="finder-grid">${files}</div>
+    // Sync dock running dots
+    document.querySelectorAll(".dock-item").forEach(d => {
+      d.classList.toggle("running", openWins.has(d.dataset.app));
+    });
+  }
+
+  function makeWindow({id, title, content, onMount}){
+    if(openWins.has(id)){
+      const existing = openWins.get(id);
+      existing.classList.remove("minimized");
+      bringToFront(existing);
+      return existing;
+    }
+    
+    const win = document.createElement("div");
+    win.className = "os-win";
+    win.dataset.title = title;
+    
+    win.innerHTML = `
+      <div class="os-win-header">
+        <div class="traffic">
+          <button class="t-close"><i class="fa-solid fa-xmark"></i></button>
+          <button class="t-min"><i class="fa-solid fa-minus"></i></button>
+          <button class="t-max"><i class="fa-solid fa-expand"></i></button>
+        </div>
+        <div class="os-win-title">${title}</div>
+      </div>
+      <div class="os-win-body">${content}</div>
+    `;
+    
+    winLayer.appendChild(win);
+    openWins.set(id, win);
+
+    // Native Window Controls
+    win.querySelector(".t-close").addEventListener("click", () => {
+      win.classList.add("closing");
+      setTimeout(() => { win.remove(); openWins.delete(id); bringToFront(document.body); }, 300);
+    });
+    
+    win.querySelector(".t-min").addEventListener("click", () => win.classList.add("minimized"));
+    win.querySelector(".t-max").addEventListener("click", () => win.classList.toggle("maximized"));
+    
+    win.addEventListener("mousedown", () => bringToFront(win));
+    
+    // Smooth Window Dragging
+    const header = win.querySelector(".os-win-header");
+    let isDragging = false, sx, sy, sl, st;
+    
+    header.addEventListener("mousedown", (e) => {
+      if(e.target.closest(".traffic") || win.classList.contains("maximized")) return;
+      isDragging = true;
+      win.style.transition = "none";
+      const rect = win.getBoundingClientRect();
+      sx = e.clientX; sy = e.clientY; sl = rect.left; st = rect.top;
+    });
+    
+    document.addEventListener("mousemove", (e) => {
+      if(!isDragging) return;
+      win.style.left = (sl + (e.clientX - sx)) + "px";
+      win.style.top = Math.max(28, st + (e.clientY - sy)) + "px";
+      win.style.transform = "none";
+    });
+    
+    document.addEventListener("mouseup", () => {
+      if(isDragging) { isDragging = false; win.style.transition = ""; }
+    });
+
+    setTimeout(() => { win.classList.add("open"); bringToFront(win); }, 10);
+    if(onMount) setTimeout(onMount, 50);
+    return win;
+  }
+
+  // App Renderers
+  function renderAbout() {
+    return `<div class="app-pad">
+      <h1 class="app-h1">${PROFILE.name}</h1>
+      <p class="app-lead">${PROFILE.bio}</p>
+      <p style="color:var(--text-tertiary)">Email: ${PROFILE.email}</p>
     </div>`;
-}
+  }
 
-function renderTerminal() {
-  return `<div class="term-body" id="term-body">
-    <div>Last login: ${new Date().toDateString()} on ttys000</div>
-    <div>alok@macbook-pro ~ % Welcome to the portfolio.</div>
-    <div id="term-log"></div>
-    <div class="term-input-row">
-      <span class="term-prompt">alok@macbook-pro ~ %</span>
-      <input class="term-input" id="term-input" autocomplete="off">
-    </div>
-  </div>`;
-}
+  function renderProjectsFinder(activeCat = "Matchday Graphics"){
+    const cats = Object.keys(PROJECTS);
+    const sidebar = cats.map(c => `<div class="finder-sb-item ${c===activeCat?'active':''}" data-cat="${c}"><i class="fa-solid fa-folder"></i><span>${c}</span></div>`).join("");
+    
+    const files = PROJECTS[activeCat].map(p => `
+      <a href="${p.img}" target="_blank" class="finder-file">
+        <img class="finder-thumb" src="${p.img}" alt="${p.title}">
+        <div class="finder-file-name">${p.title}</div>
+      </a>`).join("");
+      
+    return `
+      <div class="finder-sidebar">
+        <div class="finder-sb-label">Favorites</div>
+        <div class="finder-sb-item"><i class="fa-solid fa-desktop" style="color:var(--text-tertiary)"></i><span>Desktop</span></div>
+        <div class="finder-sb-item"><i class="fa-regular fa-file" style="color:var(--text-tertiary)"></i><span>Documents</span></div>
+        <div class="finder-sb-label" style="margin-top:16px;">Tags</div>
+        ${sidebar}
+      </div>
+      <div class="finder-main">
+        <h2 style="font-size: 20px; margin-bottom: 20px;">${activeCat}</h2>
+        <div class="finder-grid">${files}</div>
+      </div>`;
+  }
 
-// Global App Registry
-const APPS = {
-  about: { title: "About", render: renderAbout },
-  education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT - Amrit Science Campus</p></div>` },
-  projects: { 
-    title: "Finder", 
-    render: () => renderProjectsFinder(),
-    wire: (win) => {
-      win.querySelectorAll(".finder-sb-item[data-cat]").forEach(item => {
-        item.addEventListener("click", () => {
-          win.querySelector(".os-win-body").innerHTML = renderProjectsFinder(item.dataset.cat);
-          APPS.projects.wire(win);
+  function renderTerminal() {
+    return `<div class="term-body" id="term-body">
+      <div>Last login: ${new Date().toDateString()} on ttys000</div>
+      <div>alok@macbook-pro ~ % Welcome to the portfolio.</div>
+      <div id="term-log"></div>
+      <div class="term-input-row">
+        <span class="term-prompt">alok@macbook-pro ~ %</span>
+        <input class="term-input" id="term-input" autocomplete="off">
+      </div>
+    </div>`;
+  }
+
+  // Global App Registry
+  const APPS = {
+    about: { title: "About", render: renderAbout },
+    education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT - Amrit Science Campus</p></div>` },
+    projects: { 
+      title: "Finder", 
+      render: () => renderProjectsFinder(),
+      wire: (win) => {
+        win.querySelectorAll(".finder-sb-item[data-cat]").forEach(item => {
+          item.addEventListener("click", () => {
+            win.querySelector(".os-win-body").innerHTML = renderProjectsFinder(item.dataset.cat);
+            APPS.projects.wire(win);
+          });
         });
-      });
-    }
-  },
-  terminal: {
-    title: "Terminal",
-    render: renderTerminal,
-    wire: (win) => {
-      const input = win.querySelector("#term-input");
-      input.addEventListener("keydown", (e) => {
-        if(e.key === "Enter" && input.value.trim()){
-          win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook-pro ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
-          input.value = "";
-        }
-      });
-      win.addEventListener("click", () => input.focus());
-    }
-  },
-  contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Reach out at: ${PROFILE.email}</p></div>` },
-  trash: { title: "Trash", render: () => `<div class="app-pad" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--text-secondary);"><i class="fa-regular fa-trash-can" style="font-size: 48px; margin-bottom:15px; opacity:0.5;"></i><h2 style="font-weight:500;">Trash is empty</h2></div>` }
-};
+      }
+    },
+    terminal: {
+      title: "Terminal",
+      render: renderTerminal,
+      wire: (win) => {
+        const input = win.querySelector("#term-input");
+        input.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" && input.value.trim()){
+            win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook-pro ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
+            input.value = "";
+          }
+        });
+        win.addEventListener("click", () => input.focus());
+      }
+    },
+    contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Reach out at: ${PROFILE.email}</p></div>` },
+    trash: { title: "Trash", render: () => `<div class="app-pad" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--text-secondary);"><i class="fa-regular fa-trash-can" style="font-size: 48px; margin-bottom:15px; opacity:0.5;"></i><h2 style="font-weight:500;">Trash is empty</h2></div>` }
+  };
 
-function openApp(id) {
-  const app = APPS[id];
-  if(!app) return;
-  const win = makeWindow({ id, title: app.title, content: app.render(), onMount: () => app.wire && app.wire(win) });
-}
+  function openApp(id) {
+    const app = APPS[id];
+    if(!app) return;
+    const win = makeWindow({ id, title: app.title, content: app.render(), onMount: () => app.wire && app.wire(win) });
+  }
 
-// Bind clicks
-document.querySelectorAll(".dock-item, .desktop-icon").forEach(el => {
-  el.addEventListener("click", () => openApp(el.dataset.app));
+  // Bind clicks with explicit listener reinforcement
+  const triggerElements = document.querySelectorAll(".dock-item, .desktop-icon");
+  triggerElements.forEach(el => {
+    el.addEventListener("click", function(e) {
+      const appId = this.getAttribute("data-app");
+      if (appId) openApp(appId);
+    });
+  });
+
 });
-
-})();
 </script>
 </body>
 </html>
