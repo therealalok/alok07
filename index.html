@@ -890,111 +890,451 @@ border-radius:var(--hand-drawn-radius); }
 }
 
 /* ============================================================
-   PROJECTS SECTION (INFINITE MARQUEE FIXED)
+   PROJECTS SECTION (OS DESKTOP EXPERIENCE)
 ============================================================ */
-#projects{ background:var(--bg-dark); }
-#projects .shape-fill{ fill:var(--bg-yellow); }
-#projects .section-title{ color:var(--bg-white); }
-#projects .section-title::after{ background:var(--bg-yellow);
+#projects {
+    background: #000;
+    padding: 0;
+    height: 100vh;
+    min-height: 700px;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-.projects-outer-viewport{
-    width:100%; overflow:hidden;
-    cursor:grab; padding:20px 0 40px 0;
-    position:relative;
+/* OS Boot Sequence */
+.os-boot-screen {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 1.5s ease;
+    will-change: opacity;
 }
-.projects-outer-viewport:active{ cursor:grabbing;
+.os-boot-screen.off {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.05);
+}
+.os-logo-boot {
+    font-family: var(--font-head);
+    font-size: 5rem;
+    color: #fff;
+    letter-spacing: 4px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease;
+}
+.os-logo-boot span { color: var(--bg-yellow); }
+.os-boot-screen.start-boot .os-logo-boot {
+    opacity: 1;
+    transform: translateY(0);
+}
+.os-loader {
+    margin-top: 40px;
+    width: 200px;
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.os-boot-screen.start-boot .os-loader { opacity: 1; transition-delay: 0.5s; }
+.os-loader-bar {
+    height: 100%;
+    width: 0%;
+    background: #fff;
+    transition: width 2s cubic-bezier(0.8, 0, 0.2, 1);
 }
 
-/* The marquee track – wide enough for duplicate set */
-.projects-grid{
-    display:flex; gap:36px; width:max-content;
-    will-change:transform;
+/* OS Desktop Environment */
+.os-desktop {
+    position: absolute;
+    inset: 0;
+    /* Rich, subtle gradient simulating wallpaper depth */
+    background: linear-gradient(135deg, #1c1c2d 0%, #0d0d1a 50%, #000000 100%);
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 2s ease;
 }
-
-.project-card{
-    width:440px; flex-shrink:0;
-    background:var(--bg-white); border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:6px 6px 0 #000;
-    display:flex; flex-direction:column; overflow:hidden;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.project-card:hover{ transform:none !important; }
-.project-card a{ display:block; line-height:0; overflow:hidden;
-    position:relative; }
-.project-card img{
-    width:100%; height:500px; object-fit:cover;
-    border-bottom:var(--border-thick);
-    transition:transform .4s ease;
-}
-.project-card a:hover img{ transform:scale(1.04);
-}
-/* hover overlay with View Project label */
-.project-card a::after{
-    content:'VIEW PROJECT \2197';
+.os-desktop.booted { opacity: 1; }
+/* Subtle ambient background glow */
+.os-desktop::before {
+    content:'';
     position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(13,13,26,.55);
-    color:var(--bg-yellow);
-    font-family:var(--font-head); font-size:1.6rem; letter-spacing:3px;
-    opacity:0; transition:opacity .3s ease;
+    background: radial-gradient(circle at 50% 50%, rgba(245,197,24,0.08), transparent 70%);
     pointer-events:none;
 }
-.project-card a:hover::after{ opacity:1;
+
+/* Desktop Icons */
+.os-icons-grid {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: flex-start;
+    z-index: 10;
+}
+@media(max-width:768px) {
+    .os-icons-grid {
+        flex-direction: row;
+        flex-wrap: wrap;
+        top: 20px;
+        left: 20px;
+        right: 20px;
+        gap: 20px;
+    }
+}
+.os-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: background 0.2s, border 0.2s;
+    opacity: 0;
+    transform: translateY(20px);
+    will-change: transform, opacity;
+}
+.os-desktop.booted .os-icon {
+    animation: iconBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+.os-desktop.booted .os-icon:nth-child(1) { animation-delay: 1.8s; }
+.os-desktop.booted .os-icon:nth-child(2) { animation-delay: 2.0s; }
+.os-desktop.booted .os-icon:nth-child(3) { animation-delay: 2.2s; }
+
+@keyframes iconBounceIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+.os-icon:hover, .os-icon.selected {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.os-folder-img {
+    font-size: 3.5rem;
+    color: #4da6ff;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
+    transition: transform 0.2s;
+}
+.os-icon:hover .os-folder-img { transform: scale(1.05); }
+.os-icon-name {
+    font-size: 0.85rem;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    font-weight: 500;
+    line-height: 1.2;
 }
 
-/* featured badges on all project cards */
-.project-card .project-content::before {
-    display:inline-block; font-family:var(--font-head);
-    font-size:.95rem; letter-spacing:3px; text-transform:uppercase;
-    background:var(--bg-yellow);
-    color:#000;
-    padding:4px 14px; margin-bottom:14px;
-    border:2px solid var(--border-color);
-    border-radius:var(--hand-drawn-radius);
+/* Windows System */
+.os-windows-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
 }
-.project-card:nth-child(1) .project-content::before{
-    content:'June 27, 2026';
-}        
-.project-card:nth-child(2) .project-content::before{ content:'June 20, 2026'; }
-.project-card:nth-child(3) .project-content::before{ content:'June 17, 2026'; }
-.project-card:nth-child(4) .project-content::before{ content:'June 1, 2026'; }
-.project-card:nth-child(5) .project-content::before{ content:'May 28, 2026'; }
-.project-card:nth-child(6) .project-content::before{ content:'May 24, 2026'; }
-.project-card:nth-child(7) .project-content::before{ content:'May 21, 2026'; }
-.project-card:nth-child(8) .project-content::before{ content:'May 13, 2026'; }
-.project-card:nth-child(9) .project-content::before{ content:'May 8, 2026'; }
-.project-card:nth-child(10) .project-content::before{ content:'April 10, 2026'; }
-.project-card:nth-child(11) .project-content::before{ content:'March 27, 2026'; }
-.project-card:nth-child(12) .project-content::before{ content:'February 7, 2026'; }
-.project-card:nth-child(13) .project-content::before{ content:'March 17, 2026'; }
-.project-card:nth-child(14) .project-content::before{ content:'April 14, 2026'; }
-.project-card:nth-child(15) .project-content::before{ content:'April 4, 2026'; }
-        
-.project-content{ padding:30px;
+.os-window {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 800px;
+    max-width: 95vw;
+    height: 550px;
+    max-height: 85vh;
+    background: rgba(25, 25, 35, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    pointer-events: auto;
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    will-change: transform, opacity, top, left;
 }
-.project-content h3{
-    font-size:3.1rem; margin-bottom:14px; color:var(--text-main); line-height:1.05;
-    padding-bottom:12px; border-bottom:3px solid var(--bg-yellow); display:block;
+@media(max-width: 768px) {
+    .os-window {
+        width: 100vw;
+        height: calc(100vh - 48px);
+        max-width: 100vw;
+        max-height: 100vh;
+        border-radius: 0;
+        top: 0 !important;
+        left: 0 !important;
+        transform: translate(0, 0) scale(0.95);
+    }
 }
-.project-content p{ font-size:1.1rem; color:var(--text-muted);
+.os-window.open {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+@media(max-width: 768px) {
+    .os-window.open {
+        transform: translate(0, 0) scale(1);
+    }
+}
+.os-window.minimized {
+    opacity: 0;
+    transform: translate(-50%, 100vh) scale(0.5);
+    pointer-events: none;
+}
+@media(max-width: 768px) {
+    .os-window.minimized {
+        transform: translate(0, 100vh) scale(0.5);
+    }
+}
+.os-window-header {
+    height: 40px;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    cursor: grab;
+    user-select: none;
+}
+.os-window-header:active { cursor: grabbing; }
+.os-window-controls {
+    display: flex;
+    gap: 8px;
+}
+.os-btn {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.os-btn-close { background: #ff5f56; }
+.os-btn-min { background: #ffbd2e; }
+.os-btn-max { background: #27c93f; }
+.os-btn i { font-size: 8px; color: rgba(0,0,0,0.5); opacity: 0; transition: opacity 0.2s; }
+.os-window-controls:hover .os-btn i { opacity: 1; }
+.os-window-title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ddd;
+    margin-right: 57px; /* balance buttons */
+}
+.os-window-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+.os-window-content::-webkit-scrollbar { width: 8px; }
+.os-window-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+/* Grid inside Folder Window */
+.os-folder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 20px;
+}
+.os-file-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.os-file-icon:hover { background: rgba(255,255,255,0.1); }
+.os-file-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.os-file-name {
+    font-size: 0.8rem;
+    text-align: center;
+    color: #e0e0e0;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-.slider-controls-wrapper{
-    padding:0 8vw;
-    display:flex; justify-content:space-between; align-items:center; margin-top:20px;
+/* Project Detail Layout in Window */
+.os-project-view {
+    display: flex;
+    gap: 30px;
+    height: 100%;
 }
-.slider-instruction{ font-size:1.1rem; font-weight:700; color:#f5c518 !important; }
-.slider-arrows{ display:flex; gap:14px;
+@media(max-width: 600px) {
+    .os-project-view { flex-direction: column; }
 }
-.slider-arrow-btn{
-    width:58px; height:46px; background:var(--bg-yellow); color:#000;
-    border:var(--border-thick); border-radius:var(--hand-drawn-radius);
-    box-shadow:3px 3px 0 #000; cursor:pointer; font-size:1.7rem;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+.os-project-img {
+    flex: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: #000;
 }
-.slider-arrow-btn:hover{ background:var(--bg-white); color:var(--text-main);
+.os-project-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
+.os-project-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.os-project-badge {
+    align-self: flex-start;
+    background: var(--bg-yellow);
+    color: #000;
+    font-family: var(--font-head);
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+.os-project-details h3 {
+    font-family: var(--font-head);
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 15px;
+    line-height: 1.1;
+}
+.os-project-details p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.os-project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    font-weight: 500;
+    transition: all 0.2s;
+    align-self: flex-start;
+    margin-top: auto;
+}
+.os-project-link:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* Taskbar */
+.os-taskbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: rgba(10, 10, 15, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+    transform: translateY(100%);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.os-desktop.booted ~ .os-taskbar {
+    transform: translateY(0);
+    transition-delay: 1.5s;
+}
+.os-taskbar-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.os-start-btn {
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    color: var(--bg-yellow);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.os-start-btn:hover { text-shadow: 0 0 10px var(--bg-yellow); }
+.os-apps-tray {
+    display: flex;
+    gap: 8px;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid rgba(255,255,255,0.2);
+}
+.os-app-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    position: relative;
+    transition: all 0.2s;
+    color: #fff;
+}
+.os-app-icon:hover { background: rgba(255,255,255,0.2); }
+.os-app-icon.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+}
+.os-taskbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
+    color: #ddd;
+}
+.os-taskbar-icon { font-size: 1rem; }
+.os-clock { font-weight: 500; font-family: var(--font-body); font-size: 0.85rem;}
 
 /* ============================================================
    CONTACT SECTION
@@ -1137,11 +1477,7 @@ footer{
 }
     .page-side.back{ display:flex; margin-top:18px; }
     .skills-grid-container{ grid-template-columns:1fr; }
-    .project-card{ width:83vw;
-}
-    .project-card img{ height:auto; aspect-ratio:4/5; }
-    .slider-controls-wrapper{ flex-direction:column; gap:18px; text-align:center;
-}
+    
     .form-row{ grid-template-columns:1fr; }
     .contact-card,.contact-form{ padding:28px 18px; }
     .stable-page-number{ position:relative; bottom:auto;
@@ -1150,6 +1486,8 @@ footer{
 }
     .realistic-pen{ display:none; }
     .book-shadow{ display:none; }
+    
+    #projects { padding: 0; }
 }
 
 @media(max-width:480px){
@@ -1174,10 +1512,7 @@ footer{
     .skill-item-card h3{ font-size:2rem; }
     .skill-icon-wrap{ width:64px; height:64px;
 }
-    .project-card{ width:88vw; }
-    .project-content h3{ font-size:2.2rem; }
-    .project-content p{ font-size:1rem;
-}
+    
     .find-me-btn{ font-size:2.6rem; }
     .socials a{ width:48px; height:48px; font-size:1.4rem;
 }
@@ -1185,6 +1520,7 @@ footer{
     .send-btn,.btn,.open-again-btn{ font-size:1.4rem; padding:12px 24px;
 }
     footer{ font-size:.8rem; padding:24px; }
+    #projects { padding: 0; }
 }
     </style>
 </head>
@@ -1433,47 +1769,44 @@ footer{
     </div>
 </section>
 
+<!-- REPLACED PROJECTS SECTION: OS DESKTOP EXPERIENCE -->
 <section id="projects">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-        </svg>
-    </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Featured Projects</h2>
-    </div>
-    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
-        <div class="projects-grid" id="swipe-slider-grid">
-            <div class="project-card">
-    <a href="poruzb copy.jpg" target="_blank">
-        <img src="poruzb copy.jpg" alt="Portugal VS Colombia Matchday Graphic" draggable="false">
-    </a>
-    <div class="project-content">
-        <h3>Portugal VS Colombia</h3>
-        <p>Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami</p>
-    </div>
-</div>
-            <div class="project-card"><a href="portugalvcongo copy.jpg" target="_blank"><img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false"></a><div class="project-content"><h3>Argentina VS Austria</h3><p>A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p></div></div>
-            <div class="project-card"><a href="porcong.jpeg" target="_blank"><img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false"></a><div class="project-content"><h3>Portugal VS Congo</h3><p>A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p></div></div>
-            <div class="project-card"><a href="heavymetalfootball.jpg" target="_blank"><img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false"></a><div class="project-content"><h3>Heavy Metal Football</h3><p>A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p></div></div>
-            <div class="project-card"><a href="psgvarsfinal copy.jpg" target="_blank"><img src="psgvarsfinal copy.jpg" alt="PSG vs Arsenal Champions League Graphic" draggable="false"></a><div class="project-content"><h3>Paris Saint-Germain VS Arsenal</h3><p>Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.</p></div></div>
-            <div class="project-card"><a href="lfcvbre copy.jpg" target="_blank"><img src="lfcvbre copy.jpg" alt="Project 1" draggable="false"></a><div class="project-content"><h3>Liverpool VS Brentford</h3><p>Matchday design of the last Premier League game of the 2025-26 campaign.</p></div></div>
-            <div class="project-card"><a href="robboxmo copy.jpg" target="_blank"><img src="robboxmo copy.jpg" alt="Project 2" draggable="false"></a><div class="project-content"><h3>ONE LAST TIME AT ANFIELD.</h3><p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p></div></div>
-            <div class="project-card"><a href="wc.jpeg" target="_blank"><img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout" draggable="false"></a><div class="project-content"><h3>FIFA World Cup 2026</h3><p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p></div></div>
-            <div class="project-card"><a href="newlivche.jpeg" target="_blank"><img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool VS Chelsea</h3><p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p></div></div>
-            <div class="project-card"><a href="ThankyouRobbo.jpeg" target="_blank"><img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false"></a><div class="project-content"><h3>Thank You, Robbo!</h3><p>A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.</p></div></div>
-            <div class="project-card"><a href="ThankyouMo.jpeg" target="_blank"><img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false"></a><div class="project-content"><h3>Thank You, Mo!</h3><p>A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p></div></div>
-            <div class="project-card"><a href="livvmci.jpeg" target="_blank"><img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Manchester City</h3><p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p></div></div>
-            <div class="project-card"><a href="livvgal.jpeg" target="_blank"><img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Galatasaray</h3><p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p></div></div>
-            <div class="project-card"><a href="livvpsg.jpeg" target="_blank"><img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Paris Saint-Germain</h3><p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p></div></div>
-            <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
+    <!-- Boot Screen -->
+    <div class="os-boot-screen" id="os-boot-screen">
+        <div class="os-logo-boot">AL<span>OK.</span></div>
+        <div class="os-loader">
+            <div class="os-loader-bar" id="os-loader-bar"></div>
         </div>
     </div>
-    <div class="slider-controls-wrapper reveal">
-        <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
-        <div class="slider-arrows">
-            <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
-            <button class="slider-arrow-btn" id="next-project-btn" aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
+
+    <!-- Desktop Environment -->
+    <div class="os-desktop" id="os-desktop">
+        <!-- Folders Grid -->
+        <div class="os-icons-grid" id="os-icons-grid">
+            <!-- Icons generated by JS -->
+        </div>
+        
+        <!-- Windows Area -->
+        <div class="os-windows-container" id="os-windows-container">
+            <!-- Windows generated by JS -->
+        </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="os-taskbar">
+        <div class="os-taskbar-left">
+            <div class="os-start-btn" aria-label="Start Menu">
+                <i class="fa-solid fa-power-off" style="font-size: 1rem;"></i> ALOK.
+            </div>
+            <div class="os-apps-tray" id="os-apps-tray">
+                <!-- Open app indicators generated by JS -->
+            </div>
+        </div>
+        <div class="os-taskbar-right">
+            <i class="fa-solid fa-wifi os-taskbar-icon"></i>
+            <i class="fa-solid fa-battery-full os-taskbar-icon"></i>
+            <div class="os-clock" id="os-clock">12:00 AM</div>
+            <div class="os-clock" id="os-date">Jan 1, 2026</div>
         </div>
     </div>
 </section>
@@ -1601,66 +1934,8 @@ themeToggle.addEventListener("click", () => {
 });
 
 /* ============================================================
-   PROJECTS — TRUE INFINITE MARQUEE  (fixed)
-   Duplicates cards in JS, resets offset seamlessly.
+   EDUCATION BOOK LOGIC
 ============================================================ */
-(function(){
-    const grid     = document.getElementById('swipe-slider-grid');
-    const viewport = document.getElementById('swipe-slider-viewport');
-    const prevBtn  = document.getElementById('prev-project-btn');
-    const nextBtn  = document.getElementById('next-project-btn');
-
-    // Duplicate cards for seamless loop
-    const originals = Array.from(grid.children);
-    originals.forEach(card => grid.appendChild(card.cloneNode(true)));
-
-    let offset       = 0;
-    let isPaused     = false;
-    let isDrag       = false;
-    let startX       = 0;
-    let dragStart    = 0;
-    const GAP        = 36;
-    const SPEED      = 0.55;
-
-    function halfWidth() {
-        // width of one full set of original cards + gaps
-        return originals.reduce((w, c) => w + c.offsetWidth + GAP, 0);
-    }
-
-    function loop() {
-        if (!isPaused && !isDrag) offset -= SPEED;
-
-        const half = halfWidth();
-        // Seamless reset
-        if (offset <= -half) offset += half;
-        if (offset >  0)     offset  = -half + offset;
-
-        grid.style.transform = `translate3d(${offset}px,0,0)`;
-        requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-
-    viewport.addEventListener('mouseenter', () => isPaused = true);
-    viewport.addEventListener('mouseleave', () => isPaused = false);
-    
-    function slideAmount() {
-        const card = grid.querySelector('.project-card');
-        return card ? card.offsetWidth + GAP : 416;
-    }
-    prevBtn.addEventListener('click', () => { offset += slideAmount(); });
-    nextBtn.addEventListener('click', () => { offset -= slideAmount(); });
-
-    // Drag (mouse)
-    viewport.addEventListener('mousedown', e => { isDrag=true; startX=e.clientX; dragStart=offset; });
-    window.addEventListener('mousemove', e => { if(!isDrag) return; offset=dragStart+(e.clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; });
-    window.addEventListener('mouseup',   () => isDrag=false);
-    
-    // Drag (touch)
-    viewport.addEventListener('touchstart', e => { isDrag=true; startX=e.touches[0].clientX; dragStart=offset; }, {passive:true});
-    viewport.addEventListener('touchmove',  e => { if(!isDrag) return; offset=dragStart+(e.touches[0].clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; }, {passive:true});
-    viewport.addEventListener('touchend',   () => isDrag=false);
-})();
-
 (function(){
     const sheets = [
         document.getElementById('sheet-1'),
@@ -1708,6 +1983,9 @@ themeToggle.addEventListener("click", () => {
     update();
 })();
 
+/* ============================================================
+   CONTACT FORM LOGIC
+============================================================ */
 (function(){
     const form = document.getElementById("portfolio-contact-form");
     form.addEventListener("submit", async e => {
@@ -1730,6 +2008,273 @@ themeToggle.addEventListener("click", () => {
         }
         setTimeout(() => { btn.innerText=orig; btn.style.pointerEvents="auto"; }, 4000);
     });
+})();
+
+/* ============================================================
+   PROJECTS SECTION - OS EXPERIENCE LOGIC
+============================================================ */
+(function(){
+    // Existing Project Data Categorized Strictly
+    const projectsData = {
+        "Matchday Graphics": [
+            { id: "p1", title: "Portugal VS Colombia", date: "June 27, 2026", desc: "Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami", img: "poruzb copy.jpg" },
+            { id: "p2", title: "Argentina VS Austria", date: "June 20, 2026", desc: "A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.", img: "portugalvcongo copy.jpg" },
+            { id: "p3", title: "Portugal VS Congo", date: "June 17, 2026", desc: "A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.", img: "porcong.jpeg" },
+            { id: "p5", title: "Paris Saint-Germain VS Arsenal", date: "May 28, 2026", desc: "Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.", img: "psgvarsfinal copy.jpg" },
+            { id: "p6", title: "Liverpool VS Brentford", date: "May 24, 2026", desc: "Matchday design of the last Premier League game of the 2025-26 campaign.", img: "lfcvbre copy.jpg" },
+            { id: "p9", title: "Liverpool VS Chelsea", date: "May 8, 2026", desc: "Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.", img: "newlivche.jpeg" },
+            { id: "p13", title: "Liverpool FC VS Galatasaray", date: "March 17, 2026", desc: "A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.", img: "livvgal.jpeg" },
+            { id: "p14", title: "Liverpool FC VS Paris Saint-Germain", date: "April 14, 2026", desc: "A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.", img: "livvpsg.jpeg" }
+        ],
+        "Tribute Posters": [
+            { id: "p7", title: "ONE LAST TIME AT ANFIELD.", date: "May 21, 2026", desc: "A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.", img: "robboxmo copy.jpg" },
+            { id: "p10", title: "Thank You, Robbo!", date: "April 10, 2026", desc: "A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.", img: "ThankyouRobbo.jpeg" },
+            { id: "p11", title: "Thank You, Mo!", date: "March 27, 2026", desc: "A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.", img: "ThankyouMo.jpeg" }
+        ],
+        "Editorial Concepts": [
+            { id: "p4", title: "Heavy Metal Football", date: "June 1, 2026", desc: "A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.", img: "heavymetalfootball.jpg" },
+            { id: "p8", title: "FIFA World Cup 2026", date: "May 13, 2026", desc: "FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.", img: "wc.jpeg" },
+            { id: "p12", title: "Liverpool FC VS Manchester City", date: "February 7, 2026", desc: "An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.", img: "livvmci.jpeg" },
+            { id: "p15", title: "Slot Out!", date: "April 4, 2026", desc: "An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.", img: "slotout.jpeg" }
+        ]
+    };
+
+    let booted = false;
+    let highestZIndex = 30;
+    const openWindows = new Map(); // id -> window element
+
+    // DOM Elements
+    const osSection = document.getElementById("projects");
+    const bootScreen = document.getElementById("os-boot-screen");
+    const loaderBar = document.getElementById("os-loader-bar");
+    const desktop = document.getElementById("os-desktop");
+    const iconsGrid = document.getElementById("os-icons-grid");
+    const windowsContainer = document.getElementById("os-windows-container");
+    const taskbarTray = document.getElementById("os-apps-tray");
+    
+    // Clock
+    setInterval(() => {
+        const now = new Date();
+        document.getElementById("os-clock").innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        document.getElementById("os-date").innerText = now.toLocaleDateString([], {month: 'short', day: 'numeric', year: 'numeric'});
+    }, 1000);
+
+    // Boot Observer
+    const bootObserver = new IntersectionObserver((entries) => {
+        if(entries[0].isIntersecting && !booted) {
+            booted = true;
+            triggerBootSequence();
+            bootObserver.unobserve(osSection);
+        }
+    }, { threshold: 0.4 });
+    bootObserver.observe(osSection);
+
+    function triggerBootSequence() {
+        bootScreen.classList.add("start-boot");
+        setTimeout(() => { loaderBar.style.width = "100%"; }, 600);
+        
+        setTimeout(() => {
+            bootScreen.classList.add("off");
+            desktop.classList.add("booted");
+            generateDesktopIcons();
+        }, 2200);
+    }
+
+    function generateDesktopIcons() {
+        Object.keys(projectsData).forEach(category => {
+            const count = projectsData[category].length;
+            const icon = document.createElement("div");
+            icon.className = "os-icon";
+            icon.innerHTML = `
+                <i class="fa-solid fa-folder os-folder-img"></i>
+                <div class="os-icon-name">${category}<br>(${count})</div>
+            `;
+            
+            // Interaction
+            icon.addEventListener('click', (e) => {
+                document.querySelectorAll('.os-icon').forEach(i => i.classList.remove('selected'));
+                icon.classList.add('selected');
+            });
+            icon.addEventListener('dblclick', (e) => {
+                icon.classList.remove('selected');
+                openFolderWindow(category);
+            });
+            
+            iconsGrid.appendChild(icon);
+        });
+    }
+
+    // Window Management
+    function bringToFront(win) {
+        highestZIndex++;
+        win.style.zIndex = highestZIndex;
+    }
+
+    function createBaseWindow(id, title, contentHTML, iconClass) {
+        if (openWindows.has(id)) {
+            const win = openWindows.get(id);
+            win.classList.remove("minimized");
+            bringToFront(win);
+            updateTaskbarIndicator(id, true);
+            return null;
+        }
+
+        const win = document.createElement("div");
+        win.className = "os-window";
+        win.id = `window-${id}`;
+        win.innerHTML = `
+            <div class="os-window-header">
+                <div class="os-window-controls">
+                    <button class="os-btn os-btn-close"><i class="fa-solid fa-xmark"></i></button>
+                    <button class="os-btn os-btn-min"><i class="fa-solid fa-minus"></i></button>
+                    <button class="os-btn os-btn-max"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></button>
+                </div>
+                <div class="os-window-title">${title}</div>
+            </div>
+            <div class="os-window-content">${contentHTML}</div>
+        `;
+        
+        // Window Dragging
+        const header = win.querySelector('.os-window-header');
+        let isDragging = false, startX, startY, initialX, initialY;
+        
+        header.addEventListener('mousedown', (e) => {
+            if(e.target.closest('.os-window-controls')) return;
+            bringToFront(win);
+            isDragging = true;
+            startX = e.clientX; startY = e.clientY;
+            const rect = win.getBoundingClientRect();
+            const parentRect = windowsContainer.getBoundingClientRect();
+            initialX = rect.left - parentRect.left + (rect.width/2);
+            initialY = rect.top - parentRect.top + (rect.height/2);
+            win.style.transform = `translate(-50%, -50%) scale(1)`;
+            win.style.left = `${initialX}px`;
+            win.style.top = `${initialY}px`;
+        });
+        
+        window.addEventListener('mousemove', (e) => {
+            if(!isDragging) return;
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            win.style.left = `${initialX + dx}px`;
+            win.style.top = `${initialY + dy}px`;
+        });
+        window.addEventListener('mouseup', () => isDragging = false);
+        
+        // Window Controls
+        win.addEventListener('mousedown', () => bringToFront(win));
+        
+        win.querySelector('.os-btn-close').addEventListener('click', () => {
+            win.style.opacity = 0;
+            setTimeout(() => {
+                win.remove();
+                openWindows.delete(id);
+                removeTaskbarItem(id);
+            }, 300);
+        });
+        
+        win.querySelector('.os-btn-min').addEventListener('click', () => {
+            win.classList.add("minimized");
+            updateTaskbarIndicator(id, false);
+        });
+        
+        win.querySelector('.os-btn-max').addEventListener('click', () => {
+            if (win.style.width === '100%') {
+                win.style.width = '800px'; win.style.height = '550px';
+            } else {
+                win.style.width = '100%'; win.style.height = '100%';
+            }
+        });
+
+        windowsContainer.appendChild(win);
+        openWindows.set(id, win);
+        addTaskbarItem(id, iconClass, win);
+        
+        // Animate in
+        bringToFront(win);
+        requestAnimationFrame(() => win.classList.add("open"));
+        return win;
+    }
+
+    function openFolderWindow(category) {
+        const id = `folder-${category.replace(/\s+/g, '')}`;
+        const projects = projectsData[category];
+        
+        let gridHTML = `<div class="os-folder-grid">`;
+        projects.forEach(p => {
+            gridHTML += `
+                <div class="os-file-icon" onclick="openProjectWindow('${category}', '${p.id}')">
+                    <img src="${p.img}" class="os-file-thumb" alt="${p.title}" draggable="false">
+                    <div class="os-file-name">${p.title}</div>
+                </div>
+            `;
+        });
+        gridHTML += `</div>`;
+        
+        createBaseWindow(id, category, gridHTML, "fa-folder-open");
+    }
+
+    // Attach to global scope for inline onclick handler
+    window.openProjectWindow = function(category, projectId) {
+        const project = projectsData[category].find(p => p.id === projectId);
+        if(!project) return;
+        
+        const id = `project-${projectId}`;
+        const contentHTML = `
+            <div class="os-project-view">
+                <div class="os-project-img">
+                    <img src="${project.img}" alt="${project.title}" draggable="false">
+                </div>
+                <div class="os-project-details">
+                    <div class="os-project-badge">${project.date}</div>
+                    <h3>${project.title}</h3>
+                    <p>${project.desc}</p>
+                    <a href="${project.img}" target="_blank" class="os-project-link">
+                        <i class="fa-solid fa-expand"></i> View Full Image
+                    </a>
+                </div>
+            </div>
+        `;
+        createBaseWindow(id, project.title, contentHTML, "fa-image");
+    };
+
+    // Taskbar Management
+    function addTaskbarItem(id, iconClass, winObj) {
+        const item = document.createElement("div");
+        item.className = "os-app-icon active";
+        item.id = `tb-${id}`;
+        item.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+        
+        item.addEventListener("click", () => {
+            if (winObj.classList.contains("minimized")) {
+                winObj.classList.remove("minimized");
+                bringToFront(winObj);
+                item.classList.add("active");
+            } else {
+                if(winObj.style.zIndex == highestZIndex) {
+                    winObj.classList.add("minimized");
+                    item.classList.remove("active");
+                } else {
+                    bringToFront(winObj);
+                    item.classList.add("active");
+                }
+            }
+        });
+        taskbarTray.appendChild(item);
+    }
+    
+    function removeTaskbarItem(id) {
+        const item = document.getElementById(`tb-${id}`);
+        if(item) item.remove();
+    }
+    
+    function updateTaskbarIndicator(id, isActive) {
+        const item = document.getElementById(`tb-${id}`);
+        if(item) {
+            if(isActive) item.classList.add("active");
+            else item.classList.remove("active");
+        }
+    }
 })();
 </script>
 </body>
