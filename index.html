@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Alok Sharma — macOS</title>
+<title>Alok Sharma — macOS Portfolio</title>
 <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
 
@@ -14,12 +14,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
 /* =========================================================================
-   ROOT TOKENS — Genuine macOS Design System
+   REAL macOS COLOR PALETTE & TOKENS
 ========================================================================= */
 :root {
   --bg1: #f5f5f7;
@@ -32,25 +32,32 @@
   --text-tertiary: #8e8e93;
   
   --blue: #0A84FF;
-  --folder-blue: #4DA3FF;
-  --red: #FF5F57;
-  --yellow: #FEBC2E;
-  --green: #28C840;
+  --red: #FF453A;
+  --yellow: #FFD60A;
+  --green: #32D74B;
+  --orange: #FF9F0A;
+
+  --os-accent: #0A84FF;
   
-  --glass-desktop: rgba(255,255,255,0.08);
-  --glass-desktop-border: rgba(255,255,255,0.12);
-  --glass-dock: rgba(255,255,255,0.12);
-  --glass-win: rgba(32,34,38,0.72);
-  --glass-win-border: rgba(255,255,255,0.10);
-  --glass-sidebar: rgba(255,255,255,0.04);
+  --window-glass: rgba(32,34,38,0.72);
+  --sidebar-glass: rgba(255,255,255,0.04);
+  --dock-glass: rgba(255,255,255,0.12);
+  --menubar-glass: rgba(255,255,255,0.12);
   
+  --win-border: rgba(255,255,255,0.10);
+  --dock-border: rgba(255,255,255,0.15);
+  --shadow-color: rgba(0,0,0,.25);
+  --icon-shadow: rgba(0,0,0,.35);
+
+  --radius-win: 16px;
+  --radius-dock: 22px;
   --ease: cubic-bezier(0.25, 1, 0.5, 1);
-  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'IBM Plex Mono', monospace;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; overscroll-behavior: none; }
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overscroll-behavior:none; }
 body {
   font-family: var(--font-ui);
   background: #000;
@@ -64,23 +71,26 @@ button { font-family: inherit; border: none; background: none; color: inherit; c
 input, textarea { font-family: inherit; color: inherit; }
 a { color: inherit; text-decoration: none; }
 ::selection { background: var(--blue); color: #fff; }
-::-webkit-scrollbar { width: 8px; height: 8px; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.4); border: 2px solid transparent; background-clip: padding-box; }
 
 /* =========================================================================
-   REALISTIC WALLPAPER
+   DESKTOP & WALLPAPER
 ========================================================================= */
-.wallpaper {
-  position: fixed; inset: 0; z-index: 0;
-  background: radial-gradient(circle at 10% 0%, #4B1E7A, transparent 50%),
-              radial-gradient(circle at 90% 90%, #9F2C55, transparent 60%),
-              radial-gradient(circle at 50% 50%, #152A68, #0D0F12 100%);
-  background-size: cover;
-  animation: fadeIn 0.8s var(--ease) forwards;
+#desktop {
+  position: fixed; inset: 0; z-index: 1;
+  background: url('download (87).jpg') center/cover no-repeat;
+  /* Instant soft entry - No fake boot screens */
+  animation: desktopEntry 0.6s var(--ease) forwards;
 }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes desktopEntry {
+  from { opacity: 0; transform: scale(1.02); filter: blur(10px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
 
 /* =========================================================================
    MENU BAR
@@ -89,39 +99,40 @@ a { color: inherit; text-decoration: none; }
   position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 500;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 16px;
-  background: rgba(255,255,255,0.12);
+  background: var(--menubar-glass);
   backdrop-filter: blur(35px);
   -webkit-backdrop-filter: blur(35px);
-  border-bottom: 1px solid var(--glass-desktop-border);
-  font-size: 13px; font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-  animation: slideDown 0.6s var(--ease) forwards;
+  border-bottom: 1px solid var(--win-border);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.3px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
-@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 .menubar-left, .menubar-right { display: flex; align-items: center; gap: 16px; height: 100%; }
-.menubar-left .mb-apple { font-size: 14.5px; margin-right: 4px; }
+.menubar-left .mb-apple { font-size: 15px; }
 .menubar-app-name { font-weight: 700; }
 .menubar-item { opacity: 0.9; cursor: default; }
-@media (max-width: 859px){ .menubar-item { display: none; } }
-.menubar-right i { font-size: 13px; opacity: 0.9; }
-.menubar-right button { width: 24px; height: 24px; border-radius: 4px; transition: background 0.15s; }
-.menubar-right button:hover { background: rgba(255,255,255,0.2); }
-.menubar-clock { font-weight: 500; margin-left: 4px; }
+.menubar-item:hover { background: rgba(255,255,255,0.1); border-radius: 4px; padding: 2px 6px; margin: -2px -6px; }
+@media (max-width: 860px) { .menubar-item { display: none; } }
+.menubar-right i { font-size: 14px; opacity: 0.9; }
+.menubar-right button { display: flex; align-items: center; gap: 6px; }
+.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 4px; }
 
 /* =========================================================================
-   DESKTOP ICONS
+   DESKTOP ICONS (Right Aligned, Blue Folders)
 ========================================================================= */
 .desktop-icons {
   position: fixed; top: 60px; right: 20px; z-index: 5;
-  display: flex; flex-direction: column; gap: 24px; align-items: flex-end;
-  animation: fadeIn 1s var(--ease) 0.3s forwards; opacity: 0;
+  display: flex; flex-direction: column; gap: 95px; align-items: center;
 }
 .desktop-icon {
-  width: 72px; display: flex; flex-direction: column; align-items: center; gap: 4px;
-  padding: 4px; border-radius: 6px; cursor: pointer; border: 1px solid transparent;
+  width: 72px; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 4px; border-radius: 6px; cursor: pointer; transition: background 0.1s;
 }
-.desktop-icon:active, .desktop-icon.selected { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.1); }
-.desktop-icon i { font-size: 42px; color: var(--folder-blue); filter: drop-shadow(0 2px 5px rgba(0,0,0,0.35)); }
-.desktop-icon span { font-size: 11.5px; text-align: center; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); background: rgba(0,0,0,0.1); padding: 2px 6px; border-radius: 10px; }
+.desktop-icon:hover { background: rgba(255,255,255,0.1); }
+.desktop-icon-svg { width: 56px; height: 56px; filter: drop-shadow(0 4px 6px var(--icon-shadow)); }
+.desktop-icon span { 
+  font-size: 11.5px; text-align: center; color: #fff; 
+  text-shadow: 0 1px 3px rgba(0,0,0,.8); font-weight: 500;
+  background: rgba(0,0,0,0.1); padding: 1px 4px; border-radius: 4px;
+}
 
 /* =========================================================================
    DOCK
@@ -129,149 +140,167 @@ a { color: inherit; text-decoration: none; }
 .dock-wrap {
   position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 600;
   display: flex; align-items: flex-end; gap: 8px;
-  height: 74px; padding: 0 10px; border-radius: 22px;
-  background: var(--glass-dock); backdrop-filter: blur(35px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.25), 0 1px 2px rgba(255,255,255,0.1) inset;
-  animation: slideUp 0.6s var(--ease) forwards;
+  padding: 9px 12px; height: 74px; border-radius: var(--radius-dock);
+  background: var(--dock-glass);
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  border: 1px solid var(--dock-border);
+  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
 }
-@keyframes slideUp { from { transform: translate(-50%, 150%); } to { transform: translate(-50%, 0); } }
 .dock-item {
-  position: relative; width: 56px; height: 56px; border-radius: 14px;
+  position: relative; width: 56px; height: 56px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
-  border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  font-size: 26px; color: #e9e9ee; margin-bottom: 9px;
-  transition: transform 0.2s var(--ease), margin 0.2s var(--ease);
+  background: linear-gradient(180deg, #333, #111);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  font-size: 26px; color: #fff;
+  transform-origin: bottom center;
 }
-.dock-item i { pointer-events: none; }
-.dock-item:hover { transform: scale(1.35) translateY(-8px); z-index: 10; margin: 0 10px 9px 10px; }
-.dock-item:hover + .dock-item, .dock-item:has(+ .dock-item:hover) { transform: scale(1.15) translateY(-4px); }
-.dock-item::after { content: ''; position: absolute; bottom: -7px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.8); opacity: 0; }
+
+/* Realistic Dock Magnification using modern CSS */
+.dock-wrap:hover .dock-item { transform: scale(1); margin: 0 0px; }
+.dock-item:hover { transform: scale(1.35) translateY(-5px) !important; margin: 0 15px !important; z-index: 10; }
+.dock-item:has(+ .dock-item:hover), .dock-item:hover + .dock-item { transform: scale(1.15) translateY(-2px) !important; margin: 0 8px !important; z-index: 5; }
+
+.dock-item::after { 
+  content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; 
+  border-radius: 50%; background: rgba(255,255,255,0.5); opacity: 0; transition: opacity 0.2s; 
+}
 .dock-item.running::after { opacity: 1; }
-.dock-item.folder-icon { background: linear-gradient(135deg, #5FB5FF, #4DA3FF); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
-.dock-sep { width: 1px; height: 56px; margin: 0 4px 9px 4px; background: rgba(255,255,255,0.15); }
-.dock-tooltip {
-  position: absolute; bottom: 85px; left: 50%; transform: translateX(-50%);
-  background: rgba(30,30,34,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
-  padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; white-space: nowrap;
-  opacity: 0; pointer-events: none; transition: opacity 0.15s var(--ease); box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-.dock-item:hover .dock-tooltip { opacity: 1; }
+.dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.15); }
 
 /* =========================================================================
-   WINDOWS
+   WINDOWS LAYER
 ========================================================================= */
 #windows-layer { position: fixed; inset: 0; top: 28px; z-index: 50; pointer-events: none; }
 .os-win {
   position: absolute; top: 100px; left: 50%;
-  width: 740px; max-width: 95vw; height: 520px; max-height: 80vh;
-  transform: translate(-50%, 15px);
-  background: var(--glass-win); backdrop-filter: blur(30px) saturate(150%);
-  border: 1px solid var(--glass-win-border); border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.35), 0 1px 2px rgba(255,255,255,0.1) inset;
-  display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: auto;
-  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+  width: 720px; max-width: 90vw; height: 500px; max-height: 80vh;
+  transform: translate(-50%, 0);
+  background: var(--window-glass);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--win-border); 
+  border-radius: var(--radius-win);
+  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset;
+  display: flex; flex-direction: column; overflow: hidden;
+  opacity: 0; pointer-events: auto;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), filter 0.3s var(--ease);
+  filter: blur(10px);
 }
-.os-win.open { opacity: 1; transform: translate(-50%, 0); }
-.os-win.minimized { opacity: 0; transform: translate(-50%, 20vh) scale(0.6); pointer-events: none; }
-.os-win.maximized { top: 28px !important; left: 0 !important; width: 100% !important; height: calc(100vh - 28px) !important; transform: translate(0,0) !important; border-radius: 0; }
+.os-win.open { opacity: 1; transform: translate(-50%, 0); filter: blur(0); }
+.os-win.minimized { opacity: 0; transform: translate(-50%, 40vh) scale(0.4); pointer-events: none; }
+.os-win.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100vh - 28px) !important; max-width: 100%; transform: translate(0,0) !important; border-radius: 0; }
 .os-win.dragging { transition: none; }
-.os-win.closing { opacity: 0; transform: translate(-50%, 10px); }
+.os-win.closing { opacity: 0; transform: translate(-50%, 20px); filter: blur(5px); }
 
+/* Window Header / Traffic Lights */
 .os-win-header {
-  height: 38px; flex: 0 0 auto; display: flex; align-items: center; gap: 16px; padding: 0 16px;
-  background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab;
+  height: 38px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px;
+  background: transparent; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: default;
 }
 .traffic { display: flex; gap: 8px; }
-.traffic button { width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.1); }
-.traffic .t-close { background: var(--red); } .traffic .t-min { background: var(--yellow); } .traffic .t-max { background: var(--green); }
-.traffic button i { font-size: 7px; opacity: 0; color: rgba(0,0,0,0.6); }
+.traffic button { 
+  width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.1) inset; cursor: default;
+}
+.traffic .t-close { background: #FF5F57; } 
+.traffic .t-min { background: #FEBC2E; } 
+.traffic .t-max { background: #28C840; }
+.traffic button i { font-size: 7px; opacity: 0; color: rgba(0,0,0,0.6); transition: opacity 0.1s; }
 .os-win-header:hover .traffic button i { opacity: 1; }
-.os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; gap: 6px; }
-.os-win-body { flex: 1; overflow: auto; position: relative; display: flex; flex-direction: column; }
+.os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-left: -48px; pointer-events: none;}
+.os-win-body { flex: 1; overflow: auto; position: relative; background: transparent; display: flex; }
 
 /* =========================================================================
-   APP CONTENTS
+   FINDER & APP CONTENT STYLES
 ========================================================================= */
-.app-pad { padding: 32px; width: 100%; height: 100%; overflow-y: auto; background: rgba(0,0,0,0.1); }
-.app-eyebrow { font-size: 11px; letter-spacing: 1px; color: var(--text-tertiary); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; }
-.app-h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 12px; }
-.app-lead { font-size: 14px; line-height: 1.6; color: var(--text-secondary); max-width: 60ch; }
-.os-btn-primary { padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; background: var(--blue); color: #fff; transition: opacity 0.2s; }
-.os-btn-primary:hover { opacity: 0.9; }
+.app-pad { padding: 30px; width: 100%; overflow-y: auto; }
+.app-h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary); }
+.app-lead { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
 
-/* About */
-.about-hero { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 24px; }
-.about-photo { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 2px solid rgba(255,255,255,0.1); }
-.about-photo img { width: 100%; height: 100%; object-fit: cover; }
-.about-flag { width: 22px; border-radius: 2px; margin-left: 10px; }
-.mail-socials { display: flex; gap: 10px; margin-top: 15px; }
-.mail-social-btn { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 14px; transition: background 0.2s; }
-.mail-social-btn:hover { background: rgba(255,255,255,0.2); }
+/* Finder Sidebar */
+.finder-sidebar { 
+  width: 200px; flex: 0 0 auto; background: var(--sidebar-glass); 
+  border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; overflow-y: auto;
+}
+.finder-sb-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); padding: 4px 8px; margin-bottom: 4px; }
+.finder-sb-item { 
+  display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; 
+  font-size: 13px; cursor: pointer; color: var(--text-primary); transition: background 0.1s; 
+}
+.finder-sb-item i { width: 16px; color: #0A84FF; font-size: 14px; text-align: center; }
+.finder-sb-item:hover { background: rgba(255,255,255,0.1); }
+.finder-sb-item.active { background: rgba(255,255,255,0.15); font-weight: 500; }
 
-/* Education Timeline */
-.timeline { border-left: 2px solid var(--blue); margin-left: 10px; padding-left: 20px; margin-top: 20px; }
-.tl-item { position: relative; margin-bottom: 24px; }
-.tl-item::before { content: ''; position: absolute; left: -26px; top: 4px; width: 10px; height: 10px; border-radius: 50%; background: var(--bg1); border: 2px solid var(--blue); }
-.tl-level { font-size: 11px; color: var(--blue); font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
-.tl-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
-.tl-dates { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
-.tl-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
-
-/* Skills */
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 16px; margin-top: 20px; }
-.skill-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 20px 16px; text-align: center; }
-.skill-card img { width: 40px; height: 40px; margin-bottom: 12px; }
-.skill-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-.skill-bar { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
-.skill-bar-fill { height: 100%; background: var(--blue); width: 0; transition: width 1s ease; }
-
-/* Finder (Projects) */
-.finder-wrap { display: flex; height: 100%; width: 100%; }
-.finder-sidebar { width: 200px; flex: 0 0 auto; background: var(--glass-sidebar); border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; overflow-y: auto; }
-.finder-sb-label { font-size: 10.5px; font-weight: 600; color: var(--text-tertiary); padding: 4px 8px; margin-bottom: 4px; }
-.finder-sb-item { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border-radius: 6px; font-size: 13px; cursor: pointer; color: var(--text-secondary); transition: background 0.15s; }
-.finder-sb-item i { width: 16px; color: var(--folder-blue); font-size: 14px; text-align: center; }
-.finder-sb-item:hover { background: rgba(255,255,255,0.06); color: var(--text-primary); }
-.finder-sb-item.active { background: rgba(255,255,255,0.12); color: var(--text-primary); }
-.finder-main { flex: 1; overflow-y: auto; padding: 24px; background: rgba(0,0,0,0.1); }
-.finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 24px; }
-.finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; transition: background 0.15s; border: 1px solid transparent; }
-.finder-file:hover { background: rgba(255,255,255,0.05); }
-.finder-thumb { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.2); margin-bottom: 8px; }
-.finder-file-name { font-size: 12px; color: var(--text-primary); line-height: 1.3; }
-
-/* Contact Form */
-.mail-field-row { display: flex; gap: 16px; margin-bottom: 16px; }
-.mail-field { flex: 1; }
-.mail-field label { font-size: 12px; color: var(--text-secondary); display: block; margin-bottom: 6px; }
-.mail-field input, .mail-field textarea { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 10px; font-size: 13px; transition: border 0.2s; }
-.mail-field input:focus, .mail-field textarea:focus { border-color: var(--blue); outline: none; background: rgba(0,0,0,0.3); }
+.finder-main { flex: 1; overflow-y: auto; padding: 24px; }
+.finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
+.finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; }
+.finder-file:hover { background: rgba(255,255,255,0.1); }
+.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.finder-file-name { font-size: 12px; color: var(--text-primary); line-height: 1.2; word-break: break-word; }
 
 /* Terminal */
-.term-body { background: rgba(30,30,30,0.9); height: 100%; width: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; overflow-y: auto; color: #d4d4d4; }
-.term-line { line-height: 1.6; }
+.term-body { background: rgba(30,30,30,0.9); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; }
 .term-prompt { color: #32D74B; font-weight: 600; margin-right: 8px; }
-.term-input { background: transparent; border: none; color: #fff; font-family: var(--font-mono); font-size: 13px; outline: none; width: 80%; }
+.term-input-row { display: flex; align-items: center; margin-top: 4px; }
+.term-input { flex: 1; background: transparent; border: none; color: #fff; font-family: inherit; font-size: inherit; outline: none; }
 
-/* Mobile Adaptations */
-@media (max-width: 768px){
-  .os-win { top: 28px !important; left: 0 !important; width: 100% !important; height: calc(100vh - 28px) !important; max-width: 100%; transform: none !important; border-radius: 0; border: none; }
-  .desktop-icons { top: 40px; right: 16px; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; gap: 16px; width: 180px; }
-  .dock-wrap { bottom: 8px; width: 95%; max-width: 500px; height: 64px; overflow-x: auto; padding: 0 8px; -webkit-overflow-scrolling: touch; border-radius: 20px; }
-  .dock-item { width: 44px; height: 44px; font-size: 20px; margin-bottom: 6px; }
-  .finder-wrap { flex-direction: column; }
-  .finder-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; gap: 8px; overflow-x: auto; padding: 8px; }
+/* =========================================================================
+   RESPONSIVE (iPadOS / Mobile style)
+========================================================================= */
+@media (max-width: 768px) {
+  .os-win { 
+    width: 100% !important; height: calc(100% - 28px) !important; 
+    max-width: none; max-height: none; 
+    top: 28px !important; left: 0 !important; 
+    transform: none !important; border-radius: 0; 
+  }
+  .dock-wrap { bottom: 10px; width: 95%; overflow-x: auto; padding: 6px 8px; height: 64px; }
+  .dock-item { width: 44px; height: 44px; font-size: 20px; }
+  .dock-item:hover, .dock-wrap:hover .dock-item { transform: none !important; margin: 0 !important; } /* Disable scale on mobile */
+  
+  .desktop-icons {
+    top: 40px; left: 20px; right: auto; gap: 20px;
+    display: grid; grid-template-columns: 1fr 1fr; 
+  }
+  .finder-sidebar { width: 60px; padding: 16px 4px; }
   .finder-sb-label { display: none; }
+  .finder-sb-item span { display: none; }
 }
 </style>
 </head>
 <body>
 
-<div id="desktop">
-  <div class="wallpaper"></div>
+<!-- SVG Realistic Blue Folder Template -->
+<svg style="display:none;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <g id="macos-folder">
+      <linearGradient id="fGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#6EC1FF" />
+        <stop offset="100%" stop-color="#4DA3FF" />
+      </linearGradient>
+      <linearGradient id="fGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#5FB5FF" />
+        <stop offset="100%" stop-color="#3A92FF" />
+      </linearGradient>
+      <filter id="fShadow">
+        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.2)"/>
+      </filter>
+      <!-- Back Tab -->
+      <path d="M5,20 Q5,10 15,10 L35,10 Q40,10 42,15 L48,25 L85,25 Q95,25 95,35 L95,70 Q95,80 85,80 L15,80 Q5,80 5,70 Z" fill="url(#fGrad1)" />
+      <!-- Front Cover -->
+      <path d="M5,35 Q5,25 15,25 L85,25 Q95,25 95,35 L95,70 Q95,80 85,80 L15,80 Q5,80 5,70 Z" fill="url(#fGrad2)" filter="url(#fShadow)" />
+      <!-- Subtle Highlight -->
+      <path d="M15,26 L85,26 Q92,26 93,32" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1" />
+    </g>
+  </defs>
+</svg>
 
+<!-- ================= DESKTOP ================= -->
+<div id="desktop">
+  
+  <!-- Menu bar -->
   <div class="menubar">
     <div class="menubar-left">
       <i class="fa-brands fa-apple mb-apple"></i>
@@ -286,28 +315,43 @@ a { color: inherit; text-decoration: none; }
     <div class="menubar-right">
       <i class="fa-solid fa-wifi"></i>
       <i class="fa-solid fa-battery-three-quarters"></i>
-      <button id="mb-spotlight-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <i class="fa-solid fa-sliders"></i>
+      <button id="mb-spotlight-btn" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button>
       <span class="menubar-clock" id="mb-clock">—</span>
     </div>
   </div>
 
+  <!-- Real-looking Desktop icons -->
   <div class="desktop-icons">
-    <div class="desktop-icon" data-app="projects"><i class="fa-solid fa-folder"></i><span>Projects</span></div>
-    <div class="desktop-icon" data-app="education"><i class="fa-solid fa-folder"></i><span>Resume</span></div>
-    <div class="desktop-icon" data-app="skills"><i class="fa-solid fa-folder"></i><span>Skills</span></div>
-    <div class="desktop-icon" data-app="terminal"><i class="fa-solid fa-terminal" style="color: #686868;"></i><span>Terminal</span></div>
+    <div class="desktop-icon" data-app="projects" tabindex="0" role="button">
+      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+      <span>Projects</span>
+    </div>
+    <div class="desktop-icon" data-app="terminal" tabindex="0" role="button">
+      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+      <span>Terminal</span>
+    </div>
+    <div class="desktop-icon" data-app="about" tabindex="0" role="button">
+      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+      <span>Resume</span>
+    </div>
+    <div class="desktop-icon" data-app="education" tabindex="0" role="button">
+      <svg class="desktop-icon-svg" viewBox="0 0 100 90"><use href="#macos-folder"></use></svg>
+      <span>Certificates</span>
+    </div>
   </div>
 
+  <!-- Windows layer -->
   <div id="windows-layer"></div>
 
+  <!-- Dock -->
   <div class="dock-wrap" id="dock">
-    <div class="dock-item" data-app="about"><i class="fa-solid fa-user"></i><span class="dock-tooltip">About Me</span></div>
-    <div class="dock-item folder-icon" data-app="education"><i class="fa-solid fa-graduation-cap"></i><span class="dock-tooltip">Education</span></div>
-    <div class="dock-item folder-icon" data-app="skills"><i class="fa-solid fa-layer-group"></i><span class="dock-tooltip">Skills</span></div>
-    <div class="dock-item folder-icon" data-app="projects"><i class="fa-solid fa-folder"></i><span class="dock-tooltip">Projects</span></div>
-    <div class="dock-item" style="background: linear-gradient(135deg, #FF6B6B, #FF453A); color:#fff; border-color: rgba(255,255,255,0.2);" data-app="contact"><i class="fa-solid fa-envelope"></i><span class="dock-tooltip">Contact</span></div>
+    <div class="dock-item" data-app="about" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
+    <div class="dock-item" data-app="education" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
+    <div class="dock-item" data-app="projects" style="background: linear-gradient(180deg, #5FB5FF, #0A84FF);"><i class="fa-regular fa-folder-open"></i></div>
+    <div class="dock-item" data-app="contact" style="background: linear-gradient(180deg, #32D74B, #28a745);"><i class="fa-solid fa-envelope"></i></div>
     <div class="dock-sep"></div>
-    <div class="dock-item" style="background: #1e1e1e; color: #fff; border-color: #333;" data-app="terminal"><i class="fa-solid fa-terminal"></i><span class="dock-tooltip">Terminal</span></div>
+    <div class="dock-item" data-app="terminal" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
   </div>
 
 </div>
@@ -316,284 +360,200 @@ a { color: inherit; text-decoration: none; }
 (function(){
 "use strict";
 
-/* =========================================================================
-   100% ORIGINAL DATA RESTORED
-========================================================================= */
 const PROFILE = {
   name: "Alok Sharma",
-  photo: "alokk.jpeg",
-  flag: "https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg",
-  bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
+  bio: "Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels.",
   email: "alokkynwa@gmail.com",
-  phone: "+9779843538473",
-  socials: [
-    {icon:"fa-brands fa-linkedin-in", url:"https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android", label:"LinkedIn"},
-    {icon:"fa-brands fa-instagram", url:"https://www.instagram.com/alokynwa", label:"Instagram"},
-    {icon:"fa-brands fa-facebook-f", url:"https://www.facebook.com/alokynwa", label:"Facebook"},
-    {icon:"fa-brands fa-x-twitter", url:"https://x.com/alokynwa", label:"X"}
-  ]
 };
-
-const EDUCATION = [
-  { id:"mdmss", level:"Secondary Level 01", title:"Mahakavi Devkota Memorial Secondary School", dates:"2010 — 2022", desc:"Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science.", ach:"Secondary Education Examination (SEE) — achieved a 3.75 GPA." },
-  { id:"reliance", level:"Higher Secondary 02", title:"Reliance International Academy", dates:"2022 — 2024", desc:"Completed +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics.", ach:"+2 Higher Secondary Science (SLC) — achieved a 3.62 GPA." },
-  { id:"amrit", level:"Undergraduate 03", title:"Amrit Science Campus (T.U.)", dates:"2024 — Present", desc:"Currently pursuing B.Sc.CSIT, exploring advanced computer science and information technology.", ach:"B.Sc.CSIT — in progress.", current:true }
-];
-
-const SKILLS = [
-  { name:"HTML", img:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg", level:88 },
-  { name:"CSS", img:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg", level:85 },
-  { name:"Python", img:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", level:78 },
-  { name:"Photoshop", img:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg", level:92 }
-];
 
 const PROJECTS = {
   "Matchday Graphics": [
-    { id:"p1", title:"Portugal VS Colombia", date:"June 27, 2026", desc:"Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami.", img:"poruzb copy.jpg" },
-    { id:"p2", title:"Argentina VS Austria", date:"June 20, 2026", desc:"A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.", img:"portugalvcongo copy.jpg" },
-    { id:"p3", title:"Portugal VS Congo", date:"June 17, 2026", desc:"A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.", img:"porcong.jpeg" },
-    { id:"p5", title:"Paris Saint-Germain VS Arsenal", date:"May 28, 2026", desc:"Matchday editorial design for the UEFA Champions League Final 2026 between Paris Saint-Germain and Arsenal.", img:"psgvarsfinal copy.jpg" },
-    { id:"p6", title:"Liverpool VS Brentford", date:"May 24, 2026", desc:"Matchday design of the last Premier League game of the 2025-26 campaign.", img:"lfcvbre copy.jpg" },
-    { id:"p9", title:"Liverpool VS Chelsea", date:"May 8, 2026", desc:"Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.", img:"newlivche.jpeg" },
-    { id:"p13", title:"Liverpool FC VS Galatasaray", date:"March 17, 2026", desc:"A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.", img:"livvgal.jpeg" },
-    { id:"p14", title:"Liverpool FC VS Paris Saint-Germain", date:"April 14, 2026", desc:"A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia before a big European knockout match.", img:"livvpsg.jpeg" }
+    { id:"p1", title:"Portugal VS Colombia", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80" },
+    { id:"p2", title:"Argentina VS Austria", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80" },
+    { id:"p3", title:"PSG VS Arsenal", img:"https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=500&q=80" }
   ],
   "Tribute Posters": [
-    { id:"p7", title:"ONE LAST TIME AT ANFIELD.", date:"May 21, 2026", desc:"A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.", img:"robboxmo copy.jpg" },
-    { id:"p10", title:"Thank You, Robbo!", date:"April 10, 2026", desc:"A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.", img:"ThankyouRobbo.jpeg" },
-    { id:"p11", title:"Thank You, Mo!", date:"March 27, 2026", desc:"A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.", img:"ThankyouMo.jpeg" }
-  ],
-  "Editorial Concepts": [
-    { id:"p4", title:"Heavy Metal Football", date:"June 1, 2026", desc:"A minimal graphic showing heavy metal football is back at Liverpool FC, featuring Jürgen Klopp and Andoni Iraola, Liverpool's new manager.", img:"heavymetalfootball.jpg" },
-    { id:"p8", title:"FIFA World Cup 2026", date:"May 13, 2026", desc:"FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.", img:"wc.jpeg" },
-    { id:"p12", title:"Liverpool FC VS Manchester City", date:"February 7, 2026", desc:"An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.", img:"livvmci.jpeg" },
-    { id:"p15", title:"Slot Out!", date:"April 4, 2026", desc:"An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.", img:"slotout.jpeg" }
+    { id:"p7", title:"ONE LAST TIME AT ANFIELD.", img:"https://images.unsplash.com/photo-1614632537197-38a4705f46c6?w=500&q=80" }
   ]
 };
 
-const onerr = `this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%23222"/%3E%3C/svg%3E'`;
-
-/* Clocks */
-function updateClock(){
+// Clock
+function fmtTime(d){ return d.toLocaleTimeString([], {hour:'short', minute:'2-digit', weekday:'short', month:'short', day:'numeric'}); }
+function tickClock(){
   const now = new Date();
-  const options = { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' };
-  document.getElementById("mb-clock").textContent = now.toLocaleDateString('en-US', options).replace(',', '');
+  document.getElementById("mb-clock").textContent = fmtTime(now).replace(/,/g, '');
 }
-setInterval(updateClock, 1000); updateClock();
+tickClock(); setInterval(tickClock, 1000);
 
-/* Window Manager */
+// Window Management
 const winLayer = document.getElementById("windows-layer");
 const mbAppName = document.getElementById("mb-app-name");
-let zTop = 60; const openWins = new Map();
+let zTop = 60;
+const openWins = new Map();
 
 function bringToFront(win){
-  zTop += 1; win.style.zIndex = zTop; mbAppName.textContent = win.dataset.title;
-  document.querySelectorAll(".dock-item").forEach(d => { d.classList.toggle("running", openWins.has(d.dataset.app)); });
+  zTop += 1;
+  win.style.zIndex = zTop;
+  mbAppName.textContent = win.dataset.title || "Finder";
+  
+  // Sync dock running dots
+  document.querySelectorAll(".dock-item").forEach(d => {
+    d.classList.toggle("running", openWins.has(d.dataset.app));
+  });
 }
 
-function makeWindow({id, title, content, init=null}){
+function makeWindow({id, title, content, onMount}){
   if(openWins.has(id)){
-    const win = openWins.get(id); win.classList.remove("minimized"); bringToFront(win); return win;
+    const existing = openWins.get(id);
+    existing.classList.remove("minimized");
+    bringToFront(existing);
+    return existing;
   }
+  
   const win = document.createElement("div");
-  win.className = "os-win"; win.dataset.title = title;
-  win.style.top = `${80 + (openWins.size * 20)}px`;
-  win.style.left = `calc(50% + ${(openWins.size * 20)}px)`;
-
+  win.className = "os-win";
+  win.dataset.title = title;
+  
   win.innerHTML = `
     <div class="os-win-header">
-      <div class="traffic"><button class="t-close"></button><button class="t-min"></button><button class="t-max"></button></div>
+      <div class="traffic">
+        <button class="t-close"><i class="fa-solid fa-xmark"></i></button>
+        <button class="t-min"><i class="fa-solid fa-minus"></i></button>
+        <button class="t-max"><i class="fa-solid fa-expand"></i></button>
+      </div>
       <div class="os-win-title">${title}</div>
     </div>
-    <div class="os-win-body">${content}</div>`;
+    <div class="os-win-body">${content}</div>
+  `;
   
-  winLayer.appendChild(win); openWins.set(id, win);
+  winLayer.appendChild(win);
+  openWins.set(id, win);
 
+  // Native Window Controls
   win.querySelector(".t-close").addEventListener("click", () => {
-    win.classList.add("closing"); win.classList.remove("open");
-    setTimeout(() => { win.remove(); openWins.delete(id); mbAppName.textContent = "Finder"; }, 250);
+    win.classList.add("closing");
+    setTimeout(() => { win.remove(); openWins.delete(id); bringToFront(document.body); }, 300);
   });
+  
   win.querySelector(".t-min").addEventListener("click", () => win.classList.add("minimized"));
   win.querySelector(".t-max").addEventListener("click", () => win.classList.toggle("maximized"));
+  
   win.addEventListener("mousedown", () => bringToFront(win));
   
+  // Simple Dragging
   const header = win.querySelector(".os-win-header");
-  let dragging=false, sx=0, sy=0, sl=0, st=0;
-  header.addEventListener("mousedown", e => {
+  let isDragging = false, sx, sy, sl, st;
+  
+  header.addEventListener("mousedown", (e) => {
     if(e.target.closest(".traffic") || win.classList.contains("maximized")) return;
-    dragging = true; bringToFront(win);
+    isDragging = true;
+    win.style.transition = "none";
     const rect = win.getBoundingClientRect();
-    win.style.left = rect.left + "px"; win.style.top = rect.top + "px"; win.style.transform = "none";
     sx = e.clientX; sy = e.clientY; sl = rect.left; st = rect.top;
   });
-  document.addEventListener("mousemove", e => {
-    if(!dragging) return;
-    win.style.left = (sl + (e.clientX - sx)) + "px"; win.style.top = Math.max(28, st + (e.clientY - sy)) + "px";
+  
+  document.addEventListener("mousemove", (e) => {
+    if(!isDragging) return;
+    win.style.left = (sl + (e.clientX - sx)) + "px";
+    win.style.top = Math.max(28, st + (e.clientY - sy)) + "px";
+    win.style.transform = "none";
   });
-  document.addEventListener("mouseup", () => dragging = false);
+  
+  document.addEventListener("mouseup", () => {
+    if(isDragging) { isDragging = false; win.style.transition = ""; }
+  });
 
-  if(init) setTimeout(() => init(win), 10);
-  requestAnimationFrame(() => { win.classList.add("open"); bringToFront(win); });
+  setTimeout(() => { win.classList.add("open"); bringToFront(win); }, 10);
+  if(onMount) setTimeout(onMount, 50);
   return win;
 }
 
-/* App Renderers */
+// App Renderers
+function renderAbout() {
+  return `<div class="app-pad">
+    <h1 class="app-h1">${PROFILE.name}</h1>
+    <p class="app-lead">${PROFILE.bio}</p>
+    <p style="color:var(--text-tertiary)">Email: ${PROFILE.email}</p>
+  </div>`;
+}
+
+function renderProjectsFinder(activeCat = "Matchday Graphics"){
+  const cats = Object.keys(PROJECTS);
+  const sidebar = cats.map(c => `<div class="finder-sb-item ${c===activeCat?'active':''}" data-cat="${c}"><i class="fa-solid fa-folder"></i><span>${c}</span></div>`).join("");
+  const files = PROJECTS[activeCat].map(p => `
+    <div class="finder-file">
+      <img class="finder-thumb" src="${p.img}">
+      <div class="finder-file-name">${p.title}</div>
+    </div>`).join("");
+    
+  return `
+    <div class="finder-sidebar">
+      <div class="finder-sb-label">Favorites</div>
+      <div class="finder-sb-item"><i class="fa-solid fa-desktop" style="color:var(--text-tertiary)"></i><span>Desktop</span></div>
+      <div class="finder-sb-item"><i class="fa-regular fa-file" style="color:var(--text-tertiary)"></i><span>Documents</span></div>
+      <div class="finder-sb-label" style="margin-top:16px;">Tags</div>
+      ${sidebar}
+    </div>
+    <div class="finder-main">
+      <h2 style="font-size: 20px; margin-bottom: 20px;">${activeCat}</h2>
+      <div class="finder-grid">${files}</div>
+    </div>`;
+}
+
+function renderTerminal() {
+  return `<div class="term-body" id="term-body">
+    <div>Last login: ${new Date().toDateString()} on ttys000</div>
+    <div>alok@macbook-pro ~ % Welcome to the portfolio.</div>
+    <div id="term-log"></div>
+    <div class="term-input-row">
+      <span class="term-prompt">alok@macbook-pro ~ %</span>
+      <input class="term-input" id="term-input" autocomplete="off">
+    </div>
+  </div>`;
+}
+
+// Global App Registry
 const APPS = {
-  about: {
-    title: "About Me",
-    render: () => {
-      const socials = PROFILE.socials.map(s => `<a href="${s.url}" target="_blank" class="mail-social-btn" aria-label="${s.label}"><i class="${s.icon}"></i></a>`).join('');
-      return `<div class="app-pad">
-        <div class="about-hero">
-          <div class="about-photo"><img src="${PROFILE.photo}" onerror="${onerr}"></div>
-          <div>
-            <h1 class="app-h1" style="display:flex; align-items:center;">${PROFILE.name} <img src="${PROFILE.flag}" class="about-flag"></h1>
-            <p class="app-lead">${PROFILE.bio}</p>
-            <div class="mail-socials">${socials}</div>
-          </div>
-        </div>
-        <p class="app-lead"><strong>Email:</strong> ${PROFILE.email} <br> <strong>Phone:</strong> ${PROFILE.phone}</p>
-      </div>`;
-    }
-  },
-  education: { 
-    title: "Education", 
-    render: () => {
-      const items = EDUCATION.map(e => `
-        <div class="tl-item">
-          <div class="tl-level">${e.level}</div>
-          <div class="tl-title">${e.title}</div>
-          <div class="tl-dates">${e.dates}</div>
-          <div class="tl-desc">${e.desc}<br><strong>Achievement:</strong> ${e.ach}</div>
-        </div>`).join('');
-      return `<div class="app-pad"><h1 class="app-h1">Education History</h1><div class="timeline">${items}</div></div>`;
-    }
-  },
-  skills: { 
-    title: "Skills", 
-    render: () => {
-      const cards = SKILLS.map(s => `
-        <div class="skill-card">
-          <img src="${s.img}" onerror="${onerr}">
-          <h3>${s.name}</h3>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width:0;" data-width="${s.level}%"></div></div>
-        </div>`).join('');
-      return `<div class="app-pad"><h1 class="app-h1">Core Toolkit</h1><div class="skills-grid">${cards}</div></div>`;
-    },
-    init: (win) => { setTimeout(() => { win.querySelectorAll('.skill-bar-fill').forEach(b => b.style.width = b.dataset.width); }, 100); }
-  },
-  projects: {
-    title: "Projects",
-    render: () => `<div class="finder-wrap" id="proj-finder-wrap"></div>`,
-    init: (win) => {
-      const wrap = win.querySelector('#proj-finder-wrap');
-      function renderCategory(catName) {
-        const cats = Object.keys(PROJECTS);
-        const sb = cats.map(c => `<div class="finder-sb-item ${c===catName?'active':''}" data-cat="${c}"><i class="fa-solid fa-folder"></i>${c}</div>`).join("");
-        const files = PROJECTS[catName].map(p => `<div class="finder-file" data-id="${p.id}" data-cat="${catName}"><img class="finder-thumb" src="${p.img}" onerror="${onerr}"><div class="finder-file-name">${p.title}</div></div>`).join("");
-        wrap.innerHTML = `<div class="finder-sidebar"><div class="finder-sb-label">Favorites</div>${sb}</div><div class="finder-main"><div class="finder-grid">${files}</div></div>`;
-        
-        wrap.querySelectorAll('.finder-sb-item').forEach(el => el.addEventListener('click', () => renderCategory(el.dataset.cat)));
-        wrap.querySelectorAll('.finder-file').forEach(el => el.addEventListener('dblclick', () => openProjectPreview(el.dataset.cat, el.dataset.id)));
-      }
-      renderCategory(Object.keys(PROJECTS)[0]);
-    }
-  },
-  contact: {
-    title: "Contact",
-    render: () => `
-      <div class="app-pad">
-        <h1 class="app-h1">Send a Message</h1>
-        <form id="mail-form">
-          <div class="mail-field-row">
-            <div class="mail-field"><label>Name</label><input type="text" name="name" placeholder="Your name" required></div>
-            <div class="mail-field"><label>Email</label><input type="email" name="email" placeholder="you@email.com" required></div>
-          </div>
-          <div class="mail-field"><label>Message</label><textarea name="message" placeholder="Write your message…" style="min-height:120px;" required></textarea></div>
-          <br><button type="submit" class="os-btn-primary" id="mail-btn">Send Message</button> <span id="mail-status" style="margin-left:10px; font-size:13px; color:var(--text-secondary);"></span>
-        </form>
-      </div>`,
-    init: (win) => {
-      win.querySelector("#mail-form").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const btn = win.querySelector("#mail-btn"); const stat = win.querySelector("#mail-status");
-        btn.disabled = true; stat.textContent = "Sending...";
-        try {
-          await emailjs.send('service_qa1fl7f','template_zu2bqc7', {
-            name: e.target.name.value, email: e.target.email.value, message: e.target.message.value
-          });
-          stat.textContent = "Sent successfully!"; e.target.reset();
-        } catch(err) { stat.textContent = "Error sending message."; }
-        btn.disabled = false; setTimeout(() => stat.textContent="", 5000);
+  about: { title: "About", render: renderAbout },
+  education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT - Amrit Science Campus</p></div>` },
+  projects: { 
+    title: "Finder", 
+    render: () => renderProjectsFinder(),
+    wire: (win) => {
+      win.querySelectorAll(".finder-sb-item[data-cat]").forEach(item => {
+        item.addEventListener("click", () => {
+          win.querySelector(".os-win-body").innerHTML = renderProjectsFinder(item.dataset.cat);
+          APPS.projects.wire(win);
+        });
       });
     }
   },
   terminal: {
     title: "Terminal",
-    render: () => `<div class="term-body" id="term-log"><div class="term-line"><span class="term-prompt">alok@MacBook-Pro ~ %</span> Welcome to macOS Terminal</div><div class="term-line" style="color:var(--text-tertiary);">Type 'help' for available commands.</div><div class="term-input-row" style="display:flex;"><span class="term-prompt">alok@MacBook-Pro ~ %</span> <input type="text" class="term-input" id="term-input" autocomplete="off"></div></div>`,
-    init: (win) => {
-      const input = win.querySelector('#term-input');
-      const log = win.querySelector('#term-log');
-      input.focus();
-      win.addEventListener('click', () => input.focus());
-      input.addEventListener('keydown', (e) => {
-        if(e.key !== 'Enter') return;
-        const val = input.value.trim().toLowerCase();
-        if(!val) return;
-        const line = document.createElement('div'); line.className = 'term-line';
-        let response = `<span class="term-prompt">alok@MacBook-Pro ~ %</span> ${val}<br>`;
-        
-        const cmds = {
-          help: "Commands: about, education, skills, projects, contact, clear",
-          whoami: `${PROFILE.name} — CS student & football graphic designer.`,
-          about: () => { openApp('about'); return "Opening About Me..."; },
-          education: () => { openApp('education'); return "Opening Education..."; },
-          skills: () => { openApp('skills'); return "Opening Skills..."; },
-          projects: () => { openApp('projects'); return "Opening Projects..."; },
-          contact: () => { openApp('contact'); return "Opening Contact..."; },
-          clear: () => { log.innerHTML = `<div class="term-input-row" style="display:flex;"><span class="term-prompt">alok@MacBook-Pro ~ %</span> <input type="text" class="term-input" id="term-input" autocomplete="off"></div>`; return null; }
-        };
-        
-        if(cmds[val]) {
-          const res = typeof cmds[val] === 'function' ? cmds[val]() : cmds[val];
-          if(res !== null) response += res; else return;
-        } else {
-          response += `command not found: ${val}`;
+    render: renderTerminal,
+    wire: (win) => {
+      const input = win.querySelector("#term-input");
+      input.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" && input.value.trim()){
+          win.querySelector("#term-log").innerHTML += `<div><span class="term-prompt">alok@macbook-pro ~ %</span>${input.value}</div><div>zsh: command not found: ${input.value}</div>`;
+          input.value = "";
         }
-        
-        line.innerHTML = response;
-        log.insertBefore(line, input.parentElement);
-        input.value = '';
-        log.scrollTop = log.scrollHeight;
       });
+      win.addEventListener("click", () => input.focus());
     }
-  }
+  },
+  contact: { title: "Mail", render: () => `<div class="app-pad"><h1 class="app-h1">New Message</h1><p class="app-lead">Reach out at: ${PROFILE.email}</p></div>` }
 };
 
-function openProjectPreview(cat, id) {
-  const proj = PROJECTS[cat].find(p => p.id === id);
-  if(!proj) return;
-  makeWindow({
-    id: `prev-${id}`, title: proj.title,
-    content: `<div style="display:flex; flex-direction:column; height:100%;">
-      <div style="flex:1; background:#000; display:flex; align-items:center; justify-content:center; overflow:hidden;"><img src="${proj.img}" onerror="${onerr}" style="max-width:100%; max-height:100%; object-fit:contain;"></div>
-      <div style="padding:16px 20px; background:var(--glass-win); border-top:1px solid rgba(255,255,255,0.1);">
-        <h2 style="font-size:16px; margin-bottom:4px;">${proj.title}</h2>
-        <div style="font-size:12px; color:var(--text-tertiary); margin-bottom:8px;">${proj.date} &middot; ${cat}</div>
-        <p style="font-size:13px; color:var(--text-secondary); line-height:1.5;">${proj.desc}</p>
-      </div>
-    </div>`
-  });
+function openApp(id) {
+  const app = APPS[id];
+  if(!app) return;
+  const win = makeWindow({ id, title: app.title, content: app.render(), onMount: () => app.wire && app.wire(win) });
 }
 
-window.openApp = function(id) {
-  if(!APPS[id]) return;
-  makeWindow({ id, title: APPS[id].title, content: APPS[id].render(), init: APPS[id].init });
-};
-
-/* Event Listeners */
-document.querySelectorAll(".dock-item[data-app], .desktop-icon[data-app]").forEach(el => {
-  el.addEventListener("click", () => window.openApp(el.dataset.app));
+// Bind clicks
+document.querySelectorAll(".dock-item, .desktop-icon").forEach(el => {
+  el.addEventListener("click", () => openApp(el.dataset.app));
 });
 
 })();
