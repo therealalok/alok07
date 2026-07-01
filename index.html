@@ -209,6 +209,7 @@ a { color: inherit; text-decoration: none; }
 </head>
 <body>
 
+<!-- Standard Mac Blue SVG Definition -->
 <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
   <defs>
     <linearGradient id="macFolderBack" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -228,6 +229,7 @@ a { color: inherit; text-decoration: none; }
 </svg>
 
 <div id="desktop">
+  <!-- Top Menubar -->
   <div class="menubar">
     <div class="menubar-left">
       <i class="fa-brands fa-apple mb-apple"></i>
@@ -248,6 +250,7 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
+  <!-- Spotlight Search Overlay -->
   <div id="spotlight-overlay">
     <div class="spotlight-input-wrapper">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -256,6 +259,7 @@ a { color: inherit; text-decoration: none; }
     <div class="spotlight-results" id="spotlight-results"></div>
   </div>
 
+  <!-- Control Center Overlay -->
   <div id="control-center">
     <div class="cc-grid">
       <div class="cc-module">
@@ -273,12 +277,14 @@ a { color: inherit; text-decoration: none; }
     </div>
   </div>
 
+  <!-- Spotify Widget (Working Embed with The Neighbourhood / Michael Jackson) -->
   <div class="widgets-container">
     <div class="spotify-glass-wrapper">
-      <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZF1DZ06evO1VBSey?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 
+  <!-- Desktop Icons -->
   <div class="desktop-icons">
     <div class="desktop-icon" onclick="openApp('projects')">
       <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
@@ -300,6 +306,7 @@ a { color: inherit; text-decoration: none; }
 
   <div id="windows-layer"></div>
 
+  <!-- Dock -->
   <div class="dock-wrap" id="dock">
     <div class="dock-item" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
     <div class="dock-item" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -308,6 +315,7 @@ a { color: inherit; text-decoration: none; }
     <div class="dock-sep"></div>
     <div class="dock-item" onclick="openApp('terminal')" style="background: #111;"><i class="fa-solid fa-terminal" style="color:#32D74B"></i></div>
     <div class="dock-sep"></div>
+    <!-- Replaced generic trash bin with solid MacOS style trash -->
     <div class="dock-item" onclick="openApp('trash')" style="background: linear-gradient(180deg, #E5E5EA, #C7C7CC); color: #333;"><i class="fa-solid fa-trash"></i></div>
   </div>
 </div>
@@ -316,8 +324,8 @@ a { color: inherit; text-decoration: none; }
   const PROFILE = { name: "Alok Sharma", bio: "Computer Science student designing premium football posters.", email: "alokkynwa@gmail.com" };
   const PROJECTS = {
     "Graphics": [
-      { id:"p1", title:"Portugal VS Colombia", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80", desc:"Matchday poster featuring Cristiano Ronaldo." },
-      { id:"p2", title:"Argentina VS Austria", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80", desc:"A matchday graphic of a World Cup group stage match." }
+      { id:"p1", title:"Portugal VS Colombia", img:"https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=500&q=80", desc:"Premium matchday poster." },
+      { id:"p2", title:"Argentina VS Austria", img:"https://images.unsplash.com/photo-1518605368461-1e1252281146?w=500&q=80", desc:"World Cup group stage graphic." }
     ]
   };
 
@@ -494,7 +502,7 @@ a { color: inherit; text-decoration: none; }
     if(appData.wire) setTimeout(() => appData.wire(win), 50);
   }
 
-  // Double Click Project Logic
+  // Project Logic
   function openProjectPreview(projectId) {
       const proj = PROJECTS.Graphics.find(p => p.id === projectId);
       if(!proj) return;
@@ -516,7 +524,19 @@ a { color: inherit; text-decoration: none; }
   // App Content Registry
   const APPS = {
     about: { title: "About", render: () => `<div class="app-pad"><h1 class="app-h1">${PROFILE.name}</h1><p class="app-lead">${PROFILE.bio}</p></div>` },
-    education: { title: "Certifications", render: () => `<div class="app-pad"><h1 class="app-h1">Certifications</h1><p class="app-lead">B.Sc.CSIT</p></div>` },
+    education: { 
+      title: "Education & Certifications", 
+      render: () => `
+        <div class="app-pad">
+            <h1 class="app-h1">Academic Background</h1>
+            <div style="margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+                <h2 style="font-size: 20px; color: #fff;">B.Sc. in Computer Science and Information Technology (CSIT)</h2>
+                <p style="color: var(--text-secondary); margin-top: 8px; line-height: 1.6;">
+                    Comprehensive study in computer science principles, software development, and information technology. 
+                </p>
+            </div>
+        </div>` 
+    },
     projects: { 
       title: "Finder", 
       render: () => `
@@ -526,10 +546,10 @@ a { color: inherit; text-decoration: none; }
             <div class="finder-sb-item active"><i class="fa-solid fa-folder"></i> Graphics</div>
             </div>
             <div class="finder-main">
-            <h2>Graphics</h2><br>
+            <h2>Football Graphics</h2><br>
             <div class="finder-grid">
                 ${PROJECTS.Graphics.map(p => `
-                    <div class="finder-file" ondblclick="openProjectPreview('${p.id}')">
+                    <div class="finder-file" onclick="openProjectPreview('${p.id}')">
                         <img class="finder-thumb" src="${p.img}">
                         <div class="finder-file-name">${p.title}</div>
                     </div>
