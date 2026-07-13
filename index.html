@@ -3,18 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Alok Sharma — Portfolio</title>
-<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
+<title>Web-Style Desktop</title>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <style>
-/* ============ CLASSIC WINDOWS 98 SYSTEM STYLES ============ */
+/* ============ CLASSIC RETRO SYSTEM STYLES ============ */
 @font-face {
     font-family: 'W95FA';
     src: local('Tahoma'), local('Arial'), sans-serif;
 }
 
 :root {
-    --win-teal: #008080;
+    --win-blue-bg: #8bbade; /* Classic light blue from the reference image */
     --win-gray: #c0c0c0;
     --win-dark-gray: #808080;
     --win-light: #dfdfdf;
@@ -26,388 +25,458 @@
     --selection: #000080;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'W95FA', Tahoma, Arial, sans-serif; font-size: 11px; user-select: none; }
-body, html { height: 100%; width: 100%; overflow: hidden; background: var(--win-black); }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+    font-family: 'W95FA', Tahoma, Arial, sans-serif; 
+    font-size: 11px; 
+    user-select: none; 
+}
+body, html { 
+    height: 100%; 
+    width: 100%; 
+    overflow: hidden; 
+    background: var(--win-black); 
+}
 
-/* ============ CRT EFFECT ============ */
+/* ============ CRT OPTIONAL SCREEN OVERLAY ============ */
 .crt-overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; pointer-events: none;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    background-size: 100% 2px, 3px 100%;
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.4);
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.08) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    background-size: 100% 3px, 4px 100%;
 }
 
 /* ============ BOOT SCREEN ============ */
 #boot-screen {
     position: fixed; inset: 0; background: #000; z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: wait;
 }
-.boot-text { color: #fff; font-family: monospace; font-size: 14px; position: absolute; top: 20px; left: 20px; }
+.boot-text { color: #fff; font-family: monospace; font-size: 13px; position: absolute; top: 20px; left: 20px; line-height: 1.5; }
 .boot-logo-container { text-align: center; margin-top: -50px; }
-.boot-logo-container i { font-size: 80px; color: #ff0000; text-shadow: 2px 2px 0 #00f, -2px -2px 0 #0f0, 2px -2px 0 #ff0; }
-.boot-os-name { color: #fff; font-size: 32px; font-weight: bold; margin-top: 20px; font-family: 'Times New Roman', serif; }
-.boot-bar { width: 250px; height: 15px; border: 2px solid #fff; margin-top: 30px; border-radius: 4px; padding: 2px; position: relative; overflow: hidden; }
-.boot-bar-fill { height: 100%; background: #000080; width: 0%; transition: width 0.1s linear; }
+.boot-logo-container i { font-size: 70px; color: #5dade2; text-shadow: 2px 2px 0 #000; }
+.boot-os-name { color: #fff; font-size: 28px; font-weight: bold; margin-top: 15px; font-family: 'Times New Roman', serif; }
+.boot-bar { width: 220px; height: 12px; border: 2px solid #fff; margin-top: 25px; padding: 1px; position: relative; }
+.boot-bar-fill { height: 100%; background: #004080; width: 0%; transition: width 0.08s linear; }
 
 /* ============ SHUTDOWN SCREEN ============ */
 #shutdown-screen {
-    position: fixed; inset: 0; background: #000; z-index: 100001; display: none; flex-direction: column; align-items: center; justify-content: center; cursor: default;
+    position: fixed; inset: 0; background: #000; z-index: 100001; display: none; flex-direction: column; align-items: center; justify-content: center;
 }
-.shutdown-text { color: #ff8c00; font-family: 'Times New Roman', serif; font-size: 28px; text-align: center; max-width: 600px; line-height: 1.5; }
+.shutdown-text { color: #ff8c00; font-family: 'Times New Roman', serif; font-size: 28px; text-align: center; line-height: 1.6; }
 
 /* ============ DESKTOP ============ */
 #desktop {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 28px; background: var(--win-teal);
-    display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; padding: 5px; gap: 15px 5px;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 30px; 
+    background-color: var(--win-blue-bg);
+    display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; padding: 10px; gap: 20px 10px;
 }
+
+/* Web-Style Desktop Header Layout */
+.web-style-header {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: auto;
+    z-index: 10;
+}
+.web-style-title {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #002244;
+    text-decoration: underline;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+.web-style-buttons {
+    display: flex;
+    gap: 8px;
+}
+.circle-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    transition: transform 0.1s;
+}
+.circle-btn:active {
+    transform: scale(0.9);
+}
+.circle-btn i {
+    font-size: 13px;
+    color: #000;
+}
+.btn-yellow { background-color: #ffd700; }
+.btn-green { background-color: #32cd32; }
+.btn-blue { background-color: #1e90ff; }
+.btn-red { background-color: #ff4500; }
+
+/* Desktop Icon Layouts */
 .desktop-icon {
-    width: 70px; display: flex; flex-direction: column; align-items: center; cursor: default;
+    width: 85px; display: flex; flex-direction: column; align-items: center; cursor: default; text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
 }
-.desktop-icon .icon-img { width: 32px; height: 32px; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.5)); pointer-events: none; }
+.desktop-icon .icon-img { width: 34px; height: 34px; margin-bottom: 5px; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.3)); pointer-events: none; }
 .desktop-icon .icon-label {
-    color: white; text-align: center; padding: 1px 3px; line-height: 1.2; word-wrap: break-word; overflow: hidden;
+    color: black; font-size: 11px; text-align: center; padding: 2px 4px; line-height: 1.3; word-wrap: break-word; overflow: hidden;
 }
 .desktop-icon.selected .icon-label {
-    background: var(--selection); border: 1px dotted #fff; padding: 0 2px;
+    background: var(--selection); color: white; border: 1px dotted #fff; padding: 1px 3px;
 }
-.desktop-icon.selected .icon-img { filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.5)) opacity(0.7); }
 
 /* Selection Box */
 #selection-box { position: absolute; border: 1px dotted var(--win-white); display: none; z-index: 900; pointer-events: none; }
 
 /* ============ TASKBAR ============ */
 #taskbar {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 28px; background: var(--win-gray);
-    border-top: 1px solid var(--win-white); box-shadow: inset 0 1px 0 var(--win-light);
-    display: flex; align-items: center; padding: 2px; z-index: 10000;
+    position: absolute; bottom: 0; left: 0; right: 0; height: 30px; background: var(--win-gray);
+    border-top: 2px solid var(--win-white); box-shadow: inset 0 1px 0 var(--win-light);
+    display: flex; align-items: center; padding: 3px; z-index: 10000;
 }
 .start-btn {
-    display: flex; align-items: center; height: 100%; padding: 0 6px; font-weight: bold; font-size: 12px; margin-right: 5px;
-    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
-    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    display: flex; align-items: center; height: 100%; padding: 0 8px; font-weight: bold; font-size: 12px; margin-right: 8px;
+    border-left: 2px solid var(--win-white); border-top: 2px solid var(--win-white);
+    border-right: 2px solid var(--win-black); border-bottom: 2px solid var(--win-black);
     box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer;
 }
 .start-btn:active, .start-btn.active {
-    border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
-    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
-    box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light); padding: 1px 5px -1px 7px;
-}
-.start-btn i { color: #f00; margin-right: 4px; text-shadow: 1px 1px 0 #00f, -1px -1px 0 #0f0, 1px -1px 0 #ff0; font-size: 14px; }
-.taskbar-divider { width: 2px; height: 100%; border-left: 1px solid var(--win-dark-gray); border-right: 1px solid var(--win-white); margin: 0 3px; }
-#taskbar-windows { display: flex; flex: 1; gap: 2px; height: 100%; overflow: hidden; }
-.taskbar-win-btn {
-    display: flex; align-items: center; min-width: 50px; max-width: 150px; height: 100%; padding: 0 5px;
-    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
-    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
-    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer; font-weight: bold; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-}
-.taskbar-win-btn.active {
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVQIW2NkYGD4z8DAwMgAI0AMCKcCB09uDFQAAAAASUVORK5CYII=');
-    border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
-    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
+    border-left: 2px solid var(--win-black); border-top: 2px solid var(--win-black);
+    border-right: 2px solid var(--win-white); border-bottom: 2px solid var(--win-white);
     box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light);
 }
-.taskbar-win-btn img { width: 14px; height: 14px; margin-right: 5px; }
-.system-tray {
-    display: flex; align-items: center; height: 100%; padding: 0 5px;
-    border-left: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-dark-gray);
+.start-btn i { color: #cc0000; margin-right: 5px; font-size: 13px; }
+.taskbar-center-text {
+    flex: 1; text-align: center; font-size: 12px; color: #111; font-weight: normal; font-style: italic;
+}
+#taskbar-windows { display: flex; gap: 4px; height: 100%; overflow: hidden; }
+.taskbar-win-btn {
+    display: flex; align-items: center; min-width: 60px; max-width: 140px; height: 100%; padding: 0 6px;
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
+}
+.taskbar-win-btn.active {
+    background: #e0e0e0;
+    border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
     border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
 }
-.tray-icon { font-size: 14px; margin-right: 6px; }
-#clock { cursor: default; }
+.system-tray {
+    display: flex; align-items: center; height: 100%; padding: 0 8px; margin-left: auto;
+    border-left: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-dark-gray);
+    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
+    background: var(--win-gray);
+}
+.tray-icon { font-size: 12px; margin-right: 8px; }
 
 /* ============ START MENU ============ */
 #start-menu {
-    position: absolute; bottom: 28px; left: 0; width: 200px; background: var(--win-gray);
-    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
-    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
-    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray);
-    display: none; flex-direction: row; z-index: 10001;
+    position: absolute; bottom: 30px; left: 0; width: 190px; background: var(--win-gray);
+    border-left: 2px solid var(--win-white); border-top: 2px solid var(--win-white);
+    border-right: 2px solid var(--win-black); border-bottom: 2px solid var(--win-black);
+    display: none; flex-direction: row; z-index: 10001; box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
 }
-.sm-sidebar { width: 25px; background: linear-gradient(to bottom, #000080, #1084d0); position: relative; }
+.sm-sidebar { width: 24px; background: linear-gradient(to bottom, #000080, #1084d0); position: relative; }
 .sm-sidebar-text {
-    position: absolute; bottom: 5px; left: 4px; color: #fff; font-weight: bold; font-size: 16px;
+    position: absolute; bottom: 8px; left: 4px; color: #fff; font-weight: bold; font-size: 14px;
     transform: rotate(-90deg); transform-origin: left bottom; white-space: nowrap;
 }
-.sm-items { display: flex; flex-direction: column; flex: 1; padding: 2px; }
-.sm-item { display: flex; align-items: center; padding: 5px; cursor: pointer; position: relative; }
+.sm-items { display: flex; flex-direction: column; flex: 1; padding: 3px; }
+.sm-item { display: flex; align-items: center; padding: 6px 8px; cursor: pointer; }
 .sm-item:hover { background: var(--selection); color: #fff; }
-.sm-item img { width: 24px; height: 24px; margin-right: 8px; }
-.sm-item-text { font-size: 12px; flex: 1; }
-.sm-divider { height: 2px; border-top: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-white); margin: 3px 2px; }
+.sm-item img { width: 20px; height: 20px; margin-right: 10px; }
+.sm-item-text { font-size: 11px; flex: 1; }
+.sm-divider { height: 2px; border-top: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-white); margin: 4px 2px; }
 
 /* ============ WINDOWS ============ */
 .window {
     position: absolute; background: var(--win-gray); display: flex; flex-direction: column;
-    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
-    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
-    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray), 2px 2px 0 rgba(0,0,0,0.5);
-    min-width: 250px; min-height: 150px; z-index: 100;
+    border-left: 2px solid var(--win-white); border-top: 2px solid var(--win-white);
+    border-right: 2px solid var(--win-black); border-bottom: 2px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray), 3px 3px 8px rgba(0,0,0,0.4);
+    min-width: 280px; min-height: 180px; z-index: 100;
 }
 .window.active .title-bar { background: var(--win-title-grad); color: white; }
 .window.inactive .title-bar { background: var(--win-title-inactive); color: var(--win-light); }
-.title-bar {
-    display: flex; align-items: center; padding: 2px 2px 2px 4px; height: 20px; margin: 2px;
-}
-.title-bar-icon { width: 14px; height: 14px; margin-right: 4px; pointer-events: none; }
+.title-bar { display: flex; align-items: center; padding: 3px 4px; height: 22px; margin: 1px; }
+.title-bar-icon { width: 14px; height: 14px; margin-right: 5px; pointer-events: none; }
 .title-bar-text { flex: 1; font-weight: bold; cursor: default; }
 .title-bar-controls { display: flex; gap: 2px; }
 .title-btn {
     width: 16px; height: 14px; background: var(--win-gray); display: flex; align-items: center; justify-content: center;
     border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
     border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
-    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer; color: black; font-weight: bold; font-family: Arial, sans-serif;
+    cursor: pointer; font-weight: bold; padding-bottom: 2px;
 }
 .title-btn:active {
     border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
     border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
-    box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light); padding: 1px 0 0 1px;
 }
-.menu-bar { display: flex; padding: 1px 5px; gap: 10px; border-bottom: 1px solid var(--win-white); }
-.menu-item { padding: 2px 5px; cursor: default; }
+.menu-bar { display: flex; padding: 2px 6px; gap: 12px; border-bottom: 1px solid var(--win-white); }
+.menu-item { padding: 1px 4px; cursor: default; }
 .menu-item:hover { background: var(--selection); color: white; }
+
 .toolbar {
-    display: flex; padding: 4px; border-bottom: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-light); gap: 4px;
+    display: flex; padding: 4px; border-bottom: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-light); gap: 6px; background: var(--win-gray);
 }
-.toolbar-btn {
-    display: flex; align-items: center; gap: 4px; padding: 3px 5px; cursor: pointer; color: #000;
-}
+.toolbar-btn { display: flex; align-items: center; gap: 4px; padding: 2px 6px; cursor: pointer; border: 1px solid transparent; }
 .toolbar-btn:hover {
     border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
-    border-right: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-dark-gray); padding: 2px 4px;
+    border-right: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-dark-gray);
 }
-.toolbar-btn i { font-size: 16px; color: #555; }
-.address-bar { display: flex; align-items: center; padding: 4px; border-bottom: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-light); }
-.address-label { color: #888; margin-right: 5px; }
+.toolbar-btn i { font-size: 13px; color: #444; }
+
+.address-bar { display: flex; align-items: center; padding: 4px; border-bottom: 1px solid var(--win-dark-gray); background: var(--win-gray); }
+.address-label { color: #555; margin-right: 6px; font-weight: bold; }
 .address-input {
     flex: 1; background: white; border-left: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-dark-gray);
-    border-right: 1px solid var(--win-light); border-bottom: 1px solid var(--win-light); padding: 2px 4px; font-family: Tahoma;
+    border-right: 1px solid var(--win-light); border-bottom: 1px solid var(--win-light); padding: 2px 5px; outline: none;
 }
-.window-content { flex: 1; display: flex; background: var(--win-white); border-top: 1px solid var(--win-dark-gray); border-left: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-light); border-right: 1px solid var(--win-light); margin: 2px; overflow: hidden; }
-.status-bar { height: 20px; padding: 2px 5px; border-top: 1px solid var(--win-dark-gray); display: flex; align-items: center; color: #333; box-shadow: inset 0 1px 0 var(--win-light); }
+
+.window-content { 
+    flex: 1; display: flex; background: var(--win-white); 
+    border-top: 1px solid var(--win-dark-gray); border-left: 1px solid var(--win-dark-gray); 
+    border-bottom: 1px solid var(--win-light); border-right: 1px solid var(--win-light); 
+    margin: 2px; overflow: hidden; 
+}
+.status-bar { height: 20px; padding: 2px 6px; border-top: 1px solid var(--win-dark-gray); display: flex; align-items: center; background: var(--win-gray); }
 
 /* ============ EXPLORER LAYOUT ============ */
 .explorer-split { display: flex; width: 100%; height: 100%; }
-.explorer-tree { width: 30%; border-right: 3px solid var(--win-gray); background: white; overflow: auto; padding: 5px; box-shadow: inset -1px 0 0 var(--win-dark-gray), inset -2px 0 0 var(--win-light); }
-.explorer-main { flex: 1; background: white; overflow: auto; display: flex; align-content: flex-start; flex-wrap: wrap; padding: 10px; gap: 15px; }
-.tree-item { display: flex; align-items: center; padding: 2px; cursor: pointer; white-space: nowrap; }
-.tree-item:hover { background: #e0e0e0; }
-.tree-item.selected > .tree-label { background: var(--selection); color: white; border: 1px dotted white; }
-.tree-icon { width: 16px; height: 16px; margin-right: 4px; }
-.tree-children { padding-left: 15px; border-left: 1px dotted #888; margin-left: 8px; display: none; }
+.explorer-tree { width: 28%; border-right: 2px solid var(--win-gray); background: white; overflow: auto; padding: 4px; }
+.explorer-main { flex: 1; background: white; overflow: auto; display: flex; align-content: flex-start; flex-wrap: wrap; padding: 12px; gap: 20px 10px; }
+
+.tree-item { display: flex; align-items: center; padding: 2px; cursor: pointer; }
+.tree-label { padding: 1px 3px; }
+.tree-item:hover .tree-label { background: #e0e0e0; }
+.tree-icon { width: 16px; height: 16px; margin-right: 5px; }
+.tree-children { padding-left: 12px; display: none; }
 .tree-children.open { display: block; }
-.tree-toggle { width: 9px; height: 9px; border: 1px solid #888; display: inline-flex; align-items: center; justify-content: center; margin-right: 4px; font-size: 8px; cursor: pointer; background: white; line-height: 1; }
+.tree-toggle { width: 10px; height: 10px; border: 1px solid #777; display: inline-flex; align-items: center; justify-content: center; margin-right: 4px; font-size: 8px; background: white; cursor: pointer; }
 
-.file-icon { width: 70px; display: flex; flex-direction: column; align-items: center; cursor: default; }
+.file-icon { width: 75px; display: flex; flex-direction: column; align-items: center; cursor: default; }
 .file-icon .icon-img { width: 32px; height: 32px; margin-bottom: 4px; pointer-events: none; }
-.file-icon .icon-label { text-align: center; padding: 1px 3px; line-height: 1.2; color: black; word-wrap: break-word; overflow: hidden; }
-.file-icon.selected .icon-label { background: var(--selection); color: white; border: 1px dotted #000; padding: 0 2px; }
-.file-icon.selected .icon-img { filter: brightness(0.7) sepia(1) hue-rotate(180deg) saturate(3); }
+.file-icon .icon-label { text-align: center; padding: 2px; line-height: 1.2; color: black; word-wrap: break-word; }
+.file-icon.selected .icon-label { background: var(--selection); color: white; border: 1px dotted #000; }
 
-/* ============ SETTINGS CONTENT ============ */
-.settings-content { padding: 15px; width: 100%; height: 100%; background: var(--win-gray); display: flex; flex-direction: column; gap: 10px; }
-.settings-group { border: 1px solid var(--win-white); border-bottom-color: var(--win-dark-gray); border-right-color: var(--win-dark-gray); padding: 10px; position: relative; margin-top: 10px; }
-.settings-group::before { content: attr(data-title); position: absolute; top: -8px; left: 10px; background: var(--win-gray); padding: 0 5px; font-weight: bold; }
-.settings-btn { padding: 4px 15px; cursor: pointer; background: var(--win-gray); border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white); border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black); box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); font-family: Tahoma; }
-.settings-btn:active { border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black); border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white); box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light); padding: 5px 14px 3px 16px; }
+/* ============ APP LAYOUT VIEWS ============ */
+.document-content { width: 100%; height: 100%; padding: 8px; outline: none; border: none; resize: none; font-family: monospace; font-size: 12px; overflow: auto; user-select: text; }
+.empty-msg { padding: 20px; color: var(--win-dark-gray); font-style: italic; text-align: center; width: 100%; }
 
-/* ============ MEDIA PLAYER ============ */
-.media-player-content { padding: 10px; width: 100%; height: 100%; background: var(--win-gray); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; }
-.media-screen { background: #000; border: 2px inset var(--win-white); width: 90%; height: 60px; color: #0f0; font-family: 'Courier New', Courier, monospace; display: flex; align-items: center; justify-content: center; font-size: 14px; text-shadow: 0 0 5px #0f0; }
-.media-controls { display: flex; gap: 10px; }
+/* Settings Form Styles */
+.settings-content { pading: 15px; width: 100%; height: 100%; background: var(--win-gray); overflow: auto; display: flex; flex-direction: column; gap: 12px; padding: 15px; }
+.settings-group { border: 2px solid var(--win-white); border-bottom: 2px solid var(--win-dark-gray); border-right: 2px solid var(--win-dark-gray); padding: 10px; position: relative; }
+.settings-legend { position: absolute; top: -8px; left: 10px; background: var(--win-gray); padding: 0 4px; font-weight: bold; }
+.settings-row { display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+
+/* Song list player styling */
+.songs-layout { width: 100%; height: 100%; display: flex; flex-direction: column; }
+.song-item { display: flex; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--win-light); cursor: pointer; gap: 10px; }
+.song-item:hover { background: #f0f0f0; }
+.song-item i { color: #008080; font-size: 14px; }
+.song-info { flex: 1; }
+.song-title { font-weight: bold; color: #000; }
+.song-artist { color: #666; font-size: 10px; }
 
 /* ============ CONTEXT MENU ============ */
-#context-menu { position: absolute; background: var(--win-gray); border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white); border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black); box-shadow: 2px 2px 0 rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 20000; padding: 2px; min-width: 120px; }
-.cm-item { padding: 4px 15px; cursor: default; white-space: nowrap; color: #000; }
+#context-menu { position: absolute; background: var(--win-gray); border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white); border-right: 2px solid var(--win-black); border-bottom: 2px solid var(--win-black); box-shadow: 2px 2px 5px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 20000; padding: 2px; width: 130px; }
+.cm-item { padding: 4px 12px; cursor: default; }
 .cm-item:hover { background: var(--selection); color: white; }
-.cm-item.disabled { color: var(--win-dark-gray); text-shadow: 1px 1px 0 var(--win-white); }
-.cm-item.disabled:hover { background: transparent; color: var(--win-dark-gray); }
-.cm-divider { height: 1px; border-top: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-white); margin: 2px 0; }
-
+.cm-divider { height: 1px; border-top: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-white); margin: 3px 0; }
 </style>
 </head>
 <body oncontextmenu="return false;">
 
 <div class="crt-overlay"></div>
 
+<!-- BOOT SCREEN -->
 <div id="boot-screen">
     <div class="boot-text">
-        Award Modular BIOS v4.51PG, An Energy Star Ally<br>
-        Copyright (C) 1984-1998, Award Software, Inc.<br><br>
-        Intel Pentium(R) II Processor 400MHz<br>
-        Memory Test :  65536K OK<br><br>
-        Initializing Plug and Play Cards...<br>
-        PNP Init Completed<br><br>
-        Starting MS-DOS...
+        BIOS Date 04/15/99 Ver: 08.00.02<br>
+        CPU: Intel Celeron(R) at 433 MHz<br>
+        Speed: 433 MHz  Count: 1<br><br>
+        DRAM Slot 0 : 64MB SDRAM<br>
+        Detecting IDE Primary Master ... Hard Drive Disk<br>
+        Detecting IDE Primary Slave  ... CD-ROM Drive<br><br>
+        Booting up system configuration files...<br>
+        Loading Web Desktop components... OK
     </div>
     <div class="boot-logo-container" style="display:none;" id="win-logo-screen">
         <i class="fa-brands fa-windows"></i>
-        <div class="boot-os-name">Microsoft Windows 98</div>
+        <div class="boot-os-name">Web Desktop OS</div>
         <div class="boot-bar"><div class="boot-bar-fill" id="boot-fill"></div></div>
     </div>
 </div>
 
+<!-- SHUTDOWN SCREEN -->
 <div id="shutdown-screen">
-    <div class="shutdown-text" id="shutdown-message">It is now safe to turn off your computer.</div>
+    <div class="shutdown-text">It is now safe to turn off your computer.<br><span style="font-size:14px; color:#aaa;">Website interface operation finalized.</span></div>
 </div>
 
+<!-- DESKTOP -->
 <div id="desktop">
+    <!-- Top-Right Classic Control panel -->
+    <div class="web-style-header">
+        <div class="web-style-title">Web-Style Desktop</div>
+        <div class="web-style-buttons">
+            <div class="circle-btn btn-yellow" title="Restart / Refresh System" onclick="restartSystem()"><i class="fa-solid fa-rotate-right"></i></div>
+            <div class="circle-btn btn-green" title="System Info" onclick="openInfoModal()"><i class="fa-solid fa-info"></i></div>
+            <div class="circle-btn btn-blue" title="Settings" onclick="openSettings()"><i class="fa-solid fa-list-check"></i></div>
+            <div class="circle-btn btn-red" title="Shut Down / Close" onclick="shutdownSystem()"><i class="fa-solid fa-xmark"></i></div>
+        </div>
     </div>
+
+    <!-- Desktop Icons Container -->
+    <div id="desktop-icons-container" style="display: contents;"></div>
+</div>
 <div id="selection-box"></div>
 
+<!-- WINDOWS LAYER CONTAINER -->
 <div id="windows-container"></div>
 
+<!-- TASKBAR -->
 <div id="taskbar">
     <div class="start-btn" id="start-btn">
-        <i class="fa-brands fa-windows"></i> Start
+        <i class="fa-brands fa-windows"></i>Start
     </div>
-    <div class="taskbar-divider"></div>
+    <div class="taskbar-center-text">Press any key for Contents</div>
     <div id="taskbar-windows"></div>
-    <div class="taskbar-divider"></div>
     <div class="system-tray">
-        <i class="fa-solid fa-volume-high tray-icon" style="color: yellow; text-shadow: 1px 1px 1px #000;"></i>
-        <i class="fa-solid fa-plug tray-icon" style="color: #bbb;"></i>
-        <span id="clock">12:00 PM</span>
+        <i class="fa-solid fa-volume-high tray-icon" style="color: #333;"></i>
+        <i class="fa-solid fa-desktop tray-icon" style="color: #444;"></i>
+        <span id="clock">03:07 PM</span>
     </div>
 </div>
 
+<!-- START MENU -->
 <div id="start-menu">
     <div class="sm-sidebar">
-        <span class="sm-sidebar-text">Windows 98</span>
+        <span class="sm-sidebar-text">Windows Retro</span>
     </div>
     <div class="sm-items">
-        <div class="sm-item" onclick="openPath('C:/Projects')">
+        <div class="sm-item" onclick="openPath('C:/Programs')">
             <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23FFD700' d='M2 14h22l8 8h30v38H2z'/><path fill='%23DAA520' d='M2 22h60v30H2z'/></svg>">
             <span class="sm-item-text"><u>P</u>rograms</span>
+            <i class="fa-solid fa-caret-right" style="font-size: 9px;"></i>
         </div>
-        <div class="sm-item" onclick="openPath('C:/Trending Songs')">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='20' cy='44' r='12' fill='%23000'/><path d='M32 44V12l24 4v24M32 24l24 4' stroke='%23000' stroke-width='4' fill='none'/><circle cx='48' cy='40' r='8' fill='%23000'/></svg>">
-            <span class="sm-item-text"><u>T</u>rending Songs</span>
+        <div class="sm-item" onclick="openPath('C:/My Documents')">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23FFD700' d='M4 16h22l8 8h26v32H4z'/></svg>">
+            <span class="sm-item-text"><u>D</u>ocuments</span>
+            <i class="fa-solid fa-caret-right" style="font-size: 9px;"></i>
         </div>
         <div class="sm-item" onclick="openSettings()">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23aaa' d='M10 20h44v24H10z'/><circle cx='20' cy='32' r='4' fill='%23f00'/><circle cx='44' cy='32' r='4' fill='%230f0'/></svg>">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='10' y='20' width='44' height='24' fill='%23aaa' stroke='%23000'/><circle cx='20' cy='32' r='4' fill='%2300f'/></svg>">
             <span class="sm-item-text"><u>S</u>ettings</span>
+            <i class="fa-solid fa-caret-right" style="font-size: 9px;"></i>
         </div>
         <div class="sm-divider"></div>
         <div class="sm-item" onclick="restartSystem()">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%2300f' d='M32 8a24 24 0 1 0 24 24h-8a16 16 0 1 1-16-16v8l16-12L32 0v8z'/></svg>">
-            <span class="sm-item-text"><u>R</u>estart</span>
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='none' stroke='%23008000' stroke-width='4' d='M20 20a20 20 0 1 1-4 8'/><path fill='%23008000' d='M10 20h12v12z'/></svg>">
+            <span class="sm-item-text"><u>R</u>estart...</span>
         </div>
         <div class="sm-item" onclick="shutdownSystem()">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%23f00'/><path d='M32 16v16M24 24a12 12 0 1 0 16 0' stroke='%23fff' stroke-width='4' fill='none'/></svg>">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='24' fill='none' stroke='%23f00' stroke-width='4'/><path d='M32 10v22' stroke='%23f00' stroke-width='4'/></svg>">
             <span class="sm-item-text">Sh<u>u</u>t Down...</span>
         </div>
     </div>
 </div>
 
+<!-- CONTEXT MENU -->
 <div id="context-menu">
-    <div class="cm-item" id="cm-open" onclick="contextMenuAction('open')">Open</div>
-    <div class="cm-item disabled" id="cm-properties">Properties</div>
-    <div class="cm-divider"></div>
-    <div class="cm-item" onclick="contextMenuAction('refresh')">Refresh</div>
-    <div class="cm-item" onclick="contextMenuAction('arrange')">Arrange Icons</div>
+    <div class="cm-item" onclick="refreshDesktop()">Refresh</div>
+    <div class="cm-item" onclick="arrangeIcons()">Arrange Icons</div>
     <div class="cm-divider"></div>
     <div class="cm-item" onclick="openSettings()">Properties</div>
 </div>
 
 <script>
-/* ============ ICON SVGs (Base64) ============ */
+/* ============ BASE64 CUSTOM RETRO ICONS ============ */
 const icons = {
-    computer: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M8 16h48v32H8z'/><path fill='%23000080' stroke='%23000' stroke-width='2' d='M12 20h40v24H12z'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M24 48h16v6H24z'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M16 54h32v4H16z'/></svg>",
-    folder: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23FFD700' stroke='%23000' stroke-width='2' d='M4 16h22l8 8h26v32H4z'/><path fill='%23DAA520' stroke='%23000' stroke-width='1' d='M4 24h56v24H4z'/></svg>",
-    file: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='14' y='6' width='36' height='52' fill='%23fff' stroke='%23000' stroke-width='2'/><path d='M20 16h24M20 24h24M20 32h24M20 40h16' stroke='%23c0c0c0' stroke-width='2'/></svg>",
-    image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='10' y='14' width='44' height='36' fill='%23fff' stroke='%23000' stroke-width='2'/><path fill='%2387CEEB' d='M12 16h40v32H12z'/><circle cx='24' cy='24' r='4' fill='%23FFD700'/><path fill='%2332CD32' d='M12 48l12-16 10 12 8-10 10 14H12z'/></svg>",
-    trash_empty: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M16 16h32v40H16z'/><path fill='%23fff' d='M22 24v24M32 24v24M42 24v24' stroke='%23000' stroke-width='2'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M12 12h40v4H12z'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M26 8h12v4H26z'/></svg>",
-    shortcut: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='14' y='6' width='36' height='52' fill='%23fff' stroke='%23000' stroke-width='2'/><path d='M32 24h12v12' stroke='%23000' stroke-width='3' fill='none'/><path d='M20 40l24-16' stroke='%23000' stroke-width='3'/></svg>",
-    audio: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='14' y='6' width='36' height='52' fill='%23fff' stroke='%23000' stroke-width='2'/><circle cx='24' cy='40' r='6' fill='%23000'/><path d='M30 40V20l12 4v20M30 28l12 4' stroke='%23000' stroke-width='2' fill='none'/></svg>",
-    settings: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23aaa' d='M10 20h44v24H10z'/><circle cx='20' cy='32' r='4' fill='%23f00'/><circle cx='44' cy='32' r='4' fill='%230f0'/></svg>"
+    computer: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='12' width='48' height='32' fill='%23dfdfdf' stroke='%23000' stroke-width='2'/><rect x='12' y='16' width='40' height='24' fill='%23a5c5e5' stroke='%23000'/><path fill='%23808080' d='M24 44h16v8H24z'/><path fill='%23c0c0c0' d='M16 52h32v4H16z'/></svg>",
+    folder: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23F4CA16' stroke='%23b59300' stroke-width='2' d='M4 14h20l6 8h30v34H4z'/><path fill='%23FFE57F' d='M4 22h56v34H4z'/></svg>",
+    file: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='14' y='6' width='36' height='52' fill='%23fff' stroke='%23000' stroke-width='2'/><path d='M20 16h24M20 24h24M20 32h14' stroke='%23808080' stroke-width='2'/></svg>",
+    trashEmpty: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23c0c0c0' stroke='%23666' stroke-width='2' d='M18 18h28v36H18z'/><path d='M12 14h40v4H12zM26 10h12v4H26z' fill='%23999'/><path d='M24 24v24M32 24v24M40 24v24' stroke='%23888' stroke-width='2'/></svg>",
+    internet: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='24' fill='%23fff' stroke='%230000ff' stroke-width='2'/><path d='M10 32h44M32 8c8 0 12 10 12 24s-4 24-12 24S20 46 20 32 24 8 32 8' fill='none' stroke='%230000ff' stroke-width='2'/></svg>",
+    outlook: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='8' y='16' width='48' height='32' fill='%23fff' stroke='%2300a2ed' stroke-width='2'/><path d='M8 16l24 16 24-16' fill='none' stroke='%2300a2ed' stroke-width='2'/></svg>",
+    msn: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><ellipse cx='32' cy='32' rx='26' ry='18' fill='%23cc0000'/><text x='16' y='38' fill='white' font-weight='bold' font-size='16'>msn</text></svg>",
+    network: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='16' y='12' width='32' height='24' fill='%23dfdfdf' stroke='%23000'/><rect x='8' y='40' width='16' height='14' fill='%23dfdfdf' stroke='%23000'/><rect x='40' y='40' width='16' height='14' fill='%23dfdfdf' stroke='%23000'/><path d='M32 36v8M16 46h32' stroke='%23000' stroke-width='2'/></svg>",
+    services: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23F4CA16' d='M6 18h20l6 6h26v32H6z'/><circle cx='40' cy='40' r='8' fill='%23008080'/></svg>",
+    music: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='22' cy='46' r='8' fill='%23000'/><circle cx='48' cy='40' r='8' fill='%23000'/><path d='M30 46V14l26-4v30' fill='none' stroke='%23000' stroke-width='4'/></svg>"
 };
 
-/* ============ FILE SYSTEM DATA ============ */
+/* ============ FILE SYSTEM HIERARCHY DATA ============ */
 const fileSystem = {
     "C:": {
         type: "drive",
         name: "Local Disk (C:)",
         children: {
-            "Projects": {
+            "My Documents": {
                 type: "folder",
                 children: {
-                    "Danke": {
-                        type: "folder",
-                        children: {
-                            "ThankyouMo.jpeg": { type: "image", src: "ThankyouMo.jpeg" },
-                            "ThankyouRobbo.jpeg": { type: "image", src: "ThankyouRobbo.jpeg" },
-                            "robboxmo.jpg": { type: "image", src: "robboxmo.jpg" },
-                            "heavymetalfootball.jpg": { type: "image", src: "heavymetalfootball.jpg" }
-                        }
-                    },
-                    "Matchday": {
-                        type: "folder",
-                        children: {
-                            "engvnor.jpg": { type: "image", src: "engnorway.jpg" },
-                            "livvmci.jpeg": { type: "image", src: "livvmci.jpeg" },
-                            "psgvarsfinal.jpg": { type: "image", src: "psgvarsfinal.jpg" }
-                        }
-                    }
+                    "Bio.txt": { type: "file", content: "System Portfolio Mockup v2.0\nCreated to accurately present a managed file system structure mirroring vintage systems." },
+                    "Project Notes.txt": { type: "file", content: "All buttons, folders, and operations are successfully linked to dynamic JS runtime callbacks." }
+                }
+            },
+            "Programs": {
+                type: "folder",
+                children: {
+                    "Internet Explorer": { type: "shortcut", target: "Internet Explorer" },
+                    "Outlook Express": { type: "shortcut", target: "Outlook Express" }
                 }
             },
             "Trending Songs": {
-                type: "folder",
+                type: "special-songs",
+                name: "Trending Songs",
                 children: {
-                    "Popular_Track_1.mp3": { type: "audio", title: "Trending Track 1" },
-                    "Top_Hit_2.mp3": { type: "audio", title: "Trending Top Hit" },
-                    "Viral_Audio.mp3": { type: "audio", title: "Viral Audio Mix" }
+                    "Song 1": { title: "Blinding Lights", artist: "The Weeknd" },
+                    "Song 2": { title: "Espresso", artist: "Sabrina Carpenter" },
+                    "Song 3": { title: "Stay", artist: "The Kid LAROI & Justin Bieber" },
+                    "Song 4": { title: "Cruel Summer", artist: "Taylor Swift" },
+                    "Song 5": { title: "As It Was", artist: "Harry Styles" }
                 }
-            },
-            "Education": {
-                type: "folder",
-                children: {
-                    "School.txt": { type: "file", content: "Mahakavi Devkota Memorial Secondary School (2010-2022)\nGained a strong foundation. GPA 3.75 in SEE." },
-                    "College.txt": { type: "file", content: "Reliance International Academy (2022-2024)\nCompleted +2 Science. GPA 3.62 in SLC." },
-                    "University.txt": { type: "file", content: "Amrit Campus (2024-current)\nCurrently pursuing B.Sc.CSIT." }
-                }
-            },
-            "Skills": {
-                type: "folder",
-                children: {
-                    "html.lnk": { type: "shortcut", target: "HTML" },
-                    "css.lnk": { type: "shortcut", target: "CSS" },
-                    "python.lnk": { type: "shortcut", target: "Python" }
-                }
-            },
-            "Contact": {
-                type: "folder",
-                children: {
-                    "Email.lnk": { type: "shortcut", target: "alokkynwa@gmail.com" },
-                    "Phone.lnk": { type: "shortcut", target: "+9779843538473" },
-                    "Instagram.lnk": { type: "shortcut", target: "alokynwa" }
-                }
-            },
-            "Resume.txt": { type: "file", content: "Alok Sharma\n\n19 year old CSIT student designing premium football posters and visuals." }
+            }
         }
+    },
+    "Trash": {
+        type: "folder",
+        name: "Recycle Bin",
+        children: {} // Strictly Empty as requested
     }
 };
 
-/* ============ STATE ============ */
+/* ============ CORE STATE MANAGEMENT ============ */
 let windows = [];
 let activeWindowId = null;
 let zIndexCounter = 100;
 let windowIdCounter = 0;
-let selectedDesktopIcon = null;
 
-/* ============ DESKTOP & SELECTION ============ */
-const desktop = document.getElementById('desktop');
+// Replicating exactly the icons array from the user reference configuration
 const desktopItems = [
     { name: "My Computer", icon: icons.computer, path: "C:" },
-    { name: "Recycle Bin", icon: icons.trash_empty, path: "Trash" },
-    { name: "Resume.txt", icon: icons.file, path: "C:/Resume.txt" },
-    { name: "Contact", icon: icons.folder, path: "C:/Contact" },
-    { name: "Trending Songs", icon: icons.folder, path: "C:/Trending Songs" }
+    { name: "Online Services", icon: icons.services, path: "C:/Programs" },
+    { name: "My Documents", icon: icons.folder, path: "C:/My Documents" },
+    { name: "Connect to the Internet", icon: icons.internet, path: "C:/Programs" },
+    { name: "Internet Explorer", icon: icons.internet, path: "Internet Explorer" },
+    { name: "Outlook Express", icon: icons.outlook, path: "Outlook Express" },
+    { name: "Network Neighborhood", icon: icons.network, path: "C:" },
+    { name: "Recycle Bin", icon: icons.trashEmpty, path: "Trash" }, // Empty Recycle Bin
+    { name: "Trending Songs", icon: icons.music, path: "C:/Trending Songs" }, // Added requested trending songs folder
+    { name: "Setup MSN Internet A...", icon: icons.msn, path: "C:" }
 ];
 
+/* ============ RENDER DESKTOP ICONS ============ */
 function renderDesktop() {
-    desktop.innerHTML = '';
-    desktopItems.forEach((item, index) => {
+    const container = document.getElementById('desktop-icons-container');
+    container.innerHTML = '';
+    desktopItems.forEach((item) => {
         const el = document.createElement('div');
         el.className = 'desktop-icon';
         el.dataset.path = item.path;
@@ -417,115 +486,54 @@ function renderDesktop() {
             e.stopPropagation();
             document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
             el.classList.add('selected');
-            selectedDesktopIcon = item.path;
         };
         
         el.ondblclick = () => {
-            openPath(item.path);
+            if(item.path === "Internet Explorer" || item.path === "Outlook Express") {
+                createNotepadWindow(item.name, `${item.name} simulator interface initialized successfully.`);
+            } else {
+                openPath(item.path);
+            }
         };
-        
-        desktop.appendChild(el);
+        container.appendChild(el);
     });
 }
 
-// Drag selection box logic
-let isSelecting = false;
-let startX, startY;
-const selectionBox = document.getElementById('selection-box');
-
-desktop.addEventListener('mousedown', (e) => {
-    if (e.target === desktop) {
-        document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
-        selectedDesktopIcon = null;
-        if(e.button !== 2) {
-            isSelecting = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            selectionBox.style.display = 'block';
-            selectionBox.style.left = startX + 'px';
-            selectionBox.style.top = startY + 'px';
-            selectionBox.style.width = '0px';
-            selectionBox.style.height = '0px';
-        }
-    }
-});
-
-window.addEventListener('mousemove', (e) => {
-    if (!isSelecting) return;
-    const currentX = e.clientX;
-    const currentY = e.clientY;
-    
-    const left = Math.min(startX, currentX);
-    const top = Math.min(startY, currentY);
-    const width = Math.abs(startX - currentX);
-    const height = Math.abs(startY - currentY);
-    
-    selectionBox.style.left = left + 'px';
-    selectionBox.style.top = top + 'px';
-    selectionBox.style.width = width + 'px';
-    selectionBox.style.height = height + 'px';
-
-    const selRect = selectionBox.getBoundingClientRect();
-    document.querySelectorAll('.desktop-icon').forEach(icon => {
-        const iconRect = icon.getBoundingClientRect();
-        if (!(selRect.right < iconRect.left || 
-              selRect.left > iconRect.right || 
-              selRect.bottom < iconRect.top || 
-              selRect.top > iconRect.bottom)) {
-            icon.classList.add('selected');
-            selectedDesktopIcon = icon.dataset.path; // Selects last one intersecting
-        } else {
-            icon.classList.remove('selected');
-        }
-    });
-});
-
-window.addEventListener('mouseup', () => {
-    isSelecting = false;
-    selectionBox.style.display = 'none';
-});
-
-/* ============ PATH RESOLUTION ============ */
+/* ============ PATH RESOLUTION EXPLORER ENGINE ============ */
 function resolvePath(path) {
     if (path === "C:") return fileSystem["C:"];
-    if (path === "Trash") return { type: "folder", name: "Recycle Bin", children: {} };
+    if (path === "Trash") return fileSystem["Trash"];
+    
     const parts = path.split('/').filter(p => p);
-    let current = fileSystem[parts[0]];
-    for (let i = 1; i < parts.length; i++) {
-        if (current && current.children && current.children[parts[i]]) {
-            current = current.children[parts[i]];
-        } else {
-            return null;
+    if(parts[0] === "C:") {
+        let current = fileSystem["C:"];
+        for (let i = 1; i < parts.length; i++) {
+            if (current && current.children && current.children[parts[i]]) {
+                current = current.children[parts[i]];
+            } else {
+                return null;
+            }
         }
+        return current;
     }
-    return current;
+    return null;
 }
 
 function openPath(path) {
     const obj = resolvePath(path);
-    if (!obj) {
-        alert("Cannot find " + path);
-        return;
-    }
+    if (!obj) return;
     
     if (obj.type === 'folder' || obj.type === 'drive') {
         createExplorerWindow(path, obj);
     } else if (obj.type === 'file') {
         createNotepadWindow(path.split('/').pop(), obj.content);
-    } else if (obj.type === 'image') {
-        createImageViewerWindow(path.split('/').pop(), obj.src);
-    } else if (obj.type === 'audio') {
-        createMediaPlayer(obj.title || path.split('/').pop());
-    } else if (obj.type === 'shortcut') {
-        alert("Shortcut points to: " + obj.target);
+    } else if (obj.type === 'special-songs') {
+        createSongsWindow(obj);
     }
-    
     closeStartMenu();
 }
 
-/* ============ WINDOW MANAGEMENT ============ */
-const windowsContainer = document.getElementById('windows-container');
-
+/* ============ WINDOW FACTORY GENERATOR ============ */
 function bringToFront(id) {
     activeWindowId = id;
     zIndexCounter++;
@@ -539,7 +547,7 @@ function bringToFront(id) {
     updateTaskbar();
 }
 
-function createWindowElement(id, title, contentHTML, iconSrc, width = 600, height = 400) {
+function createWindowElement(id, title, contentHTML, iconSrc, width = 500, height = 360) {
     const win = document.createElement('div');
     win.className = 'window active';
     win.id = id;
@@ -547,8 +555,8 @@ function createWindowElement(id, title, contentHTML, iconSrc, width = 600, heigh
     win.dataset.icon = iconSrc;
     win.style.width = width + 'px';
     win.style.height = height + 'px';
-    win.style.top = (50 + ((windows.length % 10) * 20)) + 'px';
-    win.style.left = (50 + ((windows.length % 10) * 20)) + 'px';
+    win.style.top = (60 + (windows.length * 20)) + 'px';
+    win.style.left = (40 + (windows.length * 20)) + 'px';
     win.style.zIndex = ++zIndexCounter;
     
     win.innerHTML = `
@@ -565,7 +573,7 @@ function createWindowElement(id, title, contentHTML, iconSrc, width = 600, heigh
     `;
     
     win.onmousedown = () => bringToFront(id);
-    windowsContainer.appendChild(win);
+    document.getElementById('windows-container').appendChild(win);
     windows.push(id);
     activeWindowId = id;
     updateTaskbar();
@@ -588,294 +596,196 @@ function minimizeWindow(id) {
     if (win) win.style.display = 'none';
     if (activeWindowId === id) {
         activeWindowId = null;
-        const visibleWins = windows.filter(w => document.getElementById(w).style.display !== 'none');
-        if(visibleWins.length > 0) bringToFront(visibleWins[visibleWins.length - 1]);
+        const visible = windows.filter(w => document.getElementById(w).style.display !== 'none');
+        if(visible.length > 0) bringToFront(visible[visible.length - 1]);
     }
     updateTaskbar();
 }
 
-let isDragging = false;
-let dragWin = null;
-let offsetX, offsetY;
+function maximizeWindow(id) {
+    const win = document.getElementById(id);
+    if (win.dataset.maximized === 'true') {
+        win.style.left = win.dataset.prevLeft; win.style.top = win.dataset.prevTop;
+        win.style.width = win.dataset.prevWidth; win.style.height = win.dataset.prevHeight;
+        win.dataset.maximized = 'false';
+    } else {
+        win.dataset.prevLeft = win.style.left; win.dataset.prevTop = win.style.top;
+        win.dataset.prevWidth = win.style.width; win.dataset.prevHeight = win.style.height;
+        win.style.left = '0'; win.style.top = '0'; win.style.width = '100%'; win.style.height = 'calc(100% - 30px)';
+        win.dataset.maximized = 'true';
+    }
+}
 
+/* DRAG LOGIC */
+let isDragging = false, dragWin = null, offsetX = 0, offsetY = 0;
 function startDrag(e, id) {
     const win = document.getElementById(id);
     if (win.dataset.maximized === 'true') return;
     bringToFront(id);
-    isDragging = true;
-    dragWin = win;
-    offsetX = e.clientX - win.offsetLeft;
-    offsetY = e.clientY - win.offsetTop;
+    isDragging = true; dragWin = win;
+    offsetX = e.clientX - win.offsetLeft; offsetY = e.clientY - win.offsetTop;
 }
-
 window.addEventListener('mousemove', (e) => {
     if (!isDragging || !dragWin) return;
     dragWin.style.left = (e.clientX - offsetX) + 'px';
     dragWin.style.top = Math.max(0, (e.clientY - offsetY)) + 'px';
 });
+window.addEventListener('mouseup', () => { isDragging = false; dragWin = null; });
 
-window.addEventListener('mouseup', () => {
-    isDragging = false;
-    dragWin = null;
-});
+/* ============ CHASSIS WINDOWS APPLICATIONS ============ */
 
-function maximizeWindow(id) {
-    const win = document.getElementById(id);
-    if (win.dataset.maximized === 'true') {
-        win.style.left = win.dataset.prevLeft;
-        win.style.top = win.dataset.prevTop;
-        win.style.width = win.dataset.prevWidth;
-        win.style.height = win.dataset.prevHeight;
-        win.dataset.maximized = 'false';
-    } else {
-        win.dataset.prevLeft = win.style.left;
-        win.dataset.prevTop = win.style.top;
-        win.dataset.prevWidth = win.style.width;
-        win.dataset.prevHeight = win.style.height;
-        win.style.left = '0';
-        win.style.top = '0';
-        win.style.width = '100%';
-        win.style.height = 'calc(100% - 28px)';
-        win.dataset.maximized = 'true';
-    }
-}
-
-/* ============ EXPLORER APP ============ */
+// 1. Explorer View Window Application
 function createExplorerWindow(path, obj) {
     const id = 'win_' + windowIdCounter++;
-    const title = obj.name || path.split('/').pop() || 'Explorer';
-    const isDrive = obj.type === 'drive';
-    const icon = isDrive ? icons.computer : icons.folder;
+    const icon = path === "Trash" ? icons.trashEmpty : icons.folder;
     
-    function renderTreeLevel(node, currentPath) {
-        let html = '';
-        if (node.children) {
-            for (let key in node.children) {
-                const child = node.children[key];
-                if (child.type === 'folder' || child.type === 'drive') {
-                    const hasSubFolders = Object.values(child.children || {}).some(c => c.type === 'folder');
-                    const childPath = currentPath + '/' + key;
-                    const toggleBox = hasSubFolders ? `<span class="tree-toggle" onclick="toggleTree(event)">+</span>` : `<span style="display:inline-block;width:13px"></span>`;
-                    html += `
-                        <div>
-                            <div class="tree-item" onclick="updateExplorerView('${id}', '${childPath}')">
-                                ${toggleBox}
-                                <img src="${icons.folder}" class="tree-icon">
-                                <span class="tree-label">${key}</span>
-                            </div>
-                            <div class="tree-children">${renderTreeLevel(child, childPath)}</div>
-                        </div>
-                    `;
-                }
-            }
+    let mainContentHTML = '';
+    if (path === "Trash" || Object.keys(obj.children).length === 0) {
+        mainContentHTML = `<div class="empty-msg">This folder is empty.</div>`;
+    } else {
+        for (let key in obj.children) {
+            const child = obj.children[key];
+            let cIcon = icons.file;
+            if(child.type === 'folder') cIcon = icons.folder;
+            if(child.type === 'special-songs') cIcon = icons.music;
+            
+            mainContentHTML += `
+                <div class="file-icon" ondblclick="openPath('${path}/${key}')" onclick="selectFile(event)">
+                    <img src="${cIcon}" class="icon-img">
+                    <span class="icon-label">${key}</span>
+                </div>
+            `;
         }
-        return html;
     }
-
-    const treeHtml = `
-        <div>
-            <div class="tree-item" onclick="updateExplorerView('${id}', 'C:')">
-                <span class="tree-toggle" onclick="toggleTree(event)">-</span>
-                <img src="${icons.computer}" class="tree-icon">
-                <span class="tree-label">Local Disk (C:)</span>
-            </div>
-            <div class="tree-children open">${renderTreeLevel(fileSystem['C:'], 'C:')}</div>
-        </div>
-    `;
 
     const contentHTML = `
         <div class="menu-bar">
-            <div class="menu-item"><u>F</u>ile</div>
-            <div class="menu-item"><u>E</u>dit</div>
-            <div class="menu-item"><u>V</u>iew</div>
-            <div class="menu-item"><u>H</u>elp</div>
+            <div class="menu-item">File</div><div class="menu-item">Edit</div><div class="menu-item">View</div><div class="menu-item">Help</div>
         </div>
         <div class="toolbar">
-            <div class="toolbar-btn" onclick="goUp('${id}')"><i class="fa-solid fa-arrow-turn-up fa-rotate-270"></i> Up</div>
-            <div class="toolbar-btn"><i class="fa-solid fa-cut"></i></div>
-            <div class="toolbar-btn"><i class="fa-regular fa-copy"></i></div>
-            <div class="toolbar-btn"><i class="fa-solid fa-paste"></i></div>
-            <div class="toolbar-btn" onclick="updateExplorerView('${id}', document.getElementById('address_${id}').value)"><i class="fa-solid fa-rotate-right"></i></div>
+            <div class="toolbar-btn" onclick="closeWindow('${id}')"><i class="fa-solid fa-arrow-left"></i> Back</div>
+            <div class="toolbar-btn" onclick="refreshDesktop()"><i class="fa-solid fa-rotate"></i> Refresh</div>
         </div>
         <div class="address-bar">
             <span class="address-label">Address</span>
-            <input type="text" class="address-input" id="address_${id}" value="${path}" readonly>
+            <input type="text" class="address-input" value="${path}" readonly>
         </div>
-        <div class="window-content">
-            <div class="explorer-split">
-                <div class="explorer-tree">${treeHtml}</div>
-                <div class="explorer-main" id="main_${id}"></div>
-            </div>
+        <div class="window-content" style="background:white;">
+            <div class="explorer-main">${mainContentHTML}</div>
         </div>
-        <div class="status-bar" id="status_${id}">0 object(s)</div>
+        <div class="status-bar">${Object.keys(obj.children || {}).length} object(s) found</div>
     `;
-    
-    const win = createWindowElement(id, title, contentHTML, icon, 700, 450);
-    win.dataset.currentPath = path;
-    updateExplorerView(id, path);
+    createWindowElement(id, obj.name || path, contentHTML, icon);
 }
 
-function toggleTree(e) {
-    e.stopPropagation();
-    const btn = e.target;
-    const childrenContainer = btn.parentElement.nextElementSibling;
-    if (childrenContainer && childrenContainer.classList.contains('tree-children')) {
-        if (childrenContainer.classList.contains('open')) {
-            childrenContainer.classList.remove('open');
-            btn.innerHTML = '+';
-        } else {
-            childrenContainer.classList.add('open');
-            btn.innerHTML = '-';
-        }
-    }
-}
-
-function goUp(id) {
-    const win = document.getElementById(id);
-    const path = win.dataset.currentPath;
-    if (path === 'C:' || path === 'Trash') return;
-    const parts = path.split('/');
-    parts.pop();
-    updateExplorerView(id, parts.join('/'));
-}
-
-function updateExplorerView(id, path) {
-    const win = document.getElementById(id);
-    if (!win) return;
-    const obj = resolvePath(path);
-    if (!obj) return;
-    
-    win.dataset.currentPath = path;
-    win.querySelector('.title-bar-text').innerText = obj.name || path.split('/').pop();
-    document.getElementById(`address_${id}`).value = path;
-    
-    const mainView = document.getElementById(`main_${id}`);
-    mainView.innerHTML = '';
-    
-    let count = 0;
-    if (obj.children) {
-        for (let key in obj.children) {
-            count++;
-            const child = obj.children[key];
-            let iconSrc = icons.file;
-            if (child.type === 'folder') iconSrc = icons.folder;
-            else if (child.type === 'image') iconSrc = icons.image;
-            else if (child.type === 'audio') iconSrc = icons.audio;
-            else if (child.type === 'shortcut') iconSrc = icons.shortcut;
-            
-            const el = document.createElement('div');
-            el.className = 'file-icon';
-            el.innerHTML = `<img src="${iconSrc}" class="icon-img"><span class="icon-label">${key}</span>`;
-            
-            el.onmousedown = (e) => {
-                e.stopPropagation();
-                mainView.querySelectorAll('.file-icon').forEach(i => i.classList.remove('selected'));
-                el.classList.add('selected');
-            };
-            
-            el.ondblclick = () => {
-                openPath(path + '/' + key);
-            };
-            
-            mainView.appendChild(el);
-        }
-    }
-    
-    document.getElementById(`status_${id}`).innerText = `${count} object(s)`;
-}
-
-/* ============ APPS (Notepad, Image Viewer, Media Player, Settings) ============ */
+// 2. Notepad Application Window
 function createNotepadWindow(title, content) {
     const id = 'win_' + windowIdCounter++;
     const contentHTML = `
         <div class="menu-bar">
-            <div class="menu-item"><u>F</u>ile</div>
-            <div class="menu-item"><u>E</u>dit</div>
-            <div class="menu-item"><u>S</u>earch</div>
-            <div class="menu-item"><u>H</u>elp</div>
+            <div class="menu-item">File</div><div class="menu-item">Edit</div><div class="menu-item">Help</div>
         </div>
         <div class="window-content">
-            <textarea class="document-content" readonly>${content}</textarea>
+            <textarea class="document-content">${content}</textarea>
         </div>
     `;
-    createWindowElement(id, title + " - Notepad", contentHTML, icons.file, 500, 350);
+    createWindowElement(id, title + " - Notepad", contentHTML, icons.file, 420, 300);
 }
 
-function createImageViewerWindow(title, imgSrc) {
+// 3. Special Songs Folder Application View
+function createSongsWindow(obj) {
     const id = 'win_' + windowIdCounter++;
-    const contentHTML = `
-        <div class="window-content">
-            <div class="image-viewer-content">
-                <img src="${imgSrc}" alt="Image Missing" class="image-viewer-img" id="img_${id}">
-                <div class="image-viewer-toolbar">
-                    <div class="iv-btn" onclick="zoomImg('${id}', 1.2)"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
-                    <div class="iv-btn" onclick="zoomImg('${id}', 0.8)"><i class="fa-solid fa-magnifying-glass-minus"></i></div>
-                    <div class="iv-btn" onclick="resetZoom('${id}')"><i class="fa-solid fa-expand"></i></div>
-                    <div class="iv-btn" onclick="closeWindow('${id}')"><i class="fa-solid fa-xmark"></i></div>
+    let songsListHTML = '';
+    
+    for (let key in obj.children) {
+        const song = obj.children[key];
+        songsListHTML += `
+            <div class="song-item" onclick="alert('Now playing track: ${song.title} by ${song.artist}')">
+                <i class="fa-solid fa-circle-play"></i>
+                <div class="song-info">
+                    <div class="song-title">${song.title}</div>
+                    <div class="song-artist">${song.artist}</div>
                 </div>
+            </div>
+        `;
+    }
+
+    const contentHTML = `
+        <div class="window-content" style="background:#fff;">
+            <div class="songs-layout">
+                <div style="background:var(--win-blue); color:white; padding:6px; font-weight:bold;">Trending Tracks Player Panel</div>
+                ${songsListHTML}
             </div>
         </div>
     `;
-    const win = createWindowElement(id, title + " - Windows Picture and Fax Viewer", contentHTML, icons.image, 600, 450);
-    win.dataset.zoom = 1;
+    createWindowElement(id, "Trending Songs List Explorer", contentHTML, icons.music, 350, 280);
 }
 
-function zoomImg(id, factor) {
-    const win = document.getElementById(id);
-    const img = document.getElementById(`img_${id}`);
-    let zoom = parseFloat(win.dataset.zoom) * factor;
-    win.dataset.zoom = zoom;
-    img.style.transform = `scale(${zoom})`;
-}
-function resetZoom(id) {
-    const win = document.getElementById(id);
-    const img = document.getElementById(`img_${id}`);
-    win.dataset.zoom = 1;
-    img.style.transform = `scale(1)`;
+// 4. System Info Window (Green Button Callback)
+function openInfoModal() {
+    createNotepadWindow("System Info", "Web-Style Desktop OS\nBuild Version: 2026.7.13\nEnvironment Status: Fully Functional System Architecture.\nRecycle Bin Status: Clean & Empty.");
 }
 
-function createMediaPlayer(title) {
-    const id = 'win_' + windowIdCounter++;
-    const contentHTML = `
-        <div class="window-content">
-            <div class="media-player-content">
-                <div class="media-screen">
-                    <marquee scrollamount="3">Playing: ${title} ... (Simulation)</marquee>
-                </div>
-                <div class="media-controls">
-                    <button class="settings-btn"><i class="fa-solid fa-play"></i></button>
-                    <button class="settings-btn"><i class="fa-solid fa-pause"></i></button>
-                    <button class="settings-btn"><i class="fa-solid fa-stop"></i></button>
-                </div>
-            </div>
-        </div>
-    `;
-    createWindowElement(id, "Windows Media Player", contentHTML, icons.audio, 400, 200);
-}
-
+// 5. System Settings Dashboard (Blue Button / Properties Callback)
 function openSettings() {
-    closeStartMenu();
     const id = 'win_' + windowIdCounter++;
     const contentHTML = `
-        <div class="window-content">
-            <div class="settings-content">
-                <div class="settings-group" data-title="Desktop Background">
-                    <p style="margin-bottom:10px;">Select a background color:</p>
-                    <button class="settings-btn" onclick="document.getElementById('desktop').style.background='#008080'">Classic Teal</button>
-                    <button class="settings-btn" onclick="document.getElementById('desktop').style.background='#000080'">Deep Blue</button>
-                    <button class="settings-btn" onclick="document.getElementById('desktop').style.background='#000000'">Pitch Black</button>
+        <div class="settings-content">
+            <div class="settings-group">
+                <span class="settings-legend">Display Settings</span>
+                <div class="settings-row">
+                    <label>Wallpaper Color Theme:</label>
+                    <select onchange="document.getElementById('desktop').style.backgroundColor = this.value">
+                        <option value="#8bbade">Classic Light Blue</option>
+                        <option value="#008080">Retro Teal</option>
+                        <option value="#3a6ea5">Windows 95 Classic</option>
+                        <option value="#222222">Dark Mode</option>
+                    </select>
                 </div>
-                <div style="text-align: right; margin-top: auto;">
-                    <button class="settings-btn" onclick="closeWindow('${id}')">OK</button>
-                    <button class="settings-btn" onclick="closeWindow('${id}')">Cancel</button>
-                </div>
+            </div>
+            <div class="settings-group">
+                <span class="settings-legend">System Actions</span>
+                <button style="padding:4px 10px; cursor:pointer;" onclick="refreshDesktop(); alert('Desktop components successfully re-indexed!');">Optimize Folders Layout</button>
             </div>
         </div>
     `;
-    createWindowElement(id, "Display Properties", contentHTML, icons.settings, 350, 300);
+    createWindowElement(id, "System Configuration Properties Settings", contentHTML, icons.computer, 400, 260);
 }
 
-/* ============ TASKBAR & START MENU ============ */
+function selectFile(e) {
+    e.stopPropagation();
+    document.querySelectorAll('.file-icon').forEach(f => f.classList.remove('selected'));
+    e.currentTarget.classList.add('selected');
+}
+
+/* ============ OPERATIONAL CORE ACTION CALLS ============ */
+function restartSystem() {
+    // "restart means refreshed" -> Page location reloads natively
+    window.location.reload();
+}
+
+function shutdownSystem() {
+    // "shutting down means that website is automatically closed" 
+    document.getElementById('shutdown-screen').style.display = 'flex';
+    setTimeout(() => {
+        window.close();
+    }, 1500);
+}
+
+function refreshDesktop() {
+    const desktop = document.getElementById('desktop');
+    desktop.style.opacity = '0.4';
+    setTimeout(() => {
+        desktop.style.opacity = '1';
+        renderDesktop();
+    }, 250);
+}
+
+function arrangeIcons() {
+    renderDesktop();
+}
+
+/* ============ TASKBAR RUNTIME SYNCHRONIZATION ============ */
 const startBtn = document.getElementById('start-btn');
 const startMenu = document.getElementById('start-menu');
 const taskbarWindows = document.getElementById('taskbar-windows');
@@ -902,7 +812,7 @@ function updateTaskbar() {
         if (!win) return;
         const btn = document.createElement('div');
         btn.className = 'taskbar-win-btn' + (activeWindowId === id && win.style.display !== 'none' ? ' active' : '');
-        btn.innerHTML = `<img src="${win.dataset.icon}">${win.dataset.title}`;
+        btn.innerHTML = `<img src="${win.dataset.icon}" style="width:14px; height:14px; margin-right:5px;"><span>${win.dataset.title}</span>`;
         btn.onmousedown = (e) => {
             e.stopPropagation();
             if (activeWindowId === id && win.style.display !== 'none') {
@@ -915,101 +825,71 @@ function updateTaskbar() {
     });
 }
 
-// Clock
-setInterval(() => {
-    const d = new Date();
-    document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-}, 1000);
+// Selection box handling
+let isSelecting = false, startX, startY;
+const selectionBox = document.getElementById('selection-box');
+document.getElementById('desktop').addEventListener('mousedown', (e) => {
+    if (e.target === document.getElementById('desktop')) {
+        document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+        if(e.button !== 2) {
+            isSelecting = true; startX = e.clientX; startY = e.clientY;
+            selectionBox.style.display = 'block';
+            selectionBox.style.left = startX + 'px'; selectionBox.style.top = startY + 'px';
+            selectionBox.style.width = '0px'; selectionBox.style.height = '0px';
+        }
+    }
+});
+window.addEventListener('mousemove', (e) => {
+    if (!isSelecting) return;
+    const curX = e.clientX, curY = e.clientY;
+    const boxL = Math.min(startX, curX), boxT = Math.min(startY, curY);
+    const boxW = Math.abs(startX - curX), boxH = Math.abs(startY - curY);
+    selectionBox.style.left = boxL + 'px'; selectionBox.style.top = boxT + 'px';
+    selectionBox.style.width = boxW + 'px'; selectionBox.style.height = boxH + 'px';
+});
+window.addEventListener('mouseup', () => { isSelecting = false; selectionBox.style.display = 'none'; });
 
-/* ============ CONTEXT MENU & ACTIONS ============ */
+// Global context handlers
 const ctxMenu = document.getElementById('context-menu');
-const cmOpen = document.getElementById('cm-open');
-
 document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
-    if (e.target === desktop || e.target.closest('.desktop-icon')) {
-        // Only enable "Open" if an icon is selected
-        if (selectedDesktopIcon) {
-            cmOpen.classList.remove('disabled');
-        } else {
-            cmOpen.classList.add('disabled');
-        }
-        
+    if(e.target === document.getElementById('desktop') || e.target.closest('.desktop-icon')) {
         ctxMenu.style.display = 'flex';
-        ctxMenu.style.left = e.clientX + 'px';
-        ctxMenu.style.top = e.clientY + 'px';
+        ctxMenu.style.left = e.clientX + 'px'; ctxMenu.style.top = e.clientY + 'px';
     }
 });
-
 document.addEventListener('mousedown', (e) => {
-    if (!e.target.closest('#context-menu')) {
-        ctxMenu.style.display = 'none';
-    }
-    if (!e.target.closest('#start-menu') && e.target !== startBtn && !startBtn.contains(e.target)) {
-        closeStartMenu();
-    }
+    if (!e.target.closest('#context-menu')) ctxMenu.style.display = 'none';
+    if (!e.target.closest('#start-menu') && e.target !== startBtn) closeStartMenu();
 });
 
-function contextMenuAction(action) {
-    ctxMenu.style.display = 'none';
-    if (action === 'refresh') {
-        desktop.style.display = 'none';
-        setTimeout(() => desktop.style.display = 'flex', 50);
-    } else if (action === 'arrange') {
-        renderDesktop();
-    } else if (action === 'open') {
-        if (selectedDesktopIcon) {
-            openPath(selectedDesktopIcon);
-        }
-    }
-}
+// Clock Counter Initialization
+setInterval(() => {
+    const time = new Date();
+    document.getElementById('clock').innerText = time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}, 1000);
 
-/* ============ BOOT & SHUTDOWN SYSTEM ============ */
-function shutdownSystem() {
-    closeStartMenu();
-    document.getElementById('shutdown-screen').style.display = 'flex';
-    document.getElementById('shutdown-screen').style.cursor = 'wait';
-    document.getElementById('shutdown-message').innerText = "Windows is shutting down...";
-    
-    setTimeout(() => {
-        document.getElementById('shutdown-screen').style.cursor = 'default';
-        document.getElementById('shutdown-message').innerText = "It is now safe to turn off your computer.\n(You may close this tab)";
-        // Attempt to close window (browsers may block this if tab wasn't script-opened)
-        try { window.close(); } catch(e) {}
-    }, 3000);
-}
-
-function restartSystem() {
-    closeStartMenu();
-    document.getElementById('shutdown-screen').style.display = 'flex';
-    document.getElementById('shutdown-screen').style.cursor = 'wait';
-    document.getElementById('shutdown-message').innerText = "Windows is restarting...";
-    
-    setTimeout(() => {
-        window.location.reload();
-    }, 2000);
-}
-
+/* ============ CORE INITIALIZATION LOADER ============ */
 window.onload = () => {
     renderDesktop();
     setTimeout(() => {
         document.querySelector('.boot-text').style.display = 'none';
         document.getElementById('win-logo-screen').style.display = 'block';
         const fill = document.getElementById('boot-fill');
-        let width = 0;
+        let widthValue = 0;
         const interval = setInterval(() => {
-            width += 5;
-            fill.style.width = width + '%';
-            if (width >= 100) {
+            widthValue += 8;
+            fill.style.width = widthValue + '%';
+            if (widthValue >= 100) {
                 clearInterval(interval);
                 setTimeout(() => {
-                    document.getElementById('boot-screen').style.display = 'none';
-                }, 500);
+                    document.getElementById('boot-screen').style.removeProperty('display');
+                    document.getElementById('boot-screen').style.setProperty('display', 'none', 'important');
+                }, 400);
             }
-        }, 100);
-    }, 1500);
+        }, 90);
+    }, 1200);
 };
-
 </script>
 </body>
 </html>
