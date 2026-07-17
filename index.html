@@ -1,676 +1,892 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Alok OS — Interactive Design Portfolio</title>
-<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<script type="text/javascript">
-  (function(){ if(window.emailjs){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); } })();
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
 <style>
-/* --- CORE VARIABLES & TYPOGRAPHY --- */
-:root {
-  --bg-color: #050505;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --text-muted: #666666;
-  --accent: #1da1f2; /* Subtle blue accent, less loud than standard Windows */
-  --accent-hover: #1a91da;
-  
-  --acrylic-light: rgba(255, 255, 255, 0.02);
-  --acrylic-base: rgba(15, 15, 15, 0.65);
-  --acrylic-heavy: rgba(10, 10, 10, 0.85);
-  
-  --border-light: rgba(255, 255, 255, 0.06);
-  --border-active: rgba(255, 255, 255, 0.12);
-  
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.2);
-  --shadow-md: 0 12px 32px rgba(0,0,0,0.4);
-  --shadow-lg: 0 24px 64px rgba(0,0,0,0.6);
-  
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  
-  --font-ui: 'Inter', sans-serif;
-  --transition-fast: 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
-  --transition-smooth: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+:root{
+  --accent:#5B6EF5;
+  --accent-rgb:91,110,245;
+  --accent-gold:#C9A227;
+  --radius:14px;
+  --radius-sm:8px;
+  --taskbar-size:56px;
+  --icon-size:64px;
+  --icon-cell:104px;
+  --anim:0.22s;
+  --anim-ease:cubic-bezier(.2,.8,.2,1);
+  --font-ui:'Segoe UI Variable Display','Segoe UI',Inter,-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;
+  --font-mono:'Cascadia Code','JetBrains Mono',ui-monospace,'SF Mono',Consolas,monospace;
+  --ink:#12141C;
+  --ink-soft:#585F72;
+  --paper:#F7F8FB;
+  --paper-raise:#FFFFFF;
+  --glass:rgba(255,255,255,0.70);
+  --glass-strong:rgba(255,255,255,0.86);
+  --hairline:rgba(18,20,28,0.10);
+  --shadow-win:0 18px 50px -12px rgba(10,12,20,0.35),0 4px 14px -4px rgba(10,12,20,0.20);
+  --shadow-soft:0 6px 20px -6px rgba(10,12,20,0.25);
+  --wallpaper:linear-gradient(160deg,#1e293b 0%,#0f172a 100%);
+}
+html.dark{
+  --ink:#F1F2F6;
+  --ink-soft:#A8AEC0;
+  --paper:#181B24;
+  --paper-raise:#20232E;
+  --glass:rgba(24,27,36,0.72);
+  --glass-strong:rgba(28,31,41,0.88);
+  --hairline:rgba(255,255,255,0.09);
+  --shadow-win:0 18px 50px -12px rgba(0,0,0,0.55),0 4px 14px -4px rgba(0,0,0,0.35);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;}
+body{
+  font-family:var(--font-ui);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  user-select:none;
+}
+button{font-family:inherit;}
+::-webkit-scrollbar{width:10px;height:10px;}
+::-webkit-scrollbar-thumb{background:var(--hairline);border-radius:8px;}
+::-webkit-scrollbar-track{background:transparent;}
+[data-anim="off"] *{transition-duration:0s !important;animation-duration:0.001s !important;}
+[data-anim="fast"] *{transition-duration:0.10s !important;}
+
+/* ===== DESKTOP ===== */
+#desktop{
+  position:fixed;inset:0;
+  background:var(--wallpaper);
+  transition:background var(--anim) var(--anim-ease);
+}
+#desktopArea{
+  position:absolute;inset:0;
+}
+body.taskbar-bottom #desktopArea{ bottom:var(--taskbar-size); }
+body.taskbar-top #desktopArea{ top:var(--taskbar-size); }
+body.taskbar-left #desktopArea{ left:var(--taskbar-size); }
+body.taskbar-right #desktopArea{ right:var(--taskbar-size); }
+
+#iconLayer{position:absolute;inset:0;padding:20px;}
+.icon{
+  position:absolute;
+  width:calc(var(--icon-cell) - 12px);
+  padding:8px 6px;
+  border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  cursor:default;
+  touch-action:none;
+}
+.icon.selected, .icon.dragging{background:rgba(var(--accent-rgb),0.32);}
+.icon:not(.selected):hover{background:rgba(255,255,255,0.10);}
+.icon-glyph{width:var(--icon-size);height:var(--icon-size);display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35));}
+.icon-glyph svg{width:100%;height:100%;}
+.icon-label{
+  color:#fff;font-size:12.5px;text-align:center;line-height:1.25;
+  text-shadow:0 1px 3px rgba(0,0,0,0.55);
+  max-width:100%;word-break:break-word;
+  padding:1px 4px;border-radius:4px;
+}
+.icon-label input{
+  width:90px;font-size:12.5px;text-align:center;border-radius:4px;border:1px solid var(--accent);
+  padding:1px 3px;font-family:inherit;
+}
+#selectionRect{
+  position:absolute;border:1px solid var(--accent);background:rgba(var(--accent-rgb),0.18);
+  border-radius:2px;pointer-events:none;display:none;
 }
 
-[data-theme="light"] {
-  --bg-color: #f5f5f5;
-  --text-primary: #111111;
-  --text-secondary: #555555;
-  --text-muted: #888888;
-  --acrylic-base: rgba(250, 250, 250, 0.75);
-  --acrylic-heavy: rgba(255, 255, 255, 0.9);
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-active: rgba(0, 0, 0, 0.15);
+/* ===== TASKBAR ===== */
+#taskbar{
+  position:fixed;z-index:900;
+  display:flex;align-items:center;gap:4px;
+  background:var(--glass-strong);
+  backdrop-filter:blur(22px) saturate(1.4);
+  -webkit-backdrop-filter:blur(22px) saturate(1.4);
+  border-top:1px solid var(--hairline);
+  padding:0 8px;
 }
+body.taskbar-bottom #taskbar{left:0;right:0;bottom:0;height:var(--taskbar-size);border-top:1px solid var(--hairline);flex-direction:row;}
+body.taskbar-top #taskbar{left:0;right:0;top:0;height:var(--taskbar-size);border-bottom:1px solid var(--hairline);border-top:none;flex-direction:row;}
+body.taskbar-left #taskbar{top:0;bottom:0;left:0;width:var(--taskbar-size);flex-direction:column;padding:8px 0;border-right:1px solid var(--hairline);border-top:none;}
+body.taskbar-right #taskbar{top:0;bottom:0;right:0;width:var(--taskbar-size);flex-direction:column;padding:8px 0;border-left:1px solid var(--hairline);border-top:none;}
+body.taskbar-left #taskbar,body.taskbar-right #taskbar{gap:10px;}
 
-* { margin:0; padding:0; box-sizing:border-box; user-select: none; }
-html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg-color); font-family: var(--font-ui); color: var(--text-primary); letter-spacing: -0.01em; }
-button, input { font-family: inherit; color: inherit; outline: none; border: none; background: none; }
-img { user-drag: none; -webkit-user-drag: none; }
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(150,150,150,0.4); }
-
-/* --- WALLPAPER --- */
-#wallpaper {
-  position: fixed; inset: 0; z-index: 0;
-  /* Premium minimal stadium/floodlight inspired gradient */
-  background: radial-gradient(circle at 50% 0%, #0d1b2a 0%, #000000 80%);
-  background-size: cover; background-position: center; transition: background 0.8s ease;
+.tb-btn{
+  position:relative;
+  width:40px;height:40px;border:none;background:transparent;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);
+  transition:background var(--anim);
 }
-
-/* --- DESKTOP --- */
-#desktop { position: absolute; inset: 0; bottom: 80px; z-index: 10; display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; padding: 24px; gap: 16px; }
-.desktop-icon { width: 110px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; border-radius: var(--radius-md); cursor: pointer; border: 1px solid transparent; transition: var(--transition-fast); }
-.desktop-icon:hover { background: rgba(255,255,255,0.03); }
-.desktop-icon.selected { background: rgba(255,255,255,0.08); border-color: var(--border-light); }
-.desktop-icon i { font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); transition: transform 0.2s; }
-.desktop-icon:hover i { transform: scale(1.05); }
-.desktop-icon span { font-size: 13px; font-weight: 500; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.8); line-height: 1.2; letter-spacing: 0.02em; }
-
-/* Selection Box */
-#selection-box { position: fixed; border: 1px solid var(--accent); background: rgba(29, 161, 242, 0.2); z-index: 9; display: none; pointer-events: none; border-radius: 2px; }
-
-/* --- WINDOW SYSTEM --- */
-#windows-layer { position: absolute; inset: 0; bottom: 80px; z-index: 20; pointer-events: none; }
-.win-os {
-  position: absolute; top: 8%; left: 12%; width: 850px; height: 600px;
-  background: var(--acrylic-base); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--border-light); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
-  display: flex; flex-direction: column; overflow: hidden; pointer-events: auto; opacity: 0; transform: scale(0.97) translateY(10px);
-  transition: transform var(--transition-smooth), opacity var(--transition-smooth), width 0.25s, height 0.25s, top 0.25s, left 0.25s;
+.tb-btn:hover{background:rgba(var(--accent-rgb),0.16);}
+.tb-btn svg{width:20px;height:20px;}
+.tb-btn.running::after{
+  content:'';position:absolute;left:50%;bottom:2px;width:5px;height:5px;border-radius:50%;
+  background:var(--accent);transform:translateX(-50%);
 }
-.win-os.active-win { opacity: 1; transform: scale(1) translateY(0); box-shadow: var(--shadow-lg); border-color: var(--border-active); }
-.win-os.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100vh - 80px) !important; border-radius: 0; }
-.win-os.minimized { opacity: 0; transform: scale(0.9) translateY(40px); pointer-events: none; }
-
-.win-titlebar { height: 44px; display: flex; justify-content: space-between; align-items: center; padding-left: 16px; flex-shrink: 0; cursor: default; background: transparent; }
-.win-titlebar.draggable { cursor: grab; }
-.win-titlebar.draggable:active { cursor: grabbing; }
-.win-title { font-size: 13px; display: flex; align-items: center; gap: 10px; opacity: 0.9; font-weight: 600; letter-spacing: 0.03em; }
-.win-controls { display: flex; height: 100%; padding-right: 8px; align-items: center; gap: 4px; }
-.win-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: var(--transition-fast); cursor: pointer; color: var(--text-secondary); }
-.win-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
-.win-btn.close:hover { background: #E81123; color: white; }
-
-.win-content { flex: 1; display: flex; background: transparent; position: relative; overflow: hidden; }
-
-/* --- FILE EXPLORER --- */
-.explorer-layout { display: flex; width: 100%; height: 100%; flex-direction: row; }
-.explorer-sidebar { width: 240px; background: rgba(0,0,0,0.2); border-right: 1px solid var(--border-light); overflow-y: auto; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }
-.explorer-main { flex: 1; display: flex; flex-direction: column; background: var(--bg-color); }
-.explorer-header { height: 60px; display: flex; align-items: center; padding: 0 24px; border-bottom: 1px solid var(--border-light); font-size: 18px; font-weight: 600; gap: 12px; }
-.explorer-body { flex: 1; overflow-y: auto; padding: 24px; }
-.tree-item { padding: 10px 12px; display: flex; align-items: center; gap: 12px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-secondary); transition: var(--transition-fast); }
-.tree-item:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
-.tree-item.active { background: rgba(255,255,255,0.1); color: var(--text-primary); }
-.tree-item i { font-size: 16px; width: 20px; text-align: center; }
-
-.file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 24px; }
-.file-item { display: flex; flex-direction: column; align-items: center; padding: 16px 12px; border-radius: var(--radius-md); cursor: pointer; text-align: center; border: 1px solid transparent; transition: var(--transition-fast); }
-.file-item:hover { background: rgba(255,255,255,0.04); }
-.file-item .file-icon { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #60CDFF; margin-bottom: 12px; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
-.file-item span { font-size: 12px; word-break: break-word; line-height: 1.4; font-weight: 500; }
-
-/* --- STANDARD APPS --- */
-.standard-app { padding: 48px; max-width: 800px; margin: 0 auto; overflow-y: auto; width: 100%; height: 100%; user-select: text; }
-.standard-app h1 { font-size: 36px; font-weight: 700; margin-bottom: 32px; letter-spacing: -0.02em; }
-.standard-app p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px; }
-.info-section { margin-bottom: 32px; }
-.info-section h3 { font-size: 18px; margin-bottom: 12px; font-weight: 600; }
-
-/* --- CONTACT APP (INTERACTIVE) --- */
-.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 24px; }
-.contact-item { 
-  display: flex; align-items: center; gap: 16px; padding: 16px 20px; 
-  background: rgba(255,255,255,0.02); border: 1px solid var(--border-light); 
-  border-radius: var(--radius-md); font-size: 14px; cursor: pointer;
-  transition: var(--transition-fast); user-select: none;
+body.taskbar-left .tb-btn.running::after,body.taskbar-right .tb-btn.running::after{
+  bottom:50%;left:2px;transform:translateY(50%);
 }
-.contact-item:hover { background: rgba(255,255,255,0.06); border-color: var(--border-active); transform: translateY(-2px); }
-.contact-item:active { transform: translateY(0); }
-.contact-item i { font-size: 24px; width: 32px; text-align: center; }
-.contact-details { display: flex; flex-direction: column; gap: 4px; }
-.contact-platform { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-.contact-value { font-size: 15px; font-weight: 500; color: var(--text-primary); }
-
-/* Notifications (Toast) */
-#toast-container { position: fixed; bottom: 100px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
-.toast { background: var(--acrylic-heavy); backdrop-filter: blur(20px); border: 1px solid var(--border-light); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow-md); opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; align-items: center; gap: 10px; }
-.toast.show { opacity: 1; transform: translateY(0); }
-
-/* --- FLOATING TASKBAR --- */
-#taskbar {
-  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
-  height: 56px; width: auto; min-width: 400px; padding: 0 16px;
-  background: var(--acrylic-heavy); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--border-light); border-radius: 28px;
-  display: flex; justify-content: space-between; align-items: center; z-index: 1000;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5); gap: 24px;
+.tb-btn.active{background:rgba(var(--accent-rgb),0.24);}
+#tbStart svg{width:22px;height:22px;}
+#tbSpacer{flex:1;}
+.tb-sep{width:1px;height:24px;background:var(--hairline);margin:0 4px;}
+body.taskbar-left .tb-sep,body.taskbar-right .tb-sep{width:24px;height:1px;margin:4px 0;}
+#tbClock{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:2px 10px;border-radius:8px;cursor:pointer;font-size:11.5px;line-height:1.3;color:var(--ink);
 }
-.tb-center { display: flex; gap: 8px; height: 100%; align-items: center; }
-.tb-icon {
-  width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; position: relative; transition: var(--transition-fast); font-size: 20px; color: var(--text-secondary);
+#tbClock:hover{background:rgba(var(--accent-rgb),0.16);}
+#tbClock b{font-size:12.5px;font-family:var(--font-mono);}
+
+/* ===== START MENU / POPUPS ===== */
+.popup-surface{
+  position:fixed;z-index:950;
+  background:var(--glass-strong);
+  backdrop-filter:blur(28px) saturate(1.5);-webkit-backdrop-filter:blur(28px) saturate(1.5);
+  border:1px solid var(--hairline);border-radius:var(--radius);
+  box-shadow:var(--shadow-win);
+  opacity:0;transform:translateY(10px) scale(0.98);pointer-events:none;
+  transition:opacity var(--anim) var(--anim-ease),transform var(--anim) var(--anim-ease);
 }
-.tb-icon:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
-.tb-icon.active { color: var(--text-primary); background: rgba(255,255,255,0.05); }
-.tb-icon.running::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--text-muted); border-radius: 50%; }
-.tb-icon.active::after { background: var(--accent); width: 12px; border-radius: 2px; }
-#start-btn { color: var(--text-primary); }
+.popup-surface.open{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;}
 
-.tb-right { display: flex; gap: 12px; height: 100%; align-items: center; }
-.tb-tray-item { padding: 0 12px; height: 40px; border-radius: 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 14px; transition: var(--transition-fast); color: var(--text-secondary); }
-.tb-tray-item:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
-.tb-clock { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; font-size: 12px; font-weight: 500; }
-
-/* --- START MENU --- */
-#start-menu {
-  position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%) translateY(20px) scale(0.95); 
-  width: 640px; background: var(--acrylic-heavy); backdrop-filter: blur(50px); 
-  border: 1px solid var(--border-light); border-radius: var(--radius-lg); 
-  box-shadow: var(--shadow-lg); z-index: 999; display: flex; flex-direction: column;
-  opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-  padding: 32px; gap: 32px;
+#startMenu{width:380px;max-height:520px;display:flex;flex-direction:column;padding:18px;}
+#startMenu input{
+  width:100%;padding:9px 12px;border-radius:9px;border:1px solid var(--hairline);
+  background:rgba(128,128,128,0.10);color:var(--ink);font-size:13px;outline:none;
 }
-#start-menu.open { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); pointer-events: auto; }
-.start-search input { width: 100%; height: 48px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); border-radius: 24px; padding: 0 24px; font-size: 14px; transition: var(--transition-fast); }
-.start-search input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
-.start-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
-.start-app { display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: pointer; padding: 16px 8px; border-radius: var(--radius-md); transition: var(--transition-fast); }
-.start-app:hover { background: rgba(255,255,255,0.06); transform: translateY(-2px); }
-.start-app i { font-size: 32px; }
-.start-app span { font-size: 12px; font-weight: 500; }
+#startMenu input:focus{border-color:var(--accent);}
+.sm-label{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-soft);margin:14px 0 8px;}
+.sm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.sm-app{
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px;border-radius:10px;cursor:pointer;border:none;background:transparent;color:var(--ink);
+}
+.sm-app:hover{background:rgba(var(--accent-rgb),0.14);}
+.sm-app svg{width:26px;height:26px;}
+.sm-app span{font-size:11px;text-align:center;}
+#smSearchResults{max-height:180px;overflow:auto;margin-top:6px;}
+.sm-result{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;cursor:pointer;font-size:12.5px;}
+.sm-result:hover{background:rgba(var(--accent-rgb),0.14);}
+.sm-result svg{width:16px;height:16px;flex-shrink:0;}
+#startFooter{
+  margin-top:auto;padding-top:12px;border-top:1px solid var(--hairline);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sm-user{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink);cursor:pointer;padding:6px 8px;border-radius:8px;}
+.sm-user:hover{background:rgba(var(--accent-rgb),0.14);}
+.avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-gold));flex-shrink:0;}
+#powerFlyout{width:190px;padding:8px;}
+.pf-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--ink);}
+.pf-item:hover{background:rgba(var(--accent-rgb),0.14);}
+.pf-item svg{width:16px;height:16px;}
 
-/* --- IMAGE VIEWER (CINEMATIC) --- */
-.img-viewer { background: rgba(0,0,0,0.95) !important; align-items: center; justify-content: center; padding: 40px; }
-.img-viewer img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 20px 50px rgba(0,0,0,0.8); border-radius: 4px; }
+/* ===== CONTEXT MENU ===== */
+#contextMenu{width:220px;padding:6px;}
+.cm-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border-radius:7px;cursor:pointer;font-size:12.8px;color:var(--ink);
+}
+.cm-item:hover{background:rgba(var(--accent-rgb),0.14);}
+.cm-item.disabled{opacity:0.35;pointer-events:none;}
+.cm-sep{height:1px;background:var(--hairline);margin:5px 4px;}
+.cm-shortcut{font-size:11px;color:var(--ink-soft);}
+.cm-sub-label{font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);padding:6px 10px 2px;letter-spacing:0.05em;}
 
+/* ===== TRAY POPUPS ===== */
+#volumePopup{width:210px;padding:16px;}
+#volumePopup input[type=range]{width:100%;}
+#calendarPopup{width:250px;padding:16px;}
+.cal-head{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;margin-bottom:10px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;font-size:11.5px;}
+.cal-grid div{padding:5px 0;border-radius:6px;color:var(--ink);}
+.cal-grid .dow{color:var(--ink-soft);font-weight:600;font-size:10px;}
+.cal-grid .today{background:var(--accent);color:#fff;font-weight:700;}
+.cal-grid .pad{opacity:0;}
+#netPopup,#battPopup{width:200px;padding:14px;font-size:12.5px;color:var(--ink);}
+
+/* ===== NOTIFICATION PANEL ===== */
+#notifPanel{
+  position:fixed;top:0;bottom:0;width:320px;z-index:940;
+  background:var(--glass-strong);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border-left:1px solid var(--hairline);box-shadow:var(--shadow-win);
+  padding:18px;display:flex;flex-direction:column;gap:10px;
+  transform:translateX(100%);transition:transform var(--anim) var(--anim-ease);
+  right:0;
+}
+body.taskbar-right #notifPanel{right:var(--taskbar-size);}
+#notifPanel.open{transform:translateX(0);}
+#notifPanel h3{margin:0 0 4px;font-size:14px;}
+.notif-item{background:rgba(128,128,128,0.10);border-radius:10px;padding:10px 12px;position:relative;}
+.notif-item b{font-size:12.5px;}
+.notif-item p{margin:3px 0 0;font-size:11.5px;color:var(--ink-soft);line-height:1.4;}
+.notif-item .notif-x{position:absolute;top:6px;right:8px;cursor:pointer;opacity:0.5;font-size:11px;}
+.notif-item .notif-x:hover{opacity:1;}
+#notifEmpty{color:var(--ink-soft);font-size:12.5px;text-align:center;margin-top:30%;}
+.notif-clear{align-self:flex-start;font-size:11.5px;color:var(--accent);cursor:pointer;background:none;border:none;padding:0;}
+
+/* ===== WINDOWS ===== */
+#windowsLayer{position:absolute;inset:0;pointer-events:none;}
+.window{
+  position:absolute;pointer-events:auto;
+  display:flex;flex-direction:column;
+  background:var(--glass-strong);
+  backdrop-filter:blur(24px) saturate(1.3);-webkit-backdrop-filter:blur(24px) saturate(1.3);
+  border:1px solid var(--hairline);border-radius:var(--radius);
+  box-shadow:var(--shadow-win);overflow:hidden;
+  min-width:320px;min-height:220px;
+}
+.window.maximized{border-radius:0;}
+.window.focused{border-top:2px solid var(--accent-gold);}
+.window.closing{animation:winClose var(--anim) var(--anim-ease) forwards;}
+.window.opening{animation:winOpen var(--anim) var(--anim-ease);}
+@keyframes winOpen{from{opacity:0;transform:scale(0.96) translateY(6px);}to{opacity:1;transform:none;}}
+@keyframes winClose{to{opacity:0;transform:scale(0.96);}}
+.win-titlebar{
+  height:42px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:0 6px 0 14px;
+  background:linear-gradient(180deg,rgba(255,255,255,0.16),rgba(255,255,255,0) 60%);
+  cursor:default;
+}
+html.dark .win-titlebar{background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0) 60%);}
+.win-titlebar svg{width:16px;height:16px;flex-shrink:0;}
+.win-title{font-size:12.8px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.win-controls{display:flex;gap:2px;}
+.win-ctrl{width:32px;height:28px;border:none;background:transparent;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+.win-ctrl:hover{background:rgba(128,128,128,0.18);}
+.win-ctrl.close:hover{background:#E81123;color:#fff;}
+.win-ctrl svg{width:12px;height:12px;}
+.win-body{flex:1;overflow:auto;position:relative;background:rgba(128,128,128,0.03);}
+.resize-handle{position:absolute;right:0;bottom:0;width:18px;height:18px;cursor:nwse-resize;}
+.resize-edge-r{position:absolute;top:0;right:0;bottom:0;width:6px;cursor:ew-resize;}
+.resize-edge-b{position:absolute;left:0;right:0;bottom:0;height:6px;cursor:ns-resize;}
+#snapPreview{position:absolute;background:rgba(var(--accent-rgb),0.28);border:2px solid var(--accent);border-radius:10px;display:none;pointer-events:none;z-index:5;}
+
+/* ===== EXPLORER ===== */
+.explorer{display:flex;flex-direction:column;height:100%;}
+.exp-toolbar{display:flex;align-items:center;gap:6px;padding:8px 10px;border-bottom:1px solid var(--hairline);flex-shrink:0;}
+.exp-toolbar button{width:28px;height:28px;border:none;background:transparent;border-radius:7px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+.exp-toolbar button:hover:not(:disabled){background:rgba(128,128,128,0.16);}
+.exp-toolbar button:disabled{opacity:0.3;cursor:default;}
+.exp-toolbar button svg{width:15px;height:15px;}
+.exp-breadcrumb{flex:1;display:flex;align-items:center;gap:4px;background:rgba(128,128,128,0.10);border-radius:8px;padding:6px 10px;font-size:12.5px;overflow:auto;white-space:nowrap;}
+.exp-crumb{cursor:pointer;color:var(--ink);}
+.exp-crumb:hover{color:var(--accent);text-decoration:underline;}
+.exp-crumb-sep{color:var(--ink-soft);}
+.exp-search{width:130px;padding:6px 9px;border-radius:8px;border:1px solid var(--hairline);background:rgba(128,128,128,0.10);font-size:12px;outline:none;color:var(--ink);}
+.exp-search:focus{border-color:var(--accent);}
+.exp-body{flex:1;display:flex;overflow:hidden;}
+.exp-nav{width:150px;flex-shrink:0;border-right:1px solid var(--hairline);padding:10px 6px;overflow:auto;}
+.exp-nav-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:7px;cursor:pointer;font-size:12.5px;}
+.exp-nav-item:hover{background:rgba(var(--accent-rgb),0.14);}
+.exp-nav-item.active{background:rgba(var(--accent-rgb),0.22);font-weight:600;}
+.exp-nav-item svg{width:15px;height:15px;flex-shrink:0;}
+.exp-main{flex:1;overflow:auto;padding:14px;}
+.exp-main.list-view{padding:0;}
+.grid-items{display:grid;grid-template-columns:repeat(auto-fill,86px);gap:6px;}
+.file-item{display:flex;flex-direction:column;align-items:center;gap:6px;padding:8px 4px;border-radius:9px;cursor:pointer;text-align:center;}
+.file-item:hover{background:rgba(128,128,128,0.12);}
+.file-item.selected{background:rgba(var(--accent-rgb),0.28);}
+.file-item svg{width:40px;height:40px;}
+.file-item span{font-size:11.3px;line-height:1.25;word-break:break-word;max-width:82px;}
+.list-row{display:flex;align-items:center;gap:10px;padding:7px 14px;cursor:pointer;font-size:12.6px;border-bottom:1px solid var(--hairline);}
+.list-row:hover{background:rgba(128,128,128,0.10);}
+.list-row.selected{background:rgba(var(--accent-rgb),0.20);}
+.list-row svg{width:18px;height:18px;flex-shrink:0;}
+.list-row .col-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.list-row .col-meta{width:90px;color:var(--ink-soft);font-size:11.5px;}
+.list-head{display:flex;align-items:center;gap:10px;padding:7px 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--ink-soft);border-bottom:1px solid var(--hairline);}
+.list-head svg{width:18px;visibility:hidden;}
+.list-head .col-name{flex:1;}
+.list-head .col-meta{width:90px;}
+.exp-status{border-top:1px solid var(--hairline);padding:6px 14px;font-size:11.3px;color:var(--ink-soft);display:flex;justify-content:space-between;flex-shrink:0;}
+.exp-empty{color:var(--ink-soft);font-size:12.8px;text-align:center;margin-top:60px;}
+
+/* ===== VIEWER CONTENT ===== */
+.viewer{padding:26px 32px;max-width:640px;margin:0 auto;line-height:1.6;font-size:13.6px;}
+.viewer h1{font-size:22px;margin:0 0 4px;}
+.viewer h2{font-size:14px;margin:22px 0 8px;color:var(--accent);text-transform:uppercase;letter-spacing:0.04em;}
+.viewer .muted{color:var(--ink-soft);font-size:12.5px;}
+.viewer .tag{display:inline-block;background:rgba(var(--accent-rgb),0.16);color:var(--accent);padding:3px 10px;border-radius:20px;font-size:11.5px;margin:3px 4px 3px 0;}
+.viewer ul{padding-left:20px;}
+.viewer .card{background:rgba(128,128,128,0.08);border-radius:10px;padding:14px 16px;margin:10px 0;}
+.poster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;padding:20px;}
+.poster-card{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-soft);cursor:pointer;}
+.poster-thumb{height:110px;display:flex;align-items:center;justify-content:center;}
+.poster-thumb svg{width:38px;height:38px;opacity:0.85;}
+.poster-name{padding:8px 10px;font-size:11.8px;background:var(--paper-raise);}
+.contact-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--hairline);}
+.contact-row svg{width:18px;height:18px;color:var(--accent);flex-shrink:0;}
+.contact-row a{color:var(--ink);text-decoration:none;}
+.contact-row a:hover{color:var(--accent);}
+.social-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:8px;background:rgba(128,128,128,0.08);text-decoration:none;color:var(--ink);}
+.social-row:hover{background:rgba(var(--accent-rgb),0.14);}
+.social-row svg{width:20px;height:20px;color:var(--accent);}
+
+/* ===== SETTINGS ===== */
+.settings-body{padding:22px 26px;max-width:520px;}
+.set-section{margin-bottom:26px;}
+.set-section h3{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-soft);margin:0 0 12px;}
+.swatches{display:flex;gap:10px;flex-wrap:wrap;}
+.swatch{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid transparent;}
+.swatch.active{border-color:var(--ink);transform:scale(1.12);}
+.wall-options{display:flex;gap:10px;flex-wrap:wrap;}
+.wall-opt{width:64px;height:44px;border-radius:8px;cursor:pointer;border:2px solid transparent;position:relative;}
+.wall-opt.active{border-color:var(--accent);}
+.seg-control{display:flex;background:rgba(128,128,128,0.12);border-radius:9px;padding:3px;gap:2px;width:fit-content;}
+.seg-btn{border:none;background:transparent;padding:7px 14px;border-radius:7px;font-size:12.3px;cursor:pointer;color:var(--ink);}
+.seg-btn.active{background:var(--paper-raise);box-shadow:0 1px 4px rgba(0,0,0,0.15);font-weight:600;}
+.set-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;}
+.set-row label{font-size:13px;}
+.slider-row input[type=range]{width:100%;margin-top:8px;}
+.toggle{position:relative;width:40px;height:22px;border-radius:20px;background:rgba(128,128,128,0.3);cursor:pointer;flex-shrink:0;}
+.toggle.on{background:var(--accent);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform var(--anim);}
+.toggle.on::after{transform:translateX(18px);}
+
+/* ===== RECYCLE BIN ===== */
+.bin-toolbar{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--hairline);}
+.bin-btn{padding:7px 14px;border-radius:8px;border:1px solid var(--hairline);background:var(--paper-raise);font-size:12.3px;cursor:pointer;color:var(--ink);}
+.bin-btn:hover{background:rgba(var(--accent-rgb),0.14);}
+.bin-btn:disabled{opacity:0.4;cursor:default;}
+
+/* ===== MUSIC WIDGET ===== */
+#musicWidget{
+  position:fixed;z-index:850;bottom:20px;right:20px;
+  width:280px;border-radius:16px;overflow:hidden;
+  background:var(--glass-strong);backdrop-filter:blur(26px) saturate(1.4);-webkit-backdrop-filter:blur(26px) saturate(1.4);
+  border:1px solid var(--hairline);box-shadow:var(--shadow-win);
+  transition:all var(--anim) var(--anim-ease);
+  display:none;
+}
+body.taskbar-bottom #musicWidget{bottom:calc(var(--taskbar-size) + 16px);}
+body.taskbar-right #musicWidget{right:calc(var(--taskbar-size) + 16px);}
+body.taskbar-left #musicWidget{left:calc(var(--taskbar-size) + 16px);right:auto;}
+#musicWidget.show{display:block;}
+.mw-main{display:flex;align-items:center;gap:12px;padding:12px;}
+.mw-art{width:48px;height:48px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,var(--accent),var(--accent-gold));position:relative;overflow:hidden;}
+.mw-art::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.5),transparent 60%);}
+.mw-art.playing{animation:artPulse 3s ease-in-out infinite;}
+@keyframes artPulse{0%,100%{filter:brightness(1);}50%{filter:brightness(1.25);}}
+.mw-info{flex:1;overflow:hidden;}
+.mw-title{font-size:12.6px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mw-artist{font-size:11.3px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.mw-controls{display:flex;gap:2px;flex-shrink:0;}
+.mw-btn{width:26px;height:26px;border:none;background:transparent;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+.mw-btn:hover{background:rgba(128,128,128,0.18);}
+.mw-btn svg{width:13px;height:13px;}
+.mw-btn.play{background:var(--accent);color:#fff;width:30px;height:30px;}
+.mw-btn.play:hover{background:var(--accent);filter:brightness(1.1);}
+.mw-progress{height:3px;background:rgba(128,128,128,0.25);position:relative;cursor:pointer;}
+.mw-progress-fill{height:100%;background:var(--accent);width:0%;}
+.mw-expand-btn{position:absolute;top:8px;right:8px;width:22px;height:22px;border:none;background:rgba(128,128,128,0.18);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);}
+.mw-expand-btn svg{width:11px;height:11px;}
+.mw-close-btn{position:absolute;top:8px;right:36px;width:22px;height:22px;border:none;background:rgba(128,128,128,0.18);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink);}
+.mw-close-btn svg{width:10px;height:10px;}
+#mwQueue{display:none;max-height:220px;overflow:auto;border-top:1px solid var(--hairline);padding:8px;}
+#musicWidget.expanded #mwQueue{display:block;}
+.mw-q-item{display:flex;align-items:center;gap:10px;padding:8px;border-radius:8px;cursor:pointer;}
+.mw-q-item:hover{background:rgba(128,128,128,0.12);}
+.mw-q-item.current{background:rgba(var(--accent-rgb),0.18);}
+.mw-q-art{width:30px;height:30px;border-radius:6px;flex-shrink:0;}
+.mw-q-title{font-size:11.8px;font-weight:600;}
+.mw-q-artist{font-size:10.8px;color:var(--ink-soft);}
+
+/* ===== POWER / LOCK / SLEEP / LOGIN OVERLAYS ===== */
+.full-overlay{
+  position:fixed;inset:0;z-index:990;display:flex;align-items:center;justify-content:center;flex-direction:column;
+  opacity:0;pointer-events:none;transition:opacity 0.4s ease;color:#fff;
+}
+.full-overlay.show{opacity:1;pointer-events:auto;}
+#lockScreen{background:var(--wallpaper);}
+#lockScreen .lock-time{font-size:76px;font-weight:300;font-family:var(--font-mono);}
+#lockScreen .lock-date{font-size:16px;margin-top:6px;opacity:0.85;}
+#lockScreen .lock-hint{position:absolute;bottom:60px;font-size:13px;opacity:0.7;}
+#sleepOverlay{background:#000;}
+#sleepOverlay .sleep-dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.5);animation:sleepPulse 2.4s ease-in-out infinite;}
+@keyframes sleepPulse{0%,100%{opacity:0.25;}50%{opacity:0.8;}}
+#powerOverlay{background:#000;}
+#powerOverlay .spinner{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,0.25);border-top-color:#fff;animation:spin 0.9s linear infinite;margin-bottom:18px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#powerOverlay .power-msg{font-size:14px;opacity:0.85;}
+#powerOverlay .final-msg{font-size:14px;opacity:0.8;max-width:320px;text-align:center;line-height:1.6;}
+#loginScreen{background:var(--wallpaper);}
+#loginScreen .login-avatar{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-gold));margin-bottom:16px;}
+#loginScreen .login-name{font-size:18px;font-weight:600;margin-bottom:18px;}
+#loginScreen button{
+  padding:10px 26px;border-radius:20px;border:1px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.12);
+  color:#fff;font-size:13.5px;cursor:pointer;backdrop-filter:blur(10px);
+}
+#loginScreen button:hover{background:rgba(255,255,255,0.22);}
+
+/* ===== CONFIRM MODAL ===== */
+#confirmOverlay{position:fixed;inset:0;z-index:995;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;}
+#confirmOverlay.show{display:flex;}
+#confirmModal{width:300px;background:var(--glass-strong);backdrop-filter:blur(24px);border:1px solid var(--hairline);border-radius:var(--radius);box-shadow:var(--shadow-win);padding:20px;}
+#confirmModal p{font-size:13.2px;margin:0 0 16px;color:var(--ink);line-height:1.5;}
+#confirmModal .cm-actions{display:flex;justify-content:flex-end;gap:8px;}
+#confirmModal button{padding:8px 16px;border-radius:8px;border:none;font-size:12.6px;cursor:pointer;}
+#confirmModal .btn-cancel{background:rgba(128,128,128,0.18);color:var(--ink);}
+#confirmModal .btn-confirm{background:var(--accent);color:#fff;}
+
+@media (max-width:720px){
+  .exp-nav{width:110px;}
+  #musicWidget{width:calc(100% - 32px);right:16px;left:16px;}
+}
 </style>
 </head>
-<body>
+<body class="taskbar-bottom">
 
-<div id="wallpaper"></div>
-<div id="desktop"></div>
-<div id="selection-box"></div>
-<div id="windows-layer"></div>
-<div id="toast-container"></div>
+<div id="desktop">
+  <div id="desktopArea">
+    <div id="iconLayer"></div>
+    <div id="selectionRect"></div>
+  </div>
+  <div id="windowsLayer"></div>
+</div>
 
 <div id="taskbar">
-  <div class="tb-center" id="tb-apps">
-    <div class="tb-icon" id="start-btn" onclick="toggleStartMenu()" title="Start"><i class="fa-brands fa-windows"></i></div>
-    <div class="tb-icon" onclick="openApp('explorer')" title="Projects"><i class="fa-solid fa-folder-open" style="color:#F3C144;"></i></div>
-    <div class="tb-icon" onclick="openApp('about')" title="About Me"><i class="fa-solid fa-user" style="color:#1da1f2;"></i></div>
-    <div class="tb-icon" onclick="openApp('spotify')" title="Media Player"><i class="fa-solid fa-music" style="color:#1DB954;"></i></div>
-  </div>
-  <div class="tb-right">
-    <div class="tb-tray-item" onclick="toggleFullscreen()" title="Toggle Fullscreen (F11)">
-      <i class="fa-solid fa-expand" id="fs-icon"></i>
-    </div>
-    <div class="tb-tray-item tb-clock">
-      <span id="tb-time">12:00 AM</span>
-    </div>
-  </div>
+  <button class="tb-btn" id="tbStart" title="Start"></button>
+  <div class="tb-sep"></div>
+  <div id="tbPinned" style="display:flex;gap:2px;"></div>
+  <div id="tbSpacer"></div>
+  <button class="tb-btn" id="tbSearch" title="Search"></button>
+  <button class="tb-btn" id="tbVolume" title="Volume"></button>
+  <button class="tb-btn" id="tbNetwork" title="Network"></button>
+  <button class="tb-btn" id="tbBattery" title="Battery"></button>
+  <button class="tb-btn" id="tbNotif" title="Notifications"></button>
+  <div id="tbClock"></div>
 </div>
 
-<div id="start-menu">
-  <div class="start-search"><input type="text" placeholder="Search apps, projects, and settings..."></div>
-  <div>
-    <div style="font-size:14px; font-weight:600; margin-bottom:20px; padding-left:8px;">Pinned Apps</div>
-    <div class="start-grid" id="start-grid-apps"></div>
-  </div>
-</div>
+<div id="startMenu" class="popup-surface"></div>
+<div id="powerFlyout" class="popup-surface"></div>
+<div id="contextMenu" class="popup-surface"></div>
+<div id="volumePopup" class="popup-surface"></div>
+<div id="calendarPopup" class="popup-surface"></div>
+<div id="netPopup" class="popup-surface"></div>
+<div id="battPopup" class="popup-surface"></div>
+
+<div id="notifPanel"></div>
+
+<div id="musicWidget"></div>
+
+<div id="lockScreen" class="full-overlay"></div>
+<div id="sleepOverlay" class="full-overlay"><div class="sleep-dot"></div></div>
+<div id="powerOverlay" class="full-overlay"></div>
+<div id="loginScreen" class="full-overlay"></div>
+
+<div id="confirmOverlay"><div id="confirmModal"></div></div>
 
 <script>
-/* --- PRESERVED DATA --- */
-const PROFILE = {
-  name: "Alok Sharma",
-  bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
-  email: "alokkynwa@gmail.com"
+/* =========================================================================
+   ICON LIBRARY (inline SVG, currentColor / accent based, no external assets)
+   ========================================================================= */
+const ICON_COLOR = "#5B6EF5";
+function svgIcon(paths, viewBox){ return `<svg viewBox="${viewBox||'0 0 24 24'}" fill="none" xmlns="http://www.w3.org/2000/svg">${paths}</svg>`; }
+const ICONS = {
+  folder: svgIcon(`<path d="M3 6.5C3 5.67 3.67 5 4.5 5H9.5L11.5 7H19.5C20.33 7 21 7.67 21 8.5V17.5C21 18.33 20.33 19 19.5 19H4.5C3.67 19 3 18.33 3 17.5V6.5Z" fill="${ICON_COLOR}"/><path d="M3 6.5C3 5.67 3.67 5 4.5 5H9.5L11.2 6.6H4.5C3.67 6.6 3 7.27 3 8.1V6.5Z" fill="#8b98f7"/>`),
+  document: svgIcon(`<path d="M6 3.5C6 2.67 6.67 2 7.5 2H13.5L18 6.5V20.5C18 21.33 17.33 22 16.5 22H7.5C6.67 22 6 21.33 6 20.5V3.5Z" fill="#F7F8FB" stroke="${ICON_COLOR}" stroke-width="1.3"/><path d="M13.5 2V6.5H18" stroke="${ICON_COLOR}" stroke-width="1.3"/><path d="M9 12H15M9 15H15M9 18H12.5" stroke="${ICON_COLOR}" stroke-width="1.2" stroke-linecap="round"/>`),
+  pdf: svgIcon(`<path d="M6 3.5C6 2.67 6.67 2 7.5 2H13.5L18 6.5V20.5C18 21.33 17.33 22 16.5 22H7.5C6.67 22 6 21.33 6 20.5V3.5Z" fill="#EF4444"/><path d="M13.5 2V6.5H18" fill="#fff" opacity="0.5"/><text x="12" y="16.5" font-size="6.2" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">PDF</text>`),
+  image: svgIcon(`<rect x="3" y="4" width="18" height="16" rx="2.4" fill="#F7F8FB" stroke="${ICON_COLOR}" stroke-width="1.3"/><circle cx="8.4" cy="9.5" r="1.7" fill="#F5B942"/><path d="M4 17.5L9 12.5L12.5 16L16 11.5L20 16.5" stroke="${ICON_COLOR}" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  contact: svgIcon(`<rect x="2.5" y="5" width="19" height="14" rx="2.4" fill="#F7F8FB" stroke="${ICON_COLOR}" stroke-width="1.3"/><circle cx="9" cy="11" r="2.3" fill="${ICON_COLOR}"/><path d="M5.5 16C5.5 14 7 12.8 9 12.8C11 12.8 12.5 14 12.5 16" stroke="${ICON_COLOR}" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M15 10H19M15 13H19" stroke="${ICON_COLOR}" stroke-width="1.3" stroke-linecap="round"/>`),
+  link: svgIcon(`<rect x="2" y="2" width="20" height="20" rx="5" fill="${ICON_COLOR}"/><path d="M10.5 13.5L13.5 10.5M9.2 14.6L7.6 16.2C6.6 17.2 5 17.2 4 16.2C3 15.2 3 13.6 4 12.6L7 9.6C8 8.6 9.6 8.6 10.6 9.6M14.8 9.4L16.4 7.8C17.4 6.8 19 6.8 20 7.8C21 8.8 21 10.4 20 11.4L17 14.4C16 15.4 14.4 15.4 13.4 14.4" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>`),
+  bin: svgIcon(`<path d="M5 7H19L18 20.5C18 21.3 17.3 22 16.5 22H7.5C6.7 22 6 21.3 6 20.5L5 7Z" fill="#DCE1F5" stroke="${ICON_COLOR}" stroke-width="1.2"/><path d="M3 7H21" stroke="${ICON_COLOR}" stroke-width="1.4" stroke-linecap="round"/><path d="M9 7V4.5C9 3.7 9.7 3 10.5 3H13.5C14.3 3 15 3.7 15 4.5V7" stroke="${ICON_COLOR}" stroke-width="1.3" fill="none"/><path d="M10 10.5V18.5M14 10.5V18.5" stroke="${ICON_COLOR}" stroke-width="1.2" stroke-linecap="round"/>`),
+  binFull: svgIcon(`<path d="M5 7H19L18 20.5C18 21.3 17.3 22 16.5 22H7.5C6.7 22 6 21.3 6 20.5L5 7Z" fill="#5B6EF5" stroke="${ICON_COLOR}" stroke-width="1.2"/><path d="M3 7H21" stroke="${ICON_COLOR}" stroke-width="1.4" stroke-linecap="round"/><path d="M9 7V4.5C9 3.7 9.7 3 10.5 3H13.5C14.3 3 15 3.7 15 4.5V7" stroke="${ICON_COLOR}" stroke-width="1.3" fill="none"/><path d="M10 10.5V18.5M14 10.5V18.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>`),
+  gear: svgIcon(`<path d="M12 15.2C13.77 15.2 15.2 13.77 15.2 12C15.2 10.23 13.77 8.8 12 8.8C10.23 8.8 8.8 10.23 8.8 12C8.8 13.77 10.23 15.2 12 15.2Z" fill="none" stroke="${ICON_COLOR}" stroke-width="1.5"/><path d="M19.4 13.5C19.47 13 19.5 12.5 19.5 12C19.5 11.5 19.47 11 19.4 10.5L21.5 8.9L19.9 6.1L17.4 7.1C16.65 6.5 15.8 6 14.9 5.7L14.5 3H10.5L10.1 5.7C9.2 6 8.35 6.5 7.6 7.1L5.1 6.1L3.5 8.9L5.6 10.5C5.53 11 5.5 11.5 5.5 12C5.5 12.5 5.53 13 5.6 13.5L3.5 15.1L5.1 17.9L7.6 16.9C8.35 17.5 9.2 18 10.1 18.3L10.5 21H14.5L14.9 18.3C15.8 18 16.65 17.5 17.4 16.9L19.9 17.9L21.5 15.1L19.4 13.5Z" stroke="${ICON_COLOR}" stroke-width="1.3" fill="none" stroke-linejoin="round"/>`),
+  music: svgIcon(`<circle cx="7" cy="18" r="2.6" fill="${ICON_COLOR}"/><circle cx="17" cy="16" r="2.6" fill="${ICON_COLOR}"/><path d="M9.6 18V6.5L19.6 4V16" stroke="${ICON_COLOR}" stroke-width="1.5" fill="none" stroke-linejoin="round"/>`),
+  explorer: svgIcon(`<path d="M3 7.5C3 6.67 3.67 6 4.5 6H9L11 8.2H19.5C20.33 8.2 21 8.87 21 9.7V17.5C21 18.33 20.33 19 19.5 19H4.5C3.67 19 3 18.33 3 17.5V7.5Z" fill="#F5B942"/><path d="M3 7.5C3 6.67 3.67 6 4.5 6H9L10.7 7.6H4.5C3.67 7.6 3 8.27 3 9.1V7.5Z" fill="#F7C868"/>`),
+  search: svgIcon(`<circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M15.5 15.5L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`),
+  volumeHi: svgIcon(`<path d="M4 9.5V14.5H7.5L12.5 19V5L7.5 9.5H4Z" fill="currentColor"/><path d="M16 9C17 10 17 14 16 15M18.3 6.8C20.3 9 20.3 15 18.3 17.2" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>`),
+  network: svgIcon(`<path d="M4 16.5C8.5 12.2 15.5 12.2 20 16.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M7.2 19.2C9.9 16.7 14.1 16.7 16.8 19.2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><circle cx="12" cy="21.4" r="1.1" fill="currentColor"/>`),
+  battery: svgIcon(`<rect x="2.5" y="8" width="17" height="9" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="20.5" y="10.5" width="1.6" height="4" rx="0.6" fill="currentColor"/><rect x="4.3" y="9.8" width="11" height="5.4" rx="1" fill="currentColor"/>`),
+  bell: svgIcon(`<path d="M6 17V11C6 7.7 8.7 5 12 5C15.3 5 18 7.7 18 11V17L20 19H4L6 17Z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/><path d="M10 21C10.4 21.6 11.1 22 12 22C12.9 22 13.6 21.6 14 21" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>`),
+  chevLeft: svgIcon(`<path d="M15 5L8 12L15 19" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  chevRight: svgIcon(`<path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  refresh: svgIcon(`<path d="M4 12C4 7.6 7.6 4 12 4C15 4 17.6 5.7 19 8.2M20 12C20 16.4 16.4 20 12 20C9 20 6.4 18.3 5 15.8" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M19 4V8.2H14.8M5 20V15.8H9.2" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  grid: svgIcon(`<rect x="3" y="3" width="7" height="7" rx="1.4" fill="currentColor"/><rect x="14" y="3" width="7" height="7" rx="1.4" fill="currentColor"/><rect x="3" y="14" width="7" height="7" rx="1.4" fill="currentColor"/><rect x="14" y="14" width="7" height="7" rx="1.4" fill="currentColor"/>`),
+  list: svgIcon(`<circle cx="4.5" cy="6" r="1.3" fill="currentColor"/><circle cx="4.5" cy="12" r="1.3" fill="currentColor"/><circle cx="4.5" cy="18" r="1.3" fill="currentColor"/><path d="M8.5 6H20M8.5 12H20M8.5 18H20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`),
+  minimize: svgIcon(`<path d="M4 10H16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>`, "0 0 20 20"),
+  maximize: svgIcon(`<rect x="4" y="4" width="12" height="12" rx="1.6" stroke="currentColor" stroke-width="1.6" fill="none"/>`, "0 0 20 20"),
+  restore: svgIcon(`<rect x="6" y="4" width="10" height="10" rx="1.4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M4 8V15.4C4 15.7 4.3 16 4.6 16H12" stroke="currentColor" stroke-width="1.5" fill="none"/>`, "0 0 20 20"),
+  close: svgIcon(`<path d="M4 4L16 16M16 4L4 16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>`, "0 0 20 20"),
+  play: svgIcon(`<path d="M5 4L18 12L5 20V4Z" fill="currentColor"/>`),
+  pause: svgIcon(`<rect x="5" y="4" width="4.5" height="16" rx="1" fill="currentColor"/><rect x="14.5" y="4" width="4.5" height="16" rx="1" fill="currentColor"/>`),
+  prev: svgIcon(`<path d="M19 4L8 12L19 20V4Z" fill="currentColor"/><rect x="4" y="4" width="2.6" height="16" rx="0.8" fill="currentColor"/>`),
+  next: svgIcon(`<path d="M5 4L16 12L5 20V4Z" fill="currentColor"/><rect x="17.4" y="4" width="2.6" height="16" rx="0.8" fill="currentColor"/>`),
+  expand: svgIcon(`<path d="M4 10L4 4L10 4M14 4L20 4L20 10M20 14L20 20L14 20M10 20L4 20L4 14" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  power: svgIcon(`<path d="M12 3V11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M7 5.5C5.1 7 4 9.3 4 11.8C4 16.2 7.6 19.8 12 19.8C16.4 19.8 20 16.2 20 11.8C20 9.3 18.9 7 17 5.5" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/>`),
+  lock: svgIcon(`<rect x="5" y="10.5" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M8 10.5V7.5C8 5.3 9.8 3.5 12 3.5C14.2 3.5 16 5.3 16 7.5V10.5" stroke="currentColor" stroke-width="1.6" fill="none"/>`),
+  moon: svgIcon(`<path d="M20 13.5C18.9 16.6 15.9 18.8 12.5 18.8C8.1 18.8 4.5 15.2 4.5 10.8C4.5 7.4 6.7 4.4 9.8 3.3C8.7 5 8.2 7 8.4 9C8.8 13 12.3 16 16.4 15.7C17.7 15.6 18.9 15.2 20 14.5" fill="currentColor"/>`),
+  logout: svgIcon(`<path d="M9 4H6C4.9 4 4 4.9 4 6V18C4 19.1 4.9 20 6 20H9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M14 16L18 12L14 8M18 12H9" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  restart: svgIcon(`<path d="M4 12C4 7.6 7.6 4 12 4C15 4 17.6 5.7 19 8.2M20 12C20 16.4 16.4 20 12 20C9 20 6.4 18.3 5 15.8" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M19 4V8.2H14.8" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  wallpaper: svgIcon(`<rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="8" cy="9" r="1.6" fill="currentColor"/><path d="M4 17L9 12L12.5 15.5L16 11.5L20 15.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  aperture: svgIcon(`<circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="9.3" r="2.6" fill="currentColor"/>`),
+  trash: svgIcon(`<path d="M4 6.5H20M9 6.5V4.5C9 3.9 9.5 3.5 10 3.5H14C14.5 3.5 15 3.9 15 4.5V6.5M6.5 6.5L7.3 19C7.4 19.9 8.1 20.5 9 20.5H15C15.9 20.5 16.6 19.9 16.7 19L17.5 6.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  restoreIcon: svgIcon(`<path d="M4 12C4 7.6 7.6 4 12 4C15 4 17.6 5.7 19 8.2M20 12C20 16.4 16.4 20 12 20C9 20 6.4 18.3 5 15.8" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M19 4V8.2H14.8" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`),
+  info: svgIcon(`<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 11V16.5M12 8V8.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>`),
+  football: svgIcon(`<circle cx="12" cy="12" r="9" fill="#fff" stroke="#222" stroke-width="1"/><path d="M12 6.5L15.5 9.2L14 13.3H10L8.5 9.2L12 6.5Z" fill="#222"/><path d="M12 6.5V3.5M8.5 9.2L5.7 8.4M10 13.3L8.2 16.2M14 13.3L15.8 16.2M15.5 9.2L18.3 8.4" stroke="#222" stroke-width="0.9"/>`, "0 0 24 24"),
+};
+function icon(name){ return ICONS[name] || ICONS.document; }
+
+/* =========================================================================
+   VIRTUAL FILE SYSTEM  (placeholder content — swap for the real material)
+   ========================================================================= */
+const FS = {
+  desktop: {type:'folder', name:'Desktop', children:['resume','about','education','skills','projects','posters','contact','social']},
+  resume: {type:'file', kind:'resume', name:'My Resume.pdf', icon:'pdf'},
+  about: {type:'file', kind:'about', name:'About Me.txt', icon:'document'},
+  education: {type:'folder', name:'Education', children:['edu1','edu2']},
+  edu1: {type:'file', kind:'text', name:'University Name.txt', icon:'document', title:'University Name', body:'Placeholder degree, for example: Bachelor of Science in Computer Science.<br>Placeholder years attended, e.g. 2019 to 2023.<br>Add relevant coursework, honors, or activities here.'},
+  edu2: {type:'file', kind:'text', name:'Certifications.txt', icon:'document', title:'Certifications', body:'Placeholder — list any certifications, online courses, or additional training here.'},
+  skills: {type:'file', kind:'skills', name:'Skills.txt', icon:'document'},
+  projects: {type:'folder', name:'Projects', children:['proj1','proj2','proj3']},
+  proj1: {type:'folder', name:'Project One', children:['proj1-readme']},
+  'proj1-readme': {type:'file', kind:'project', name:'README.txt', icon:'document', title:'Project One', tags:['Placeholder Tag','Placeholder Tag'], body:'Placeholder project description. Replace with a short summary of what the project does, the problem it solves, and your role in building it.'},
+  proj2: {type:'folder', name:'Project Two', children:['proj2-readme']},
+  'proj2-readme': {type:'file', kind:'project', name:'README.txt', icon:'document', title:'Project Two', tags:['Placeholder Tag','Placeholder Tag','Placeholder Tag'], body:'Placeholder project description. Replace with a short summary of what the project does, the problem it solves, and your role in building it.'},
+  proj3: {type:'folder', name:'Project Three', children:['proj3-readme']},
+  'proj3-readme': {type:'file', kind:'project', name:'README.txt', icon:'document', title:'Project Three', tags:['Placeholder Tag'], body:'Placeholder project description. Replace with a short summary of what the project does, the problem it solves, and your role in building it.'},
+  posters: {type:'folder', name:'Football Posters', children:['poster1','poster2','poster3','poster4']},
+  poster1: {type:'file', kind:'poster', name:'Poster 1.jpg', icon:'image'},
+  poster2: {type:'file', kind:'poster', name:'Poster 2.jpg', icon:'image'},
+  poster3: {type:'file', kind:'poster', name:'Poster 3.jpg', icon:'image'},
+  poster4: {type:'file', kind:'poster', name:'Poster 4.jpg', icon:'image'},
+  contact: {type:'file', kind:'contact', name:'Contact.txt', icon:'contact'},
+  social: {type:'file', kind:'social', name:'Social Links.txt', icon:'link'},
 };
 
-const PROJECTS = {
-  "Danke": [
-    { title: "ThankyouMo.jpeg", icon: "fa-image" },
-    { title: "ThankyouRobbo.jpeg", icon: "fa-image" },
-    { title: "robboxmo copy.jpg", icon: "fa-image" },
-    { title: "heavymetalfootball.jpg", icon: "fa-image" }
-  ],
-  "Matchday": [
-    { title: "argvspa copy.jpg", icon: "fa-image" },
-    { title: "engvarg.jpeg", icon: "fa-image" },
-    { title: "fravspa.jpeg", icon: "fa-image" },
-    { title: "engnorway.jpg", icon: "fa-image" },
-    { title: "spainbelgium.jpeg", icon: "fa-image" },
-    { title: "fravswe.jpeg", icon: "fa-image" },
-    { title: "portugalvcongo copy.jpg", icon: "fa-image" },
-    { title: "poruzb copy.jpg", icon: "fa-image" },
-    { title: "porcong.jpeg", icon: "fa-image" },
-    { title: "lfcvbre copy.jpg", icon: "fa-image" },
-    { title: "livche.jpeg", icon: "fa-image" },
-    { title: "livvgal.jpeg", icon: "fa-image" },
-    { title: "livvmci.jpeg", icon: "fa-image" },
-    { title: "livvpsg.jpeg", icon: "fa-image" },
-    { title: "psgvarsfinal copy.jpg", icon: "fa-image" }
-  ],
-  "Supporters' voice": [
-    { title: "slotout.jpeg", icon: "fa-image" }
-  ]
+const SKILLS_DATA = {
+  'Languages':['Placeholder','Placeholder','Placeholder'],
+  'Frameworks':['Placeholder','Placeholder'],
+  'Tools':['Placeholder','Placeholder','Placeholder']
 };
+const SOCIAL_LINKS = [
+  {label:'LinkedIn', href:'#'},
+  {label:'GitHub', href:'#'},
+  {label:'X / Twitter', href:'#'},
+  {label:'Instagram', href:'#'},
+];
+const CONTACT_INFO = { email:'you@example.com', phone:'Placeholder phone number', location:'Placeholder location' };
 
-const SKILLS = {
-  "Tech Stack": [
-    { title: "HTML5", icon: "fa-html5", color: "#E34F26" },
-    { title: "CSS3", icon: "fa-css3-alt", color: "#1572B6" },
-    { title: "Python", icon: "fa-python", color: "#3776AB" },
-    { title: "Photoshop", icon: "fa-pen-nib", color: "#31A8FF" }
-  ]
-};
-
-/* --- SYSTEM APPS DEFINITION --- */
-const APPS = {
-  explorer: {
-    title: "Projects", icon: "fa-folder-open", color: "#F3C144",
-    render: () => {
-      let folders = Object.keys(PROJECTS);
-      let treeHTML = folders.map((f, i) => `<div class="tree-item ${i===0?'active':''}" onclick="loadFolder('${f}', this)"><i class="fa-solid fa-folder" style="color:#F3C144"></i> ${f}</div>`).join('');
-      return `
-        <div class="explorer-layout">
-          <div class="explorer-sidebar">
-            <div style="font-size:11px; font-weight:700; color:var(--text-muted); margin: 8px 0 4px 12px; text-transform:uppercase; letter-spacing:0.05em;">Directory</div>
-            ${treeHTML}
-          </div>
-          <div class="explorer-main">
-            <div class="explorer-header"><i class="fa-solid fa-folder-open" style="color:#F3C144"></i> <span id="exp-title">${folders[0]}</span></div>
-            <div class="explorer-body" id="explorer-main-view">
-              ${renderFolderGrid(PROJECTS[folders[0]])}
-            </div>
-          </div>
-        </div>
-      `;
-    }
-  },
-  about: {
-    title: "About Me", icon: "fa-user", color: "#1da1f2",
-    render: () => `
-      <div class="standard-app">
-        <h1>${PROFILE.name}</h1>
-        <div class="info-section">
-          <h3>Bio & Background</h3>
-          <p>${PROFILE.bio}</p>
-        </div>
-      </div>
-    `
-  },
-  education: {
-    title: "Education", icon: "fa-graduation-cap", color: "#E81123",
-    render: () => `
-      <div class="standard-app">
-        <h1>Education Timeline</h1>
-        <div class="info-section">
-          <h3>Mahakavi Devkota Memorial Secondary School (2010-2022)</h3>
-          <p>Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
-        </div>
-        <div class="info-section">
-          <h3>Reliance International Academy (2022-2024)</h3>
-          <p>Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
-        </div>
-        <div class="info-section">
-          <h3>Amrit Campus (2024-current)</h3>
-          <p>Currently pursuing B.Sc.CSIT.</p>
-        </div>
-      </div>
-    `
-  },
-  skills: {
-    title: "Skills", icon: "fa-code", color: "#107C41",
-    render: () => {
-      let html = `<div class="standard-app"><h1>Technical Skills</h1><div class="file-grid" style="margin-top:24px;">`;
-      SKILLS["Tech Stack"].forEach(s => {
-        html += `<div class="file-item"><i class="fa-brands ${s.icon} file-icon" style="color:${s.color}"></i><span>${s.title}</span></div>`;
-      });
-      html += `</div></div>`;
-      return html;
-    }
-  },
-  contact: {
-    title: "Contacts", icon: "fa-address-book", color: "#D83B01",
-    render: () => `
-      <div class="standard-app">
-        <h1>Contact Directory</h1>
-        <p>Double-click to open. Single-click to copy to clipboard.</p>
-        <div class="contact-grid">
-          <div class="contact-item" onclick="handleContactClick(event, '${PROFILE.email}', 'mailto:${PROFILE.email}')">
-            <i class="fa-solid fa-envelope" style="color:#D83B01"></i>
-            <div class="contact-details"><span class="contact-platform">Email</span><span class="contact-value">${PROFILE.email}</span></div>
-          </div>
-          <div class="contact-item" onclick="handleContactClick(event, '+9779843538473', 'tel:+9779843538473')">
-            <i class="fa-solid fa-phone" style="color:#107C41"></i>
-            <div class="contact-details"><span class="contact-platform">Phone</span><span class="contact-value">+9779843538473</span></div>
-          </div>
-          <div class="contact-item" onclick="handleContactClick(event, '@alok.ynwa', 'https://instagram.com/alok.ynwa')">
-            <i class="fa-brands fa-instagram" style="color:#E1306C"></i>
-            <div class="contact-details"><span class="contact-platform">Instagram</span><span class="contact-value">@alok.ynwa</span></div>
-          </div>
-          <div class="contact-item" onclick="handleContactClick(event, '@alokynwa', 'https://twitter.com/alokynwa')">
-            <i class="fa-brands fa-x-twitter" style="color:#fff"></i>
-            <div class="contact-details"><span class="contact-platform">X (Twitter)</span><span class="contact-value">@alokynwa</span></div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-  spotify: {
-    title: "Media Player", icon: "fa-music", color: "#1DB954",
-    render: () => `
-      <div class="standard-app" style="padding:0; background: #121212;">
-        <iframe style="border-radius:0; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-      </div>
-    `
-  }
-};
-
-let zIndexCounter = 100;
-const openWindows = new Map();
-const desktopIcons = [
-  { id: 'explorer', title: 'Projects', icon: 'fa-folder-open', color: '#F3C144' },
-  { id: 'about', title: 'About Me', icon: 'fa-user', color: '#1da1f2' },
-  { id: 'education', title: 'Education', icon: 'fa-graduation-cap', color: '#E81123' },
-  { id: 'skills', title: 'Skills', icon: 'fa-code', color: '#107C41' },
-  { id: 'contact', title: 'Contacts', icon: 'fa-address-book', color: '#D83B01' }
+const NAV_LINKS = [
+  {key:'desktop', label:'Desktop', iconName:'folder'},
+  {key:'education', label:'Education', iconName:'folder'},
+  {key:'projects', label:'Projects', iconName:'folder'},
+  {key:'posters', label:'Football Posters', iconName:'folder'},
 ];
 
-function init() {
-  renderDesktop();
-  renderStartMenu();
-  updateClock();
-  setInterval(updateClock, 1000);
-  
-  // Desktop un-select
-  document.getElementById('desktop').addEventListener('mousedown', (e) => {
-    if(e.target === document.getElementById('desktop')) {
-      document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
-      document.getElementById('start-menu').classList.remove('open');
+const TRACKS = [
+  {title:'Aurora Skyline', artist:'Nightwave Collective', hue:230, duration:210},
+  {title:'Glass Horizon', artist:'Echo Valley', hue:270, duration:196},
+  {title:'Paper Planes at Dawn', artist:'The Quiet Static', hue:20, duration:222},
+  {title:'Amber Streetlights', artist:'Nova and Bloom', hue:40, duration:188},
+  {title:'Slow Fade Blue', artist:'Halcyon Room', hue:200, duration:204},
+];
+
+const WALLPAPERS = {
+  slate:{name:'Slate', css:'linear-gradient(160deg,#1e293b 0%,#0f172a 100%)'},
+  aurora:{name:'Aurora', css:'radial-gradient(circle at 20% 20%,#4c1d95,transparent 55%),radial-gradient(circle at 80% 25%,#1e3a8a,transparent 55%),linear-gradient(160deg,#0f172a,#1e1b4b)'},
+  dawn:{name:'Dawn', css:'linear-gradient(135deg,#7c3aed 0%,#db2777 55%,#f59e0b 100%)'},
+  forest:{name:'Forest', css:'linear-gradient(160deg,#134e4a 0%,#052e2b 100%)'},
+  midnight:{name:'Midnight', css:'radial-gradient(circle at 50% 0%,rgba(91,110,245,0.25),transparent 55%),linear-gradient(180deg,#0a0a0f,#000000)'},
+};
+const ACCENTS = ['#5B6EF5','#8B5CF6','#EC4899','#F59E0B','#10B981','#06B6D4','#EF4444','#64748B'];
+const ICON_SIZES = {small:48, medium:64, large:88};
+
+/* =========================================================================
+   STATE
+   ========================================================================= */
+let state = {
+  settings:{ accent:'#5B6EF5', wallpaper:'slate', theme:'dark', transparency:70, animSpeed:'normal', taskbarPos:'bottom', iconSize:'medium', notifications:true },
+  power:'desktop',
+  icons: [],
+  selected: new Set(),
+  recycleBin: [],
+  windows: [],
+  zCounter: 10,
+  winCounter: 0,
+  notifications:[
+    {id:1, title:'Welcome', body:'Explore the desktop — try opening Projects or Football Posters.'},
+    {id:2, title:'Tip', body:'Right-click anywhere on the desktop for more options.'},
+  ],
+  battery: 86,
+};
+/* NOTE: settings intentionally live in memory only (not localStorage).
+   The Claude.ai artifact preview sandboxes localStorage away, so it would
+   silently fail here. Once this file is hosted on your own domain, swap
+   the load()/save() functions below for real localStorage calls — the
+   commented lines show exactly what to uncomment. */
+function loadSettings(){
+  // const raw = localStorage.getItem('portfolioOsSettings');
+  // if(raw) state.settings = Object.assign(state.settings, JSON.parse(raw));
+}
+function saveSettings(){
+  // localStorage.setItem('portfolioOsSettings', JSON.stringify(state.settings));
+}
+
+function initIcons(){
+  const keys = FS.desktop.children;
+  state.icons = keys.map((key,i)=>({ id:'icon-'+key, fsKey:key, x:24, y:24+i*(ICON_SIZES[state.settings.iconSize]+40) }));
+}
+
+/* =========================================================================
+   UTIL
+   ========================================================================= */
+function $(sel,root){ return (root||document).querySelector(sel); }
+function $all(sel,root){ return Array.from((root||document).querySelectorAll(sel)); }
+function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
+function fmtTime(d){ let h=d.getHours(), m=d.getMinutes(); let ap=h>=12?'PM':'AM'; let h12=h%12; if(h12===0)h12=12; return (h12+':'+String(m).padStart(2,'0')+' '+ap); }
+function fmtDate(d){ return d.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'}); }
+function closeAllPopups(except){
+  ['startMenu','powerFlyout','contextMenu','volumePopup','calendarPopup','netPopup','battPopup'].forEach(id=>{
+    if(id!==except) $('#'+id).classList.remove('open');
+  });
+}
+function hexToRgb(hex){
+  const v = hex.replace('#','');
+  const n = parseInt(v.length===3? v.split('').map(c=>c+c).join(''):v,16);
+  return `${(n>>16)&255},${(n>>8)&255},${n&255}`;
+}
+
+/* =========================================================================
+   RENDER: DESKTOP ICONS
+   ========================================================================= */
+function renderIcons(){
+  const layer = $('#iconLayer');
+  layer.innerHTML='';
+  state.icons.forEach(ic=>{
+    const node = FS[ic.fsKey];
+    if(!node) return;
+    const isBin = false;
+    const iconName = node.type==='folder' ? 'folder' : (node.icon||'document');
+    const el = document.createElement('div');
+    el.className = 'icon' + (state.selected.has(ic.id)?' selected':'');
+    el.style.left = ic.x+'px'; el.style.top = ic.y+'px';
+    el.dataset.id = ic.id;
+    el.innerHTML = `<div class="icon-glyph">${icon(iconName)}</div><div class="icon-label" data-label>${node.name}</div>`;
+    wireIconEvents(el, ic);
+    layer.appendChild(el);
+  });
+  // recycle bin, fixed special icon
+  const binEl = document.createElement('div');
+  const binFull = state.recycleBin.length>0;
+  binEl.className='icon'+(state.selected.has('recyclebin')?' selected':'');
+  const binIdx = state.icons.length;
+  binEl.style.left='24px'; binEl.style.top=(24+binIdx*(ICON_SIZES[state.settings.iconSize]+40))+'px';
+  binEl.dataset.id='recyclebin';
+  binEl.innerHTML = `<div class="icon-glyph">${icon(binFull?'binFull':'bin')}</div><div class="icon-label">Recycle Bin</div>`;
+  wireIconEvents(binEl, {id:'recyclebin', special:'recyclebin', x:24, y:24+binIdx*(ICON_SIZES[state.settings.iconSize]+40)});
+  layer.appendChild(binEl);
+  document.documentElement.style.setProperty('--icon-size', ICON_SIZES[state.settings.iconSize]+'px');
+  document.documentElement.style.setProperty('--icon-cell', (ICON_SIZES[state.settings.iconSize]+40)+'px');
+}
+
+function wireIconEvents(el, ic){
+  let dragging=false, moved=false, startX=0, startY=0, origPositions=new Map();
+  el.addEventListener('pointerdown', e=>{
+    e.stopPropagation();
+    if(!state.selected.has(ic.id) && !e.ctrlKey && !e.metaKey){
+      state.selected.clear(); state.selected.add(ic.id);
+      $all('.icon',$('#iconLayer')).forEach(n=>n.classList.toggle('selected', n.dataset.id===ic.id));
+    } else if(e.ctrlKey || e.metaKey){
+      if(state.selected.has(ic.id)) state.selected.delete(ic.id); else state.selected.add(ic.id);
+      el.classList.toggle('selected');
+    }
+    dragging=true; moved=false; startX=e.clientX; startY=e.clientY;
+    origPositions.clear();
+    state.icons.forEach(i=>{ if(state.selected.has(i.id)) origPositions.set(i.id, {x:i.x,y:i.y}); });
+    if(state.selected.has('recyclebin')) origPositions.set('recyclebin',{x:24,y:ic.y});
+    el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const dx=e.clientX-startX, dy=e.clientY-startY;
+    if(Math.abs(dx)>3||Math.abs(dy)>3) moved=true;
+    if(!moved) return;
+    origPositions.forEach((pos,id)=>{
+      if(id==='recyclebin') return;
+      const item = state.icons.find(i=>i.id===id);
+      if(item){ item.x = clamp(pos.x+dx,0,4000); item.y = clamp(pos.y+dy,0,4000); }
+    });
+    renderIcons();
+  });
+  el.addEventListener('pointerup', e=>{
+    dragging=false;
+    if(moved){
+      state.icons.forEach(i=>{ i.x = Math.round(i.x/20)*20; i.y = Math.round(i.y/20)*20; });
+      renderIcons();
+    } else {
+      // simple click, single select already applied on pointerdown
     }
   });
-
-  // Keyboard Shortcuts
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'F11') {
-      e.preventDefault();
-      toggleFullscreen();
-    } else if (e.key === 'Escape') {
-      // Close top active window or exit fullscreen fallback
-      const activeWins = Array.from(document.querySelectorAll('.win-os.active-win'));
-      if(activeWins.length > 0) {
-        const topWin = activeWins.sort((a,b) => parseInt(b.style.zIndex) - parseInt(a.style.zIndex))[0];
-        const id = topWin.id.replace('win-', '');
-        closeApp(id);
-      }
-    } else if ((e.metaKey || e.windowsKey || e.key === 'Meta') && e.key === 'd') {
-      e.preventDefault();
-      openWindows.forEach((win, id) => minimizeWindow(id));
-    }
+  el.addEventListener('dblclick', e=>{ e.stopPropagation(); openFromIcon(ic); });
+  el.addEventListener('contextmenu', e=>{
+    e.preventDefault(); e.stopPropagation();
+    if(!state.selected.has(ic.id)){ state.selected.clear(); state.selected.add(ic.id); renderIcons(); }
+    showIconContextMenu(e.clientX, e.clientY, ic);
   });
 }
 
-function renderDesktop() {
-  const desktop = document.getElementById('desktop');
-  desktop.innerHTML = desktopIcons.map(item => `
-    <div class="desktop-icon" ondblclick="openApp('${item.id}')" onclick="selectDesktopIcon(this, event)">
-      <i class="fa-solid ${item.icon}" style="color:${item.color}"></i>
-      <span>${item.title}</span>
-    </div>
-  `).join('');
+function openFromIcon(ic){
+  if(ic.special==='recyclebin'){ openRecycleBin(); return; }
+  const node = FS[ic.fsKey];
+  if(node.type==='folder') openExplorer(['desktop', ic.fsKey]);
+  else openViewerFor(ic.fsKey);
 }
 
-function renderStartMenu() {
-  const grid = document.getElementById('start-grid-apps');
-  grid.innerHTML = Object.keys(APPS).map(key => `
-    <div class="start-app" onclick="openApp('${key}'); document.getElementById('start-menu').classList.remove('open');">
-      <i class="fa-solid ${APPS[key].icon}" style="color:${APPS[key].color}"></i>
-      <span>${APPS[key].title}</span>
-    </div>
-  `).join('');
-}
-
-function selectDesktopIcon(el, e) {
-  e.stopPropagation();
-  document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-/* --- WINDOW MANAGEMENT --- */
-function openApp(id) {
-  if (openWindows.has(id)) {
-    let win = openWindows.get(id);
-    if (win.classList.contains('minimized')) win.classList.remove('minimized');
-    focusWindow(win);
-    updateTaskbarIndicators();
-    return;
-  }
-
-  const app = APPS[id];
-  if(!app) return;
-
-  const win = document.createElement('div');
-  win.className = 'win-os';
-  win.id = `win-${id}`;
-  
-  win.innerHTML = `
-    <div class="win-titlebar draggable" onmousedown="focusWindow(this.parentElement)">
-      <div class="win-title"><i class="fa-solid ${app.icon}" style="color:${app.color}"></i> ${app.title}</div>
-      <div class="win-controls">
-        <div class="win-btn" onclick="minimizeWindow('${id}')"><i class="fa-solid fa-minus"></i></div>
-        <div class="win-btn" onclick="maximizeWindow('${id}')"><i class="fa-regular fa-square"></i></div>
-        <div class="win-btn close" onclick="closeApp('${id}')"><i class="fa-solid fa-xmark"></i></div>
-      </div>
-    </div>
-    <div class="win-content">${app.render()}</div>
-  `;
-
-  document.getElementById('windows-layer').appendChild(win);
-  openWindows.set(id, win);
-  
-  const offset = (openWindows.size * 30) % 150;
-  win.style.top = `${8 + (offset/10)}%`;
-  win.style.left = `${12 + (offset/10)}%`;
-
-  // Entrance animation trigger
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      win.classList.add('active-win');
+/* =========================================================================
+   SELECTION RECTANGLE
+   ========================================================================= */
+(function setupSelectionRect(){
+  const area = $('#desktopArea');
+  const rectEl = $('#selectionRect');
+  let active=false, sx=0, sy=0;
+  area.addEventListener('pointerdown', e=>{
+    if(e.target.closest('.icon')) return;
+    closeAllPopups();
+    active=true;
+    const bounds = area.getBoundingClientRect();
+    sx = e.clientX-bounds.left; sy = e.clientY-bounds.top;
+    rectEl.style.left=sx+'px'; rectEl.style.top=sy+'px'; rectEl.style.width='0px'; rectEl.style.height='0px';
+    if(!e.ctrlKey && !e.metaKey){ state.selected.clear(); renderIcons(); }
+  });
+  area.addEventListener('pointermove', e=>{
+    if(!active) return;
+    const bounds = area.getBoundingClientRect();
+    const cx = e.clientX-bounds.left, cy = e.clientY-bounds.top;
+    const x = Math.min(sx,cx), y=Math.min(sy,cy), w=Math.abs(cx-sx), h=Math.abs(cy-sy);
+    rectEl.style.display='block';
+    rectEl.style.left=x+'px'; rectEl.style.top=y+'px'; rectEl.style.width=w+'px'; rectEl.style.height=h+'px';
+    const rBox = {left:x,top:y,right:x+w,bottom:y+h};
+    $all('.icon',$('#iconLayer')).forEach(elx=>{
+      const ib = {left:elx.offsetLeft, top:elx.offsetTop, right:elx.offsetLeft+elx.offsetWidth, bottom:elx.offsetTop+elx.offsetHeight};
+      const hit = !(ib.left>rBox.right || ib.right<rBox.left || ib.top>rBox.bottom || ib.bottom<rBox.top);
+      elx.classList.toggle('selected', hit);
+      if(hit) state.selected.add(elx.dataset.id); else if(!e.ctrlKey) state.selected.delete(elx.dataset.id);
     });
   });
-  
-  focusWindow(win);
-  makeDraggable(win, win.querySelector('.win-titlebar'));
-  addToTaskbar(id);
+  area.addEventListener('pointerup', ()=>{ active=false; rectEl.style.display='none'; });
+})();
+
+/* =========================================================================
+   CONTEXT MENUS
+   ========================================================================= */
+function buildMenu(items){
+  return items.map(it=>{
+    if(it==='sep') return '<div class="cm-sep"></div>';
+    if(it.label && it.subLabel) return `<div class="cm-sub-label">${it.label}</div>`;
+    return `<div class="cm-item ${it.disabled?'disabled':''}" onclick='${it.action}'>${it.label}${it.shortcut?`<span class="cm-shortcut">${it.shortcut}</span>`:''}</div>`;
+  }).join('');
 }
-
-function closeApp(id) {
-  const win = openWindows.get(id);
-  if (win) {
-    win.style.opacity = '0';
-    win.style.transform = 'scale(0.95) translateY(20px)';
-    setTimeout(() => { win.remove(); openWindows.delete(id); updateTaskbarIndicators(); }, 200);
-  }
+function showMenuAt(el, x, y){
+  closeAllPopups();
+  const vw=window.innerWidth, vh=window.innerHeight;
+  el.classList.add('open');
+  const w = el.offsetWidth||220, h = el.offsetHeight||260;
+  el.style.left = Math.min(x, vw-w-8)+'px';
+  el.style.top = Math.min(y, vh-h-8)+'px';
 }
-
-function minimizeWindow(id) {
-  const win = openWindows.get(id);
-  if (win) { win.classList.add('minimized'); win.classList.remove('active-win'); updateTaskbarIndicators(); }
+function showDesktopContextMenu(x,y){
+  const el = $('#contextMenu');
+  el.innerHTML = buildMenu([
+    {label:'View: Large icons', action:'setIconSize("large")'},
+    {label:'View: Medium icons', action:'setIconSize("medium")'},
+    {label:'View: Small icons', action:'setIconSize("small")'},
+    'sep',
+    {label:'Sort icons', action:'arrangeIcons()'},
+    {label:'Refresh', action:'renderIcons()', shortcut:'F5'},
+    'sep',
+    {label:'Personalize', action:'openSettings("wallpaper")'},
+  ]);
+  showMenuAt(el,x,y);
 }
-
-function maximizeWindow(id) {
-  const win = openWindows.get(id);
-  if (win) {
-    win.classList.toggle('maximized');
-    win.querySelector('.fa-square').className = win.classList.contains('maximized') ? 'fa-regular fa-clone' : 'fa-regular fa-square';
-  }
+let ctxIcon=null;
+function showIconContextMenu(x,y,ic){
+  ctxIcon = ic;
+  const el = $('#contextMenu');
+  const isBin = ic.special==='recyclebin';
+  el.innerHTML = buildMenu(isBin ? [
+    {label:'Open', action:'openRecycleBin()'},
+    'sep',
+    {label:'Empty Recycle Bin', action:'confirmEmptyBin()', disabled: state.recycleBin.length===0},
+  ] : [
+    {label:'Open', action:`openFromIcon(getIconById('${ic.id}'))`},
+    'sep',
+    {label:'Rename', action:`renameIcon('${ic.id}')`, shortcut:'F2'},
+    {label:'Delete', action:`deleteIcon('${ic.id}')`, shortcut:'Del'},
+    'sep',
+    {label:'Properties', action:`showProperties('${ic.id}')`},
+  ]);
+  showMenuAt(el,x,y);
 }
-
-function focusWindow(win) {
-  zIndexCounter++;
-  win.style.zIndex = zIndexCounter;
-  document.querySelectorAll('.win-os').forEach(w => w.classList.remove('active-win'));
-  win.classList.add('active-win');
-  updateTaskbarIndicators();
-}
-
-function addToTaskbar(id) {
-  if (document.getElementById(`tb-${id}`)) return;
-  const app = APPS[id];
-  const tb = document.getElementById('tb-apps');
-  const icon = document.createElement('div');
-  icon.className = 'tb-icon running active';
-  icon.id = `tb-${id}`;
-  icon.title = app.title;
-  icon.innerHTML = `<i class="fa-solid ${app.icon}" style="color:${app.color}"></i>`;
-  icon.onclick = () => {
-    const win = openWindows.get(id);
-    if (win.classList.contains('minimized')) { win.classList.remove('minimized'); focusWindow(win); }
-    else if (win.classList.contains('active-win')) { minimizeWindow(id); }
-    else { focusWindow(win); }
-  };
-  tb.appendChild(icon);
-  updateTaskbarIndicators();
-}
-
-function updateTaskbarIndicators() {
-  document.querySelectorAll('.tb-icon.running').forEach(icon => {
-    const id = icon.id.replace('tb-', '');
-    const win = openWindows.get(id);
-    if (!win) { icon.remove(); return; }
-    icon.classList.toggle('active', win.classList.contains('active-win') && !win.classList.contains('minimized'));
-  });
-}
-
-function makeDraggable(el, header) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  header.onmousedown = dragMouseDown;
-
-  function dragMouseDown(e) {
-    if(el.classList.contains('maximized') || e.target.closest('.win-controls')) return;
-    e.preventDefault();
-    pos3 = e.clientX; pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e.preventDefault();
-    pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
-    pos3 = e.clientX; pos4 = e.clientY;
-    el.style.top = Math.max(0, (el.offsetTop - pos2)) + "px";
-    el.style.left = (el.offsetLeft - pos1) + "px";
-  }
-  function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
-}
-
-/* --- EXPLORER & IMAGE VIEWER LOGIC --- */
-function renderFolderGrid(files) {
-  return `<div class="file-grid">` + files.map(f => `
-    <div class="file-item" ondblclick="openImageViewer('${f.title}')">
-      <i class="fa-regular ${f.icon} file-icon"></i>
-      <span>${f.title}</span>
-    </div>
-  `).join('') + `</div>`;
-}
-
-function loadFolder(folder, el) {
-  document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('explorer-main-view').innerHTML = renderFolderGrid(PROJECTS[folder]);
-  document.getElementById('exp-title').innerText = folder;
-}
-
-let ivCount = 0;
-function openImageViewer(title) {
-  ivCount++;
-  const id = 'img-view-' + ivCount;
-  APPS[id] = {
-    title: title, icon: "fa-image", color: "#31A8FF",
-    render: () => `<div class="win-content img-viewer"><img src="${title}" alt="${title} (Asset unavailable in code)"></div>`
-  };
-  openApp(id);
-  maximizeWindow(id); // Cinematic view by default
-}
-
-/* --- INTERACTIVE CONTACTS & TOAST --- */
-let clickTimer = null;
-function handleContactClick(e, copyText, linkUrl) {
-  e.stopPropagation();
-  if (e.detail === 1) {
-    clickTimer = setTimeout(() => {
-      navigator.clipboard.writeText(copyText).then(() => {
-        showToast(`<i class="fa-solid fa-check" style="color:#1DB954;"></i> Copied ${copyText} to clipboard`);
-      });
-    }, 200);
-  } else if (e.detail === 2) {
-    clearTimeout(clickTimer);
-    window.open(linkUrl, '_blank');
-  }
-}
-
-function showToast(html) {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = html;
-  container.appendChild(toast);
-  
-  setTimeout(() => toast.classList.add('show'), 10);
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-/* --- SYSTEM UTILS --- */
-function toggleStartMenu() {
-  document.getElementById('start-menu').classList.toggle('open');
-}
-
-function updateClock() {
-  const d = new Date();
-  document.getElementById('tb-time').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-}
-
-function toggleFullscreen() {
-  const icon = document.getElementById('fs-icon');
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(err => console.log(`Error attempting to enable fullscreen: ${err.message}`));
-    icon.classList.replace('fa-expand', 'fa-compress');
-    showToast(`<i class="fa-solid fa-desktop"></i> Entered Presentation Mode`);
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-      icon.classList.replace('fa-compress', 'fa-expand');
-    }
-  }
-}
-
-document.addEventListener('fullscreenchange', () => {
-  const icon = document.getElementById('fs-icon');
-  if (!document.fullscreenElement) {
-    icon.classList.replace('fa-compress', 'fa-expand');
+function getIconById(id){ return state.icons.find(i=>i.id===id) || (id==='recyclebin'?{id:'recyclebin',special:'recyclebin'}:null); }
+document.addEventListener('contextmenu', e=>{
+  if(e.target.closest('#desktopArea') && !e.target.closest('.icon')){
+    e.preventDefault(); showDesktopContextMenu(e.clientX,e.clientY);
   }
 });
+document.addEventListener('pointerdown', e=>{
+  if(!e.target.closest('.popup-surface') && !e.target.closest('#tbStart') && !e.target.closest('#tbVolume') && !e.target.closest('#tbNetwork') && !e.target.closest('#tbBattery') && !e.target.closest('#tbClock')){
+    closeAllPopups();
+  }
+});
+function setIconSize(size){ state.settings.iconSize=size; renderIcons(); closeAllPopups(); saveSettings(); syncSettingsUI(); }
+function arrangeIcons(){
+  const sizeStep = ICON_SIZES[state.settings.iconSize]+40;
+  state.icons.forEach((ic,i)=>{ ic.x=24; ic.y=24+i*sizeStep; });
+  renderIcons(); closeAllPopups();
+}
+function renameIcon(id){
+  const ic = getIconById(id);
+  const el = $(`.icon[data-id="${id}"] .icon-label`);
+  if(!el) return;
+  const node = FS[ic.fsKey];
+  const current = node.name;
+  el.innerHTML = `<input value="${current}" />`;
+  const input = el.querySelector('input');
+  input.focus(); input.select();
+  function commit(){ const val = input.value.trim(); if(val) node.name = val; renderIcons(); }
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e=>{ if(e.key==='Enter') input.blur(); if(e.key==='Escape'){ el.textContent=current; } });
+  closeAllPopups();
+}
+function deleteIcon(id){
+  const idx = state.icons.findIndex(i=>i.id===id);
+  if(idx===-1) return;
+  const [removed] = state.icons.splice(idx,1);
+  state.recycleBin.push(removed);
+  state.selected.delete(id);
+  renderIcons(); closeAllPopups();
+  renderRecycleWindows();
+}
+function showProperties(id){
+  const ic = getIconById(id);
+  const node = FS[ic.fsKey];
+  const el = $('#confirmModal');
+  el.innerHTML = `<p><b>${node.name}</b><br><span style="color:var(--ink-soft);font-size:12px;">Type: ${node.type==='folder'?'Folder':'File'}<br>Location: Desktop</span></p><div class="cm-actions"><button class="btn-confirm" onclick="closeConfirm()">OK</button></div>`;
+  $('#confirmOverlay').classList.add('show');
+}
+function closeConfirm(){ $('#confirmOverlay').classList.remove('show'); }
 
-window.onload = init;
+/* Global keyboard shortcuts */
+document.addEventListener('keydown', e=>{
+  if(state.power!=='desktop'){
+    if(state.power==='locked' || state.power==='asleep'){ unlockOrWake(); }
+    return;
+  }
+  const tag = document.activeElement.tagName;
+  if(tag==='INPUT' || tag==='TEXTAREA') return;
+  if(e.key==='Delete' && state.selected.size>0){
+    Array.from(state.selected).forEach(id=>{ if(id!=='recyclebin') deleteIcon(id); });
+  }
+  if(e.key==='F2' && state.selected.size===1){ renameIcon(Array.from(state.selected)[0]); }
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='a'){
+    e.preventDefault();
+    state.icons.forEach(i=>state.selected.add(i.id));
+    renderIcons();
+  }
+  if(e.key==='Escape'){ state.selected.clear(); renderIcons(); closeAllPopups(); }
+  if(e.key==='F5'){ renderIcons(); }
+});
 </script>
 </body>
 </html>
