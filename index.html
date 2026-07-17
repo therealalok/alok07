@@ -1,1539 +1,947 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Alok Sharma — Portfolio</title>
 <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
-
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-
-<script type="text/javascript">
-  (function(){ if(window.emailjs){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); } })();
-</script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 <style>
+/* ============ CLASSIC WINDOWS 98 SYSTEM STYLES ============ */
+@font-face {
+    font-family: 'W95FA';
+    src: local('Tahoma'), local('Arial'), sans-serif;
+}
+
 :root {
-  --text-primary: #ffffff;
-  --text-secondary: #b8b8be;
-  --text-tertiary: #8e8e93;
-  --blue: #0A84FF;
-  --green: #32D74B;
-  --red: #FF453A;
-  --yellow: #FEBC2E;
-  --window-glass: rgba(30, 30, 32, 0.75);
-  --sidebar-glass: rgba(255,255,255,0.04);
-  --dock-glass: rgba(255,255,255,0.12);
-  --menubar-glass: rgba(0, 0, 0, 0.2);
-
-  --win-border: rgba(255,255,255,0.15);
-  --dock-border: rgba(255,255,255,0.15);
-  --shadow-color: rgba(0,0,0,.4);
-  --icon-shadow: rgba(0,0,0,.45);
-
-  --radius-win: 12px;
-  --ease: cubic-bezier(0.25, 1, 0.5, 1);
-  --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
-  --font-mono: ui-monospace, 'IBM Plex Mono', monospace;
+    --win-teal: #008080;
+    --win-gray: #c0c0c0;
+    --win-dark-gray: #808080;
+    --win-light: #dfdfdf;
+    --win-white: #ffffff;
+    --win-black: #000000;
+    --win-blue: #000080;
+    --win-title-grad: linear-gradient(to right, #000080, #1084d0);
+    --win-title-inactive: linear-gradient(to right, #808080, #b5b5b5);
+    --selection: #000080;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; overscroll-behavior:none; }
-body {
-  font-family: var(--font-ui);
-  background: #000;
-  color: var(--text-primary);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-  user-select: none;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'W95FA', Tahoma, Arial, sans-serif; font-size: 11px; user-select: none; }
+body, html { height: 100%; width: 100%; overflow: hidden; background: var(--win-black); }
+
+/* ============ CRT EFFECT ============ */
+.crt-overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999; pointer-events: none;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 2px, 3px 100%;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.4);
 }
-img { -webkit-user-drag: none; user-drag: none; }
-button { font-family: inherit; border: none; background: none; color: inherit; cursor: pointer; outline: none; }
-input, textarea { font-family: inherit; color: inherit; outline: none; }
-a { color: inherit; text-decoration: none; }
 
-::-webkit-scrollbar { width: 10px; height: 10px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
+/* ============ BOOT SCREEN ============ */
+#boot-screen {
+    position: fixed; inset: 0; background: #000; z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: wait;
+}
+.boot-text { color: #fff; font-family: monospace; font-size: 14px; position: absolute; top: 20px; left: 20px; }
+.boot-logo-container { text-align: center; margin-top: -50px; }
+.boot-logo-container i { font-size: 80px; color: #ff0000; text-shadow: 2px 2px 0 #00f, -2px -2px 0 #0f0, 2px -2px 0 #ff0; }
+.boot-os-name { color: #fff; font-size: 32px; font-weight: bold; margin-top: 20px; font-family: 'Times New Roman', serif; }
+.boot-bar { width: 250px; height: 15px; border: 2px solid #fff; margin-top: 30px; border-radius: 4px; padding: 2px; position: relative; overflow: hidden; }
+.boot-bar-fill { height: 100%; background: #000080; width: 0%; transition: width 0.1s linear; }
 
-/* ============ WALLPAPER (macOS Sonoma-style layered gradient, no external image dependency) ============ */
+/* ============ SHUTDOWN SCREEN ============ */
+#shutdown-screen {
+    position: fixed; inset: 0; background: #000; z-index: 100001; display: none; flex-direction: column; align-items: center; justify-content: center;
+}
+.shutdown-text { color: #ff8c00; font-family: 'Times New Roman', serif; font-size: 32px; text-align: center; }
+
+/* ============ DESKTOP ============ */
 #desktop {
-  position: fixed; inset: 0; z-index: 1;
-  background:
-    radial-gradient(circle at 15% 15%, rgba(255,145,90,0.55) 0%, transparent 45%),
-    radial-gradient(circle at 85% 10%, rgba(255,94,140,0.45) 0%, transparent 50%),
-    radial-gradient(circle at 75% 85%, rgba(84,110,255,0.55) 0%, transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(60,190,255,0.5) 0%, transparent 55%),
-    radial-gradient(circle at 50% 50%, rgba(140,80,255,0.35) 0%, transparent 60%),
-    linear-gradient(160deg, #1b1035 0%, #2a1550 35%, #401d5c 60%, #5c2a5e 80%, #79345a 100%);
-  background-color: #1b1035;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 28px; background: var(--win-teal);
+    display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; padding: 5px; gap: 15px 5px;
 }
-#desktop::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    radial-gradient(ellipse 900px 500px at 50% 105%, rgba(255,180,120,0.35), transparent 70%),
-    radial-gradient(ellipse 700px 400px at 10% -10%, rgba(255,255,255,0.08), transparent 70%);
-  pointer-events: none;
+.desktop-icon {
+    width: 70px; display: flex; flex-direction: column; align-items: center; cursor: default;
 }
-#desktop::after {
-  /* subtle noise/vignette for realism */
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%);
-  pointer-events: none;
+.desktop-icon .icon-img { width: 32px; height: 32px; margin-bottom: 4px; filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.5)); pointer-events: none; }
+.desktop-icon .icon-label {
+    color: white; text-align: center; padding: 1px 3px; line-height: 1.2; word-wrap: break-word; overflow: hidden;
 }
+.desktop-icon.selected .icon-label {
+    background: var(--selection); border: 1px dotted #fff; padding: 0 2px;
+}
+.desktop-icon.selected .icon-img { filter: drop-shadow(1px 1px 0 rgba(0,0,0,0.5)) opacity(0.7); }
 
-/* ============ MENUBAR ============ */
-.menubar {
-  position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 1000;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px;
-  background: var(--menubar-glass);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 13px; font-weight: 500; letter-spacing: 0.3px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+/* Selection Box */
+#selection-box { position: absolute; border: 1px dotted var(--win-white); display: none; z-index: 900; pointer-events: none; }
+
+/* ============ TASKBAR ============ */
+#taskbar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 28px; background: var(--win-gray);
+    border-top: 1px solid var(--win-white); box-shadow: inset 0 1px 0 var(--win-light);
+    display: flex; align-items: center; padding: 2px; z-index: 10000;
 }
-.menubar-left, .menubar-right { display: flex; align-items: center; gap: 4px; height: 100%; }
-.menubar-left .mb-apple { font-size: 15px; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
-.menubar-left .mb-apple:hover, .menu-root.open > .mb-apple { background: rgba(255,255,255,0.12); }
-.menubar-app-name { font-weight: 700; cursor: default; padding: 4px 8px; margin-right: 6px; }
-.menu-root { position: relative; height: 100%; display: flex; align-items: center; }
-.menubar-item { opacity: 0.9; cursor: pointer; padding: 4px 8px; border-radius: 4px; }
-.menubar-item:hover, .menu-root.open > .menubar-item { background: rgba(255,255,255,0.12); opacity: 1; }
-
-.menubar-right { gap: 14px; padding-right: 4px; }
-.menubar-right .mb-icon-btn { font-size: 13px; opacity: 0.95; cursor: pointer; padding: 4px 6px; border-radius: 4px; display:flex; align-items:center; }
-.menubar-right .mb-icon-btn:hover { background: rgba(255,255,255,0.12); }
-.menubar-clock { letter-spacing: 0.2px; white-space: nowrap; margin-left: 2px; cursor: pointer; padding: 4px 8px; border-radius: 4px; font-variant-numeric: tabular-nums; }
-.menubar-clock:hover { background: rgba(255,255,255,0.12); }
-
-/* menu dropdowns */
-.menu-dropdown {
-  display: none; position: absolute; top: 28px; left: 0; min-width: 230px; z-index: 2000;
-  background: rgba(40,40,44,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--win-border); border-radius: 8px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.45); padding: 5px; font-weight: 400;
+.start-btn {
+    display: flex; align-items: center; height: 100%; padding: 0 6px; font-weight: bold; font-size: 12px; margin-right: 5px;
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer;
 }
-.menu-root.open .menu-dropdown { display: block; }
-.menu-option {
-  padding: 5px 10px; border-radius: 5px; font-size: 13px; cursor: pointer;
-  display: flex; align-items: center; justify-content: space-between; gap: 10px; white-space: nowrap;
+.start-btn:active, .start-btn.active {
+    border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
+    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
+    box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light); padding: 1px 5px -1px 7px;
 }
-.menu-option:hover:not(.disabled) { background: var(--blue); }
-.menu-option.disabled { color: var(--text-tertiary); cursor: default; }
-.menu-option .kbd { color: var(--text-tertiary); font-size: 11px; }
-.menu-option:hover:not(.disabled) .kbd { color: rgba(255,255,255,0.8); }
-.menu-sep { height: 1px; background: rgba(255,255,255,0.1); margin: 5px 4px; }
-
-/* battery svg */
-.battery-wrap { display:flex; align-items:center; gap:5px; }
-#battery-percent-label { font-size: 12px; }
-
-/* ============ SPOTLIGHT SEARCH ============ */
-#spotlight-overlay {
-  display: none; position: fixed; top: 15vh; left: 50%; transform: translateX(-50%);
-  width: 650px; max-width: 90vw; z-index: 9999;
-  background: rgba(30, 30, 32, 0.9); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--win-border); border-radius: 12px;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.5); padding: 0; overflow: hidden;
+.start-btn i { color: #f00; margin-right: 4px; text-shadow: 1px 1px 0 #00f, -1px -1px 0 #0f0, 1px -1px 0 #ff0; font-size: 14px; }
+.taskbar-divider { width: 2px; height: 100%; border-left: 1px solid var(--win-dark-gray); border-right: 1px solid var(--win-white); margin: 0 3px; }
+#taskbar-windows { display: flex; flex: 1; gap: 2px; height: 100%; overflow: hidden; }
+.taskbar-win-btn {
+    display: flex; align-items: center; min-width: 50px; max-width: 150px; height: 100%; padding: 0 5px;
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer; font-weight: bold; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
 }
-.spotlight-input-wrapper { display: flex; align-items: center; padding: 16px 20px; font-size: 24px; color: #fff; }
-.spotlight-input-wrapper i { margin-right: 15px; font-size: 22px; color: var(--text-secondary); }
-.spotlight-input-wrapper input { flex: 1; background: transparent; border: none; font-size: 22px; color: #fff; }
-.spotlight-input-wrapper input::placeholder { color: var(--text-tertiary); }
-#spotlight-results { max-height: 340px; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.08); display: none; }
-#spotlight-results.show { display: block; }
-.sp-result { display: flex; align-items: center; gap: 12px; padding: 9px 20px; cursor: pointer; }
-.sp-result .sp-icon { width: 30px; height: 30px; border-radius: 7px; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; background: var(--blue); }
-.sp-result .sp-text h5 { font-size: 13.5px; font-weight: 600; }
-.sp-result .sp-text p { font-size: 11.5px; color: var(--text-secondary); margin-top: 1px; }
-.sp-result.active, .sp-result:hover { background: var(--blue); }
-.sp-empty { padding: 24px 20px; text-align: center; color: var(--text-tertiary); font-size: 13px; }
-
-/* ============ CONTROL CENTER ============ */
-#control-center {
-  display: none; position: fixed; top: 35px; right: 10px; width: 320px; z-index: 9999;
-  background: rgba(30, 30, 32, 0.85); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--win-border); border-radius: 16px;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4); padding: 16px;
+.taskbar-win-btn.active {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVQIW2NkYGD4z8DAwMgAI0AMCKcCB09uDFQAAAAASUVORK5CYII=');
+    border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
+    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
+    box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light);
 }
-.cc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.cc-module { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.1s;}
-.cc-module:hover { background: rgba(255,255,255,0.15); }
-.cc-icon-wrapper { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--blue); color: #fff; font-size: 14px; flex-shrink: 0; }
-.cc-text h4 { font-size: 13px; font-weight: 600; }
-.cc-text p { font-size: 11px; color: var(--text-secondary); margin-top: 2px;}
-
-/* ============ NOTIFICATION TOASTS ============ */
-#toast-stack { position: fixed; top: 36px; right: 12px; z-index: 10500; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; pointer-events: none; }
-.toast {
-  width: 300px; background: rgba(40,40,44,0.9); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--win-border); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-  padding: 10px 14px; display: flex; gap: 10px; align-items: flex-start;
-  transform: translateX(120%); opacity: 0; transition: transform .35s var(--ease), opacity .35s var(--ease);
+.taskbar-win-btn img { width: 14px; height: 14px; margin-right: 5px; }
+.system-tray {
+    display: flex; align-items: center; height: 100%; padding: 0 5px;
+    border-left: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-dark-gray);
+    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
 }
-.toast.show { transform: translateX(0); opacity: 1; }
-.toast .toast-icon { width: 26px; height: 26px; border-radius: 6px; background: var(--blue); flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; margin-top:1px; }
-.toast .toast-text h5 { font-size: 12.5px; font-weight: 700; }
-.toast .toast-text p { font-size: 12px; color: var(--text-secondary); margin-top: 2px; line-height:1.4; }
+.tray-icon { font-size: 14px; margin-right: 6px; }
+#clock { cursor: default; }
 
-/* ============ WIDGETS ============ */
-.widgets-container { position: fixed; top: 60px; right: 20px; z-index: 10; width: 320px; }
-.spotify-glass-wrapper {
-  background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
-  border: 1px solid var(--win-border); border-radius: 18px; padding: 10px;
-  box-shadow: 0 10px 40px var(--shadow-color), 0 1px 2px rgba(255,255,255,.1) inset; transition: transform 0.2s;
+/* ============ START MENU ============ */
+#start-menu {
+    position: absolute; bottom: 28px; left: 0; width: 200px; background: var(--win-gray);
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray);
+    display: none; flex-direction: row; z-index: 10001;
 }
-
-/* ============ DESKTOP ICONS ============ */
-.desktop-icons { position: fixed; top: 60px; left: 20px; z-index: 5; display: flex; flex-direction: column; gap: 20px; align-items: center; pointer-events: auto; }
-.desktop-icon { width: 76px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; border-radius: 6px; cursor: pointer; pointer-events: auto; }
-.desktop-icon:hover { background: rgba(255,255,255,0.15); }
-.desktop-icon.selected { background: rgba(10,132,255,0.35); }
-.desktop-icon-svg { width: 56px; height: 56px; filter: drop-shadow(0 3px 5px var(--icon-shadow)); }
-.desktop-icon span { font-size: 12px; text-align: center; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.8); font-weight: 500; padding: 2px 6px; border-radius: 4px; line-height: 1.2; }
-
-.desktop-trash { position: fixed; bottom: 96px; right: 24px; z-index: 5; }
-
-/* ============ DOCK ============ */
-.dock-wrap {
-  position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 600;
-  display: flex; align-items: flex-end; gap: 8px; padding: 9px 12px; height: 74px; border-radius: 22px;
-  background: var(--dock-glass); backdrop-filter: blur(35px) saturate(180%); -webkit-backdrop-filter: blur(35px) saturate(180%);
-  border: 1px solid var(--dock-border); box-shadow: 0 10px 40px var(--shadow-color);
+.sm-sidebar { width: 25px; background: linear-gradient(to bottom, #000080, #1084d0); position: relative; }
+.sm-sidebar-text {
+    position: absolute; bottom: 5px; left: 4px; color: #fff; font-weight: bold; font-size: 16px;
+    transform: rotate(-90deg); transform-origin: left bottom; white-space: nowrap;
 }
-.dock-item {
-  position: relative; width: 56px; height: 56px; border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; cursor: pointer;
-  background: #333; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 26px; color: #fff;
-  transform-origin: bottom center; transition: all 0.2s var(--ease);
-  overflow: visible;
-}
-.dock-item svg { width: 100%; height: 100%; }
-.dock-wrap:hover .dock-item { transform: scale(1); }
-.dock-item:hover { transform: scale(1.35) translateY(-5px) !important; margin: 0 15px !important; z-index: 10; }
-.dock-item:has(+ .dock-item:hover), .dock-item:hover + .dock-item { transform: scale(1.15) translateY(-2px) !important; margin: 0 8px !important; z-index: 5; }
-.dock-item::after { content: ''; position: absolute; bottom: -8px; width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,0.5); opacity: 0; transition: opacity 0.2s; }
-.dock-item.running::after { opacity: 1; }
-.dock-item.bounce { animation: dockBounce .55s var(--ease); }
-@keyframes dockBounce { 0%,100%{transform:translateY(0);} 30%{transform:translateY(-18px);} 55%{transform:translateY(0);} 75%{transform:translateY(-8px);} }
-.dock-sep { width: 1px; align-self: stretch; margin: 4px; background: rgba(255,255,255,0.15); }
+.sm-items { display: flex; flex-direction: column; flex: 1; padding: 2px; }
+.sm-item { display: flex; align-items: center; padding: 5px; cursor: pointer; position: relative; }
+.sm-item:hover { background: var(--selection); color: #fff; }
+.sm-item img { width: 24px; height: 24px; margin-right: 8px; }
+.sm-item-text { font-size: 12px; flex: 1; }
+.sm-divider { height: 2px; border-top: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-white); margin: 3px 2px; }
 
 /* ============ WINDOWS ============ */
-#windows-layer { position: fixed; inset: 0; top: 28px; z-index: 50; pointer-events: none; }
-.os-win {
-  position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
-  width: 720px; max-width: 90vw; height: 500px; max-height: 80vh;
-  background: var(--window-glass); backdrop-filter: blur(35px); -webkit-backdrop-filter: blur(35px);
-  border: 1px solid var(--win-border); border-radius: var(--radius-win);
-  box-shadow: 0 15px 50px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,.1) inset;
-  display: flex; flex-direction: column; overflow: hidden; pointer-events: auto;
+.window {
+    position: absolute; background: var(--win-gray); display: flex; flex-direction: column;
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray), 2px 2px 0 rgba(0,0,0,0.5);
+    min-width: 250px; min-height: 150px; z-index: 100;
 }
-.os-win.minimized { display: none; }
-.os-win.animating { transition: top .3s var(--ease), left .3s var(--ease), width .3s var(--ease), height .3s var(--ease), transform .3s var(--ease); }
-.os-win.minimizing { transition: transform .38s cubic-bezier(.4,0,.7,.4), opacity .38s ease; }
-.os-win-header { height: 48px; flex: 0 0 auto; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: grab; }
-.os-win-header:active { cursor: grabbing; }
-.traffic { display: flex; gap: 8px; }
-.traffic button { position: relative; width: 12px; height: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-.traffic .t-close { background: #FF5F57; } .traffic .t-min { background: #FEBC2E; } .traffic .t-max { background: #28C840; }
-.traffic button::before { content:''; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:900; line-height:12px; color: rgba(70,15,0,.7); opacity:0; }
-.traffic:hover .t-close::before { content:'×'; opacity:1; }
-.traffic:hover .t-min::before { content:'−'; opacity:1; }
-.traffic:hover .t-max::before { content:'+'; opacity:1; }
-.os-win-title { flex: 1; text-align: center; font-size: 13px; font-weight: 600; margin-left: -48px; pointer-events: none; }
-.os-win-body { flex: 1; overflow: auto; display: flex; }
-
-/* ============ APP STYLES ============ */
-.app-pad { padding: 30px; width: 100%; overflow-y: auto; }
-.app-h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-.app-lead { font-size: 14px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 24px; }
-.finder-sidebar { width: 200px; background: var(--sidebar-glass); border-right: 1px solid rgba(255,255,255,0.05); padding: 16px 12px; flex-shrink: 0; }
-.finder-sb-label { font-size: 11px; font-weight: 600; color: var(--text-tertiary); padding: 4px 8px; margin-bottom: 4px; }
-.finder-sb-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; font-size: 13px; cursor: pointer; }
-.finder-sb-item:hover { background: rgba(255,255,255,0.1); }
-.finder-sb-item.active { background: rgba(255,255,255,0.15); font-weight: 500; }
-.finder-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 20px; }
-.finder-grid.list-view { display: flex; flex-direction: column; gap: 2px; }
-.finder-grid.list-view .finder-file { display: flex; align-items: center; gap: 10px; text-align: left; padding: 6px 8px; }
-.finder-grid.list-view .finder-thumb { width: 32px; height: 32px; margin-bottom: 0; flex-shrink: 0; }
-.finder-file { cursor: pointer; text-align: center; padding: 8px; border-radius: 8px; display: block; border: 1px solid transparent; transition: background 0.1s; }
-.finder-file:hover { background: rgba(255,255,255,0.1); }
-.finder-thumb { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; margin-bottom: 8px; }
-.term-body { background: rgba(20,20,22,0.97); width: 100%; height: 100%; padding: 16px; font-family: var(--font-mono); font-size: 13px; color: #f1f1f1; overflow-y: auto; line-height: 1.6; }
-.term-prompt { color: #32D74B; font-weight: 600; margin-right: 8px; white-space: nowrap; }
-.term-line { white-space: pre-wrap; word-break: break-word; }
-.term-row { display: flex; }
-
-/* ============ FULL-SCREEN SYSTEM OVERLAYS (lock / sleep / shutdown / boot) ============ */
-.sys-overlay { position: fixed; inset: 0; z-index: 20000; display: none; align-items: center; justify-content: center; flex-direction: column; color: #fff; }
-.sys-overlay.show { display: flex; }
-#lock-screen { background: linear-gradient(160deg,#1b1035,#401d5c 60%,#79345a); backdrop-filter: blur(4px); cursor: pointer; }
-#lock-screen .lock-time { font-size: 88px; font-weight: 600; letter-spacing: -2px; }
-#lock-screen .lock-date { font-size: 20px; font-weight: 500; margin-top: 6px; color: rgba(255,255,255,0.85); }
-#lock-screen .lock-hint { margin-top: 60px; font-size: 13px; color: rgba(255,255,255,0.6); display:flex; flex-direction:column; align-items:center; gap:8px; }
-#lock-screen .lock-avatar { width: 84px; height: 84px; border-radius: 50%; background: var(--blue); display:flex; align-items:center; justify-content:center; font-size: 34px; margin-top: 40px; box-shadow: 0 10px 30px rgba(0,0,0,.4); }
-#sleep-screen { background: #000; cursor: pointer; }
-#sleep-screen p { color: rgba(255,255,255,0.35); font-size: 13px; }
-#shutdown-screen { background: #000; }
-#shutdown-screen .power-btn { width: 56px; height: 56px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.5); display:flex; align-items:center; justify-content:center; font-size: 22px; cursor: pointer; margin-top: 26px; }
-#shutdown-screen .power-btn:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
-#shutdown-screen p { color: rgba(255,255,255,0.5); font-size: 13px; margin-top: 14px; }
-#boot-screen { background: #000; }
-#boot-screen .boot-bar-track { width: 200px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.15); margin-top: 30px; overflow: hidden; }
-#boot-screen .boot-bar-fill { height: 100%; width: 0%; background: #fff; border-radius: 3px; transition: width 1.4s linear; }
-
-@media (max-width: 768px) {
-  .os-win { width: 100% !important; height: calc(100% - 28px) !important; top: 28px !important; left: 0 !important; transform: none !important; border-radius: 0; }
-  .dock-wrap { bottom: 10px; width: 95%; overflow-x: auto; padding: 6px 8px; height: 64px; }
-  .dock-item { width: 44px; height: 44px; font-size: 20px; }
-  .dock-item:hover, .dock-wrap:hover .dock-item { transform: none !important; margin: 0 !important; }
-  .widgets-container { display: none; }
-  .desktop-icons { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-  .menubar-item { display: none; }
-  #spotlight-overlay { top: 8vh; }
+.window.active .title-bar { background: var(--win-title-grad); color: white; }
+.window.inactive .title-bar { background: var(--win-title-inactive); color: var(--win-light); }
+.title-bar {
+    display: flex; align-items: center; padding: 2px 2px 2px 4px; height: 20px; margin: 2px;
 }
+.title-bar-icon { width: 14px; height: 14px; margin-right: 4px; pointer-events: none; }
+.title-bar-text { flex: 1; font-weight: bold; cursor: default; }
+.title-bar-controls { display: flex; gap: 2px; }
+.title-btn {
+    width: 16px; height: 14px; background: var(--win-gray); display: flex; align-items: center; justify-content: center;
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black);
+    box-shadow: inset 1px 1px var(--win-light), inset -1px -1px var(--win-dark-gray); cursor: pointer; color: black; font-weight: bold; font-family: Arial, sans-serif;
+}
+.title-btn:active {
+    border-left: 1px solid var(--win-black); border-top: 1px solid var(--win-black);
+    border-right: 1px solid var(--win-white); border-bottom: 1px solid var(--win-white);
+    box-shadow: inset 1px 1px var(--win-dark-gray), inset -1px -1px var(--win-light); padding: 1px 0 0 1px;
+}
+.menu-bar { display: flex; padding: 1px 5px; gap: 10px; border-bottom: 1px solid var(--win-white); }
+.menu-item { padding: 2px 5px; cursor: default; }
+.menu-item:hover { background: var(--selection); color: white; }
+.toolbar {
+    display: flex; padding: 4px; border-bottom: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-light); gap: 4px;
+}
+.toolbar-btn {
+    display: flex; align-items: center; gap: 4px; padding: 3px 5px; cursor: pointer; color: #000;
+}
+.toolbar-btn:hover {
+    border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white);
+    border-right: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-dark-gray); padding: 2px 4px;
+}
+.toolbar-btn i { font-size: 16px; color: #555; }
+.address-bar { display: flex; align-items: center; padding: 4px; border-bottom: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-light); }
+.address-label { color: #888; margin-right: 5px; }
+.address-input {
+    flex: 1; background: white; border-left: 1px solid var(--win-dark-gray); border-top: 1px solid var(--win-dark-gray);
+    border-right: 1px solid var(--win-light); border-bottom: 1px solid var(--win-light); padding: 2px 4px; font-family: Tahoma;
+}
+.window-content { flex: 1; display: flex; background: var(--win-white); border-top: 1px solid var(--win-dark-gray); border-left: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-light); border-right: 1px solid var(--win-light); margin: 2px; overflow: hidden; }
+.status-bar { height: 20px; padding: 2px 5px; border-top: 1px solid var(--win-dark-gray); display: flex; align-items: center; color: #333; box-shadow: inset 0 1px 0 var(--win-light); }
+
+/* ============ EXPLORER LAYOUT ============ */
+.explorer-split { display: flex; width: 100%; height: 100%; }
+.explorer-tree { width: 30%; border-right: 3px solid var(--win-gray); background: white; overflow: auto; padding: 5px; box-shadow: inset -1px 0 0 var(--win-dark-gray), inset -2px 0 0 var(--win-light); }
+.explorer-main { flex: 1; background: white; overflow: auto; display: flex; align-content: flex-start; flex-wrap: wrap; padding: 10px; gap: 15px; }
+.tree-item { display: flex; align-items: center; padding: 2px; cursor: pointer; white-space: nowrap; }
+.tree-item:hover { background: #e0e0e0; }
+.tree-item.selected > .tree-label { background: var(--selection); color: white; border: 1px dotted white; }
+.tree-icon { width: 16px; height: 16px; margin-right: 4px; }
+.tree-children { padding-left: 15px; border-left: 1px dotted #888; margin-left: 8px; display: none; }
+.tree-children.open { display: block; }
+.tree-toggle { width: 9px; height: 9px; border: 1px solid #888; display: inline-flex; align-items: center; justify-content: center; margin-right: 4px; font-size: 8px; cursor: pointer; background: white; line-height: 1; }
+
+.file-icon { width: 70px; display: flex; flex-direction: column; align-items: center; cursor: default; }
+.file-icon .icon-img { width: 32px; height: 32px; margin-bottom: 4px; pointer-events: none; }
+.file-icon .icon-label { text-align: center; padding: 1px 3px; line-height: 1.2; color: black; word-wrap: break-word; overflow: hidden; }
+.file-icon.selected .icon-label { background: var(--selection); color: white; border: 1px dotted #000; padding: 0 2px; }
+.file-icon.selected .icon-img { filter: brightness(0.7) sepia(1) hue-rotate(180deg) saturate(3); }
+
+/* ============ NOTEPAD / DOCUMENTS ============ */
+.document-content { width: 100%; height: 100%; padding: 5px; outline: none; border: none; resize: none; font-family: 'Lucida Console', monospace; font-size: 12px; overflow: auto; background: white; color: black; user-select: text; white-space: pre-wrap; }
+
+/* ============ IMAGE VIEWER ============ */
+.image-viewer-content { display: flex; align-items: center; justify-content: center; background: #808080; width: 100%; height: 100%; overflow: hidden; position: relative; }
+.image-viewer-img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 2px 2px 5px rgba(0,0,0,0.5); }
+.image-viewer-toolbar { position: absolute; bottom: 10px; display: flex; gap: 5px; background: var(--win-gray); padding: 5px; border: 1px outset var(--win-white); border-radius: 3px; }
+.iv-btn { width: 24px; height: 24px; border: 1px outset var(--win-white); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.iv-btn:active { border: 1px inset var(--win-white); padding: 1px 0 0 1px; }
+
+/* ============ CONTEXT MENU ============ */
+#context-menu { position: absolute; background: var(--win-gray); border-left: 1px solid var(--win-white); border-top: 1px solid var(--win-white); border-right: 1px solid var(--win-black); border-bottom: 1px solid var(--win-black); box-shadow: 2px 2px 0 rgba(0,0,0,0.5); display: none; flex-direction: column; z-index: 20000; padding: 2px; }
+.cm-item { padding: 4px 15px; cursor: default; white-space: nowrap; }
+.cm-item:hover { background: var(--selection); color: white; }
+.cm-divider { height: 1px; border-top: 1px solid var(--win-dark-gray); border-bottom: 1px solid var(--win-white); margin: 2px 0; }
+
+/* SVG DATA URIS FOR ICONS */
 </style>
-
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-<svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
-  <defs>
-    <linearGradient id="macFolderBack" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#73cbff" />
-      <stop offset="40%" stop-color="#1993ff" />
-      <stop offset="100%" stop-color="#006ad9" />
-    </linearGradient>
-    <linearGradient id="macFolderFront" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#54beff" />
-      <stop offset="30%" stop-color="#0084ff" />
-      <stop offset="100%" stop-color="#005cd9" />
-    </linearGradient>
-    <g id="macos-blue-folder">
-      <path d="M2,10 L16,10 C18,10 19,8 21,5 L28,5 C30,5 32,7 32,9 L32,14 L2,14 Z" fill="url(#macFolderBack)"/>
-      <rect x="2" y="12" width="46" height="32" rx="4" fill="url(#macFolderBack)" />
-      <path d="M2,16 C2,13.5 3.5,12 6,12 L44,12 C46.5,12 48,13.5 48,16 L48,40 C48,42.5 46.5,44 44,44 L6,44 C3.5,44 2,42.5 2,40 Z" fill="url(#macFolderFront)"/>
-    </g>
+<div class="crt-overlay"></div>
 
-```
-<linearGradient id="trashBody" x1="0%" y1="0%" x2="0%" y2="100%">
-  <stop offset="0%" stop-color="#e9e9ee" />
-  <stop offset="100%" stop-color="#b6b6bd" />
-</linearGradient>
-<linearGradient id="trashLid" x1="0%" y1="0%" x2="0%" y2="100%">
-  <stop offset="0%" stop-color="#d3d3da" />
-  <stop offset="100%" stop-color="#9c9ca4" />
-</linearGradient>
-<g id="macos-trash">
-  <rect x="0" y="0" width="50" height="50" rx="11" fill="#c9c9cf"/>
-  <rect x="9" y="15" width="32" height="30" rx="4" fill="url(#trashBody)" stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
-  <rect x="6" y="10" width="38" height="6" rx="2" fill="url(#trashLid)"/>
-  <rect x="19" y="4" width="12" height="6" rx="2" fill="url(#trashLid)"/>
-  <line x1="17" y1="21" x2="17" y2="40" stroke="rgba(60,60,65,0.45)" stroke-width="2" stroke-linecap="round"/>
-  <line x1="25" y1="21" x2="25" y2="40" stroke="rgba(60,60,65,0.45)" stroke-width="2" stroke-linecap="round"/>
-  <line x1="33" y1="21" x2="33" y2="40" stroke="rgba(60,60,65,0.45)" stroke-width="2" stroke-linecap="round"/>
-</g>
+<!-- BOOT SCREEN -->
+<div id="boot-screen">
+    <div class="boot-text">
+        Award Modular BIOS v4.51PG, An Energy Star Ally<br>
+        Copyright (C) 1984-1998, Award Software, Inc.<br><br>
+        Intel Pentium(R) II Processor 400MHz<br>
+        Memory Test :  65536K OK<br><br>
+        Initializing Plug and Play Cards...<br>
+        PNP Init Completed<br><br>
+        Starting MS-DOS...
+    </div>
+    <div class="boot-logo-container" style="display:none;" id="win-logo-screen">
+        <i class="fa-brands fa-windows"></i>
+        <div class="boot-os-name">Microsoft Windows 98</div>
+        <div class="boot-bar"><div class="boot-bar-fill" id="boot-fill"></div></div>
+    </div>
+</div>
 
-<linearGradient id="finderLeftG" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#6fd0ff"/>
-  <stop offset="100%" stop-color="#1c8fe0"/>
-</linearGradient>
-<linearGradient id="finderRightG" x1="0%" y1="0%" x2="100%" y2="100%">
-  <stop offset="0%" stop-color="#1f6fd6"/>
-  <stop offset="100%" stop-color="#0a3f9e"/>
-</linearGradient>
-<g id="macos-finder">
-  <rect x="0" y="0" width="50" height="50" rx="11" fill="#eee"/>
-  <path d="M25 0 H39 A11 11 0 0 1 50 11 V39 A11 11 0 0 1 39 50 H25 Z" fill="url(#finderRightG)"/>
-  <path d="M25 0 H11 A11 11 0 0 0 0 11 V39 A11 11 0 0 0 11 50 H25 Z" fill="url(#finderLeftG)"/>
-  <circle cx="15.5" cy="22" r="3.1" fill="#fff"/>
-  <circle cx="15.5" cy="22" r="1.3" fill="#0a3f9e"/>
-  <path d="M31 19.5 A6 7 0 0 1 31 33.5" stroke="#fff" stroke-width="3.1" fill="none" stroke-linecap="round"/>
-  <path d="M6 34 Q25 46 44 34" stroke="rgba(255,255,255,0.55)" stroke-width="1.4" fill="none"/>
-</g>
+<!-- SHUTDOWN SCREEN -->
+<div id="shutdown-screen">
+    <div class="shutdown-text">It is now safe to turn off your computer.</div>
+</div>
 
-<g id="macos-terminal">
-  <rect x="0" y="0" width="50" height="50" rx="11" fill="#141416"/>
-  <rect x="0.5" y="0.5" width="49" height="49" rx="10.5" fill="none" stroke="rgba(255,255,255,0.08)"/>
-  <path d="M10 17 L20 25 L10 33" stroke="#32D74B" stroke-width="3.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <line x1="23" y1="33" x2="38" y2="33" stroke="#f1f1f1" stroke-width="3.2" stroke-linecap="round"/>
-</g>
-
-<linearGradient id="mailStripeG" x1="0%" y1="0%" x2="100%" y2="0%">
-  <stop offset="0%" stop-color="#32D74B"/>
-  <stop offset="50%" stop-color="#FEBC2E"/>
-  <stop offset="100%" stop-color="#FF453A"/>
-</linearGradient>
-<g id="macos-mail">
-  <rect x="0" y="0" width="50" height="50" rx="11" fill="#f4f6fb"/>
-  <rect x="6" y="14" width="38" height="24" rx="3.5" fill="#ffffff" stroke="#0A84FF" stroke-width="2.3"/>
-  <path d="M7 15.5 L25 28 L43 15.5" stroke="#0A84FF" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="6" y="9" width="38" height="3.4" rx="1.7" fill="url(#mailStripeG)"/>
-</g>
-```
-
-  </defs>
-</svg>
-
+<!-- DESKTOP -->
 <div id="desktop">
-  <div class="menubar">
-    <div class="menubar-left">
-      <div class="menu-root" id="menu-root-apple">
-        <i class="fa-brands fa-apple mb-apple" onclick="toggleMenu('apple', event)"></i>
-        <div class="menu-dropdown" id="dropdown-apple">
-          <div class="menu-option" onclick="menuAction('about-mac')">About This Mac</div>
-          <div class="menu-sep"></div>
-          <div class="menu-option" onclick="menuAction('settings')">System Settings…</div>
-          <div class="menu-option disabled">App Store…</div>
-          <div class="menu-sep"></div>
-          <div class="menu-option disabled">Recent Items</div>
-          <div class="menu-option" onclick="menuAction('force-quit')">Force Quit…</div>
-          <div class="menu-sep"></div>
-          <div class="menu-option" onclick="menuAction('sleep')">Sleep</div>
-          <div class="menu-option" onclick="menuAction('restart')">Restart…</div>
-          <div class="menu-option" onclick="menuAction('shutdown')">Shut Down…</div>
-          <div class="menu-sep"></div>
-          <div class="menu-option" onclick="menuAction('lock')">Lock Screen</div>
-          <div class="menu-option" onclick="menuAction('logout')">Log Out…</div>
+    <!-- Desktop Icons generated by JS -->
+</div>
+<div id="selection-box"></div>
+
+<!-- WINDOWS LAYER -->
+<div id="windows-container"></div>
+
+<!-- TASKBAR -->
+<div id="taskbar">
+    <div class="start-btn" id="start-btn">
+        <i class="fa-brands fa-windows"></i> Start
+    </div>
+    <div class="taskbar-divider"></div>
+    <div id="taskbar-windows"></div>
+    <div class="taskbar-divider"></div>
+    <div class="system-tray">
+        <i class="fa-solid fa-volume-high tray-icon" style="color: yellow; text-shadow: 1px 1px 1px #000;"></i>
+        <i class="fa-solid fa-plug tray-icon" style="color: #bbb;"></i>
+        <span id="clock">12:00 PM</span>
+    </div>
+</div>
+
+<!-- START MENU -->
+<div id="start-menu">
+    <div class="sm-sidebar">
+        <span class="sm-sidebar-text">Windows 98</span>
+    </div>
+    <div class="sm-items">
+        <div class="sm-item" onclick="openPath('C:/Projects')">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23FFD700' d='M2 14h22l8 8h30v38H2z'/><path fill='%23DAA520' d='M2 22h60v30H2z'/></svg>">
+            <span class="sm-item-text"><u>P</u>rograms</span>
+            <i class="fa-solid fa-caret-right" style="font-size: 10px;"></i>
         </div>
-      </div>
-
-```
-  <span class="menubar-app-name" id="mb-app-name">Finder</span>
-
-  <div class="menu-root" id="menu-root-file">
-    <span class="menubar-item" onclick="toggleMenu('file', event)">File</span>
-    <div class="menu-dropdown" id="dropdown-file">
-      <div class="menu-option" onclick="menuAction('new-finder-window')">New Finder Window <span class="kbd">⌘N</span></div>
-      <div class="menu-option disabled">New Folder</div>
-      <div class="menu-sep"></div>
-      <div class="menu-option" onclick="menuAction('close-window')">Close Window <span class="kbd">⌘W</span></div>
-      <div class="menu-option" onclick="menuAction('get-info')">Get Info <span class="kbd">⌘I</span></div>
+        <div class="sm-item" onclick="openPath('C:/Resume.txt')">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='10' y='4' width='44' height='56' fill='%23fff' stroke='%23000' stroke-width='2'/><path d='M18 16h28M18 24h28M18 32h28M18 40h16' stroke='%23000' stroke-width='2'/></svg>">
+            <span class="sm-item-text"><u>D</u>ocuments</span>
+            <i class="fa-solid fa-caret-right" style="font-size: 10px;"></i>
+        </div>
+        <div class="sm-item">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23aaa' d='M10 20h44v24H10z'/><circle cx='20' cy='32' r='4' fill='%23f00'/><circle cx='44' cy='32' r='4' fill='%230f0'/></svg>">
+            <span class="sm-item-text"><u>S</u>ettings</span>
+            <i class="fa-solid fa-caret-right" style="font-size: 10px;"></i>
+        </div>
+        <div class="sm-divider"></div>
+        <div class="sm-item" onclick="shutdown()">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%23f00'/><path d='M32 16v16M24 24a12 12 0 1 0 16 0' stroke='%23fff' stroke-width='4' fill='none'/></svg>">
+            <span class="sm-item-text">Sh<u>u</u>t Down...</span>
+        </div>
     </div>
-  </div>
-
-  <div class="menu-root" id="menu-root-edit">
-    <span class="menubar-item" onclick="toggleMenu('edit', event)">Edit</span>
-    <div class="menu-dropdown" id="dropdown-edit">
-      <div class="menu-option disabled">Undo <span class="kbd">⌘Z</span></div>
-      <div class="menu-option disabled">Redo <span class="kbd">⇧⌘Z</span></div>
-      <div class="menu-sep"></div>
-      <div class="menu-option disabled">Cut <span class="kbd">⌘X</span></div>
-      <div class="menu-option disabled">Copy <span class="kbd">⌘C</span></div>
-      <div class="menu-option disabled">Paste <span class="kbd">⌘V</span></div>
-      <div class="menu-sep"></div>
-      <div class="menu-option" onclick="menuAction('select-all')">Select All <span class="kbd">⌘A</span></div>
-    </div>
-  </div>
-
-  <div class="menu-root" id="menu-root-view">
-    <span class="menubar-item" onclick="toggleMenu('view', event)">View</span>
-    <div class="menu-dropdown" id="dropdown-view">
-      <div class="menu-option" onclick="menuAction('view-icons')">as Icons</div>
-      <div class="menu-option" onclick="menuAction('view-list')">as List</div>
-      <div class="menu-sep"></div>
-      <div class="menu-option" onclick="menuAction('toggle-sidebar')">Show/Hide Sidebar <span class="kbd">⌥⌘S</span></div>
-    </div>
-  </div>
-
-  <div class="menu-root" id="menu-root-go">
-    <span class="menubar-item" onclick="toggleMenu('go', event)">Go</span>
-    <div class="menu-dropdown" id="dropdown-go">
-      <div class="menu-option" onclick="menuAction('go-home')">Home <span class="kbd">⇧⌘H</span></div>
-      <div class="menu-option" onclick="menuAction('go-projects')">Applications <span class="kbd">⇧⌘A</span></div>
-      <div class="menu-option" onclick="menuAction('go-education')">Documents <span class="kbd">⇧⌘O</span></div>
-      <div class="menu-option" onclick="menuAction('go-desktop')">Desktop <span class="kbd">⇧⌘D</span></div>
-      <div class="menu-sep"></div>
-      <div class="menu-option" onclick="menuAction('go-terminal')">Utilities ▸ Terminal</div>
-    </div>
-  </div>
-
-  <div class="menu-root" id="menu-root-window">
-    <span class="menubar-item" onclick="toggleMenu('window', event)">Window</span>
-    <div class="menu-dropdown" id="dropdown-window">
-      <div class="menu-option" onclick="menuAction('win-minimize')">Minimize <span class="kbd">⌘M</span></div>
-      <div class="menu-option" onclick="menuAction('win-zoom')">Zoom</div>
-      <div class="menu-sep"></div>
-      <div id="window-list-items"></div>
-    </div>
-  </div>
-
-  <div class="menu-root" id="menu-root-help">
-    <span class="menubar-item" onclick="toggleMenu('help', event)">Help</span>
-    <div class="menu-dropdown" id="dropdown-help">
-      <div class="menu-option" onclick="menuAction('help-search')">Search…</div>
-      <div class="menu-sep"></div>
-      <div class="menu-option" onclick="menuAction('help-about')">Portfolio Help</div>
-    </div>
-  </div>
 </div>
 
-<div class="menubar-right">
-  <div class="mb-icon-btn" onclick="toggleControlCenter()" aria-label="Wi-Fi">
-    <i class="fa-solid fa-wifi" id="wifi-icon"></i>
-  </div>
-  <div class="mb-icon-btn battery-wrap" onclick="toggleControlCenter()" aria-label="Battery">
-    <span id="battery-percent-label"></span>
-    <svg viewBox="0 0 30 14" width="26" height="13">
-      <rect x="1" y="1" width="24" height="12" rx="3.5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.3"/>
-      <rect x="26.3" y="4.5" width="2.4" height="5" rx="1" fill="rgba(255,255,255,0.7)"/>
-      <rect id="battery-fill" x="3" y="3" width="18" height="8" rx="1.6" fill="#fff"/>
-    </svg>
-  </div>
-  <div class="mb-icon-btn" onclick="toggleSpotlight()" aria-label="Spotlight Search">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </div>
-  <span class="menubar-clock" id="mb-clock" onclick="toggleControlCenter()">—</span>
-</div>
-```
-
-  </div>
-
-  <div id="spotlight-overlay">
-    <div class="spotlight-input-wrapper">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" id="spotlight-input" placeholder="Spotlight Search" autocomplete="off" oninput="handleSpotlightInput()" onkeydown="handleSpotlightKeydown(event)">
-    </div>
-    <div id="spotlight-results"></div>
-  </div>
-
-  <div id="control-center">
-    <div class="cc-grid">
-      <div class="cc-module">
-        <div class="cc-icon-wrapper"><i class="fa-solid fa-wifi"></i></div>
-        <div class="cc-text"><h4>Wi-Fi</h4><p id="cc-wifi-name">Checking…</p></div>
-      </div>
-      <div class="cc-module">
-        <div class="cc-icon-wrapper" style="background: var(--blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
-        <div class="cc-text"><h4>Bluetooth</h4><p>On</p></div>
-      </div>
-    </div>
-    <div class="cc-module" style="margin-top: 12px; width: 100%;">
-      <div class="cc-icon-wrapper" style="background: var(--green);"><i class="fa-solid fa-battery-three-quarters"></i></div>
-      <div class="cc-text"><h4>Battery</h4><p id="cc-battery-text">Reading battery…</p></div>
-    </div>
-  </div>
-
-  <div id="toast-stack"></div>
-
-  <!-- SYSTEM OVERLAYS -->
-
-  <div class="sys-overlay" id="lock-screen" onclick="unlockScreen()">
-    <div class="lock-time" id="lock-time-el">—</div>
-    <div class="lock-date" id="lock-date-el">—</div>
-    <div class="lock-avatar"><i class="fa-solid fa-user"></i></div>
-    <div class="lock-hint"><div>Alok Sharma</div><div>Click anywhere or press any key to unlock</div></div>
-  </div>
-  <div class="sys-overlay" id="sleep-screen" onclick="wakeScreen()">
-    <p>Click to wake</p>
-  </div>
-  <div class="sys-overlay" id="shutdown-screen">
-    <div class="power-btn" onclick="powerOn()"><i class="fa-solid fa-power-off"></i></div>
-    <p>It's now safe to turn off your Mac.</p>
-  </div>
-  <div class="sys-overlay" id="boot-screen">
-    <i class="fa-brands fa-apple" style="font-size:56px;"></i>
-    <div class="boot-bar-track"><div class="boot-bar-fill" id="boot-bar-fill"></div></div>
-  </div>
-
-  <div class="widgets-container">
-    <div class="spotify-glass-wrapper">
-     <iframe style="border-radius:12px; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-    </div>
-  </div>
-
-  <div class="desktop-icons">
-    <div class="desktop-icon" ondblclick="openApp('projects')" onclick="selectIcon(this)">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Projects</span>
-    </div>
-    <div class="desktop-icon" ondblclick="openApp('about')" onclick="selectIcon(this)">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Resume</span>
-    </div>
-    <div class="desktop-icon" ondblclick="openApp('education')" onclick="selectIcon(this)">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Education</span>
-    </div>
-    <div class="desktop-icon" ondblclick="openApp('skills')" onclick="selectIcon(this)">
-      <svg class="desktop-icon-svg" viewBox="0 0 50 46"><use href="#macos-blue-folder"></use></svg>
-      <span>Skills</span>
-    </div>
-  </div>
-
-  <div id="windows-layer"></div>
-
-  <div class="dock-wrap" id="dock">
-    <div class="dock-item" data-app="about" onclick="openApp('about')" style="background: linear-gradient(180deg, #1c1c1e, #000);"><i class="fa-solid fa-id-badge"></i></div>
-    <div class="dock-item" data-app="education" onclick="openApp('education')" style="background: linear-gradient(180deg, #FF9F0A, #FF453A);"><i class="fa-solid fa-graduation-cap"></i></div>
-    <div class="dock-item" data-app="projects" onclick="openApp('projects')"><svg viewBox="0 0 50 50"><use href="#macos-finder"></use></svg></div>
-    <div class="dock-item" data-app="skills" onclick="openApp('skills')" style="background: linear-gradient(180deg, #BF5AF2, #5E5CE6);"><i class="fa-solid fa-code"></i></div>
-    <div class="dock-item" data-app="contact" onclick="openApp('contact')"><svg viewBox="0 0 50 50"><use href="#macos-mail"></use></svg></div>
-    <div class="dock-sep"></div>
-    <div class="dock-item" data-app="terminal" onclick="openApp('terminal')"><svg viewBox="0 0 50 50"><use href="#macos-terminal"></use></svg></div>
-    <div class="dock-sep"></div>
-    <div class="dock-item" data-app="trash" onclick="openApp('trash')"><svg viewBox="0 0 50 50"><use href="#macos-trash"></use></svg></div>
-  </div>
-
+<!-- CONTEXT MENU -->
+<div id="context-menu">
+    <div class="cm-item" id="cm-open">Open</div>
+    <div class="cm-item" id="cm-properties">Properties</div>
+    <div class="cm-divider"></div>
+    <div class="cm-item" onclick="refreshDesktop()">Refresh</div>
+    <div class="cm-item" onclick="arrangeIcons()">Arrange Icons</div>
 </div>
 
 <script>
-const PROFILE = {
-  name: "Alok Sharma",
-  bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
-  email: "alokkynwa@gmail.com"
-};
-
-const PROJECTS = {
-  "Danke": [
-    { title: "ThankyouMo.jpeg", img: "ThankyouMo.jpeg" },
-    { title: "ThankyouRobbo.jpeg", img: "ThankyouRobbo.jpeg" },
-    { title: "robboxmo copy.jpg", img: "robboxmo copy.jpg" },
-    { title: "heavymetalfootball.jpg", img: "heavymetalfootball.jpg" }
-  ],
-  "Matchday": [
-    { title: "argvspa", img: "argvspa copy.jpg" },
-    { title: "engvarg", img: "engvarg.jpeg" },
-    { title: "fravspa", img: "fravspa.jpeg" },
-    { title: "engvnor", img: "engnorway.jpg" },
-    { title: "spavbel", img: "spainbelgium.jpeg" },
-    { title: "fravwe", img: "fravswe.jpeg" },
-    { title: "argvaut", img: "portugalvcongo copy.jpg" },
-    { title: "porvuzb", img: "poruzb copy.jpg" },
-    { title: "porvcon", img: "porcong.jpeg" },
-    { title: "lfcvbre", img: "lfcvbre copy.jpg" },
-    { title: "livche", img: "livche.jpeg" },
-    { title: "livvgal", img: "livvgal.jpeg" },
-    { title: "livvmci", img: "livvmci.jpeg" },
-    { title: "livvpsg", img: "livvpsg.jpeg" },
-    { title: "psgvars", img: "psgvarsfinal copy.jpg" }
-  ],
-  "Supporters' voice": [
-    { title: "slotout.jpeg", img: "slotout.jpeg" }
-  ]
-};
-
-const SKILLS = {
-  "Skills": [
-    { title: "html", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" },
-    { title: "css", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
-    { title: "python", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
-    { title: "photoshop", img: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" }
-  ]
-};
-
-const winLayer = document.getElementById("windows-layer");
-const openWins = new Map();
-let zTop = 100;
-let activeWinId = null;
-
-/* ============ CLOCK ============ */
-function tickClock() {
-  const clock = document.getElementById("mb-clock");
-  if (!clock) return;
-  const d = new Date();
-  clock.textContent = d.toLocaleString([], {
-    weekday: "short", month: "short", day: "numeric", hour: "numeric", minute: "2-digit"
-  });
-  const lockTime = document.getElementById("lock-time-el");
-  const lockDate = document.getElementById("lock-date-el");
-  if (lockTime) lockTime.textContent = d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-  if (lockDate) lockDate.textContent = d.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" });
-}
-tickClock();
-setInterval(tickClock, 1000);
-
-/* ============ TOASTS (macOS-style notification banners) ============ */
-function showToast(title, body, icon) {
-  const stack = document.getElementById("toast-stack");
-  const el = document.createElement("div");
-  el.className = "toast";
-  el.innerHTML = `
-    <div class="toast-icon"><i class="fa-solid ${icon || 'fa-bell'}"></i></div>
-    <div class="toast-text"><h5>${title}</h5><p>${body || ''}</p></div>
-  `;
-  stack.appendChild(el);
-  requestAnimationFrame(() => el.classList.add("show"));
-  setTimeout(() => {
-    el.classList.remove("show");
-    setTimeout(() => el.remove(), 400);
-  }, 3600);
-}
-
-/* ============ SPOTLIGHT ============ */
-function toggleSpotlight() {
-  const spotlight = document.getElementById("spotlight-overlay");
-  const control = document.getElementById("control-center");
-  if (!spotlight) return;
-  control.style.display = "none";
-  closeAllMenus();
-
-  const willOpen = spotlight.style.display !== "block";
-  spotlight.style.display = willOpen ? "block" : "none";
-
-  const input = document.getElementById("spotlight-input");
-  if (willOpen && input) {
-    input.value = "";
-    document.getElementById("spotlight-results").classList.remove("show");
-    setTimeout(() => input.focus(), 50);
-  }
-}
-
-function buildSearchIndex() {
-  const idx = [];
-  idx.push({ type: "app", id: "about", title: "About", subtitle: "Resume application", icon: "fa-id-badge" });
-  idx.push({ type: "app", id: "education", title: "Education", subtitle: "Application", icon: "fa-graduation-cap" });
-  idx.push({ type: "app", id: "projects", title: "Projects", subtitle: "Finder", icon: "fa-folder" });
-  idx.push({ type: "app", id: "skills", title: "Skills", subtitle: "Application", icon: "fa-code" });
-  idx.push({ type: "app", id: "contact", title: "Mail", subtitle: "Contact Alok", icon: "fa-envelope" });
-  idx.push({ type: "app", id: "terminal", title: "Terminal", subtitle: "Application > Utilities", icon: "fa-terminal" });
-  idx.push({ type: "app", id: "trash", title: "Trash", subtitle: "System", icon: "fa-trash" });
-  Object.keys(PROJECTS).forEach(folder => {
-    PROJECTS[folder].forEach(f => {
-      idx.push({ type: "file", title: f.title, subtitle: "Projects / " + folder, icon: "fa-image", img: f.img });
-    });
-  });
-  Object.keys(SKILLS).forEach(folder => {
-    SKILLS[folder].forEach(f => {
-      idx.push({ type: "file", title: f.title, subtitle: "Skills / " + folder, icon: "fa-code", img: f.img });
-    });
-  });
-  return idx;
-}
-const SEARCH_INDEX = buildSearchIndex();
-let spotlightSelection = -1;
-
-function handleSpotlightInput() {
-  const q = document.getElementById("spotlight-input").value.trim().toLowerCase();
-  const resultsEl = document.getElementById("spotlight-results");
-  spotlightSelection = -1;
-
-  if (!q) { resultsEl.classList.remove("show"); resultsEl.innerHTML = ""; return; }
-
-  const matches = SEARCH_INDEX.filter(item => item.title.toLowerCase().includes(q)).slice(0, 8);
-  if (!matches.length) {
-    resultsEl.innerHTML = `<div class="sp-empty">No results for "${q}"</div>`;
-    resultsEl.classList.add("show");
-    return;
-  }
-
-  resultsEl.innerHTML = matches.map((m, i) => `
-    <div class="sp-result" data-idx="${i}" onclick="runSpotlightResult(${i})">
-      <div class="sp-icon"><i class="fa-solid ${m.icon}"></i></div>
-      <div class="sp-text"><h5>${m.title}</h5><p>${m.subtitle}</p></div>
-    </div>
-  `).join("");
-  resultsEl.classList.add("show");
-  resultsEl.dataset.matches = JSON.stringify(matches.map((m, i) => i));
-  window.__spotlightMatches = matches;
-}
-
-function runSpotlightResult(i) {
-  const m = window.__spotlightMatches[i];
-  if (!m) return;
-  if (m.type === "app") {
-    openApp(m.id);
-  } else if (m.type === "file") {
-    openImageViewer(m.title, m.img);
-  }
-  toggleSpotlight();
-}
-
-function handleSpotlightKeydown(e) {
-  const matches = window.__spotlightMatches || [];
-  if (e.key === "Escape") { toggleSpotlight(); return; }
-
-  if (e.key === "ArrowDown") {
-    e.preventDefault();
-    spotlightSelection = Math.min(spotlightSelection + 1, matches.length - 1);
-    highlightSpotlight();
-  } else if (e.key === "ArrowUp") {
-    e.preventDefault();
-    spotlightSelection = Math.max(spotlightSelection - 1, 0);
-    highlightSpotlight();
-  } else if (e.key === "Enter") {
-    if (spotlightSelection >= 0 && matches[spotlightSelection]) {
-      runSpotlightResult(spotlightSelection);
-    } else if (matches.length) {
-      runSpotlightResult(0);
-    } else {
-      e.target.value = "";
+/* ============ FILE SYSTEM DATA ============ */
+const fileSystem = {
+    "C:": {
+        type: "drive",
+        name: "Local Disk (C:)",
+        children: {
+            "Projects": {
+                type: "folder",
+                children: {
+                    "Danke": {
+                        type: "folder",
+                        children: {
+                            "ThankyouMo.jpeg": { type: "image", src: "ThankyouMo.jpeg" },
+                            "ThankyouRobbo.jpeg": { type: "image", src: "ThankyouRobbo.jpeg" },
+                            "robboxmo copy.jpg": { type: "image", src: "robboxmo copy.jpg" },
+                            "heavymetalfootball.jpg": { type: "image", src: "heavymetalfootball.jpg" }
+                        }
+                    },
+                    "Matchday": {
+                        type: "folder",
+                        children: {
+                            "engvnor.jpg": { type: "image", src: "engnorway.jpg" },
+                            "spavbel.jpeg": { type: "image", src: "spainbelgium.jpeg" },
+                            "fravswe.jpeg": { type: "image", src: "fravswe.jpeg" },
+                            "argvaut.jpg": { type: "image", src: "portugalvcongo copy.jpg" },
+                            "porvuzb.jpg": { type: "image", src: "poruzb copy.jpg" },
+                            "porvcon.jpeg": { type: "image", src: "porcong.jpeg" },
+                            "lfcvbre.jpg": { type: "image", src: "lfcvbre copy.jpg" },
+                            "livche.jpeg": { type: "image", src: "livche.jpeg" },
+                            "livvgal.jpeg": { type: "image", src: "livvgal.jpeg" },
+                            "livvmci.jpeg": { type: "image", src: "livvmci.jpeg" },
+                            "livvpsg.jpeg": { type: "image", src: "livvpsg.jpeg" },
+                            "newlivche.jpeg": { type: "image", src: "newlivche.jpeg" },
+                            "psgvarsfinal.jpg": { type: "image", src: "psgvarsfinal copy.jpg" }
+                        }
+                    },
+                    "Supporters' voice": {
+                        type: "folder",
+                        children: {
+                            "slotout.jpeg": { type: "image", src: "slotout.jpeg" }
+                        }
+                    }
+                }
+            },
+            "Education": {
+                type: "folder",
+                children: {
+                    "Mahakavi_Devkota_Memorial_Secondary_School.txt": { type: "file", content: "Mahakavi Devkota Memorial Secondary School (2010-2022)\n\nGained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE." },
+                    "Reliance_International_Academy.txt": { type: "file", content: "Reliance International Academy (2022-2024)\n\nCompleted my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC." },
+                    "Amrit_Campus.txt": { type: "file", content: "Amrit Campus (2024-current)\n\nCurrently pursuing B.Sc.CSIT." }
+                }
+            },
+            "Skills": {
+                type: "folder",
+                children: {
+                    "html.lnk": { type: "shortcut", target: "HTML" },
+                    "css.lnk": { type: "shortcut", target: "CSS" },
+                    "python.lnk": { type: "shortcut", target: "Python" },
+                    "photoshop.lnk": { type: "shortcut", target: "Photoshop" }
+                }
+            },
+            "Contact": {
+                type: "folder",
+                children: {
+                    "Email.lnk": { type: "shortcut", target: "alokkynwa@gmail.com" },
+                    "Phone.lnk": { type: "shortcut", target: "+9779843538473" },
+                    "Instagram.lnk": { type: "shortcut", target: "alokynwa / alok.ynwa" },
+                    "X-Twitter.lnk": { type: "shortcut", target: "alokynwa" }
+                }
+            },
+            "Resume.txt": { type: "file", content: "Alok Sharma\n\nI am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football." }
+        }
     }
-  }
-}
-function highlightSpotlight() {
-  document.querySelectorAll(".sp-result").forEach((el, i) => {
-    el.classList.toggle("active", i === spotlightSelection);
-  });
+};
+
+/* ============ ICON SVGs (Base64) ============ */
+const icons = {
+    computer: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M8 16h48v32H8z'/><path fill='%23000080' stroke='%23000' stroke-width='2' d='M12 20h40v24H12z'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M24 48h16v6H24z'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M16 54h32v4H16z'/></svg>",
+    folder: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23FFD700' stroke='%23000' stroke-width='2' d='M4 16h22l8 8h26v32H4z'/><path fill='%23DAA520' stroke='%23000' stroke-width='1' d='M4 24h56v24H4z'/></svg>",
+    file: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='14' y='6' width='36' height='52' fill='%23fff' stroke='%23000' stroke-width='2'/><path d='M20 16h24M20 24h24M20 32h24M20 40h16' stroke='%23c0c0c0' stroke-width='2'/></svg>",
+    image: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='10' y='14' width='44' height='36' fill='%23fff' stroke='%23000' stroke-width='2'/><path fill='%2387CEEB' d='M12 16h40v32H12z'/><circle cx='24' cy='24' r='4' fill='%23FFD700'/><path fill='%2332CD32' d='M12 48l12-16 10 12 8-10 10 14H12z'/></svg>",
+    trash: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M16 16h32v40H16z'/><path fill='%23fff' d='M22 24v24M32 24v24M42 24v24' stroke='%23000' stroke-width='2'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M12 12h40v4H12z'/><path fill='%23c0c0c0' stroke='%23000' stroke-width='2' d='M26 8h12v4H26z'/></svg>",
+    shortcut: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect x='14' y='6' width='36' height='52' fill='%23fff' stroke='%23000' stroke-width='2'/><path d='M32 24h12v12' stroke='%23000' stroke-width='3' fill='none'/><path d='M20 40l24-16' stroke='%23000' stroke-width='3'/></svg>"
+};
+
+/* ============ STATE ============ */
+let windows = [];
+let activeWindowId = null;
+let zIndexCounter = 100;
+let windowIdCounter = 0;
+let selectedDesktopIcon = null;
+
+/* ============ DESKTOP & SELECTION ============ */
+const desktop = document.getElementById('desktop');
+const desktopItems = [
+    { name: "My Computer", icon: icons.computer, path: "C:" },
+    { name: "Recycle Bin", icon: icons.trash, path: "Trash" },
+    { name: "Resume.txt", icon: icons.file, path: "C:/Resume.txt" },
+    { name: "Contact", icon: icons.folder, path: "C:/Contact" }
+];
+
+function renderDesktop() {
+    desktop.innerHTML = '';
+    desktopItems.forEach((item, index) => {
+        const el = document.createElement('div');
+        el.className = 'desktop-icon';
+        el.dataset.path = item.path;
+        el.innerHTML = `<img src="${item.icon}" class="icon-img"><span class="icon-label">${item.name}</span>`;
+        
+        el.onmousedown = (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedDesktopIcon = item.path;
+        };
+        
+        el.ondblclick = () => {
+            openPath(item.path);
+        };
+        
+        desktop.appendChild(el);
+    });
 }
 
-/* ============ CONTROL CENTER ============ */
-function toggleControlCenter() {
-  const control = document.getElementById("control-center");
-  const spotlight = document.getElementById("spotlight-overlay");
-  if (!control) return;
-  spotlight.style.display = "none";
-  closeAllMenus();
-  control.style.display = control.style.display === "block" ? "none" : "block";
-}
+// Drag selection box logic
+let isSelecting = false;
+let startX, startY;
+const selectionBox = document.getElementById('selection-box');
 
-/* ============ CLOSE POPOVERS ============ */
-document.addEventListener("click", function (e) {
-  const control = document.getElementById("control-center");
-  const spotlight = document.getElementById("spotlight-overlay");
-
-  if (control && !e.target.closest("#control-center") && !e.target.closest(".fa-wifi") && !e.target.closest(".battery-wrap")) {
-    control.style.display = "none";
-  }
-  if (spotlight && !e.target.closest("#spotlight-overlay") && !e.target.closest(".fa-magnifying-glass")) {
-    spotlight.style.display = "none";
-  }
-  if (!e.target.closest(".menu-root")) {
-    closeAllMenus();
-  }
-  if (!e.target.closest(".desktop-icon")) {
-    document.querySelectorAll(".desktop-icon.selected").forEach(el => el.classList.remove("selected"));
-  }
+desktop.addEventListener('mousedown', (e) => {
+    if (e.target === desktop) {
+        document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+        selectedDesktopIcon = null;
+        if(e.button !== 2) {
+            isSelecting = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            selectionBox.style.display = 'block';
+            selectionBox.style.left = startX + 'px';
+            selectionBox.style.top = startY + 'px';
+            selectionBox.style.width = '0px';
+            selectionBox.style.height = '0px';
+        }
+    }
 });
 
-function selectIcon(el) {
-  document.querySelectorAll(".desktop-icon.selected").forEach(e => e.classList.remove("selected"));
-  el.classList.add("selected");
-}
+window.addEventListener('mousemove', (e) => {
+    if (!isSelecting) return;
+    const currentX = e.clientX;
+    const currentY = e.clientY;
+    
+    const left = Math.min(startX, currentX);
+    const top = Math.min(startY, currentY);
+    const width = Math.abs(startX - currentX);
+    const height = Math.abs(startY - currentY);
+    
+    selectionBox.style.left = left + 'px';
+    selectionBox.style.top = top + 'px';
+    selectionBox.style.width = width + 'px';
+    selectionBox.style.height = height + 'px';
 
-/* ============ MENU BAR DROPDOWNS ============ */
-function closeAllMenus() {
-  document.querySelectorAll(".menu-root").forEach(m => m.classList.remove("open"));
-}
-function toggleMenu(name, e) {
-  e.stopPropagation();
-  const root = document.getElementById("menu-root-" + name);
-  const isOpen = root.classList.contains("open");
-  closeAllMenus();
-  if (!isOpen) {
-    if (name === "window") buildWindowListMenu();
-    root.classList.add("open");
-  }
-}
-function buildWindowListMenu() {
-  const container = document.getElementById("window-list-items");
-  if (!container) return;
-  if (openWins.size === 0) {
-    container.innerHTML = `<div class="menu-option disabled">No Open Windows</div>`;
-    return;
-  }
-  let html = "";
-  openWins.forEach((win, id) => {
-    html += `<div class="menu-option" onclick="restoreWindowById('${id}')">${win.dataset.title}${win.classList.contains('minimized') ? ' (minimized)' : ''}</div>`;
-  });
-  container.innerHTML = html;
-}
-function restoreWindowById(id) {
-  const win = openWins.get(id);
-  if (!win) return;
-  win.classList.remove("minimized");
-  bringToFront(win);
-}
-
-function getFocusedWindow() {
-  if (!activeWinId) return null;
-  return openWins.get(activeWinId) || null;
-}
-
-function menuAction(action) {
-  closeAllMenus();
-  const win = getFocusedWindow();
-
-  switch (action) {
-    case "about-mac": openAboutMac(); break;
-    case "settings": toggleControlCenter(); break;
-    case "force-quit":
-      if (win) { closeApp(activeWinId); showToast("App Quit", (win.dataset.title || "App") + " was force quit.", "fa-xmark"); }
-      else showToast("Force Quit", "No application selected.", "fa-xmark");
-      break;
-    case "sleep": showSleepScreen(); break;
-    case "restart": showBootScreen(() => { hideOverlay("boot-screen"); showToast("Restarted", "Welcome back."); }); break;
-    case "shutdown": showShutdownScreen(); break;
-    case "lock": showLockScreen(); break;
-    case "logout": showBootScreen(() => { hideOverlay("boot-screen"); showToast("Logged In", "Welcome back, Alok."); }); break;
-
-    case "new-finder-window": openApp("projects"); break;
-    case "close-window": if (win) closeApp(activeWinId); break;
-    case "get-info":
-      if (win) showToast("Get Info", `"${win.dataset.title}" — ${win.offsetWidth}×${win.offsetHeight}px`, "fa-circle-info");
-      else showToast("Get Info", "No window selected.", "fa-circle-info");
-      break;
-
-    case "select-all":
-      if (win) {
-        win.querySelectorAll(".finder-file").forEach(f => { f.style.background = "rgba(255,255,255,0.15)"; f.style.borderRadius = "8px"; });
-      }
-      break;
-
-    case "view-icons": if (win) { const g = win.querySelector(".finder-grid"); if (g) g.classList.remove("list-view"); } break;
-    case "view-list": if (win) { const g = win.querySelector(".finder-grid"); if (g) g.classList.add("list-view"); } break;
-    case "toggle-sidebar": if (win) { const sb = win.querySelector(".finder-sidebar"); if (sb) sb.style.display = sb.style.display === "none" ? "block" : "none"; } break;
-
-    case "go-home": openApp("about"); break;
-    case "go-projects": openApp("projects"); break;
-    case "go-education": openApp("education"); break;
-    case "go-desktop": openWins.forEach(w => w.classList.add("minimized")); break;
-    case "go-terminal": openApp("terminal"); break;
-
-    case "win-minimize": if (win) minimizeWindow(win); break;
-    case "win-zoom": if (win) toggleMaximize(win); break;
-
-    case "help-search": toggleSpotlight(); break;
-    case "help-about": showToast("Portfolio Help", "This is Alok Sharma's interactive macOS-style portfolio. Use the Dock or Desktop icons to explore.", "fa-circle-question"); break;
-  }
-}
-
-/* ============ SYSTEM OVERLAYS ============ */
-function showOverlay(id) { document.getElementById(id).classList.add("show"); }
-function hideOverlay(id) { document.getElementById(id).classList.remove("show"); }
-
-function showLockScreen() { showOverlay("lock-screen"); }
-function unlockScreen() { hideOverlay("lock-screen"); }
-document.addEventListener("keydown", () => {
-  const lock = document.getElementById("lock-screen");
-  if (lock && lock.classList.contains("show")) unlockScreen();
+    // Check intersection
+    const selRect = selectionBox.getBoundingClientRect();
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+        const iconRect = icon.getBoundingClientRect();
+        if (!(selRect.right < iconRect.left || 
+              selRect.left > iconRect.right || 
+              selRect.bottom < iconRect.top || 
+              selRect.top > iconRect.bottom)) {
+            icon.classList.add('selected');
+        } else {
+            icon.classList.remove('selected');
+        }
+    });
 });
 
-function showSleepScreen() { showOverlay("sleep-screen"); }
-function wakeScreen() { hideOverlay("sleep-screen"); }
+window.addEventListener('mouseup', () => {
+    isSelecting = false;
+    selectionBox.style.display = 'none';
+});
 
-function showShutdownScreen() { showOverlay("shutdown-screen"); }
-function powerOn() {
-  hideOverlay("shutdown-screen");
-  showBootScreen(() => { hideOverlay("boot-screen"); });
-}
-
-function showBootScreen(cb) {
-  showOverlay("boot-screen");
-  const fill = document.getElementById("boot-bar-fill");
-  fill.style.width = "0%";
-  requestAnimationFrame(() => { fill.style.width = "100%"; });
-  setTimeout(() => { if (cb) cb(); }, 1500);
-}
-
-/* ============ ABOUT THIS MAC ============ */
-function openAboutMac() {
-  if (openWins.has("about-mac")) { bringToFront(openWins.get("about-mac")); openWins.get("about-mac").classList.remove("minimized"); return; }
-  const win = document.createElement("div");
-  win.className = "os-win";
-  win.style.width = "420px"; win.style.height = "320px";
-  win.dataset.title = "About This Mac";
-  win.dataset.appId = "about-mac";
-  win.innerHTML = `
-    <div class="os-win-header">
-      <div class="traffic">
-        <button class="t-close" onclick="closeApp('about-mac')"></button>
-        <button class="t-min" onclick="minimizeWindow(this.closest('.os-win'))"></button>
-        <button class="t-max" onclick="toggleMaximize(this.closest('.os-win'))"></button>
-      </div>
-      <div class="os-win-title">About This Mac</div>
-    </div>
-    <div class="os-win-body" style="flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:4px;">
-      <i class="fa-brands fa-apple" style="font-size:46px; margin-bottom:10px;"></i>
-      <div style="font-size:17px; font-weight:700;">Alok's Portfolio Mac</div>
-      <div style="font-size:12.5px; color:var(--text-secondary); margin-top:6px; line-height:1.8;">
-        macOS Sonoma-style Web Build<br>
-        Chip: Web Browser Engine<br>
-        Memory: Whatever your tab allows<br>
-        Built with HTML, CSS &amp; JavaScript
-      </div>
-    </div>
-  `;
-  winLayer.appendChild(win);
-  openWins.set("about-mac", win);
-  bringToFront(win);
-  makeDraggable(win, win.querySelector(".os-win-header"));
-  win.addEventListener("mousedown", () => bringToFront(win));
-}
-
-/* ============ WINDOW FUNCTIONS ============ */
-function bringToFront(win) {
-  if (!win) return;
-  zTop++;
-  win.style.zIndex = zTop;
-  activeWinId = win.dataset.appId || null;
-  const title = document.getElementById("mb-app-name");
-  if (title) title.textContent = win.dataset.title || "Finder";
-}
-
-function closeApp(id) {
-  if (!openWins.has(id)) return;
-  openWins.get(id).remove();
-  openWins.delete(id);
-  document.querySelectorAll(".dock-item").forEach(item => {
-    if (item.dataset.app === id) item.classList.remove("running");
-  });
-  if (activeWinId === id) activeWinId = null;
-}
-
-/* ============ MINIMIZE / MAXIMIZE ============ */
-function minimizeWindow(win) {
-  if (!win || win.classList.contains("minimized")) return;
-  const id = win.dataset.appId;
-  const dockItem = document.querySelector(`.dock-item[data-app="${id}"]`) || document.getElementById("dock");
-  const winRect = win.getBoundingClientRect();
-  const dockRect = dockItem.getBoundingClientRect();
-  const dx = (dockRect.left + dockRect.width / 2) - (winRect.left + winRect.width / 2);
-  const dy = (dockRect.top + dockRect.height / 2) - (winRect.top + winRect.height / 2);
-
-  const prevTransform = win.style.transform || "";
-  win.classList.add("minimizing");
-  win.style.transform = prevTransform + ` translate(${dx}px, ${dy}px) scale(0.04)`;
-  win.style.opacity = "0.15";
-
-  setTimeout(() => {
-    win.classList.add("minimized");
-    win.classList.remove("minimizing");
-    win.style.transform = prevTransform;
-    win.style.opacity = "1";
-    if (dockItem.classList.contains("dock-item")) {
-      dockItem.classList.add("bounce");
-      setTimeout(() => dockItem.classList.remove("bounce"), 550);
+/* ============ PATH RESOLUTION ============ */
+function resolvePath(path) {
+    if (path === "C:") return fileSystem["C:"];
+    if (path === "Trash") return { type: "folder", name: "Recycle Bin", children: {} };
+    const parts = path.split('/').filter(p => p);
+    let current = fileSystem[parts[0]];
+    for (let i = 1; i < parts.length; i++) {
+        if (current && current.children && current.children[parts[i]]) {
+            current = current.children[parts[i]];
+        } else {
+            return null;
+        }
     }
-  }, 390);
+    return current;
 }
 
-function toggleMaximize(win) {
-  if (!win) return;
-  win.classList.add("animating");
-  if (win.classList.contains("maximized")) {
-    win.classList.remove("maximized");
-    win.style.top = win.dataset.prevTop || "80px";
-    win.style.left = win.dataset.prevLeft || "50%";
-    win.style.width = win.dataset.prevWidth || "720px";
-    win.style.height = win.dataset.prevHeight || "500px";
-    win.style.transform = win.dataset.prevTransform || "translateX(-50%)";
-  } else {
-    win.dataset.prevTop = win.style.top;
-    win.dataset.prevLeft = win.style.left;
-    win.dataset.prevWidth = win.style.width;
-    win.dataset.prevHeight = win.style.height;
-    win.dataset.prevTransform = win.style.transform;
-    win.classList.add("maximized");
-    win.style.top = "0px";
-    win.style.left = "0px";
-    win.style.width = "100%";
-    win.style.height = "100%";
-    win.style.transform = "none";
-  }
-  setTimeout(() => win.classList.remove("animating"), 320);
-}
-
-/* ============ DRAG FUNCTIONALITY ============ */
-function makeDraggable(win, header) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (header) header.onmousedown = dragMouseDown;
-
-  function dragMouseDown(e) {
-    if (win.classList.contains("maximized")) return;
-    e = e || window.event;
-    e.preventDefault();
-    pos3 = e.clientX; pos4 = e.clientY;
-
-    if (window.getComputedStyle(win).transform !== "none") {
-      const rect = win.getBoundingClientRect();
-      win.style.transform = "none";
-      win.style.left = rect.left + "px";
-      win.style.top = rect.top + "px";
+function openPath(path) {
+    const obj = resolvePath(path);
+    if (!obj) {
+        alert("Cannot find " + path);
+        return;
     }
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
-    pos3 = e.clientX; pos4 = e.clientY;
-    win.style.top = (win.offsetTop - pos2) + "px";
-    win.style.left = (win.offsetLeft - pos1) + "px";
-  }
-  function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+    
+    if (obj.type === 'folder' || obj.type === 'drive') {
+        createExplorerWindow(path, obj);
+    } else if (obj.type === 'file') {
+        createNotepadWindow(path.split('/').pop(), obj.content);
+    } else if (obj.type === 'image') {
+        createImageViewerWindow(path.split('/').pop(), obj.src);
+    } else if (obj.type === 'shortcut') {
+        alert("Shortcut points to: " + obj.target);
+    }
+    
+    closeStartMenu();
 }
 
-/* ============ FULL IMAGE VIEWER IN SEPARATE WINDOW ============ */
-let imgViewerCount = 0;
-function openImageViewer(title, imgSrc) {
-  const winId = "imgviewer-" + (++imgViewerCount);
-  const win = document.createElement("div");
-  win.className = "os-win";
-  win.style.width = "640px";
-  win.style.height = "500px";
-  win.dataset.title = title;
-  win.dataset.appId = winId;
+/* ============ WINDOW MANAGEMENT ============ */
+const windowsContainer = document.getElementById('windows-container');
 
-  win.innerHTML = `
-    <div class="os-win-header">
-      <div class="traffic">
-        <button class="t-close" onclick="this.closest('.os-win').remove()"></button>
-        <button class="t-min" onclick="minimizeWindow(this.closest('.os-win'))"></button>
-        <button class="t-max" onclick="toggleMaximize(this.closest('.os-win'))"></button>
-      </div>
-      <div class="os-win-title">${title}</div>
-    </div>
-    <div class="os-win-body" style="background: rgba(15, 15, 17, 0.9); display: flex; align-items: center; justify-content: center; padding: 20px; overflow: hidden;">
-      <img src="${imgSrc}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px; box-shadow: 0 12px 40px rgba(0,0,0,0.6);">
-    </div>
-  `;
-
-  winLayer.appendChild(win);
-  openWins.set(winId, win);
-  bringToFront(win);
-  makeDraggable(win, win.querySelector(".os-win-header"));
-  win.addEventListener("mousedown", () => bringToFront(win));
+function bringToFront(id) {
+    activeWindowId = id;
+    zIndexCounter++;
+    document.querySelectorAll('.window').forEach(w => w.classList.replace('active', 'inactive'));
+    const win = document.getElementById(id);
+    if (win) {
+        win.style.zIndex = zIndexCounter;
+        win.classList.replace('inactive', 'active');
+        win.style.display = 'flex';
+    }
+    updateTaskbar();
 }
 
-/* ============ HELPER TO RENDER FILES ============ */
-function renderFiles(files) {
-  return files.map(f => {
-    let thumb = f.img
-      ? `<img class="finder-thumb" src="${f.img}" alt="${f.title}">`
-      : `<div class="finder-thumb" style="background:rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-file-code" style="font-size:32px; color:var(--text-secondary);"></i></div>`;
-    return `
-      <div class="finder-file">
-        ${thumb}
-        <div style="font-size: 11px; margin-top: 4px; word-break: break-word;">${f.title}</div>
-      </div>
+function createWindowElement(id, title, contentHTML, iconSrc, width = 600, height = 400) {
+    const win = document.createElement('div');
+    win.className = 'window active';
+    win.id = id;
+    win.dataset.title = title;
+    win.dataset.icon = iconSrc;
+    win.style.width = width + 'px';
+    win.style.height = height + 'px';
+    win.style.top = (50 + (windows.length * 20)) + 'px';
+    win.style.left = (50 + (windows.length * 20)) + 'px';
+    win.style.zIndex = ++zIndexCounter;
+    
+    win.innerHTML = `
+        <div class="title-bar" onmousedown="startDrag(event, '${id}')">
+            <img src="${iconSrc}" class="title-bar-icon">
+            <div class="title-bar-text">${title}</div>
+            <div class="title-bar-controls" onmousedown="event.stopPropagation()">
+                <button class="title-btn" onclick="minimizeWindow('${id}')">_</button>
+                <button class="title-btn" onclick="maximizeWindow('${id}')">□</button>
+                <button class="title-btn" onclick="closeWindow('${id}')">X</button>
+            </div>
+        </div>
+        ${contentHTML}
     `;
-  }).join("");
+    
+    win.onmousedown = () => bringToFront(id);
+    windowsContainer.appendChild(win);
+    windows.push(id);
+    activeWindowId = id;
+    updateTaskbar();
+    return win;
 }
 
-/* ============ HELPER TO BUILD FINDER-LIKE APPS ============ */
-function createFinderApp(appTitle, dataObj) {
-  return {
-    title: appTitle,
-    render: () => {
-      const folders = Object.keys(dataObj);
-      const activeFolder = folders[0];
-      let sidebarHTML = folders.map((f, i) => `
-        <div class="finder-sb-item ${i === 0 ? 'active' : ''}" data-folder="${f}">
-          <i class="fa-solid fa-folder"></i> ${f}
-        </div>
-      `).join('');
-
-      return `
-        <div style="display:flex; height:100%; width:100%;">
-          <div class="finder-sidebar">
-            <div class="finder-sb-label">Favorites</div>
-            ${sidebarHTML}
-          </div>
-          <div style="display:flex; flex:1; overflow:hidden;">
-            <div class="finder-main" style="flex:1; padding: 24px; overflow-y: auto;">
-              <h2 class="folder-title">${activeFolder}</h2>
-              <br>
-              <div class="finder-grid">
-                ${renderFiles(dataObj[activeFolder])}
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    },
-    wire: win => {
-      const sidebarItems = win.querySelectorAll('.finder-sb-item');
-      const grid = win.querySelector('.finder-grid');
-      const titleEl = win.querySelector('.folder-title');
-
-      function bindFileClicks(folderName) {
-        const fileEls = grid.querySelectorAll('.finder-file');
-        fileEls.forEach((fileEl, index) => {
-          fileEl.addEventListener('click', () => {
-            fileEls.forEach(f => f.style.background = 'transparent');
-            fileEl.style.background = 'rgba(255,255,255,0.15)';
-            fileEl.style.borderRadius = '8px';
-            const fileData = dataObj[folderName][index];
-            if (fileData.img) openImageViewer(fileData.title, fileData.img);
-          });
-        });
-      }
-      sidebarItems.forEach(item => {
-        item.addEventListener('click', () => {
-          sidebarItems.forEach(sb => sb.classList.remove('active'));
-          item.classList.add('active');
-          const folderName = item.dataset.folder;
-          titleEl.textContent = folderName;
-          grid.innerHTML = renderFiles(dataObj[folderName]);
-          bindFileClicks(folderName);
-        });
-      });
-      bindFileClicks(sidebarItems[0].dataset.folder);
+function closeWindow(id) {
+    const win = document.getElementById(id);
+    if (win) win.remove();
+    windows = windows.filter(w => w !== id);
+    if (activeWindowId === id) {
+        activeWindowId = windows.length > 0 ? windows[windows.length - 1] : null;
+        if(activeWindowId) bringToFront(activeWindowId);
     }
-  };
+    updateTaskbar();
 }
 
-/* ============ TERMINAL ============ */
-function makeTerminal() {
-  const fs = {
-    "~": ["Desktop", "Documents", "Downloads", "Projects", "README.md"],
-    "~/Projects": Object.keys(PROJECTS),
-    "~/Documents": ["Education.txt", "Resume.pdf"],
-    "~/Desktop": ["Projects", "Resume", "Education", "Skills"]
-  };
-  let cwd = "~";
-  const history = [];
-  let histIndex = -1;
+function minimizeWindow(id) {
+    const win = document.getElementById(id);
+    if (win) win.style.display = 'none';
+    if (activeWindowId === id) {
+        activeWindowId = null;
+        const visibleWins = windows.filter(w => document.getElementById(w).style.display !== 'none');
+        if(visibleWins.length > 0) bringToFront(visibleWins[visibleWins.length - 1]);
+    }
+    updateTaskbar();
+}
 
-  function printLine(log, html) {
-    const div = document.createElement("div");
-    div.className = "term-line";
-    div.innerHTML = html;
-    log.appendChild(div);
-    log.parentElement.scrollTop = log.parentElement.scrollHeight;
-  }
+let isDragging = false;
+let dragWin = null;
+let offsetX, offsetY;
 
-  function promptHTML() {
-    return `<span class="term-prompt">alok@macbook ${cwd} %</span>`;
-  }
+function startDrag(e, id) {
+    const win = document.getElementById(id);
+    if (win.dataset.maximized === 'true') return;
+    bringToFront(id);
+    isDragging = true;
+    dragWin = win;
+    offsetX = e.clientX - win.offsetLeft;
+    offsetY = e.clientY - win.offsetTop;
+}
 
-  function handleCommand(raw, log) {
-    const parts = raw.trim().split(/\s+/);
-    const cmd = parts[0];
-    const args = parts.slice(1);
+window.addEventListener('mousemove', (e) => {
+    if (!isDragging || !dragWin) return;
+    dragWin.style.left = (e.clientX - offsetX) + 'px';
+    dragWin.style.top = Math.max(0, (e.clientY - offsetY)) + 'px';
+});
 
-    switch (cmd) {
-      case "help":
-        printLine(log, `Available commands: help, ls, pwd, whoami, date, clear, echo, cat, cd, open, neofetch, history, uname, man, exit`);
-        break;
-      case "ls": {
-        const list = fs[cwd] || [];
-        printLine(log, list.join("&nbsp;&nbsp;&nbsp;") || "(empty)");
-        break;
-      }
-      case "pwd":
-        printLine(log, "/Users/alok" + (cwd === "~" ? "" : "/" + cwd.replace("~/", "")));
-        break;
-      case "whoami":
-        printLine(log, "alok");
-        break;
-      case "date":
-        printLine(log, new Date().toString());
-        break;
-      case "clear":
-        log.innerHTML = "";
-        break;
-      case "echo":
-        printLine(log, args.join(" "));
-        break;
-      case "cat": {
-        const file = args[0];
-        if (file === "README.md") printLine(log, PROFILE.bio);
-        else if (file) printLine(log, `cat: ${file}: No such file or directory`);
-        else printLine(log, "usage: cat <file>");
-        break;
-      }
-      case "cd": {
-        const target = args[0];
-        if (!target || target === "~") { cwd = "~"; }
-        else if (target === "..") { cwd = cwd.includes("/") ? cwd.split("/").slice(0, -1).join("/") || "~" : "~"; }
-        else {
-          const candidate = cwd === "~" ? "~/" + target : cwd + "/" + target;
-          if (fs[candidate]) cwd = candidate;
-          else printLine(log, `cd: no such file or directory: ${target}`);
+window.addEventListener('mouseup', () => {
+    isDragging = false;
+    dragWin = null;
+});
+
+function maximizeWindow(id) {
+    const win = document.getElementById(id);
+    if (win.dataset.maximized === 'true') {
+        win.style.left = win.dataset.prevLeft;
+        win.style.top = win.dataset.prevTop;
+        win.style.width = win.dataset.prevWidth;
+        win.style.height = win.dataset.prevHeight;
+        win.dataset.maximized = 'false';
+    } else {
+        win.dataset.prevLeft = win.style.left;
+        win.dataset.prevTop = win.style.top;
+        win.dataset.prevWidth = win.style.width;
+        win.dataset.prevHeight = win.style.height;
+        win.style.left = '0';
+        win.style.top = '0';
+        win.style.width = '100%';
+        win.style.height = 'calc(100% - 28px)';
+        win.dataset.maximized = 'true';
+    }
+}
+
+/* ============ EXPLORER APP ============ */
+function createExplorerWindow(path, obj) {
+    const id = 'win_' + windowIdCounter++;
+    const title = obj.name || path.split('/').pop() || 'Explorer';
+    const isDrive = obj.type === 'drive';
+    const icon = isDrive ? icons.computer : icons.folder;
+    
+    // Generate Tree
+    function renderTreeLevel(node, currentPath) {
+        let html = '';
+        if (node.children) {
+            for (let key in node.children) {
+                const child = node.children[key];
+                if (child.type === 'folder' || child.type === 'drive') {
+                    const hasSubFolders = Object.values(child.children || {}).some(c => c.type === 'folder');
+                    const childPath = currentPath + '/' + key;
+                    const toggleBox = hasSubFolders ? `<span class="tree-toggle" onclick="toggleTree(event)">+</span>` : `<span style="display:inline-block;width:13px"></span>`;
+                    html += `
+                        <div>
+                            <div class="tree-item" onclick="updateExplorerView('${id}', '${childPath}')">
+                                ${toggleBox}
+                                <img src="${icons.folder}" class="tree-icon">
+                                <span class="tree-label">${key}</span>
+                            </div>
+                            <div class="tree-children">${renderTreeLevel(child, childPath)}</div>
+                        </div>
+                    `;
+                }
+            }
         }
-        break;
-      }
-      case "open": {
-        const target = (args[0] || "").toLowerCase();
-        const map = { about: "about", resume: "about", education: "education", projects: "projects", skills: "skills", mail: "contact", contact: "contact", trash: "trash", terminal: "terminal" };
-        if (map[target]) { openApp(map[target]); printLine(log, `Opening "${args[0]}"...`); }
-        else printLine(log, `open: ${args[0] || ""}: No such application`);
-        break;
-      }
-      case "neofetch":
-        printLine(log, `
-          <div style="display:flex; gap:16px;">
-            <div style="color:#32D74B; white-space:pre;">    .:'
-    _ :'_
- .'\`_\`-'_\`\`.
-:________.-'
-:_______:
- :_______\`-;
-  \`._.-._.'</div>
-            <div>
-              <b>alok@macbook</b><br>
-              -------------------<br>
-              OS: macOS-style Portfolio Web<br>
-              Host: Browser Tab<br>
-              Shell: zsh (simulated)<br>
-              Terminal: Web Terminal<br>
-              CPU: Your Device CPU
+        return html;
+    }
+
+    const treeHtml = `
+        <div>
+            <div class="tree-item" onclick="updateExplorerView('${id}', 'C:')">
+                <span class="tree-toggle" onclick="toggleTree(event)">-</span>
+                <img src="${icons.computer}" class="tree-icon">
+                <span class="tree-label">Local Disk (C:)</span>
             </div>
-          </div>
-        `);
-        break;
-      case "history":
-        printLine(log, history.map((h, i) => `${i + 1}  ${h}`).join("<br>") || "(no history)");
-        break;
-      case "uname":
-        printLine(log, args.includes("-a") ? "Darwin macbook 23.0.0 web-portfolio x86_64" : "Darwin");
-        break;
-      case "man":
-        printLine(log, args[0] ? `No manual entry for ${args[0]}` : "What manual page do you want?");
-        break;
-      case "sudo":
-        printLine(log, "Nice try. This incident will be reported. 😏");
-        break;
-      case "exit":
-        closeApp("terminal");
-        break;
-      case "":
-        break;
-      default:
-        printLine(log, `zsh: command not found: ${cmd}`);
-    }
-  }
-
-  return {
-    title: "Terminal",
-    render: () => `
-      <div class="term-body">
-        <div class="term-line">Last login: ${new Date().toDateString()} on ttys000</div>
-        <div id="term-log"></div>
-        <div class="term-row">
-          <span id="term-prompt-live">${promptHTML()}</span>
-          <input id="term-input" style="background:none; border:none; color:white; flex:1; font-family:var(--font-mono); font-size:13px; margin-left:4px;">
+            <div class="tree-children open">${renderTreeLevel(fileSystem['C:'], 'C:')}</div>
         </div>
-      </div>
-    `,
-    wire: win => {
-      const input = win.querySelector("#term-input");
-      const log = win.querySelector("#term-log");
-      const liveP = win.querySelector("#term-prompt-live");
-      if (!input) return;
-      input.focus();
-      win.addEventListener("mousedown", () => setTimeout(() => input.focus(), 0));
+    `;
 
-      input.addEventListener("keydown", e => {
-        if (e.key === "Enter") {
-          const value = input.value;
-          if (value.trim()) { history.push(value); histIndex = history.length; }
-          printLine(log, `${promptHTML()} ${value}`);
-          handleCommand(value, log);
-          input.value = "";
-          liveP.innerHTML = promptHTML();
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault();
-          if (histIndex > 0) { histIndex--; input.value = history[histIndex] || ""; }
-        } else if (e.key === "ArrowDown") {
-          e.preventDefault();
-          if (histIndex < history.length - 1) { histIndex++; input.value = history[histIndex] || ""; }
-          else { histIndex = history.length; input.value = ""; }
-        }
-      });
-    }
-  };
+    const contentHTML = `
+        <div class="menu-bar">
+            <div class="menu-item"><u>F</u>ile</div>
+            <div class="menu-item"><u>E</u>dit</div>
+            <div class="menu-item"><u>V</u>iew</div>
+            <div class="menu-item"><u>H</u>elp</div>
+        </div>
+        <div class="toolbar">
+            <div class="toolbar-btn" onclick="goUp('${id}')"><i class="fa-solid fa-arrow-turn-up fa-rotate-270"></i> Up</div>
+            <div class="toolbar-btn"><i class="fa-solid fa-cut"></i></div>
+            <div class="toolbar-btn"><i class="fa-regular fa-copy"></i></div>
+            <div class="toolbar-btn"><i class="fa-solid fa-paste"></i></div>
+            <div class="toolbar-btn"><i class="fa-solid fa-xmark"></i></div>
+        </div>
+        <div class="address-bar">
+            <span class="address-label">Address</span>
+            <input type="text" class="address-input" id="address_${id}" value="${path}" readonly>
+        </div>
+        <div class="window-content">
+            <div class="explorer-split">
+                <div class="explorer-tree">${treeHtml}</div>
+                <div class="explorer-main" id="main_${id}"></div>
+            </div>
+        </div>
+        <div class="status-bar" id="status_${id}">0 object(s)</div>
+    `;
+    
+    const win = createWindowElement(id, title, contentHTML, icon, 700, 450);
+    win.dataset.currentPath = path;
+    updateExplorerView(id, path);
 }
 
-/* ============ APPS ============ */
-const APPS = {
-  about: {
-    title: "About",
-    render: () => `
-      <div class="app-pad">
-        <h1 class="app-h1">${PROFILE.name}</h1>
-        <p class="app-lead">${PROFILE.bio}</p>
-      </div>
-    `
-  },
+function toggleTree(e) {
+    e.stopPropagation();
+    const btn = e.target;
+    const childrenContainer = btn.parentElement.nextElementSibling;
+    if (childrenContainer && childrenContainer.classList.contains('tree-children')) {
+        if (childrenContainer.classList.contains('open')) {
+            childrenContainer.classList.remove('open');
+            btn.innerHTML = '+';
+        } else {
+            childrenContainer.classList.add('open');
+            btn.innerHTML = '-';
+        }
+    }
+}
 
-  projects: createFinderApp("Finder", PROJECTS),
+function goUp(id) {
+    const win = document.getElementById(id);
+    const path = win.dataset.currentPath;
+    if (path === 'C:') return;
+    const parts = path.split('/');
+    parts.pop();
+    updateExplorerView(id, parts.join('/'));
+}
 
-  education: {
-    title: "Education",
-    render: () => `
-      <div class="app-pad" style="max-width: 650px;">
-        <h1 class="app-h1" style="margin-bottom: 24px;">Education</h1>
+function updateExplorerView(id, path) {
+    const win = document.getElementById(id);
+    if (!win) return;
+    const obj = resolvePath(path);
+    if (!obj) return;
+    
+    win.dataset.currentPath = path;
+    win.querySelector('.title-bar-text').innerText = obj.name || path.split('/').pop();
+    document.getElementById(`address_${id}`).value = path;
+    
+    const mainView = document.getElementById(`main_${id}`);
+    mainView.innerHTML = '';
+    
+    let count = 0;
+    if (obj.children) {
+        for (let key in obj.children) {
+            count++;
+            const child = obj.children[key];
+            let iconSrc = icons.file;
+            if (child.type === 'folder') iconSrc = icons.folder;
+            else if (child.type === 'image') iconSrc = icons.image;
+            else if (child.type === 'shortcut') iconSrc = icons.shortcut;
+            
+            const el = document.createElement('div');
+            el.className = 'file-icon';
+            el.innerHTML = `<img src="${iconSrc}" class="icon-img"><span class="icon-label">${key}</span>`;
+            
+            el.onmousedown = (e) => {
+                e.stopPropagation();
+                mainView.querySelectorAll('.file-icon').forEach(i => i.classList.remove('selected'));
+                el.classList.add('selected');
+            };
+            
+            el.ondblclick = () => {
+                openPath(path + '/' + key);
+            };
+            
+            mainView.appendChild(el);
+        }
+    }
+    
+    document.getElementById(`status_${id}`).innerText = `${count} object(s)`;
+}
 
-        <div style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
-          <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Mahakavi Devkota Memorial Secondary School (2010-2022)</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
+/* ============ NOTEPAD / WORDPAD ============ */
+function createNotepadWindow(title, content) {
+    const id = 'win_' + windowIdCounter++;
+    const contentHTML = `
+        <div class="menu-bar">
+            <div class="menu-item"><u>F</u>ile</div>
+            <div class="menu-item"><u>E</u>dit</div>
+            <div class="menu-item"><u>S</u>earch</div>
+            <div class="menu-item"><u>H</u>elp</div>
         </div>
-
-        <div style="margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 16px;">
-          <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Reliance International Academy (2022-2024)</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
+        <div class="window-content">
+            <textarea class="document-content" readonly>${content}</textarea>
         </div>
+    `;
+    createWindowElement(id, title + " - Notepad", contentHTML, icons.file, 500, 350);
+}
 
-        <div style="margin-bottom: 16px;">
-          <h3 style="font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px;">Amrit Campus (2024-current)</h3>
-          <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">Currently pursuing B.Sc.CSIT.</p>
+/* ============ IMAGE VIEWER ============ */
+function createImageViewerWindow(title, imgSrc) {
+    const id = 'win_' + windowIdCounter++;
+    const contentHTML = `
+        <div class="window-content">
+            <div class="image-viewer-content">
+                <img src="${imgSrc}" class="image-viewer-img" id="img_${id}">
+                <div class="image-viewer-toolbar">
+                    <div class="iv-btn" onclick="zoomImg('${id}', 1.2)"><i class="fa-solid fa-magnifying-glass-plus"></i></div>
+                    <div class="iv-btn" onclick="zoomImg('${id}', 0.8)"><i class="fa-solid fa-magnifying-glass-minus"></i></div>
+                    <div class="iv-btn" onclick="resetZoom('${id}')"><i class="fa-solid fa-expand"></i></div>
+                    <div class="iv-btn" onclick="closeWindow('${id}')"><i class="fa-solid fa-xmark"></i></div>
+                </div>
+            </div>
         </div>
-      </div>
-    `
-  },
+    `;
+    const win = createWindowElement(id, title + " - Windows Picture and Fax Viewer", contentHTML, icons.image, 600, 450);
+    win.dataset.zoom = 1;
+}
 
-  skills: createFinderApp("Skills", SKILLS),
+function zoomImg(id, factor) {
+    const win = document.getElementById(id);
+    const img = document.getElementById(`img_${id}`);
+    let zoom = parseFloat(win.dataset.zoom) * factor;
+    win.dataset.zoom = zoom;
+    img.style.transform = `scale(${zoom})`;
+}
+function resetZoom(id) {
+    const win = document.getElementById(id);
+    const img = document.getElementById(`img_${id}`);
+    win.dataset.zoom = 1;
+    img.style.transform = `scale(1)`;
+}
 
-  terminal: makeTerminal(),
+/* ============ TASKBAR & START MENU ============ */
+const startBtn = document.getElementById('start-btn');
+const startMenu = document.getElementById('start-menu');
+const taskbarWindows = document.getElementById('taskbar-windows');
 
-  contact: {
-  title: "Mail",
-  render: () => `
-    <div class="app-pad">
-      <h1 class="app-h1">Contact Me</h1>
+startBtn.addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+    if (startMenu.style.display === 'flex') {
+        closeStartMenu();
+    } else {
+        startMenu.style.display = 'flex';
+        startBtn.classList.add('active');
+    }
+});
 
-      <div class="contact-info"
-           style="margin-top:20px;font-size:15px;color:var(--text-secondary);line-height:2;user-select:text;-webkit-user-select:text;">
+function closeStartMenu() {
+    startMenu.style.display = 'none';
+    startBtn.classList.remove('active');
+}
 
-        <p>
-          <i class="fa-solid fa-envelope" style="width:25px;"></i>
-          <span>${PROFILE.email}</span>
-        </p>
+function updateTaskbar() {
+    taskbarWindows.innerHTML = '';
+    windows.forEach(id => {
+        const win = document.getElementById(id);
+        if (!win) return;
+        const btn = document.createElement('div');
+        btn.className = 'taskbar-win-btn' + (activeWindowId === id && win.style.display !== 'none' ? ' active' : '');
+        btn.innerHTML = `<img src="${win.dataset.icon}">${win.dataset.title}`;
+        btn.onmousedown = (e) => {
+            e.stopPropagation();
+            if (activeWindowId === id && win.style.display !== 'none') {
+                minimizeWindow(id);
+            } else {
+                bringToFront(id);
+            }
+        };
+        taskbarWindows.appendChild(btn);
+    });
+}
 
-        <p>
-          <i class="fa-solid fa-phone" style="width:25px;"></i>
-          <span>+9779843538473</span>
-        </p>
+// Clock
+setInterval(() => {
+    const d = new Date();
+    document.getElementById('clock').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}, 1000);
 
-        <p>
-          <i class="fa-brands fa-instagram" style="width:25px;"></i>
-          <span>alokynwa / alok.ynwa</span>
-        </p>
+/* ============ CONTEXT MENU ============ */
+const ctxMenu = document.getElementById('context-menu');
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    if (e.target === desktop || e.target.closest('.desktop-icon')) {
+        ctxMenu.style.display = 'flex';
+        ctxMenu.style.left = e.clientX + 'px';
+        ctxMenu.style.top = e.clientY + 'px';
+    }
+});
+document.addEventListener('mousedown', (e) => {
+    if (!e.target.closest('#context-menu')) {
+        ctxMenu.style.display = 'none';
+    }
+    if (!e.target.closest('#start-menu') && e.target !== startBtn && !startBtn.contains(e.target)) {
+        closeStartMenu();
+    }
+});
+function refreshDesktop() {
+    ctxMenu.style.display = 'none';
+    desktop.style.display = 'none';
+    setTimeout(() => desktop.style.display = 'flex', 100);
+}
+function arrangeIcons() {
+    ctxMenu.style.display = 'none';
+    renderDesktop();
+}
 
-        <p>
-          <i class="fa-brands fa-x-twitter" style="width:25px;"></i>
-          <span>alokynwa</span>
-        </p>
+/* ============ BOOT & SHUTDOWN ============ */
+function shutdown() {
+    closeStartMenu();
+    document.getElementById('shutdown-screen').style.display = 'flex';
+}
 
-      </div>
-    </div>
-  `
-},
-
-  trash: {
-    title: "Trash",
-    render: () => `
-      <div class="app-pad" style="text-align:center;">
-        <h2>Trash is empty</h2>
-      </div>
-    `
-  }
+window.onload = () => {
+    renderDesktop();
+    setTimeout(() => {
+        document.querySelector('.boot-text').style.display = 'none';
+        document.getElementById('win-logo-screen').style.display = 'block';
+        const fill = document.getElementById('boot-fill');
+        let width = 0;
+        const interval = setInterval(() => {
+            width += 5;
+            fill.style.width = width + '%';
+            if (width >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('boot-screen').style.display = 'none';
+                }, 500);
+            }
+        }, 100);
+    }, 2000);
 };
 
-function openApp(id) {
-  const app = APPS[id];
-  if (!app) return;
-
-  document
-    .querySelector(`.dock-item[data-app="${id}"]`)
-    ?.classList.add("running");
-
-  if (openWins.has(id)) {
-    const existing = openWins.get(id);
-    existing.classList.remove("minimized");
-    bringToFront(existing);
-    return;
-  }
-
-  const win = document.createElement("div");
-  win.className = "os-win";
-  win.dataset.title = app.title;
-  win.dataset.appId = id;
-  win.innerHTML = `
-    <div class="os-win-header">
-      <div class="traffic">
-        <button class="t-close" onclick="closeApp('${id}')"></button>
-        <button class="t-min" onclick="minimizeWindow(this.closest('.os-win'))"></button>
-        <button class="t-max" onclick="toggleMaximize(this.closest('.os-win'))"></button>
-      </div>
-      <div class="os-win-title">${app.title}</div>
-    </div>
-    <div class="os-win-body" style="flex-direction: column;">
-      ${app.render()}
-    </div>
-  `;
-  winLayer.appendChild(win);
-  openWins.set(id, win);
-
-  bringToFront(win);
-  makeDraggable(win, win.querySelector('.os-win-header'));
-
-  document.querySelectorAll(".dock-item").forEach(item => {
-    if (item.dataset.app === id) item.classList.add("running");
-  });
-  win.addEventListener("mousedown", () => bringToFront(win));
-
-  if (app.wire) setTimeout(() => app.wire(win), 50);
-}
-
-/* ============ BATTERY (real device battery via Battery Status API where supported) ============ */
-function updateBatteryUI(level, charging, unsupported) {
-  const fill = document.getElementById("battery-fill");
-  const label = document.getElementById("battery-percent-label");
-  const ccText = document.getElementById("cc-battery-text");
-  const maxW = 18;
-  const w = Math.max(1, Math.round((level / 100) * maxW));
-  if (fill) {
-    fill.setAttribute("width", w);
-    fill.setAttribute("fill", level <= 20 && !charging ? "#FF453A" : "#ffffff");
-  }
-  if (label) label.textContent = level + "%";
-  if (ccText) {
-    ccText.textContent = unsupported
-      ? "Battery status unavailable in this browser"
-      : `${level}% `;
-  }
-}
-
-async function initBattery() {
-  if (navigator.getBattery) {
-    try {
-      const battery = await navigator.getBattery();
-      const update = () => updateBatteryUI(Math.round(battery.level * 100), battery.charging);
-      update();
-      battery.addEventListener("levelchange", update);
-      battery.addEventListener("chargingchange", update);
-      return;
-    } catch (err) {
-      updateBatteryUI(100, false, true);
-      return;
-    }
-  }
-  updateBatteryUI(100, false, true);
-}
-initBattery();
-
-/* ============ NETWORK / WI-FI STATUS ============
-   Note: browsers do not expose the real Wi-Fi network name (SSID) for
-   privacy/security reasons — that data simply isn't available to web pages.
-   This shows real online/offline status and, where the browser supports it,
-   the approximate connection type via the Network Information API. */
-function updateNetworkStatus() {
-  const online = navigator.onLine;
-  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-  const wifiIcon = document.getElementById("wifi-icon");
-  const ccWifiName = document.getElementById("cc-wifi-name");
-
-  if (wifiIcon) {
-    wifiIcon.className = online ? "fa-solid fa-wifi" : "fa-solid fa-wifi-slash";
-    wifiIcon.style.opacity = online ? "1" : "0.45";
-  }
-  if (ccWifiName) {
-    if (!online) ccWifiName.textContent = "No Connection";
-    else if (conn && conn.effectiveType) ccWifiName.textContent = `Connected (${conn.effectiveType})`;
-    else ccWifiName.textContent = "Connected";
-  }
-}
-window.addEventListener("online", updateNetworkStatus);
-window.addEventListener("offline", updateNetworkStatus);
-updateNetworkStatus();
 </script>
-
 </body>
 </html>
