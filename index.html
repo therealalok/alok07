@@ -1,494 +1,563 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Alok OS — Premium Portfolio</title>
+<title>Alok OS — Interactive Design Portfolio</title>
+<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+  (function(){ if(window.emailjs){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); } })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
 <style>
+/* --- CORE VARIABLES & TYPOGRAPHY --- */
 :root {
-  --bg-dark: #050505;
-  --text-main: #ffffff;
-  --text-muted: #888888;
-  --accent: #0078D4;
+  --bg-color: #050505;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --text-muted: #666666;
+  --accent: #1da1f2; /* Subtle blue accent, less loud than standard Windows */
+  --accent-hover: #1a91da;
   
-  --glass-bg: rgba(20, 20, 20, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-hover: rgba(255, 255, 255, 0.12);
+  --acrylic-light: rgba(255, 255, 255, 0.02);
+  --acrylic-base: rgba(15, 15, 15, 0.65);
+  --acrylic-heavy: rgba(10, 10, 10, 0.85);
   
-  --shadow-float: 0 20px 40px rgba(0,0,0,0.5);
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-active: rgba(255, 255, 255, 0.12);
   
-  --radius-lg: 16px;
+  --shadow-sm: 0 4px 12px rgba(0,0,0,0.2);
+  --shadow-md: 0 12px 32px rgba(0,0,0,0.4);
+  --shadow-lg: 0 24px 64px rgba(0,0,0,0.6);
+  
+  --radius-sm: 8px;
   --radius-md: 12px;
+  --radius-lg: 16px;
   
-  --anim-smooth: 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --font-ui: 'Inter', sans-serif;
+  --transition-fast: 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --transition-smooth: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-* { margin:0; padding:0; box-sizing:border-box; user-select: none; font-family: 'Inter', sans-serif; }
-html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg-dark); color: var(--text-main); }
-button { outline: none; border: none; background: none; color: inherit; cursor: pointer; }
+[data-theme="light"] {
+  --bg-color: #f5f5f5;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+  --acrylic-base: rgba(250, 250, 250, 0.75);
+  --acrylic-heavy: rgba(255, 255, 255, 0.9);
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-active: rgba(0, 0, 0, 0.15);
+}
 
-/* Dynamic Football/Minimal Wallpaper */
+* { margin:0; padding:0; box-sizing:border-box; user-select: none; }
+html, body { height: 100%; width: 100%; overflow: hidden; background: var(--bg-color); font-family: var(--font-ui); color: var(--text-primary); letter-spacing: -0.01em; }
+button, input { font-family: inherit; color: inherit; outline: none; border: none; background: none; }
+img { user-drag: none; -webkit-user-drag: none; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(150,150,150,0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(150,150,150,0.4); }
+
+/* --- WALLPAPER --- */
 #wallpaper {
   position: fixed; inset: 0; z-index: 0;
-  background: url('https://images.unsplash.com/photo-1518605368461-1e1e38ce8a31?q=80&w=2560') center/cover;
-  filter: brightness(0.4) contrast(1.1);
-  transition: all 1s ease;
+  /* Premium minimal stadium/floodlight inspired gradient */
+  background: radial-gradient(circle at 50% 0%, #0d1b2a 0%, #000000 80%);
+  background-size: cover; background-position: center; transition: background 0.8s ease;
 }
 
-/* Premium Desktop with Large Folder Cards */
-#desktop {
-  position: absolute; inset: 0; bottom: 80px; z-index: 10;
-  display: flex; gap: 40px; padding: 60px;
-  align-content: flex-start; flex-wrap: wrap;
+/* --- DESKTOP --- */
+#desktop { position: absolute; inset: 0; bottom: 80px; z-index: 10; display: flex; flex-direction: column; flex-wrap: wrap; align-content: flex-start; padding: 24px; gap: 16px; }
+.desktop-icon { width: 110px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 12px; border-radius: var(--radius-md); cursor: pointer; border: 1px solid transparent; transition: var(--transition-fast); }
+.desktop-icon:hover { background: rgba(255,255,255,0.03); }
+.desktop-icon.selected { background: rgba(255,255,255,0.08); border-color: var(--border-light); }
+.desktop-icon i { font-size: 42px; margin-bottom: 12px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); transition: transform 0.2s; }
+.desktop-icon:hover i { transform: scale(1.05); }
+.desktop-icon span { font-size: 13px; font-weight: 500; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.8); line-height: 1.2; letter-spacing: 0.02em; }
+
+/* Selection Box */
+#selection-box { position: fixed; border: 1px solid var(--accent); background: rgba(29, 161, 242, 0.2); z-index: 9; display: none; pointer-events: none; border-radius: 2px; }
+
+/* --- WINDOW SYSTEM --- */
+#windows-layer { position: absolute; inset: 0; bottom: 80px; z-index: 20; pointer-events: none; }
+.win-os {
+  position: absolute; top: 8%; left: 12%; width: 850px; height: 600px;
+  background: var(--acrylic-base); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--border-light); border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  display: flex; flex-direction: column; overflow: hidden; pointer-events: auto; opacity: 0; transform: scale(0.97) translateY(10px);
+  transition: transform var(--transition-smooth), opacity var(--transition-smooth), width 0.25s, height 0.25s, top 0.25s, left 0.25s;
 }
+.win-os.active-win { opacity: 1; transform: scale(1) translateY(0); box-shadow: var(--shadow-lg); border-color: var(--border-active); }
+.win-os.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: calc(100vh - 80px) !important; border-radius: 0; }
+.win-os.minimized { opacity: 0; transform: scale(0.9) translateY(40px); pointer-events: none; }
 
-.desktop-card {
-  width: 140px; height: 160px;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
-  border-radius: var(--radius-lg);
-  cursor: pointer; position: relative; overflow: hidden;
-  transition: var(--anim-smooth);
+.win-titlebar { height: 44px; display: flex; justify-content: space-between; align-items: center; padding-left: 16px; flex-shrink: 0; cursor: default; background: transparent; }
+.win-titlebar.draggable { cursor: grab; }
+.win-titlebar.draggable:active { cursor: grabbing; }
+.win-title { font-size: 13px; display: flex; align-items: center; gap: 10px; opacity: 0.9; font-weight: 600; letter-spacing: 0.03em; }
+.win-controls { display: flex; height: 100%; padding-right: 8px; align-items: center; gap: 4px; }
+.win-btn { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: var(--transition-fast); cursor: pointer; color: var(--text-secondary); }
+.win-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+.win-btn.close:hover { background: #E81123; color: white; }
+
+.win-content { flex: 1; display: flex; background: transparent; position: relative; overflow: hidden; }
+
+/* --- FILE EXPLORER --- */
+.explorer-layout { display: flex; width: 100%; height: 100%; flex-direction: row; }
+.explorer-sidebar { width: 240px; background: rgba(0,0,0,0.2); border-right: 1px solid var(--border-light); overflow-y: auto; padding: 20px 12px; display: flex; flex-direction: column; gap: 4px; }
+.explorer-main { flex: 1; display: flex; flex-direction: column; background: var(--bg-color); }
+.explorer-header { height: 60px; display: flex; align-items: center; padding: 0 24px; border-bottom: 1px solid var(--border-light); font-size: 18px; font-weight: 600; gap: 12px; }
+.explorer-body { flex: 1; overflow-y: auto; padding: 24px; }
+.tree-item { padding: 10px 12px; display: flex; align-items: center; gap: 12px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text-secondary); transition: var(--transition-fast); }
+.tree-item:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+.tree-item.active { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+.tree-item i { font-size: 16px; width: 20px; text-align: center; }
+
+.file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 24px; }
+.file-item { display: flex; flex-direction: column; align-items: center; padding: 16px 12px; border-radius: var(--radius-md); cursor: pointer; text-align: center; border: 1px solid transparent; transition: var(--transition-fast); }
+.file-item:hover { background: rgba(255,255,255,0.04); }
+.file-item .file-icon { width: 72px; height: 72px; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #60CDFF; margin-bottom: 12px; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); border: 1px solid var(--border-light); }
+.file-item span { font-size: 12px; word-break: break-word; line-height: 1.4; font-weight: 500; }
+
+/* --- STANDARD APPS --- */
+.standard-app { padding: 48px; max-width: 800px; margin: 0 auto; overflow-y: auto; width: 100%; height: 100%; user-select: text; }
+.standard-app h1 { font-size: 36px; font-weight: 700; margin-bottom: 32px; letter-spacing: -0.02em; }
+.standard-app p { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 24px; }
+.info-section { margin-bottom: 32px; }
+.info-section h3 { font-size: 18px; margin-bottom: 12px; font-weight: 600; }
+
+/* --- CONTACT APP (INTERACTIVE) --- */
+.contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 24px; }
+.contact-item { 
+  display: flex; align-items: center; gap: 16px; padding: 16px 20px; 
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border-light); 
+  border-radius: var(--radius-md); font-size: 14px; cursor: pointer;
+  transition: var(--transition-fast); user-select: none;
 }
+.contact-item:hover { background: rgba(255,255,255,0.06); border-color: var(--border-active); transform: translateY(-2px); }
+.contact-item:active { transform: translateY(0); }
+.contact-item i { font-size: 24px; width: 32px; text-align: center; }
+.contact-details { display: flex; flex-direction: column; gap: 4px; }
+.contact-platform { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.contact-value { font-size: 15px; font-weight: 500; color: var(--text-primary); }
 
-.desktop-card .card-bg {
-  position: absolute; inset: 0; z-index: -1;
-  background-size: cover; background-position: center;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  opacity: 0.7; transition: var(--anim-smooth);
-}
+/* Notifications (Toast) */
+#toast-container { position: fixed; bottom: 100px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: var(--acrylic-heavy); backdrop-filter: blur(20px); border: 1px solid var(--border-light); padding: 12px 24px; border-radius: 30px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow-md); opacity: 0; transform: translateY(20px); transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; align-items: center; gap: 10px; }
+.toast.show { opacity: 1; transform: translateY(0); }
 
-.desktop-card:hover { transform: translateY(-5px); }
-.desktop-card:hover .card-bg { opacity: 1; border-color: rgba(255,255,255,0.3); box-shadow: var(--shadow-float); }
-.desktop-card.selected .card-bg { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
-
-.desktop-card span {
-  font-size: 13px; font-weight: 500;
-  padding: 12px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-  background: linear-gradient(transparent, rgba(0,0,0,0.9));
-  width: 100%; text-align: center;
-}
-
-/* Floating Taskbar */
+/* --- FLOATING TASKBAR --- */
 #taskbar {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  height: 56px; z-index: 1000;
-  background: var(--glass-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--glass-border); border-radius: 28px;
-  display: flex; align-items: center; padding: 0 16px; gap: 12px;
-  box-shadow: var(--shadow-float);
+  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); 
+  height: 56px; width: auto; min-width: 400px; padding: 0 16px;
+  background: var(--acrylic-heavy); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
+  border: 1px solid var(--border-light); border-radius: 28px;
+  display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5); gap: 24px;
 }
-
+.tb-center { display: flex; gap: 8px; height: 100%; align-items: center; }
 .tb-icon {
-  width: 40px; height: 40px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; transition: var(--anim-smooth);
-  color: var(--text-main); position: relative;
+  width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; position: relative; transition: var(--transition-fast); font-size: 20px; color: var(--text-secondary);
 }
-.tb-icon:hover { background: var(--glass-hover); transform: scale(1.1); }
-.tb-icon.active::after {
-  content: ''; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%);
-  width: 6px; height: 6px; background: var(--text-main); border-radius: 50%;
+.tb-icon:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+.tb-icon.active { color: var(--text-primary); background: rgba(255,255,255,0.05); }
+.tb-icon.running::after { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; background: var(--text-muted); border-radius: 50%; }
+.tb-icon.active::after { background: var(--accent); width: 12px; border-radius: 2px; }
+#start-btn { color: var(--text-primary); }
+
+.tb-right { display: flex; gap: 12px; height: 100%; align-items: center; }
+.tb-tray-item { padding: 0 12px; height: 40px; border-radius: 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: 14px; transition: var(--transition-fast); color: var(--text-secondary); }
+.tb-tray-item:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
+.tb-clock { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; font-size: 12px; font-weight: 500; }
+
+/* --- START MENU --- */
+#start-menu {
+  position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%) translateY(20px) scale(0.95); 
+  width: 640px; background: var(--acrylic-heavy); backdrop-filter: blur(50px); 
+  border: 1px solid var(--border-light); border-radius: var(--radius-lg); 
+  box-shadow: var(--shadow-lg); z-index: 999; display: flex; flex-direction: column;
+  opacity: 0; pointer-events: none; transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 32px; gap: 32px;
 }
+#start-menu.open { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); pointer-events: auto; }
+.start-search input { width: 100%; height: 48px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-light); border-radius: 24px; padding: 0 24px; font-size: 14px; transition: var(--transition-fast); }
+.start-search input:focus { border-color: var(--accent); background: rgba(0,0,0,0.5); }
+.start-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.start-app { display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: pointer; padding: 16px 8px; border-radius: var(--radius-md); transition: var(--transition-fast); }
+.start-app:hover { background: rgba(255,255,255,0.06); transform: translateY(-2px); }
+.start-app i { font-size: 32px; }
+.start-app span { font-size: 12px; font-weight: 500; }
 
-/* Windows System */
-#windows-layer { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
-
-.os-window {
-  position: absolute; top: 15%; left: 20%; width: 900px; height: 600px;
-  background: rgba(10, 10, 10, 0.75); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
-  border: 1px solid var(--glass-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-float);
-  display: flex; flex-direction: column; overflow: hidden; pointer-events: auto;
-  opacity: 0; transform: scale(0.9) translateY(20px);
-  transition: opacity 0.2s cubic-bezier(0.2,0.8,0.2,1), transform 0.2s cubic-bezier(0.2,0.8,0.2,1);
-}
-.os-window.active { opacity: 1; transform: scale(1) translateY(0); }
-.os-window.maximized { top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; border-radius: 0; }
-.os-window.focus { z-index: 100; border-color: rgba(255,255,255,0.2); }
-
-.win-header {
-  height: 48px; display: flex; justify-content: space-between; align-items: center;
-  padding: 0 20px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0;
-}
-.win-header.draggable { cursor: grab; }
-.win-header.draggable:active { cursor: grabbing; }
-.win-title { font-size: 13px; font-weight: 500; letter-spacing: 0.5px; opacity: 0.8; }
-.win-controls { display: flex; gap: 12px; }
-.win-btn { width: 14px; height: 14px; border-radius: 50%; cursor: pointer; transition: 0.2s; background: #444; }
-.win-btn.close:hover { background: #FF5F56; }
-.win-btn.max:hover { background: #28C840; }
-
-.win-content { flex: 1; overflow-y: auto; position: relative; color: var(--text-main); }
-
-/* Notifications */
-#notifications { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
-.toast {
-  background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border);
-  padding: 12px 20px; border-radius: var(--radius-md); font-size: 13px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3); animation: slideIn 0.3s cubic-bezier(0.2,0.8,0.2,1);
-}
-@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-
-/* Context Menu */
-#context-menu {
-  position: fixed; background: rgba(15,15,15,0.9); backdrop-filter: blur(25px);
-  border: 1px solid var(--glass-border); border-radius: var(--radius-md); box-shadow: var(--shadow-float);
-  padding: 6px; display: none; flex-direction: column; min-width: 220px; z-index: 10000;
-}
-.cm-item {
-  padding: 10px 16px; display: flex; align-items: center; gap: 12px;
-  cursor: pointer; border-radius: 8px; font-size: 13px; transition: 0.1s;
-}
-.cm-item:hover { background: var(--glass-hover); }
-.cm-divider { height: 1px; background: var(--glass-border); margin: 4px 0; }
-
-/* Contact App Specifics */
-.contact-app { padding: 40px; max-width: 800px; margin: 0 auto; }
-.contact-header { display: flex; align-items: center; gap: 24px; margin-bottom: 40px; }
-.contact-avatar { width: 100px; height: 100px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 40px; }
-.contact-list { display: flex; flex-direction: column; gap: 12px; }
-.contact-row {
-  display: flex; align-items: center; padding: 16px 24px;
-  background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: var(--radius-md);
-  cursor: pointer; transition: var(--anim-smooth);
-}
-.contact-row:hover { background: rgba(255,255,255,0.08); transform: translateX(5px); border-color: rgba(255,255,255,0.2); }
-.contact-row i { font-size: 20px; width: 40px; color: var(--text-muted); }
-.contact-row .details { flex: 1; }
-.contact-row .title { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
-.contact-row .value { font-size: 15px; font-weight: 500; user-select: text; }
-.contact-actions { display: flex; gap: 8px; opacity: 0; transition: 0.2s; }
-.contact-row:hover .contact-actions { opacity: 1; }
-.action-btn { padding: 8px 16px; border-radius: 20px; background: rgba(255,255,255,0.1); font-size: 12px; }
-.action-btn:hover { background: var(--accent); }
-
-/* Project Grid */
-.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 24px; padding: 40px; }
-.proj-card { aspect-ratio: 16/9; background: #222; border-radius: var(--radius-md); border: 1px solid var(--glass-border); overflow: hidden; cursor: pointer; position: relative; }
-.proj-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.3s; }
-.proj-card:hover img { opacity: 1; transform: scale(1.05); }
-.proj-card .label { position: absolute; bottom: 0; width: 100%; padding: 12px; background: linear-gradient(transparent, #000); font-size: 13px; font-weight: 500; }
+/* --- IMAGE VIEWER (CINEMATIC) --- */
+.img-viewer { background: rgba(0,0,0,0.95) !important; align-items: center; justify-content: center; padding: 40px; }
+.img-viewer img { max-width: 100%; max-height: 100%; object-fit: contain; box-shadow: 0 20px 50px rgba(0,0,0,0.8); border-radius: 4px; }
 
 </style>
 </head>
 <body>
 
 <div id="wallpaper"></div>
-
-<div id="desktop">
-  <!-- Large Folder Cards -->
-  <div class="desktop-card" ondblclick="openApp('projects')" onclick="selectIcon(this, event)">
-    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1574629810360-7efbb6b6923f?q=80&w=400');"></div>
-    <span>Projects</span>
-  </div>
-  <div class="desktop-card" ondblclick="openApp('resume')" onclick="selectIcon(this, event)">
-    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=400');"></div>
-    <span>Resume.pdf</span>
-  </div>
-  <div class="desktop-card" ondblclick="openApp('contacts')" onclick="selectIcon(this, event)" oncontextmenu="showContactMenu(event, 'main')">
-    <div class="card-bg" style="background-image: url('https://images.unsplash.com/photo-1596524430615-b46475ddff6e?q=80&w=400');"></div>
-    <span>Contacts</span>
-  </div>
-</div>
-
+<div id="desktop"></div>
+<div id="selection-box"></div>
 <div id="windows-layer"></div>
+<div id="toast-container"></div>
 
 <div id="taskbar">
-  <button class="tb-icon" onclick="toggleFullscreen()" title="Fullscreen (F11)"><i class="fa-solid fa-expand"></i></button>
-  <div style="width: 1px; height: 24px; background: var(--glass-border); margin: 0 8px;"></div>
-  <button class="tb-icon" onclick="openApp('projects')" id="tb-projects"><i class="fa-solid fa-folder-open"></i></button>
-  <button class="tb-icon" onclick="openApp('contacts')" id="tb-contacts"><i class="fa-solid fa-address-book"></i></button>
-  <button class="tb-icon" onclick="openApp('terminal')" id="tb-terminal"><i class="fa-solid fa-terminal"></i></button>
+  <div class="tb-center" id="tb-apps">
+    <div class="tb-icon" id="start-btn" onclick="toggleStartMenu()" title="Start"><i class="fa-brands fa-windows"></i></div>
+    <div class="tb-icon" onclick="openApp('explorer')" title="Projects"><i class="fa-solid fa-folder-open" style="color:#F3C144;"></i></div>
+    <div class="tb-icon" onclick="openApp('about')" title="About Me"><i class="fa-solid fa-user" style="color:#1da1f2;"></i></div>
+    <div class="tb-icon" onclick="openApp('spotify')" title="Media Player"><i class="fa-solid fa-music" style="color:#1DB954;"></i></div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-tray-item" onclick="toggleFullscreen()" title="Toggle Fullscreen (F11)">
+      <i class="fa-solid fa-expand" id="fs-icon"></i>
+    </div>
+    <div class="tb-tray-item tb-clock">
+      <span id="tb-time">12:00 AM</span>
+    </div>
+  </div>
 </div>
 
-<div id="notifications"></div>
-
-<div id="context-menu">
-  <!-- Dynamic content injected via JS -->
+<div id="start-menu">
+  <div class="start-search"><input type="text" placeholder="Search apps, projects, and settings..."></div>
+  <div>
+    <div style="font-size:14px; font-weight:600; margin-bottom:20px; padding-left:8px;">Pinned Apps</div>
+    <div class="start-grid" id="start-grid-apps"></div>
+  </div>
 </div>
 
 <script>
-/* --- CORE SYSTEM & DATA --- */
-const sysData = {
-  profile: {
-    name: "Alok Sharma",
-    bio: "19yo CSIT Student & Digital Content Creator",
-    email: "alokkynwa@gmail.com",
-    ig: "alok.ynwa",
-    x: "alokynwa",
-    phone: "+9779843538473"
-  },
-  projects: [
-    { title: "Liverpool F.C. Posters", img: "https://images.unsplash.com/photo-1600250395376-78e5628b05fc?q=80&w=600" },
-    { title: "पत्तासाफ Branding", img: "https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=600" },
-    { title: "DBT Meme Network", img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600" },
-    { title: "Arsenal Bottlejob Parody", img: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=600" },
-    { title: "R Stats Practical", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600" }
+/* --- PRESERVED DATA --- */
+const PROFILE = {
+  name: "Alok Sharma",
+  bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
+  email: "alokkynwa@gmail.com"
+};
+
+const PROJECTS = {
+  "Danke": [
+    { title: "ThankyouMo.jpeg", icon: "fa-image" },
+    { title: "ThankyouRobbo.jpeg", icon: "fa-image" },
+    { title: "robboxmo copy.jpg", icon: "fa-image" },
+    { title: "heavymetalfootball.jpg", icon: "fa-image" }
+  ],
+  "Matchday": [
+    { title: "argvspa copy.jpg", icon: "fa-image" },
+    { title: "engvarg.jpeg", icon: "fa-image" },
+    { title: "fravspa.jpeg", icon: "fa-image" },
+    { title: "engnorway.jpg", icon: "fa-image" },
+    { title: "spainbelgium.jpeg", icon: "fa-image" },
+    { title: "fravswe.jpeg", icon: "fa-image" },
+    { title: "portugalvcongo copy.jpg", icon: "fa-image" },
+    { title: "poruzb copy.jpg", icon: "fa-image" },
+    { title: "porcong.jpeg", icon: "fa-image" },
+    { title: "lfcvbre copy.jpg", icon: "fa-image" },
+    { title: "livche.jpeg", icon: "fa-image" },
+    { title: "livvgal.jpeg", icon: "fa-image" },
+    { title: "livvmci.jpeg", icon: "fa-image" },
+    { title: "livvpsg.jpeg", icon: "fa-image" },
+    { title: "psgvarsfinal copy.jpg", icon: "fa-image" }
+  ],
+  "Supporters' voice": [
+    { title: "slotout.jpeg", icon: "fa-image" }
   ]
 };
 
-const APPS = {
-  projects: {
-    title: "Projects",
-    render: () => `
-      <div class="proj-grid">
-        ${sysData.projects.map(p => `
-          <div class="proj-card" onclick="notify('Opening ${p.title} viewer...')">
-            <img src="${p.img}" alt="${p.title}">
-            <div class="label">${p.title}</div>
-          </div>
-        `).join('')}
-      </div>
-    `
-  },
-  contacts: {
-    title: "Contacts",
-    render: () => `
-      <div class="contact-app">
-        <div class="contact-header">
-          <div class="contact-avatar"><i class="fa-solid fa-user"></i></div>
-          <div>
-            <h1 style="font-size: 28px; font-weight: 600; margin-bottom: 4px;">${sysData.profile.name}</h1>
-            <p style="color: var(--text-muted); font-size: 14px;">${sysData.profile.bio}</p>
-          </div>
-        </div>
-        <div class="contact-list">
-          <div class="contact-row" ondblclick="window.open('https://instagram.com/${sysData.profile.ig}', '_blank')" oncontextmenu="showContactMenu(event, 'ig')">
-            <i class="fa-brands fa-instagram"></i>
-            <div class="details">
-              <div class="title">Instagram</div>
-              <div class="value">@${sysData.profile.ig}</div>
-            </div>
-            <div class="contact-actions">
-              <button class="action-btn" onclick="copyText('@${sysData.profile.ig}', 'Instagram Handle')">Copy</button>
-              <button class="action-btn" onclick="window.open('https://instagram.com/${sysData.profile.ig}', '_blank')">Open</button>
-            </div>
-          </div>
-          
-          <div class="contact-row" ondblclick="window.location.href='mailto:${sysData.profile.email}'" oncontextmenu="showContactMenu(event, 'email')">
-            <i class="fa-solid fa-envelope"></i>
-            <div class="details">
-              <div class="title">Email</div>
-              <div class="value">${sysData.profile.email}</div>
-            </div>
-            <div class="contact-actions">
-              <button class="action-btn" onclick="copyText('${sysData.profile.email}', 'Email Address')">Copy</button>
-              <button class="action-btn" onclick="window.location.href='mailto:${sysData.profile.email}'">Mail</button>
-            </div>
-          </div>
+const SKILLS = {
+  "Tech Stack": [
+    { title: "HTML5", icon: "fa-html5", color: "#E34F26" },
+    { title: "CSS3", icon: "fa-css3-alt", color: "#1572B6" },
+    { title: "Python", icon: "fa-python", color: "#3776AB" },
+    { title: "Photoshop", icon: "fa-pen-nib", color: "#31A8FF" }
+  ]
+};
 
-          <div class="contact-row" ondblclick="window.location.href='tel:${sysData.profile.phone}'" oncontextmenu="showContactMenu(event, 'phone')">
-            <i class="fa-solid fa-phone"></i>
-            <div class="details">
-              <div class="title">Phone</div>
-              <div class="value">${sysData.profile.phone}</div>
+/* --- SYSTEM APPS DEFINITION --- */
+const APPS = {
+  explorer: {
+    title: "Projects", icon: "fa-folder-open", color: "#F3C144",
+    render: () => {
+      let folders = Object.keys(PROJECTS);
+      let treeHTML = folders.map((f, i) => `<div class="tree-item ${i===0?'active':''}" onclick="loadFolder('${f}', this)"><i class="fa-solid fa-folder" style="color:#F3C144"></i> ${f}</div>`).join('');
+      return `
+        <div class="explorer-layout">
+          <div class="explorer-sidebar">
+            <div style="font-size:11px; font-weight:700; color:var(--text-muted); margin: 8px 0 4px 12px; text-transform:uppercase; letter-spacing:0.05em;">Directory</div>
+            ${treeHTML}
+          </div>
+          <div class="explorer-main">
+            <div class="explorer-header"><i class="fa-solid fa-folder-open" style="color:#F3C144"></i> <span id="exp-title">${folders[0]}</span></div>
+            <div class="explorer-body" id="explorer-main-view">
+              ${renderFolderGrid(PROJECTS[folders[0]])}
             </div>
-            <div class="contact-actions">
-              <button class="action-btn" onclick="copyText('${sysData.profile.phone}', 'Phone Number')">Copy</button>
-            </div>
+          </div>
+        </div>
+      `;
+    }
+  },
+  about: {
+    title: "About Me", icon: "fa-user", color: "#1da1f2",
+    render: () => `
+      <div class="standard-app">
+        <h1>${PROFILE.name}</h1>
+        <div class="info-section">
+          <h3>Bio & Background</h3>
+          <p>${PROFILE.bio}</p>
+        </div>
+      </div>
+    `
+  },
+  education: {
+    title: "Education", icon: "fa-graduation-cap", color: "#E81123",
+    render: () => `
+      <div class="standard-app">
+        <h1>Education Timeline</h1>
+        <div class="info-section">
+          <h3>Mahakavi Devkota Memorial Secondary School (2010-2022)</h3>
+          <p>Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
+        </div>
+        <div class="info-section">
+          <h3>Reliance International Academy (2022-2024)</h3>
+          <p>Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
+        </div>
+        <div class="info-section">
+          <h3>Amrit Campus (2024-current)</h3>
+          <p>Currently pursuing B.Sc.CSIT.</p>
+        </div>
+      </div>
+    `
+  },
+  skills: {
+    title: "Skills", icon: "fa-code", color: "#107C41",
+    render: () => {
+      let html = `<div class="standard-app"><h1>Technical Skills</h1><div class="file-grid" style="margin-top:24px;">`;
+      SKILLS["Tech Stack"].forEach(s => {
+        html += `<div class="file-item"><i class="fa-brands ${s.icon} file-icon" style="color:${s.color}"></i><span>${s.title}</span></div>`;
+      });
+      html += `</div></div>`;
+      return html;
+    }
+  },
+  contact: {
+    title: "Contacts", icon: "fa-address-book", color: "#D83B01",
+    render: () => `
+      <div class="standard-app">
+        <h1>Contact Directory</h1>
+        <p>Double-click to open. Single-click to copy to clipboard.</p>
+        <div class="contact-grid">
+          <div class="contact-item" onclick="handleContactClick(event, '${PROFILE.email}', 'mailto:${PROFILE.email}')">
+            <i class="fa-solid fa-envelope" style="color:#D83B01"></i>
+            <div class="contact-details"><span class="contact-platform">Email</span><span class="contact-value">${PROFILE.email}</span></div>
+          </div>
+          <div class="contact-item" onclick="handleContactClick(event, '+9779843538473', 'tel:+9779843538473')">
+            <i class="fa-solid fa-phone" style="color:#107C41"></i>
+            <div class="contact-details"><span class="contact-platform">Phone</span><span class="contact-value">+9779843538473</span></div>
+          </div>
+          <div class="contact-item" onclick="handleContactClick(event, '@alok.ynwa', 'https://instagram.com/alok.ynwa')">
+            <i class="fa-brands fa-instagram" style="color:#E1306C"></i>
+            <div class="contact-details"><span class="contact-platform">Instagram</span><span class="contact-value">@alok.ynwa</span></div>
+          </div>
+          <div class="contact-item" onclick="handleContactClick(event, '@alokynwa', 'https://twitter.com/alokynwa')">
+            <i class="fa-brands fa-x-twitter" style="color:#fff"></i>
+            <div class="contact-details"><span class="contact-platform">X (Twitter)</span><span class="contact-value">@alokynwa</span></div>
           </div>
         </div>
       </div>
     `
   },
-  resume: {
-    title: "Resume.pdf",
-    render: () => `<div style="display:flex; height:100%; align-items:center; justify-content:center; flex-direction:column; color:var(--text-muted);">
-      <i class="fa-solid fa-file-pdf" style="font-size:64px; margin-bottom:20px; color:#FF5F56;"></i>
-      <h2>Alok_Sharma_Resume_2026.pdf</h2>
-      <p style="margin-top:10px;">1 Page • 1.2 MB</p>
-      <button class="action-btn" style="margin-top:20px; padding:12px 24px;" onclick="notify('Downloading resume...')">Download</button>
-    </div>`
+  spotify: {
+    title: "Media Player", icon: "fa-music", color: "#1DB954",
+    render: () => `
+      <div class="standard-app" style="padding:0; background: #121212;">
+        <iframe style="border-radius:0; display:block;" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator&theme=0" width="100%" height="100%" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+    `
   }
 };
 
-let zIndex = 50;
-const openWindows = new Set();
+let zIndexCounter = 100;
+const openWindows = new Map();
+const desktopIcons = [
+  { id: 'explorer', title: 'Projects', icon: 'fa-folder-open', color: '#F3C144' },
+  { id: 'about', title: 'About Me', icon: 'fa-user', color: '#1da1f2' },
+  { id: 'education', title: 'Education', icon: 'fa-graduation-cap', color: '#E81123' },
+  { id: 'skills', title: 'Skills', icon: 'fa-code', color: '#107C41' },
+  { id: 'contact', title: 'Contacts', icon: 'fa-address-book', color: '#D83B01' }
+];
+
+function init() {
+  renderDesktop();
+  renderStartMenu();
+  updateClock();
+  setInterval(updateClock, 1000);
+  
+  // Desktop un-select
+  document.getElementById('desktop').addEventListener('mousedown', (e) => {
+    if(e.target === document.getElementById('desktop')) {
+      document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+      document.getElementById('start-menu').classList.remove('open');
+    }
+  });
+
+  // Keyboard Shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'F11') {
+      e.preventDefault();
+      toggleFullscreen();
+    } else if (e.key === 'Escape') {
+      // Close top active window or exit fullscreen fallback
+      const activeWins = Array.from(document.querySelectorAll('.win-os.active-win'));
+      if(activeWins.length > 0) {
+        const topWin = activeWins.sort((a,b) => parseInt(b.style.zIndex) - parseInt(a.style.zIndex))[0];
+        const id = topWin.id.replace('win-', '');
+        closeApp(id);
+      }
+    } else if ((e.metaKey || e.windowsKey || e.key === 'Meta') && e.key === 'd') {
+      e.preventDefault();
+      openWindows.forEach((win, id) => minimizeWindow(id));
+    }
+  });
+}
+
+function renderDesktop() {
+  const desktop = document.getElementById('desktop');
+  desktop.innerHTML = desktopIcons.map(item => `
+    <div class="desktop-icon" ondblclick="openApp('${item.id}')" onclick="selectDesktopIcon(this, event)">
+      <i class="fa-solid ${item.icon}" style="color:${item.color}"></i>
+      <span>${item.title}</span>
+    </div>
+  `).join('');
+}
+
+function renderStartMenu() {
+  const grid = document.getElementById('start-grid-apps');
+  grid.innerHTML = Object.keys(APPS).map(key => `
+    <div class="start-app" onclick="openApp('${key}'); document.getElementById('start-menu').classList.remove('open');">
+      <i class="fa-solid ${APPS[key].icon}" style="color:${APPS[key].color}"></i>
+      <span>${APPS[key].title}</span>
+    </div>
+  `).join('');
+}
+
+function selectDesktopIcon(el, e) {
+  e.stopPropagation();
+  document.querySelectorAll('.desktop-icon').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+}
 
 /* --- WINDOW MANAGEMENT --- */
 function openApp(id) {
-  if(openWindows.has(id)) {
-    const w = document.getElementById(`win-${id}`);
-    focusWindow(w);
+  if (openWindows.has(id)) {
+    let win = openWindows.get(id);
+    if (win.classList.contains('minimized')) win.classList.remove('minimized');
+    focusWindow(win);
+    updateTaskbarIndicators();
     return;
   }
-  
+
   const app = APPS[id];
   if(!app) return;
 
   const win = document.createElement('div');
-  win.className = 'os-window active focus';
+  win.className = 'win-os';
   win.id = `win-${id}`;
-  win.style.zIndex = ++zIndex;
   
   win.innerHTML = `
-    <div class="win-header draggable" onmousedown="focusWindow(this.parentElement)">
-      <div class="win-title">${app.title}</div>
+    <div class="win-titlebar draggable" onmousedown="focusWindow(this.parentElement)">
+      <div class="win-title"><i class="fa-solid ${app.icon}" style="color:${app.color}"></i> ${app.title}</div>
       <div class="win-controls">
-        <div class="win-btn max" onclick="maximizeWindow(this)"></div>
-        <div class="win-btn close" onclick="closeApp('${id}')"></div>
+        <div class="win-btn" onclick="minimizeWindow('${id}')"><i class="fa-solid fa-minus"></i></div>
+        <div class="win-btn" onclick="maximizeWindow('${id}')"><i class="fa-regular fa-square"></i></div>
+        <div class="win-btn close" onclick="closeApp('${id}')"><i class="fa-solid fa-xmark"></i></div>
       </div>
     </div>
     <div class="win-content">${app.render()}</div>
   `;
 
   document.getElementById('windows-layer').appendChild(win);
-  openWindows.add(id);
+  openWindows.set(id, win);
   
-  makeDraggable(win, win.querySelector('.win-header'));
+  const offset = (openWindows.size * 30) % 150;
+  win.style.top = `${8 + (offset/10)}%`;
+  win.style.left = `${12 + (offset/10)}%`;
+
+  // Entrance animation trigger
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      win.classList.add('active-win');
+    });
+  });
   
-  const tbIcon = document.getElementById(`tb-${id}`);
-  if(tbIcon) tbIcon.classList.add('active');
-  
-  notify(`${app.title} opened`);
+  focusWindow(win);
+  makeDraggable(win, win.querySelector('.win-titlebar'));
+  addToTaskbar(id);
 }
 
 function closeApp(id) {
-  const win = document.getElementById(`win-${id}`);
-  if(win) {
+  const win = openWindows.get(id);
+  if (win) {
     win.style.opacity = '0';
-    win.style.transform = 'scale(0.9) translateY(20px)';
-    setTimeout(() => {
-      win.remove();
-      openWindows.delete(id);
-      const tbIcon = document.getElementById(`tb-${id}`);
-      if(tbIcon) tbIcon.classList.remove('active');
-    }, 200);
+    win.style.transform = 'scale(0.95) translateY(20px)';
+    setTimeout(() => { win.remove(); openWindows.delete(id); updateTaskbarIndicators(); }, 200);
+  }
+}
+
+function minimizeWindow(id) {
+  const win = openWindows.get(id);
+  if (win) { win.classList.add('minimized'); win.classList.remove('active-win'); updateTaskbarIndicators(); }
+}
+
+function maximizeWindow(id) {
+  const win = openWindows.get(id);
+  if (win) {
+    win.classList.toggle('maximized');
+    win.querySelector('.fa-square').className = win.classList.contains('maximized') ? 'fa-regular fa-clone' : 'fa-regular fa-square';
   }
 }
 
 function focusWindow(win) {
-  document.querySelectorAll('.os-window').forEach(w => w.classList.remove('focus'));
-  win.classList.add('focus');
-  win.style.zIndex = ++zIndex;
+  zIndexCounter++;
+  win.style.zIndex = zIndexCounter;
+  document.querySelectorAll('.win-os').forEach(w => w.classList.remove('active-win'));
+  win.classList.add('active-win');
+  updateTaskbarIndicators();
 }
 
-function maximizeWindow(btn) {
-  const win = btn.closest('.os-window');
-  win.classList.toggle('maximized');
+function addToTaskbar(id) {
+  if (document.getElementById(`tb-${id}`)) return;
+  const app = APPS[id];
+  const tb = document.getElementById('tb-apps');
+  const icon = document.createElement('div');
+  icon.className = 'tb-icon running active';
+  icon.id = `tb-${id}`;
+  icon.title = app.title;
+  icon.innerHTML = `<i class="fa-solid ${app.icon}" style="color:${app.color}"></i>`;
+  icon.onclick = () => {
+    const win = openWindows.get(id);
+    if (win.classList.contains('minimized')) { win.classList.remove('minimized'); focusWindow(win); }
+    else if (win.classList.contains('active-win')) { minimizeWindow(id); }
+    else { focusWindow(win); }
+  };
+  tb.appendChild(icon);
+  updateTaskbarIndicators();
 }
 
-/* --- SYSTEM UTILITIES --- */
-function notify(msg) {
-  const container = document.getElementById('notifications');
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<i class="fa-solid fa-check" style="color:var(--accent); margin-right:8px;"></i> ${msg}`;
-  container.appendChild(toast);
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(100%)';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-function copyText(text, label) {
-  navigator.clipboard.writeText(text).then(() => {
-    notify(`${label} copied to clipboard`);
+function updateTaskbarIndicators() {
+  document.querySelectorAll('.tb-icon.running').forEach(icon => {
+    const id = icon.id.replace('tb-', '');
+    const win = openWindows.get(id);
+    if (!win) { icon.remove(); return; }
+    icon.classList.toggle('active', win.classList.contains('active-win') && !win.classList.contains('minimized'));
   });
 }
 
-function selectIcon(el, e) {
-  e.stopPropagation();
-  document.querySelectorAll('.desktop-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-document.body.addEventListener('click', (e) => {
-  if(!e.target.closest('.desktop-card')) {
-    document.querySelectorAll('.desktop-card').forEach(c => c.classList.remove('selected'));
-  }
-  if(!e.target.closest('#context-menu')) {
-    document.getElementById('context-menu').style.display = 'none';
-  }
-});
-
-/* --- CONTEXT MENUS --- */
-function showContactMenu(e, type) {
-  e.preventDefault();
-  e.stopPropagation();
-  const cm = document.getElementById('context-menu');
-  
-  let html = '';
-  if (type === 'ig') {
-    html = `
-      <div class="cm-item" onclick="window.open('https://instagram.com/${sysData.profile.ig}')"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open in New Tab</div>
-      <div class="cm-item" onclick="copyText('@${sysData.profile.ig}', 'Username')"><i class="fa-solid fa-copy"></i> Copy Username</div>
-    `;
-  } else if (type === 'email') {
-    html = `
-      <div class="cm-item" onclick="window.location.href='mailto:${sysData.profile.email}'"><i class="fa-solid fa-envelope"></i> Send Email</div>
-      <div class="cm-item" onclick="copyText('${sysData.profile.email}', 'Email')"><i class="fa-solid fa-copy"></i> Copy Email Address</div>
-    `;
-  } else if (type === 'phone') {
-    html = `
-      <div class="cm-item" onclick="copyText('${sysData.profile.phone}', 'Phone')"><i class="fa-solid fa-copy"></i> Copy Phone Number</div>
-    `;
-  } else {
-    html = `
-      <div class="cm-item" onclick="openApp('contacts')"><i class="fa-solid fa-folder-open"></i> Open Contacts</div>
-      <div class="cm-item" onclick="notify('Pinned to Favorites')"><i class="fa-solid fa-thumbtack"></i> Pin to Favorites</div>
-    `;
-  }
-  
-  cm.innerHTML = html;
-  cm.style.display = 'flex';
-  cm.style.left = Math.min(e.clientX, window.innerWidth - 220) + 'px';
-  cm.style.top = Math.min(e.clientY, window.innerHeight - 100) + 'px';
-}
-
-document.getElementById('desktop').addEventListener('contextmenu', e => {
-  if(e.target.closest('.desktop-card')) return;
-  e.preventDefault();
-  const cm = document.getElementById('context-menu');
-  cm.innerHTML = `
-    <div class="cm-item" onclick="location.reload()"><i class="fa-solid fa-rotate-right"></i> Refresh System</div>
-    <div class="cm-divider"></div>
-    <div class="cm-item" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i> Toggle Fullscreen</div>
-    <div class="cm-item" onclick="notify('Settings opened (Demo)')"><i class="fa-solid fa-palette"></i> Personalize</div>
-  `;
-  cm.style.display = 'flex';
-  cm.style.left = e.clientX + 'px';
-  cm.style.top = e.clientY + 'px';
-});
-
-/* --- FULLSCREEN API --- */
-function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().then(() => {
-      notify("Entered Immersive Mode");
-    }).catch(err => {
-      notify("Fullscreen blocked by browser.");
-    });
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  }
-}
-
-/* --- KEYBOARD SHORTCUTS --- */
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'F11') {
-    e.preventDefault();
-    toggleFullscreen();
-  }
-  if (e.ctrlKey && e.key.toLowerCase() === 'f') {
-    e.preventDefault();
-    notify("System Search activated (Demo)");
-  }
-  if (e.metaKey && e.key.toLowerCase() === 'd') { // Win+D equivalent
-    e.preventDefault();
-    document.querySelectorAll('.os-window').forEach(w => w.classList.remove('active'));
-  }
-});
-
-/* --- DRAG LOGIC --- */
 function makeDraggable(el, header) {
   let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   header.onmousedown = dragMouseDown;
@@ -508,14 +577,100 @@ function makeDraggable(el, header) {
     el.style.top = Math.max(0, (el.offsetTop - pos2)) + "px";
     el.style.left = (el.offsetLeft - pos1) + "px";
   }
-  function closeDragElement() {
-    document.onmouseup = null;
-    document.onmousemove = null;
+  function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+}
+
+/* --- EXPLORER & IMAGE VIEWER LOGIC --- */
+function renderFolderGrid(files) {
+  return `<div class="file-grid">` + files.map(f => `
+    <div class="file-item" ondblclick="openImageViewer('${f.title}')">
+      <i class="fa-regular ${f.icon} file-icon"></i>
+      <span>${f.title}</span>
+    </div>
+  `).join('') + `</div>`;
+}
+
+function loadFolder(folder, el) {
+  document.querySelectorAll('.tree-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('explorer-main-view').innerHTML = renderFolderGrid(PROJECTS[folder]);
+  document.getElementById('exp-title').innerText = folder;
+}
+
+let ivCount = 0;
+function openImageViewer(title) {
+  ivCount++;
+  const id = 'img-view-' + ivCount;
+  APPS[id] = {
+    title: title, icon: "fa-image", color: "#31A8FF",
+    render: () => `<div class="win-content img-viewer"><img src="${title}" alt="${title} (Asset unavailable in code)"></div>`
+  };
+  openApp(id);
+  maximizeWindow(id); // Cinematic view by default
+}
+
+/* --- INTERACTIVE CONTACTS & TOAST --- */
+let clickTimer = null;
+function handleContactClick(e, copyText, linkUrl) {
+  e.stopPropagation();
+  if (e.detail === 1) {
+    clickTimer = setTimeout(() => {
+      navigator.clipboard.writeText(copyText).then(() => {
+        showToast(`<i class="fa-solid fa-check" style="color:#1DB954;"></i> Copied ${copyText} to clipboard`);
+      });
+    }, 200);
+  } else if (e.detail === 2) {
+    clearTimeout(clickTimer);
+    window.open(linkUrl, '_blank');
   }
 }
 
-// Initial Boot Notification
-setTimeout(() => { notify("Alok OS Initialized. Press F11 for full experience."); }, 1000);
+function showToast(html) {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = html;
+  container.appendChild(toast);
+  
+  setTimeout(() => toast.classList.add('show'), 10);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+/* --- SYSTEM UTILS --- */
+function toggleStartMenu() {
+  document.getElementById('start-menu').classList.toggle('open');
+}
+
+function updateClock() {
+  const d = new Date();
+  document.getElementById('tb-time').innerText = d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}
+
+function toggleFullscreen() {
+  const icon = document.getElementById('fs-icon');
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(err => console.log(`Error attempting to enable fullscreen: ${err.message}`));
+    icon.classList.replace('fa-expand', 'fa-compress');
+    showToast(`<i class="fa-solid fa-desktop"></i> Entered Presentation Mode`);
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+      icon.classList.replace('fa-compress', 'fa-expand');
+    }
+  }
+}
+
+document.addEventListener('fullscreenchange', () => {
+  const icon = document.getElementById('fs-icon');
+  if (!document.fullscreenElement) {
+    icon.classList.replace('fa-compress', 'fa-expand');
+  }
+});
+
+window.onload = init;
 </script>
 </body>
 </html>
