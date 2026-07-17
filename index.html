@@ -953,20 +953,34 @@ border-radius:var(--hand-drawn-radius); }
 .project-content p{ font-size:1.1rem; color:var(--text-muted);
 }
 
-.slider-controls-wrapper{
-    display:flex; justify-content:space-between; align-items:center;
-    margin-top:-30px; margin-bottom:40px;
+.slider-instruction {
+    font-size:1.1rem; font-weight:700; color:#f5c518 !important;
+    margin-top: 15px; letter-spacing: 1px;
 }
-.slider-instruction{ font-size:1.1rem; font-weight:700; color:#f5c518 !important; }
-.slider-arrows{ display:flex; gap:14px;
+.slider-arrows {
+    position: absolute;
+    top: calc(50% - 10px);
+    left: 20px;
+    right: 20px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; /* Allows user to drag between buttons */
+    z-index: 10;
 }
-.slider-arrow-btn{
-    width:58px; height:46px; background:var(--bg-yellow); color:#000;
+.slider-arrow-btn {
+    pointer-events: auto; /* Reactivate click on the actual buttons */
+    width: 60px; height: 60px;
+    background:var(--bg-yellow); color:#000;
     border:var(--border-thick); border-radius:var(--hand-drawn-radius);
-    box-shadow:3px 3px 0 #000; cursor:pointer; font-size:1.7rem;
+    box-shadow:4px 4px 0 #000; cursor:pointer; font-size:1.8rem;
+    display: flex; align-items: center; justify-content: center;
     transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
 }
-.slider-arrow-btn:hover{ background:var(--bg-white); color:var(--text-main);
+.slider-arrow-btn:hover {
+    background:var(--bg-white); color:var(--text-main);
+    transform:translate(-2px,-2px);
+    box-shadow:6px 6px 0 #000;
 }
 
 /* ============================================================
@@ -1113,8 +1127,10 @@ footer{
     .project-card{ width:83vw;
 }
     .project-card img{ height:auto; aspect-ratio:4/5; }
-    .slider-controls-wrapper{ flex-direction:column; gap:18px; text-align:center;
-}
+    
+    .slider-arrows { left: 10px; right: 10px; }
+    .slider-arrow-btn { width: 48px; height: 48px; font-size: 1.4rem; }
+    
     .form-row{ grid-template-columns:1fr; }
     .contact-card,.contact-form{ padding:28px 18px; }
     .stable-page-number{ position:relative; bottom:auto;
@@ -1414,15 +1430,13 @@ footer{
     </div>
     <div class="section-title-container reveal">
         <h2 class="section-title">Featured Projects</h2>
-    </div>
-    <div class="slider-controls-wrapper reveal">
         <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
+    </div>
+    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
         <div class="slider-arrows">
             <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
             <button class="slider-arrow-btn" id="next-project-btn" aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
         </div>
-    </div>
-    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
         <div class="projects-grid" id="swipe-slider-grid">
             <div class="project-card">
     <a href="poruzb copy.jpg" target="_blank">
