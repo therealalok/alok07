@@ -890,7 +890,7 @@ border-radius:var(--hand-drawn-radius); }
 }
 
 /* ============================================================
-   PROJECTS SECTION (INFINITE MARQUEE FIXED)
+   PROJECTS SECTION (SLIDER - FIXED)
 ============================================================ */
 #projects{ background:var(--bg-dark); }
 #projects .shape-fill{ fill:var(--bg-yellow); }
@@ -906,10 +906,11 @@ border-radius:var(--hand-drawn-radius); }
 .projects-outer-viewport:active{ cursor:grabbing;
 }
 
-/* The marquee track – wide enough for duplicate set */
+/* The marquee track */
 .projects-grid{
     display:flex; gap:36px; width:max-content;
     will-change:transform;
+    transition: transform .3s ease;
 }
 
 .project-card{
@@ -942,34 +943,6 @@ border-radius:var(--hand-drawn-radius); }
 }
 .project-card a:hover::after{ opacity:1;
 }
-
-/* featured badges on all project cards */
-.project-card .project-content::before {
-    display:inline-block; font-family:var(--font-head);
-    font-size:.95rem; letter-spacing:3px; text-transform:uppercase;
-    background:var(--bg-yellow);
-    color:#000;
-    padding:4px 14px; margin-bottom:14px;
-    border:2px solid var(--border-color);
-    border-radius:var(--hand-drawn-radius);
-}
-.project-card:nth-child(1) .project-content::before{
-    content:'June 27, 2026';
-}        
-.project-card:nth-child(2) .project-content::before{ content:'June 20, 2026'; }
-.project-card:nth-child(3) .project-content::before{ content:'June 17, 2026'; }
-.project-card:nth-child(4) .project-content::before{ content:'June 1, 2026'; }
-.project-card:nth-child(5) .project-content::before{ content:'May 28, 2026'; }
-.project-card:nth-child(6) .project-content::before{ content:'May 24, 2026'; }
-.project-card:nth-child(7) .project-content::before{ content:'May 21, 2026'; }
-.project-card:nth-child(8) .project-content::before{ content:'May 13, 2026'; }
-.project-card:nth-child(9) .project-content::before{ content:'May 8, 2026'; }
-.project-card:nth-child(10) .project-content::before{ content:'April 10, 2026'; }
-.project-card:nth-child(11) .project-content::before{ content:'March 27, 2026'; }
-.project-card:nth-child(12) .project-content::before{ content:'February 7, 2026'; }
-.project-card:nth-child(13) .project-content::before{ content:'March 17, 2026'; }
-.project-card:nth-child(14) .project-content::before{ content:'April 14, 2026'; }
-.project-card:nth-child(15) .project-content::before{ content:'April 4, 2026'; }
         
 .project-content{ padding:30px;
 }
@@ -1467,6 +1440,13 @@ footer{
             <div class="project-card"><a href="livvgal.jpeg" target="_blank"><img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Galatasaray</h3><p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p></div></div>
             <div class="project-card"><a href="livvpsg.jpeg" target="_blank"><img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Paris Saint-Germain</h3><p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p></div></div>
             <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
+            
+            <div class="project-card"><a href="argvspa copy.jpg" target="_blank"><img src="argvspa copy.jpg" alt="Argentina VS Spain Graphic" draggable="false"></a><div class="project-content"><h3>Argentina VS Spain</h3><p>A cinematic matchday graphic featuring the international clash between Argentina and Spain.</p></div></div>
+            <div class="project-card"><a href="engvarg.jpeg" target="_blank"><img src="engvarg.jpeg" alt="England VS Argentina Graphic" draggable="false"></a><div class="project-content"><h3>England VS Argentina</h3><p>Matchday poster design for the highly anticipated fixture between England and Argentina.</p></div></div>
+            <div class="project-card"><a href="fravspa.jpeg" target="_blank"><img src="fravspa.jpeg" alt="France VS Spain Graphic" draggable="false"></a><div class="project-content"><h3>France VS Spain</h3><p>A high-energy matchday visual for the European heavyweight matchup between France and Spain.</p></div></div>
+            <div class="project-card"><a href="spainbelgium.jpeg" target="_blank"><img src="spainbelgium.jpeg" alt="Spain VS Belgium Graphic" draggable="false"></a><div class="project-content"><h3>Spain VS Belgium</h3><p>Editorial style pre-match design highlighting the game between Spain and Belgium.</p></div></div>
+            <div class="project-card"><a href="fravswe.jpeg" target="_blank"><img src="fravswe.jpeg" alt="France VS Sweden Graphic" draggable="false"></a><div class="project-content"><h3>France VS Sweden</h3><p>Matchday promotional graphic for the international game between France and Sweden.</p></div></div>
+            <div class="project-card"><a href="spainbelgium.jpeg" target="_blank"><img src="spainbelgium.jpeg" alt="Spain VS Belgium Graphic Alternate" draggable="false"></a><div class="project-content"><h3>Spain VS Belgium</h3><p>A matchday poster focusing on the tactical battle between Spain and Belgium.</p></div></div>
         </div>
     </div>
     <div class="slider-controls-wrapper reveal">
@@ -1601,8 +1581,7 @@ themeToggle.addEventListener("click", () => {
 });
 
 /* ============================================================
-   PROJECTS — TRUE INFINITE MARQUEE  (fixed)
-   Duplicates cards in JS, resets offset seamlessly.
+   PROJECTS — SLIDER (Loop Removed)
 ============================================================ */
 (function(){
     const grid     = document.getElementById('swipe-slider-grid');
@@ -1610,55 +1589,67 @@ themeToggle.addEventListener("click", () => {
     const prevBtn  = document.getElementById('prev-project-btn');
     const nextBtn  = document.getElementById('next-project-btn');
 
-    // Duplicate cards for seamless loop
-    const originals = Array.from(grid.children);
-    originals.forEach(card => grid.appendChild(card.cloneNode(true)));
-
     let offset       = 0;
-    let isPaused     = false;
     let isDrag       = false;
     let startX       = 0;
     let dragStart    = 0;
     const GAP        = 36;
-    const SPEED      = 0.55;
 
-    function halfWidth() {
-        // width of one full set of original cards + gaps
-        return originals.reduce((w, c) => w + c.offsetWidth + GAP, 0);
-    }
-
-    function loop() {
-        if (!isPaused && !isDrag) offset -= SPEED;
-
-        const half = halfWidth();
-        // Seamless reset
-        if (offset <= -half) offset += half;
-        if (offset >  0)     offset  = -half + offset;
-
+    function updateTransform() {
+        // Bound the offset
+        const maxOffset = Math.min(0, -(grid.scrollWidth - viewport.offsetWidth));
+        if (offset > 0) offset = 0;
+        if (offset < maxOffset) offset = maxOffset;
+        
         grid.style.transform = `translate3d(${offset}px,0,0)`;
-        requestAnimationFrame(loop);
     }
-    requestAnimationFrame(loop);
 
-    viewport.addEventListener('mouseenter', () => isPaused = true);
-    viewport.addEventListener('mouseleave', () => isPaused = false);
-    
     function slideAmount() {
         const card = grid.querySelector('.project-card');
         return card ? card.offsetWidth + GAP : 416;
     }
-    prevBtn.addEventListener('click', () => { offset += slideAmount(); });
-    nextBtn.addEventListener('click', () => { offset -= slideAmount(); });
+
+    prevBtn.addEventListener('click', () => { offset += slideAmount(); updateTransform(); });
+    nextBtn.addEventListener('click', () => { offset -= slideAmount(); updateTransform(); });
 
     // Drag (mouse)
-    viewport.addEventListener('mousedown', e => { isDrag=true; startX=e.clientX; dragStart=offset; });
-    window.addEventListener('mousemove', e => { if(!isDrag) return; offset=dragStart+(e.clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; });
-    window.addEventListener('mouseup',   () => isDrag=false);
+    viewport.addEventListener('mousedown', e => { 
+        isDrag=true; startX=e.clientX; dragStart=offset; 
+        grid.style.transition = 'none'; 
+    });
+    window.addEventListener('mousemove', e => { 
+        if(!isDrag) return; 
+        offset = dragStart + (e.clientX - startX); 
+        updateTransform(); 
+    });
+    window.addEventListener('mouseup', () => { 
+        isDrag=false; 
+        grid.style.transition = 'transform .3s ease'; 
+        updateTransform(); 
+    });
+    viewport.addEventListener('mouseleave', () => { 
+        if(isDrag) { 
+            isDrag = false; 
+            grid.style.transition = 'transform .3s ease'; 
+            updateTransform(); 
+        } 
+    });
     
     // Drag (touch)
-    viewport.addEventListener('touchstart', e => { isDrag=true; startX=e.touches[0].clientX; dragStart=offset; }, {passive:true});
-    viewport.addEventListener('touchmove',  e => { if(!isDrag) return; offset=dragStart+(e.touches[0].clientX-startX); grid.style.transform=`translate3d(${offset}px,0,0)`; }, {passive:true});
-    viewport.addEventListener('touchend',   () => isDrag=false);
+    viewport.addEventListener('touchstart', e => { 
+        isDrag=true; startX=e.touches[0].clientX; dragStart=offset; 
+        grid.style.transition = 'none'; 
+    }, {passive:true});
+    viewport.addEventListener('touchmove',  e => { 
+        if(!isDrag) return; 
+        offset = dragStart + (e.touches[0].clientX - startX); 
+        updateTransform(); 
+    }, {passive:true});
+    viewport.addEventListener('touchend', () => { 
+        isDrag=false; 
+        grid.style.transition = 'transform .3s ease'; 
+        updateTransform(); 
+    });
 })();
 
 (function(){
