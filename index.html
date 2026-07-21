@@ -890,83 +890,145 @@ border-radius:var(--hand-drawn-radius); }
 }
 
 /* ============================================================
-   PROJECTS SECTION (SLIDER - FIXED)
+   PROJECTS SECTION (AUTO-SCROLL MARQUEE)
 ============================================================ */
-#projects{ background:var(--bg-dark); }
-#projects .shape-fill{ fill:var(--bg-yellow); }
-#projects .section-title{ color:var(--bg-white); }
-#projects .section-title::after{ background:var(--bg-yellow);
-}
+#projects { background: var(--bg-dark); position: relative; }
+#projects .shape-fill { fill: var(--bg-yellow); }
+#projects .section-title { color: var(--bg-white); }
+#projects .section-title::after { background: var(--bg-yellow); }
 
-.projects-outer-viewport{
-    width:100%; overflow:hidden;
-    cursor:grab; padding:20px 0 40px 0;
-    position:relative;
+.projects-outer-viewport {
+    width: 100%;
+    overflow: hidden;
+    cursor: grab;
+    position: relative;
+    padding: 20px 0 40px 0;
+    /* Focus outline for accessibility */
+    outline: none;
 }
-.projects-outer-viewport:active{ cursor:grabbing;
+.projects-outer-viewport:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--accent2);
 }
+.projects-outer-viewport:active { cursor: grabbing; }
 
 /* The marquee track */
-.projects-grid{
-    display:flex; gap:36px; width:max-content;
-    will-change:transform;
-    transition: transform .3s ease;
+.projects-grid {
+    display: flex;
+    gap: 36px;
+    width: max-content;
+    will-change: transform;
+    /* Removed transition for smooth JS requestAnimationFrame translation */
 }
 
-.project-card{
-    width:440px; flex-shrink:0;
-    background:var(--bg-white); border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:6px 6px 0 #000;
-    display:flex; flex-direction:column; overflow:hidden;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+/* Base Project Card */
+.project-card {
+    width: 440px; flex-shrink: 0;
+    background: var(--bg-white); border: var(--border-thick);
+    border-radius: var(--hand-drawn-radius); box-shadow: 6px 6px 0 #000;
+    display: flex; flex-direction: column; overflow: hidden;
+    transition: transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
 }
-.project-card:hover{ transform:none !important; }
-.project-card a{ display:block; line-height:0; overflow:hidden;
-    position:relative; }
-.project-card img{
-    width:100%; height:500px; object-fit:cover;
-    border-bottom:var(--border-thick);
-    transition:transform .4s ease;
+.project-card:hover { transform: none !important; }
+.project-card a { display: block; line-height: 0; overflow: hidden; position: relative; }
+.project-card img {
+    width: 100%; height: 500px; object-fit: cover;
+    border-bottom: var(--border-thick);
+    transition: transform .4s ease;
 }
-.project-card a:hover img{ transform:scale(1.04);
-}
+.project-card a:hover img { transform: scale(1.04); }
+
 /* hover overlay with View Project label */
-.project-card a::after{
-    content:'VIEW PROJECT \2197';
-    position:absolute; inset:0;
-    display:flex; align-items:center; justify-content:center;
-    background:rgba(13,13,26,.55);
-    color:var(--bg-yellow);
-    font-family:var(--font-head); font-size:1.6rem; letter-spacing:3px;
-    opacity:0; transition:opacity .3s ease;
-    pointer-events:none;
+.project-card a::after {
+    content: 'VIEW PROJECT \2197';
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(13,13,26,.55);
+    color: var(--bg-yellow);
+    font-family: var(--font-head); font-size: 1.6rem; letter-spacing: 3px;
+    opacity: 0; transition: opacity .3s ease;
+    pointer-events: none;
 }
-.project-card a:hover::after{ opacity:1;
-}
+.project-card a:hover::after { opacity: 1; }
         
-.project-content{ padding:30px;
+.project-content { padding: 30px; }
+.project-content h3 {
+    font-size: 3.1rem; margin-bottom: 14px; color: var(--text-main); line-height: 1.05;
+    padding-bottom: 12px; border-bottom: 3px solid var(--bg-yellow); display: block;
 }
-.project-content h3{
-    font-size:3.1rem; margin-bottom:14px; color:var(--text-main); line-height:1.05;
-    padding-bottom:12px; border-bottom:3px solid var(--bg-yellow); display:block;
+.project-content p { font-size: 1.1rem; color: var(--text-muted); }
+
+/* FLOATING NAVIGATION BUTTONS */
+.carousel-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 75px;
+    height: 75px;
+    background: rgba(91, 21, 115, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-.project-content p{ font-size:1.1rem; color:var(--text-muted);
+.carousel-nav-btn:hover {
+    background: rgba(110, 30, 135, 0.95);
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+.carousel-nav-btn:focus-visible {
+    outline: 3px solid var(--accent2);
+    outline-offset: 2px;
+}
+.carousel-nav-btn.left { left: 20px; }
+.carousel-nav-btn.right { right: 20px; }
+
+/* Keep existing instruction text styling */
+.slider-controls-wrapper {
+    padding: 0 8vw;
+    display: flex; justify-content: center; align-items: center; margin-top: 20px; text-align: center;
+}
+.slider-instruction { font-size: 1.1rem; font-weight: 700; color: #f5c518 !important; }
+
+/* Desktop safe spacing */
+@media (min-width: 1025px) {
+    #swipe-slider-viewport { padding-left: 110px; padding-right: 110px; }
 }
 
-.slider-controls-wrapper{
-    padding:0 8vw;
-    display:flex; justify-content:space-between; align-items:center; margin-top:20px;
+/* Tablet adjustments */
+@media (max-width: 1024px) {
+    .carousel-nav-btn { width: 60px; height: 60px; font-size: 1.5rem; }
+    .carousel-nav-btn.left { left: 15px; }
+    .carousel-nav-btn.right { right: 15px; }
+    #swipe-slider-viewport { padding-left: 90px; padding-right: 90px; }
+    #projects .project-card { width: 42vw; } /* Approx 2 cards visible */
 }
-.slider-instruction{ font-size:1.1rem; font-weight:700; color:#f5c518 !important; }
-.slider-arrows{ display:flex; gap:14px;
+
+/* Mobile landscape / small tablet */
+@media (max-width: 768px) {
+    #projects .project-card { width: 60vw; } /* Approx 1.5 cards visible */
 }
-.slider-arrow-btn{
-    width:58px; height:46px; background:var(--bg-yellow); color:#000;
-    border:var(--border-thick); border-radius:var(--hand-drawn-radius);
-    box-shadow:3px 3px 0 #000; cursor:pointer; font-size:1.7rem;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.slider-arrow-btn:hover{ background:var(--bg-white); color:var(--text-main);
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+    .carousel-nav-btn { width: 50px; height: 50px; font-size: 1.2rem; left: 10px; }
+    .carousel-nav-btn.right { right: 10px; }
+    #swipe-slider-viewport { padding-left: 65px; padding-right: 65px; }
+    
+    /* Exactly one centered card, perfectly protected from buttons by viewport padding */
+    #projects .project-card { 
+        width: calc(100vw - 130px); 
+    }
+    .project-card img { height: auto; aspect-ratio: 4/5; }
+    .slider-controls-wrapper { gap: 18px; text-align: center; }
 }
 
 /* ============================================================
@@ -1110,11 +1172,6 @@ footer{
 }
     .page-side.back{ display:flex; margin-top:18px; }
     .skills-grid-container{ grid-template-columns:1fr; }
-    .project-card{ width:83vw;
-}
-    .project-card img{ height:auto; aspect-ratio:4/5; }
-    .slider-controls-wrapper{ flex-direction:column; gap:18px; text-align:center;
-}
     .form-row{ grid-template-columns:1fr; }
     .contact-card,.contact-form{ padding:28px 18px; }
     .stable-page-number{ position:relative; bottom:auto;
@@ -1147,7 +1204,6 @@ footer{
     .skill-item-card h3{ font-size:2rem; }
     .skill-icon-wrap{ width:64px; height:64px;
 }
-    .project-card{ width:88vw; }
     .project-content h3{ font-size:2.2rem; }
     .project-content p{ font-size:1rem;
 }
@@ -1416,6 +1472,14 @@ footer{
         <h2 class="section-title">Featured Projects</h2>
     </div>
     <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
+        
+        <button class="carousel-nav-btn left" id="carousel-prev" aria-label="Previous Project">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <button class="carousel-nav-btn right" id="carousel-next" aria-label="Next Project">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
         <div class="projects-grid" id="swipe-slider-grid">
             <div class="project-card">
     <a href="poruzb copy.jpg" target="_blank">
@@ -1451,10 +1515,6 @@ footer{
     </div>
     <div class="slider-controls-wrapper reveal">
         <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
-        <div class="slider-arrows">
-            <button class="slider-arrow-btn" id="prev-project-btn" aria-label="Previous Projects"><i class="fa-solid fa-arrow-left"></i></button>
-            <button class="slider-arrow-btn" id="next-project-btn" aria-label="Next Projects"><i class="fa-solid fa-arrow-right"></i></button>
-        </div>
     </div>
 </section>
 
@@ -1581,77 +1641,179 @@ themeToggle.addEventListener("click", () => {
 });
 
 /* ============================================================
-   PROJECTS — SLIDER (Loop Removed)
+   PROJECTS — INFINITE AUTO-SCROLL SLIDER
 ============================================================ */
 (function(){
-    const grid     = document.getElementById('swipe-slider-grid');
+    const grid = document.getElementById('swipe-slider-grid');
     const viewport = document.getElementById('swipe-slider-viewport');
-    const prevBtn  = document.getElementById('prev-project-btn');
-    const nextBtn  = document.getElementById('next-project-btn');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
 
-    let offset       = 0;
-    let isDrag       = false;
-    let startX       = 0;
-    let dragStart    = 0;
-    const GAP        = 36;
+    if (!grid || !viewport) return;
 
-    function updateTransform() {
-        // Bound the offset
-        const maxOffset = Math.min(0, -(grid.scrollWidth - viewport.offsetWidth));
-        if (offset > 0) offset = 0;
-        if (offset < maxOffset) offset = maxOffset;
-        
-        grid.style.transform = `translate3d(${offset}px,0,0)`;
+    // Clone cards for infinite loop
+    const originalCards = Array.from(grid.querySelectorAll('.project-card'));
+    const numOriginal = originalCards.length;
+    if (numOriginal === 0) return;
+
+    // Duplicate the entire block twice to ensure 3 perfect seamless repeating chunks
+    for(let i = 0; i < 2; i++) {
+        originalCards.forEach(card => {
+            grid.appendChild(card.cloneNode(true));
+        });
     }
 
-    function slideAmount() {
-        const card = grid.querySelector('.project-card');
-        return card ? card.offsetWidth + GAP : 416;
+    let isDrag = false;
+    let startX = 0;
+    let currentX = 0;
+    let dragStartOffset = 0;
+    let isHovered = false;
+    let isPaused = false;
+    let pauseTimeout;
+
+    const autoScrollSpeed = 25; // extremely slow movement (px per second)
+    
+    let currentOffset = 0;
+    let targetOffset = 0;
+    let lastTime = performance.now();
+
+    function getMetrics() {
+        const cardWidth = originalCards[0].offsetWidth || 440; 
+        const gap = parseFloat(window.getComputedStyle(grid).gap) || 36;
+        const setWidth = numOriginal * (cardWidth + gap);
+        return { itemWidth: cardWidth + gap, setWidth };
     }
 
-    prevBtn.addEventListener('click', () => { offset += slideAmount(); updateTransform(); });
-    nextBtn.addEventListener('click', () => { offset -= slideAmount(); updateTransform(); });
+    // Initialize in the middle set to allow immediate seamless scrolling left
+    let { setWidth, itemWidth } = getMetrics();
+    currentOffset = -setWidth;
+    targetOffset = -setWidth;
 
-    // Drag (mouse)
-    viewport.addEventListener('mousedown', e => { 
-        isDrag=true; startX=e.clientX; dragStart=offset; 
-        grid.style.transition = 'none'; 
+    function resetPause() {
+        isPaused = true;
+        clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(() => {
+            isPaused = false;
+        }, 2000);
+    }
+
+    function loop(time) {
+        const metrics = getMetrics();
+        let dt = (time - lastTime) / 1000;
+        if (dt > 0.1) dt = 0.1; // Safely cap lag spikes
+        lastTime = time;
+
+        if (!isHovered && !isDrag && !isPaused) {
+            targetOffset -= autoScrollSpeed * dt;
+        }
+
+        if (isDrag) {
+            targetOffset = dragStartOffset + (currentX - startX);
+        }
+
+        // Apply smooth interpolation (Lerp)
+        currentOffset += (targetOffset - currentOffset) * 0.08;
+
+        // Seamless Infinite Wrapping Check
+        if (targetOffset <= -metrics.setWidth * 2) {
+            targetOffset += metrics.setWidth;
+            currentOffset += metrics.setWidth;
+        } else if (targetOffset >= -metrics.setWidth * 0.5) {
+            targetOffset -= metrics.setWidth;
+            currentOffset -= metrics.setWidth;
+        }
+
+        // Hardware accelerated performance
+        grid.style.transform = `translate3d(${currentOffset}px, 0, 0)`;
+        requestAnimationFrame(loop);
+    }
+
+    requestAnimationFrame(loop);
+
+    // Manual Snapping Functions
+    function snapToNext() {
+        const metrics = getMetrics();
+        targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth - metrics.itemWidth;
+        resetPause();
+    }
+
+    function snapToPrev() {
+        const metrics = getMetrics();
+        targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth + metrics.itemWidth;
+        resetPause();
+    }
+
+    if(prevBtn) prevBtn.addEventListener('click', snapToPrev);
+    if(nextBtn) nextBtn.addEventListener('click', snapToNext);
+
+    // Accessibility
+    viewport.setAttribute('tabindex', '0');
+    viewport.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); snapToPrev(); }
+        if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); snapToNext(); }
     });
-    window.addEventListener('mousemove', e => { 
-        if(!isDrag) return; 
-        offset = dragStart + (e.clientX - startX); 
-        updateTransform(); 
-    });
-    window.addEventListener('mouseup', () => { 
-        isDrag=false; 
-        grid.style.transition = 'transform .3s ease'; 
-        updateTransform(); 
-    });
-    viewport.addEventListener('mouseleave', () => { 
-        if(isDrag) { 
-            isDrag = false; 
-            grid.style.transition = 'transform .3s ease'; 
-            updateTransform(); 
-        } 
+
+    // Auto-pause triggers
+    viewport.addEventListener('mouseenter', () => isHovered = true);
+    viewport.addEventListener('mouseleave', () => { isHovered = false; resetPause(); });
+
+    // Drag (Mouse)
+    viewport.addEventListener('mousedown', (e) => {
+        if(e.button !== 0) return;
+        isDrag = true;
+        startX = e.clientX;
+        currentX = startX;
+        dragStartOffset = targetOffset;
+        grid.style.cursor = 'grabbing';
+        resetPause();
     });
     
-    // Drag (touch)
-    viewport.addEventListener('touchstart', e => { 
-        isDrag=true; startX=e.touches[0].clientX; dragStart=offset; 
-        grid.style.transition = 'none'; 
-    }, {passive:true});
-    viewport.addEventListener('touchmove',  e => { 
-        if(!isDrag) return; 
-        offset = dragStart + (e.touches[0].clientX - startX); 
-        updateTransform(); 
-    }, {passive:true});
-    viewport.addEventListener('touchend', () => { 
-        isDrag=false; 
-        grid.style.transition = 'transform .3s ease'; 
-        updateTransform(); 
+    window.addEventListener('mousemove', (e) => {
+        if (!isDrag) return;
+        currentX = e.clientX;
+        resetPause();
+    });
+    
+    window.addEventListener('mouseup', () => {
+        if(isDrag) {
+            isDrag = false;
+            grid.style.cursor = '';
+            const metrics = getMetrics();
+            targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth;
+            resetPause();
+        }
+    });
+
+    // Drag (Touch)
+    viewport.addEventListener('touchstart', (e) => {
+        isDrag = true;
+        startX = e.touches[0].clientX;
+        currentX = startX;
+        dragStartOffset = targetOffset;
+        isHovered = true; // Act as hover lock
+        resetPause();
+    }, {passive: true});
+    
+    viewport.addEventListener('touchmove', (e) => {
+        if (!isDrag) return;
+        currentX = e.touches[0].clientX;
+        resetPause();
+    }, {passive: true});
+    
+    viewport.addEventListener('touchend', () => {
+        if(isDrag) {
+            isDrag = false;
+            isHovered = false;
+            const metrics = getMetrics();
+            targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth;
+            resetPause();
+        }
     });
 })();
 
+/* ============================================================
+   EDUCATION — BOOK BEHAVIOR 
+============================================================ */
 (function(){
     const sheets = [
         document.getElementById('sheet-1'),
@@ -1699,6 +1861,9 @@ themeToggle.addEventListener("click", () => {
     update();
 })();
 
+/* ============================================================
+   CONTACT FORM HANDLING
+============================================================ */
 (function(){
     const form = document.getElementById("portfolio-contact-form");
     form.addEventListener("submit", async e => {
