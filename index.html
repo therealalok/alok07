@@ -1170,30 +1170,103 @@ footer{
 @media(max-width:768px){
     nav{ display:none; }
     .nav-toggle-btn{ display:flex; }
-    .side-floating-nav{ display:none;
-}
+    .side-floating-nav{ display:none; }
     section{ padding:80px 5vw; }
     .hero h1{ font-size:4.8rem; }
-    .edu-book-viewport{ perspective:none;
-}
+    
+    /* EDUCATION BOOK MOBILE FIXES */
+    .edu-book-viewport{ perspective:none; width:100%; max-width:100%; overflow-x:hidden; }
     .book-container{ width:100%; height:auto; transform:none !important; transform-style:flat; }
-    .book-container:hover{ transform:none !important;
-}
+    .book-container:hover{ transform:none !important; }
     .book-container::after,.book-base-shadows,.book-spine-core,.click-zone,.book-hud-controls{ display:none; }
-    .book-pages-wrapper{ position:relative; width:100%; height:auto; display:flex; flex-direction:column; gap:22px;
-}
-    .sheet{ position:relative; width:100%; height:auto; display:flex; flex-direction:column; transform:none !important; opacity:1 !important; visibility:visible !important;
-}
-    .page-side{ position:relative; width:100%; height:auto; transform:none !important; backface-visibility:visible; padding:36px 18px; border:var(--border-thick) !important; border-radius:var(--hand-drawn-radius) !important; box-shadow:var(--hand-drawn-shadow) !important;
-}
-    .page-side.back{ display:flex; margin-top:18px; }
+    .book-pages-wrapper{ position:relative; width:100%; height:auto; display:flex; flex-direction:column; gap:24px; }
+    
+    /* Ensure sheets expand dynamically */
+    .sheet{ position:relative; width:100%; height:auto !important; display:flex; flex-direction:column; transform:none !important; opacity:1 !important; visibility:visible !important; }
+    
+    /* Page boundaries, auto height, natural wrapping, padding fixes */
+    .page-side{ 
+        position:relative; 
+        width:100%; 
+        height:auto !important; 
+        min-height:max-content !important; 
+        transform:none !important; 
+        backface-visibility:visible; 
+        padding:32px 20px !important; 
+        border:var(--border-thick) !important; 
+        border-radius:var(--hand-drawn-radius) !important; 
+        box-shadow:var(--hand-drawn-shadow) !important; 
+        overflow:hidden !important; /* Contains border radius */
+        box-sizing:border-box !important;
+        /* Force word wrapping */
+        word-wrap:break-word !important; 
+        overflow-wrap:break-word !important;
+        word-break:break-word !important;
+    }
+    .page-side.back{ display:flex; margin-top:16px; }
+
+    /* Target Double-Padding Issue on Cover */
+    .sheet.cover-sheet .front { padding:32px 20px !important; }
+    .cover-content-layout { 
+        position:relative;
+        height:auto !important; 
+        min-height:auto !important;
+        padding:0 !important; 
+        gap:20px; 
+        display:flex; 
+        flex-direction:column; 
+        align-items:center;
+    }
+
+    /* Scaling and Hinge shadow fixes */
+    .sheet.cover-sheet .front::before { display:none !important; }
+    .sheet.cover-sheet .front::after { inset:8px !important; }
+    .sheet.cover-sheet-back .back::before { display:none !important; }
+
+    /* Typography Limits and Wrapping */
+    .cover-foil-title { 
+        font-size:clamp(2.2rem, 8vw, 3.2rem) !important; 
+        line-height:1.1 !important; 
+        width:100%; 
+    }
+    .cover-foil-subtitle, .cover-publisher-line, .cover-year-badge, .editorial-meta-line { 
+        letter-spacing:2px !important; 
+        white-space:normal !important; 
+    }
+    .page-side h3 { 
+        font-size:clamp(1.5rem, 6vw, 2.2rem) !important; 
+        line-height:1.3 !important; 
+        max-width:100% !important; 
+        white-space:normal !important; 
+    }
+    .page-side p { 
+        max-width:100% !important; 
+        font-size:1rem !important; 
+        line-height:1.6 !important; 
+        white-space:normal !important; 
+    }
+    .editorial-highlight-label { 
+        height:auto !important; 
+        white-space:normal !important; 
+        max-width:100%; 
+        line-height:1.4; 
+        padding:8px 16px !important; 
+    }
+    .cover-ornament-divider { width:100% !important; max-width:260px; height:auto; }
+    .school-logo-frame { max-width:100%; height:auto; }
+    
+    /* Index list natural wrap */
+    .index-item { align-items:flex-start !important; gap:12px !important; width:100%; }
+    .idx-name { flex:1; white-space:normal !important; line-height:1.4; word-wrap:break-word !important; }
+
+    .closing-spread-layout { padding:40px 20px !important; gap:20px; }
+
+    /* Keep the rest of the existing 768px overrides intact */
     .skills-grid-container{ grid-template-columns:1fr; }
     .form-row{ grid-template-columns:1fr; }
     .contact-card,.contact-form{ padding:28px 18px; }
-    .stable-page-number{ position:relative; bottom:auto;
-    left:auto !important; right:auto !important; margin-top:28px; display:block; }
-    .wooden-table{ padding:30px 20px 50px; border-radius:8px 8px 0 0;
-}
+    .stable-page-number{ position:relative; bottom:auto; left:auto !important; right:auto !important; margin-top:28px; display:block; }
+    .wooden-table{ padding:30px 20px 50px; border-radius:8px 8px 0 0; }
     .realistic-pen{ display:none; }
     .book-shadow{ display:none; }
 }
@@ -1213,9 +1286,8 @@ footer{
     section{ padding:60px 5vw;
 }
     .image-box{ max-width:320px; }
-    .cover-foil-title{ font-size:clamp(2.2rem,10vw,3.4rem); }
-    .cover-main-head{ font-size:clamp(2.8rem,10vw,4rem);
-}
+    .cover-foil-title{ font-size:clamp(2rem,10vw,3rem); line-height:1.1; word-break:break-word; }
+    .cover-main-head{ font-size:clamp(2.4rem,10vw,3.6rem); line-height:1.1; word-break:break-word; }
     .skill-item-card{ padding:24px; }
     .skill-item-card h3{ font-size:2rem; }
     .skill-icon-wrap{ width:64px; height:64px;
