@@ -5,26 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lost & Found Nepal | Secure Recovery</title>
     
+    <!-- Professional Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         :root {
-            var(--primary-50): #F0F5FA;
+            --primary-50: #F0F5FA;
             --primary-500: #3B82F6;
             --primary-700: #1D4ED8;
             --primary-900: #1E3A8A;
+            
             --accent-500: #14B8A6;
             --accent-600: #0D9488;
+            
             --danger-500: #EF4444;
-            --warning-500: #F59E0B;
             --success-500: #10B981;
+            
             --neutral-50: #F8FAFC;
             --neutral-100: #F1F5F9;
             --neutral-200: #E2E8F0;
-            --neutral-300: #CBD5E1;
             --neutral-400: #94A3B8;
             --neutral-500: #64748B;
             --neutral-700: #334155;
@@ -34,18 +38,22 @@
             --radius-md: 0.375rem;
             --radius-lg: 0.5rem;
             --radius-xl: 0.75rem;
+            
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
-            --shadow-modal: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--neutral-50); color: var(--neutral-900); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--neutral-50); color: var(--neutral-900); line-height: 1.5; }
         a { text-decoration: none; color: inherit; }
+
         .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem; }
 
-        /* Buttons */
-        .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 500; font-size: 0.875rem; border-radius: var(--radius-md); transition: all 0.2s ease; cursor: pointer; border: none; gap: 0.5rem; }
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 500; font-size: 0.875rem; border-radius: var(--radius-md);
+            transition: all 0.2s ease; cursor: pointer; border: none; gap: 0.5rem;
+        }
         .btn-sm { padding: 0.375rem 0.75rem; }
         .btn-md { padding: 0.5rem 1rem; }
         .btn-lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
@@ -55,92 +63,56 @@
         .btn-secondary:hover { background-color: var(--accent-600); }
         .btn-outline { background-color: white; color: var(--neutral-700); border: 1px solid var(--neutral-200); }
         .btn-outline:hover { background-color: var(--neutral-50); }
-        .btn-ghost { background: transparent; color: var(--neutral-500); }
-        .btn-ghost:hover { background: var(--neutral-100); color: var(--neutral-900); }
 
-        /* Header */
         header { background-color: white; border-bottom: 1px solid var(--neutral-200); position: sticky; top: 0; z-index: 50; }
         .header-content { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
-        .logo { font-size: 1.125rem; font-weight: 600; color: var(--primary-900); letter-spacing: -0.025em; }
+        .logo { font-size: 1.125rem; font-weight: 600; color: var(--primary-900); }
         .logo span { color: var(--neutral-400); }
+
         .nav-links { display: none; gap: 1.5rem; font-size: 0.875rem; font-weight: 500; color: var(--neutral-700); }
         .nav-links a:hover { color: var(--primary-700); }
-        .header-actions { display: flex; align-items: center; gap: 1rem; }
 
-        /* Hero */
-        .hero { padding: 3rem 0 2rem; text-align: center; }
-        .hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1rem; }
+        .hero { padding: 4rem 0 3rem; text-align: center; }
+        .hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
         .hero h1 span { color: var(--primary-700); }
         .hero p { font-size: 1.125rem; color: var(--neutral-700); max-width: 42rem; margin: 0 auto 2rem; }
         .hero-actions { display: flex; flex-direction: column; gap: 1rem; justify-content: center; align-items: center; }
 
-        /* Activity Feed */
-        .activity-feed-wrapper { margin-bottom: 3rem; position: relative; }
-        .activity-feed { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; -ms-overflow-style: none; }
-        .activity-feed::-webkit-scrollbar { display: none; }
-        .activity-card { min-width: 280px; background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); padding: 0.875rem; display: flex; gap: 0.875rem; align-items: center; box-shadow: var(--shadow-card); }
-        .activity-icon { background: var(--success-500); color: white; padding: 0.5rem; border-radius: var(--radius-md); display: flex; }
-
-        /* Search */
-        .search-container { background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-xl); padding: 0.5rem; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 0.5rem; max-width: 56rem; margin: 0 auto 3rem; }
+        .search-container {
+            background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-xl);
+            padding: 0.5rem; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 0.5rem; max-width: 56rem; margin: 0 auto 4rem;
+        }
         .search-input-group { position: relative; flex: 1; display: flex; align-items: center; }
         .search-input-group i { position: absolute; left: 1rem; color: var(--neutral-400); width: 1.25rem; height: 1.25rem; }
-        .search-input-group input, .search-input-group select { width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: none; background: transparent; font-size: 0.875rem; color: var(--neutral-900); outline: none; }
+        .search-input-group input, .search-input-group select {
+            width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: none; background: transparent; font-size: 0.875rem; color: var(--neutral-900); outline: none;
+        }
         .divider { display: none; width: 1px; background-color: var(--neutral-200); margin: 0.5rem 0; }
 
-        /* Reports Grid */
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .section-header h2 { font-size: 1.25rem; font-weight: 600; }
+
         .reports-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 4rem; }
-        .card { background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); transition: border-color 0.2s, transform 0.2s; cursor: pointer; display: flex; flex-direction: column; }
-        .card:hover { border-color: var(--primary-500); transform: translateY(-2px); }
+        .card { background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); transition: border-color 0.2s; }
+        .card:hover { border-color: var(--primary-500); }
         .card-img-placeholder { height: 10rem; background-color: var(--neutral-100); position: relative; display: flex; align-items: center; justify-content: center; color: var(--neutral-400); }
-        .badge { position: absolute; top: 0.5rem; left: 0.5rem; padding: 0.25rem 0.5rem; background: rgba(255, 255, 255, 0.95); font-size: 0.625rem; font-weight: 700; letter-spacing: 0.05em; border-radius: var(--radius-md); text-transform: uppercase; box-shadow: var(--shadow-sm); }
+        .badge { position: absolute; top: 0.5rem; left: 0.5rem; padding: 0.25rem 0.5rem; background: rgba(255, 255, 255, 0.95); font-size: 0.625rem; font-weight: 700; border-radius: var(--radius-md); text-transform: uppercase; }
         .badge.lost { color: var(--danger-500); }
         .badge.found { color: var(--success-500); }
-        .match-alert { position: absolute; top: 0.5rem; right: 0.5rem; background: var(--primary-700); color: white; font-size: 0.625rem; font-weight: 600; padding: 0.25rem 0.5rem; border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.25rem; box-shadow: var(--shadow-sm); }
-        .card-content { padding: 1rem; flex: 1; display: flex; flex-direction: column; }
-        .card-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--neutral-500); margin-bottom: 0.5rem; font-weight: 500; }
+        .card-content { padding: 1rem; }
+        .card-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--neutral-500); margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 500; }
         .card-title { font-size: 0.875rem; font-weight: 600; color: var(--neutral-900); margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-location { display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: var(--neutral-500); margin-bottom: 1rem; }
-        .user-trust { display: flex; align-items: center; gap: 0.5rem; margin-top: auto; padding-top: 0.75rem; border-top: 1px solid var(--neutral-100); font-size: 0.75rem; color: var(--neutral-700); }
-        .trust-score { display: inline-flex; align-items: center; gap: 0.25rem; color: var(--success-500); font-weight: 600; }
+        .card-location { display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: var(--neutral-500); }
 
-        /* Trust Section */
         .trust-section { background-color: var(--primary-900); border-radius: var(--radius-xl); padding: 2rem; color: white; display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem; }
-        .trust-badge-large { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background-color: var(--primary-700); border-radius: 999px; font-size: 0.75rem; font-weight: 500; margin-bottom: 1rem; }
-
-        /* Chat / Claim Modal */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 1rem; }
-        .modal-overlay.active { display: flex; }
-        .chat-modal { background: white; width: 100%; max-width: 36rem; border-radius: var(--radius-xl); box-shadow: var(--shadow-modal); display: flex; flex-direction: column; height: 85vh; overflow: hidden; }
-        .chat-header { padding: 1rem 1.5rem; border-bottom: 1px solid var(--neutral-200); display: flex; justify-content: space-between; align-items: center; background: white; }
-        .chat-header-info { display: flex; flex-direction: column; }
-        .chat-area { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; background: var(--neutral-50); }
-        .message { display: flex; flex-direction: column; max-width: 80%; }
-        .msg-received { align-self: flex-start; }
-        .msg-sent { align-self: flex-end; }
-        .msg-bubble { padding: 0.75rem 1rem; border-radius: var(--radius-lg); font-size: 0.875rem; }
-        .msg-received .msg-bubble { background: white; border: 1px solid var(--neutral-200); color: var(--neutral-900); border-bottom-left-radius: 0; }
-        .msg-sent .msg-bubble { background: var(--primary-700); color: white; border-bottom-right-radius: 0; }
-        .msg-time { font-size: 0.625rem; color: var(--neutral-400); margin-top: 0.25rem; }
-        .msg-sent .msg-time { text-align: right; }
-        .system-message { align-self: center; background: #FEF3C7; border: 1px solid #FDE68A; color: #92400E; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.75rem; text-align: center; max-width: 90%; margin: 0.5rem 0; }
-        
-        /* Safe Meeting Suggestions */
-        .safe-meeting-box { background: white; border: 1px solid var(--primary-200); border-radius: var(--radius-md); padding: 1rem; margin-top: 0.5rem; }
-        .safe-locations-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
-        .location-chip { font-size: 0.75rem; padding: 0.375rem 0.75rem; background: var(--neutral-100); border: 1px solid var(--neutral-200); border-radius: 999px; cursor: pointer; transition: all 0.2s; }
-        .location-chip:hover { background: var(--primary-50); border-color: var(--primary-500); color: var(--primary-700); }
-
-        .chat-input-area { padding: 1rem 1.5rem; background: white; border-top: 1px solid var(--neutral-200); display: flex; gap: 0.75rem; align-items: center; }
-        .chat-input { flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--neutral-300); border-radius: 999px; font-size: 0.875rem; outline: none; }
-        .chat-input:focus { border-color: var(--primary-500); }
-        .btn-send { background: var(--primary-700); color: white; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
-        .btn-send:hover { background: var(--primary-900); }
+        .trust-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background-color: var(--primary-700); border-radius: 999px; font-size: 0.75rem; font-weight: 500; margin-bottom: 1rem; }
+        .trust-content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .trust-content p { font-size: 0.875rem; color: var(--primary-50); opacity: 0.9; }
+        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--neutral-500); grid-column: 1 / -1; }
 
         @media (min-width: 640px) {
             .hero-actions { flex-direction: row; }
-            .search-container { flex-direction: row; padding: 0.5rem; }
+            .search-container { flex-direction: row; }
             .divider { display: block; }
             .reports-grid { grid-template-columns: repeat(2, 1fr); }
             .trust-section { flex-direction: row; align-items: center; justify-content: space-between; padding: 3rem; }
@@ -150,7 +122,9 @@
             .hero h1 { font-size: 3rem; }
             .reports-grid { grid-template-columns: repeat(3, 1fr); }
         }
-        @media (min-width: 1024px) { .reports-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1024px) {
+            .reports-grid { grid-template-columns: repeat(4, 1fr); }
+        }
     </style>
 </head>
 <body>
@@ -161,29 +135,22 @@
             <nav class="nav-links">
                 <a href="#">Browse Reports</a>
                 <a href="#">How it Works</a>
-                <a href="#">Success Stories</a>
+                <a href="#">For Organizations</a>
             </nav>
             <div class="header-actions">
                 <a href="#" class="nav-links" style="display:block;">Log in</a>
-                <button class="btn btn-primary btn-sm">Register</button>
+                <button class="btn btn-outline btn-sm">Register</button>
             </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero container">
+    <main class="container">
+        <section class="hero">
             <h1>Lost something? Found something?<br><span>Let's help it get home.</span></h1>
-            <p>A secure, verified network connecting people across Nepal to recover important belongings. Trusted by thousands, secured by intelligent matching.</p>
+            <p>A secure, verified network connecting people across Nepal to recover important belongings, documents, and sentimental items.</p>
             <div class="hero-actions">
                 <button class="btn btn-primary btn-lg"><i data-lucide="plus-circle"></i> Report Lost Item</button>
                 <button class="btn btn-secondary btn-lg"><i data-lucide="check-circle"></i> Report Found Item</button>
-            </div>
-        </section>
-
-        <!-- Live Activity Feed -->
-        <section class="activity-feed-wrapper container">
-            <div class="activity-feed" id="activityFeed">
-                <!-- Injected via JS -->
             </div>
         </section>
 
@@ -203,155 +170,93 @@
                     <option value="Kaski">Kaski</option>
                 </select>
             </div>
-            <button class="btn btn-primary btn-md" style="padding: 0 2rem;">Search</button>
+            <button class="btn btn-primary btn-md" id="searchBtn" style="padding: 0 2rem;">Search</button>
         </section>
 
-        <section class="container">
+        <section>
             <div class="section-header">
-                <h2>Recently Reported Matches</h2>
-                <a href="#" style="font-size: 0.875rem; color: var(--primary-700); font-weight: 500;">View all</a>
+                <h2>Recently Reported</h2>
+                <span id="resultCount" style="font-size: 0.875rem; color: var(--neutral-500);">Loading items...</span>
             </div>
             <div class="reports-grid" id="reportsGrid"></div>
         </section>
 
-        <section class="container">
-            <div class="trust-section">
-                <div class="trust-content" style="max-width: 500px;">
-                    <div class="trust-badge-large"><i data-lucide="shield-check" style="width: 1rem; height: 1rem;"></i> Safe & Private</div>
-                    <h2>Secure Communication Only.</h2>
-                    <p style="font-size: 0.875rem; opacity: 0.9;">We automatically protect personal details. Phone numbers and exact locations are never exposed publicly. Connect securely via our in-platform messenger and utilize our verified Safe Meeting Zones.</p>
+        <section class="trust-section">
+            <div class="trust-content">
+                <div class="trust-badge"><i data-lucide="shield-check" style="width: 1rem; height: 1rem;"></i> Privacy First</div>
+                <h2>Your data is secure.</h2>
+                <p>We automatically blur sensitive information on official documents before publishing. Claims require specific verification questions to ensure items are returned only to their rightful owners.</p>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="font-size: 1.5rem; font-weight: 700;">12K+</div>
+                    <div style="font-size: 0.75rem; opacity: 0.8;">Items Returned</div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.2); display: flex; gap: 1rem; align-items: flex-start;">
-                        <i data-lucide="message-square-heart" style="width: 2rem; height: 2rem; color: var(--accent-500);"></i>
-                        <div>
-                            <p style="font-size: 0.875rem; font-style: italic; margin-bottom: 0.5rem;">"Lost my citizenship near Kamalpokhari. I was matched with a finder within 2 hours and we met securely at a nearby Police Station. Amazing platform."</p>
-                            <p style="font-size: 0.75rem; font-weight: 600;">- Aarav S., Kathmandu</p>
-                        </div>
-                    </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.2);">
+                    <div style="font-size: 1.5rem; font-weight: 700;">50+</div>
+                    <div style="font-size: 0.75rem; opacity: 0.8;">Police Hubs</div>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Secure Messaging Modal -->
-    <div class="modal-overlay" id="chatModal">
-        <div class="chat-modal" onclick="event.stopPropagation()">
-            <div class="chat-header">
-                <div class="chat-header-info">
-                    <h3 style="font-size: 1rem; font-weight: 600;" id="chatTitle">Claiming: Black Leather Wallet</h3>
-                    <p style="font-size: 0.75rem; color: var(--neutral-500);" id="chatUser">Conversation with Trusted Finder</p>
-                </div>
-                <button class="btn btn-ghost btn-sm" onclick="closeChat()"><i data-lucide="x"></i></button>
-            </div>
-            
-            <div class="chat-area" id="chatArea">
-                <div class="system-message">
-                    <i data-lucide="lock" style="width: 12px; height: 12px; display: inline-block; vertical-align: middle;"></i> 
-                    Connection established securely. Personal info is hidden.
-                </div>
-                
-                <div class="message msg-received">
-                    <div class="msg-bubble">Hello, I have your wallet. Can you verify the specific brand name printed inside before we proceed?</div>
-                    <div class="msg-time">10:42 AM</div>
-                </div>
-
-                <!-- Safe Meeting Component injected via JS -->
-            </div>
-
-            <div class="chat-input-area">
-                <button class="btn btn-ghost" style="padding: 0.5rem;"><i data-lucide="paperclip"></i></button>
-                <input type="text" class="chat-input" id="chatInput" placeholder="Type your verification answer...">
-                <button class="btn-send" onclick="sendMessage()"><i data-lucide="send" style="width: 1rem; height: 1rem;"></i></button>
-            </div>
-        </div>
-    </div>
-
     <script>
         lucide.createIcons();
 
-        // Data
-        const recentActivities = [
-            { text: "Wallet recovered in Lalitpur", time: "2m ago" },
-            { text: "Citizenship returned in Kathmandu", time: "15m ago" },
-            { text: "Keys found in Bhaktapur", time: "1h ago" },
-            { text: "Passport successfully claimed", time: "3h ago" }
+        // Database API integration layer. 
+        // When deploying your backend API (e.g. on Render at api.findback.com), 
+        // change API_BASE to your backend URL: 'https://api.findback.com/api/items'
+        const API_BASE = null; // Set to null to use internal fallback mock API for instant testing
+
+        const fallbackDatabase = [
+            { id: 1, type: 'lost', title: 'Nepali Citizenship Card', category: 'Document', district: 'Kathmandu', location: 'Kageshwori Manohara', timeAgo: '2 hrs ago', icon: 'file-text' },
+            { id: 2, type: 'found', title: 'Black Leather Wallet', category: 'Wallet', district: 'Lalitpur', location: 'Patan Durbar Square', timeAgo: '5 hrs ago', icon: 'wallet' },
+            { id: 3, type: 'lost', title: 'MacBook Pro 14"', category: 'Laptop', district: 'Kathmandu', location: 'Baneshwor', timeAgo: '1 day ago', icon: 'laptop' },
+            { id: 4, type: 'found', title: 'Honda Bike Keys', category: 'Keys', district: 'Bhaktapur', location: 'Suryabinayak', timeAgo: '1 day ago', icon: 'key' },
+            { id: 5, type: 'lost', title: 'Blue American Tourister Bag', category: 'Bag', district: 'Kaski', location: 'Lakeside, Pokhara', timeAgo: '2 days ago', icon: 'briefcase' },
+            { id: 6, type: 'found', title: 'Gold Ring', category: 'Jewelry', district: 'Kathmandu', location: 'Thamel', timeAgo: '3 days ago', icon: 'gem' },
+            { id: 7, type: 'lost', title: 'Redmi Note 12', category: 'Phone', district: 'Lalitpur', location: 'Pulchowk', timeAgo: '3 days ago', icon: 'smartphone' },
+            { id: 8, type: 'found', title: 'Driving License', category: 'Document', district: 'Kathmandu', location: 'Koteshwor', timeAgo: '4 days ago', icon: 'credit-card' }
         ];
 
-        const mockDatabase = [
-            { id: 1, type: 'lost', title: 'Nepali Citizenship Card', category: 'Document', district: 'Kathmandu', location: 'Kageshwori Manohara', timeAgo: '2 hrs ago', icon: 'file-text', match: '92%', user: 'Pramod', trust: 85, verified: true },
-            { id: 2, type: 'found', title: 'Black Leather Wallet', category: 'Wallet', district: 'Lalitpur', location: 'Patan Durbar Square', timeAgo: '5 hrs ago', icon: 'wallet', match: null, user: 'Sanjay', trust: 100, verified: true },
-            { id: 3, type: 'lost', title: 'MacBook Pro 14"', category: 'Laptop', district: 'Kathmandu', location: 'Baneshwor', timeAgo: '1 day ago', icon: 'laptop', match: null, user: 'Rina', trust: 40, verified: false },
-            { id: 4, type: 'found', title: 'Honda Bike Keys', category: 'Keys', district: 'Bhaktapur', location: 'Suryabinayak', timeAgo: '1 day ago', icon: 'key', match: '75%', user: 'Bikash', trust: 92, verified: true },
-            { id: 5, type: 'lost', title: 'Blue American Tourister Bag', category: 'Bag', district: 'Kaski', location: 'Lakeside, Pokhara', timeAgo: '2 days ago', icon: 'briefcase', match: null, user: 'Anita', trust: 60, verified: true },
-            { id: 6, type: 'found', title: 'Gold Ring', category: 'Jewelry', district: 'Kathmandu', location: 'Thamel', timeAgo: '3 days ago', icon: 'gem', match: '55%', user: 'Kiran', trust: 88, verified: true }
-        ];
-
-        const safeZones = [
-            "Nepal Police, Kamalpokhari",
-            "Bir Hospital Lobby",
-            "NABIL Bank, Durbar Marg"
-        ];
-
-        // Init UI
         const grid = document.getElementById('reportsGrid');
         const searchInput = document.getElementById('searchInput');
         const districtFilter = document.getElementById('districtFilter');
-        const activityFeed = document.getElementById('activityFeed');
-        
-        // Render Activities
-        recentActivities.forEach(act => {
-            const el = document.createElement('div');
-            el.className = 'activity-card';
-            el.innerHTML = `
-                <div class="activity-icon"><i data-lucide="check-circle" style="width:1.25rem; height:1.25rem;"></i></div>
-                <div>
-                    <p style="font-size:0.875rem; font-weight:600;">${act.text}</p>
-                    <p style="font-size:0.75rem; color:var(--neutral-500);">${act.time}</p>
-                </div>
-            `;
-            activityFeed.appendChild(el);
-        });
+        const resultCount = document.getElementById('resultCount');
 
-        // Render Cards
         function renderCards(data) {
             grid.innerHTML = '';
+            resultCount.textContent = `Showing ${data.length} items`;
+
             if (data.length === 0) {
-                grid.innerHTML = `<div style="grid-column: 1/-1; text-align:center; padding:3rem; color:var(--neutral-500);">No items found.</div>`;
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="search-x" style="width: 3rem; height: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <h3>No items found</h3>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Try adjusting your search or district filter.</p>
+                    </div>
+                `;
+                lucide.createIcons();
                 return;
             }
 
             data.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.onclick = () => openChat(item);
-                
-                const matchHtml = item.match ? `<div class="match-alert"><i data-lucide="sparkles" style="width:10px; height:10px;"></i> ${item.match} Match</div>` : '';
-                const verifiedIcon = item.verified ? `<i data-lucide="badge-check" style="width:14px; height:14px; color:var(--primary-500);"></i>` : '';
-
                 card.innerHTML = `
                     <div class="card-img-placeholder">
                         <span class="badge ${item.type}">${item.type.toUpperCase()}</span>
-                        ${matchHtml}
-                        <i data-lucide="${item.icon}" style="width: 2.5rem; height: 2.5rem;"></i>
+                        <i data-lucide="${item.icon || 'package'}" style="width: 2.5rem; height: 2.5rem;"></i>
                     </div>
                     <div class="card-content">
                         <div class="card-meta">
                             <span>${item.category}</span>
-                            <span>${item.timeAgo}</span>
+                            <span>${item.timeAgo || 'Recent'}</span>
                         </div>
                         <h3 class="card-title" title="${item.title}">${item.title}</h3>
                         <div class="card-location">
                             <i data-lucide="map-pin" style="width: 0.875rem; height: 0.875rem;"></i>
                             ${item.location}, ${item.district}
-                        </div>
-                        <div class="user-trust">
-                            <div style="display:flex; align-items:center; gap:4px; flex:1;">
-                                User ${verifiedIcon}
-                            </div>
-                            <div class="trust-score">
-                                <i data-lucide="shield" style="width:14px; height:14px;"></i> ${item.trust} Trust
-                            </div>
                         </div>
                     </div>
                 `;
@@ -360,109 +265,39 @@
             lucide.createIcons();
         }
 
-        function handleFilter() {
-            const term = searchInput.value.toLowerCase();
-            const dist = districtFilter.value;
-            renderCards(mockDatabase.filter(i => 
-                (i.title.toLowerCase().includes(term) || i.category.toLowerCase().includes(term)) &&
-                (dist === 'all' || i.district === dist)
-            ));
-        }
+        async function fetchAndFilterItems() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const district = districtFilter.value;
 
-        searchInput.addEventListener('input', handleFilter);
-        districtFilter.addEventListener('change', handleFilter);
-        renderCards(mockDatabase);
-
-        // Chat Logic
-        const chatModal = document.getElementById('chatModal');
-        const chatArea = document.getElementById('chatArea');
-        const chatInput = document.getElementById('chatInput');
-        
-        chatModal.addEventListener('click', (e) => {
-            if(e.target === chatModal) closeChat();
-        });
-
-        function openChat(item) {
-            document.getElementById('chatTitle').innerText = `${item.type === 'lost' ? 'Recovery details' : 'Claiming'}: ${item.title}`;
-            document.getElementById('chatUser').innerHTML = `<span style="color:var(--success-500); font-weight:600;">Trust Score: ${item.trust}</span> • Verification Required`;
-            chatModal.classList.add('active');
-            
-            // Add Safe Meeting Suggestor to chat UI programmatically
-            const safeBox = document.createElement('div');
-            safeBox.className = 'message msg-received';
-            safeBox.style.marginTop = '1rem';
-            safeBox.innerHTML = `
-                <div class="safe-meeting-box">
-                    <div style="font-weight:600; font-size:0.875rem; color:var(--primary-900);">
-                        <i data-lucide="shield-check" style="width:16px; height:16px; display:inline-block; vertical-align:text-bottom;"></i> 
-                        Suggest Safe Meeting
-                    </div>
-                    <p style="font-size:0.75rem; color:var(--neutral-500); margin-top:4px;">Platform recommended verified zones:</p>
-                    <div class="safe-locations-list" id="safeLocationsList"></div>
-                </div>
-            `;
-            
-            // Avoid duplicates if opened multiple times
-            if(chatArea.children.length < 3) {
-                chatArea.appendChild(safeBox);
-                const list = document.getElementById('safeLocationsList');
-                safeZones.forEach(zone => {
-                    const chip = document.createElement('button');
-                    chip.className = 'location-chip';
-                    chip.innerText = zone;
-                    chip.onclick = () => suggestLocation(zone);
-                    list.appendChild(chip);
-                });
+            try {
+                let items = [];
+                if (API_BASE) {
+                    // Real Database API Call implementation
+                    const response = await fetch(`${API_BASE}?keyword=${encodeURIComponent(searchTerm)}&district=${district}`);
+                    const result = await response.json();
+                    items = result.items || [];
+                } else {
+                    // Fallback local filtering mimicking database response behavior
+                    items = fallbackDatabase.filter(item => {
+                        const matchesSearch = item.title.toLowerCase().includes(searchTerm) || 
+                                              item.category.toLowerCase().includes(searchTerm);
+                        const matchesDistrict = district === 'all' || item.district === district;
+                        return matchesSearch && matchesDistrict;
+                    });
+                }
+                renderCards(items);
+            } catch (error) {
+                console.error("Failed to connect to database API:", error);
+                resultCount.textContent = "Error loading database records";
             }
-            
-            lucide.createIcons();
-            setTimeout(() => chatArea.scrollTop = chatArea.scrollHeight, 100);
         }
 
-        function closeChat() {
-            chatModal.classList.remove('active');
-        }
+        searchInput.addEventListener('input', fetchAndFilterItems);
+        districtFilter.addEventListener('change', fetchAndFilterItems);
+        document.getElementById('searchBtn').addEventListener('click', fetchAndFilterItems);
 
-        function appendMessage(text, type = 'sent') {
-            const msg = document.createElement('div');
-            msg.className = `message msg-${type}`;
-            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            msg.innerHTML = `
-                <div class="msg-bubble">${text}</div>
-                <div class="msg-time">${time}</div>
-            `;
-            chatArea.appendChild(msg);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        function sendMessage() {
-            const val = chatInput.value.trim();
-            if(!val) return;
-            appendMessage(val, 'sent');
-            chatInput.value = '';
-            
-            // Simulate reply
-            setTimeout(() => {
-                appendMessage("Thank you. I'm verifying this now.", 'received');
-            }, 1500);
-        }
-
-        function suggestLocation(loc) {
-            const msg = document.createElement('div');
-            msg.className = 'system-message';
-            msg.style.background = 'var(--primary-50)';
-            msg.style.borderColor = 'var(--primary-200)';
-            msg.style.color = 'var(--primary-900)';
-            msg.innerHTML = `📍 You suggested meeting at <strong>${loc}</strong>`;
-            chatArea.appendChild(msg);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }
-
-        chatInput.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') sendMessage();
-        });
-
+        // Initial load
+        fetchAndFilterItems();
     </script>
 </body>
 </html>
