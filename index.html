@@ -293,7 +293,7 @@ border-radius:var(--hand-drawn-radius); }
 .hero-buttons{ display:flex; gap:20px; flex-wrap:wrap;
 }
 .hero-image-col{
-    display:flex; align-items:center; justify-content:center;
+    display:flex; flex-direction:column; gap:36px; align-items:center; justify-content:center;
     position:relative; z-index:2;
 }
 /* big soft shape behind portrait for focal point */
@@ -1141,6 +1141,110 @@ footer{
 }
 
 /* ============================================================
+   LANGUAGES SHOWCASE
+============================================================ */
+.languages-showcase {
+    width: 100%;
+    max-width: 470px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.lang-heading {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    color: var(--text-main);
+    text-align: center;
+    margin-bottom: 2px;
+    letter-spacing: 2px;
+}
+.lang-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.lang-card {
+    background: var(--bg-white);
+    border: var(--border-thick);
+    border-radius: var(--hand-drawn-radius);
+    box-shadow: 4px 4px 0 var(--border-color);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform .3s ease, box-shadow .3s ease, background-color .3s ease, border-color .3s ease;
+}
+.lang-card:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 6px 6px 0 var(--border-color);
+}
+.lang-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.lang-name {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-main);
+}
+.lang-flag {
+    width: 22px;
+    height: 16px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    border: 1px solid var(--border-color);
+}
+.lang-flag.nepal-flag {
+    object-fit: contain;
+    background: transparent;
+    border: none;
+    box-shadow: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
+}
+.lang-pct {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+.lang-bar-bg {
+    width: 100%;
+    height: 12px;
+    background: var(--bg-cream);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+.lang-bar-fill {
+    height: 100%;
+    background: var(--bg-yellow);
+    width: 0%;
+    border-right: 2px solid var(--border-color);
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lang-label {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+[data-theme="dark"] .lang-card {
+    background: var(--bg-dark);
+}
+[data-theme="dark"] .lang-bar-bg {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* ============================================================
    RESPONSIVE
 ============================================================ */
 @media(max-width:1200px){
@@ -1302,6 +1406,14 @@ footer{
     .send-btn,.btn,.open-again-btn{ font-size:1.4rem; padding:12px 24px;
 }
     footer{ font-size:.8rem; padding:24px; }
+    .lang-grid { grid-template-columns: 1fr; }
+    .languages-showcase { max-width: 320px; }
+}
+
+/* Ensure the hero-image-col safely stacks its children while preserving existing styling */
+.hero-image-col {
+    flex-direction: column;
+    gap: 36px;
 }
     </style>
 </head>
@@ -1357,6 +1469,55 @@ footer{
     <div class="hero-image-col reveal">
         <div class="image-box">
             <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
+        </div>
+        
+        <div class="languages-showcase">
+            <h3 class="lang-heading">Languages</h3>
+            <div class="lang-grid">
+                <div class="lang-card">
+                    <div class="lang-top">
+                        <div class="lang-name">
+                            <img src="https://flagcdn.com/np.svg" alt="Nepal Flag" class="lang-flag nepal-flag"> Nepali
+                        </div>
+                        <div class="lang-pct">99%</div>
+                    </div>
+                    <div class="lang-bar-bg"><div class="lang-bar-fill" data-width="99%"></div></div>
+                    <div class="lang-label">Native</div>
+                </div>
+                
+                <div class="lang-card">
+                    <div class="lang-top">
+                        <div class="lang-name">
+                            <img src="https://flagcdn.com/gb.svg" alt="UK Flag" class="lang-flag"> English
+                        </div>
+                        <div class="lang-pct">80%</div>
+                    </div>
+                    <div class="lang-bar-bg"><div class="lang-bar-fill" data-width="80%"></div></div>
+                    <div class="lang-label">Professional</div>
+                </div>
+                
+                <div class="lang-card">
+                    <div class="lang-top">
+                        <div class="lang-name">
+                            <img src="https://flagcdn.com/in.svg" alt="India Flag" class="lang-flag"> Hindi
+                        </div>
+                        <div class="lang-pct">80%</div>
+                    </div>
+                    <div class="lang-bar-bg"><div class="lang-bar-fill" data-width="80%"></div></div>
+                    <div class="lang-label">Professional</div>
+                </div>
+                
+                <div class="lang-card">
+                    <div class="lang-top">
+                        <div class="lang-name">
+                            <img src="https://flagcdn.com/de.svg" alt="Germany Flag" class="lang-flag"> German
+                        </div>
+                        <div class="lang-pct">2%</div>
+                    </div>
+                    <div class="lang-bar-bg"><div class="lang-bar-fill" data-width="2%"></div></div>
+                    <div class="lang-label">Beginner</div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -1974,6 +2135,24 @@ themeToggle.addEventListener("click", () => {
         }
         setTimeout(() => { btn.innerText=orig; btn.style.pointerEvents="auto"; }, 4000);
     });
+})();
+
+/* ============================================================
+   LANGUAGES SHOWCASE ANIMATION
+============================================================ */
+(function() {
+    const progressBars = document.querySelectorAll('.lang-bar-fill');
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bar = entry.target;
+                bar.style.width = bar.getAttribute('data-width');
+                obs.unobserve(bar);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    progressBars.forEach(bar => observer.observe(bar));
 })();
 </script>
 </body>
