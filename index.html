@@ -10,11 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Lucide Icons -->
+    <!-- Lucide Icons for clean, professional iconography -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
+        /* === DESIGN TOKENS & VARIABLES === */
         :root {
+            /* Colors: Deep Blue & Teal Palette */
             --primary-50: #F0F5FA;
             --primary-500: #3B82F6;
             --primary-700: #1D4ED8;
@@ -34,94 +36,360 @@
             --neutral-700: #334155;
             --neutral-900: #0F172A;
 
+            /* Spacing & Layout */
             --max-width: 1152px;
             --radius-md: 0.375rem;
             --radius-lg: 0.5rem;
             --radius-xl: 0.75rem;
             
+            /* Shadows (Subtle, professional) */
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--neutral-50); color: var(--neutral-900); line-height: 1.5; }
-        a { text-decoration: none; color: inherit; }
-
-        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 1rem; }
-
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            font-weight: 500; font-size: 0.875rem; border-radius: var(--radius-md);
-            transition: all 0.2s ease; cursor: pointer; border: none; gap: 0.5rem;
+        /* === RESET & BASE STYLES === */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--neutral-50);
+            color: var(--neutral-900);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* === LAYOUT === */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* === COMPONENTS === */
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            gap: 0.5rem;
+        }
+
         .btn-sm { padding: 0.375rem 0.75rem; }
         .btn-md { padding: 0.5rem 1rem; }
         .btn-lg { padding: 0.75rem 1.5rem; font-size: 1rem; }
-        .btn-primary { background-color: var(--primary-700); color: white; box-shadow: var(--shadow-sm); }
+
+        .btn-primary {
+            background-color: var(--primary-700);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
         .btn-primary:hover { background-color: var(--primary-900); }
-        .btn-secondary { background-color: var(--accent-500); color: white; box-shadow: var(--shadow-sm); }
+
+        .btn-secondary {
+            background-color: var(--accent-500);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
         .btn-secondary:hover { background-color: var(--accent-600); }
-        .btn-outline { background-color: white; color: var(--neutral-700); border: 1px solid var(--neutral-200); }
+
+        .btn-outline {
+            background-color: white;
+            color: var(--neutral-700);
+            border: 1px solid var(--neutral-200);
+        }
         .btn-outline:hover { background-color: var(--neutral-50); }
 
-        header { background-color: white; border-bottom: 1px solid var(--neutral-200); position: sticky; top: 0; z-index: 50; }
-        .header-content { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
-        .logo { font-size: 1.125rem; font-weight: 600; color: var(--primary-900); }
+        /* === HEADER === */
+        header {
+            background-color: white;
+            border-bottom: 1px solid var(--neutral-200);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+
+        .logo {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--primary-900);
+            letter-spacing: -0.025em;
+        }
         .logo span { color: var(--neutral-400); }
 
-        .nav-links { display: none; gap: 1.5rem; font-size: 0.875rem; font-weight: 500; color: var(--neutral-700); }
+        .nav-links {
+            display: none;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--neutral-700);
+        }
+        
         .nav-links a:hover { color: var(--primary-700); }
 
-        .hero { padding: 4rem 0 3rem; text-align: center; }
-        .hero h1 { font-size: 2.5rem; font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            padding: 4rem 0 3rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 1rem;
+        }
+
         .hero h1 span { color: var(--primary-700); }
-        .hero p { font-size: 1.125rem; color: var(--neutral-700); max-width: 42rem; margin: 0 auto 2rem; }
-        .hero-actions { display: flex; flex-direction: column; gap: 1rem; justify-content: center; align-items: center; }
 
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--neutral-700);
+            max-width: 42rem;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* === SEARCH BAR === */
         .search-container {
-            background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-xl);
-            padding: 0.5rem; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 0.5rem; max-width: 56rem; margin: 0 auto 4rem;
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-xl);
+            padding: 0.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-width: 56rem;
+            margin: 0 auto 4rem;
         }
-        .search-input-group { position: relative; flex: 1; display: flex; align-items: center; }
-        .search-input-group i { position: absolute; left: 1rem; color: var(--neutral-400); width: 1.25rem; height: 1.25rem; }
-        .search-input-group input, .search-input-group select {
-            width: 100%; padding: 0.75rem 1rem 0.75rem 2.75rem; border: none; background: transparent; font-size: 0.875rem; color: var(--neutral-900); outline: none;
+
+        .search-input-group {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
         }
-        .divider { display: none; width: 1px; background-color: var(--neutral-200); margin: 0.5rem 0; }
 
-        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .section-header h2 { font-size: 1.25rem; font-weight: 600; }
+        .search-input-group i {
+            position: absolute;
+            left: 1rem;
+            color: var(--neutral-400);
+            width: 1.25rem;
+            height: 1.25rem;
+        }
 
-        .reports-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 4rem; }
-        .card { background: white; border: 1px solid var(--neutral-200); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); transition: border-color 0.2s; }
+        .search-input-group input, 
+        .search-input-group select {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: none;
+            background: transparent;
+            font-size: 0.875rem;
+            color: var(--neutral-900);
+            outline: none;
+        }
+        
+        .search-input-group input::placeholder { color: var(--neutral-400); }
+
+        .divider {
+            display: none;
+            width: 1px;
+            background-color: var(--neutral-200);
+            margin: 0.5rem 0;
+        }
+
+        /* === REPORTS GRID === */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .reports-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        /* Card Design */
+        .card {
+            background: white;
+            border: 1px solid var(--neutral-200);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+        
         .card:hover { border-color: var(--primary-500); }
-        .card-img-placeholder { height: 10rem; background-color: var(--neutral-100); position: relative; display: flex; align-items: center; justify-content: center; color: var(--neutral-400); }
-        .badge { position: absolute; top: 0.5rem; left: 0.5rem; padding: 0.25rem 0.5rem; background: rgba(255, 255, 255, 0.95); font-size: 0.625rem; font-weight: 700; border-radius: var(--radius-md); text-transform: uppercase; }
+
+        .card-img-placeholder {
+            height: 10rem;
+            background-color: var(--neutral-100);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neutral-400);
+        }
+
+        .badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            border-radius: var(--radius-md);
+            text-transform: uppercase;
+        }
+
         .badge.lost { color: var(--danger-500); }
         .badge.found { color: var(--success-500); }
-        .card-content { padding: 1rem; }
-        .card-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--neutral-500); margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 500; }
-        .card-title { font-size: 0.875rem; font-weight: 600; color: var(--neutral-900); margin-bottom: 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-location { display: flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: var(--neutral-500); }
 
-        .trust-section { background-color: var(--primary-900); border-radius: var(--radius-xl); padding: 2rem; color: white; display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem; }
-        .trust-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.75rem; background-color: var(--primary-700); border-radius: 999px; font-size: 0.75rem; font-weight: 500; margin-bottom: 1rem; }
-        .trust-content h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .trust-content p { font-size: 0.875rem; color: var(--primary-50); opacity: 0.9; }
-        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--neutral-500); grid-column: 1 / -1; }
+        .card-content {
+            padding: 1rem;
+        }
 
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+
+        .card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--neutral-900);
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-location {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            color: var(--neutral-500);
+        }
+
+        /* === TRUST SECTION === */
+        .trust-section {
+            background-color: var(--primary-900);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--primary-700);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .trust-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .trust-content p {
+            font-size: 0.875rem;
+            color: var(--primary-50);
+            opacity: 0.9;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--neutral-500);
+            grid-column: 1 / -1;
+        }
+
+        /* === RESPONSIVE DESIGN === */
         @media (min-width: 640px) {
             .hero-actions { flex-direction: row; }
-            .search-container { flex-direction: row; }
+            .hero-actions .btn { width: auto; }
+            
+            .search-container { flex-direction: row; padding: 0.5rem; }
             .divider { display: block; }
+            
             .reports-grid { grid-template-columns: repeat(2, 1fr); }
+            
             .trust-section { flex-direction: row; align-items: center; justify-content: space-between; padding: 3rem; }
+            .trust-content { max-width: 50%; }
         }
+
         @media (min-width: 768px) {
             .nav-links { display: flex; }
             .hero h1 { font-size: 3rem; }
             .reports-grid { grid-template-columns: repeat(3, 1fr); }
         }
+
         @media (min-width: 1024px) {
             .reports-grid { grid-template-columns: repeat(4, 1fr); }
         }
@@ -129,6 +397,7 @@
 </head>
 <body>
 
+    <!-- Header / Navigation -->
     <header>
         <div class="container header-content">
             <a href="#" class="logo">Lost<span>&</span>Found Nepal</a>
@@ -144,7 +413,10 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="container">
+        
+        <!-- Hero Section -->
         <section class="hero">
             <h1>Lost something? Found something?<br><span>Let's help it get home.</span></h1>
             <p>A secure, verified network connecting people across Nepal to recover important belongings, documents, and sentimental items.</p>
@@ -154,6 +426,7 @@
             </div>
         </section>
 
+        <!-- Live Search Bar -->
         <section class="search-container">
             <div class="search-input-group">
                 <i data-lucide="search"></i>
@@ -173,14 +446,18 @@
             <button class="btn btn-primary btn-md" id="searchBtn" style="padding: 0 2rem;">Search</button>
         </section>
 
+        <!-- Dynamic Results Grid -->
         <section>
             <div class="section-header">
                 <h2>Recently Reported</h2>
-                <span id="resultCount" style="font-size: 0.875rem; color: var(--neutral-500);">Loading items...</span>
+                <a href="#" style="font-size: 0.875rem; color: var(--primary-700); font-weight: 500;">View all</a>
             </div>
+            
+            <!-- Items injected here by JS -->
             <div class="reports-grid" id="reportsGrid"></div>
         </section>
 
+        <!-- Trust & Privacy Section -->
         <section class="trust-section">
             <div class="trust-content">
                 <div class="trust-badge"><i data-lucide="shield-check" style="width: 1rem; height: 1rem;"></i> Privacy First</div>
@@ -198,35 +475,111 @@
                 </div>
             </div>
         </section>
+
     </main>
 
+    <!-- === JAVASCRIPT / DATABASE API LOGIC === -->
     <script>
+        // Initialize Icons
         lucide.createIcons();
 
-        // Database API integration layer. 
-        // When deploying your backend API (e.g. on Render at api.findback.com), 
-        // change API_BASE to your backend URL: 'https://api.findback.com/api/items'
-        const API_BASE = null; // Set to null to use internal fallback mock API for instant testing
+        // API Endpoint configuration
+        // Swap 'null' with your Render/Backend URL (e.g., 'https://api.findback.com/api/items') when ready.
+        const API_URL = null; 
 
-        const fallbackDatabase = [
-            { id: 1, type: 'lost', title: 'Nepali Citizenship Card', category: 'Document', district: 'Kathmandu', location: 'Kageshwori Manohara', timeAgo: '2 hrs ago', icon: 'file-text' },
-            { id: 2, type: 'found', title: 'Black Leather Wallet', category: 'Wallet', district: 'Lalitpur', location: 'Patan Durbar Square', timeAgo: '5 hrs ago', icon: 'wallet' },
-            { id: 3, type: 'lost', title: 'MacBook Pro 14"', category: 'Laptop', district: 'Kathmandu', location: 'Baneshwor', timeAgo: '1 day ago', icon: 'laptop' },
-            { id: 4, type: 'found', title: 'Honda Bike Keys', category: 'Keys', district: 'Bhaktapur', location: 'Suryabinayak', timeAgo: '1 day ago', icon: 'key' },
-            { id: 5, type: 'lost', title: 'Blue American Tourister Bag', category: 'Bag', district: 'Kaski', location: 'Lakeside, Pokhara', timeAgo: '2 days ago', icon: 'briefcase' },
-            { id: 6, type: 'found', title: 'Gold Ring', category: 'Jewelry', district: 'Kathmandu', location: 'Thamel', timeAgo: '3 days ago', icon: 'gem' },
-            { id: 7, type: 'lost', title: 'Redmi Note 12', category: 'Phone', district: 'Lalitpur', location: 'Pulchowk', timeAgo: '3 days ago', icon: 'smartphone' },
-            { id: 8, type: 'found', title: 'Driving License', category: 'Document', district: 'Kathmandu', location: 'Koteshwor', timeAgo: '4 days ago', icon: 'credit-card' }
+        // MOCK DATABASE FALLBACK (Exactly as originally provided)
+        const mockDatabase = [
+            {
+                id: 1,
+                type: 'lost',
+                title: 'Nepali Citizenship Card',
+                category: 'Document',
+                district: 'Kathmandu',
+                location: 'Kageshwori Manohara',
+                timeAgo: '2 hrs ago',
+                icon: 'file-text'
+            },
+            {
+                id: 2,
+                type: 'found',
+                title: 'Black Leather Wallet',
+                category: 'Wallet',
+                district: 'Lalitpur',
+                location: 'Patan Durbar Square',
+                timeAgo: '5 hrs ago',
+                icon: 'wallet'
+            },
+            {
+                id: 3,
+                type: 'lost',
+                title: 'MacBook Pro 14"',
+                category: 'Laptop',
+                district: 'Kathmandu',
+                location: 'Baneshwor',
+                timeAgo: '1 day ago',
+                icon: 'laptop'
+            },
+            {
+                id: 4,
+                type: 'found',
+                title: 'Honda Bike Keys',
+                category: 'Keys',
+                district: 'Bhaktapur',
+                location: 'Suryabinayak',
+                timeAgo: '1 day ago',
+                icon: 'key'
+            },
+            {
+                id: 5,
+                type: 'lost',
+                title: 'Blue American Tourister Bag',
+                category: 'Bag',
+                district: 'Kaski',
+                location: 'Lakeside, Pokhara',
+                timeAgo: '2 days ago',
+                icon: 'briefcase'
+            },
+            {
+                id: 6,
+                type: 'found',
+                title: 'Gold Ring',
+                category: 'Jewelry',
+                district: 'Kathmandu',
+                location: 'Thamel',
+                timeAgo: '3 days ago',
+                icon: 'gem'
+            },
+            {
+                id: 7,
+                type: 'lost',
+                title: 'Redmi Note 12',
+                category: 'Phone',
+                district: 'Lalitpur',
+                location: 'Pulchowk',
+                timeAgo: '3 days ago',
+                icon: 'smartphone'
+            },
+            {
+                id: 8,
+                type: 'found',
+                title: 'Driving License',
+                category: 'Document',
+                district: 'Kathmandu',
+                location: 'Koteshwor',
+                timeAgo: '4 days ago',
+                icon: 'credit-card'
+            }
         ];
 
+        // DOM Elements
         const grid = document.getElementById('reportsGrid');
         const searchInput = document.getElementById('searchInput');
         const districtFilter = document.getElementById('districtFilter');
-        const resultCount = document.getElementById('resultCount');
+        const searchBtn = document.getElementById('searchBtn');
 
+        // Render Function
         function renderCards(data) {
-            grid.innerHTML = '';
-            resultCount.textContent = `Showing ${data.length} items`;
+            grid.innerHTML = ''; // Clear current grid
 
             if (data.length === 0) {
                 grid.innerHTML = `
@@ -246,12 +599,12 @@
                 card.innerHTML = `
                     <div class="card-img-placeholder">
                         <span class="badge ${item.type}">${item.type.toUpperCase()}</span>
-                        <i data-lucide="${item.icon || 'package'}" style="width: 2.5rem; height: 2.5rem;"></i>
+                        <i data-lucide="${item.icon}" style="width: 2.5rem; height: 2.5rem;"></i>
                     </div>
                     <div class="card-content">
                         <div class="card-meta">
                             <span>${item.category}</span>
-                            <span>${item.timeAgo || 'Recent'}</span>
+                            <span>${item.timeAgo}</span>
                         </div>
                         <h3 class="card-title" title="${item.title}">${item.title}</h3>
                         <div class="card-location">
@@ -262,42 +615,58 @@
                 `;
                 grid.appendChild(card);
             });
+
+            // Re-initialize icons for newly added DOM elements
             lucide.createIcons();
         }
 
+        // Integrated Backend API Fetch & Filter Logic
         async function fetchAndFilterItems() {
             const searchTerm = searchInput.value.toLowerCase();
             const district = districtFilter.value;
 
             try {
-                let items = [];
-                if (API_BASE) {
-                    // Real Database API Call implementation
-                    const response = await fetch(`${API_BASE}?keyword=${encodeURIComponent(searchTerm)}&district=${district}`);
-                    const result = await response.json();
-                    items = result.items || [];
+                let itemsToDisplay = [];
+                
+                // If a real backend URL is provided, fetch from it
+                if (API_URL) {
+                    const response = await fetch(`${API_URL}?keyword=${encodeURIComponent(searchTerm)}&district=${district}`);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    const jsonResult = await response.json();
+                    itemsToDisplay = jsonResult.items || [];
                 } else {
-                    // Fallback local filtering mimicking database response behavior
-                    items = fallbackDatabase.filter(item => {
+                    // Otherwise, use the fallback mock database logic
+                    itemsToDisplay = mockDatabase.filter(item => {
                         const matchesSearch = item.title.toLowerCase().includes(searchTerm) || 
                                               item.category.toLowerCase().includes(searchTerm);
                         const matchesDistrict = district === 'all' || item.district === district;
+                        
                         return matchesSearch && matchesDistrict;
                     });
                 }
-                renderCards(items);
+
+                renderCards(itemsToDisplay);
             } catch (error) {
-                console.error("Failed to connect to database API:", error);
-                resultCount.textContent = "Error loading database records";
+                console.error("Error retrieving data from database:", error);
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="alert-circle" style="width: 3rem; height: 3rem; margin-bottom: 1rem; color: var(--danger-500);"></i>
+                        <h3>Connection Error</h3>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Failed to load items from the database. Please try again later.</p>
+                    </div>
+                `;
+                lucide.createIcons();
             }
         }
 
+        // Event Listeners for live search filtering
         searchInput.addEventListener('input', fetchAndFilterItems);
         districtFilter.addEventListener('change', fetchAndFilterItems);
-        document.getElementById('searchBtn').addEventListener('click', fetchAndFilterItems);
+        searchBtn.addEventListener('click', fetchAndFilterItems);
 
-        // Initial load
+        // Initial Render on page load
         fetchAndFilterItems();
+
     </script>
 </body>
 </html>
