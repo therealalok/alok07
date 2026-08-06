@@ -1,669 +1,1072 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alok Sharma - Portfolio</title>
-    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
-    <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
-    </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-    <style>
-        /* ============================================================
-           ROOT TOKENS
-        ============================================================ */
-        :root {
-            --bg-cream:   #fdf6e3;
-            --bg-yellow:  #f5c518;
-            --bg-white:   #ffffff;
-            --bg-dark:    #1a1a2e;
-            --accent:     #f5c518;
-            --accent2:    #e8a000;
-            --text-main:  #1a1a2e;
-            --text-muted: #5a5a7a;
-            --border-color:#1a1a2e;
-            --hand-drawn-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-            --hand-drawn-shadow: 6px 6px 0px var(--border-color);
-            --border-thick: 3px solid var(--border-color);
-            --font-head: 'Bebas Neue', sans-serif;
-            --font-body: 'IBM Plex Mono', monospace;
-        }
+<!--
+  Maya Chen — Frontend Developer (portfolio template)
+  Built from the attached UI/UX specification: color tokens, type scale, 8px spacing
+  grid, Bootstrap-style breakpoints (576/768/992/1200), interaction catalogue
+  (hover/focus states, hamburger nav, scroll reveal, accessible modal), the exact
+  component map (semantic tags + class names), and the accessibility + responsive +
+  performance requirements it laid out.
 
-        /* Subtle hover lift for interactive elements */
-        .btn:hover,.send-btn:hover,.open-again-btn:hover,.theme-switch-btn:hover,
-        .side-nav-btn:hover,.hud-arrow-btn:hover,.slider-arrow-btn:hover,
-        .contact-info a:hover,.socials a:hover{ transform:translate(-2px,-2px); }
-        .skill-item-card:hover{ transform:translateY(-6px); }
+  PLACEHOLDER CONTENT: no real name/bio/projects/links came with the spec, so
+  "Maya Chen" and everything about her is a stand-in persona — replace freely.
+  Search for "maya", "Maya Chen", and the `projectData` object below to find it all.
 
-        /* Accessible focus state */
-        a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
-            outline:3px solid var(--accent2); outline-offset:2px;
-        }
+  ASSETS: everything is self-contained. Illustrations are hand-drawn inline SVG
+  (no external image requests, nothing to break, works offline). Fonts load from
+  Google Fonts: Fraunces (display), Open Sans (body, as the spec specified),
+  JetBrains Mono (labels / meta text).
 
-        [data-theme="dark"] {
-            --bg-cream:   #0d0d1a;
-            --bg-yellow:  #d9a916;
-            --bg-white:   #16162a;
-            --bg-dark:    #080810;
-            --text-main:  #f0f0ff;
-            --text-muted: #a8a8cc;
-            --border-color:#444466;
-        }
-        [data-theme="dark"] .image-box img, [data-theme="dark"] .hero-large-flag-box { border-color:var(--border-color); }
-        [data-theme="dark"] #skills { background:var(--bg-yellow); }
-        [data-theme="dark"] #skills .section-title { color:#000; }
-        [data-theme="dark"] #skills .section-title::after { background:var(--bg-dark); }
-        [data-theme="dark"] .skill-item-card { background:var(--bg-dark); color:var(--text-main); border-color:#000; }
-        [data-theme="dark"] .skill-item-card h3 { color:var(--text-main); }
-        [data-theme="dark"] .contact-card { background:var(--bg-yellow); border-color:#000; }
-        [data-theme="dark"] .contact-card .find-me-btn { color:#000; }
-        [data-theme="dark"] .contact-info a, [data-theme="dark"] .socials a { background:var(--bg-dark); color:#fff; border-color:#000; }
-        [data-theme="dark"] .contact-info a i, [data-theme="dark"] .socials a i { color:#fff; }
-        [data-theme="dark"] .contact-info a:hover, [data-theme="dark"] .socials a:hover { background:var(--bg-white); }
-        [data-theme="dark"] .theme-switch-btn, [data-theme="dark"] .side-nav-btn { background:var(--bg-dark); color:var(--bg-yellow); }
-        [data-theme="dark"] .theme-switch-btn i, [data-theme="dark"] .side-nav-btn i { color:var(--bg-yellow); }
-        [data-theme="dark"] #projects .section-title { color:#fff !important; }
-        [data-theme="dark"] .logo span { color:var(--bg-yellow); }
+  Swapping in real photos later: replace an <svg> block with something like —
+    <img src="photo.jpg" srcset="photo.jpg 1x, photo@2x.jpg 2x"
+         sizes="(min-width: 768px) 320px, 60vw" alt="Describe the photo"
+         loading="lazy" decoding="async" width="320" height="320">
+  — which is the loading="lazy" + srcset/sizes pattern the spec's Performance
+  section asks for.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya Chen — Frontend Developer</title>
+<meta name="description" content="Portfolio of Maya Chen, a frontend developer focused on accessible, systematic interfaces. Selected projects, writing, and contact info.">
+<meta name="theme-color" content="#0A192F">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230A192F'/%3E%3Cpath d='M12 10 6 16 12 22M20 10 26 16 20 22' stroke='%2364FFDA' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&amp;family=JetBrains+Mono:wght@500;600&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  /* ==========================================================================
+     1. Design tokens — UI Inventory (colors, type, spacing, radius, shadow)
+     ========================================================================== */
+  :root {
+    /* Brand */
+    --color-primary: #0A192F;
+    --color-primary-raised: #112240;
+    --color-accent: #64FFDA;        /* bright teal — dark-background contexts only */
+    --color-accent-deep: #0F766E;   /* deep teal — light-background contexts (AA-safe) */
 
-        /* ============================================================
-           RESET / BASE
-        ============================================================ */
-        *{ margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
-        body{
-            background-color:var(--bg-cream);
-            color:var(--text-main);
-            font-family:var(--font-body);
-            overflow-x:hidden;
-            -webkit-font-smoothing:antialiased;
-            transition:background-color .3s ease,color .3s ease;
-        }
-        ::-webkit-scrollbar{ width:12px; background:var(--bg-cream); border-left:var(--border-thick); }
-        ::-webkit-scrollbar-thumb{ background:var(--bg-yellow); border:2px solid var(--border-color); }
-        h1,h2,h3{ font-family:var(--font-head); text-transform:uppercase; line-height:1.1; letter-spacing:1px; color:var(--text-main); }
-        p,a,span,input,textarea,button{ font-family:var(--font-body); }
+    /* Surfaces */
+    --color-bg: #F0F4F8;
+    --color-surface: #FFFFFF;
 
-        /* ============================================================
-           SCROLL REVEAL (FADE IN UP)
-        ============================================================ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* Text */
+    --color-text: #111827;
+    --color-text-muted: #475569;
+    --color-heading-inverse: #FFFFFF;
+    --color-text-inverse: #E6EDF3;
+    --color-muted-inverse: #94A3B8;
 
-        /* ============================================================
-           HEADER
-        ============================================================ */
-        header{
-            position:sticky; top:0; width:100%;
-            display:flex; justify-content:space-between; align-items:center;
-            background:var(--bg-cream);
-            padding:14px 4vw;
-            z-index:1000;
-            border-bottom:1px solid var(--border-color);
-            transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease,padding .3s ease;
-            backdrop-filter:blur(8px);
-        }
-        header.scrolled{
-            padding:8px 4vw;
-            background:rgba(253,246,227,.82);
-            box-shadow:0 4px 18px rgba(0,0,0,.08);
-            border-bottom-color:transparent;
-        }
-        [data-theme="dark"] header.scrolled{ background:rgba(13,13,26,.82); }
-        .logo{ font-size:1.9rem; font-weight:700; color:var(--text-main); letter-spacing:2px; }
-        .logo span{ color:#c8960a; }
-        .nav-container{ display:flex; align-items:center; gap:20px; }
-        nav{ display:flex; gap:42px; align-items:center; }
-        nav a{
-            text-decoration:none; color:var(--text-main); font-weight:700;
-            font-size:1.05rem; text-transform:uppercase; position:relative;
-            transition:color .25s ease;
-            padding:4px 0;
-        }
-        nav a::after{
-            content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px;
-            background:var(--bg-yellow); transition:width .3s cubic-bezier(.16,1,.3,1);
-        }
-        nav a:hover::after,nav a.active-link::after{ width:100%; }
-        nav a:hover,nav a.active-link{ color:#c8960a; }
-        .theme-switch-btn{
-            background:var(--bg-yellow); color:#000; border:var(--border-thick);
-            border-radius:var(--hand-drawn-radius); box-shadow:3px 3px 0 var(--border-color);
-            width:45px; height:45px; display:flex; align-items:center; justify-content:center;
-            cursor:pointer; font-size:1.2rem; margin-left:10px; transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-        }
-        .theme-switch-btn:hover{ background:var(--bg-white); }
-        
-        /* Mobile nav toggle */
-        .nav-toggle-btn{
-            display:none;
-            background:var(--bg-yellow); color:#000; border:var(--border-thick);
-            border-radius:var(--hand-drawn-radius);
-            box-shadow:3px 3px 0 var(--border-color);
-            width:45px; height:45px; align-items:center; justify-content:center;
-            cursor:pointer; font-size:1.2rem; margin-left:10px;
-        }
-        .mobile-nav-menu{
-            display:none; flex-direction:column; gap:0;
-            position:absolute; top:100%;
-            left:0; right:0;
-            background:var(--bg-cream); border-bottom:var(--border-thick);
-            box-shadow:0 8px 0 -4px var(--border-color);
-            z-index:999;
-        }
-        .mobile-nav-menu a{
-            display:block; padding:18px 6vw; text-decoration:none;
-            color:var(--text-main);
-            font-weight:700; text-transform:uppercase;
-            font-size:1.1rem; border-top:2px solid var(--border-color);
-            letter-spacing:1px;
-        }
-        .mobile-nav-menu a:hover{ background:var(--bg-yellow); color:#000; }
-        .mobile-nav-menu.open{ display:flex; }
+    /* Borders */
+    --color-border: #E2E8F0;
+    --color-border-dark: #1D2D44;
 
-        /* ============================================================
-           SIDE FLOATING NAV
-        ============================================================ */
-        .side-floating-nav{
-            position:fixed; right:20px;
-            top:50%; transform:translateY(-50%);
-            display:flex; flex-direction:column; gap:12px; z-index:1001;
-        }
-        .side-nav-btn{
-            width:48px; height:48px; background:var(--bg-yellow); color:#000;
-            display:flex; align-items:center; justify-content:center; font-size:1.3rem;
-            text-decoration:none; border:var(--border-thick);
-            border-radius:var(--hand-drawn-radius); box-shadow:3px 3px 0 var(--border-color);
-            transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-        }
-        .side-nav-btn:hover{ background:var(--bg-white); }
+    /* Fonts — three deliberate roles: display for headings, body for copy/UI,
+       mono for eyebrows/tags/meta (a nod to this being a developer's site) */
+    --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
 
-        /* ============================================================
-           GLOBAL SECTION + TITLE
-        ============================================================ */
-        section{ padding:130px 8vw; position:relative; }
-        .divider-top{ position:absolute; top:-1px; left:0; width:100%; overflow:hidden; line-height:0; z-index:10; }
-        .divider-top svg{ display:block; width:calc(100% + 1.3px); height:70px; }
-        .section-title-container{ margin-bottom:80px; text-align:center; }
-        .section-title{
-            font-size:clamp(4rem,8vw,6rem); color:var(--text-main);
-            position:relative; display:inline-block; z-index:1;
-        }
-        .section-title::after{
-            content:''; position:absolute; bottom:4px; left:-5%; width:110%; height:14px;
-            background:var(--bg-yellow);
-            z-index:-1;
-            border-radius:var(--hand-drawn-radius); transform:rotate(-1.5deg);
-        }
-        .btn,.send-btn,.open-again-btn{
-            background:var(--bg-yellow); color:#000;
-            border:var(--border-thick);
-            border-radius:var(--hand-drawn-radius); box-shadow:var(--hand-drawn-shadow);
-            padding:14px 32px; font-family:var(--font-head); font-size:1.75rem;
-            text-decoration:none; text-transform:uppercase; letter-spacing:2px;
-            display:inline-flex;
-            align-items:center; justify-content:center; gap:12px;
-            cursor:pointer;
-            transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-        }
-        .send-btn{ width:100%; text-align:center; }
-        .btn:hover,.send-btn:hover,.open-again-btn:hover{ background:var(--bg-white); color:var(--text-main); }
-        .secondary-btn{ background:var(--bg-white) !important; color:var(--text-main) !important; }
-        .secondary-btn:hover{ background:var(--bg-yellow) !important; color:#000 !important; }
-        [data-theme="dark"] .btn,[data-theme="dark"] .send-btn,[data-theme="dark"] .open-again-btn{ color:#000; }
+    /* Spacing — 8px baseline grid, as specified */
+    --space-1: 0.5rem;   /* 8px */
+    --space-2: 1rem;     /* 16px */
+    --space-3: 1.5rem;   /* 24px */
+    --space-4: 2rem;     /* 32px */
+    --space-5: 3rem;     /* 48px */
+    --space-6: 4rem;     /* 64px */
+    --space-7: 6rem;     /* 96px */
 
-        /* ============================================================
-           HERO SECTION
-        ============================================================ */
-        #home{
-            background:var(--bg-cream);
-            display:grid;
-            grid-template-columns:0.95fr 1.05fr;
-            gap:40px;
-            min-height:auto; padding:36px 8vw 90px; align-items:center;
-            position:relative; overflow:hidden;
-        }
-        #home::before{
-            content:'';
-            position:absolute;
-            inset:0;
-            background:repeating-linear-gradient(
-                -55deg,
-                transparent,
-                transparent 40px,
-                rgba(245,197,24,0.06) 40px,
-                rgba(245,197,24,0.06) 42px
-            );
-            pointer-events:none;
-        }
-        .hero-text-col{
-            display:flex; flex-direction:column; justify-content:center;
-            padding-right:40px; position:relative; z-index:2;
-        }
-        .hero h1{ font-size:clamp(5rem,9vw,10rem); line-height:.84; margin:10px 0 22px; }
-        .hero-subtitle{
-            font-size:1.15rem; font-weight:700; text-transform:uppercase;
-            margin-bottom:4px; letter-spacing:6px; color:var(--text-muted);
-            display:flex; align-items:center; gap:16px;
-        }
-        .hero-emblem-layout{ display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap; }
-        .hero-large-flag-box{
-            width:50px; margin-bottom:12px; border:var(--border-thick);
-            border-radius:var(--hand-drawn-radius);
-            box-shadow:3px 3px 0 var(--border-color);
-            padding:4px; background:#fff; flex-shrink:0;
-        }
-        .hero-large-flag-box img{ width:100%; height:auto; display:block; border-radius:var(--hand-drawn-radius); }
-        .hero p{
-            font-size:1.1rem; line-height:1.65; font-weight:600;
-            max-width:560px; margin-bottom:36px; color:var(--text-muted);
-            border-left:4px solid var(--bg-yellow); padding-left:18px;
-        }
-        .hero-buttons{ display:flex; gap:20px; flex-wrap:wrap; }
-        .hero-image-col{
-            display:flex; flex-direction:column; gap:26px; align-items:center; justify-content:center;
-            position:relative; z-index:2;
-        }
-        .hero-image-col::before{
-            content:'';
-            position:absolute;
-            width:min(500px,86%); height:min(500px,86%);
-            background:var(--bg-yellow);
-            opacity:.4;
-            border-radius:50% 45% 55% 50% / 55% 50% 50% 45%;
-            z-index:-1;
-            filter:blur(2px);
-            top:8%;
-        }
-        .image-box{
-            width:100%; max-width:430px; aspect-ratio:3/4;
-            background:var(--bg-white); padding:14px;
-            border:var(--border-thick); border-radius:var(--hand-drawn-radius);
-            box-shadow:10px 10px 0 var(--border-color);
-            position:relative;
-        }
-        .image-box::before{
-            content:''; position:absolute; top:-10px; right:-10px;
-            width:80px; height:80px;
-            background:var(--bg-yellow); border:var(--border-thick);
-            border-radius:var(--hand-drawn-radius); z-index:-1;
-        }
-        .image-box img{
-            width:100%; height:100%; object-fit:cover;
-            border:2px solid var(--border-color);
-            border-radius:255px 15px 225px 15px/15px 225px 15px 255px;
-        }
+    --radius-sm: 0.5rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.75rem;
+    --radius-full: 999px;
 
-        /* Remaining CSS from the original code kept identical for perfect match */
-        /* ... Incorporating all previous specific class implementations seamlessly ... */
-        /* Education / Book Styles omitted here for brevity in inline CSS block, 
-           but conceptually they remain unchanged from the prompt. */
-           
-        /* Assuming the rest of the inline CSS from prompt is loaded identically */
-        .projects-grid {
-            display: flex; gap: clamp(18px, 3vw, 36px); width: max-content;
-        }
-        /* Mobile Breakpoints Fixes */
-        @media(max-width:768px){
-            nav{ display:none; }
-            .nav-toggle-btn{ display:flex; }
-            .side-floating-nav{ display:none; }
-            section{ padding:80px 5vw; }
-            .hero h1{ font-size:4.8rem; }
-            /* Other mobile fixes applied identically */
-        }
-    </style>
-    <!-- I will inject the rest of the exact CSS in standard format to keep it intact, 
-         but for response efficiency, I am assuming the browser runs the previous block. -->
+    --shadow-sm: 0 1px 2px rgba(10, 25, 47, 0.06);
+    --shadow-md: 0 12px 28px rgba(10, 25, 47, 0.10);
+    --shadow-lg: 0 24px 48px rgba(10, 25, 47, 0.18);
+
+    --container-max: 1140px;      /* per spec */
+    --header-height: 76px;
+
+    --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --dur-fast: 0.2s;
+    --dur-base: 0.3s;
+    --dur-slow: 0.4s;
+
+    /* Focus ring is contextual: deep teal on light sections, bright teal on
+       dark sections — both are verified ≥3:1 against their own background. */
+    --focus-ring: var(--color-accent-deep);
+  }
+
+  .site-header, .hero, .site-footer { --focus-ring: var(--color-accent); }
+
+  /* ==========================================================================
+     2. Reset + base
+     ========================================================================== */
+  *, *::before, *::after { box-sizing: border-box; }
+  * { margin: 0; }
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    min-height: 100vh;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--color-text);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { display: block; max-width: 100%; }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  button { background: none; border: none; padding: 0; }
+  a, button { cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  ul { list-style: none; padding: 0; }
+  button:disabled, [disabled] { cursor: not-allowed; opacity: 0.6; }
+
+  :focus { outline: none; }
+  :focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  ::selection { background: var(--color-accent); color: var(--color-primary); }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    color: var(--color-primary);
+    line-height: 1.15;
+    font-weight: 600;
+  }
+  h1 { font-size: clamp(2.5rem, 1.9rem + 2.6vw, 3.75rem); }   /* spec: H1 ~2.5rem+ */
+  h2 { font-size: clamp(2rem, 1.75rem + 1.1vw, 2.75rem); }     /* spec: H2 ~2rem+ */
+  h3 { font-size: 1.375rem; }
+
+  .hero-tagline, .bio p, .post-excerpt, #modalDesc, .footer-cta p {
+    line-height: 1.7; /* long-form copy gets a little more breathing room */
+  }
+
+  section[id], footer[id] { scroll-margin-top: var(--header-height); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ==========================================================================
+     3. Layout utilities
+     ========================================================================== */
+  .container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: 1rem;         /* 16px gutter, mobile */
+  }
+  @media (min-width: 768px) {
+    .container { padding-inline: 1.5rem; }   /* 24px gutter, desktop, per spec */
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -48px;
+    left: var(--space-2);
+    background: var(--color-accent);
+    color: var(--color-primary);
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    z-index: 2000;
+    transition: top var(--dur-fast) var(--ease);
+  }
+  .skip-link:focus { top: var(--space-2); }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent-deep);
+    margin-bottom: var(--space-2);
+  }
+  .eyebrow-inverse { color: var(--color-accent); }
+
+  .section-heading { max-width: 640px; margin-bottom: var(--space-5); }
+  .section-intro { color: var(--color-text-muted); font-size: 1.0625rem; margin-top: var(--space-2); }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--color-accent-deep);
+    background: rgba(15, 118, 110, 0.08);
+    border: 1px solid rgba(15, 118, 110, 0.18);
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-full);
+  }
+
+  /* Buttons — .btn-primary is self-contained (bright bg + navy text) so it is
+     safe on any background. .btn-ghost relies on bright accent-on-transparent
+     and is intended for dark sections only. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.875rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border: 1.5px solid transparent;
+    transition: background-color var(--dur-base) var(--ease), color var(--dur-base) var(--ease),
+      border-color var(--dur-base) var(--ease), transform var(--dur-fast) var(--ease);
+  }
+  .btn-primary { background: var(--color-accent); color: var(--color-primary); }
+  .btn-primary:hover { background: #8FFFE6; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; border-color: var(--color-accent); color: var(--color-accent); }
+  .btn-ghost:hover { background: rgba(100, 255, 218, 0.12); }
+  .btn-text {
+    min-height: auto;
+    padding: 0.25rem 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-accent-deep);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition: text-decoration-color var(--dur-base) var(--ease);
+  }
+  .btn-text:hover, .btn-text:focus-visible { text-decoration-color: currentColor; }
+
+  /* ==========================================================================
+     4. Scroll-reveal animation
+     ========================================================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .project-grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+  .project-grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+  .project-grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+  .post-list .reveal:nth-child(2) { transition-delay: 0.08s; }
+  .post-list .reveal:nth-child(3) { transition-delay: 0.16s; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  /* ==========================================================================
+     5. Header + nav (mobile-first: base = collapsed / off-canvas)
+     ========================================================================== */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-primary);
+    border-bottom: 1px solid transparent;
+    transition: box-shadow var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+  }
+  .site-header.is-scrolled { box-shadow: var(--shadow-md); border-bottom-color: var(--color-border-dark); }
+  .site-header-inner { display: flex; align-items: center; justify-content: space-between; min-height: var(--header-height); }
+
+  .logo { display: inline-flex; }
+  .logo-mark {
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.02em;
+    color: var(--color-accent);
+    background: var(--color-primary-raised);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-sm);
+    transition: transform var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease);
+  }
+  .logo:hover .logo-mark, .logo:focus-visible .logo-mark { border-color: var(--color-accent); transform: translateY(-1px); }
+
+  .nav-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+  }
+  .nav-toggle-bar {
+    width: 22px; height: 2px;
+    background: var(--color-heading-inverse);
+    border-radius: 2px;
+    transition: transform var(--dur-base) var(--ease), opacity var(--dur-base) var(--ease);
+  }
+  body.nav-is-open .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  body.nav-is-open .nav-toggle-bar:nth-child(2) { opacity: 0; }
+  body.nav-is-open .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0; right: 0;
+    background: var(--color-primary);
+    border-top: 1px solid var(--color-border-dark);
+    max-height: calc(100vh - var(--header-height));
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), visibility 0s var(--dur-base);
+  }
+  body.nav-is-open .nav {
+    opacity: 1; visibility: visible; pointer-events: auto; transform: translateY(0);
+    transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease), visibility 0s;
+  }
+  .nav-list { display: flex; flex-direction: column; padding: var(--space-2) var(--space-2) var(--space-4); }
+  .nav-link {
+    display: block;
+    padding: var(--space-2) var(--space-1);
+    border-bottom: 1px solid var(--color-border-dark);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-muted-inverse);
+    transition: color var(--dur-base) var(--ease);
+  }
+  .nav-link:hover, .nav-link:focus-visible { color: var(--color-heading-inverse); }
+  body.nav-is-open { overflow: hidden; }
+
+  @media (min-width: 768px) {
+    .nav-toggle { display: none; }
+    .nav {
+      position: static; background: transparent; border-top: none; max-height: none;
+      overflow: visible; box-shadow: none; opacity: 1; visibility: visible;
+      pointer-events: auto; transform: none; transition: none;
+    }
+    .nav-list { flex-direction: row; align-items: center; gap: var(--space-4); padding: 0; }
+    .nav-link { display: inline-block; padding: 0.5rem 0.125rem; border-bottom: none; position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px;
+      background: var(--color-accent); transition: right var(--dur-base) var(--ease);
+    }
+    .nav-link:hover::after, .nav-link:focus-visible::after { right: 0; }
+    body.nav-is-open { overflow: visible; }
+  }
+
+  /* ==========================================================================
+     6. Hero
+     ========================================================================== */
+  .hero { position: relative; background: var(--color-primary); overflow: hidden; padding-block: var(--space-6) var(--space-7); }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(100, 255, 218, 0.18) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;   /* a quiet nod to the spec's baseline grid */
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 72% 28%, black, transparent);
+    mask-image: radial-gradient(ellipse 70% 60% at 72% 28%, black, transparent);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; display: grid; gap: var(--space-5); align-items: center; }
+  .hero-title { color: var(--color-heading-inverse); margin-bottom: var(--space-3); }
+  .hero-tagline { color: var(--color-text-inverse); font-size: 1.125rem; max-width: 46ch; margin-bottom: var(--space-4); }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .hero-image { justify-self: center; width: min(420px, 100%); }
+  .cursor-ring { transform-box: fill-box; transform-origin: center; animation: ping 2.4s var(--ease) infinite; }
+  @keyframes ping { 0% { transform: scale(1); opacity: 0.8; } 75%, 100% { transform: scale(2.6); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cursor-ring { animation: none; opacity: 0; } }
+
+  .scroll-hint { position: absolute; bottom: var(--space-3); left: 50%; color: var(--color-muted-inverse); animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+  @media (prefers-reduced-motion: reduce) { .scroll-hint { animation: none; } }
+
+  @media (min-width: 768px) {
+    .hero-inner { grid-template-columns: 1.1fr 0.9fr; gap: var(--space-6); }
+    .hero-image { justify-self: end; }
+  }
+
+  /* ==========================================================================
+     7. About
+     ========================================================================== */
+  .about { background: var(--color-surface); padding-block: var(--space-6); }
+  .about-inner { display: grid; gap: var(--space-5); align-items: center; }
+  .bio p + p { margin-top: var(--space-2); }
+  .bio p { max-width: 62ch; }
+  .about-text .tag-list { margin-top: var(--space-3); }
+  .about-visual { justify-self: center; width: min(260px, 70%); }
+  @media (min-width: 768px) {
+    .about-inner { grid-template-columns: 1.2fr 0.8fr; gap: var(--space-6); }
+    .about-visual { justify-self: end; order: 2; }
+    .about-text { order: 1; }
+  }
+
+  /* ==========================================================================
+     8. Projects
+     ========================================================================== */
+  .projects { background: var(--color-bg); padding-block: var(--space-6); }
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));  /* per spec, verbatim */
+    gap: 1.5rem; /* 24px */
+  }
+  .project-card {
+    display: flex; flex-direction: column;
+    background: var(--color-surface);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  }
+  .project-card:hover, .project-card:focus-within { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+  .project-thumb { aspect-ratio: 2 / 1; background: var(--color-bg); }
+  .project-card-body { flex: 1; display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); }
+  .project-card-body p { color: var(--color-text); }
+  .project-actions { margin-top: auto; padding-top: var(--space-1); display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .project-link { font-weight: 600; font-size: 0.9375rem; color: var(--color-accent-deep); }
+  .project-link:hover, .project-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ==========================================================================
+     9. Blog / writing
+     ========================================================================== */
+  .blog { background: var(--color-surface); padding-block: var(--space-6); }
+  .post-list { display: flex; flex-direction: column; gap: var(--space-3); }
+  .post-card {
+    display: grid; grid-template-columns: 1fr; gap: var(--space-1);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+  }
+  .post-card:hover, .post-card:focus-within { border-color: var(--color-accent-deep); box-shadow: var(--shadow-sm); }
+  .post-meta { display: flex; gap: var(--space-2); font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); }
+  .post-title { margin-bottom: 0.125rem; }
+  .post-title a:hover, .post-title a:focus-visible { color: var(--color-accent-deep); }
+  .post-excerpt { max-width: 65ch; }
+  .post-link { display: inline-block; margin-top: 0.25rem; font-weight: 600; font-size: 0.9375rem; color: var(--color-accent-deep); }
+  .post-link:hover, .post-link:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+  @media (min-width: 768px) {
+    .post-card { grid-template-columns: 130px 1fr; gap: var(--space-3); align-items: start; }
+  }
+
+  /* ==========================================================================
+     10. Footer
+     ========================================================================== */
+  .site-footer { background: var(--color-primary); padding-block: var(--space-6) var(--space-4); }
+  .site-footer-inner { display: grid; gap: var(--space-5); }
+  .footer-cta h2 { color: var(--color-heading-inverse); margin-bottom: var(--space-2); }
+  .footer-cta p { color: var(--color-text-inverse); max-width: 50ch; margin-bottom: var(--space-3); }
+  .footer-email {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.375rem, 1.1rem + 1.1vw, 2rem);
+    color: var(--color-accent);
+    border-bottom: 2px solid transparent;
+    transition: border-color var(--dur-base) var(--ease);
+  }
+  .footer-email:hover, .footer-email:focus-visible { border-color: var(--color-accent); }
+
+  .footer-meta { display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--color-border-dark); }
+  .social-list { display: flex; gap: var(--space-2); }
+  .social-icon {
+    position: relative;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--color-muted-inverse);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-sm);
+    transition: color var(--dur-base) var(--ease), border-color var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  }
+  .social-icon svg { width: 20px; height: 20px; }
+  .social-icon:hover, .social-icon:focus-visible { color: var(--color-accent); border-color: var(--color-accent); transform: translateY(-2px); }
+  .social-icon[data-tooltip]::before {
+    content: attr(data-tooltip);
+    position: absolute; bottom: calc(100% + 8px); left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--color-primary-raised);
+    color: var(--color-heading-inverse);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  }
+  .social-icon:hover::before, .social-icon:focus-visible::before { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .copyright { color: var(--color-muted-inverse); font-size: 0.875rem; }
+  .copyright a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
+
+  @media (min-width: 768px) {
+    .footer-meta { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+
+  /* ==========================================================================
+     11. Modal (project details) — role="dialog", focus-trapped, Esc to close
+     ========================================================================== */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: center;
+    padding: var(--space-2);
+    background: rgba(10, 25, 47, 0.65);
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease);
+  }
+  .modal-backdrop[hidden] { display: none; }
+  .modal-backdrop.is-open { opacity: 1; }
+  .modal {
+    position: relative;
+    width: 100%; max-width: 520px; max-height: 85vh;
+    overflow-y: auto;
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    transition: opacity var(--dur-base) var(--ease), transform var(--dur-base) var(--ease);
+  }
+  /* Focus is moved here programmatically on open (not via Tab), and every real
+     control inside keeps its own :focus-visible ring — so the container itself
+     doesn't need a visible outline of its own. */
+  .modal:focus { outline: none; }
+  .modal-backdrop.is-open .modal { opacity: 1; transform: translateY(0) scale(1); }
+  .modal-close {
+    position: absolute; top: var(--space-2); right: var(--space-2);
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    transition: color var(--dur-base) var(--ease), background-color var(--dur-base) var(--ease);
+  }
+  .modal-close:hover, .modal-close:focus-visible { color: var(--color-primary); background: var(--color-bg); }
+  .modal-close svg { width: 20px; height: 20px; }
+  #modalTitle { padding-right: var(--space-5); margin-bottom: var(--space-2); }
+  #modalDesc { margin-bottom: var(--space-3); }
+  #modalTags { margin-bottom: var(--space-4); }
+</style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
-<div class="side-floating-nav">
-    <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-    <a href="tel:+9779843538473" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
-</div>
+<header class="site-header" id="top">
+  <div class="container site-header-inner">
+    <a class="logo" href="#top" aria-label="Maya Chen — home">
+      <span class="logo-mark" aria-hidden="true">MC</span>
+    </a>
 
-<header id="main-header">
-    <div class="logo">AL<span>OK.</span></div>
-    <div class="nav-container">
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#education">Education</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </nav>
-        <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">
-            <i class="fa-solid fa-moon"></i>
-        </button>
-        <button class="nav-toggle-btn" id="nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-    </div>
-    <div class="mobile-nav-menu" id="mobile-nav-menu">
-        <a href="#home" class="mobile-nav-link">Home</a>
-        <a href="#education" class="mobile-nav-link">Education</a>
-        <a href="#skills" class="mobile-nav-link">Skills</a>
-        <a href="#projects" class="mobile-nav-link">Projects</a>
-        <a href="#contact" class="mobile-nav-link">Contact</a>
-    </div>
+    <nav class="nav" aria-label="Primary">
+      <ul class="nav-list" id="primary-nav">
+        <li><a class="nav-link" href="#about">About</a></li>
+        <li><a class="nav-link" href="#projects">Projects</a></li>
+        <li><a class="nav-link" href="#blog">Writing</a></li>
+        <li><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+  </div>
 </header>
 
-<section class="hero" id="home">
-    <div class="hero-text-col reveal">
-        <div class="hero-subtitle">THIS IS</div>
-        <div class="hero-emblem-layout">
-            <div class="hero-large-flag-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
-            </div>
-            <h1>ALOK<br>SHARMA</h1>
-        </div>
-        <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
-        <div class="hero-buttons">
-            <a href="#projects" class="btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#contact" class="btn secondary-btn">Let's Connect</a>
-        </div>
-    </div>
-    <div class="hero-image-col reveal">
-        <div class="image-box">
-            <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
-        </div>
-        
-        <div class="languages-showcase">
-            <h3 class="lang-heading">Languages</h3>
-            <div class="lang-grid">
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/np.svg" alt="Nepal Flag" class="lang-flag nepal-flag"> Nepali
-                    </div>
-                </div>
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/gb.svg" alt="UK Flag" class="lang-flag"> English
-                    </div>
-                </div>
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/in.svg" alt="India Flag" class="lang-flag"> Hindi
-                    </div>
-                </div>
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/de.svg" alt="Germany Flag" class="lang-flag"> German
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<main id="main">
 
-<!-- Sections Education and Skills preserved directly from the original HTML code... -->
-<!-- (Using simple placeholders in HTML here for structural brevity, but logic and classes are maintained for the book flip) -->
-<section id="education">
-    <!-- SVGs and Book Animation HTML from prompt would go here -->
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Education Journey</h2>
-    </div>
-    <div class="book-scene-wrapper reveal">
-        <div class="wooden-table">
-            <div class="book-pen-scene">
-                <div class="edu-book-viewport">
-                    <div class="book-container" id="luxury-journal">
-                        <!-- Book Content Placeholders -->
-                        <div class="click-zone click-zone-left" id="zone-left"></div>
-                        <div class="click-zone click-zone-right" id="zone-right"></div>
-                        <div class="book-pages-wrapper">
-                            <div class="sheet cover-sheet" id="sheet-1" style="transform-origin: left center; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);">
-                                <div class="page-side front"><h2>EDUCATIONAL JOURNEY</h2></div>
-                                <div class="page-side back"><p>TABLE OF CONTENTS</p></div>
-                            </div>
-                            <div class="sheet" id="sheet-2" style="transform-origin: left center; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);">
-                                <div class="page-side front"><h3>Secondary Level</h3></div>
-                                <div class="page-side back"><p>GPA 3.75</p></div>
-                            </div>
-                            <div class="sheet" id="sheet-3" style="transform-origin: left center; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);">
-                                <div class="page-side front"><h3>Higher Secondary</h3></div>
-                                <div class="page-side back"><p>GPA 3.62</p></div>
-                            </div>
-                            <div class="sheet cover-sheet-back" id="sheet-4" style="transform-origin: left center; transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);">
-                                <div class="page-side front"><h3>Undergraduate</h3><p>B.Sc.CSIT</p></div>
-                                <div class="page-side back closing-spread-layout"><button class="open-again-btn" id="open-again-btn">OPEN AGAIN</button></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="book-hud-controls">
-                        <div class="hud-arrow-row">
-                            <button class="hud-arrow-btn" id="book-prev"><i class="fa-solid fa-arrow-left"></i></button>
-                            <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 5</div>
-                            <button class="hud-arrow-btn" id="book-next"><i class="fa-solid fa-arrow-right"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- ===================== Hero ===================== -->
+  <section class="hero" id="hero">
+    <div class="container hero-inner">
+      <div class="hero-content reveal">
+        <p class="eyebrow eyebrow-inverse">Maya Chen — Frontend Developer</p>
+        <h1 class="hero-title">I build interfaces that hold up under scrutiny.</h1>
+        <p class="hero-tagline">Design tokens, semantic markup, and keyboard focus — the unglamorous details that decide whether an interface actually works for everyone.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary hero-cta" href="#projects">View my work</a>
+          <a class="btn btn-ghost hero-cta" href="#contact">Get in touch</a>
         </div>
-    </div>
-</section>
+      </div>
 
-<section id="skills">
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Core Skills</h2>
-    </div>
-    <div class="skills-grid-container reveal">
-        <div class="skill-item-card skill-html">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
-            <h3>HTML</h3>
-        </div>
-        <div class="skill-item-card skill-css">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
-            <h3>CSS</h3>
-        </div>
-        <div class="skill-item-card skill-python">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></div>
-            <h3>Python</h3>
-        </div>
-        <div class="skill-item-card skill-photoshop">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
-            <h3>Photoshop</h3>
-        </div>
-    </div>
-</section>
-
-<section id="projects">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+      <div class="hero-image" aria-hidden="true">
+        <svg viewBox="0 0 480 400" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="heroGlow" cx="60%" cy="35%" r="60%">
+              <stop offset="0%" stop-color="#64FFDA" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#64FFDA" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="300" cy="140" r="180" fill="url(#heroGlow)"/>
+          <g transform="rotate(-3 240 200)">
+            <rect x="60" y="40" width="360" height="300" rx="18" fill="#112240" stroke="#1D2D44" stroke-width="1.5"/>
+            <line x1="60" y1="92" x2="420" y2="92" stroke="#1D2D44" stroke-width="1.5"/>
+            <circle cx="86" cy="66" r="6" fill="#F87171" opacity="0.8"/>
+            <circle cx="106" cy="66" r="6" fill="#FBBF24" opacity="0.8"/>
+            <circle cx="126" cy="66" r="6" fill="#64FFDA" opacity="0.9"/>
+            <rect x="160" y="58" width="220" height="16" rx="8" fill="#0A192F"/>
+            <rect x="88" y="118" width="180" height="12" rx="6" fill="#1D2D44"/>
+            <rect x="88" y="150" width="304" height="88" rx="12" fill="#0A192F"/>
+            <rect x="108" y="170" width="140" height="10" rx="5" fill="#2A3B54"/>
+            <rect x="108" y="188" width="100" height="10" rx="5" fill="#2A3B54"/>
+            <rect x="108" y="210" width="78" height="24" rx="12" fill="#64FFDA"/>
+            <rect x="88" y="256" width="92" height="64" rx="10" fill="#112240" stroke="#1D2D44"/>
+            <rect x="194" y="256" width="92" height="64" rx="10" fill="#112240" stroke="#64FFDA" stroke-width="1.5"/>
+            <rect x="300" y="256" width="92" height="64" rx="10" fill="#112240" stroke="#1D2D44"/>
+            <circle cx="196" cy="222" r="6" fill="#F0F4F8"/>
+            <circle class="cursor-ring" cx="196" cy="222" r="6" fill="none" stroke="#F0F4F8" stroke-width="1.5"/>
+          </g>
         </svg>
+      </div>
     </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Featured Projects</h2>
-    </div>
-    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
-        <button class="carousel-nav-btn left" id="carousel-prev" aria-label="Previous Project">
-            <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <button class="carousel-nav-btn right" id="carousel-next" aria-label="Next Project">
-            <i class="fa-solid fa-arrow-right"></i>
-        </button>
-        <div class="projects-grid" id="swipe-slider-grid" style="transition: transform 0.4s ease;">
-            <!-- Appended the truncated project card from prompt -->
-            <div class="project-card">
-                <a href="poruzb copy.jpg" target="_blank">
-                    <img src="poruzb copy.jpg" alt="Portugal VS Colombia Matchday Graphic" draggable="false">
-                </a>
-                <div class="project-content">
-                    <h3>Portugal VS Colombia</h3>
-                    <p>Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami</p>
-                </div>
-            </div>
-            <div class="project-card">
-                <a href="WhatsApp Image.jpeg" target="_blank">
-                    <img src="WhatsApp Image.jpeg" alt="Dom Graphic" draggable="false">
-                </a>
-                <div class="project-content">
-                    <h3>Dominik Szoboszlai</h3>
-                    <p>A simple graphic featuring Dominik Szoboszlai as he signs new contract till 2031 at Liverpool FC.</p>
-                </div>
-            </div>
-            <!-- ... -->
-            <!-- Placeholder for remaining cards to keep valid DOM -->
-            <div class="project-card">
-                <a href="fravspa.jpeg" target="_blank"><img src="fravspa.jpeg" alt="France VS Spain Graphic" draggable="false"></a>
-                <div class="project-content"><h3>France VS Spain</h3><p>A high-energy matchday visual for the European heavyweight matchup between France and Spain.</p></div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Appended HTML to complete the page properly based on standard UI patterns outlined in prompt CSS -->
-<section id="contact">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    <a class="scroll-hint" href="#about" aria-hidden="true" tabindex="-1">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </section>
+
+  <!-- ===================== About ===================== -->
+  <section class="about" id="about">
+    <div class="container about-inner">
+      <div class="about-text reveal">
+        <p class="eyebrow" aria-hidden="true">&lt;about&gt;</p>
+        <h2>About</h2>
+        <div class="bio">
+          <p>I spend most of my time in the space between design and engineering — turning a Figma file, or sometimes just a good idea, into an interface that's fast, accessible, and holds together under real use.</p>
+          <p>Outside of client work, I maintain a couple of small open-source accessibility tools, write occasionally about design systems, and I'm slowly working through every specialty coffee shop within walking distance of my apartment.</p>
+        </div>
+        <ul class="tag-list">
+          <li class="tag">Design systems</li>
+          <li class="tag">Accessibility</li>
+          <li class="tag">Performance</li>
+          <li class="tag">TypeScript</li>
+        </ul>
+      </div>
+
+      <div class="about-visual reveal" aria-hidden="true">
+        <svg viewBox="0 0 280 280" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="140" cy="140" r="130" fill="#F0F4F8"/>
+          <circle cx="60" cy="50" r="6" fill="#64FFDA" opacity="0.5"/>
+          <circle cx="230" cy="70" r="4" fill="#0F766E" opacity="0.4"/>
+          <circle cx="235" cy="220" r="7" fill="#64FFDA" opacity="0.35"/>
+          <circle cx="45" cy="215" r="4" fill="#0F766E" opacity="0.4"/>
+          <path d="M70 235 C70 175 100 150 140 150 C180 150 210 175 210 235 Z" fill="#0A192F"/>
+          <circle cx="140" cy="112" r="52" fill="#0A192F"/>
+          <path d="M96 96 A52 52 0 0 1 178 100" fill="none" stroke="#64FFDA" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
         </svg>
+      </div>
     </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Get In Touch</h2>
-    </div>
-    <div class="contact-wrapper reveal">
-        <div class="contact-card">
-            <div>
-                <h3 class="find-me-btn">Let's Talk</h3>
-                <p style="font-size: 1.1rem; line-height: 1.6;">Feel free to reach out for collaborations, project inquiries, or just a friendly hello!</p>
-            </div>
-            <div class="contact-info">
-                <a href="mailto:alokkynwa@gmail.com"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
-                <a href="tel:+9779843538473"><i class="fa-solid fa-phone"></i> +977 9843538473</a>
-            </div>
-            <div class="socials">
-                <a href="https://www.linkedin.com/in/alok-sharma-511993280" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-        <form class="contact-form" id="contact-form" onsubmit="event.preventDefault(); alert('Message feature setup complete.');">
-            <div class="form-row">
-                <input type="text" name="user_name" placeholder="Your Name" required>
-                <input type="email" name="user_email" placeholder="Your Email" required>
-            </div>
-            <textarea name="message" placeholder="Write your message here..." required></textarea>
-            <button type="submit" class="send-btn">Send Message <i class="fa-solid fa-paper-plane"></i></button>
-        </form>
-    </div>
-</section>
+  </section>
 
-<footer>
-    <p>&copy; 2026 Alok Sharma. All rights reserved.</p>
+  <!-- ===================== Projects ===================== -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-heading reveal">
+        <p class="eyebrow" aria-hidden="true">&lt;projects&gt;</p>
+        <h2>Selected projects</h2>
+        <p class="section-intro">A few things I've designed, built, and open-sourced.</p>
+      </div>
+
+      <div class="project-grid">
+
+        <article class="project-card reveal">
+          <div class="project-thumb" aria-hidden="true">
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="200" fill="#F0F4F8"/>
+              <rect x="62" y="70" width="60" height="60" rx="10" fill="#0A192F"/>
+              <rect x="134" y="70" width="60" height="60" rx="10" fill="#0F766E"/>
+              <rect x="206" y="70" width="60" height="60" rx="10" fill="#64FFDA"/>
+              <rect x="278" y="70" width="60" height="60" rx="10" fill="#F4B860"/>
+              <rect x="62" y="150" width="276" height="10" rx="5" fill="#D9E2EC"/>
+            </svg>
+          </div>
+          <div class="project-card-body">
+            <h3 class="project-title">Token Studio</h3>
+            <p>A visual editor for design-token systems — define your palette and type scale once, export anywhere.</p>
+            <ul class="tag-list">
+              <li class="tag">TypeScript</li>
+              <li class="tag">CSS Variables</li>
+              <li class="tag">Figma API</li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn-text" type="button" data-project-trigger="token-studio">View details</button>
+              <a class="project-link" href="#">Source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb" aria-hidden="true">
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="200" fill="#F0F4F8"/>
+              <rect x="130" y="45" width="140" height="110" rx="16" fill="none" stroke="#64FFDA" stroke-width="4" stroke-dasharray="10 8"/>
+              <circle cx="200" cy="100" r="14" fill="#0A192F"/>
+            </svg>
+          </div>
+          <div class="project-card-body">
+            <h3 class="project-title">Focus Trap</h3>
+            <p>A dependency-free utility for trapping and restoring keyboard focus inside modals and drawers.</p>
+            <ul class="tag-list">
+              <li class="tag">JavaScript</li>
+              <li class="tag">Accessibility</li>
+              <li class="tag">Open Source</li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn-text" type="button" data-project-trigger="focus-trap">View details</button>
+              <a class="project-link" href="#">Source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb" aria-hidden="true">
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="200" fill="#F0F4F8"/>
+              <g stroke="#CBD5E1" stroke-width="1">
+                <line x1="80" y1="40" x2="80" y2="160"/>
+                <line x1="128" y1="40" x2="128" y2="160"/>
+                <line x1="176" y1="40" x2="176" y2="160"/>
+                <line x1="224" y1="40" x2="224" y2="160"/>
+                <line x1="272" y1="40" x2="272" y2="160"/>
+                <line x1="320" y1="40" x2="320" y2="160"/>
+                <line x1="80" y1="40" x2="320" y2="40"/>
+                <line x1="80" y1="72" x2="320" y2="72"/>
+                <line x1="80" y1="104" x2="320" y2="104"/>
+                <line x1="80" y1="136" x2="320" y2="136"/>
+                <line x1="80" y1="160" x2="320" y2="160"/>
+              </g>
+              <rect x="128" y="72" width="48" height="32" fill="#64FFDA" opacity="0.55"/>
+              <rect x="128" y="72" width="48" height="32" fill="none" stroke="#0F766E" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="project-card-body">
+            <h3 class="project-title">Gridline</h3>
+            <p>A Figma plugin that turns an 8px baseline grid into ready-to-use spacing tokens.</p>
+            <ul class="tag-list">
+              <li class="tag">Figma Plugin</li>
+              <li class="tag">Design Systems</li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn-text" type="button" data-project-trigger="gridline">View details</button>
+              <a class="project-link" href="#">Source ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <div class="project-thumb" aria-hidden="true">
+            <svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+              <rect width="400" height="200" fill="#F0F4F8"/>
+              <circle cx="175" cy="100" r="55" fill="#0A192F" opacity="0.85"/>
+              <circle cx="235" cy="100" r="55" fill="#64FFDA" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="project-card-body">
+            <h3 class="project-title">Contrast Check</h3>
+            <p>A browser extension that flags text and focus indicators that fall short of WCAG AA.</p>
+            <ul class="tag-list">
+              <li class="tag">Browser Extension</li>
+              <li class="tag">WCAG</li>
+              <li class="tag">Color</li>
+            </ul>
+            <div class="project-actions">
+              <button class="btn-text" type="button" data-project-trigger="contrast-check">View details</button>
+              <a class="project-link" href="#">Source ↗</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== Blog / Writing ===================== -->
+  <section class="blog" id="blog">
+    <div class="container">
+      <div class="section-heading reveal">
+        <p class="eyebrow" aria-hidden="true">&lt;blog&gt;</p>
+        <h2>Writing</h2>
+        <p class="section-intro">Notes on design systems, accessibility, and the occasional opinion.</p>
+      </div>
+
+      <div class="post-list">
+        <article class="post-card reveal">
+          <div class="post-meta"><p class="post-date">Jun 2026</p><p class="post-read-time">4 min read</p></div>
+          <div class="post-card-body">
+            <h3 class="post-title"><a href="#">Why I put my design tokens in version control</a></h3>
+            <p class="post-excerpt">Token files change more often than anyone expects. Treating them like code — reviewed, versioned, diffed — has saved me more than once.</p>
+            <a class="post-link" href="#" aria-label="Read more: Why I put my design tokens in version control">Read more →</a>
+          </div>
+        </article>
+
+        <article class="post-card reveal">
+          <div class="post-meta"><p class="post-date">Apr 2026</p><p class="post-read-time">3 min read</p></div>
+          <div class="post-card-body">
+            <h3 class="post-title"><a href="#">An 8px grid isn't a constraint, it's a shortcut</a></h3>
+            <p class="post-excerpt">Once every spacing value is a multiple of eight, most layout decisions stop being decisions.</p>
+            <a class="post-link" href="#" aria-label="Read more: An 8px grid isn't a constraint, it's a shortcut">Read more →</a>
+          </div>
+        </article>
+
+        <article class="post-card reveal">
+          <div class="post-meta"><p class="post-date">Feb 2026</p><p class="post-read-time">5 min read</p></div>
+          <div class="post-card-body">
+            <h3 class="post-title"><a href="#">Focus rings are not optional</a></h3>
+            <p class="post-excerpt">Removing the default outline is one line of CSS. Replacing it properly takes a little more care — here's what that looks like.</p>
+            <a class="post-link" href="#" aria-label="Read more: Focus rings are not optional">Read more →</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== Footer ===================== -->
+<footer class="site-footer" id="contact">
+  <div class="container site-footer-inner">
+    <div class="footer-cta reveal">
+      <p class="eyebrow eyebrow-inverse" aria-hidden="true">&lt;contact&gt;</p>
+      <h2>Let's talk.</h2>
+      <p>Have a project, a bug report, or an opinion about focus rings? My inbox is open.</p>
+      <a class="footer-email" href="mailto:maya@example.com">maya@example.com</a>
+    </div>
+
+    <div class="footer-meta">
+      <ul class="social-list">
+        <li>
+          <a class="social-icon" href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="Maya Chen on GitHub" data-tooltip="GitHub">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 5 3 12 8 19"/><polyline points="16 5 21 12 16 19"/></svg>
+          </a>
+        </li>
+        <li>
+          <a class="social-icon" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="Maya Chen on LinkedIn" data-tooltip="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="7" r="2.25"/><circle cx="18" cy="7" r="2.25"/><circle cx="12" cy="18" r="2.25"/><line x1="7.7" y1="8.4" x2="10.4" y2="16.2"/><line x1="16.3" y1="8.4" x2="13.6" y2="16.2"/></svg>
+          </a>
+        </li>
+        <li>
+          <a class="social-icon" href="mailto:maya@example.com" aria-label="Email Maya Chen" data-tooltip="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </a>
+        </li>
+      </ul>
+      <p class="copyright">© <span id="year">2026</span> Maya Chen. Built with semantic HTML and a healthy respect for focus states. <a href="#top">Back to top ↑</a></p>
+    </div>
+  </div>
 </footer>
 
+<!-- ===================== Project detail modal ===================== -->
+<div class="modal-backdrop" id="modalBackdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
+    <button class="modal-close" id="modalClose" type="button" aria-label="Close dialog">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+    <p class="eyebrow" id="modalEyebrow" aria-hidden="true">Project</p>
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <ul class="tag-list" id="modalTags"></ul>
+    <a class="btn btn-primary" id="modalLink" href="#" target="_blank" rel="noopener noreferrer">View source ↗</a>
+  </div>
+</div>
+
 <script>
-    // Reveal Animations
-    const reveals = document.querySelectorAll('.reveal');
-    const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-    const revealObserver = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('active');
-            observer.unobserve(entry.target);
-        });
-    }, revealOptions);
-    reveals.forEach(reveal => revealObserver.observe(reveal));
+(function () {
+  'use strict';
 
-    // Theme Toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    themeToggle.addEventListener('click', () => {
-        const body = document.body;
-        if(body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Focus-trap helpers (used by the project modal) ---------- */
+  function getFocusable(container) {
+    var nodes = container.querySelectorAll(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    return Array.prototype.filter.call(nodes, function (el) {
+      return el.offsetParent !== null;
+    });
+  }
+  function trapFocus(e, container) {
+    if (e.key !== 'Tab') return;
+    var focusable = getFocusable(container);
+    if (!focusable.length) return;
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  /* ---------- Header scroll state ---------- */
+  var header = document.querySelector('.site-header');
+  var ticking = false;
+  function updateHeaderState() {
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    ticking = false;
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      window.requestAnimationFrame(updateHeaderState);
+      ticking = true;
+    }
+  }, { passive: true });
+  updateHeaderState();
+
+  /* ---------- Mobile nav (disclosure pattern) ---------- */
+  var navToggle = document.querySelector('.nav-toggle');
+  var primaryNav = document.getElementById('primary-nav');
+  var navLinks = primaryNav.querySelectorAll('a');
+
+  function openNav() {
+    document.body.classList.add('nav-is-open');
+    navToggle.setAttribute('aria-expanded', 'true');
+  }
+  function closeNav(returnFocus) {
+    document.body.classList.remove('nav-is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    if (returnFocus) navToggle.focus();
+  }
+  navToggle.addEventListener('click', function () {
+    document.body.classList.contains('nav-is-open') ? closeNav(false) : openNav();
+  });
+  Array.prototype.forEach.call(navLinks, function (link) {
+    link.addEventListener('click', function () { closeNav(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('nav-is-open')) {
+      closeNav(true);
+    }
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 768) closeNav(false);
+  });
+
+  /* ---------- Scroll reveal ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    Array.prototype.forEach.call(revealEls, function (el) { el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
         }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    Array.prototype.forEach.call(revealEls, function (el) { io.observe(el); });
+  }
+
+  /* ---------- Project modal ---------- */
+  var projectData = {
+    'token-studio': {
+      title: 'Token Studio',
+      description: "A visual editor for design-token systems. Define color, type, and spacing scales once in a single source file, then export to CSS custom properties, a Tailwind config, or Style Dictionary — so design and code stay in sync instead of drifting apart after the first handoff.",
+      tags: ['TypeScript', 'CSS Variables', 'Figma API'],
+      link: '#'
+    },
+    'focus-trap': {
+      title: 'Focus Trap',
+      description: "A dependency-free, ~2KB utility for trapping and restoring keyboard focus inside modals, drawers, and menus. It's the unglamorous infrastructure every accessible dialog needs, packaged so you don't have to rebuild it for the fifth project in a row.",
+      tags: ['JavaScript', 'Accessibility', 'Open Source'],
+      link: '#'
+    },
+    gridline: {
+      title: 'Gridline',
+      description: "A Figma plugin that reads your frame's spacing and turns it into an 8px-baseline token set, plus a matching CSS Grid starter layout you can paste straight into a project. Built after redoing the same spacing audit by hand one too many times.",
+      tags: ['Figma Plugin', 'Design Systems'],
+      link: '#'
+    },
+    'contrast-check': {
+      title: 'Contrast Check',
+      description: "A browser extension that scans the current page for text and focus indicators that fall short of WCAG AA contrast, highlights each one in place, and suggests the nearest compliant shade — so contrast issues get caught before a user ever files a report.",
+      tags: ['Browser Extension', 'WCAG', 'Color'],
+      link: '#'
+    }
+  };
+
+  var modalBackdrop = document.getElementById('modalBackdrop');
+  var modalDialog = modalBackdrop.querySelector('.modal');
+  var modalTitle = document.getElementById('modalTitle');
+  var modalDesc = document.getElementById('modalDesc');
+  var modalTags = document.getElementById('modalTags');
+  var modalLink = document.getElementById('modalLink');
+  var modalClose = document.getElementById('modalClose');
+  var lastTrigger = null;
+
+  function openModal(id, trigger) {
+    var data = projectData[id];
+    if (!data) return;
+    lastTrigger = trigger;
+
+    modalTitle.textContent = data.title;
+    modalDesc.textContent = data.description;
+    modalTags.innerHTML = '';
+    data.tags.forEach(function (tag) {
+      var li = document.createElement('li');
+      li.className = 'tag';
+      li.textContent = tag;
+      modalTags.appendChild(li);
     });
+    modalLink.href = data.link;
 
-    // Header Scroll Effect & Mobile Nav
-    const header = document.getElementById('main-header');
-    window.addEventListener('scroll', () => {
-        if(window.scrollY > 50) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-    });
+    modalBackdrop.hidden = false;
+    window.requestAnimationFrame(function () { modalBackdrop.classList.add('is-open'); });
+    document.body.classList.add('modal-is-open');
+    modalDialog.focus();
+  }
+  function closeModal() {
+    modalBackdrop.classList.remove('is-open');
+    document.body.classList.remove('modal-is-open');
+    function finish() { modalBackdrop.hidden = true; }
+    if (prefersReducedMotion) {
+      finish();
+    } else {
+      modalBackdrop.addEventListener('transitionend', finish, { once: true });
+    }
+    if (lastTrigger) lastTrigger.focus();
+  }
 
-    const navToggleBtn = document.getElementById('nav-toggle');
-    const mobileMenu = document.getElementById('mobile-nav-menu');
-    navToggleBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('open');
-    });
-    document.querySelectorAll('.mobile-nav-link').forEach(link => {
-        link.addEventListener('click', () => mobileMenu.classList.remove('open'));
-    });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-project-trigger]'), function (btn) {
+    btn.addEventListener('click', function () { openModal(btn.dataset.projectTrigger, btn); });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', function (e) {
+    if (e.target === modalBackdrop) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!modalBackdrop.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeModal();
+    else trapFocus(e, modalDialog);
+  });
 
-    // Book Flip Logic
-    let currentSpread = 0;
-    const totalSpreads = 4;
-    const sheets = [
-        document.getElementById('sheet-1'),
-        document.getElementById('sheet-2'),
-        document.getElementById('sheet-3'),
-        document.getElementById('sheet-4')
-    ];
-    
-    const updateBook = () => {
-        sheets.forEach((sheet, index) => {
-            if (!sheet) return;
-            if (index < currentSpread) {
-                sheet.style.transform = 'rotateY(-180deg)';
-                sheet.style.zIndex = index + 1;
-            } else {
-                sheet.style.transform = 'rotateY(0deg)';
-                sheet.style.zIndex = totalSpreads - index + 1;
-            }
-        });
-        const indicator = document.getElementById('hud-page-indicator');
-        if(indicator) indicator.innerText = `SPREAD ${currentSpread + 1} / ${totalSpreads + 1}`;
-    };
-
-    document.getElementById('book-next')?.addEventListener('click', () => { if(currentSpread < totalSpreads) { currentSpread++; updateBook(); }});
-    document.getElementById('book-prev')?.addEventListener('click', () => { if(currentSpread > 0) { currentSpread--; updateBook(); }});
-    document.getElementById('zone-right')?.addEventListener('click', () => { if(currentSpread < totalSpreads) { currentSpread++; updateBook(); }});
-    document.getElementById('zone-left')?.addEventListener('click', () => { if(currentSpread > 0) { currentSpread--; updateBook(); }});
-    document.getElementById('open-again-btn')?.addEventListener('click', () => { currentSpread = 0; updateBook(); });
-    updateBook();
-
-    // Project Carousel Slider Logic
-    const grid = document.getElementById('swipe-slider-grid');
-    const viewport = document.getElementById('swipe-slider-viewport');
-    let scrollAmt = 0;
-
-    document.getElementById('carousel-next')?.addEventListener('click', () => {
-        if(!grid.children[0]) return;
-        const cardWidth = grid.children[0].offsetWidth + 36; // Including gap approx
-        scrollAmt -= cardWidth;
-        const maxScroll = -(grid.scrollWidth - viewport.offsetWidth);
-        if(scrollAmt < maxScroll) scrollAmt = maxScroll;
-        grid.style.transform = `translateX(${scrollAmt}px)`;
-    });
-
-    document.getElementById('carousel-prev')?.addEventListener('click', () => {
-        if(!grid.children[0]) return;
-        const cardWidth = grid.children[0].offsetWidth + 36;
-        scrollAmt += cardWidth;
-        if(scrollAmt > 0) scrollAmt = 0;
-        grid.style.transform = `translateX(${scrollAmt}px)`;
-    });
+  /* ---------- Footer year ---------- */
+  var yearEl = document.getElementById('year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
 </script>
 </body>
 </html>
