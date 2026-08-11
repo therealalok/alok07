@@ -1,1131 +1,794 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alok Sharma - Portfolio</title>
-    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
-    <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
-    
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
-    </script>
-    
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ============================================================
-           ROOT TOKENS & THEME
-        ============================================================ */
-        :root {
-            --bg-color: #F7F7F5;
-            --text-primary: #0A0A0A;
-            --text-secondary: #555555;
-            --accent-red: #E5232E;
-            --border-color: #D6D6D2;
-            --font-main: 'Inter', sans-serif;
-            --header-bg: rgba(247, 247, 245, 0.85);
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #0A0A0A;
-            --text-primary: #F7F7F5;
-            --text-secondary: #A0A0A0;
-            --accent-red: #E5232E;
-            --border-color: #333333;
-            --header-bg: rgba(10, 10, 10, 0.85);
-        }
-
-        /* ============================================================
-           RESET & BASE
-        ============================================================ */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-                scroll-behavior: auto !important;
-            }
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            cursor: none; /* Custom cursor fallback handled in JS */
-        }
-
-        a, button {
-            cursor: none; 
-            text-decoration: none;
-            color: inherit;
-            background: none;
-            border: none;
-            font-family: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        img {
-            max-width: 100%;
-            display: block;
-        }
-
-        /* Typography Hierarchy */
-        .huge-text {
-            font-size: clamp(4rem, 11vw, 12rem);
-            font-weight: 500;
-            line-height: 0.85;
-            letter-spacing: -0.03em;
-            text-transform: uppercase;
-        }
-
-        .section-heading {
-            font-size: clamp(3rem, 7vw, 8rem);
-            font-weight: 500;
-            line-height: 1;
-            letter-spacing: -0.02em;
-            margin-bottom: clamp(3rem, 6vw, 5rem);
-        }
-
-        .editorial-label {
-            font-size: clamp(10px, 1vw, 13px);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            font-weight: 500;
-            color: var(--text-secondary);
-        }
-
-        .interactive-hover {
-            transition: color 250ms cubic-bezier(.16,1,.3,1), transform 250ms ease;
-            display: inline-block;
-        }
-
-        .interactive-hover:hover, 
-        .interactive-hover:focus-visible {
-            color: var(--accent-red);
-        }
-
-        /* Scroll Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ============================================================
-           CUSTOM CURSOR
-        ============================================================ */
-        #custom-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 8px;
-            height: 8px;
-            background-color: var(--text-primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
-        }
-
-        #custom-cursor.hovering {
-            width: 16px;
-            height: 16px;
-            background-color: var(--accent-red);
-        }
-
-        @media (max-width: 1024px) {
-            #custom-cursor { display: none; }
-            body, a, button { cursor: auto; }
-        }
-
-        /* ============================================================
-           HEADER
-        ============================================================ */
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 4vw;
-            z-index: 1000;
-            background: transparent;
-            transition: background 0.3s ease, padding 0.3s ease, border-bottom 0.3s ease;
-            border-bottom: 1px solid transparent;
-        }
-
-        header.scrolled {
-            background: var(--header-bg);
-            backdrop-filter: blur(8px);
-            padding: 1rem 4vw;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-        }
-
-        .nav-center {
-            display: flex;
-            gap: 2.5rem;
-        }
-
-        .nav-center a {
-            font-size: 13px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-            position: relative;
-        }
-
-        .nav-center a::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: var(--accent-red);
-            border-radius: 50%;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%) scale(0);
-            transition: transform 250ms cubic-bezier(.16,1,.3,1);
-        }
-
-        .nav-center a:hover::after,
-        .nav-center a.active::after {
-            transform: translateX(-50%) scale(1);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-
-        .theme-toggle {
-            font-size: 13px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            font-size: 13px;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        /* ============================================================
-           SECTIONS LAYOUT
-        ============================================================ */
-        section {
-            padding: 10vw 4vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        /* ============================================================
-           HERO SECTION
-        ============================================================ */
-        #home {
-            padding-top: 15vh;
-            justify-content: flex-start;
-        }
-
-        .hero-top-label {
-            margin-bottom: 2rem;
-        }
-
-        .hero-name-wrapper {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 4rem;
-        }
-
-        .hero-name-line {
-            display: flex;
-            overflow: hidden;
-        }
-
-        .hero-name-letter {
-            display: inline-block;
-            transition: color 250ms ease, transform 250ms ease;
-        }
-
-        .hero-name-letter:hover {
-            color: var(--accent-red);
-            transform: translateY(-2px);
-        }
-
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4vw;
-            align-items: flex-end;
-        }
-
-        .hero-desc-col {
-            max-width: 400px;
-        }
-
-        .hero-desc-col p {
-            font-size: clamp(1rem, 1.2vw, 1.2rem);
-            line-height: 1.6;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .minimal-btn {
-            font-size: 13px;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid var(--text-primary);
-            transition: color 250ms ease, border-color 250ms ease;
-        }
-
-        .minimal-btn:hover {
-            color: var(--accent-red);
-            border-color: var(--accent-red);
-        }
-
-        .hero-image-col {
-            position: relative;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .editorial-image-wrapper {
-            width: 100%;
-            max-width: 450px;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            border-radius: 200px 200px 0 0;
-            background: var(--border-color);
-            position: relative;
-        }
-
-        .editorial-image-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%);
-            transition: transform 0.8s ease;
-        }
-
-        .editorial-image-wrapper:hover img {
-            transform: scale(1.03);
-        }
-
-        /* ============================================================
-           LANGUAGES SECTION
-        ============================================================ */
-        .languages-list {
-            margin-top: 4rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 400px;
-        }
-
-        .lang-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: clamp(1.5rem, 2vw, 2rem);
-            font-weight: 400;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            transition: padding-left 0.3s ease;
-        }
-
-        .lang-item:hover {
-            color: var(--accent-red);
-            padding-left: 10px;
-        }
-
-        .lang-item:hover .lang-num { color: var(--accent-red); }
-
-        .lang-num {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-family: monospace;
-        }
-
-        .lang-flag {
-            width: 24px;
-            height: auto;
-            border-radius: 2px;
-            opacity: 0.8;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .lang-item:hover .lang-flag {
-            transform: scale(1.2);
-            opacity: 1;
-        }
-
-        /* ============================================================
-           EDUCATION SECTION (Timeline)
-        ============================================================ */
-        .education-timeline {
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .edu-row {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            gap: 2rem;
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border-color);
-            transition: transform 0.3s ease, background 0.3s ease;
-        }
-
-        .edu-row:hover {
-            transform: translateX(10px);
-        }
-
-        .edu-row:hover .edu-timeline-date,
-        .edu-row:hover .edu-inst {
-            color: var(--accent-red);
-        }
-
-        .edu-timeline-date {
-            font-size: 14px;
-            font-family: monospace;
-            color: var(--text-secondary);
-            transition: color 0.3s ease;
-        }
-
-        .edu-inst {
-            font-size: clamp(1.8rem, 3vw, 2.5rem);
-            font-weight: 500;
-            margin-bottom: 1rem;
-            transition: color 0.3s ease;
-        }
-
-        .edu-qual {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .edu-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            max-width: 700px;
-        }
-
-        /* ============================================================
-           SKILLS SECTION
-        ============================================================ */
-        .skills-grid {
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .skill-row {
-            display: flex;
-            align-items: baseline;
-            gap: 2rem;
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--border-color);
-            font-size: clamp(3rem, 7vw, 7rem);
-            font-weight: 500;
-            text-transform: uppercase;
-            transition: padding-left 0.3s ease, color 0.3s ease;
-        }
-
-        .skill-row .skill-num {
-            font-size: 1rem;
-            font-family: monospace;
-            color: var(--text-secondary);
-            transform: translateY(-2rem);
-        }
-
-        .skill-arrow {
-            font-size: 2rem;
-            opacity: 0;
-            transform: translateX(-20px);
-            transition: all 0.3s ease;
-        }
-
-        .skill-row:hover {
-            color: var(--accent-red);
-            padding-left: 20px;
-        }
-        
-        .skill-row:hover .skill-num {
-            color: var(--accent-red);
-        }
-
-        .skill-row:hover .skill-arrow {
-            opacity: 1;
-            transform: translateX(0);
-            color: var(--accent-red);
-        }
-
-        /* ============================================================
-           PROJECTS SECTION
-        ============================================================ */
-        .projects-list {
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid var(--border-color);
-            position: relative;
-        }
-
-        .project-row {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 2rem;
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border-color);
-            transition: color 0.3s ease, opacity 0.3s ease;
-        }
-
-        .project-num {
-            font-size: 14px;
-            font-family: monospace;
-            color: var(--text-secondary);
-        }
-
-        .project-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 500;
-            line-height: 1.1;
-        }
-
-        .project-desc {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            grid-column: 2 / 3;
-            max-width: 600px;
-        }
-
-        .project-arrow {
-            font-size: 2rem;
-            transition: transform 0.3s ease;
-        }
-
-        .project-row:hover {
-            color: var(--accent-red);
-        }
-
-        .project-row:hover .project-arrow {
-            transform: translate(10px, -10px);
-        }
-
-        .projects-list:hover .project-row:not(:hover) {
-            opacity: 0.3;
-        }
-
-        /* Hover Image Reveal for Desktop */
-        #project-hover-img {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 350px;
-            aspect-ratio: 4/5;
-            object-fit: cover;
-            pointer-events: none;
-            opacity: 0;
-            transform: scale(0.96) translate(-50%, -50%);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 100;
-            border: 1px solid var(--border-color);
-        }
-
-        #project-hover-img.active {
-            opacity: 1;
-            transform: scale(1) translate(-50%, -50%);
-        }
-
-        /* ============================================================
-           CONTACT SECTION
-        ============================================================ */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4vw;
-            margin-top: 4rem;
-        }
-
-        .contact-info-block {
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-        }
-
-        .contact-group h4 {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .contact-link {
-            font-size: clamp(1.5rem, 2vw, 2.5rem);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        .social-links a {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        .form-group input,
-        .form-group textarea {
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid var(--border-color);
-            padding: 1rem 0;
-            font-family: var(--font-main);
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            border-color: var(--accent-red);
-        }
-
-        .submit-btn {
-            align-self: flex-start;
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--text-primary);
-            transition: color 0.3s ease, border-color 0.3s ease;
-        }
-
-        .submit-btn:hover,
-        .submit-btn:focus {
-            color: var(--accent-red);
-            border-color: var(--accent-red);
-        }
-
-        /* ============================================================
-           FOOTER
-        ============================================================ */
-        footer {
-            padding: 4rem 4vw;
-            display: flex;
-            justify-content: center;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .footer-text {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
-        }
-
-        /* ============================================================
-           RESPONSIVE DESIGN (MOBILE)
-        ============================================================ */
-        @media (max-width: 768px) {
-            .nav-center {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100vh;
-                background: var(--bg-color);
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                gap: 2rem;
-                transform: translateY(-100%);
-                transition: transform 0.5s cubic-bezier(.16,1,.3,1);
-                z-index: -1;
-            }
-
-            .nav-center.open {
-                transform: translateY(0);
-            }
-
-            .nav-center a { font-size: 1.5rem; }
-
-            .mobile-menu-btn { display: block; }
-            .theme-toggle-desktop { display: none; }
-            .nav-right { gap: 1rem; }
-
-            .hero-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .editorial-image-wrapper {
-                max-width: 100%;
-                border-radius: 20px;
-                aspect-ratio: auto;
-            }
-
-            .edu-row {
-                grid-template-columns: 1fr;
-                gap: 0.5rem;
-            }
-
-            .project-row {
-                grid-template-columns: 1fr auto;
-            }
-
-            .project-desc {
-                grid-column: 1 / -1;
-                margin-top: 1rem;
-                display: none; /* Hide description on mobile initially */
-            }
-
-            .project-row.expanded .project-desc {
-                display: block;
-            }
-            
-            .project-arrow { display: none; }
-
-            #project-hover-img { display: none !important; }
-
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alok Sharma - Portfolio</title>
+<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
+<link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+    (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+/* ============================================================
+   ROOT TOKENS
+============================================================ */
+:root{
+    --bg:#F7F7F5;
+    --bg-raised:#FFFFFF;
+    --text:#0A0A0A;
+    --text-secondary:#555555;
+    --text-muted:#9A9A94;
+    --border:#D6D6D2;
+    --accent:#E5232E;
+    --accent-soft:rgba(229,35,46,.07);
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+    --header-h:88px;
+}
+[data-theme="dark"]{
+    --bg:#0A0A0A;
+    --bg-raised:#141412;
+    --text:#F5F5F2;
+    --text-secondary:#A6A6A0;
+    --text-muted:#5C5C57;
+    --border:#282825;
+    --accent:#FF4750;
+    --accent-soft:rgba(255,71,80,.12);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    transition:background-color .4s ease, color .4s ease;
+}
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+button{ font-family:inherit; background:none; border:none; color:inherit; cursor:pointer; }
+::selection{ background:var(--accent); color:#fff; }
+::-webkit-scrollbar{ width:10px; }
+::-webkit-scrollbar-track{ background:var(--bg); }
+::-webkit-scrollbar-thumb{ background:var(--border); }
+h1,h2,h3,h4{ font-family:var(--font-display); font-weight:600; line-height:1.02; letter-spacing:-.02em; }
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:2px solid var(--accent); outline-offset:4px;
+}
+
+.wrap{ max-width:1400px; margin:0 auto; padding-left:4vw; padding-right:4vw; }
+.eyebrow{
+    font-family:var(--font-body); font-size:11px; font-weight:600; letter-spacing:.22em;
+    text-transform:uppercase; color:var(--text-secondary); display:flex; align-items:center; gap:10px;
+}
+.eyebrow::before{ content:''; width:22px; height:1px; background:var(--accent); display:inline-block; }
+.section-pad{ padding:min(14vw,150px) 4vw; }
+.big-heading{
+    font-size:clamp(3rem,7vw,8rem); text-transform:uppercase; margin-top:18px;
+}
+.hairline{ border:none; border-top:1px solid var(--border); }
+
+/* ============================================================
+   CUSTOM CURSOR
+============================================================ */
+.cursor-dot{
+    position:fixed; top:0; left:0; width:10px; height:10px; border-radius:50%;
+    background:var(--text); pointer-events:none; z-index:9999;
+    transform:translate(-50%,-50%); transition:background-color .25s var(--ease), width .25s var(--ease), height .25s var(--ease);
+    mix-blend-mode:difference; display:none;
+}
+body.has-cursor .cursor-dot{ display:block; }
+body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:none; }
+.cursor-dot.cursor-active{ width:34px; height:34px; background:var(--accent); mix-blend-mode:normal; }
+@media (max-width:900px), (pointer:coarse){
+    .cursor-dot{ display:none !important; }
+    body.has-cursor, body.has-cursor a, body.has-cursor button{ cursor:auto; }
+}
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+.reveal{ opacity:0; transform:translateY(34px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
+.reveal.active{ opacity:1; transform:translateY(0); }
+@media (prefers-reduced-motion:reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+    *{ scroll-behavior:auto !important; animation:none !important; }
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+header{
+    position:sticky; top:0; z-index:1000; width:100%;
+    display:flex; justify-content:space-between; align-items:center;
+    background:var(--bg); padding:26px 4vw; border-bottom:1px solid transparent;
+    transition:background-color .35s ease, padding .35s ease, border-color .35s ease, backdrop-filter .35s ease;
+}
+header.scrolled{
+    padding:16px 4vw; background:color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom-color:var(--border);
+}
+.logo{ font-family:var(--font-display); font-size:1.35rem; font-weight:700; letter-spacing:.01em; text-transform:uppercase; }
+.logo span{ color:var(--accent); }
+nav{ display:flex; gap:44px; align-items:center; }
+nav a{
+    font-size:12.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    position:relative; padding:4px 0; transition:color .28s var(--ease);
+}
+nav a::after{
+    content:''; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--accent);
+    transition:width .32s var(--ease);
+}
+nav a:hover, nav a.active-link{ color:var(--accent); }
+nav a:hover::after, nav a.active-link::after{ width:100%; }
+.nav-container{ display:flex; align-items:center; gap:30px; }
+.theme-switch-btn{
+    width:38px; height:38px; border:1px solid var(--border); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; font-size:13px;
+    transition:border-color .25s ease, color .25s ease, background-color .25s ease;
+}
+.theme-switch-btn:hover{ border-color:var(--accent); color:var(--accent); }
+.nav-toggle-btn{
+    display:none; width:38px; height:38px; align-items:center; justify-content:center; font-size:17px;
+}
+.mobile-nav-menu{
+    display:none; flex-direction:column; position:fixed; inset:0; top:var(--header-h);
+    background:var(--bg); z-index:999; padding:10px 6vw 40px;
+}
+.mobile-nav-menu.open{ display:flex; }
+.mobile-nav-menu a{
+    padding:20px 0; border-bottom:1px solid var(--border); font-family:var(--font-display);
+    font-size:2rem; text-transform:uppercase; transition:color .25s ease, padding-left .25s ease;
+}
+.mobile-nav-menu a:hover{ color:var(--accent); padding-left:8px; }
+
+/* ============================================================
+   SIDE RAIL
+============================================================ */
+.side-rail{
+    position:fixed; right:22px; top:50%; transform:translateY(-50%); z-index:900;
+    display:flex; flex-direction:column; gap:16px;
+}
+.side-rail a{
+    width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+    font-size:14px; color:var(--text-secondary); border:1px solid var(--border); border-radius:50%;
+    transition:color .25s ease, border-color .25s ease, transform .25s var(--ease);
+}
+.side-rail a:hover{ color:var(--accent); border-color:var(--accent); transform:translateX(-3px); }
+@media (max-width:900px){ .side-rail{ display:none; } }
+
+/* ============================================================
+   HERO
+============================================================ */
+.hero{
+    display:grid; grid-template-columns:1.35fr .95fr; align-items:center; gap:4vw;
+    padding:8vw 4vw 7vw; min-height:92vh;
+}
+.hero-subtitle{
+    font-size:11px; font-weight:600; letter-spacing:.35em; color:var(--text-secondary); margin-bottom:22px;
+}
+.hero-name{
+    font-family:var(--font-display); font-weight:700; text-transform:uppercase;
+    font-size:clamp(4rem,10.5vw,10.5rem); line-height:.92; letter-spacing:-.03em;
+}
+.hero-name .word{
+    display:inline-block; transition:color .32s cubic-bezier(.16,1,.3,1);
+}
+.hero-name .word:hover{ color:var(--accent); }
+.hero-desc{
+    max-width:480px; margin-top:34px; font-size:17px; line-height:1.65; color:var(--text-secondary);
+    font-weight:400; padding-left:2px; border-left:2px solid var(--border); padding-left:20px;
+}
+.hero-buttons{ display:flex; gap:44px; margin-top:44px; flex-wrap:wrap; }
+.text-link{
+    font-size:12.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    padding-bottom:6px; border-bottom:1px solid var(--text); transition:color .28s ease, border-color .28s ease, gap .28s ease;
+    display:inline-flex; align-items:center; gap:8px;
+}
+.text-link:hover{ color:var(--accent); border-color:var(--accent); gap:14px; }
+.hero-image-col{ position:relative; display:flex; flex-direction:column; align-items:center; }
+.hero-image-frame{
+    position:relative; width:min(74%,320px); aspect-ratio:3/3.6; border-radius:52% 48% 46% 54% / 54% 50% 50% 46%;
+    overflow:hidden; background:linear-gradient(160deg, var(--accent-soft), transparent 60%);
+}
+.hero-image-frame img{ width:100%; height:100%; object-fit:cover; }
+.hero-flag-chip{
+    position:absolute; bottom:14px; left:14px; width:34px; height:24px; border-radius:4px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.6); box-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+.hero-flag-chip img{ width:100%; height:100%; object-fit:cover; }
+
+.languages-block{ margin-top:46px; width:100%; max-width:320px; }
+.languages-block h3{
+    font-family:var(--font-body); font-size:11px; font-weight:600; letter-spacing:.28em; text-transform:uppercase;
+    color:var(--text-secondary); margin-bottom:14px;
+}
+.lang-row{
+    display:flex; align-items:center; gap:14px; padding:12px 0; border-top:1px solid var(--border);
+    transition:transform .3s var(--ease);
+}
+.lang-row:last-child{ border-bottom:1px solid var(--border); }
+.lang-row .lang-num{ font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; width:22px; }
+.lang-row .lang-flag{ width:20px; height:14px; object-fit:cover; border-radius:2px; transition:transform .3s var(--ease); }
+.lang-row .lang-name{ font-size:15px; font-weight:500; transition:color .28s ease; }
+.lang-row:hover{ transform:translateX(6px); }
+.lang-row:hover .lang-name{ color:var(--accent); }
+.lang-row:hover .lang-num{ color:var(--accent); }
+.lang-row:hover .lang-flag{ transform:scale(1.12); }
+
+@media (max-width:900px){
+    .hero{ grid-template-columns:1fr; text-align:left; padding-top:6vw; min-height:auto; gap:52px; }
+    .hero-image-col{ order:2; align-items:flex-start; }
+    .hero-image-frame{ width:200px; }
+    .hero-desc{ margin-top:26px; }
+}
+
+/* ============================================================
+   SECTION TITLE
+============================================================ */
+.section-head{ text-align:left; margin-bottom:8vw; }
+.section-head .eyebrow{ margin-bottom:20px; }
+
+/* ============================================================
+   EDUCATION
+============================================================ */
+.edu-row{
+    display:grid; grid-template-columns:280px 1fr 110px; gap:32px; align-items:start;
+    padding:44px 0; border-top:1px solid var(--border); transition:transform .35s var(--ease);
+    position:relative;
+}
+#education .edu-list{ border-bottom:1px solid var(--border); }
+.edu-row:hover, .edu-row:focus-within{ transform:translateX(6px); }
+.edu-timeline{
+    font-family:var(--font-display); font-size:clamp(1.5rem,2.6vw,2.4rem); font-weight:600; letter-spacing:-.01em;
+    transition:color .3s ease;
+}
+.edu-row:hover .edu-timeline, .edu-row:focus-within .edu-timeline{ color:var(--accent); }
+.edu-body h3{
+    font-size:clamp(1.6rem,2.6vw,2.1rem); text-transform:none; font-weight:600; transition:color .3s ease;
+    letter-spacing:-.01em;
+}
+.edu-row:hover .edu-body h3, .edu-row:focus-within .edu-body h3{ color:var(--accent); }
+.edu-qual{ font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-secondary); margin-top:10px; }
+.edu-desc-wrap{ display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s var(--ease); margin-top:4px; }
+.edu-desc-inner{ overflow:hidden; }
+.edu-row:hover .edu-desc-wrap, .edu-row:focus-within .edu-desc-wrap{ grid-template-rows:1fr; }
+.edu-desc{ font-size:15px; line-height:1.6; color:var(--text-secondary); padding-top:14px; max-width:560px; }
+.edu-logo{
+    width:64px; height:64px; object-fit:contain; justify-self:end; opacity:.35;
+    transition:opacity .35s ease, transform .35s var(--ease);
+}
+.edu-row:hover .edu-logo, .edu-row:focus-within .edu-logo{ opacity:1; transform:scale(1.08); }
+@media (max-width:900px){
+    .edu-row{ grid-template-columns:1fr; gap:12px; padding:30px 0; }
+    .edu-logo{ justify-self:start; width:46px; height:46px; order:-1; opacity:.6; }
+    .edu-desc-wrap{ grid-template-rows:1fr; }
+}
+
+/* ============================================================
+   SKILLS
+============================================================ */
+.skills-list{ border-top:1px solid var(--border); }
+.skill-row{
+    display:grid; grid-template-columns:70px 1fr 40px 28px; align-items:center; gap:24px;
+    padding:30px 0; border-bottom:1px solid var(--border); transition:opacity .3s ease;
+    cursor:pointer;
+}
+.skills-list:hover .skill-row{ opacity:.4; }
+.skills-list .skill-row:hover{ opacity:1; }
+.skill-num{ font-size:13px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+.skill-name{
+    font-family:var(--font-display); font-size:clamp(2rem,5vw,4rem); font-weight:600; text-transform:uppercase;
+    transition:color .3s ease, transform .3s var(--ease);
+}
+.skill-row:hover .skill-name{ color:var(--accent); transform:translateX(6px); }
+.skill-icon-wrap{ width:34px; height:34px; opacity:0; transform:translateY(6px); transition:opacity .3s ease, transform .3s ease; }
+.skill-row:hover .skill-icon-wrap{ opacity:1; transform:translateY(0); }
+.skill-icon-wrap img{ width:100%; height:100%; object-fit:contain; }
+.skill-arrow{ font-size:16px; opacity:0; color:var(--accent); transition:opacity .3s ease, transform .3s var(--ease); transform:translateX(-8px); }
+.skill-row:hover .skill-arrow{ opacity:1; transform:translateX(0); }
+@media (max-width:700px){
+    .skill-row{ grid-template-columns:36px 1fr 26px; }
+    .skill-icon-wrap{ display:none; }
+}
+
+/* ============================================================
+   PROJECTS
+============================================================ */
+.projects-list{ border-top:1px solid var(--border); position:relative; }
+.project-row{
+    display:block; padding:34px 0; border-bottom:1px solid var(--border);
+    transition:opacity .35s ease; position:relative;
+}
+.projects-list:hover .project-row{ opacity:.42; }
+.projects-list .project-row:hover, .projects-list .project-row:focus-within{ opacity:1; }
+.project-row-inner{ display:grid; grid-template-columns:52px 1fr 30px; align-items:baseline; gap:22px; }
+.project-num{ font-size:12px; color:var(--text-muted); font-variant-numeric:tabular-nums; }
+.project-title{
+    font-family:var(--font-display); font-size:clamp(1.4rem,2.9vw,2.3rem); font-weight:600; letter-spacing:-.01em;
+    transition:color .3s ease;
+}
+.project-row:hover .project-title{ color:var(--accent); }
+.project-arrow{ font-size:16px; color:var(--accent); opacity:0; transform:translateX(-8px); transition:opacity .3s ease, transform .3s var(--ease); }
+.project-row:hover .project-arrow{ opacity:1; transform:translateX(0); }
+.project-desc{
+    grid-column:2 / span 1; margin-top:8px; font-size:14.5px; line-height:1.55; color:var(--text-secondary); max-width:640px;
+}
+.project-preview{
+    position:fixed; width:280px; height:190px; pointer-events:none; z-index:800; overflow:hidden;
+    opacity:0; transform:scale(.96); transition:opacity .28s var(--ease), transform .28s var(--ease); border-radius:2px;
+    box-shadow:0 20px 60px rgba(0,0,0,.18);
+}
+.project-preview.active{ opacity:1; transform:scale(1); }
+.project-preview img{ width:100%; height:100%; object-fit:cover; }
+.project-preview::after{
+    content:''; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--accent);
+}
+@media (max-width:900px){
+    .project-preview{ display:none; }
+    .project-row-inner{ grid-template-columns:32px 1fr 22px; }
+}
+.slider-instruction{
+    margin-top:26px; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-muted);
+}
+
+/* ============================================================
+   CONTACT
+============================================================ */
+.contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:6vw; margin-top:6vw; }
+.contact-find{
+    font-family:var(--font-display); font-size:clamp(1.6rem,3vw,2.3rem); font-weight:600; margin-bottom:26px;
+}
+.contact-info-list{ display:flex; flex-direction:column; gap:16px; }
+.contact-info-list a{
+    font-size:16px; font-weight:500; display:inline-flex; align-items:center; gap:12px;
+    width:fit-content; border-bottom:1px solid transparent; transition:color .28s ease, border-color .28s ease;
+    padding-bottom:2px;
+}
+.contact-info-list a:hover{ color:var(--accent); border-color:var(--accent); }
+.socials-col .eyebrow{ margin-bottom:22px; }
+.socials-list{ display:flex; flex-direction:column; }
+.socials-list a{
+    display:flex; align-items:center; justify-content:space-between; padding:16px 0; border-top:1px solid var(--border);
+    font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; transition:color .28s ease, padding-left .28s ease;
+}
+.socials-list a:last-child{ border-bottom:1px solid var(--border); }
+.socials-list a:hover{ color:var(--accent); padding-left:8px; }
+
+.contact-form{ margin-top:6vw; max-width:640px; }
+.form-row{ display:flex; gap:24px; flex-wrap:wrap; }
+.contact-form input, .contact-form textarea{
+    width:100%; background:transparent; border:none; border-bottom:1px solid var(--border);
+    padding:16px 2px; font-size:15px; color:var(--text); font-family:var(--font-body);
+    transition:border-color .28s ease; margin-bottom:26px;
+}
+.contact-form input{ flex:1; min-width:220px; }
+.contact-form textarea{ resize:vertical; min-height:100px; }
+.contact-form input::placeholder, .contact-form textarea::placeholder{
+    color:var(--text-muted); letter-spacing:.08em; font-size:12px; text-transform:uppercase;
+}
+.contact-form input:focus, .contact-form textarea:focus{ border-color:var(--accent); }
+.send-btn{
+    font-size:12.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+    border-bottom:1px solid var(--text); padding-bottom:8px; transition:color .28s ease, border-color .28s ease;
+}
+.send-btn:hover{ color:var(--accent); border-color:var(--accent); }
+@media (max-width:800px){ .contact-grid{ grid-template-columns:1fr; gap:52px; } }
+
+/* ============================================================
+   FOOTER
+============================================================ */
+footer{
+    padding:60px 4vw; border-top:1px solid var(--border); text-align:center;
+    font-size:12px; letter-spacing:.1em; color:var(--text-muted); text-transform:uppercase;
+}
+</style>
 </head>
 <body>
 
-    <div id="custom-cursor"></div>
-    <img id="project-hover-img" src="" alt="Project Preview">
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
-    <header id="header">
-        <a href="#home" class="logo interactive-hover">Alok Sharma</a>
-        
-        <nav class="nav-center" id="mobile-nav">
-            <a href="#home" class="interactive-hover">Home</a>
-            <a href="#education" class="interactive-hover">Education</a>
-            <a href="#skills" class="interactive-hover">Skills</a>
-            <a href="#projects" class="interactive-hover">Projects</a>
-            <a href="#contact" class="interactive-hover">Contact</a>
-            
-            <!-- Mobile Theme Toggle -->
-            <button class="theme-toggle interactive-hover" id="theme-toggle-mobile">Theme</button>
+<div class="side-rail">
+    <a href="mailto:alokkynwa@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
+    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <a href="tel:+9779843538473" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
+</div>
+
+<header>
+    <div class="logo">AL<span>OK.</span></div>
+    <div class="nav-container">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
         </nav>
+        <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="nav-toggle-btn" id="nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</header>
+<div class="mobile-nav-menu" id="mobile-nav-menu">
+    <a href="#home">Home</a>
+    <a href="#education">Education</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+</div>
 
-        <div class="nav-right">
-            <button class="theme-toggle interactive-hover theme-toggle-desktop" id="theme-toggle">Theme</button>
-            <button class="mobile-menu-btn interactive-hover" id="mobile-menu-btn">Menu</button>
+<section class="hero" id="home">
+    <div class="hero-text-col reveal">
+        <div class="hero-subtitle">+ THIS IS +</div>
+        <h1 class="hero-name"><span class="word">ALOK</span><br><span class="word">SHARMA</span></h1>
+        <p class="hero-desc">I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+        <div class="hero-buttons">
+            <a href="#projects" class="text-link">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#contact" class="text-link">Let's Connect <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-    </header>
-
-    <main>
-        <!-- HERO SECTION -->
-        <section id="home">
-            <div class="hero-top-label editorial-label reveal">+ THIS IS +</div>
-            
-            <div class="hero-name-wrapper reveal">
-                <h1 class="huge-text">
-                    <span class="hero-name-line">
-                        <span class="hero-name-letter">A</span>
-                        <span class="hero-name-letter">L</span>
-                        <span class="hero-name-letter">O</span>
-                        <span class="hero-name-letter">K</span>
-                    </span>
-                    <span class="hero-name-line">
-                        <span class="hero-name-letter">S</span>
-                        <span class="hero-name-letter">H</span>
-                        <span class="hero-name-letter">A</span>
-                        <span class="hero-name-letter">R</span>
-                        <span class="hero-name-letter">M</span>
-                        <span class="hero-name-letter">A</span>
-                    </span>
-                </h1>
+    </div>
+    <div class="hero-image-col reveal">
+        <div class="hero-image-frame" id="heroImageFrame">
+            <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
+            <div class="hero-flag-chip">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
             </div>
+        </div>
+        <div class="languages-block">
+            <h3>Languages</h3>
+            <div class="lang-row"><span class="lang-num">01</span><img class="lang-flag" src="https://flagcdn.com/np.svg" alt="Nepal Flag"><span class="lang-name">Nepali</span></div>
+            <div class="lang-row"><span class="lang-num">02</span><img class="lang-flag" src="https://flagcdn.com/gb.svg" alt="UK Flag"><span class="lang-name">English</span></div>
+            <div class="lang-row"><span class="lang-num">03</span><img class="lang-flag" src="https://flagcdn.com/in.svg" alt="India Flag"><span class="lang-name">Hindi</span></div>
+            <div class="lang-row"><span class="lang-num">04</span><img class="lang-flag" src="https://flagcdn.com/de.svg" alt="Germany Flag"><span class="lang-name">German</span></div>
+        </div>
+    </div>
+</section>
 
-            <div class="hero-grid">
-                <div class="hero-desc-col reveal">
-                    <p>I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="minimal-btn">View Projects &rarr;</a>
-                        <a href="#contact" class="minimal-btn">Let's Connect &rarr;</a>
-                    </div>
-
-                    <div class="languages-showcase reveal" style="margin-top: 4rem;">
-                        <div class="editorial-label" style="margin-bottom: 1rem;">LANGUAGES</div>
-                        <ul class="languages-list">
-                            <li class="lang-item interactive-hover">
-                                <span class="lang-num">01 —</span> 
-                                <img src="https://flagcdn.com/np.svg" alt="Nepal Flag" class="lang-flag"> 
-                                Nepali
-                            </li>
-                            <li class="lang-item interactive-hover">
-                                <span class="lang-num">02 —</span> 
-                                <img src="https://flagcdn.com/gb.svg" alt="UK Flag" class="lang-flag"> 
-                                English
-                            </li>
-                            <li class="lang-item interactive-hover">
-                                <span class="lang-num">03 —</span> 
-                                <img src="https://flagcdn.com/in.svg" alt="India Flag" class="lang-flag"> 
-                                Hindi
-                            </li>
-                            <li class="lang-item interactive-hover">
-                                <span class="lang-num">04 —</span> 
-                                <img src="https://flagcdn.com/de.svg" alt="Germany Flag" class="lang-flag"> 
-                                German
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="hero-image-col reveal">
-                    <div class="editorial-image-wrapper">
-                        <img src="alokk.jpeg" alt="Alok Sharma">
-                    </div>
-                </div>
+<section id="education" class="section-pad">
+    <div class="section-head reveal">
+        <div class="eyebrow">Archive</div>
+        <h2 class="big-heading">Education Journey</h2>
+    </div>
+    <div class="edu-list reveal">
+        <div class="edu-row" tabindex="0">
+            <div class="edu-timeline">2010 — 2022</div>
+            <div class="edu-body">
+                <h3>Mahakavi Devkota Memorial Secondary School</h3>
+                <div class="edu-qual">Secondary Education Examination (SEE)</div>
+                <div class="edu-desc-wrap"><div class="edu-desc-inner">
+                    <p class="edu-desc">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
+                </div></div>
             </div>
-        </section>
-
-        <!-- EDUCATION SECTION -->
-        <section id="education">
-            <h2 class="section-heading reveal">Education Journey</h2>
-            
-            <div class="education-timeline">
-                <div class="edu-row reveal">
-                    <div class="edu-timeline-date">2010 — 2022</div>
-                    <div class="edu-content">
-                        <h3 class="edu-inst interactive-hover">Mahakavi Devkota Memorial Secondary School</h3>
-                        <div class="edu-qual">Secondary Education Examination (SEE)</div>
-                        <p class="edu-desc">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
-                    </div>
-                </div>
-
-                <div class="edu-row reveal">
-                    <div class="edu-timeline-date">2022 — 2024</div>
-                    <div class="edu-content">
-                        <h3 class="edu-inst interactive-hover">Reliance International Academy</h3>
-                        <div class="edu-qual">+2 Higher Secondary Science</div>
-                        <p class="edu-desc">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
-                    </div>
-                </div>
-
-                <div class="edu-row reveal">
-                    <div class="edu-timeline-date">2024 — PRESENT</div>
-                    <div class="edu-content">
-                        <h3 class="edu-inst interactive-hover">Amrit Science Campus (T.U.)</h3>
-                        <p class="edu-desc">Currently pursuing B.Sc.CSIT.</p>
-                    </div>
-                </div>
+            <img class="edu-logo" src="mdmss-removebg-preview.png" alt="MDMSS Emblem">
+        </div>
+        <div class="edu-row" tabindex="0">
+            <div class="edu-timeline">2022 — 2024</div>
+            <div class="edu-body">
+                <h3>Reliance International Academy</h3>
+                <div class="edu-qual">+2 Higher Secondary Science</div>
+                <div class="edu-desc-wrap"><div class="edu-desc-inner">
+                    <p class="edu-desc">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
+                </div></div>
             </div>
-        </section>
-
-        <!-- SKILLS SECTION -->
-        <section id="skills">
-            <h2 class="section-heading reveal">Core Skills</h2>
-            
-            <div class="skills-grid">
-                <div class="skill-row interactive-hover reveal">
-                    <span class="skill-num">01</span>
-                    <span class="skill-name">HTML</span>
-                    <span class="skill-arrow">&rarr;</span>
-                </div>
-                <div class="skill-row interactive-hover reveal">
-                    <span class="skill-num">02</span>
-                    <span class="skill-name">CSS</span>
-                    <span class="skill-arrow">&rarr;</span>
-                </div>
-                <div class="skill-row interactive-hover reveal">
-                    <span class="skill-num">03</span>
-                    <span class="skill-name">Python</span>
-                    <span class="skill-arrow">&rarr;</span>
-                </div>
-                <div class="skill-row interactive-hover reveal">
-                    <span class="skill-num">04</span>
-                    <span class="skill-name">Photoshop</span>
-                    <span class="skill-arrow">&rarr;</span>
-                </div>
+            <img class="edu-logo" src="ria-removebg-preview.png" alt="RIA Emblem">
+        </div>
+        <div class="edu-row" tabindex="0">
+            <div class="edu-timeline">2024 — PRESENT</div>
+            <div class="edu-body">
+                <h3>Amrit Science Campus (T.U.)</h3>
+                <div class="edu-qual">B.Sc.CSIT</div>
+                <div class="edu-desc-wrap"><div class="edu-desc-inner">
+                    <p class="edu-desc">Currently pursuing B.Sc.CSIT.</p>
+                </div></div>
             </div>
-        </section>
+            <img class="edu-logo" src="ascol-removebg-preview.png" alt="Ascol Campus Emblem">
+        </div>
+    </div>
+</section>
 
-        <!-- PROJECTS SECTION -->
-        <section id="projects">
-            <h2 class="section-heading reveal">Featured Projects</h2>
-            
-            <div class="projects-list">
-                <!-- Project 1 -->
-                <a href="#" class="project-row reveal" data-image="project1-placeholder.jpg">
-                    <div class="project-num">01</div>
-                    <h3 class="project-title">Portugal VS Colombia</h3>
-                    <div class="project-arrow">&nearr;</div>
-                    <p class="project-desc">Matchday poster featuring...</p>
-                </a>
-                
-                <!-- Project 2 -->
-                <a href="#" class="project-row reveal" data-image="project2-placeholder.jpg">
-                    <div class="project-num">02</div>
-                    <h3 class="project-title">Dominik Szoboszlai</h3>
-                    <div class="project-arrow">&nearr;</div>
-                    <p class="project-desc">A simple graphic featuring...</p>
-                </a>
-                
-                <!-- Note to Alok: Continue adding the exact existing projects in this format -->
+<section id="skills" class="section-pad">
+    <div class="section-head reveal">
+        <div class="eyebrow">Toolkit</div>
+        <h2 class="big-heading">Core Skills</h2>
+    </div>
+    <div class="skills-list reveal">
+        <div class="skill-row">
+            <span class="skill-num">01</span>
+            <span class="skill-name">HTML</span>
+            <span class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></span>
+            <span class="skill-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <div class="skill-row">
+            <span class="skill-num">02</span>
+            <span class="skill-name">CSS</span>
+            <span class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></span>
+            <span class="skill-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <div class="skill-row">
+            <span class="skill-num">03</span>
+            <span class="skill-name">Python</span>
+            <span class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></span>
+            <span class="skill-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+        <div class="skill-row">
+            <span class="skill-num">04</span>
+            <span class="skill-name">Photoshop</span>
+            <span class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></span>
+            <span class="skill-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        </div>
+    </div>
+</section>
+
+<section id="projects" class="section-pad">
+    <div class="section-head reveal">
+        <div class="eyebrow">Selected</div>
+        <h2 class="big-heading">Featured Projects</h2>
+    </div>
+    <div class="projects-list reveal" id="projectsList"></div>
+    <div class="slider-instruction">Hover a project to preview it. On touch devices, tap a project to open the full image.</div>
+</section>
+<div class="project-preview" id="projectPreview"><img id="projectPreviewImg" src="" alt=""></div>
+
+<section id="contact" class="section-pad">
+    <div class="section-head reveal">
+        <div class="eyebrow">Get In Touch</div>
+        <h2 class="big-heading">Let's Talk</h2>
+    </div>
+    <div class="contact-grid reveal">
+        <div>
+            <div class="contact-find">Find Me ↘</div>
+            <div class="contact-info-list">
+                <a href="mailto:alokkynwa@gmail.com" target="_blank"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
+                <a href="tel:+9779843538473" target="_blank"><i class="fa-solid fa-phone"></i><span>🇳🇵</span> (+977) 9843538473</a>
             </div>
-        </section>
-
-        <!-- CONTACT SECTION -->
-        <section id="contact">
-            <div class="editorial-label reveal" style="text-align: center; margin-bottom: 2rem;">GET IN TOUCH</div>
-            <h2 class="huge-text reveal" style="text-align: center; margin-bottom: 4rem;">Find Me &searr;</h2>
-            
-            <div class="contact-grid">
-                <div class="contact-info-block reveal">
-                    <div class="contact-group">
-                        <a href="mailto:alokkynwa@gmail.com" class="contact-link interactive-hover">alokkynwa@gmail.com</a>
-                        <a href="tel:+9779843538473" class="contact-link interactive-hover">(+977) 9843538473</a>
-                    </div>
-                    
-                    <div class="contact-group">
-                        <h4>Socials</h4>
-                        <div class="social-links">
-                            <a href="https://www.linkedin.com/in/alok-sharma-511993280" class="interactive-hover" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                            <a href="#" class="interactive-hover" target="_blank" rel="noopener noreferrer">Instagram</a>
-                            <a href="#" class="interactive-hover" target="_blank" rel="noopener noreferrer">Facebook</a>
-                            <a href="#" class="interactive-hover" target="_blank" rel="noopener noreferrer">X</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-form-block reveal">
-                    <form id="contact-form" class="contact-form">
-                        <div class="form-group">
-                            <label for="user_name">NAME</label>
-                            <input type="text" id="user_name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_email">EMAIL</label>
-                            <input type="email" id="user_email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">MESSAGE</label>
-                            <textarea id="message" name="message" required></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn interactive-hover">SEND MESSAGE</button>
-                    </form>
-                </div>
+        </div>
+        <div class="socials-col">
+            <div class="eyebrow">Socials</div>
+            <div class="socials-list">
+                <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank">LinkedIn <i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer">Instagram <i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer">Facebook <i class="fab fa-facebook-f"></i></a>
+                <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer">X <i class="fab fa-x-twitter"></i></a>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
+    <form class="contact-form reveal" id="portfolio-contact-form">
+        <div class="form-row">
+            <input type="text" name="name" placeholder="NAME" required>
+            <input type="email" name="email" placeholder="EMAIL" required>
+        </div>
+        <textarea name="message" placeholder="MESSAGE" required></textarea>
+        <button type="submit" class="send-btn">SEND MESSAGE</button>
+    </form>
+</section>
 
-    <footer>
-        <div class="footer-text">Copyright &copy; Alok Sharma - All rights reserved.</div>
-    </footer>
+<footer>
+    Copyright © Alok Sharma - All rights reserved.
+</footer>
 
-    <script>
-        // Custom Cursor Logic (Desktop Only)
-        const cursor = document.getElementById('custom-cursor');
-        const interactables = document.querySelectorAll('a, button, .interactive-hover, input, textarea');
+<script>
+/* ============================================================
+   PROJECT DATA (source of truth preserved exactly from original)
+============================================================ */
+const PROJECTS = [
+    { href:"poruzb copy.jpg", img:"poruzb copy.jpg", alt:"Portugal VS Colombia Matchday Graphic", title:"Portugal VS Colombia", desc:"Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami" },
+    { href:"WhatsApp Image 2026-07-17 at 10.23.59 PM.jpeg", img:"WhatsApp Image 2026-07-17 at 10.23.59 PM.jpeg", alt:"Dom Graphic", title:"Dominik Szoboszlai", desc:"A simple graphic featuring Dominik Szoboszlai as he signs new contract till 2031 at Liverpool FC." },
+    { href:"argvspa copy.jpg", img:"argvspa copy.jpg", alt:"Argentina VS Spain Graphic", title:"Argentina VS Spain", desc:"A cinematic matchday graphic featuring the international clash between Argentina and Spain." },
+    { href:"fravswe.jpeg", img:"fravswe.jpeg", alt:"France VS Sweden Graphic", title:"France VS Sweden", desc:"Matchday promotional graphic for the international game between France and Sweden." },
+    { href:"fravspa.jpeg", img:"fravspa.jpeg", alt:"France VS Spain Graphic", title:"France VS Spain", desc:"A high-energy matchday visual for the European heavyweight matchup between France and Spain." },
+    { href:"portugalvcongo copy.jpg", img:"portugalvcongo copy.jpg", alt:"Portugal VS Congo Latest Design", title:"Argentina VS Austria", desc:"A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi." },
+    { href:"spainbelgium.jpeg", img:"spainbelgium.jpeg", alt:"Spain VS Belgium Graphic Alternate", title:"Spain VS Belgium", desc:"A matchday poster focusing on the tactical battle between Spain and Belgium." },
+    { href:"engvarg.jpeg", img:"engvarg.jpeg", alt:"England VS Argentina Graphic", title:"England VS Argentina", desc:"Matchday poster design for the highly anticipated fixture between England and Argentina." },
+    { href:"porcong.jpeg", img:"porcong.jpeg", alt:"Portugal VS Congo Graphic", title:"Portugal VS Congo", desc:"A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo." },
+    { href:"heavymetalfootball.jpg", img:"heavymetalfootball.jpg", alt:"Heavy Metal Football Cinematic Tribute Artwork", title:"Heavy Metal Football", desc:"A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy." },
+    { href:"lfcvbre copy.jpg", img:"lfcvbre copy.jpg", alt:"Project 1", title:"Liverpool VS Brentford", desc:"Matchday design of the last Premier League game of the 2025-26 campaign." },
+    { href:"robboxmo copy.jpg", img:"robboxmo copy.jpg", alt:"Project 2", title:"ONE LAST TIME AT ANFIELD.", desc:"A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield." },
+    { href:"wc.jpeg", img:"wc.jpeg", alt:"FIFA World Cup 2026 Editorial Graphic Layout", title:"FIFA World Cup 2026", desc:"FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy." },
+    { href:"newlivche.jpeg", img:"newlivche.jpeg", alt:"Liverpool VS Chelsea Matchday Cinematic Campaign Graphic", title:"Liverpool VS Chelsea", desc:"Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer." },
+    { href:"ThankyouRobbo.jpeg", img:"ThankyouRobbo.jpeg", alt:"Thank You Robbo Tribute Poster Artwork", title:"Thank You, Robbo!", desc:"A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red." },
+    { href:"ThankyouMo.jpeg", img:"ThankyouMo.jpeg", alt:"Thank You Mo Salah Tribute Graphic Layout", title:"Thank You, Mo!", desc:"A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years." },
+    { href:"livvmci.jpeg", img:"livvmci.jpeg", alt:"Liverpool VS Manchester City Cinematic F1 Concept Poster", title:"Liverpool FC VS Manchester City", desc:"An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside." },
+    { href:"livvgal.jpeg", img:"livvgal.jpeg", alt:"Liverpool VS Galatasaray Champions League Matchday Campaign", title:"Liverpool FC VS Galatasaray", desc:"A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster." },
+    { href:"livvpsg.jpeg", img:"livvpsg.jpeg", alt:"Liverpool VS PSG Champions League Portrait Graphic", title:"Liverpool FC VS Paris Saint-Germain", desc:"A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match." },
+    { href:"slotout.jpeg", img:"slotout.jpeg", alt:"Slot Out Narrative Poster Art", title:"Slot Out!", desc:"An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield." }
+];
 
-        if (window.matchMedia("(min-width: 1024px)").matches) {
-            document.addEventListener('mousemove', e => {
-                requestAnimationFrame(() => {
-                    cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
-                });
-            });
+(function renderProjects(){
+    const list = document.getElementById('projectsList');
+    const frag = document.createDocumentFragment();
+    PROJECTS.forEach((p, i) => {
+        const row = document.createElement('a');
+        row.className = 'project-row';
+        row.href = p.href;
+        row.target = '_blank';
+        row.rel = 'noopener noreferrer';
+        row.dataset.img = p.img;
+        row.innerHTML = `
+            <div class="project-row-inner">
+                <span class="project-num">${String(i+1).padStart(2,'0')}</span>
+                <span class="project-title">${p.title}</span>
+                <span class="project-arrow"><i class="fa-solid fa-arrow-up-right"></i></span>
+                <p class="project-desc">${p.desc}</p>
+            </div>`;
+        frag.appendChild(row);
+    });
+    list.appendChild(frag);
+})();
 
-            interactables.forEach(el => {
-                el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-                el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-            });
-        }
+/* ============================================================
+   CUSTOM CURSOR
+============================================================ */
+(function(){
+    const dot = document.getElementById('cursorDot');
+    const isFine = window.matchMedia('(pointer:fine)').matches;
+    if(!isFine) return;
+    let enabled = false;
+    window.addEventListener('mousemove', e => {
+        if(!enabled){ document.body.classList.add('has-cursor'); enabled = true; }
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
+        const el = document.elementFromPoint(e.clientX, e.clientY);
+        const interactive = el && el.closest('a, button, input, textarea, .word, .lang-row, .skill-row, .project-row');
+        dot.classList.toggle('cursor-active', !!interactive);
+    }, { passive:true });
+})();
 
-        // Header Scroll Effect
-        const header = document.getElementById('header');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
+/* ============================================================
+   SCROLL REVEAL OBSERVER
+============================================================ */
+(function(){
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){ entry.target.classList.add('active'); obs.unobserve(entry.target); }
+        });
+    }, { threshold:.12, rootMargin:'0px 0px -60px 0px' });
+    reveals.forEach(r => io.observe(r));
+})();
+
+/* ============================================================
+   HEADER SCROLL STATE + ACTIVE LINK HIGHLIGHT
+============================================================ */
+(function(){
+    const header = document.querySelector('header');
+    const navLinks = document.querySelectorAll('nav a, .mobile-nav-menu a');
+    const sections = document.querySelectorAll('section[id]');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive:true });
+    const navObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                navLinks.forEach(link => link.classList.toggle('active-link', link.getAttribute('href') === '#' + entry.target.id));
             }
         });
+    }, { rootMargin:'-45% 0px -45% 0px' });
+    sections.forEach(sec => navObserver.observe(sec));
+})();
 
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileNav = document.getElementById('mobile-nav');
-        const navLinks = mobileNav.querySelectorAll('a');
+/* ============================================================
+   MOBILE NAV TOGGLE
+============================================================ */
+(function(){
+    const toggleBtn = document.getElementById('nav-toggle');
+    const menu = document.getElementById('mobile-nav-menu');
+    if(!toggleBtn || !menu) return;
+    const icon = toggleBtn.querySelector('i');
+    toggleBtn.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        toggleBtn.setAttribute('aria-expanded', open);
+        icon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+    });
+    menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggleBtn.setAttribute('aria-expanded','false');
+        icon.className = 'fa-solid fa-bars';
+    }));
+})();
 
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('open');
-            mobileMenuBtn.textContent = mobileNav.classList.contains('open') ? 'Close' : 'Menu';
-        });
+/* ============================================================
+   THEME TOGGLE
+============================================================ */
+(function(){
+    const themeToggle = document.getElementById('theme-toggle');
+    const toggleIcon = themeToggle.querySelector('i');
+    themeToggle.addEventListener('click', () => {
+        const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+        if(dark){
+            document.documentElement.removeAttribute('data-theme');
+            toggleIcon.className = 'fa-solid fa-moon';
+        } else {
+            document.documentElement.setAttribute('data-theme','dark');
+            toggleIcon.className = 'fa-solid fa-sun';
+        }
+    });
+})();
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('open');
-                mobileMenuBtn.textContent = 'Menu';
-            });
-        });
+/* ============================================================
+   PROJECT HOVER PREVIEW (desktop only)
+============================================================ */
+(function(){
+    const isFine = window.matchMedia('(pointer:fine)').matches;
+    if(!isFine) return;
+    const preview = document.getElementById('projectPreview');
+    const previewImg = document.getElementById('projectPreviewImg');
+    const list = document.getElementById('projectsList');
+    if(!list) return;
+    list.addEventListener('mouseover', e => {
+        const row = e.target.closest('.project-row');
+        if(!row) return;
+        previewImg.src = row.dataset.img;
+        previewImg.alt = '';
+        preview.classList.add('active');
+    });
+    list.addEventListener('mousemove', e => {
+        const offsetX = 34, offsetY = 34;
+        let x = e.clientX + offsetX, y = e.clientY - preview.offsetHeight / 2;
+        if(x + preview.offsetWidth > window.innerWidth - 20) x = e.clientX - preview.offsetWidth - offsetX;
+        if(y < 20) y = 20;
+        if(y + preview.offsetHeight > window.innerHeight - 20) y = window.innerHeight - preview.offsetHeight - 20;
+        preview.style.left = x + 'px';
+        preview.style.top = y + 'px';
+    });
+    list.addEventListener('mouseout', e => {
+        if(!e.relatedTarget || !list.contains(e.relatedTarget)){
+            preview.classList.remove('active');
+        }
+    });
+})();
 
-        // Theme Toggle Logic
-        const themeToggles = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
-        
-        themeToggles.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                if (currentTheme === 'dark') {
-                    document.documentElement.removeAttribute('data-theme');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                }
-            });
-        });
+/* ============================================================
+   HERO IMAGE SUBTLE PARALLAX (desktop only)
+============================================================ */
+(function(){
+    const isFine = window.matchMedia('(pointer:fine)').matches;
+    const frame = document.getElementById('heroImageFrame');
+    if(!isFine || !frame) return;
+    window.addEventListener('mousemove', e => {
+        const x = (e.clientX / window.innerWidth - .5) * 10;
+        const y = (e.clientY / window.innerHeight - .5) * 10;
+        frame.style.transform = `translate(${x}px, ${y}px)`;
+    }, { passive:true });
+})();
 
-        // Scroll Reveal Intersection Observer
-        const revealElements = document.querySelectorAll('.reveal');
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-        revealElements.forEach(el => revealObserver.observe(el));
-
-        // Project Hover Image Reveal (Desktop) & Accordion (Mobile)
-        const projectRows = document.querySelectorAll('.project-row');
-        const hoverImg = document.getElementById('project-hover-img');
-
-        projectRows.forEach(row => {
-            // Desktop Hover
-            row.addEventListener('mousemove', (e) => {
-                if (window.matchMedia("(min-width: 1024px)").matches) {
-                    const imgSrc = row.getAttribute('data-image');
-                    if (imgSrc) {
-                        hoverImg.src = imgSrc;
-                        hoverImg.classList.add('active');
-                        // Follow cursor smoothly
-                        requestAnimationFrame(() => {
-                            hoverImg.style.left = `${e.clientX + 20}px`; // Offset to avoid blocking cursor
-                            hoverImg.style.top = `${e.clientY + 20}px`;
-                        });
-                    }
-                }
-            });
-
-            row.addEventListener('mouseleave', () => {
-                hoverImg.classList.remove('active');
-            });
-
-            // Mobile Tap to Expand Description
-            row.addEventListener('click', (e) => {
-                if (window.matchMedia("(max-width: 768px)").matches) {
-                    e.preventDefault();
-                    row.classList.toggle('expanded');
-                }
-            });
-        });
-
-        // EmailJS Form Submission
-        const contactForm = document.getElementById('contact-form');
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const btn = this.querySelector('button');
-            const originalText = btn.textContent;
-            btn.textContent = 'SENDING...';
-
-            // Ensure to replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with actual EmailJS values if present in external JS
-            emailjs.sendForm('default_service', 'template_id', this)
-                .then(() => {
-                    btn.textContent = 'MESSAGE SENT';
-                    this.reset();
-                    setTimeout(() => btn.textContent = originalText, 3000);
-                }, (error) => {
-                    btn.textContent = 'ERROR, TRY AGAIN';
-                    console.log('FAILED...', error);
-                    setTimeout(() => btn.textContent = originalText, 3000);
-                });
-        });
-    </script>
+/* ============================================================
+   CONTACT FORM HANDLING (EmailJS — unchanged)
+============================================================ */
+(function(){
+    const form = document.getElementById('portfolio-contact-form');
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const btn = form.querySelector('.send-btn');
+        const orig = btn.innerText;
+        btn.innerText = 'SENDING...'; btn.style.pointerEvents = 'none';
+        const p = {
+            name: form.querySelector('input[name="name"]').value,
+            email: form.querySelector('input[name="email"]').value,
+            message: form.querySelector('textarea[name="message"]').value
+        };
+        try {
+            const r = await emailjs.send('service_qa1fl7f','template_zu2bqc7', p);
+            if(r.status === 200){ btn.innerText = 'SENT ✓'; form.reset(); }
+            else throw new Error();
+        } catch {
+            btn.innerText = 'ERROR – TRY AGAIN';
+        }
+        setTimeout(() => { btn.innerText = orig; btn.style.pointerEvents = 'auto'; }, 4000);
+    });
+})();
+</script>
 </body>
 </html>
