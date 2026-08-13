@@ -3,838 +3,677 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alok Sharma — Design</title>
+<title>Alok Sharma — Portfolio & Design</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
 <style>
 /* ============================================================
-   TOKENS
+   DESIGN SYSTEM & TOKENS (REF VIDEO PALETTE)
 ============================================================ */
-:root{
-  --bg:            #0b0b09;
-  --bg-soft:       #131310;
-  --footer-bg:     #1a1a1f;
-  --card-bg:       #141412;
-  --cream:         #ece0c2;
-  --cream-dim:     #d8caa8;
-  --maroon:        #8a2432;
-  --maroon-2:      #6c1c28;
-  --white:         #f4f2ec;
-  --muted:         #8b897f;
-  --muted-2:       #5f5d54;
-  --line:          rgba(244,242,236,0.09);
-  --line-strong:   rgba(244,242,236,0.18);
-  --paper:         #f2ede0;
-  --paper-2:       #e8e0cc;
-  --ink:           #17140f;
+:root {
+  --bg:             #0b0b09;
+  --bg-soft:        #131310;
+  --footer-bg:      #1a1a1f;
+  --card-bg:        #141412;
+  --cream:          #ece0c2;
+  --cream-dim:      #d8caa8;
+  --maroon:         #8a2432;
+  --maroon-2:       #6c1c28;
+  --white:          #f4f2ec;
+  --muted:          #8b897f;
+  --muted-2:        #5f5d54;
+  --line:           rgba(244,242,236,0.09);
+  --line-strong:    rgba(244,242,236,0.18);
+  --paper:          #f2ede0;
+  --paper-2:        #e8e0cc;
+  --ink:            #17140f;
 
-  --font-display:  'Anton', 'Noto Sans Devanagari', sans-serif;
-  --font-mono:     'JetBrains Mono', 'Noto Sans Devanagari', monospace;
+  --font-display:   'Anton', sans-serif;
+  --font-mono:      'JetBrains Mono', monospace;
 
-  --ease: cubic-bezier(.22,.85,.32,1);
+  --ease: cubic-bezier(.22, .85, .32, 1);
 }
 
-*{ margin:0; padding:0; box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
-body{
-  background:var(--bg);
-  color:var(--white);
-  font-family:var(--font-mono);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
-img{ max-width:100%; display:block; }
-a{ color:inherit; text-decoration:none; }
-button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
-::selection{ background:var(--maroon); color:var(--white); }
-::-webkit-scrollbar{ width:10px; }
-::-webkit-scrollbar-track{ background:var(--bg); }
-::-webkit-scrollbar-thumb{ background:var(--maroon-2); }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+::selection { background: var(--maroon); color: var(--white); }
 
-.eyebrow{
-  font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--muted); font-weight:600;
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--maroon-2); border-radius: 4px; }
+
+/* ============================================================
+   HEADER & NAVIGATION
+============================================================ */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px clamp(20px, 4vw, 48px);
+  background: linear-gradient(to bottom, rgba(11,11,9,.95), rgba(11,11,9,0));
+  transition: background .3s ease, border .3s ease;
+}
+header.scrolled {
+  background: rgba(11,11,9,.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.nav-trigger {
+  font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 600;
+  color: var(--cream-dim); position: relative; padding: 4px 0; transition: color .25s ease;
+}
+.nav-trigger::after {
+  content: ''; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--cream);
+  transition: width .3s var(--ease);
+}
+.nav-trigger:hover::after { width: 100%; }
+
+/* CIRCLE REPLACEMENT: vector.png inside exact circular element */
+.brand {
+  display: flex; align-items: center; gap: 12px;
+}
+.brand-badge {
+  width: 38px; height: 38px; border-radius: 50%;
+  border: 1.5px solid var(--cream-dim); overflow: hidden; flex-shrink: 0;
+  background: var(--maroon); display: flex; align-items: center; justify-content: center;
+  transition: transform .3s var(--ease), border-color .3s ease;
+}
+.brand-badge:hover { transform: scale(1.05); border-color: var(--cream); }
+.brand-badge img {
+  width: 78%; height: 78%; object-fit: contain; display: block;
+}
+.brand-word {
+  font-family: var(--font-mono); font-weight: 700; font-size: .86rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--white);
+}
+
+.header-right { display: flex; align-items: center; gap: 22px; }
+
+/* ============================================================
+   HERO SECTION
+============================================================ */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  padding: 140px clamp(20px, 6vw, 80px) 80px;
+  position: relative;
+}
+.hero-status-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(138, 36, 50, 0.2); border: 1px solid var(--maroon);
+  padding: 6px 14px; border-radius: 20px; font-size: .7rem;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--cream);
+  margin-bottom: 28px; width: fit-content;
+}
+.hero-status-pill .pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: #22c55e;
+  box-shadow: 0 0 8px #22c55e; animation: pulse 2s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+.hero-badge-row {
+  display: flex; align-items: center; gap: clamp(18px, 3.4vw, 34px);
+  flex-wrap: wrap; margin-bottom: 20px;
+}
+/* CIRCLE REPLACEMENT: vector.png inside the main circular AS element */
+.hero-badge {
+  width: clamp(96px, 11vw, 168px); height: clamp(96px, 11vw, 168px);
+  border-radius: 50%; border: 3px solid var(--cream-dim);
+  overflow: hidden; flex-shrink: 0; background: var(--maroon);
+  box-shadow: 0 30px 60px rgba(0,0,0,.5);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .4s var(--ease);
+}
+.hero-badge:hover { transform: scale(1.03) rotate(2deg); }
+.hero-badge img { width: 82%; height: 82%; object-fit: contain; }
+
+.hero-title {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: clamp(3.4rem, 10vw, 8.2rem); line-height: .92;
+  color: var(--cream); letter-spacing: .005em;
+}
+
+/* HERO MAIN VISUAL: Replaces bird with Main Photo */
+.hero-visual-frame {
+  margin-top: 40px; position: relative; width: 100%; max-width: 1000px;
+  border-radius: 4px; overflow: hidden; border: 1px solid var(--line-strong);
+  aspect-ratio: 21/9; background: var(--bg-soft);
+}
+.hero-visual-frame img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: contrast(1.05) grayscale(0.15);
+  transition: transform .8s var(--ease), filter .8s var(--ease);
+}
+.hero-visual-frame:hover img {
+  transform: scale(1.02); filter: contrast(1.1) grayscale(0);
+}
+
+.hero-tagline {
+  max-width: 640px; margin-top: 32px;
+  font-size: clamp(.9rem, 1.3vw, 1.05rem); line-height: 1.7; color: var(--muted);
+}
+
+.hero-scroll {
+  margin-top: 50px; display: flex; align-items: center; gap: 10px;
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted-2);
+}
+.hero-scroll i { animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(6px);} }
+
+/* ============================================================
+   SECTION HEADERS
+============================================================ */
+.section-wrapper { padding: 90px 0 30px; }
+.section-head {
+  display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  padding: 0 clamp(20px, 4vw, 48px); margin-bottom: 24px;
+}
+.section-head h2 {
+  font-family: var(--font-display); text-transform: uppercase; font-weight: 400;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem); color: var(--cream);
+}
+.section-head .sub-tag {
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
 }
 
 /* ============================================================
-   HEADER
+   EDUCATION SECTION (MANDATORY & FULLY VISIBLE)
 ============================================================ */
-header{
-  position:fixed; top:0; left:0; right:0; z-index:200;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:22px clamp(20px,4vw,48px);
-  background:linear-gradient(to bottom, rgba(11,11,9,.92), rgba(11,11,9,0));
-  transition:background .3s ease;
+.education-container {
+  padding: 0 clamp(20px, 4vw, 48px);
 }
-header.scrolled{ background:rgba(11,11,9,.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+.education-card-main {
+  background: var(--card-bg); border: 1px solid var(--line-strong);
+  border-radius: 4px; padding: clamp(24px, 4vw, 42px);
+  display: grid; grid-template-columns: 1fr 2fr; gap: 32px;
+  margin-bottom: 24px; position: relative; overflow: hidden;
+}
+.education-card-main::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+  background: var(--maroon);
+}
+.edu-highlight-label {
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--maroon); font-weight: 700; margin-bottom: 8px;
+}
+.edu-degree {
+  font-family: var(--font-display); font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+  text-transform: uppercase; color: var(--white); line-height: 1.1; margin-bottom: 12px;
+}
+.edu-status-badge {
+  display: inline-block; background: var(--paper); color: var(--ink);
+  font-weight: 700; font-size: .72rem; padding: 4px 10px; border-radius: 2px;
+  text-transform: uppercase; letter-spacing: .08em; margin-top: 6px;
+}
+.edu-institution {
+  font-size: .95rem; color: var(--cream-dim); font-weight: 600; margin-bottom: 6px;
+}
+.edu-timeline {
+  font-size: .78rem; color: var(--muted); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+.edu-description {
+  font-size: .88rem; line-height: 1.65; color: var(--muted);
+}
+.edu-details-list {
+  margin-top: 14px; list-style: none; display: flex; flex-wrap: wrap; gap: 10px;
+}
+.edu-details-list li {
+  font-size: .72rem; background: rgba(244,242,236,0.05); border: 1px solid var(--line);
+  padding: 5px 12px; border-radius: 20px; color: var(--cream-dim);
+}
 
-.nav-trigger{
-  font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; font-weight:600;
-  color:var(--cream-dim); position:relative; padding:4px 0;
-}
-.nav-trigger::after{
-  content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--cream);
-  transition:width .3s var(--ease);
-}
-.nav-trigger:hover::after{ width:100%; }
-
-.brand{
-  display:flex; align-items:center; gap:12px; justify-self:center;
-}
-.brand-badge{
-  width:38px; height:38px; border-radius:50%;
-  border:2px solid var(--cream-dim); overflow:hidden; flex-shrink:0;
-  background:var(--maroon);
-}
-.brand-badge img{ width:100%; height:100%; object-fit:cover; }
-.brand-word{
-  font-family:var(--font-mono); font-weight:700; font-size:.86rem;
-  letter-spacing:.08em; text-transform:uppercase; color:var(--white);
-}
-
-.header-right{ display:flex; align-items:center; gap:22px; }
-
-.lang-switch{ position:relative; }
-.lang-btn{
-  font-size:.7rem; letter-spacing:.1em; font-weight:600; color:var(--cream-dim);
-  border:1px solid var(--line-strong); padding:6px 10px; border-radius:20px;
-  display:flex; align-items:center; gap:6px;
-}
-.lang-btn i{ font-size:.6rem; transition:transform .25s ease; }
-.lang-switch.open .lang-btn i{ transform:rotate(180deg); }
-.lang-menu{
-  position:absolute; top:calc(100% + 10px); right:0; min-width:150px;
-  background:var(--paper); border-radius:10px; overflow:hidden;
-  box-shadow:0 18px 40px rgba(0,0,0,.45);
-  opacity:0; visibility:hidden; transform:translateY(-6px);
-  transition:all .22s var(--ease);
-}
-.lang-switch.open .lang-menu{ opacity:1; visibility:visible; transform:translateY(0); }
-.lang-menu button{
-  display:block; width:100%; text-align:left; padding:11px 14px;
-  font-size:.72rem; letter-spacing:.05em; color:var(--ink); font-weight:600;
-}
-.lang-menu button:hover{ background:var(--maroon); color:var(--white); }
-.lang-menu button.active{ color:var(--maroon); }
-
-/* ============================================================
-   HERO
-============================================================ */
-.hero{
-  min-height:100svh; display:flex; flex-direction:column; justify-content:center;
-  padding:140px clamp(20px,6vw,80px) 80px;
-  position:relative;
-}
-.hero-badge-row{
-  display:flex; align-items:center; gap:clamp(18px,3.4vw,34px);
-  flex-wrap:wrap;
-}
-.hero-badge{
-  width:clamp(96px,11vw,168px); height:clamp(96px,11vw,168px);
-  border-radius:50%; border:3px solid var(--cream-dim);
-  overflow:hidden; flex-shrink:0; background:var(--maroon);
-  box-shadow:0 30px 60px rgba(0,0,0,.5);
-}
-.hero-badge img{ width:100%; height:100%; object-fit:cover; }
-.hero-title{
-  font-family:var(--font-display); text-transform:uppercase;
-  font-size:clamp(3.4rem,10.6vw,8.6rem); line-height:.92;
-  color:var(--cream); letter-spacing:.005em;
-}
-.hero-title span{ display:block; }
-
-.hero-tagline{
-  max-width:640px; margin-top:38px;
-  font-size:1rem; line-height:1.7; color:var(--muted);
-}
-.hero-scroll{
-  margin-top:60px; display:flex; align-items:center; gap:10px;
-  font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted-2);
-}
-.hero-scroll i{ animation:bob 1.8s ease-in-out infinite; }
-@keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(6px);} }
-
-/* ============================================================
-   SECTION LABEL
-============================================================ */
-.section-head{
-  display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:14px;
-  padding:0 clamp(20px,4vw,48px); margin-bottom:2px;
-}
-.section-head h2{
-  font-family:var(--font-display); text-transform:uppercase; font-weight:400;
-  font-size:clamp(1.6rem,3vw,2.3rem); color:var(--cream);
-}
-.section-head .view-all{
-  font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
-  color:var(--muted); border-bottom:1px solid var(--line-strong); padding-bottom:3px;
-  transition:color .25s ease, border-color .25s ease;
-}
-.section-head .view-all:hover{ color:var(--cream); border-color:var(--cream); }
-
-/* ============================================================
-   PROJECT GRID
-============================================================ */
-.projects-grid{
-  display:grid; grid-template-columns:repeat(3,1fr);
-  border-top:1px solid var(--line); margin-top:22px;
-}
-.proj-card{
-  border-bottom:1px solid var(--line); border-right:1px solid var(--line);
-  padding:0 0 26px 0; cursor:pointer;
-  opacity:0; transform:translateY(24px);
-  transition:opacity .7s var(--ease), transform .7s var(--ease);
-}
-.proj-card.in{ opacity:1; transform:translateY(0); }
-.proj-card:nth-child(3n){ border-right:none; }
-.proj-thumb{
-  aspect-ratio:4/3; position:relative; overflow:hidden;
-  filter:grayscale(1) contrast(1.05);
-}
-.proj-thumb::before{
-  content:attr(data-mark); position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-display); font-size:clamp(3.2rem,7vw,6rem); color:rgba(255,255,255,.08);
-  text-transform:uppercase;
-}
-.proj-thumb::after{ content:''; position:absolute; inset:0; background:linear-gradient(155deg, rgba(255,255,255,.05), rgba(0,0,0,.35)); }
-.proj-card:hover .proj-thumb{ filter:grayscale(.2) contrast(1.05); }
-.proj-thumb{ transition:filter .4s ease; }
-.proj-meta-row{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:16px 20px 6px;
-}
-.proj-num{ font-size:.68rem; color:var(--muted-2); }
-.proj-cat{ font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-.proj-title-row{
-  display:flex; align-items:flex-end; justify-content:space-between; gap:12px; padding:0 20px;
-}
-.proj-title{
-  font-family:var(--font-display); font-weight:400; text-transform:uppercase;
-  font-size:clamp(1.05rem,1.7vw,1.4rem); color:var(--white); line-height:1.12; max-width:78%;
-}
-.detail-pill{
-  font-size:.62rem; letter-spacing:.08em; text-transform:uppercase; font-weight:600;
-  color:var(--cream-dim); border:1px solid var(--line-strong); border-radius:20px;
-  padding:7px 13px; white-space:nowrap; transition:all .25s var(--ease); flex-shrink:0;
-}
-.proj-card:hover .detail-pill{ background:var(--cream); color:var(--ink); border-color:var(--cream); transform:translate(-2px,-2px); }
-
-/* ============================================================
-   FOOTER
-============================================================ */
-footer{ background:var(--footer-bg); margin-top:100px; }
-.footer-grid{
-  display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:40px;
-  padding:70px clamp(20px,4vw,48px) 50px;
-}
-.footer-brand{ font-family:var(--font-display); text-transform:uppercase; font-size:1.5rem; color:var(--white); }
-.footer-socials{ display:flex; flex-direction:column; gap:10px; margin-top:22px; }
-.footer-socials a{
-  display:flex; align-items:center; gap:10px; font-size:.76rem; letter-spacing:.06em; color:var(--muted);
-  transition:color .25s ease;
-}
-.footer-socials a:hover{ color:var(--white); }
-.footer-socials a i{ width:16px; }
-.footer-col-label{ font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted-2); margin-bottom:16px; }
-.footer-col a, .footer-col p{ display:block; font-size:.84rem; color:var(--white); margin-bottom:8px; }
-.footer-col a:hover{ color:var(--cream); }
-.footer-time{ color:var(--cream-dim); font-variant-numeric:tabular-nums; }
-.footer-bottom{
-  border-top:1px solid var(--line); padding:22px clamp(20px,4vw,48px);
-  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
-  font-size:.7rem; color:var(--muted-2); letter-spacing:.04em;
+@media (max-width: 768px) {
+  .education-card-main { grid-template-columns: 1fr; gap: 20px; }
 }
 
 /* ============================================================
-   ABOUT MODAL
+   PROJECTS SECTION (ACTUAL PHOTOS & REF VIDEO LAYOUT)
 ============================================================ */
-.overlay{
-  position:fixed; inset:0; z-index:500; display:flex; align-items:center; justify-content:center;
-  padding:24px; background:rgba(6,6,5,.72); backdrop-filter:blur(6px);
-  opacity:0; visibility:hidden; transition:opacity .35s ease, visibility .35s ease;
+.projects-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line); margin-top: 12px;
 }
-.overlay.open{ opacity:1; visibility:visible; }
-.about-card{
-  position:relative; width:100%; max-width:640px; background:var(--paper); color:var(--ink);
-  border-radius:2px; padding:clamp(30px,4vw,48px); font-family:var(--font-mono);
-  transform:translateY(18px) scale(.98); transition:transform .4s var(--ease);
-  max-height:86vh; overflow-y:auto;
+.proj-card {
+  border-bottom: 1px solid var(--line); border-right: 1px solid var(--line);
+  padding: 0 0 26px 0; cursor: pointer;
+  transition: background .3s ease; position: relative;
 }
-.overlay.open .about-card{ transform:translateY(0) scale(1); }
-.about-card::before,.about-card::after,.about-corner-b1,.about-corner-b2{
-  content:''; position:absolute; width:22px; height:22px; border-color:var(--maroon); border-style:solid; opacity:.75;
-}
-.about-card::before{ top:10px; left:10px; border-width:2px 0 0 2px; }
-.about-card::after{ top:10px; right:10px; border-width:2px 2px 0 0; }
-.about-corner-b1{ bottom:10px; left:10px; border-width:0 0 2px 2px; }
-.about-corner-b2{ bottom:10px; right:10px; border-width:0 2px 2px 0; }
-.modal-close{
-  position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; border:1px solid rgba(0,0,0,.15);
-  color:var(--ink); font-size:.9rem; transition:all .25s ease;
-}
-.modal-close:hover{ background:var(--maroon); color:#fff; transform:translate(-2px,-2px); }
-.about-kicker{ font-size:.66rem; letter-spacing:.16em; text-transform:uppercase; color:var(--maroon); font-weight:700; margin-bottom:10px; }
-.about-bio{ font-size:.94rem; line-height:1.65; margin-bottom:22px; }
-hr.about-divider{ border:none; border-top:1px solid rgba(0,0,0,.14); margin:22px 0; }
-.about-cols{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:22px; }
-.about-col-label{ font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--maroon-2); margin-bottom:10px; font-weight:700; }
-.about-col a, .about-col p{ font-size:.82rem; margin-bottom:6px; display:block; }
-.edu-list{ display:flex; flex-direction:column; gap:14px; margin-bottom:22px; }
-.edu-item{ border-left:2px solid var(--maroon); padding-left:14px; }
-.edu-year{ font-size:.66rem; color:var(--muted-2); letter-spacing:.05em; }
-.edu-school{ font-weight:700; font-size:.88rem; margin:2px 0; }
-.edu-detail{ font-size:.78rem; color:#4a463d; line-height:1.5; }
-.skills-row{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
-.skill-chip{ font-size:.68rem; letter-spacing:.06em; padding:6px 12px; border:1px solid rgba(0,0,0,.18); border-radius:20px; text-transform:uppercase; font-weight:600; }
-.about-socials{ display:flex; gap:20px; justify-content:flex-end; flex-wrap:wrap; }
-.about-socials a{ font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
+.proj-card:nth-child(3n) { border-right: none; }
+.proj-card:hover { background: rgba(244,242,236,0.015); }
 
-/* ============================================================
-   PROJECTS OVERLAY (FULL LIST)
-============================================================ */
-.projects-page{
-  position:fixed; inset:0; z-index:400; background:var(--paper); color:var(--ink);
-  overflow-y:auto; transform:translateY(100%); transition:transform .5s var(--ease);
+.proj-thumb {
+  aspect-ratio: 4/3; position: relative; overflow: hidden;
+  background: var(--bg-soft);
 }
-.projects-page.open{ transform:translateY(0); }
-.pp-header{
-  position:sticky; top:0; background:var(--paper); z-index:10;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:20px clamp(20px,4vw,48px); border-bottom:1px solid rgba(0,0,0,.15);
+.proj-thumb img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(0.85) contrast(1.05);
+  transition: transform .6s var(--ease), filter .6s var(--ease);
 }
-.pp-close{
-  font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:var(--ink);
-  border:1px solid rgba(0,0,0,.25); border-radius:20px; padding:8px 16px;
-  display:flex; align-items:center; gap:8px;
+.proj-card:hover .proj-thumb img {
+  filter: grayscale(0) contrast(1.05);
+  transform: scale(1.04);
 }
-.pp-title{ font-family:var(--font-mono); font-weight:700; letter-spacing:.06em; text-transform:uppercase; font-size:.86rem; }
-.pp-table-wrap{ padding:24px clamp(20px,4vw,48px) 60px; }
-.pp-row-head, .pp-row{
-  display:grid; grid-template-columns:56px 1.6fr 1.4fr 1fr 70px 90px;
-  gap:14px; align-items:center; padding:14px 10px;
+.proj-meta-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 16px 20px 6px;
 }
-.pp-row-head{
-  font-size:.64rem; letter-spacing:.1em; text-transform:uppercase; color:#8a8471;
-  border-bottom:1px solid rgba(0,0,0,.18); font-weight:700;
+.proj-num { font-size: .68rem; color: var(--muted-2); }
+.proj-cat { font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.proj-title-row {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 0 20px;
 }
-.pp-row{
-  border-bottom:1px solid rgba(0,0,0,.09); cursor:pointer;
-  transition:background .18s ease, color .18s ease;
+.proj-title {
+  font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem); color: var(--white); line-height: 1.12; max-width: 78%;
 }
-.pp-row:hover{ background:var(--ink); color:var(--white); }
-.pp-row:hover .pp-muted{ color:#c9c6ba; }
-.pp-id{ font-size:.72rem; color:#a09a86; }
-.pp-proj{ font-weight:700; font-size:.86rem; }
-.pp-muted{ font-size:.76rem; color:#5c5747; }
-.pp-cat{ font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; }
-.pp-scroll-hint{
-  text-align:center; padding:30px 0 10px; font-size:.68rem; letter-spacing:.14em;
-  text-transform:uppercase; color:#8a8471;
+.detail-pill {
+  font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 600;
+  color: var(--cream-dim); border: 1px solid var(--line-strong); border-radius: 20px;
+  padding: 7px 13px; white-space: nowrap; transition: all .25s var(--ease); flex-shrink: 0;
+}
+.proj-card:hover .detail-pill {
+  background: var(--cream); color: var(--ink); border-color: var(--cream); transform: translate(-2px,-2px);
+}
+
+@media (max-width: 992px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .proj-card:nth-child(3n) { border-right: 1px solid var(--line); }
+  .proj-card:nth-child(2n) { border-right: none; }
+}
+@media (max-width: 600px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .proj-card { border-right: none !important; }
 }
 
 /* ============================================================
-   PROJECT DETAIL MODAL
+   FOOTER SECTION
 ============================================================ */
-.detail-card{
-  max-width:560px; background:var(--card-bg); color:var(--white); border-radius:4px;
-  padding:clamp(28px,4vw,42px); border:1px solid var(--line-strong);
-  transform:translateY(18px) scale(.98); transition:transform .4s var(--ease);
-  max-height:86vh; overflow-y:auto; position:relative;
+footer { background: var(--footer-bg); margin-top: 100px; border-top: 1px solid var(--line); }
+.footer-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px;
+  padding: 70px clamp(20px,4vw,48px) 50px;
 }
-.overlay.open .detail-card{ transform:translateY(0) scale(1); }
-.detail-thumb{
-  aspect-ratio:16/9; border-radius:2px; margin-bottom:22px; position:relative; overflow:hidden;
-  filter:grayscale(1);
+.footer-brand { font-family: var(--font-display); text-transform: uppercase; font-size: 1.6rem; color: var(--white); }
+.footer-socials { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+.footer-socials a {
+  display: flex; align-items: center; gap: 10px; font-size: .78rem; letter-spacing: .06em; color: var(--muted);
+  transition: color .25s ease;
 }
-.detail-thumb::before{
-  content:attr(data-mark); position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-display); font-size:3.4rem; color:rgba(255,255,255,.1); text-transform:uppercase;
+.footer-socials a:hover { color: var(--white); }
+.footer-socials a i { width: 16px; color: var(--maroon); }
+.footer-col-label { font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted-2); margin-bottom: 16px; }
+.footer-col a, .footer-col p { display: block; font-size: .84rem; color: var(--white); margin-bottom: 8px; }
+.footer-col a:hover { color: var(--cream); }
+.footer-time { color: var(--cream-dim); font-variant-numeric: tabular-nums; }
+.footer-bottom {
+  border-top: 1px solid var(--line); padding: 22px clamp(20px,4vw,48px);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;
+  font-size: .7rem; color: var(--muted-2); letter-spacing: .04em;
 }
-.detail-thumb::after{ content:''; position:absolute; inset:0; background:linear-gradient(155deg, rgba(255,255,255,.05), rgba(0,0,0,.4)); }
-.detail-close{
-  position:absolute; top:16px; right:16px; width:34px; height:34px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center; border:1px solid var(--line-strong);
-  color:var(--white); transition:all .25s ease;
+
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 30px; }
 }
-.detail-close:hover{ background:var(--cream); color:var(--ink); }
-.detail-cat{ font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
-.detail-title{ font-family:var(--font-display); text-transform:uppercase; font-size:clamp(1.5rem,3vw,2.1rem); color:var(--cream); margin-bottom:14px; }
-.detail-desc{ font-size:.88rem; line-height:1.7; color:#c9c6ba; margin-bottom:20px; }
-.detail-meta{ display:flex; gap:26px; flex-wrap:wrap; border-top:1px solid var(--line); padding-top:18px; }
-.detail-meta div span{ display:block; }
-.detail-meta .m-label{ font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted-2); margin-bottom:4px; }
-.detail-meta .m-value{ font-size:.8rem; color:var(--white); font-weight:600; }
 
 /* ============================================================
-   REVEAL
+   MODALS / OVERLAYS
 ============================================================ */
-.reveal{ opacity:0; transform:translateY(26px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
-.reveal.in{ opacity:1; transform:translateY(0); }
-
-/* ============================================================
-   RESPONSIVE
-============================================================ */
-@media (max-width:900px){
-  .projects-grid{ grid-template-columns:repeat(2,1fr); }
-  .proj-card:nth-child(3n){ border-right:1px solid var(--line); }
-  .proj-card:nth-child(2n){ border-right:none; }
-  .footer-grid{ grid-template-columns:1fr 1fr; }
-  .footer-grid .footer-col:first-child{ grid-column:1/-1; }
-  .about-cols{ grid-template-columns:1fr; }
-  .pp-row-head, .pp-row{ grid-template-columns:40px 1.6fr 1fr 80px; }
-  .pp-col-year, .pp-col-cat-head{ display:none; }
-  .pp-cat-mobile{ display:block !important; }
+.overlay {
+  position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center;
+  padding: 24px; background: rgba(6,6,5,.78); backdrop-filter: blur(8px);
+  opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility .35s ease;
 }
-@media (max-width:640px){
-  header{ padding:16px 18px; }
-  .brand-word{ display:none; }
-  .hero{ padding:120px 20px 60px; }
-  .hero-badge-row{ gap:16px; }
-  .hero-title{ font-size:clamp(2.6rem,13vw,4rem); }
-  .projects-grid{ grid-template-columns:1fr; }
-  .proj-card:nth-child(2n){ border-right:none; }
-  .footer-grid{ grid-template-columns:1fr; padding-top:50px; }
-  .pp-row-head{ display:none; }
-  .pp-row{ grid-template-columns:1fr; gap:4px; padding:16px 10px; }
-  .pp-muted, .pp-cat{ font-size:.72rem; }
+.overlay.open { opacity: 1; visibility: visible; }
+.about-card {
+  position: relative; width: 100%; max-width: 640px; background: var(--paper); color: var(--ink);
+  border-radius: 2px; padding: clamp(30px, 4vw, 48px); font-family: var(--font-mono);
+  transform: translateY(18px) scale(.98); transition: transform .4s var(--ease);
+  max-height: 86vh; overflow-y: auto;
 }
-@media (prefers-reduced-motion: reduce){
-  *{ animation:none !important; transition:none !important; }
+.overlay.open .about-card { transform: translateY(0) scale(1); }
+.modal-close {
+  position: absolute; top: 18px; right: 18px; width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,.15);
+  color: var(--ink); font-size: .9rem; transition: all .25s ease;
 }
+.modal-close:hover { background: var(--maroon); color: #fff; transform: translate(-2px,-2px); }
+.about-kicker { font-size: .66rem; letter-spacing: .16em; text-transform: uppercase; color: var(--maroon); font-weight: 700; margin-bottom: 10px; }
+.about-bio { font-size: .94rem; line-height: 1.65; margin-bottom: 22px; }
+hr.about-divider { border: none; border-top: 1px solid rgba(0,0,0,.14); margin: 20px 0; }
 </style>
 </head>
+
 <body>
 
-<header id="site-header">
-  <button class="nav-trigger" id="open-about" data-i18n="nav_about">ABOUT</button>
-  <a href="#home" class="brand">
-    <div class="brand-badge"><img src="vector.png" alt="Alok Sharma" onerror="this.onerror=null;this.src=FALLBACK_AVATAR;"></div>
-    <span class="brand-word">Alok Sharma</span>
-  </a>
-  <div class="header-right">
-    <div class="lang-switch" id="lang-switch">
-      <button class="lang-btn" id="lang-btn"><span id="lang-btn-label">EN</span> <i class="fa-solid fa-chevron-down"></i></button>
-      <div class="lang-menu" id="lang-menu">
-        <button data-lang="en" class="active">English</button>
-        <button data-lang="np">नेपाली</button>
-        <button data-lang="de">Deutsch</button>
-        <button data-lang="es">Español</button>
-      </div>
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header id="header">
+  <button class="nav-trigger" onclick="toggleAboutModal()">About / Details</button>
+
+  <!-- CIRCLE REPLACEMENT: vector.png inside circular brand badge -->
+  <a href="#" class="brand">
+    <div class="brand-badge">
+      <img src="vector.png" alt="Alok Sharma">
     </div>
-    <button class="nav-trigger" id="open-projects" data-i18n="nav_projects">PROJECTS</button>
+    <span class="brand-word">ALOK SHARMA</span>
+  </a>
+
+  <div class="header-right">
+    <a href="#projects" class="nav-trigger">Work</a>
+    <a href="#education" class="nav-trigger">Education</a>
+    <a href="#contact" class="nav-trigger">Contact</a>
   </div>
 </header>
 
-<section class="hero" id="home">
-  <div class="hero-badge-row">
-    <div class="hero-badge"><img src="vector.png" alt="Alok Sharma" onerror="this.onerror=null;this.src=FALLBACK_AVATAR;"></div>
-    <h1 class="hero-title"><span>ALOK</span><span>SHARMA</span></h1>
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<section class="hero">
+  <!-- CLEAR CURRENT EDUCATION STATUS -->
+  <div class="hero-status-pill">
+    <span class="pulse-dot"></span>
+    COMPUTER SCIENCE STUDENT — 4TH SEMESTER
   </div>
-  <p class="hero-tagline" data-i18n="hero_tagline">A Computer Science student in Kathmandu designing premium football posters, matchday graphics, and Instagram reels for European football.</p>
-  <div class="hero-scroll"><i class="fa-solid fa-arrow-down"></i><span data-i18n="hero_scroll_hint">Scroll to see the work</span></div>
+
+  <div class="hero-badge-row">
+    <!-- CIRCLE REPLACEMENT: vector.png inside the hero circular element -->
+    <div class="hero-badge">
+      <img src="vector.png" alt="Alok Sharma">
+    </div>
+
+    <h1 class="hero-title">
+      <span>ALOK</span>
+      <span>SHARMA</span>
+    </h1>
+  </div>
+
+  <!-- HERO MAIN VISUAL: Replaces reference video bird with main hero photo -->
+  <div class="hero-visual-frame">
+    <img src="hero-main.jpg" alt="Alok Sharma - Main Visual" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop'">
+  </div>
+
+  <p class="hero-tagline">
+    Computer Science undergrad specialized in software development, cinematic visual design, high-impact poster artwork, and digital media architecture.
+  </p>
+
+  <div class="hero-scroll">
+    <i class="fa-solid fa-arrow-down"></i> Scroll to explore portfolio & education
+  </div>
 </section>
 
-<div class="section-head reveal">
-  <h2 data-i18n="section_selected_work">Selected Work</h2>
-  <button class="view-all" id="view-all-btn" data-i18n="section_view_all">View all projects</button>
-</div>
-<div class="projects-grid" id="projects-grid-preview"></div>
+<!-- ============================================================
+     EDUCATION SECTION (MANDATORY & FULLY VISIBLE)
+============================================================ -->
+<section class="section-wrapper" id="education">
+  <div class="section-head">
+    <h2>Academic Profile</h2>
+    <span class="sub-tag">Verified Status</span>
+  </div>
 
-<footer>
-  <div class="footer-grid">
-    <div class="footer-col">
-      <div class="footer-brand">ALOK SHARMA</div>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener"><i class="fa-brands fa-instagram"></i> Instagram</a>
-        <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
-        <a href="https://x.com/alokynwa" target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i> X</a>
-        <a href="https://www.linkedin.com/in/alok-sharma-511993280" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a>
+  <div class="education-container">
+    <div class="education-card-main">
+      <div>
+        <div class="edu-highlight-label">Current Academic Standing</div>
+        <div class="edu-degree">B.Sc. Computer Science</div>
+        <div class="edu-status-badge">4th Semester Computer Science Student</div>
+      </div>
+      <div>
+        <div class="edu-institution"><i class="fa-solid fa-graduation-cap"></i> Faculty of Computer Science & Technology</div>
+        <div class="edu-timeline"><i class="fa-regular fa-calendar"></i> 2024 — Present (Currently Active)</div>
+        <p class="edu-description">
+          Pursuing core computer science disciplines including Data Structures & Algorithms, Object-Oriented Software Design, Web Technologies, and Database Systems while maintaining ongoing technical creative projects.
+        </p>
+        <ul class="edu-details-list">
+          <li>Software Engineering</li>
+          <li>Algorithms & Data Structures</li>
+          <li>Database Architecture</li>
+          <li>UI/UX & Digital Media</li>
+        </ul>
       </div>
     </div>
-    <div class="footer-col">
-      <div class="footer-col-label" data-i18n="footer_contact">Contact</div>
-      <a href="mailto:alokkynwa@gmail.com">alokkynwa@gmail.com</a>
-      <a href="tel:+9779843538473">(+977) 984-353-8473</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECTS SECTION (SHOWS ACTUAL PROJECT PHOTOS)
+============================================================ -->
+<section class="section-wrapper" id="projects">
+  <div class="section-head">
+    <h2>Selected Works</h2>
+    <span class="sub-tag">Projects & Artwork</span>
+  </div>
+
+  <div class="projects-grid">
+    <!-- Project 1 -->
+    <div class="proj-card" onclick="openProjectModal('Liverpool FC - Cinematic Matchday Poster', 'cinematic-poster.jpg', 'Sports Visual Design / Photoshop', 'High-impact matchday design featuring cinematic lighting, custom typography, and official Liverpool FC brand aesthetics.')">
+      <div class="proj-thumb">
+        <img src="projects/lfc-poster.jpg" alt="Liverpool FC Matchday" onerror="this.src='https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop'">
+      </div>
+      <div class="proj-meta-row">
+        <span class="proj-num">01</span>
+        <span class="proj-cat">Graphic Design</span>
+      </div>
+      <div class="proj-title-row">
+        <h3 class="proj-title">Liverpool FC Cinematic Graphic</h3>
+        <span class="detail-pill">View</span>
+      </div>
     </div>
-    <div class="footer-col">
-      <div class="footer-col-label" data-i18n="footer_location">Location</div>
-      <p>Kathmandu, Nepal</p>
-      <p class="footer-time" id="footer-time">--:--:--</p>
+
+    <!-- Project 2 -->
+    <div class="proj-card" onclick="openProjectModal('Anfield Stadium Architectural Render', 'anfield-render.jpg', '3D Architecture & Lighting', 'Detailed architectural composite of Anfield stadium featuring custom match night lighting and atmosphere.')">
+      <div class="proj-thumb">
+        <img src="projects/anfield-render.jpg" alt="Anfield Graphic" onerror="this.src='https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=800&auto=format&fit=crop'">
+      </div>
+      <div class="proj-meta-row">
+        <span class="proj-num">02</span>
+        <span class="proj-cat">Digital Artwork</span>
+      </div>
+      <div class="proj-title-row">
+        <h3 class="proj-title">Anfield Stadium Visuals</h3>
+        <span class="detail-pill">View</span>
+      </div>
+    </div>
+
+    <!-- Project 3 -->
+    <div class="proj-card" onclick="openProjectModal('Personal Brand Identity - Alok Sharma', 'brand-identity.jpg', 'Branding & Systems', 'Modern minimalist personal identity and code logo system developed for developer portfolio platform.')">
+      <div class="proj-thumb">
+        <img src="vector.png" alt="Brand Identity" style="object-fit: contain; padding: 20px;">
+      </div>
+      <div class="proj-meta-row">
+        <span class="proj-num">03</span>
+        <span class="proj-cat">Brand Identity</span>
+      </div>
+      <div class="proj-title-row">
+        <h3 class="proj-title">Developer Brand & Logo</h3>
+        <span class="detail-pill">View</span>
+      </div>
+    </div>
+
+    <!-- Project 4 -->
+    <div class="proj-card" onclick="openProjectModal('Social Media Graphics - पत्तासाफ', 'pattasaaf-graphics.jpg', 'News & Media Design', 'Editorial graphics, live scoreboards, and viral news-style poster layouts engineered for social media broadcasting.')">
+      <div class="proj-thumb">
+        <img src="projects/pattasaaf-news.jpg" alt="पत्तासाफ Graphics" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=800&auto=format&fit=crop'">
+      </div>
+      <div class="proj-meta-row">
+        <span class="proj-num">04</span>
+        <span class="proj-cat">Media & Branding</span>
+      </div>
+      <div class="proj-title-row">
+        <h3 class="proj-title">पत्तासाफ Media Platform</h3>
+        <span class="detail-pill">View</span>
+      </div>
+    </div>
+
+    <!-- Project 5 -->
+    <div class="proj-card" onclick="openProjectModal('Regional Election Infographics Trackers', 'election-graphics.jpg', 'Data Visualization', 'Live vote updates, party icon designs, and real-time news scoreboard layouts built for rapid broadcast.')">
+      <div class="proj-thumb">
+        <img src="projects/election-data.jpg" alt="Election Data Graphics" onerror="this.src='https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop'">
+      </div>
+      <div class="proj-meta-row">
+        <span class="proj-num">05</span>
+        <span class="proj-cat">Infographics</span>
+      </div>
+      <div class="proj-title-row">
+        <h3 class="proj-title">Election Data Trackers</h3>
+        <span class="detail-pill">View</span>
+      </div>
+    </div>
+
+    <!-- Project 6 -->
+    <div class="proj-card" onclick="openProjectModal('Cultural Invitation Card Architecture', 'invitation-card.jpg', 'Print & Typography', 'Traditional ceremony invitation design incorporating vermilion gold accents and precise Devanagari typography.')">
+      <div class="proj-thumb">
+        <img src="projects/invitation-design.jpg" alt="Invitation Card" onerror="this.src='https://images.unsplash.com/photo-1607344645866-009c320c5ab8?q=80&w=800&auto=format&fit=crop'">
+      </div>
+      <div class="proj-meta-row">
+        <span class="proj-num">06</span>
+        <span class="proj-cat">Print & Typography</span>
+      </div>
+      <div class="proj-title-row">
+        <h3 class="proj-title">Cultural Invitation Suite</h3>
+        <span class="detail-pill">View</span>
+      </div>
     </div>
   </div>
+</section>
+
+<!-- ============================================================
+     FOOTER & CONTACT
+============================================================ -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">ALOK SHARMA</div>
+      <p style="font-size: .82rem; color: var(--muted); margin-top: 8px;">
+        4th Semester Computer Science Student • Developer & Designer
+      </p>
+      <div class="footer-socials">
+        <a href="mailto:alokkynwa@gmail.com"><i class="fa-solid fa-envelope"></i> alokkynwa@gmail.com</a>
+        <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+        <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+        <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i> Facebook</a>
+        <a href="https://x.com" target="_blank"><i class="fa-brands fa-x-twitter"></i> X / Twitter</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-label">Navigation</div>
+      <a href="#">Home</a>
+      <a href="#education">Education Details</a>
+      <a href="#projects">Selected Work</a>
+      <a href="javascript:void(0)" onclick="toggleAboutModal()">About & Profile</a>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-label">Current Academic Status</div>
+      <p>4th Semester B.Sc. CS</p>
+      <p style="color: var(--muted); font-size: .78rem; margin-top: 6px;">Available for software development & visual design opportunities.</p>
+    </div>
+  </div>
+
   <div class="footer-bottom">
-    <span>© 2026 Alok Sharma</span>
-    <span data-i18n="footer_rights">All rights reserved.</span>
+    <span>© 2026 Alok Sharma. All rights reserved.</span>
+    <span>Designed & Engineered with Precision</span>
   </div>
 </footer>
 
-<!-- ABOUT MODAL -->
-<div class="overlay" id="about-overlay">
+<!-- ============================================================
+     ABOUT MODAL OVERLAY
+============================================================ -->
+<div class="overlay" id="aboutModal">
   <div class="about-card">
-    <div class="about-corner-b1"></div><div class="about-corner-b2"></div>
-    <button class="modal-close" id="close-about"><i class="fa-solid fa-xmark"></i></button>
-    <div class="about-kicker" data-i18n="about_kicker">STUDENT · GRAPHIC DESIGNER</div>
-    <p class="about-bio" data-i18n="about_bio">Alok Sharma is a Computer Science undergraduate at Amrit Science Campus (T.U.), Kathmandu — building sharp, cinematic visuals for European football. Matchday posters, player tributes, and social content, one design at a time.</p>
+    <button class="modal-close" onclick="toggleAboutModal()"><i class="fa-solid fa-xmark"></i></button>
+    
+    <div class="about-kicker">Developer Profile</div>
+    <h2 style="font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; margin-bottom: 12px;">Alok Sharma</h2>
+    
+    <div class="edu-status-badge" style="margin-bottom: 18px;">4th Semester Computer Science Student</div>
+
+    <p class="about-bio">
+      I am a Computer Science undergraduate combining software engineering principles with high-end digital image creation, cinematic aesthetics, and data visualizers.
+    </p>
+
     <hr class="about-divider">
-    <div class="about-cols">
-      <div class="about-col">
-        <div class="about-col-label" data-i18n="about_contact_label">Contact</div>
-        <a href="mailto:alokkynwa@gmail.com">alokkynwa@gmail.com</a>
-        <a href="tel:+9779843538473">(+977) 984-353-8473</a>
-        <p>Kathmandu, Nepal</p>
-      </div>
-      <div class="about-col">
-        <div class="about-col-label" data-i18n="about_info_label">Languages</div>
-        <p>🇳🇵 Nepali &nbsp; 🇬🇧 English</p>
-        <p>🇮🇳 Hindi &nbsp; 🇩🇪 German</p>
-      </div>
-    </div>
-    <div class="about-col-label" data-i18n="about_education_label">Education</div>
-    <div class="edu-list">
-      <div class="edu-item">
-        <div class="edu-year">2010 — 2022</div>
-        <div class="edu-school">Mahakavi Devkota Memorial Secondary School</div>
-        <div class="edu-detail">Secondary Education Examination (SEE) — GPA 3.75. English, Nepali, Maths, Social Studies, Science, Optional Maths, Computer Science.</div>
-      </div>
-      <div class="edu-item">
-        <div class="edu-year">2022 — 2024</div>
-        <div class="edu-school">Reliance International Academy</div>
-        <div class="edu-detail">+2 Higher Secondary Science — GPA 3.62. Physics, Chemistry, Computer Science, English, Nepali, Mathematics.</div>
-      </div>
-      <div class="edu-item">
-        <div class="edu-year">2024 — Present</div>
-        <div class="edu-school">Amrit Science Campus (T.U.)</div>
-        <div class="edu-detail">B.Sc. CSIT — currently pursuing.</div>
-      </div>
-    </div>
-    <div class="about-col-label" data-i18n="about_skills_label">Skills</div>
-    <div class="skills-row">
-      <span class="skill-chip">HTML</span>
-      <span class="skill-chip">CSS</span>
-      <span class="skill-chip">Python</span>
-      <span class="skill-chip">Photoshop</span>
-    </div>
-    <div class="about-socials">
-      <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener">Facebook</a>
-      <a href="https://x.com/alokynwa" target="_blank" rel="noopener">X</a>
-      <a href="https://www.linkedin.com/in/alok-sharma-511993280" target="_blank" rel="noopener">LinkedIn</a>
-    </div>
+
+    <div class="about-kicker">Education Details</div>
+    <p style="font-weight: 600; font-size: .9rem;">Bachelor of Science in Computer Science</p>
+    <p style="font-size: .82rem; color: var(--muted); margin-bottom: 14px;">4th Semester • Currently Enrolled</p>
+
+    <hr class="about-divider">
+
+    <div class="about-kicker">Direct Contact</div>
+    <p style="font-size: .88rem; font-weight: 600;">Email: <a href="mailto:alokkynwa@gmail.com" style="color: var(--maroon);">alokkynwa@gmail.com</a></p>
   </div>
 </div>
 
-<!-- PROJECTS FULL PAGE -->
-<div class="projects-page" id="projects-page">
-  <div class="pp-header">
-    <div class="pp-title">ALOK SHARMA — <span data-i18n="nav_projects">PROJECTS</span></div>
-    <button class="pp-close" id="close-projects-page"><i class="fa-solid fa-xmark"></i> <span data-i18n="btn_close">Close</span></button>
-  </div>
-  <div class="pp-table-wrap">
-    <div class="pp-row-head">
-      <div data-i18n="table_id">ID</div>
-      <div data-i18n="table_project">Project</div>
-      <div data-i18n="table_featuring">Featuring</div>
-      <div class="pp-col-cat-head" data-i18n="table_category">Category</div>
-      <div class="pp-col-year" data-i18n="table_year">Year</div>
-      <div></div>
+<!-- ============================================================
+     PROJECT DETAIL MODAL OVERLAY
+============================================================ -->
+<div class="overlay" id="projectModal">
+  <div class="about-card" style="max-width: 720px;">
+    <button class="modal-close" onclick="closeProjectModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="about-kicker" id="modalProjCat">Category</div>
+    <h2 id="modalProjTitle" style="font-family: var(--font-display); font-size: 1.8rem; text-transform: uppercase; margin-bottom: 16px;">Project Title</h2>
+    <div style="border-radius: 4px; overflow: hidden; margin-bottom: 18px; max-height: 380px; background: #000;">
+      <img id="modalProjImg" src="" alt="Project Image" style="width:100%; height:100%; object-fit:contain;">
     </div>
-    <div id="pp-rows"></div>
-    <div class="pp-scroll-hint" data-i18n="table_scroll_hint">Scroll to see more — click any row for details</div>
+    <p class="about-bio" id="modalProjDesc">Project Description</p>
   </div>
-</div>
-
-<!-- PROJECT DETAIL MODAL -->
-<div class="overlay" id="detail-overlay">
-  <div class="detail-card" id="detail-card-content"></div>
 </div>
 
 <script>
-/* ============================================================
-   AVATAR FALLBACK (used if vector.png isn't found next to this file)
-============================================================ */
-const FALLBACK_AVATAR = "data:image/svg+xml;utf8," + encodeURIComponent(`
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
-  <rect width='200' height='200' fill='#8a2432'/>
-  <text x='100' y='118' font-family='Arial, sans-serif' font-size='72' font-weight='700' fill='#ece0c2' text-anchor='middle'>AS</text>
-</svg>`);
-
-/* ============================================================
-   PROJECT DATA
-============================================================ */
-const PROJECTS = [
-  { id:1,  cat:'matchday', title:'Portugal VS Colombia', featuring:'Cristiano Ronaldo', year:2025,
-    desc:'A matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami.' },
-  { id:2,  cat:'signing', title:'Dominik Szoboszlai', featuring:'Dominik Szoboszlai', year:2025,
-    desc:'A graphic marking Dominik Szoboszlai signing a new contract through 2031 at Liverpool FC.' },
-  { id:3,  cat:'matchday', title:'Argentina VS Spain', featuring:'Argentina · Spain', year:2025,
-    desc:'A cinematic matchday graphic for the international clash between Argentina and Spain.' },
-  { id:4,  cat:'matchday', title:'France VS Sweden', featuring:'France · Sweden', year:2025,
-    desc:'Matchday promotional graphic for the international game between France and Sweden.' },
-  { id:5,  cat:'matchday', title:'France VS Spain', featuring:'France · Spain', year:2025,
-    desc:'A high-energy matchday visual for the European heavyweight matchup between France and Spain.' },
-  { id:6,  cat:'worldcup', title:'Argentina VS Austria', featuring:'Lionel Messi', year:2025,
-    desc:'A World Cup group-stage matchday graphic between Argentina and Austria, featuring Lionel Messi.' },
-  { id:7,  cat:'matchday', title:'Spain VS Belgium', featuring:'Spain · Belgium', year:2025,
-    desc:'A matchday poster focused on the tactical battle between Spain and Belgium.' },
-  { id:8,  cat:'matchday', title:'England VS Argentina', featuring:'England · Argentina', year:2025,
-    desc:'Matchday poster design for the highly anticipated fixture between England and Argentina.' },
-  { id:9,  cat:'worldcup', title:'Portugal VS Congo', featuring:'Cristiano Ronaldo', year:2025,
-    desc:'A World Cup group-stage matchday graphic between Portugal and Congo, featuring Cristiano Ronaldo.' },
-  { id:10, cat:'tribute', title:'Heavy Metal Football', featuring:'Jürgen Klopp · Andoni Iraola', year:2025,
-    desc:'A minimal graphic marking the return of heavy-metal football at Liverpool — Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool\'s new manager who shares that same intensity.' },
-  { id:11, cat:'matchday', title:'Liverpool VS Brentford', featuring:'Liverpool FC · Brentford', year:2026,
-    desc:'Matchday design for the final Premier League game of the 2025-26 campaign.' },
-  { id:12, cat:'tribute', title:'One Last Time At Anfield', featuring:'Mohamed Salah · Andy Robertson', year:2025,
-    desc:'A design featuring Mohamed Salah and Andy Robertson ahead of their last match for LFC at Anfield.' },
-  { id:13, cat:'worldcup', title:'FIFA World Cup 2026', featuring:'World Cup 2026', year:2026,
-    desc:'A FIFA World Cup 2026 preview design featuring key star players, eyes fixed on the trophy.' },
-  { id:14, cat:'matchday', title:'Liverpool VS Chelsea', featuring:'Florian Wirtz · Cole Palmer', year:2025,
-    desc:'A matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.' },
-  { id:15, cat:'tribute', title:'Thank You, Robbo!', featuring:'Andy Robertson', year:2025,
-    desc:'A poster filled with passion and pride, celebrating Robbo\'s fearless spirit and unforgettable journey in red.' },
-  { id:16, cat:'tribute', title:'Thank You, Mo!', featuring:'Mohamed Salah', year:2025,
-    desc:'A tribute poster capturing Salah\'s legacy, glory, and the magic he brought to Anfield through the years.' },
-  { id:17, cat:'matchday', title:'Liverpool FC VS Manchester City', featuring:'Mohamed Salah · Erling Haaland', year:2025,
-    desc:'An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.' },
-  { id:18, cat:'matchday', title:'Liverpool FC VS Galatasaray', featuring:'Hugo Ekitike · Victor Osimhen', year:2025,
-    desc:'A high-energy Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout poster.' },
-  { id:19, cat:'matchday', title:'Liverpool FC VS Paris Saint-Germain', featuring:'Florian Wirtz · Khvicha Kvaratskhelia', year:2025,
-    desc:'A high-vibrancy, neon-style Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia before a big European knockout match.' },
-  { id:20, cat:'editorial', title:'Slot Out!', featuring:'Liverpool FC', year:2025,
-    desc:'An emotional editorial capturing Liverpool\'s downfall under pressure — shattered dreams, frustrated stars, and the growing noise around Slot\'s future at Anfield.' },
-];
-
-const CATEGORY_LABELS = {
-  en:{ matchday:'MATCHDAY', tribute:'TRIBUTE', worldcup:'WORLD CUP', signing:'SIGNING', editorial:'EDITORIAL' },
-  np:{ matchday:'म्याचडे', tribute:'ट्रिब्युट', worldcup:'विश्वकप', signing:'हस्ताक्षर', editorial:'सम्पादकीय' },
-  de:{ matchday:'SPIELTAG', tribute:'TRIBUT', worldcup:'WM', signing:'VERTRAG', editorial:'EDITORIAL' },
-  es:{ matchday:'JORNADA', tribute:'HOMENAJE', worldcup:'MUNDIAL', signing:'FICHAJE', editorial:'EDITORIAL' },
-};
-
-/* ============================================================
-   I18N
-============================================================ */
-const I18N = {
-  en:{
-    nav_about:'About', nav_projects:'Projects',
-    hero_tagline:'A Computer Science student in Kathmandu designing premium football posters, matchday graphics, and Instagram reels for European football.',
-    hero_scroll_hint:'Scroll to see the work',
-    section_selected_work:'Selected Work', section_view_all:'View all projects',
-    btn_view_details:'View details', btn_close:'Close',
-    about_kicker:'STUDENT · GRAPHIC DESIGNER',
-    about_bio:'Alok Sharma is a Computer Science undergraduate at Amrit Science Campus (T.U.), Kathmandu — building sharp, cinematic visuals for European football. Matchday posters, player tributes, and social content, one design at a time.',
-    about_contact_label:'Contact', about_info_label:'Languages', about_education_label:'Education', about_skills_label:'Skills',
-    footer_contact:'Contact', footer_location:'Location', footer_rights:'All rights reserved.',
-    table_id:'ID', table_project:'Project', table_featuring:'Featuring', table_category:'Category', table_year:'Year',
-    table_scroll_hint:'Scroll to see more — click any row for details',
-    time_label:'Local time in Kathmandu',
-  },
-  np:{
-    nav_about:'बारेमा', nav_projects:'प्रोजेक्टहरू',
-    hero_tagline:'काठमाडौंमा बस्ने कम्प्युटर विज्ञानका विद्यार्थी, युरोपेली फुटबलका लागि प्रिमियम पोस्टर, म्याचडे ग्राफिक्स र इन्स्टाग्राम रिलहरू डिजाइन गर्छन्।',
-    hero_scroll_hint:'काम हेर्न स्क्रोल गर्नुहोस्',
-    section_selected_work:'छानिएका काम', section_view_all:'सबै प्रोजेक्ट हेर्नुहोस्',
-    btn_view_details:'विवरण हेर्नुहोस्', btn_close:'बन्द गर्नुहोस्',
-    about_kicker:'विद्यार्थी · ग्राफिक डिजाइनर',
-    about_bio:'अलोक शर्मा काठमाडौंको अमृत साइन्स क्याम्पस (त्रि.वि.) मा कम्प्युटर विज्ञान अध्ययनरत विद्यार्थी हुन् — युरोपेली फुटबलका लागि आकर्षक भिजुअलहरू बनाउँछन्। म्याचडे पोस्टर, खेलाडी ट्रिब्युट, र सामाजिक सामग्री, एक-एक डिजाइन गर्दै।',
-    about_contact_label:'सम्पर्क', about_info_label:'भाषाहरू', about_education_label:'शिक्षा', about_skills_label:'सीपहरू',
-    footer_contact:'सम्पर्क', footer_location:'स्थान', footer_rights:'सर्वाधिकार सुरक्षित।',
-    table_id:'आईडी', table_project:'प्रोजेक्ट', table_featuring:'समावेश', table_category:'श्रेणी', table_year:'वर्ष',
-    table_scroll_hint:'थप हेर्न स्क्रोल गर्नुहोस् — विवरणका लागि पङ्क्तिमा क्लिक गर्नुहोस्',
-    time_label:'काठमाडौं स्थानीय समय',
-  },
-  de:{
-    nav_about:'Über mich', nav_projects:'Projekte',
-    hero_tagline:'Ein Informatikstudent in Kathmandu, der hochwertige Fußballposter, Spieltag-Grafiken und Instagram-Reels für den europäischen Fußball gestaltet.',
-    hero_scroll_hint:'Scrollen für die Arbeiten',
-    section_selected_work:'Ausgewählte Arbeiten', section_view_all:'Alle Projekte ansehen',
-    btn_view_details:'Details ansehen', btn_close:'Schließen',
-    about_kicker:'STUDENT · GRAFIKDESIGNER',
-    about_bio:'Alok Sharma studiert Informatik am Amrit Science Campus (T.U.) in Kathmandu und gestaltet ausdrucksstarke Visuals für den europäischen Fußball. Spieltagsposter, Spieler-Tributes und Social-Content — Design für Design.',
-    about_contact_label:'Kontakt', about_info_label:'Sprachen', about_education_label:'Ausbildung', about_skills_label:'Fähigkeiten',
-    footer_contact:'Kontakt', footer_location:'Standort', footer_rights:'Alle Rechte vorbehalten.',
-    table_id:'ID', table_project:'Projekt', table_featuring:'Mit', table_category:'Kategorie', table_year:'Jahr',
-    table_scroll_hint:'Scrollen für mehr — Zeile anklicken für Details',
-    time_label:'Ortszeit Kathmandu',
-  },
-  es:{
-    nav_about:'Sobre mí', nav_projects:'Proyectos',
-    hero_tagline:'Estudiante de Ciencias de la Computación en Katmandú que diseña pósters de fútbol de alta gama, gráficos de jornada y reels de Instagram sobre fútbol europeo.',
-    hero_scroll_hint:'Desplázate para ver el trabajo',
-    section_selected_work:'Trabajos seleccionados', section_view_all:'Ver todos los proyectos',
-    btn_view_details:'Ver detalles', btn_close:'Cerrar',
-    about_kicker:'ESTUDIANTE · DISEÑADOR GRÁFICO',
-    about_bio:'Alok Sharma estudia Ciencias de la Computación en Amrit Science Campus (T.U.), Katmandú, y crea imágenes impactantes para el fútbol europeo. Pósters de jornada, homenajes a jugadores y contenido social, diseño a diseño.',
-    about_contact_label:'Contacto', about_info_label:'Idiomas', about_education_label:'Educación', about_skills_label:'Habilidades',
-    footer_contact:'Contacto', footer_location:'Ubicación', footer_rights:'Todos los derechos reservados.',
-    table_id:'ID', table_project:'Proyecto', table_featuring:'Con', table_category:'Categoría', table_year:'Año',
-    table_scroll_hint:'Desplázate para ver más — haz clic en una fila para ver los detalles',
-    time_label:'Hora local de Katmandú',
-  },
-};
-let currentLang = 'en';
-
-function applyLang(lang){
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  const dict = I18N[lang];
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    if(dict[key]) el.textContent = dict[key];
-  });
-  document.getElementById('lang-btn-label').textContent = lang.toUpperCase();
-  document.querySelectorAll('.lang-menu button').forEach(b=>b.classList.toggle('active', b.dataset.lang===lang));
-  renderProjectGrid();
-  renderProjectsTable();
-}
-
-/* ============================================================
-   RENDER: PREVIEW GRID (first 6)
-============================================================ */
-function renderProjectGrid(){
-  const grid = document.getElementById('projects-grid-preview');
-  grid.innerHTML = '';
-  PROJECTS.slice(0,6).forEach(p=>{
-    const catLabel = CATEGORY_LABELS[currentLang][p.cat];
-    const card = document.createElement('div');
-    card.className = 'proj-card reveal';
-    card.innerHTML = `
-      <div class="proj-thumb" data-mark="${p.title.slice(0,2).toUpperCase()}"></div>
-      <div class="proj-meta-row"><span class="proj-num">${String(p.id).padStart(3,'0')}</span><span class="proj-cat">${catLabel}</span></div>
-      <div class="proj-title-row">
-        <div class="proj-title">${p.title}</div>
-        <div class="detail-pill">${I18N[currentLang].btn_view_details}</div>
-      </div>`;
-    card.addEventListener('click', ()=>openDetail(p.id));
-    grid.appendChild(card);
-  });
-  observeReveals();
-}
-
-/* ============================================================
-   RENDER: FULL TABLE
-============================================================ */
-function renderProjectsTable(){
-  const wrap = document.getElementById('pp-rows');
-  wrap.innerHTML = '';
-  PROJECTS.forEach(p=>{
-    const catLabel = CATEGORY_LABELS[currentLang][p.cat];
-    const row = document.createElement('div');
-    row.className = 'pp-row';
-    row.innerHTML = `
-      <div class="pp-id">${String(p.id).padStart(3,'0')}</div>
-      <div class="pp-proj">${p.title}</div>
-      <div class="pp-muted">${p.featuring}</div>
-      <div class="pp-cat pp-col-cat-head">${catLabel}</div>
-      <div class="pp-muted pp-col-year">${p.year}</div>
-      <div class="pp-muted" style="text-align:right;">→</div>`;
-    row.addEventListener('click', ()=>openDetail(p.id));
-    wrap.appendChild(row);
-  });
-}
-
-/* ============================================================
-   DETAIL MODAL
-============================================================ */
-function openDetail(id){
-  const p = PROJECTS.find(x=>x.id===id);
-  if(!p) return;
-  const catLabel = CATEGORY_LABELS[currentLang][p.cat];
-  document.getElementById('detail-card-content').innerHTML = `
-    <button class="detail-close" id="detail-close-btn"><i class="fa-solid fa-xmark"></i></button>
-    <div class="detail-thumb" data-mark="${p.title.slice(0,2).toUpperCase()}"></div>
-    <div class="detail-cat">${catLabel} · ${p.year}</div>
-    <div class="detail-title">${p.title}</div>
-    <p class="detail-desc">${p.desc}</p>
-    <div class="detail-meta">
-      <div><span class="m-label">${I18N[currentLang].table_featuring}</span><span class="m-value">${p.featuring}</span></div>
-      <div><span class="m-label">${I18N[currentLang].table_id}</span><span class="m-value">${String(p.id).padStart(3,'0')}</span></div>
-    </div>`;
-  document.getElementById('detail-overlay').classList.add('open');
-  document.getElementById('detail-close-btn').addEventListener('click', closeDetail);
-}
-function closeDetail(){ document.getElementById('detail-overlay').classList.remove('open'); }
-document.getElementById('detail-overlay').addEventListener('click', e=>{ if(e.target.id==='detail-overlay') closeDetail(); });
-
-/* ============================================================
-   ABOUT MODAL
-============================================================ */
-const aboutOverlay = document.getElementById('about-overlay');
-document.getElementById('open-about').addEventListener('click', ()=>aboutOverlay.classList.add('open'));
-document.getElementById('close-about').addEventListener('click', ()=>aboutOverlay.classList.remove('open'));
-aboutOverlay.addEventListener('click', e=>{ if(e.target.id==='about-overlay') aboutOverlay.classList.remove('open'); });
-
-/* ============================================================
-   PROJECTS FULL PAGE
-============================================================ */
-const projectsPage = document.getElementById('projects-page');
-document.getElementById('open-projects').addEventListener('click', ()=>projectsPage.classList.add('open'));
-document.getElementById('view-all-btn').addEventListener('click', ()=>projectsPage.classList.add('open'));
-document.getElementById('close-projects-page').addEventListener('click', ()=>projectsPage.classList.remove('open'));
-
-document.addEventListener('keydown', e=>{
-  if(e.key === 'Escape'){
-    aboutOverlay.classList.remove('open');
-    projectsPage.classList.remove('open');
-    closeDetail();
+// Header Scroll Effect
+window.addEventListener('scroll', () => {
+  const header = id('header');
+  if (window.scrollY > 40) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
   }
 });
 
-/* ============================================================
-   LANGUAGE SWITCH UI
-============================================================ */
-const langSwitch = document.getElementById('lang-switch');
-document.getElementById('lang-btn').addEventListener('click', ()=> langSwitch.classList.toggle('open'));
-document.querySelectorAll('.lang-menu button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    applyLang(btn.dataset.lang);
-    langSwitch.classList.remove('open');
+function id(name) { return document.getElementById(name); }
+
+// About Modal Toggle
+function toggleAboutModal() {
+  id('aboutModal').classList.toggle('open');
+}
+
+// Project Modal Handler
+function openProjectModal(title, imgSrc, category, description) {
+  id('modalProjTitle').innerText = title;
+  id('modalProjImg').src = imgSrc;
+  id('modalProjCat').innerText = category;
+  id('modalProjDesc').innerText = description;
+  id('projectModal').classList.add('open');
+}
+
+function closeProjectModal() {
+  id('projectModal').classList.remove('open');
+}
+
+// Close overlays on outside click
+document.querySelectorAll('.overlay').forEach(overlay => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove('open');
+    }
   });
 });
-document.addEventListener('click', e=>{ if(!langSwitch.contains(e.target)) langSwitch.classList.remove('open'); });
-
-/* ============================================================
-   LIVE KATHMANDU TIME
-============================================================ */
-function updateTime(){
-  const now = new Date();
-  const timeStr = now.toLocaleTimeString('en-GB', { timeZone:'Asia/Kathmandu', hour:'2-digit', minute:'2-digit', second:'2-digit' });
-  document.getElementById('footer-time').textContent = timeStr + ' NPT';
-}
-updateTime();
-setInterval(updateTime, 1000);
-
-/* ============================================================
-   HEADER SCROLL STATE
-============================================================ */
-window.addEventListener('scroll', ()=>{
-  document.getElementById('site-header').classList.toggle('scrolled', window.scrollY > 30);
-}, { passive:true });
-
-/* ============================================================
-   SCROLL REVEAL
-============================================================ */
-function observeReveals(){
-  const els = document.querySelectorAll('.reveal:not(.in), .proj-card:not(.in)');
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold:.12, rootMargin:'0px 0px -40px 0px' });
-  els.forEach(el=>io.observe(el));
-}
-
-/* ============================================================
-   INIT
-============================================================ */
-applyLang('en');
-observeReveals();
 </script>
+
 </body>
 </html>
