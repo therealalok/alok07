@@ -1,908 +1,840 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- STRICT PRESERVATION OF ORIGINAL WEBSITE TITLE -->
-    <title>Alok Sharma - Portfolio</title>
-    
-    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
-    <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
-    <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
-    
-    <!-- EmailJS Integration -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
-    </script>
-    
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-    <style>
-        :root {
-            --bg-primary: #0a0a0f;
-            --bg-surface: #12121a;
-            --bg-card: #181824;
-            --accent-gold: #f5c518;
-            --accent-glow: rgba(245, 197, 24, 0.25);
-            --text-main: #f0f0f5;
-            --text-muted: #9494a8;
-            --border-line: rgba(255, 255, 255, 0.12);
-            --font-head: 'Syne', sans-serif;
-            --font-body: 'Space Grotesk', sans-serif;
-            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        [data-theme="light"] {
-            --bg-primary: #f8f8f6;
-            --bg-surface: #ffffff;
-            --bg-card: #f0f0ed;
-            --accent-gold: #d9a006;
-            --accent-glow: rgba(217, 160, 6, 0.2);
-            --text-main: #0f0f14;
-            --text-muted: #525266;
-            --border-line: rgba(0, 0, 0, 0.12);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            font-family: var(--font-body);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Top Header & Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 5vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(16px);
-            background: rgba(10, 10, 15, 0.75);
-            border-bottom: 1px solid var(--border-line);
-        }
-
-        .logo {
-            font-family: var(--font-head);
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .logo span {
-            color: var(--accent-gold);
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        nav {
-            display: flex;
-            gap: 32px;
-        }
-
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition-smooth);
-            position: relative;
-        }
-
-        nav a:hover, nav a.active {
-            color: var(--accent-gold);
-        }
-
-        /* Language Switcher */
-        .lang-select-wrap {
-            position: relative;
-        }
-
-        .lang-select {
-            background: var(--bg-card);
-            color: var(--text-main);
-            border: 1px solid var(--border-line);
-            padding: 8px 14px;
-            border-radius: 20px;
-            font-family: var(--font-body);
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            outline: none;
-            transition: var(--transition-smooth);
-        }
-
-        .lang-select:hover {
-            border-color: var(--accent-gold);
-        }
-
-        .theme-btn {
-            background: var(--bg-card);
-            color: var(--accent-gold);
-            border: 1px solid var(--border-line);
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            transition: var(--transition-smooth);
-        }
-
-        .theme-btn:hover {
-            transform: scale(1.08);
-            border-color: var(--accent-gold);
-        }
-
-        /* Section Layout */
-        section {
-            padding: 120px 8vw;
-            position: relative;
-        }
-
-        .section-tag {
-            font-family: var(--font-head);
-            color: var(--accent-gold);
-            font-size: 1rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .section-title {
-            font-family: var(--font-head);
-            font-size: clamp(2.8rem, 5vw, 4.5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 50px;
-            text-transform: uppercase;
-        }
-
-        /* HERO SECTION */
-        #hero {
-            min-height: 100vh;
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            align-items: center;
-            gap: 60px;
-            padding-top: 150px;
-        }
-
-        .hero-info-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            padding: 10px 20px;
-            border-radius: 30px;
-            margin-bottom: 24px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-main);
-        }
-
-        .hero-info-badge i {
-            color: var(--accent-gold);
-        }
-
-        .hero-title {
-            font-family: var(--font-head);
-            font-size: clamp(3.5rem, 7vw, 7rem);
-            font-weight: 800;
-            line-height: 0.95;
-            letter-spacing: -1px;
-            margin-bottom: 28px;
-            text-transform: uppercase;
-        }
-
-        /* CURRENT EDUCATION STATUS HIGHLIGHT */
-        .edu-status-highlight {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--accent-gold);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .hero-bio {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            max-width: 620px;
-            margin-bottom: 40px;
-        }
-
-        .hero-meta-strip {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .time-box {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .time-box .label {
-            font-size: 0.75rem;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .time-box .val {
-            font-family: var(--font-head);
-            font-size: 1.2rem;
-            color: var(--accent-gold);
-            font-weight: 700;
-        }
-
-        /* CIRCULAR ELEMENT WITH VECTOR.PNG (Replaces "AS") */
-        .vector-circle-container {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 2px dashed var(--accent-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            background: var(--bg-surface);
-            box-shadow: 0 0 30px var(--accent-glow);
-            animation: spinCircle 25s linear infinite;
-        }
-
-        @keyframes spinCircle {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .vector-circle-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            /* Counter-rotate image so vector remains upright */
-            animation: unspinCircle 25s linear infinite;
-        }
-
-        @keyframes unspinCircle {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(-360deg); }
-        }
-
-        /* HERO VISUAL FRAME (Replaces Reference Bird with Main Personal Photo) */
-        .hero-visual-frame {
-            position: relative;
-            width: 100%;
-            max-width: 440px;
-            aspect-ratio: 3/4;
-            border-radius: 24px;
-            overflow: hidden;
-            border: 1px solid var(--border-line);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin: 0 auto;
-        }
-
-        .hero-visual-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s ease;
-        }
-
-        .hero-visual-frame:hover img {
-            transform: scale(1.05);
-        }
-
-        /* PROJECTS SECTION (Section #2) */
-        #projects {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border-line);
-            border-bottom: 1px solid var(--border-line);
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 40px;
-        }
-
-        .project-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: var(--transition-smooth);
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-gold);
-            box-shadow: 0 15px 35px var(--accent-glow);
-        }
-
-        .project-img-box {
-            width: 100%;
-            aspect-ratio: 4/5;
-            background: var(--bg-primary);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .project-img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: transform 0.6s ease;
-        }
-
-        .project-card:hover .project-img-box img {
-            transform: scale(1.04);
-        }
-
-        .project-info {
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            flex-grow: 1;
-        }
-
-        .project-title {
-            font-family: var(--font-head);
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .project-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* EDUCATION SECTION (Section #3 - Directly Below Projects) */
-        #education {
-            position: relative;
-        }
-
-        .education-timeline {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .edu-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            padding: 36px;
-            border-radius: 20px;
-            display: flex;
-            gap: 24px;
-            align-items: flex-start;
-            transition: var(--transition-smooth);
-        }
-
-        .edu-card:hover {
-            border-color: var(--accent-gold);
-        }
-
-        .edu-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: var(--bg-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 1px solid var(--border-line);
-        }
-
-        .edu-icon img {
-            width: 80%;
-            height: 80%;
-            object-fit: contain;
-        }
-
-        .edu-details h3 {
-            font-family: var(--font-head);
-            font-size: 1.8rem;
-            margin-bottom: 6px;
-        }
-
-        .edu-meta {
-            color: var(--accent-gold);
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-        }
-
-        .edu-desc {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        /* SKILLS SECTION */
-        #skills {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border-line);
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 24px;
-        }
-
-        .skill-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            padding: 30px;
-            border-radius: 16px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            transition: var(--transition-smooth);
-        }
-
-        .skill-card:hover {
-            border-color: var(--accent-gold);
-            transform: translateY(-4px);
-        }
-
-        .skill-card i {
-            font-size: 2.5rem;
-            color: var(--accent-gold);
-        }
-
-        .skill-card h4 {
-            font-family: var(--font-head);
-            font-size: 1.4rem;
-        }
-
-        /* CONTACT SECTION */
-        #contact {
-            border-top: 1px solid var(--border-line);
-        }
-
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-        }
-
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .contact-form input, .contact-form textarea {
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            padding: 18px;
-            border-radius: 12px;
-            color: var(--text-main);
-            font-family: var(--font-body);
-            font-size: 1rem;
-            outline: none;
-            transition: var(--transition-smooth);
-        }
-
-        .contact-form input:focus, .contact-form textarea:focus {
-            border-color: var(--accent-gold);
-        }
-
-        .btn-submit {
-            background: var(--accent-gold);
-            color: #000;
-            border: none;
-            padding: 18px 36px;
-            border-radius: 12px;
-            font-family: var(--font-head);
-            font-size: 1.2rem;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: var(--transition-smooth);
-        }
-
-        .btn-submit:hover {
-            background: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        .contact-socials {
-            display: flex;
-            gap: 16px;
-            margin-top: 20px;
-        }
-
-        .social-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-line);
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: var(--transition-smooth);
-        }
-
-        .social-btn:hover {
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
-            transform: scale(1.1);
-        }
-
-        footer {
-            padding: 30px 8vw;
-            border-top: 1px solid var(--border-line);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 992px) {
-            #hero {
-                grid-template-columns: 1fr;
-                text-align: center;
-                padding-top: 120px;
-            }
-            .hero-bio {
-                margin: 0 auto 30px auto;
-            }
-            .hero-meta-strip {
-                justify-content: center;
-            }
-            .contact-container {
-                grid-template-columns: 1fr;
-            }
-            nav {
-                display: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alok Sharma - Portfolio</title>
+<link rel="icon" href="assets/vector.png" type="image/png">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>(function(){ if(window.emailjs){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); } })();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<style>
+:root{
+  --bg:        #0b0906;
+  --bg-2:      #141009;
+  --panel:     #efe6cd;
+  --cream:     #ecd1ac;
+  --cream-dim: #b9a988;
+  --red:       #731121;
+  --red-2:     #8f1c26;
+  --ink:       #0b0906;
+  --line:      rgba(236,209,172,0.14);
+  --line-2:    rgba(236,209,172,0.28);
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --maxw: 1320px;
+}
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+@media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation-duration:.001ms !important; transition-duration:.001ms !important; } }
+body{
+  margin:0; background:var(--bg); color:var(--cream);
+  font-family:var(--font-mono);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+a{ color:inherit; }
+img{ max-width:100%; display:block; }
+.wrap{ max-width:var(--maxw); margin:0 auto; padding:0 32px; }
+::selection{ background:var(--red-2); color:var(--panel); }
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+  outline:2px solid var(--cream); outline-offset:3px;
+}
+
+/* ---------- HEADER ---------- */
+header{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:20px 32px;
+  background:linear-gradient(180deg, rgba(11,9,6,0.92), rgba(11,9,6,0));
+  backdrop-filter:blur(2px);
+}
+.brand{ display:flex; align-items:center; gap:12px; text-decoration:none; }
+.brand-mark{
+  width:38px; height:38px; border-radius:50%;
+  border:2px solid var(--cream); background:var(--red);
+  overflow:hidden; flex:none;
+  display:flex; align-items:center; justify-content:center;
+}
+.brand-mark img{ width:100%; height:100%; object-fit:cover; }
+.brand-name{ font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; font-weight:600; color:var(--cream); }
+.brand-name span{ color:var(--cream-dim); }
+
+nav.primary-nav{ display:flex; align-items:center; gap:30px; }
+nav.primary-nav a{
+  font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
+  color:var(--cream-dim); position:relative; padding-bottom:3px;
+}
+nav.primary-nav a::after{
+  content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--cream);
+  transition:width .3s ease;
+}
+nav.primary-nav a:hover{ color:var(--cream); }
+nav.primary-nav a:hover::after{ width:100%; }
+
+.header-right{ display:flex; align-items:center; gap:18px; }
+
+.lang-switch{ position:relative; }
+.lang-btn{
+  background:transparent; border:1px solid var(--line-2); color:var(--cream);
+  font-family:var(--font-mono); font-size:.68rem; letter-spacing:.1em;
+  padding:7px 12px; border-radius:20px; cursor:pointer; text-transform:uppercase;
+  display:flex; align-items:center; gap:6px;
+}
+.lang-btn:hover{ background:var(--line); }
+.lang-menu{
+  position:absolute; top:calc(100% + 8px); right:0; background:var(--bg-2);
+  border:1px solid var(--line-2); border-radius:10px; padding:6px; min-width:150px;
+  display:none; flex-direction:column; gap:2px; box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+.lang-menu.open{ display:flex; }
+.lang-menu button{
+  background:transparent; border:0; color:var(--cream-dim); text-align:left;
+  padding:9px 10px; border-radius:6px; cursor:pointer; font-family:var(--font-mono); font-size:.75rem;
+  letter-spacing:.03em;
+}
+.lang-menu button:hover, .lang-menu button.active{ background:var(--line); color:var(--cream); }
+
+.menu-toggle{
+  display:none; background:transparent; border:1px solid var(--line-2); color:var(--cream);
+  width:38px; height:38px; border-radius:50%; cursor:pointer; align-items:center; justify-content:center;
+}
+
+.mobile-menu{
+  position:fixed; inset:0; background:var(--bg); z-index:99; display:none;
+  flex-direction:column; align-items:center; justify-content:center; gap:28px;
+}
+.mobile-menu.open{ display:flex; }
+.mobile-menu a{ font-family:var(--font-display); font-size:2.2rem; text-transform:uppercase; text-decoration:none; color:var(--cream); letter-spacing:.02em; }
+.mobile-menu .close-mm{ position:absolute; top:22px; right:26px; background:none; border:1px solid var(--line-2); color:var(--cream); width:40px; height:40px; border-radius:50%; }
+
+/* ---------- HERO ---------- */
+.hero{
+  min-height:100svh; display:flex; flex-direction:column; justify-content:center;
+  position:relative; padding:150px 0 80px;
+  background:
+    radial-gradient(ellipse 900px 500px at 15% 20%, rgba(115,17,33,.28), transparent 60%),
+    var(--bg);
+}
+.hero-inner{ display:grid; grid-template-columns:1.15fr .85fr; gap:60px; align-items:center; }
+.eyebrow{ font-size:.72rem; letter-spacing:.35em; text-transform:uppercase; color:var(--cream-dim); margin-bottom:18px; }
+h1.hero-name{
+  font-family:var(--font-display); font-weight:400; text-transform:uppercase;
+  font-size:clamp(3.2rem, 8vw, 6.4rem); line-height:.92; letter-spacing:.01em;
+  color:var(--cream); margin:0 0 22px;
+}
+.status-line{
+  display:inline-block; font-family:var(--font-mono); font-weight:700; font-size:.85rem;
+  letter-spacing:.12em; color:var(--ink); background:var(--cream); padding:9px 16px;
+  border-radius:3px; text-transform:uppercase; margin-bottom:24px;
+}
+.hero-bio{ font-size:1.02rem; line-height:1.7; color:var(--cream-dim); max-width:52ch; margin-bottom:34px; }
+.hero-buttons{ display:flex; gap:16px; flex-wrap:wrap; }
+.btn{
+  display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-weight:600;
+  font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; text-decoration:none;
+  padding:15px 26px; border-radius:3px; border:1px solid var(--cream); color:var(--ink); background:var(--cream);
+  transition:transform .25s ease, background .25s ease, color .25s ease;
+}
+.btn:hover{ transform:translate(-2px,-2px); background:var(--red-2); color:var(--cream); border-color:var(--red-2); }
+.btn.secondary{ background:transparent; color:var(--cream); }
+.btn.secondary:hover{ background:var(--cream); color:var(--ink); }
+
+.hero-photo-col{ display:flex; flex-direction:column; gap:18px; }
+.hero-photo-frame{
+  aspect-ratio:4/5; border:2px solid var(--line-2); border-radius:6px; overflow:hidden;
+  background:var(--bg-2); position:relative;
+}
+.hero-photo-frame img{ width:100%; height:100%; object-fit:cover; }
+.hero-photo-frame .img-fallback{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:10px; text-align:center; padding:24px;
+  font-size:.68rem; letter-spacing:.08em; color:var(--cream-dim); text-transform:uppercase; line-height:1.6;
+}
+.hero-photo-frame .img-fallback i{ font-size:1.6rem; opacity:.5; }
+
+.location-card{
+  border:1px solid var(--line-2); border-radius:6px; padding:16px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+}
+.location-card .loc-name{ font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; color:var(--cream-dim); }
+.location-card .loc-time{ font-family:var(--font-mono); font-weight:700; font-size:1.05rem; color:var(--cream); font-variant-numeric:tabular-nums; }
+
+/* ---------- SECTION SHELLS ---------- */
+section{ padding:110px 0; position:relative; border-top:1px solid var(--line); }
+.section-eyebrow{ font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--cream-dim); margin-bottom:14px; }
+.section-title{
+  font-family:var(--font-display); font-weight:400; text-transform:uppercase;
+  font-size:clamp(2.2rem,4.6vw,3.6rem); letter-spacing:.01em; color:var(--cream); margin:0 0 50px;
+}
+
+/* ---------- PROJECTS ---------- */
+.projects-note{ font-size:.72rem; letter-spacing:.06em; color:var(--cream-dim); margin-bottom:40px; text-transform:uppercase; }
+.projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+.project-card{
+  border:1px solid var(--line); border-radius:6px; overflow:hidden; background:var(--bg-2);
+  transition:border-color .3s ease, transform .3s ease;
+}
+.project-card:hover{ border-color:var(--line-2); transform:translateY(-4px); }
+.project-thumb{
+  aspect-ratio:4/3; background:#171208; position:relative; overflow:hidden;
+}
+.project-thumb img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+.project-card:hover .project-thumb img{ transform:scale(1.05); }
+.project-thumb .img-fallback{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:.62rem; letter-spacing:.06em; color:var(--cream-dim); text-transform:uppercase; text-align:center; padding:16px; line-height:1.6;
+}
+.project-body{ padding:20px 22px 24px; }
+.project-meta{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.project-num{ font-size:.68rem; color:var(--cream-dim); letter-spacing:.05em; }
+.project-cat{ font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--red-2); background:rgba(143,28,38,.18); padding:3px 9px; border-radius:20px; }
+.project-title{ font-family:var(--font-display); font-weight:400; font-size:1.35rem; text-transform:uppercase; margin:0 0 8px; letter-spacing:.01em; }
+.project-desc{ font-size:.82rem; line-height:1.55; color:var(--cream-dim); margin:0 0 16px; }
+.project-link{ font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--line-2); padding-bottom:2px; }
+.project-link:hover{ border-color:var(--cream); }
+
+/* ---------- EDUCATION ---------- */
+.edu-status{
+  display:inline-block; font-weight:700; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--red-2); background:rgba(143,28,38,.14); padding:8px 14px; border-radius:3px; margin-bottom:44px;
+}
+.edu-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+.edu-card{ border:1px solid var(--line); border-radius:6px; padding:32px 28px; background:var(--bg-2); }
+.edu-logo{ width:56px; height:56px; object-fit:contain; margin-bottom:22px; }
+.edu-logo-fallback{
+  width:56px; height:56px; border:1px solid var(--line-2); border-radius:50%; margin-bottom:22px;
+  display:flex; align-items:center; justify-content:center; font-size:.9rem; color:var(--cream-dim);
+}
+.edu-tag{ font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--cream-dim); margin-bottom:10px; }
+.edu-title{ font-family:var(--font-display); font-weight:400; font-size:1.5rem; text-transform:uppercase; margin:0 0 6px; }
+.edu-dates{ font-size:.7rem; color:var(--red-2); letter-spacing:.06em; margin-bottom:14px; }
+.edu-desc{ font-size:.83rem; line-height:1.6; color:var(--cream-dim); }
+.edu-current{ margin-top:12px; display:inline-block; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); background:var(--cream); padding:4px 10px; border-radius:20px; }
+
+/* ---------- ABOUT ---------- */
+.about-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:start; }
+.about-text p{ font-size:1rem; line-height:1.75; color:var(--cream-dim); margin:0 0 20px; }
+.about-facts{ display:flex; flex-direction:column; gap:0; border-top:1px solid var(--line); }
+.about-fact{ display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line); font-size:.82rem; }
+.about-fact .k{ color:var(--cream-dim); letter-spacing:.08em; text-transform:uppercase; font-size:.68rem; }
+.about-fact .v{ color:var(--cream); text-align:right; }
+
+/* ---------- SKILLS ---------- */
+.skills-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; }
+.skill-card{
+  border:1px solid var(--line); border-radius:6px; padding:30px 20px; text-align:center; background:var(--bg-2);
+  transition:transform .3s ease, border-color .3s ease;
+}
+.skill-card:hover{ transform:translateY(-6px); border-color:var(--line-2); }
+.skill-icon{ width:46px; height:46px; object-fit:contain; margin:0 auto 16px; }
+.skill-name{ font-family:var(--font-display); font-weight:400; font-size:1.2rem; text-transform:uppercase; }
+
+/* ---------- CONTACT ---------- */
+.contact-wrapper{ display:grid; grid-template-columns:1fr 1.2fr; gap:0; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+.contact-card{ background:var(--bg-2); padding:50px 44px; display:flex; flex-direction:column; gap:26px; border-right:1px solid var(--line); }
+.find-me{ font-family:var(--font-display); font-weight:400; font-size:2.4rem; text-transform:uppercase; color:var(--cream); }
+.contact-info{ display:flex; flex-direction:column; gap:14px; }
+.contact-info a{ text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:10px; color:var(--cream-dim); }
+.contact-info a:hover{ color:var(--cream); }
+.socials{ display:flex; gap:14px; margin-top:auto; }
+.socials a{
+  width:38px; height:38px; border:1px solid var(--line-2); border-radius:50%; display:flex; align-items:center;
+  justify-content:center; text-decoration:none; font-size:.9rem; transition:background .25s, transform .25s;
+}
+.socials a:hover{ background:var(--cream); color:var(--ink); transform:translateY(-3px); }
+
+.contact-form{ padding:50px 44px; display:flex; flex-direction:column; gap:16px; }
+.form-row{ display:flex; gap:16px; }
+.contact-form input, .contact-form textarea{
+  width:100%; background:transparent; border:0; border-bottom:1px solid var(--line-2); color:var(--cream);
+  font-family:var(--font-mono); font-size:.85rem; padding:12px 2px; letter-spacing:.03em;
+}
+.contact-form input::placeholder, .contact-form textarea::placeholder{ color:var(--cream-dim); text-transform:uppercase; font-size:.72rem; letter-spacing:.1em; }
+.contact-form textarea{ resize:vertical; min-height:110px; }
+.send-btn{ align-self:flex-start; margin-top:8px; cursor:pointer; }
+
+/* ---------- FOOTER ---------- */
+footer{ padding:60px 0 40px; border-top:1px solid var(--line); }
+.footer-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:40px; }
+.footer-brand{ font-family:var(--font-display); font-size:1.5rem; text-transform:uppercase; color:var(--cream); margin-bottom:14px; }
+.footer-label{ font-size:.64rem; letter-spacing:.14em; text-transform:uppercase; color:var(--cream-dim); margin-bottom:12px; }
+.footer-col a, .footer-col span{ display:block; font-size:.82rem; color:var(--cream-dim); text-decoration:none; margin-bottom:8px; }
+.footer-col a:hover{ color:var(--cream); }
+.footer-bottom{ font-size:.68rem; color:var(--cream-dim); letter-spacing:.04em; border-top:1px solid var(--line); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+/* ---------- ABOUT MODAL ---------- */
+.modal-overlay{
+  position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:200; display:none;
+  align-items:center; justify-content:center; padding:24px;
+}
+.modal-overlay.open{ display:flex; }
+.modal-card{
+  background:var(--panel); color:var(--ink); max-width:560px; width:100%; border-radius:4px;
+  padding:40px; position:relative; font-family:var(--font-mono);
+}
+.modal-close{
+  position:absolute; top:16px; right:16px; background:none; border:0; font-size:1.1rem; cursor:pointer; color:var(--ink);
+  width:34px; height:34px; border-radius:50%;
+}
+.modal-close:hover{ background:rgba(0,0,0,.08); }
+.modal-lead{ font-size:1rem; line-height:1.6; margin-bottom:14px; }
+.modal-tag{ font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:#6b6151; margin-bottom:22px; }
+.modal-divider{ border:0; border-top:1px solid rgba(0,0,0,.15); margin:22px 0; }
+.modal-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.modal-k{ font-size:.65rem; letter-spacing:.1em; text-transform:uppercase; color:#6b6151; margin-bottom:8px; }
+.modal-v{ font-size:.85rem; line-height:1.6; }
+.modal-socials{ margin-top:24px; display:flex; flex-direction:column; gap:8px; align-items:flex-end; }
+.modal-socials a{ font-size:.78rem; letter-spacing:.06em; text-decoration:underline; text-underline-offset:3px; }
+
+/* ---------- REVEAL ---------- */
+.reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in{ opacity:1; transform:translateY(0); }
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1024px){
+  .hero-inner{ grid-template-columns:1fr; gap:44px; }
+  .hero-photo-col{ order:-1; max-width:340px; }
+  .projects-grid{ grid-template-columns:repeat(2,1fr); }
+  .edu-grid{ grid-template-columns:1fr; }
+  .about-grid{ grid-template-columns:1fr; gap:30px; }
+  .skills-grid{ grid-template-columns:repeat(2,1fr); }
+  .contact-wrapper{ grid-template-columns:1fr; }
+  .contact-card{ border-right:0; border-bottom:1px solid var(--line); }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+}
+@media (max-width:768px){
+  nav.primary-nav{ display:none; }
+  .menu-toggle{ display:flex; }
+  header{ padding:16px 20px; }
+  .wrap{ padding:0 20px; }
+  section{ padding:70px 0; }
+  .hero{ padding:120px 0 60px; }
+  .projects-grid{ grid-template-columns:1fr; }
+  .skills-grid{ grid-template-columns:1fr 1fr; }
+  .footer-grid{ grid-template-columns:1fr; gap:28px; }
+  .form-row{ flex-direction:column; }
+}
+@media (max-width:420px){
+  .hero-buttons{ flex-direction:column; align-items:stretch; }
+  .btn{ justify-content:center; }
+  .lang-btn span.lbl{ display:none; }
+}
+</style>
 </head>
 <body>
 
-    <!-- HEADER / NAVIGATION -->
-    <header>
-        <a href="#hero" class="logo">ALOK<span>.</span></a>
-        
-        <div class="nav-right">
-            <nav id="main-nav">
-                <a href="#hero" class="nav-home">Home</a>
-                <a href="#projects" class="nav-projects">Projects</a>
-                <a href="#education" class="nav-education">Education</a>
-                <a href="#skills" class="nav-skills">Skills</a>
-                <a href="#contact" class="nav-contact">Contact</a>
-            </nav>
+<header>
+  <a href="#home" class="brand">
+    <span class="brand-mark"><img src="assets/vector.png" alt="Alok Sharma emblem"></span>
+    <span class="brand-name">ALOK <span>SHARMA</span></span>
+  </a>
+  <nav class="primary-nav">
+    <a href="#home" data-i18n="nav_home">Home</a>
+    <a href="#projects" data-i18n="nav_projects">Projects</a>
+    <a href="#education" data-i18n="nav_education">Education</a>
+    <a href="#skills" data-i18n="nav_skills">Skills</a>
+    <a href="#contact" data-i18n="nav_contact">Contact</a>
+    <a href="#" id="about-open-link" data-i18n="nav_about">About</a>
+  </nav>
+  <div class="header-right">
+    <div class="lang-switch">
+      <button class="lang-btn" id="lang-btn"><i class="fa-solid fa-globe"></i><span class="lbl" id="lang-btn-label">EN</span></button>
+      <div class="lang-menu" id="lang-menu">
+        <button data-lang="en">English</button>
+        <button data-lang="ne">नेपाली (Nepali)</button>
+        <button data-lang="de">Deutsch (German)</button>
+        <button data-lang="es">Español (Spanish)</button>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</header>
 
-            <!-- Language Switcher Dropdown -->
-            <div class="lang-select-wrap">
-                <select id="langSwitcher" class="lang-select" onchange="changeLanguage(this.value)">
-                    <option value="en">English</option>
-                    <option value="np">नेपाली</option>
-                    <option value="de">Deutsch</option>
-                    <option value="es">Español</option>
-                </select>
-            </div>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="close-mm" id="mm-close" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></button>
+  <a href="#home" data-i18n="nav_home">Home</a>
+  <a href="#projects" data-i18n="nav_projects">Projects</a>
+  <a href="#education" data-i18n="nav_education">Education</a>
+  <a href="#skills" data-i18n="nav_skills">Skills</a>
+  <a href="#contact" data-i18n="nav_contact">Contact</a>
+</div>
 
-            <!-- Theme Switcher -->
-            <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <i class="fa-solid fa-moon"></i>
-            </button>
+<!-- HERO -->
+<section class="hero" id="home" style="border-top:0; padding-top:150px;">
+  <div class="wrap hero-inner">
+    <div class="hero-text-col reveal">
+      <div class="eyebrow" data-i18n="hero_eyebrow">This is</div>
+      <h1 class="hero-name">ALOK<br>SHARMA</h1>
+      <div class="status-line" data-i18n="hero_status">4th Semester Computer Science Student</div>
+      <p class="hero-bio" data-i18n="hero_bio">I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.</p>
+      <div class="hero-buttons">
+        <a href="#projects" class="btn" data-i18n="hero_btn_projects">View Projects <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#contact" class="btn secondary" data-i18n="hero_btn_connect">Let's Connect</a>
+      </div>
+    </div>
+    <div class="hero-photo-col reveal">
+      <div class="hero-photo-frame">
+        <img src="alokk.jpeg" alt="Alok Sharma" id="hero-photo"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="img-fallback" style="display:none;">
+          <i class="fa-solid fa-image"></i>
+          <span data-i18n="photo_missing">Add alokk.jpeg to this folder to show your photo here</span>
         </div>
-    </header>
-
-    <!-- 1. HERO SECTION -->
-    <section id="hero">
-        <div class="hero-left">
-            <div class="hero-info-badge">
-                <i class="fa-solid fa-location-dot"></i>
-                <span>KATHMANDU, NEPAL</span>
-            </div>
-
-            <h1 class="hero-title">ALOK<br>SHARMA</h1>
-
-            <!-- NON-NEGOTIABLE REQUIRED EDUCATION STATUS -->
-            <div class="edu-status-highlight">
-                <i class="fa-solid fa-graduation-cap"></i>
-                <span id="txt-status">4th Semester Computer Science Student</span>
-            </div>
-
-            <p class="hero-bio" id="txt-bio">
-                Designing premium football posters, creative visuals, and engaging Instagram reels around European football while pursuing my undergraduate computer science studies.
-            </p>
-
-            <div class="hero-meta-strip">
-                <!-- Live Kathmandu Time Counter -->
-                <div class="time-box">
-                    <span class="label">KATHMANDU, NEPAL TIME</span>
-                    <span class="val" id="nepalTimeDisplay">--:--:-- PM</span>
-                </div>
-
-                <!-- CIRCLE CONTAINING VECTOR.PNG (Replaces "AS") -->
-                <div class="vector-circle-container" title="Alok Sharma Emblem">
-                    <img src="vector.png" alt="Alok Sharma Vector Emblem">
-                </div>
-            </div>
+      </div>
+      <div class="location-card">
+        <div>
+          <div class="loc-name" data-i18n="loc_name">Kathmandu, Nepal</div>
         </div>
+        <div class="loc-time" id="np-time">--:--:--</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <!-- HERO VISUAL FRAME (Replaces Reference Bird with Main Personal Photo) -->
-        <div class="hero-right">
-            <div class="hero-visual-frame">
-                <img src="alokk.jpeg" alt="Alok Sharma Portrait">
-            </div>
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section-eyebrow" data-i18n="proj_eyebrow">Selected Work</div>
+    <h2 class="section-title reveal" data-i18n="proj_title">Featured Projects</h2>
+    <div class="projects-note reveal" data-i18n="proj_note">Click any project to view the full artwork.</div>
+    <div class="projects-grid" id="projects-grid"></div>
+  </div>
+</section>
+
+<!-- EDUCATION (directly below Projects, per spec) -->
+<section id="education">
+  <div class="wrap">
+    <div class="section-eyebrow" data-i18n="edu_eyebrow">Academic Background</div>
+    <h2 class="section-title reveal" data-i18n="edu_title">Education</h2>
+    <div class="edu-status reveal" data-i18n="hero_status">4th Semester Computer Science Student</div>
+    <div class="edu-grid" id="edu-grid"></div>
+  </div>
+</section>
+
+<!-- ABOUT (supporting info, not between Projects/Education) -->
+<section id="about">
+  <div class="wrap about-grid">
+    <div class="about-text reveal">
+      <div class="section-eyebrow" data-i18n="about_eyebrow">About</div>
+      <h2 class="section-title" data-i18n="about_title">More About Me</h2>
+      <p data-i18n="about_p1">I'm Alok Sharma, a Computer Science student based in Kathmandu, Nepal, currently in my 4th semester of B.Sc.CSIT at Amrit Science Campus (Tribhuvan University). Alongside my studies, I design premium football posters, matchday graphics, and Instagram content built around European football.</p>
+      <p data-i18n="about_p2">My work blends editorial-style compositions, cinematic lighting, and clean typography to turn football moments into shareable visual stories — from Champions League nights to tribute posters for club legends.</p>
+    </div>
+    <div class="about-facts reveal">
+      <div class="about-fact"><span class="k" data-i18n="fact_status">Status</span><span class="v" data-i18n="hero_status">4th Semester Computer Science Student</span></div>
+      <div class="about-fact"><span class="k" data-i18n="fact_institution">Institution</span><span class="v">Amrit Science Campus (T.U.)</span></div>
+      <div class="about-fact"><span class="k" data-i18n="fact_focus">Focus</span><span class="v" data-i18n="fact_focus_v">Sports design &amp; visual storytelling</span></div>
+      <div class="about-fact"><span class="k" data-i18n="fact_location">Location</span><span class="v" data-i18n="loc_name">Kathmandu, Nepal</span></div>
+      <div class="about-fact"><span class="k" data-i18n="fact_email">Email</span><span class="v">alokkynwa@gmail.com</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-eyebrow" data-i18n="skills_eyebrow">Toolkit</div>
+    <h2 class="section-title reveal" data-i18n="skills_title">Core Skills</h2>
+    <div class="skills-grid" id="skills-grid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-eyebrow" data-i18n="contact_eyebrow">Get In Touch</div>
+    <h2 class="section-title reveal" data-i18n="contact_title">Get In Touch</h2>
+    <div class="contact-wrapper reveal">
+      <div class="contact-card">
+        <div class="find-me" data-i18n="find_me">Find Me ↘</div>
+        <div class="contact-info">
+          <a href="mailto:alokkynwa@gmail.com"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
+          <a href="tel:+9779843538473"><i class="fa-solid fa-phone"></i> 🇳🇵 (+977) 9843538473</a>
         </div>
-    </section>
-
-    <!-- 2. PROJECTS SECTION (Near top) -->
-    <section id="projects">
-        <span class="section-tag" id="tag-projects">PORTFOLIO</span>
-        <h2 class="section-title" id="title-projects">SELECTED WORK</h2>
-
-        <div class="projects-grid">
-            <!-- Project Item 1 -->
-            <div class="project-card">
-                <div class="project-img-box">
-                    <img src="alokk.jpeg" alt="European Football Creative Visuals">
-                </div>
-                <div class="project-info">
-                    <h3 class="project-title">European Football Visuals</h3>
-                    <p class="project-desc">High-impact player posters, match graphics, and creative social visuals designed for football media.</p>
-                </div>
-            </div>
-
-            <!-- Project Item 2 -->
-            <div class="project-card">
-                <div class="project-img-box">
-                    <img src="vector.png" alt="Vector Art & Branding">
-                </div>
-                <div class="project-info">
-                    <h3 class="project-title">Vector Art & Crest Branding</h3>
-                    <p class="project-desc">Custom vector graphics, digital portraits, and identity design assets.</p>
-                </div>
-            </div>
-
-            <!-- Project Item 3 -->
-            <div class="project-card">
-                <div class="project-img-box">
-                    <img src="nayalogo.png" alt="UI & Web Development">
-                </div>
-                <div class="project-info">
-                    <h3 class="project-title">Computer Science Web Projects</h3>
-                    <p class="project-desc">Interactive web development applications and algorithms created during my CS coursework.</p>
-                </div>
-            </div>
+        <div class="socials">
+          <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
         </div>
-    </section>
-
-    <!-- 3. EDUCATION SECTION (DIRECTLY BELOW PROJECTS) -->
-    <section id="education">
-        <span class="section-tag" id="tag-edu">ACADEMIC JOURNEY</span>
-        <h2 class="section-title" id="title-edu">EDUCATION</h2>
-
-        <div class="education-timeline">
-            <!-- Current Status Card -->
-            <div class="edu-card">
-                <div class="edu-icon">
-                    <i class="fa-solid fa-university" style="font-size: 1.5rem; color: var(--accent-gold);"></i>
-                </div>
-                <div class="edu-details">
-                    <h3>Undergraduate Degree in Computer Science</h3>
-                    <div class="edu-meta">STATUS: 4TH SEMESTER COMPUTER SCIENCE STUDENT</div>
-                    <p class="edu-desc">Focusing on algorithms, web technologies, software engineering principles, and creative visual design integration.</p>
-                </div>
-            </div>
-
-            <!-- Secondary School Card -->
-            <div class="edu-card">
-                <div class="edu-icon">
-                    <img src="mdmss-removebg-preview.png" alt="Mahakavi Devkota Memorial Secondary School Emblem">
-                </div>
-                <div class="edu-details">
-                    <h3>Mahakavi Devkota Memorial Secondary School</h3>
-                    <div class="edu-meta">2010 — 2022 | SEE (Secondary Education Examination)</div>
-                    <p class="edu-desc">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. Achieved 3.75 GPA in SEE.</p>
-                </div>
-            </div>
+      </div>
+      <form class="contact-form" id="portfolio-contact-form">
+        <div class="form-row">
+          <input type="text" name="name" data-i18n-placeholder="ph_name" placeholder="NAME" required>
+          <input type="email" name="email" data-i18n-placeholder="ph_email" placeholder="EMAIL" required>
         </div>
-    </section>
+        <textarea name="message" data-i18n-placeholder="ph_message" placeholder="MESSAGE" required></textarea>
+        <button type="submit" class="btn send-btn" data-i18n="send_btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
 
-    <!-- 4. SKILLS SECTION -->
-    <section id="skills">
-        <span class="section-tag" id="tag-skills">EXPERTISE</span>
-        <h2 class="section-title" id="title-skills">SKILLS & TOOLS</h2>
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">ALOK SHARMA</div>
+        <span class="footer-label" data-i18n="loc_name">Kathmandu, Nepal</span>
+      </div>
+      <div class="footer-col">
+        <div class="footer-label" data-i18n="footer_contact">Contact</div>
+        <a href="mailto:alokkynwa@gmail.com">alokkynwa@gmail.com</a>
+        <a href="tel:+9779843538473">(+977) 9843538473</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-label" data-i18n="footer_follow">Follow</div>
+        <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer">X</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span id="year"></span> Alok Sharma</span>
+      <span id="np-time-footer" data-i18n-prefix="footer_time_prefix">Kathmandu local time — --:--:--</span>
+    </div>
+  </div>
+</footer>
 
-        <div class="skills-grid">
-            <div class="skill-card">
-                <i class="fa-brands fa-html5"></i>
-                <h4>HTML5 / CSS3</h4>
-            </div>
-            <div class="skill-card">
-                <i class="fa-brands fa-python"></i>
-                <h4>Python</h4>
-            </div>
-            <div class="skill-card">
-                <i class="fa-solid fa-palette"></i>
-                <h4>Adobe Photoshop</h4>
-            </div>
-            <div class="skill-card">
-                <i class="fa-solid fa-code"></i>
-                <h4>Computer Science</h4>
-            </div>
+<!-- ABOUT MODAL -->
+<div class="modal-overlay" id="about-modal">
+  <div class="modal-card">
+    <button class="modal-close" id="modal-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    <p class="modal-lead" data-i18n="modal_lead">A Computer Science student in Kathmandu who spends the hours between lectures building football posters worth stopping to look at.</p>
+    <div class="modal-tag" data-i18n="modal_tag">DESIGN · COMPUTER SCIENCE</div>
+    <hr class="modal-divider">
+    <div class="modal-grid">
+      <div>
+        <div class="modal-k" data-i18n="fact_status">Status</div>
+        <div class="modal-v" data-i18n="hero_status">4th Semester Computer Science Student</div>
+      </div>
+      <div>
+        <div class="modal-k" data-i18n="footer_contact">Contact</div>
+        <div class="modal-v">alokkynwa@gmail.com<br>(+977) 9843538473</div>
+      </div>
+    </div>
+    <div class="modal-grid" style="margin-top:20px;">
+      <div>
+        <div class="modal-k" data-i18n="fact_institution">Institution</div>
+        <div class="modal-v">Amrit Science Campus (T.U.)</div>
+      </div>
+      <div>
+        <div class="modal-k" data-i18n="loc_name">Kathmandu, Nepal</div>
+        <div class="modal-v" id="modal-time">--:--:--</div>
+      </div>
+    </div>
+    <div class="modal-socials">
+      <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+      <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer">FACEBOOK</a>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   PROJECT DATA — exact titles, descriptions & filenames from
+   the original site. Drop the real image files (same names)
+   into this folder and every thumbnail will resolve automatically.
+============================================================ */
+const PROJECTS = [
+  {img:"poruzb copy.jpg", alt:"Portugal VS Colombia Matchday Graphic", title:"Portugal VS Colombia", desc:"Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami."},
+  {img:"WhatsApp Image 2026-07-17 at 10.23.59 PM.jpeg", alt:"Dom Graphic", title:"Dominik Szoboszlai", desc:"A simple graphic featuring Dominik Szoboszlai as he signs a new contract till 2031 at Liverpool FC."},
+  {img:"argvspa copy.jpg", alt:"Argentina VS Spain Graphic", title:"Argentina VS Spain", desc:"A cinematic matchday graphic featuring the international clash between Argentina and Spain."},
+  {img:"fravswe.jpeg", alt:"France VS Sweden Graphic", title:"France VS Sweden", desc:"Matchday promotional graphic for the international game between France and Sweden."},
+  {img:"fravspa.jpeg", alt:"France VS Spain Graphic", title:"France VS Spain", desc:"A high-energy matchday visual for the European heavyweight matchup between France and Spain."},
+  {img:"portugalvcongo copy.jpg", alt:"Portugal VS Congo Latest Design", title:"Argentina VS Austria", desc:"A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi."},
+  {img:"spainbelgium.jpeg", alt:"Spain VS Belgium Graphic Alternate", title:"Spain VS Belgium", desc:"A matchday poster focusing on the tactical battle between Spain and Belgium."},
+  {img:"engvarg.jpeg", alt:"England VS Argentina Graphic", title:"England VS Argentina", desc:"Matchday poster design for the highly anticipated fixture between England and Argentina."},
+  {img:"porcong.jpeg", alt:"Portugal VS Congo Graphic", title:"Portugal VS Congo", desc:"A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo."},
+  {img:"heavymetalfootball.jpg", alt:"Heavy Metal Football Cinematic Tribute Artwork", title:"Heavy Metal Football", desc:"A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp and Andoni Iraola, who share the same high-intensity, high-pressing philosophy."},
+  {img:"lfcvbre copy.jpg", alt:"Project 1", title:"Liverpool VS Brentford", desc:"Matchday design of the last Premier League game of the 2025-26 campaign."},
+  {img:"robboxmo copy.jpg", alt:"Project 2", title:"One Last Time At Anfield.", desc:"A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield."},
+  {img:"wc.jpeg", alt:"FIFA World Cup 2026 Editorial Graphic Layout", title:"FIFA World Cup 2026", desc:"FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy."},
+  {img:"newlivche.jpeg", alt:"Liverpool VS Chelsea Matchday Cinematic Campaign Graphic", title:"Liverpool VS Chelsea", desc:"Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer."},
+  {img:"ThankyouRobbo.jpeg", alt:"Thank You Robbo Tribute Poster Artwork", title:"Thank You, Robbo!", desc:"A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red."},
+  {img:"ThankyouMo.jpeg", alt:"Thank You Mo Salah Tribute Graphic Layout", title:"Thank You, Mo!", desc:"A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years."},
+  {img:"livvmci.jpeg", alt:"Liverpool VS Manchester City Cinematic F1 Concept Poster", title:"Liverpool FC VS Manchester City", desc:"An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside."},
+  {img:"livvgal.jpeg", alt:"Liverpool VS Galatasaray Champions League Matchday Campaign", title:"Liverpool FC VS Galatasaray", desc:"A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster."},
+  {img:"livvpsg.jpeg", alt:"Liverpool VS PSG Champions League Portrait Graphic", title:"Liverpool FC VS Paris Saint-Germain", desc:"A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia before a big European knockout match."},
+  {img:"slotout.jpeg", alt:"Slot Out Narrative Poster Art", title:"Slot Out!", desc:"An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield."}
+];
+
+const EDUCATION = [
+  {logo:"mdmss-removebg-preview.png", alt:"MDMSS Emblem", tag:"SEE", title:"Secondary Education Examination (SEE)", dates:"", desc:"Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. Achieved a 3.75 GPA in SEE.", current:false},
+  {logo:"ria-removebg-preview.png", alt:"RIA Emblem", tag:"+2", title:"+2 Higher Secondary Science", dates:"", desc:"Completed +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. Achieved a GPA of 3.62.", current:false},
+  {logo:"ascol-removebg-preview.png", alt:"Ascol Campus Emblem", tag:"B.Sc.CSIT", title:"Amrit Science Campus (T.U.)", dates:"", desc:"Currently pursuing B.Sc.CSIT — presently in the 4th semester.", current:true}
+];
+
+const SKILLS = [
+  {icon:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg", name:"HTML"},
+  {icon:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg", name:"CSS"},
+  {icon:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg", name:"Python"},
+  {icon:"https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg", name:"Photoshop"}
+];
+
+/* ============================================================
+   RENDER
+============================================================ */
+function esc(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function renderProjects(){
+  const grid = document.getElementById('projects-grid');
+  grid.innerHTML = PROJECTS.map((p,i)=>{
+    const num = String(i+1).padStart(3,'0');
+    return `<div class="project-card reveal">
+      <a class="project-thumb" href="${encodeURI(p.img)}" target="_blank" rel="noopener noreferrer">
+        <img src="${encodeURI(p.img)}" alt="${esc(p.alt)}" loading="lazy" draggable="false"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="img-fallback" style="display:none;"><span data-i18n="img_missing_prefix">Add</span>&nbsp;${esc(p.img)}</div>
+      </a>
+      <div class="project-body">
+        <div class="project-meta">
+          <span class="project-num">${num}</span>
+          <span class="project-cat" data-i18n="proj_cat">Sports Design</span>
         </div>
-    </section>
+        <h3 class="project-title">${esc(p.title)}</h3>
+        <p class="project-desc">${esc(p.desc)}</p>
+        <a class="project-link" href="${encodeURI(p.img)}" target="_blank" rel="noopener noreferrer" data-i18n="view_project">View Project ↗</a>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-    <!-- 5. CONTACT SECTION -->
-    <section id="contact">
-        <span class="section-tag" id="tag-contact">GET IN TOUCH</span>
-        <h2 class="section-title" id="title-contact">LET'S CONNECT</h2>
+function renderEducation(){
+  const grid = document.getElementById('edu-grid');
+  grid.innerHTML = EDUCATION.map(e=>{
+    return `<div class="edu-card reveal">
+      <img class="edu-logo" src="${encodeURI(e.logo)}" alt="${esc(e.alt)}"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="edu-logo-fallback" style="display:none;"><i class="fa-solid fa-graduation-cap"></i></div>
+      <div class="edu-tag">${esc(e.tag)}</div>
+      <h3 class="edu-title">${esc(e.title)}</h3>
+      <p class="edu-desc">${esc(e.desc)}</p>
+      ${e.current ? `<span class="edu-current" data-i18n="edu_current_badge">Currently Studying</span>` : ``}
+    </div>`;
+  }).join('');
+}
 
-        <div class="contact-container">
-            <div>
-                <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 24px;">
-                    Have a creative project or inquiry? Feel free to reach out directly via form or email.
-                </p>
-                
-                <p><strong>Email:</strong> <a href="mailto:alokkynwa@gmail.com" style="color: var(--accent-gold); text-decoration: none;">alokkynwa@gmail.com</a></p>
-                <p><strong>Phone:</strong> <a href="tel:+9779843538473" style="color: var(--text-main); text-decoration: none;">+977 9843538473</a></p>
-                <p><strong>Location:</strong> Kathmandu, Nepal</p>
+function renderSkills(){
+  const grid = document.getElementById('skills-grid');
+  grid.innerHTML = SKILLS.map(s=>`
+    <div class="skill-card reveal">
+      <img class="skill-icon" src="${s.icon}" alt="${esc(s.name)}">
+      <div class="skill-name">${esc(s.name)}</div>
+    </div>`).join('');
+}
 
-                <div class="contact-socials">
-                    <a href="https://www.linkedin.com/in/alok-sharma-511993280" target="_blank" class="social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="mailto:alokkynwa@gmail.com" class="social-btn" aria-label="Email"><i class="fa-regular fa-envelope"></i></a>
-                    <a href="tel:+9779843538473" class="social-btn" aria-label="Phone"><i class="fa-solid fa-phone"></i></a>
-                </div>
-            </div>
+renderProjects();
+renderEducation();
+renderSkills();
+document.getElementById('year').textContent = new Date().getFullYear();
 
-            <!-- EmailJS Contact Form -->
-            <form class="contact-form" id="portfolioContactForm">
-                <input type="text" name="user_name" placeholder="Your Name" required>
-                <input type="email" name="user_email" placeholder="Your Email Address" required>
-                <textarea name="message" placeholder="Your Message..." required></textarea>
-                <button type="submit" class="btn-submit">Send Message</button>
-            </form>
-        </div>
-    </section>
+/* ============================================================
+   LIVE KATHMANDU TIME
+============================================================ */
+function updateTime(){
+  const opts = { timeZone:'Asia/Kathmandu', hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false };
+  const t = new Intl.DateTimeFormat('en-GB', opts).format(new Date());
+  document.getElementById('np-time').textContent = t;
+  const modalTime = document.getElementById('modal-time');
+  if(modalTime) modalTime.textContent = t;
+  const footerEl = document.getElementById('np-time-footer');
+  const prefix = (I18N[currentLang] && I18N[currentLang].footer_time_prefix) || I18N.en.footer_time_prefix;
+  footerEl.textContent = prefix.replace('--:--:--', t);
+}
+updateTime();
+setInterval(updateTime, 1000);
 
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 Alok Sharma. All rights reserved. Kathmandu, Nepal.</p>
-    </footer>
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+function observeReveals(){ document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el)); }
+observeReveals();
+new MutationObserver(observeReveals).observe(document.body,{childList:true, subtree:true});
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // 1. Live Nepal Time Clock (Asia/Kathmandu)
-        function updateNepalTime() {
-            const now = new Date();
-            const options = {
-                timeZone: 'Asia/Kathmandu',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            const timeString = new Intl.DateTimeFormat('en-US', options).format(now);
-            document.getElementById('nepalTimeDisplay').textContent = timeString;
-        }
-        setInterval(updateNepalTime, 1000);
-        updateNepalTime();
+/* ============================================================
+   MOBILE MENU
+============================================================ */
+const mm = document.getElementById('mobile-menu');
+document.getElementById('menu-toggle').addEventListener('click', ()=> mm.classList.add('open'));
+document.getElementById('mm-close').addEventListener('click', ()=> mm.classList.remove('open'));
+mm.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mm.classList.remove('open')));
 
-        // 2. Theme Toggle (Dark / Light)
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            
-            const btnIcon = document.querySelector('#themeToggle i');
-            btnIcon.className = newTheme === 'dark' ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
-        }
+/* ============================================================
+   ABOUT MODAL
+============================================================ */
+const aboutModal = document.getElementById('about-modal');
+document.getElementById('about-open-link').addEventListener('click', (e)=>{ e.preventDefault(); aboutModal.classList.add('open'); });
+document.getElementById('modal-close').addEventListener('click', ()=> aboutModal.classList.remove('open'));
+aboutModal.addEventListener('click', (e)=>{ if(e.target === aboutModal) aboutModal.classList.remove('open'); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') aboutModal.classList.remove('open'); });
 
-        // 3. Multi-Language Switcher Dictionary
-        const translations = {
-            en: {
-                status: "4th Semester Computer Science Student",
-                bio: "Designing premium football posters, creative visuals, and engaging Instagram reels around European football while pursuing my undergraduate computer science studies.",
-                projTitle: "SELECTED WORK",
-                eduTitle: "EDUCATION",
-                skillsTitle: "SKILLS & TOOLS",
-                contactTitle: "LET'S CONNECT"
-            },
-            np: {
-                status: "४ औं सेमेस्टर कम्प्युटर साइन्स विद्यार्थी",
-                bio: "युरोपेली फुटबलको वरिपरि प्रिमियम फुटबल पोस्टर, रचनात्मक भिजुअल, र आकर्षक इन्स्टाग्राम रिलहरू डिजाइन गर्दै र कम्प्युटर साइन्स अध्ययन गर्दै।",
-                projTitle: "छनोट गरिएका कामहरू",
-                eduTitle: "शिक्षा यात्रा",
-                skillsTitle: "दक्षता र उपकरणहरू",
-                contactTitle: "सम्पर्क गर्नुहोस्"
-            },
-            de: {
-                status: "Informatik-Student im 4. Semester",
-                bio: "Gestaltung von Premium-Fußballpostern, kreativen Visuals und Reels über den europäischen Fußball während meines Informatikstudiums.",
-                projTitle: "AUSGEWÄHLTE ARBEITEN",
-                eduTitle: "AUSBILDUNG",
-                skillsTitle: "FÄHIGKEITEN & TOOLS",
-                contactTitle: "KONTAKT"
-            },
-            es: {
-                status: "Estudiante de Ciencias de la Computación (4º Semestre)",
-                bio: "Diseñando pósters de fútbol premium, visuales creativos y reels interactivos sobre fútbol europeo mientras estudio ciencias de la computación.",
-                projTitle: "TRABAJOS DESTACADOS",
-                eduTitle: "EDUCACIÓN",
-                skillsTitle: "HABILIDADES Y HERRAMIENTAS",
-                contactTitle: "CONTACTO"
-            }
-        };
+/* ============================================================
+   CONTACT FORM (EmailJS — original service/template preserved)
+============================================================ */
+(function(){
+  const form = document.getElementById("portfolio-contact-form");
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const btn = form.querySelector(".send-btn");
+    const orig = btn.innerText;
+    btn.innerText = "SENDING...";
+    btn.style.pointerEvents = "none";
+    const p = {
+      name: form.querySelector('input[name="name"]').value,
+      email: form.querySelector('input[name="email"]').value,
+      message: form.querySelector('textarea[name="message"]').value
+    };
+    try{
+      if(!window.emailjs) throw new Error("EmailJS not loaded");
+      const r = await emailjs.send('service_qa1fl7f','template_zu2bqc7', p);
+      if(r.status === 200){ btn.innerText = "SENT ✓"; form.reset(); }
+      else throw new Error();
+    }catch(err){
+      btn.innerText = "ERROR – TRY AGAIN";
+    }
+    setTimeout(()=>{ btn.innerText = orig; btn.style.pointerEvents = "auto"; }, 4000);
+  });
+})();
 
-        function changeLanguage(lang) {
-            if (!translations[lang]) return;
-            document.getElementById('txt-status').textContent = translations[lang].status;
-            document.getElementById('txt-bio').textContent = translations[lang].bio;
-            document.getElementById('title-projects').textContent = translations[lang].projTitle;
-            document.getElementById('title-edu').textContent = translations[lang].eduTitle;
-            document.getElementById('title-skills').textContent = translations[lang].skillsTitle;
-            document.getElementById('title-contact').textContent = translations[lang].contactTitle;
-        }
+/* ============================================================
+   LANGUAGE SWITCHER
+============================================================ */
+const I18N = {
+  en:{
+    nav_home:"Home", nav_projects:"Projects", nav_education:"Education", nav_skills:"Skills", nav_contact:"Contact", nav_about:"About",
+    hero_eyebrow:"This is", hero_status:"4th Semester Computer Science Student",
+    hero_bio:"I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
+    hero_btn_projects:"View Projects →", hero_btn_connect:"Let's Connect",
+    photo_missing:"Add alokk.jpeg to this folder to show your photo here",
+    loc_name:"Kathmandu, Nepal",
+    proj_eyebrow:"Selected Work", proj_title:"Featured Projects", proj_note:"Click any project to view the full artwork.",
+    proj_cat:"Sports Design", view_project:"View Project ↗", img_missing_prefix:"Add",
+    edu_eyebrow:"Academic Background", edu_title:"Education", edu_current_badge:"Currently Studying",
+    about_eyebrow:"About", about_title:"More About Me",
+    about_p1:"I'm Alok Sharma, a Computer Science student based in Kathmandu, Nepal, currently in my 4th semester of B.Sc.CSIT at Amrit Science Campus (Tribhuvan University). Alongside my studies, I design premium football posters, matchday graphics, and Instagram content built around European football.",
+    about_p2:"My work blends editorial-style compositions, cinematic lighting, and clean typography to turn football moments into shareable visual stories — from Champions League nights to tribute posters for club legends.",
+    fact_status:"Status", fact_institution:"Institution", fact_focus:"Focus", fact_focus_v:"Sports design & visual storytelling", fact_location:"Location", fact_email:"Email",
+    skills_eyebrow:"Toolkit", skills_title:"Core Skills",
+    contact_eyebrow:"Get In Touch", contact_title:"Get In Touch", find_me:"Find Me ↘",
+    ph_name:"NAME", ph_email:"EMAIL", ph_message:"MESSAGE", send_btn:"Send Message",
+    footer_contact:"Contact", footer_follow:"Follow", footer_time_prefix:"Kathmandu local time — --:--:--",
+    modal_lead:"A Computer Science student in Kathmandu who spends the hours between lectures building football posters worth stopping to look at.",
+    modal_tag:"DESIGN · COMPUTER SCIENCE"
+  },
+  ne:{
+    nav_home:"गृहपृष्ठ", nav_projects:"परियोजनाहरू", nav_education:"शिक्षा", nav_skills:"सीपहरू", nav_contact:"सम्पर्क", nav_about:"बारेमा",
+    hero_eyebrow:"यो हो", hero_status:"चौथो सेमेस्टर कम्प्युटर विज्ञान विद्यार्थी",
+    hero_bio:"म चौथो सेमेस्टरको कम्प्युटर विज्ञान विद्यार्थी हुँ, जसले युरोपेली फुटबलसँग सम्बन्धित प्रिमियम फुटबल पोस्टर, रचनात्मक भिजुअल, र आकर्षक इन्स्टाग्राम रिलहरू डिजाइन गर्छु।",
+    hero_btn_projects:"परियोजनाहरू हेर्नुहोस् →", hero_btn_connect:"सम्पर्क गरौं",
+    photo_missing:"तपाईंको फोटो यहाँ देखाउन यस फोल्डरमा alokk.jpeg थप्नुहोस्",
+    loc_name:"काठमाडौं, नेपाल",
+    proj_eyebrow:"छानिएका कामहरू", proj_title:"मुख्य परियोजनाहरू", proj_note:"पूर्ण आर्टवर्क हेर्न कुनै पनि परियोजनामा क्लिक गर्नुहोस्।",
+    proj_cat:"खेलकुद डिजाइन", view_project:"परियोजना हेर्नुहोस् ↗", img_missing_prefix:"थप्नुहोस्",
+    edu_eyebrow:"शैक्षिक पृष्ठभूमि", edu_title:"शिक्षा", edu_current_badge:"हाल अध्ययनरत",
+    about_eyebrow:"बारेमा", about_title:"मेरो बारेमा थप",
+    about_p1:"म आलोक शर्मा हुँ, काठमाडौं, नेपालमा आधारित कम्प्युटर विज्ञानको विद्यार्थी, हाल अमृत साइन्स क्याम्पस (त्रिभुवन विश्वविद्यालय) मा B.Sc.CSIT को चौथो सेमेस्टरमा अध्ययनरत। पढाइसँगै म युरोपेली फुटबलमा आधारित प्रिमियम फुटबल पोस्टर, म्याचडे ग्राफिक्स, र इन्स्टाग्राम सामग्री डिजाइन गर्छु।",
+    about_p2:"मेरो काम सम्पादकीय शैलीका रचनाहरू, सिनेमेटिक लाइटिङ, र सफा टाइपोग्राफीलाई मिसाएर फुटबल क्षणहरूलाई साझा गर्न योग्य भिजुअल कथाहरूमा बदल्छ।",
+    fact_status:"स्थिति", fact_institution:"संस्था", fact_focus:"फोकस", fact_focus_v:"खेलकुद डिजाइन र भिजुअल कथा भनाइ", fact_location:"स्थान", fact_email:"इमेल",
+    skills_eyebrow:"उपकरणहरू", skills_title:"मुख्य सीपहरू",
+    contact_eyebrow:"सम्पर्क गर्नुहोस्", contact_title:"सम्पर्क गर्नुहोस्", find_me:"मलाई फेला पार्नुहोस् ↘",
+    ph_name:"नाम", ph_email:"इमेल", ph_message:"सन्देश", send_btn:"सन्देश पठाउनुहोस्",
+    footer_contact:"सम्पर्क", footer_follow:"फलो गर्नुहोस्", footer_time_prefix:"काठमाडौं स्थानीय समय — --:--:--",
+    modal_lead:"काठमाडौंका एक कम्प्युटर विज्ञान विद्यार्थी, जसले कक्षाहरू बीचको समयमा हेर्न लायक फुटबल पोस्टरहरू बनाउँछन्।",
+    modal_tag:"डिजाइन · कम्प्युटर विज्ञान"
+  },
+  de:{
+    nav_home:"Start", nav_projects:"Projekte", nav_education:"Ausbildung", nav_skills:"Fähigkeiten", nav_contact:"Kontakt", nav_about:"Über mich",
+    hero_eyebrow:"Das ist", hero_status:"Informatikstudent im 4. Semester",
+    hero_bio:"Ich bin Informatikstudent im 4. Semester und gestalte hochwertige Fußballposter, kreative Visuals und ansprechende Instagram-Reels rund um den europäischen Fußball.",
+    hero_btn_projects:"Projekte ansehen →", hero_btn_connect:"Kontakt aufnehmen",
+    photo_missing:"Füge alokk.jpeg zu diesem Ordner hinzu, um dein Foto hier anzuzeigen",
+    loc_name:"Kathmandu, Nepal",
+    proj_eyebrow:"Ausgewählte Arbeiten", proj_title:"Ausgewählte Projekte", proj_note:"Klicke auf ein Projekt, um das vollständige Artwork zu sehen.",
+    proj_cat:"Sportdesign", view_project:"Projekt ansehen ↗", img_missing_prefix:"Hinzufügen",
+    edu_eyebrow:"Akademischer Werdegang", edu_title:"Ausbildung", edu_current_badge:"Aktuell eingeschrieben",
+    about_eyebrow:"Über mich", about_title:"Mehr über mich",
+    about_p1:"Ich bin Alok Sharma, ein Informatikstudent aus Kathmandu, Nepal, derzeit im 4. Semester des B.Sc.CSIT am Amrit Science Campus (Tribhuvan-Universität). Neben dem Studium gestalte ich hochwertige Fußballposter, Spieltag-Grafiken und Instagram-Inhalte rund um den europäischen Fußball.",
+    about_p2:"Meine Arbeit verbindet redaktionelle Kompositionen, cineastisches Licht und klare Typografie, um Fußballmomente in teilbare visuelle Geschichten zu verwandeln.",
+    fact_status:"Status", fact_institution:"Institution", fact_focus:"Schwerpunkt", fact_focus_v:"Sportdesign & visuelles Storytelling", fact_location:"Standort", fact_email:"E-Mail",
+    skills_eyebrow:"Werkzeuge", skills_title:"Kernkompetenzen",
+    contact_eyebrow:"Kontakt aufnehmen", contact_title:"Kontakt aufnehmen", find_me:"Finde mich ↘",
+    ph_name:"NAME", ph_email:"E-MAIL", ph_message:"NACHRICHT", send_btn:"Nachricht senden",
+    footer_contact:"Kontakt", footer_follow:"Folgen", footer_time_prefix:"Ortszeit Kathmandu — --:--:--",
+    modal_lead:"Ein Informatikstudent aus Kathmandu, der zwischen Vorlesungen Fußballposter gestaltet, die einen zweiten Blick wert sind.",
+    modal_tag:"DESIGN · INFORMATIK"
+  },
+  es:{
+    nav_home:"Inicio", nav_projects:"Proyectos", nav_education:"Educación", nav_skills:"Habilidades", nav_contact:"Contacto", nav_about:"Acerca de",
+    hero_eyebrow:"Este es", hero_status:"Estudiante de Ciencias de la Computación, 4.º semestre",
+    hero_bio:"Soy estudiante de Ciencias de la Computación en 4.º semestre y diseño pósters de fútbol premium, visuales creativos y reels de Instagram sobre fútbol europeo.",
+    hero_btn_projects:"Ver proyectos →", hero_btn_connect:"Contáctame",
+    photo_missing:"Agrega alokk.jpeg a esta carpeta para mostrar tu foto aquí",
+    loc_name:"Katmandú, Nepal",
+    proj_eyebrow:"Trabajo seleccionado", proj_title:"Proyectos destacados", proj_note:"Haz clic en cualquier proyecto para ver la obra completa.",
+    proj_cat:"Diseño deportivo", view_project:"Ver proyecto ↗", img_missing_prefix:"Agregar",
+    edu_eyebrow:"Formación académica", edu_title:"Educación", edu_current_badge:"Actualmente cursando",
+    about_eyebrow:"Acerca de", about_title:"Más sobre mí",
+    about_p1:"Soy Alok Sharma, estudiante de Ciencias de la Computación en Katmandú, Nepal, actualmente en el 4.º semestre de B.Sc.CSIT en Amrit Science Campus (Universidad de Tribhuvan). Junto con mis estudios, diseño pósters de fútbol premium, gráficos de partidos y contenido de Instagram sobre fútbol europeo.",
+    about_p2:"Mi trabajo combina composiciones de estilo editorial, iluminación cinematográfica y tipografía limpia para convertir momentos de fútbol en historias visuales para compartir.",
+    fact_status:"Estado", fact_institution:"Institución", fact_focus:"Enfoque", fact_focus_v:"Diseño deportivo y narrativa visual", fact_location:"Ubicación", fact_email:"Correo",
+    skills_eyebrow:"Herramientas", skills_title:"Habilidades principales",
+    contact_eyebrow:"Contáctame", contact_title:"Contáctame", find_me:"Encuéntrame ↘",
+    ph_name:"NOMBRE", ph_email:"CORREO", ph_message:"MENSAJE", send_btn:"Enviar mensaje",
+    footer_contact:"Contacto", footer_follow:"Sígueme", footer_time_prefix:"Hora local de Katmandú — --:--:--",
+    modal_lead:"Un estudiante de Ciencias de la Computación en Katmandú que dedica las horas entre clases a crear pósters de fútbol que valen la pena.",
+    modal_tag:"DISEÑO · CIENCIAS DE LA COMPUTACIÓN"
+  }
+};
 
-        // 4. Contact Form Handling
-        document.getElementById('portfolioContactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you! Your message has been sent to Alok Sharma.');
-            this.reset();
-        });
-    </script>
+let currentLang = 'en';
+const langNames = {en:'EN', ne:'ने', de:'DE', es:'ES'};
+
+function applyLang(lang){
+  currentLang = I18N[lang] ? lang : 'en';
+  document.documentElement.setAttribute('lang', currentLang === 'ne' ? 'ne' : currentLang);
+  document.documentElement.setAttribute('data-lang', currentLang);
+  const dict = I18N[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+  });
+  document.getElementById('lang-btn-label').textContent = langNames[currentLang];
+  document.querySelectorAll('.lang-menu button').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('data-lang') === currentLang);
+  });
+  updateTime();
+  try{ localStorage_setSafe(currentLang); }catch(e){}
+}
+
+/* In-memory only (no browser storage per artifact rules; safe no-op wrapper
+   kept in case this file is later hosted where storage is fine to add). */
+function localStorage_setSafe(){}
+
+const langBtn = document.getElementById('lang-btn');
+const langMenu = document.getElementById('lang-menu');
+langBtn.addEventListener('click', ()=> langMenu.classList.toggle('open'));
+document.addEventListener('click', (e)=>{
+  if(!langBtn.contains(e.target) && !langMenu.contains(e.target)) langMenu.classList.remove('open');
+});
+langMenu.querySelectorAll('button').forEach(b=>{
+  b.addEventListener('click', ()=>{ applyLang(b.getAttribute('data-lang')); langMenu.classList.remove('open'); });
+});
+
+applyLang('en');
+</script>
 </body>
 </html>
