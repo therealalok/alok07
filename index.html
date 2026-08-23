@@ -11,7 +11,6 @@
     <script type="text/javascript">
         (function(){ emailjs.init({ publicKey: "yZJw9EeH12xS_hpX5" }); })();
     </script>
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1433,19 +1432,6 @@ footer{
     flex-direction: column;
     gap: 26px;
 }
-/* ============================================================
-   CLOUDFLARE TURNSTILE (added — contact form security)
-============================================================ */
-.turnstile-wrap{ margin:10px 0; display:flex; justify-content:center; }
-.turnstile-error-msg{
-    display:none;
-    font-family: var(--font-body);
-    font-size:0.85rem;
-    color:#c0392b;
-    text-align:center;
-    margin:-4px 0 10px 0;
-}
-.turnstile-error-msg.show{ display:block; }
     </style>
 </head>
 <body>
@@ -1813,10 +1799,6 @@ footer{
                 <input type="email" name="email" placeholder="EMAIL" required>
              </div>
             <textarea name="message" placeholder="MESSAGE" required></textarea>
-            <div class="turnstile-wrap">
-                <div class="cf-turnstile" data-sitekey="0x4AAAAAAEZTl9xkdQ7e0GHi" data-theme="light" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError"></div>
-            </div>
-            <p class="turnstile-error-msg" id="turnstile-error-msg" role="alert">Please complete the security verification.</p>
             <button type="submit" class="send-btn">SEND MESSAGE</button>
         </form>
     </div>
@@ -2134,40 +2116,12 @@ themeToggle.addEventListener("click", () => {
 /* ============================================================
    CONTACT FORM HANDLING
 ============================================================ */
-/* ============================================================
-   CLOUDFLARE TURNSTILE STATE (added — contact form security)
-============================================================ */
-let turnstileToken = "";
-function onTurnstileSuccess(token){ turnstileToken = token; hideTurnstileError(); }
-function onTurnstileExpired(){ turnstileToken = ""; }
-function onTurnstileError(){ turnstileToken = ""; }
-function hideTurnstileError(){
-    const el = document.getElementById("turnstile-error-msg");
-    if (el) el.classList.remove("show");
-}
-function showTurnstileError(){
-    const el = document.getElementById("turnstile-error-msg");
-    if (el) el.classList.add("show");
-}
-function resetTurnstileWidget(){
-    turnstileToken = "";
-    if (window.turnstile && typeof window.turnstile.reset === "function") {
-        window.turnstile.reset();
-    }
-}
-
 (function(){
     const form = document.getElementById("portfolio-contact-form");
     form.addEventListener("submit", async e => {
         e.preventDefault();
         const btn = form.querySelector(".send-btn");
         const orig = btn.innerText;
-        /* Turnstile check — must pass before EmailJS is ever called */
-        if (!turnstileToken) {
-            showTurnstileError();
-            return;
-        }
-        hideTurnstileError();
         btn.innerText = "SENDING..."; btn.style.pointerEvents = "none";
         const p = {
             name:    form.querySelector('input[name="name"]').value,
@@ -2178,11 +2132,9 @@ function resetTurnstileWidget(){
             const r = await emailjs.send('service_qa1fl7f','template_zu2bqc7',p);
             if (r.status === 200) {
                 btn.innerText = "SENT ✓"; form.reset();
-                resetTurnstileWidget();
             } else throw new Error();
         } catch {
             btn.innerText = "ERROR – TRY AGAIN";
-            resetTurnstileWidget();
         }
         setTimeout(() => { btn.innerText=orig; btn.style.pointerEvents="auto"; }, 4000);
     });
