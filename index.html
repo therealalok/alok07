@@ -50,7 +50,23 @@
     --section-x:clamp(20px, 6vw, 96px);
     --section-y:clamp(64px, 12vw, 140px);
 
+    /* editorial motion system */
+    --ease-editorial:cubic-bezier(.22,.61,.36,1);
+    --t-section:900ms;
+    --t-primary:650ms;
+    --t-secondary:220ms;
+    --dist-y:26px;
+
     color-scheme:light;
+}
+
+@media(max-width:768px){
+    :root{
+        --t-section:650ms;
+        --t-primary:480ms;
+        --t-secondary:160ms;
+        --dist-y:14px;
+    }
 }
 
 [data-theme="dark"]{
@@ -144,10 +160,55 @@ ul{ list-style:none; }
 }
 .icon-btn:hover{ background:var(--color-text); color:var(--color-bg); transform:translate(-2px,-2px); }
 
-.reveal{ opacity:0; transform:translateY(18px); transition:opacity .5s ease, transform .5s ease; }
+.reveal{
+    opacity:0; transform:translateY(var(--dist-y));
+    transition:opacity var(--t-primary) var(--ease-editorial), transform var(--t-primary) var(--ease-editorial);
+}
 .reveal.active{ opacity:1; transform:translateY(0); }
+
+/* Secondary elements inside a revealed block settle a little after it,
+   via a small built-in stagger keyed to source order. */
+.reveal.stagger-children > *{
+    transition-delay:0ms;
+}
+.reveal.active.stagger-children > *:nth-child(1){ transition-delay:0ms; }
+.reveal.active.stagger-children > *:nth-child(2){ transition-delay:calc(var(--t-secondary) * 1); }
+.reveal.active.stagger-children > *:nth-child(3){ transition-delay:calc(var(--t-secondary) * 2); }
+.reveal.active.stagger-children > *:nth-child(4){ transition-delay:calc(var(--t-secondary) * 3); }
+.reveal.active.stagger-children > *:nth-child(5){ transition-delay:calc(var(--t-secondary) * 4); }
+
+/* ---------- EDITORIAL TITLE REVEAL (clip/mask + line settle) ---------- */
+.eyebrow{
+    opacity:0; transform:translateY(10px);
+    transition:opacity var(--t-secondary) var(--ease-editorial), transform var(--t-secondary) var(--ease-editorial);
+}
+.reveal.active .eyebrow{ opacity:1; transform:translateY(0); }
+
+.title-mask{ overflow:hidden; display:block; }
+.title-mask .section-title,
+.title-mask h1{
+    transform:translateY(105%);
+    transition:transform var(--t-primary) var(--ease-editorial);
+    transition-delay:90ms;
+    will-change:transform;
+}
+.reveal.active .title-mask .section-title,
+.reveal.active .title-mask h1{ transform:translateY(0); }
+
+.title-rule{
+    height:var(--border-w-thin); background:var(--color-border); width:100%;
+    transform-origin:left center; transform:scaleX(0);
+    transition:transform var(--t-primary) var(--ease-editorial);
+    transition-delay:calc(90ms + var(--t-primary) * .55);
+    margin-top:var(--gap-sm);
+}
+.reveal.active .title-rule{ transform:scaleX(1); }
+
 @media (prefers-reduced-motion:reduce){
     .reveal{ opacity:1; transform:none; transition:none; }
+    .eyebrow,.title-mask .section-title,.title-mask h1,.title-rule{
+        opacity:1; transform:none; transition:none;
+    }
 }
 
 /* ============================================================
@@ -163,6 +224,8 @@ section{
 [data-theme="dark"] #skills{ background:var(--color-surface); }
 #skills .section-title, #skills .eyebrow .idx{ color:var(--color-bg); }
 [data-theme="dark"] #skills .section-title,[data-theme="dark"] #skills .eyebrow .idx{ color:var(--color-text); }
+#skills .title-rule{ background:var(--color-bg); }
+[data-theme="dark"] #skills .title-rule{ background:var(--color-text); }
 
 /* ============================================================
    HEADER
@@ -258,7 +321,45 @@ nav a:hover, nav a.active-link{ color:var(--color-accent); border-bottom-color:v
 }
 .hero-buttons{ display:flex; gap:18px; flex-wrap:wrap; }
 
+/* Hero entrance choreography: metadata first, name masked-reveal,
+   supporting copy settles after. Kept confident and immediate. */
+.hero-text-col .hero-subtitle{
+    opacity:0; transform:translateY(8px);
+    transition:opacity 420ms var(--ease-editorial), transform 420ms var(--ease-editorial);
+}
+.hero-text-col.reveal.active .hero-subtitle{ opacity:1; transform:translateY(0); }
+
+.hero-text-col .hero-emblem-layout .title-mask h1{ transition-delay:140ms; }
+.hero-text-col .hero-large-flag-box{
+    opacity:0; transform:translateY(10px);
+    transition:opacity 420ms var(--ease-editorial) 260ms, transform 420ms var(--ease-editorial) 260ms;
+}
+.hero-text-col.reveal.active .hero-large-flag-box{ opacity:1; transform:translateY(0); }
+
+.hero-text-col p,.hero-text-col .hero-buttons{
+    opacity:0; transform:translateY(14px);
+    transition:opacity 480ms var(--ease-editorial) 420ms, transform 480ms var(--ease-editorial) 420ms;
+}
+.hero-text-col.reveal.active p,.hero-text-col.reveal.active .hero-buttons{ opacity:1; transform:translateY(0); }
+
 .hero-image-col{ display:flex; flex-direction:column; gap:var(--gap-md); }
+.hero-image-col .image-box{
+    opacity:0; transform:translateY(22px) scale(.985);
+    transition:opacity 620ms var(--ease-editorial) 160ms, transform 620ms var(--ease-editorial) 160ms;
+}
+.hero-image-col.reveal.active .image-box{ opacity:1; transform:translateY(0) scale(1); }
+.hero-image-col .languages-showcase{
+    opacity:0; transform:translateY(16px);
+    transition:opacity 500ms var(--ease-editorial) 460ms, transform 500ms var(--ease-editorial) 460ms;
+}
+.hero-image-col.reveal.active .languages-showcase{ opacity:1; transform:translateY(0); }
+@media (prefers-reduced-motion:reduce){
+    .hero-text-col .hero-subtitle,.hero-text-col .hero-large-flag-box,
+    .hero-text-col p,.hero-text-col .hero-buttons,
+    .hero-image-col .image-box,.hero-image-col .languages-showcase{
+        opacity:1; transform:none; transition:none;
+    }
+}
 .image-box{
     position:relative; width:100%; aspect-ratio:4/5;
     border:var(--border-w) solid var(--color-border);
@@ -304,6 +405,22 @@ nav a:hover, nav a.active-link{ color:var(--color-accent); border-bottom-color:v
     width:100%; max-width:820px;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     perspective:3500px; position:relative;
+}
+/* Book rises into place as one composition; page-flip transforms on
+   .book-container / .sheet (set by JS) are untouched. */
+.book-scene-wrapper.reveal .edu-book-viewport{
+    opacity:0; transform:translateY(30px);
+    transition:opacity var(--t-primary) var(--ease-editorial), transform var(--t-primary) var(--ease-editorial);
+}
+.book-scene-wrapper.reveal.active .edu-book-viewport{ opacity:1; transform:translateY(0); }
+.book-scene-wrapper.reveal .book-hud-controls{
+    opacity:0; transform:translateY(10px);
+    transition:opacity 420ms var(--ease-editorial) 320ms, transform 420ms var(--ease-editorial) 320ms;
+}
+.book-scene-wrapper.reveal.active .book-hud-controls{ opacity:1; transform:translateY(0); }
+@media (prefers-reduced-motion:reduce){
+    .book-scene-wrapper.reveal .edu-book-viewport,
+    .book-scene-wrapper.reveal .book-hud-controls{ opacity:1; transform:none; transition:none; }
 }
 .edu-book-viewport::before{
     content:''; position:absolute; top:22px; left:calc(50% + 22px);
@@ -449,7 +566,29 @@ nav a:hover, nav a.active-link{ color:var(--color-accent); border-bottom-color:v
     padding:32px 24px;
     border-right:var(--border-w-thin) solid var(--color-bg);
     min-height:200px;
-    transition:background-color .15s ease, color .15s ease;
+    transition:background-color .15s ease, color .15s ease,
+               opacity var(--t-primary) var(--ease-editorial), transform var(--t-primary) var(--ease-editorial);
+}
+.skills-grid-container.reveal{ transform:none; }
+.skills-grid-container.reveal .skill-item-card{ opacity:0; transform:translateY(var(--dist-y)); }
+.skills-grid-container.reveal.active .skill-item-card{ opacity:1; transform:translateY(0); }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(1){ transition-delay:0ms; }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(2){ transition-delay:calc(var(--t-secondary) * 1); }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(3){ transition-delay:calc(var(--t-secondary) * 2); }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(4){ transition-delay:calc(var(--t-secondary) * 3); }
+.skill-item-card::after{
+    content:''; position:absolute; top:0; left:0; height:var(--border-w-thin);
+    width:100%; background:var(--color-bg); opacity:.4;
+    transform-origin:left center; transform:scaleX(0);
+    transition:transform 380ms var(--ease-editorial);
+}
+.skills-grid-container.reveal.active .skill-item-card:nth-child(1)::after{ transform:scaleX(1); transition-delay:0ms; }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(2)::after{ transform:scaleX(1); transition-delay:calc(var(--t-secondary) * 1); }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(3)::after{ transform:scaleX(1); transition-delay:calc(var(--t-secondary) * 2); }
+.skills-grid-container.reveal.active .skill-item-card:nth-child(4)::after{ transform:scaleX(1); transition-delay:calc(var(--t-secondary) * 3); }
+@media (prefers-reduced-motion:reduce){
+    .skills-grid-container.reveal .skill-item-card{ opacity:1; transform:none; transition:none; }
+    .skill-item-card::after{ transform:scaleX(1); transition:none; }
 }
 .skill-item-card:last-child{ border-right:none; }
 .skill-item-card::before{
@@ -469,6 +608,14 @@ nav a:hover, nav a.active-link{ color:var(--color-accent); border-bottom-color:v
     position:relative; width:100%; overflow:hidden;
     cursor:grab; user-select:none;
     -webkit-tap-highlight-color:transparent;
+}
+.projects-outer-viewport.reveal{
+    transform:translateY(var(--dist-y)) scale(.99);
+}
+.projects-outer-viewport.reveal.active{ transform:translateY(0) scale(1); }
+.slider-controls-wrapper.reveal{ transition-delay:calc(var(--t-primary) * .55); }
+@media (prefers-reduced-motion:reduce){
+    .projects-outer-viewport.reveal{ transform:none; }
 }
 .projects-outer-viewport:active{ cursor:grabbing; }
 .projects-grid{
@@ -528,7 +675,40 @@ nav a:hover, nav a.active-link{ color:var(--color-accent); border-bottom-color:v
     display:grid; grid-template-columns:.85fr 1.15fr; gap:var(--gap-lg);
     border:var(--border-w) solid var(--color-border);
 }
+/* Calmer, more conclusive settle than earlier sections: longer duration,
+   no overshoot, everything arrives as one quiet block. */
+.contact-wrapper.reveal{
+    transition-duration:var(--t-section);
+}
 .contact-card{ padding:var(--gap-lg) var(--gap-md); border-right:var(--border-w) solid var(--color-border); display:flex; flex-direction:column; gap:28px; }
+.contact-card > *,
+.contact-form .form-row,.contact-form textarea{
+    opacity:0; transform:translateY(12px);
+    transition:opacity 520ms var(--ease-editorial), transform 520ms var(--ease-editorial);
+}
+.contact-wrapper.reveal.active .contact-card > *,
+.contact-wrapper.reveal.active .contact-form .form-row,
+.contact-wrapper.reveal.active .contact-form textarea{ opacity:1; transform:translateY(0); }
+.contact-wrapper.reveal.active .contact-card > *:nth-child(1){ transition-delay:60ms; }
+.contact-wrapper.reveal.active .contact-card > *:nth-child(2){ transition-delay:180ms; }
+.contact-wrapper.reveal.active .contact-card > *:nth-child(3){ transition-delay:300ms; }
+.contact-wrapper.reveal.active .contact-form .form-row{ transition-delay:220ms; }
+.contact-wrapper.reveal.active .contact-form textarea{ transition-delay:340ms; }
+/* The send button's own design (color, shadow, hover transform) is
+   untouched — only its opacity is choreographed into the sequence,
+   giving the final CTA quiet emphasis as the section's last beat. */
+.contact-form .send-btn{
+    opacity:0;
+    transition:opacity 480ms var(--ease-editorial) 460ms,
+               transform .15s ease, box-shadow .15s ease;
+}
+.contact-wrapper.reveal.active .contact-form .send-btn{ opacity:1; }
+@media (prefers-reduced-motion:reduce){
+    .contact-card > *,.contact-form .form-row,.contact-form textarea,.contact-form .send-btn{
+        opacity:1; transform:none;
+    }
+    .contact-form .send-btn{ transition:transform .15s ease, box-shadow .15s ease; }
+}
 .find-me-btn{ font-family:var(--font-head); font-size:clamp(2rem,3vw,3rem); letter-spacing:.5px; }
 .contact-info{ display:flex; flex-direction:column; gap:14px; }
 .contact-info a{
@@ -581,6 +761,13 @@ footer{
     font-family:var(--font-body); font-size:.82rem; letter-spacing:.5px;
     text-align:center;
 }
+footer.reveal{
+    transform:none;
+    transition:opacity 900ms var(--ease-editorial);
+}
+@media (prefers-reduced-motion:reduce){
+    footer.reveal{ transition:none; }
+}
 
 /* ============================================================
    RESPONSIVE
@@ -624,6 +811,15 @@ footer{
     .skills-grid-container{ grid-template-columns:1fr; }
     .skill-item-card{ border-right:none; }
     .form-row{ grid-template-columns:1fr; }
+
+    /* MOBILE MOTION — shorter travel, no scale/perspective flourishes */
+    .hero-image-col .image-box{ transform:translateY(14px); }
+    .hero-image-col.reveal.active .image-box{ transform:translateY(0); }
+    .book-scene-wrapper.reveal .edu-book-viewport{ transform:translateY(16px); }
+    .book-scene-wrapper.reveal.active .edu-book-viewport{ transform:translateY(0); }
+    .projects-outer-viewport.reveal{ transform:translateY(var(--dist-y)); }
+    .projects-outer-viewport.reveal.active{ transform:translateY(0); }
+    .contact-card > *,.contact-form .form-row,.contact-form textarea{ transform:translateY(8px); }
 }
 
 @media(max-width:480px){
@@ -681,7 +877,7 @@ footer{
             <div class="hero-large-flag-box">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
             </div>
-            <h1>ALOK<br>SHARMA</h1>
+            <div class="title-mask"><h1>ALOK<br>SHARMA</h1></div>
         </div>
         <p>I’m a 4th-semester Computer Science student who’s really into European football and creative design. I enjoy making premium football posters, creative visuals, and engaging Instagram reels that bring the excitement of the game to life.
 .</p>
@@ -729,7 +925,8 @@ footer{
 <section id="education">
     <div class="section-title-container reveal">
         <div class="eyebrow"><span class="idx">01</span><span>/ Education</span></div>
-        <h2 class="section-title">Education Journey</h2>
+        <div class="title-mask"><h2 class="section-title">Education Journey</h2></div>
+        <div class="title-rule"></div>
     </div>
 
     <div class="book-scene-wrapper reveal">
@@ -843,7 +1040,8 @@ footer{
 <section id="skills">
     <div class="section-title-container reveal">
         <div class="eyebrow"><span class="idx">02</span><span>/ Skills</span></div>
-        <h2 class="section-title">Core Skills</h2>
+        <div class="title-mask"><h2 class="section-title">Core Skills</h2></div>
+        <div class="title-rule"></div>
     </div>
     <div class="skills-grid-container reveal">
         <div class="skill-item-card skill-html">
@@ -868,7 +1066,8 @@ footer{
 <section id="projects">
     <div class="section-title-container reveal">
         <div class="eyebrow"><span class="idx">03</span><span>/ Projects</span></div>
-        <h2 class="section-title">Featured Projects</h2>
+        <div class="title-mask"><h2 class="section-title">Featured Projects</h2></div>
+        <div class="title-rule"></div>
     </div>
     <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
 
@@ -980,7 +1179,8 @@ footer{
 <section id="contact">
     <div class="section-title-container reveal">
         <div class="eyebrow"><span class="idx">04</span><span>/ Contact</span></div>
-        <h2 class="section-title">Get In Touch</h2>
+        <div class="title-mask"><h2 class="section-title">Get In Touch</h2></div>
+        <div class="title-rule"></div>
     </div>
     <div class="contact-wrapper reveal">
         <div class="contact-card">
@@ -1007,7 +1207,7 @@ footer{
     </div>
 </section>
 
-<footer>
+<footer class="reveal">
     Copyright © Alok Sharma - All rights reserved.
 </footer>
 
@@ -1017,16 +1217,21 @@ footer{
 ============================================================ */
 (function() {
     const reveals = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries, observer) => {
+    const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Stop observing once it reveals
+            } else if (entry.boundingClientRect.top > 0) {
+                // Only reset when the element has drifted back below the
+                // viewport (i.e. the user scrolled back up past it), so it
+                // can play again on revisit. Scrolling past it downward
+                // never triggers a disappearing animation.
+                entry.target.classList.remove('active');
             }
         });
     }, {
-        threshold: 0.15, // Trigger when 15% visible
-        rootMargin: "0px 0px -50px 0px"
+        threshold: [0.15, 0.3],
+        rootMargin: "0px 0px -15% 0px"
     });
 
     reveals.forEach(reveal => {
