@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alok Sharma - Portfolio</title>
+    <title>Alok Sharma — Portfolio</title>
     <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="32x32">
     <link rel="icon" href="nayalogo.png?v=3" type="image/png" sizes="192x192">
     <link rel="apple-touch-icon" href="nayalogo.png?v=3" sizes="180x180">
@@ -17,93 +17,104 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <style>
 /* ============================================================
-   ROOT TOKENS
+   BRUTAL MINIMALIST SYSTEM TOKENS
 ============================================================ */
 :root {
-    --bg-cream:   #fdf6e3;
-    --bg-yellow:  #f5c518;
-    --bg-white:   #ffffff;
-    --bg-dark:    #1a1a2e;
-    --accent:     #f5c518;
-    --accent2:    #e8a000;
-    --text-main:  #1a1a2e;
-    --text-muted: #5a5a7a;
-    --border-color:#1a1a2e;
-    --hand-drawn-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-    --hand-drawn-shadow: 6px 6px 0px var(--border-color);
-    --border-thick: 3px solid var(--border-color);
+    --color-bg: #F4F1EA;
+    --color-surface: #FFFFFF;
+    --color-text: #111111;
+    --color-text-muted: #555555;
+    --color-border: #111111;
+    --color-accent: #FF5A1F;
+    --color-accent-text: #FFFFFF;
+    --shadow-offset: 4px 4px 0px var(--color-border);
+    --shadow-accent: 4px 4px 0px var(--color-accent);
     --font-head: 'Bebas Neue', sans-serif;
     --font-body: 'IBM Plex Mono', monospace;
-}
-
-/* Subtle hover lift for interactive elements */
-.btn:hover,.send-btn:hover,.open-again-btn:hover,.theme-switch-btn:hover,
-.side-nav-btn:hover,.hud-arrow-btn:hover,.slider-arrow-btn:hover,
-.contact-info a:hover,.socials a:hover{ transform:translate(-2px,-2px);
-}
-.skill-item-card:hover{ transform:translateY(-6px); }
-
-/* Accessible focus state */
-a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
-    outline:3px solid var(--accent2); outline-offset:2px;
+    --transition-fast: 0.15s ease;
 }
 
 [data-theme="dark"] {
-    --bg-cream:   #0d0d1a;
-    --bg-yellow:  #d9a916;
-    --bg-white:   #16162a;
-    --bg-dark:    #080810;
-    --text-main:  #f0f0ff;
-    --text-muted: #a8a8cc;
-    --border-color:#444466;
-}
-[data-theme="dark"] .image-box img, [data-theme="dark"] .hero-large-flag-box { border-color:var(--border-color);
-}
-[data-theme="dark"] #skills { background:var(--bg-yellow); }
-[data-theme="dark"] #skills .section-title { color:#000; }
-[data-theme="dark"] #skills .section-title::after { background:var(--bg-dark); }
-[data-theme="dark"] .skill-item-card { background:var(--bg-dark); color:var(--text-main); border-color:#000;
-}
-[data-theme="dark"] .skill-item-card h3 { color:var(--text-main); }
-[data-theme="dark"] .contact-card { background:var(--bg-yellow); border-color:#000; }
-[data-theme="dark"] .contact-card .find-me-btn { color:#000;
-}
-[data-theme="dark"] .contact-info a, [data-theme="dark"] .socials a { background:var(--bg-dark); color:#fff; border-color:#000; }
-[data-theme="dark"] .contact-info a i, [data-theme="dark"] .socials a i { color:#fff;
-}
-[data-theme="dark"] .contact-info a:hover, [data-theme="dark"] .socials a:hover { background:var(--bg-white); }
-[data-theme="dark"] .theme-switch-btn, [data-theme="dark"] .side-nav-btn { background:var(--bg-dark); color:var(--bg-yellow);
-}
-[data-theme="dark"] .theme-switch-btn i, [data-theme="dark"] .side-nav-btn i { color:var(--bg-yellow); }
-[data-theme="dark"] #projects .section-title { color:#fff !important; }
-[data-theme="dark"] .logo span { color:var(--bg-yellow);
+    --color-bg: #0D0D0D;
+    --color-surface: #151515;
+    --color-text: #F4F1EA;
+    --color-text-muted: #B8B8B8;
+    --color-border: #F4F1EA;
+    --color-accent: #FF6A2A;
+    --color-accent-text: #111111;
+    --shadow-offset: 4px 4px 0px var(--color-border);
+    --shadow-accent: 4px 4px 0px var(--color-accent);
 }
 
 /* ============================================================
-   RESET / BASE
+   RESET & BASE STYLES
 ============================================================ */
-*{ margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
-body{
-    background-color:var(--bg-cream);
-    color:var(--text-main);
-    font-family:var(--font-body);
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-    transition:background-color .3s ease,color .3s ease;
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border-radius: 0 !important; /* Enforce hard brutalist edges globally */
 }
-::-webkit-scrollbar{ width:12px; background:var(--bg-cream); border-left:var(--border-thick); }
-::-webkit-scrollbar-thumb{ background:var(--bg-yellow); border:2px solid var(--border-color); }
-h1,h2,h3{ font-family:var(--font-head); text-transform:uppercase; line-height:1.1; letter-spacing:1px;
-color:var(--text-main); }
-p,a,span,input,textarea,button{ font-family:var(--font-body); }
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background: var(--color-bg);
+    border-left: 2px solid var(--color-border);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--color-accent);
+    border: 1px solid var(--color-border);
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-head);
+    text-transform: uppercase;
+    line-height: 0.95;
+    letter-spacing: 1px;
+    color: var(--color-text);
+}
+
+p, a, span, input, textarea, button, label {
+    font-family: var(--font-body);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Accessibility Focus States */
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
 
 /* ============================================================
-   SCROLL REVEAL (FADE IN UP)
+   SCROLL REVEAL (SUBTLE MECHANICAL TRANSITION)
 ============================================================ */
 .reveal {
     opacity: 0;
-    transform: translateY(50px);
-    transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
     will-change: opacity, transform;
 }
 .reveal.active {
@@ -111,2035 +122,1610 @@ p,a,span,input,textarea,button{ font-family:var(--font-body); }
     transform: translateY(0);
 }
 
-/* ============================================================
-   HEADER
-============================================================ */
-header{
-    position:sticky; top:0; width:100%;
-    display:flex; justify-content:space-between; align-items:center;
-    background:var(--bg-cream);
-    padding:14px 4vw;
-    z-index:1000;
-    border-bottom:1px solid var(--border-color);
-    transition:background-color .3s ease,border-color .3s ease,box-shadow .3s ease,padding .3s ease;
-    backdrop-filter:blur(8px);
-}
-header.scrolled{
-    padding:8px 4vw;
-    background:rgba(253,246,227,.82);
-    box-shadow:0 4px 18px rgba(0,0,0,.08);
-    border-bottom-color:transparent;
-}
-[data-theme="dark"] header.scrolled{ background:rgba(13,13,26,.82); }
-.logo{ font-size:1.9rem; font-weight:700; color:var(--text-main); letter-spacing:2px; }
-.logo span{ color:#c8960a; }
-.nav-container{ display:flex; align-items:center;
-gap:20px; }
-nav{ display:flex; gap:42px; align-items:center; }
-nav a{
-    text-decoration:none; color:var(--text-main); font-weight:700;
-    font-size:1.05rem; text-transform:uppercase; position:relative;
-    transition:color .25s ease;
-    padding:4px 0;
-}
-nav a::after{
-    content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px;
-    background:var(--bg-yellow); transition:width .3s cubic-bezier(.16,1,.3,1);
-}
-nav a:hover::after,nav a.active-link::after{ width:100%; }
-nav a:hover,nav a.active-link{ color:#c8960a; }
-.theme-switch-btn{
-    background:var(--bg-yellow); color:#000; border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:3px 3px 0 var(--border-color);
-    width:45px; height:45px; display:flex; align-items:center; justify-content:center;
-    cursor:pointer; font-size:1.2rem; margin-left:10px; transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.theme-switch-btn:hover{ background:var(--bg-white); }
- 
-/* Mobile nav toggle (hidden on desktop) */
-.nav-toggle-btn{
-    display:none;
-    background:var(--bg-yellow); color:#000; border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius);
-    box-shadow:3px 3px 0 var(--border-color);
-    width:45px; height:45px; align-items:center; justify-content:center;
-    cursor:pointer; font-size:1.2rem; margin-left:10px;
-}
-.mobile-nav-menu{
-    display:none; flex-direction:column; gap:0;
-    position:absolute; top:100%;
-    left:0; right:0;
-    background:var(--bg-cream); border-bottom:var(--border-thick);
-    box-shadow:0 8px 0 -4px var(--border-color);
-    z-index:999;
-}
-.mobile-nav-menu a{
-    display:block; padding:18px 6vw; text-decoration:none;
-    color:var(--text-main);
-    font-weight:700; text-transform:uppercase;
-    font-size:1.1rem; border-top:2px solid var(--border-color);
-    letter-spacing:1px;
-}
-.mobile-nav-menu a:hover{ background:var(--bg-yellow); color:#000; }
-.mobile-nav-menu.open{ display:flex;
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 /* ============================================================
-   SIDE FLOATING NAV
+   HEADER / NAVIGATION
 ============================================================ */
-.side-floating-nav{
-    position:fixed; right:20px;
-    top:50%; transform:translateY(-50%);
-    display:flex; flex-direction:column; gap:12px; z-index:1001;
-}
-.side-nav-btn{
-    width:48px; height:48px; background:var(--bg-yellow); color:#000;
-    display:flex; align-items:center; justify-content:center; font-size:1.3rem;
-    text-decoration:none; border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:3px 3px 0 var(--border-color);
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.side-nav-btn:hover{ background:var(--bg-white);
+header {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-bg);
+    padding: 16px 6vw;
+    z-index: 1000;
+    border-bottom: 2px solid var(--color-border);
 }
 
+.logo {
+    font-family: var(--font-head);
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--color-text);
+}
+.logo span {
+    color: var(--color-accent);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+nav {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+}
+
+nav a {
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+nav a:hover, nav a.active-link {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    border-color: var(--color-border);
+}
+
+.theme-switch-btn {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+    box-shadow: 2px 2px 0 var(--color-border);
+    transition: all var(--transition-fast);
+}
+
+.theme-switch-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.nav-toggle-btn {
+    display: none;
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.mobile-nav-menu {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
+    z-index: 999;
+}
+
+.mobile-nav-menu a {
+    display: block;
+    padding: 16px 6vw;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-top: 1px solid var(--color-border);
+    letter-spacing: 1px;
+}
+
+.mobile-nav-menu a:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.mobile-nav-menu.open {
+    display: flex;
+}
+
+/* Floating side navigation removed for brutal minimalist clarity, replaced with desktop header sticky bar */
+
 /* ============================================================
-   GLOBAL SECTION + TITLE
+   BUTTONS & STRUCTURAL COMPONENTS
 ============================================================ */
-section{ padding:130px 8vw; position:relative; }
-.divider-top{ position:absolute; top:-1px; left:0; width:100%; overflow:hidden; line-height:0; z-index:10;
+.btn {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border: 2px solid var(--color-border);
+    box-shadow: var(--shadow-offset);
+    padding: 12px 24px;
+    font-family: var(--font-head);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
-.divider-top svg{ display:block; width:calc(100% + 1.3px); height:70px; }
-.section-title-container{ margin-bottom:80px; text-align:center; }
-.section-title{
-    font-size:clamp(4rem,8vw,6rem); color:var(--text-main);
-    position:relative; display:inline-block; z-index:1;
+
+.btn:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    box-shadow: var(--shadow-accent);
+    transform: translate(-2px, -2px);
 }
-.section-title::after{
-    content:''; position:absolute; bottom:4px; left:-5%; width:110%; height:14px;
-    background:var(--bg-yellow);
-    z-index:-1;
-    border-radius:var(--hand-drawn-radius); transform:rotate(-1.5deg);
+
+.btn:active {
+    transform: translate(0, 0);
+    box-shadow: none;
 }
-.btn,.send-btn,.open-again-btn{
-    background:var(--bg-yellow); color:#000;
-    border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:var(--hand-drawn-shadow);
-    padding:14px 32px; font-family:var(--font-head); font-size:1.75rem;
-    text-decoration:none; text-transform:uppercase; letter-spacing:2px;
-    display:inline-flex;
-    align-items:center; justify-content:center; gap:12px;
-    cursor:pointer;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+
+.btn-primary {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
 }
-.send-btn{ width:100%; text-align:center; }
-.btn:hover,.send-btn:hover,.open-again-btn:hover{ background:var(--bg-white); color:var(--text-main);
+
+.btn-primary:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
 }
-.secondary-btn{ background:var(--bg-white) !important; color:var(--text-main) !important; }
-.secondary-btn:hover{ background:var(--bg-yellow) !important; color:#000 !important; }
-[data-theme="dark"] .btn,[data-theme="dark"] .send-btn,[data-theme="dark"] .open-again-btn{ color:#000;
+
+/* Section Header Editorial Presentation */
+section {
+    padding: 100px 6vw;
+    position: relative;
+}
+
+.section-divider {
+    border: none;
+    border-top: 2px solid var(--color-border);
+    margin: 0;
+}
+
+.section-title-container {
+    margin-bottom: 60px;
+}
+
+.section-index {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.section-title {
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    color: var(--color-text);
+    border-bottom: 4px solid var(--color-border);
+    display: inline-block;
+    padding-bottom: 8px;
 }
 
 /* ============================================================
    HERO SECTION
 ============================================================ */
-#home{
-    background:var(--bg-cream);
-    display:grid;
-    grid-template-columns:0.95fr 1.05fr;
-    gap:40px;
-    min-height:auto; padding:36px 8vw 90px; align-items:center;
-    position:relative; overflow:hidden;
+#home {
+    padding: 60px 6vw 90px;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+    border-bottom: 2px solid var(--color-border);
 }
-/* subtle diagonal stripe pattern behind hero */
-#home::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:repeating-linear-gradient(
-        -55deg,
-        transparent,
-        transparent 40px,
-        rgba(245,197,24,0.06) 40px,
-        rgba(245,197,24,0.06) 42px
-    );
-    pointer-events:none;
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
-.hero-text-col{
-    display:flex; flex-direction:column; justify-content:center;
-    padding-right:40px; position:relative; z-index:2;
+
+.hero h1 {
+    font-size: clamp(4.5rem, 9vw, 9.5rem);
+    line-height: 0.85;
+    margin-bottom: 24px;
+    word-break: break-word;
 }
-.hero h1{ font-size:clamp(5rem,9vw,10rem); line-height:.84; margin:10px 0 22px;
+
+.hero-flag-box {
+    width: 36px;
+    display: inline-block;
+    vertical-align: middle;
 }
-.hero-subtitle{
-    font-size:1.15rem; font-weight:700; text-transform:uppercase;
-    margin-bottom:4px; letter-spacing:6px; color:var(--text-muted);
-    display:flex; align-items:center; gap:16px;
+.hero-flag-box img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
-.hero-emblem-layout{ display:flex; align-items:flex-end; gap:22px; flex-wrap:wrap;
+
+.hero p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 620px;
+    margin-bottom: 32px;
+    border-left: 3px solid var(--color-accent);
+    padding-left: 16px;
 }
-.hero-large-flag-box{
-    width:50px; margin-bottom:12px; border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius);
-    box-shadow:3px 3px 0 var(--border-color);
-    padding:4px; background:#fff; flex-shrink:0;
+
+.hero-buttons {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
 }
-.hero-large-flag-box img{ width:100%; height:auto; display:block;
-border-radius:var(--hand-drawn-radius); }
-.hero p{
-    font-size:1.1rem; line-height:1.65; font-weight:600;
-    max-width:560px; margin-bottom:36px; color:var(--text-muted);
-    border-left:4px solid var(--bg-yellow); padding-left:18px;
+
+.hero-image-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
-.hero-buttons{ display:flex; gap:20px; flex-wrap:wrap;
+
+.portrait-frame {
+    width: 100%;
+    max-width: 380px;
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    padding: 12px;
+    box-shadow: 8px 8px 0 var(--color-border);
 }
-.hero-image-col{
-    display:flex; flex-direction:column; gap:26px; align-items:center; justify-content:center;
-    position:relative; z-index:2;
+
+.portrait-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    filter: grayscale(20%) contrast(105%);
+    border: 1px solid var(--color-border);
 }
-/* big soft shape behind portrait for focal point */
-.hero-image-col::before{
-    content:'';
-    position:absolute;
-    width:min(500px,86%); height:min(500px,86%);
-    background:var(--bg-yellow);
-    opacity:.4;
-    border-radius:50% 45% 55% 50% / 55% 50% 50% 45%;
-    z-index:-1;
-    filter:blur(2px);
-    top:8%;
+
+/* Language Block Editorial Grid */
+.languages-showcase {
+    width: 100%;
+    max-width: 380px;
+    margin-top: 24px;
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    padding: 16px;
 }
-.image-box{
-    width:100%; max-width:430px; aspect-ratio:3/4;
-    background:var(--bg-white); padding:14px;
-    border:var(--border-thick); border-radius:var(--hand-drawn-radius);
-    box-shadow:10px 10px 0 var(--border-color);
-    position:relative;
+
+.lang-heading {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
 }
-/* decorative accent corner */
-.image-box::before{
-    content:''; position:absolute; top:-10px; right:-10px;
-    width:80px; height:80px;
-    background:var(--bg-yellow); border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); z-index:-1;
+
+.lang-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
 }
-.image-box img{
-    width:100%; height:100%; object-fit:cover;
-    border:2px solid var(--border-color);
-    border-radius:255px 15px 225px 15px/15px 225px 15px 255px;
+
+.lang-card {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.lang-flag {
+    width: 20px;
+    height: 14px;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+}
+.lang-flag.nepal-flag {
+    object-fit: contain;
+    border: none;
 }
 
 /* ============================================================
-   EDUCATION – BOOK ON A WOODEN TABLE
+   EDUCATION SECTION (ARCHIVAL DOCUMENT OBJECT)
 ============================================================ */
-#education{ background:var(--bg-white); }
-#education .shape-fill{ fill:var(--bg-cream);
+#education {
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
 }
 
-/* --- WOODEN TABLE SCENE --- */
-.book-scene-wrapper{
-    display:flex; flex-direction:column; align-items:center;
-    width:100%; position:relative;
-    padding-bottom:0px;
+.book-scene-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* THE TABLE SURFACE */
-.wooden-table{
-    position:relative;
-    width:min(1000px,98%);
-    margin:0 auto;
-    padding:100px 80px 90px 80px;
-    border-radius:12px 12px 0 0;
-/* rich walnut wood grain */
-    background:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='wg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.018 0.35' numOctaves='5' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0.2'/%3E%3CfeBlend in='SourceGraphic' mode='multiply'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23wg)' opacity='0.12'/%3E%3C/svg%3E") repeat,
-        linear-gradient(
-            180deg,
-            #6b3a1f 0%,
-            #7c4422 8%,
-            #5c2e10 15%,
-            #8b5230 22%,
-            #6b3a1f 30%,
-            #7a4520 38%,
-            #5a2c0e 45%,
-            #8c5428 52%,
-            #6e3d1c 60%,
-            #7b4521 68%,
-            #5c2e10 75%,
-            #8a5128 82%,
-            #6b3a1f 90%,
-            #7c4422 100%
-        );
-    box-shadow:
-        0 -4px 0 #3d1f08,
-        0 0 0 3px #3d1f08,
-        inset 0 2px 6px rgba(255,200,100,0.18),
-        inset 0 -2px 8px rgba(0,0,0,0.35),
-        0 20px 60px rgba(0,0,0,0.45),
-        0 8px 20px rgba(0,0,0,0.3);
-    border-top: 4px solid #a0612f;
-    border-left: 3px solid #5a2c10;
-    border-right: 3px solid #3d1c08;
+.edu-book-viewport {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    perspective: 2500px;
 }
 
-/* Glossy varnish sheen across table top */
-.wooden-table::before{
-    content:'';
-    position:absolute; inset:0;
-    border-radius:12px 12px 0 0;
-    background:linear-gradient(
-        160deg,
-        rgba(255,220,150,0.18) 0%,
-        transparent 35%,
-        rgba(255,180,80,0.08) 60%,
-        transparent 100%
-    );
-    pointer-events:none; z-index:1;
+.book-container {
+    position: relative;
+    width: 820px;
+    height: 520px;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Table edge lip shadow */
-.wooden-table::after{
-    content:'';
-    position:absolute; bottom:-14px; left:0; right:0; height:14px;
-    border-radius:0 0 8px 8px;
-    background:linear-gradient(180deg, #3d1f08 0%, #1e0d02 100%);
-    box-shadow:0 6px 18px rgba(0,0,0,0.5);
+.book-pages-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
 }
 
-/* table grain horizontal streaks */
-.table-grain-overlay{
-    position:absolute; inset:0; border-radius:12px 12px 0 0;
-    pointer-events:none; z-index:2; overflow:hidden;
-}
-.table-grain-overlay::before{
-    content:'';
-    position:absolute; inset:0;
-    background:repeating-linear-gradient(
-        1deg,
-        transparent,
-        transparent 22px,
-        rgba(30,10,0,0.04) 22px,
-        rgba(30,10,0,0.04) 23px,
-        transparent 23px,
-        transparent 36px,
-        rgba(180,100,30,0.03) 36px,
-        rgba(180,100,30,0.03) 37px
-    );
+.sheet {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    right: 0;
+    top: 0;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
 }
 
-/* === BOOK + PEN CONTAINER === */
-.book-pen-scene{
-    position:relative; z-index:3;
-    display:flex; align-items:flex-end; justify-content:center;
-    gap:0;
+.page-side {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    backface-visibility: hidden;
+    overflow: hidden;
+    border: 2px solid var(--color-border);
 }
 
-/* Book shadow cast on table */
-.book-shadow{
-    position:absolute;
-    bottom:-18px; left:50%; transform:translateX(-50%);
-    width:96%; height:28px;
-    background:radial-gradient(ellipse 80% 100% at 50% 100%, rgba(0,0,0,0.55) 0%, transparent 100%);
-    filter:blur(10px);
-    z-index:0;
+.page-side.front {
+    transform: rotateY(0deg);
+}
+
+.page-side.back {
+    transform: rotateY(180deg);
+}
+
+.sheet.cover-sheet .front,
+.sheet.cover-sheet-back .back {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-border);
+}
+
+.cover-content-layout {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    border: 1px solid var(--color-bg);
+    padding: 24px;
+}
+
+.cover-foil-title {
+    font-size: 4rem;
+    line-height: 0.9;
+    color: var(--color-accent);
+}
+
+.cover-foil-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 8px;
+}
+
+.cover-medallion {
+    width: 70px;
+    height: 70px;
+    border: 2px solid var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-family: var(--font-head);
+    color: var(--color-accent);
+    margin: 16px 0;
+}
+
+.cover-year-badge {
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: 1px solid var(--color-bg);
+    padding: 4px 12px;
+}
+
+.school-logo-frame {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 12px;
+    filter: grayscale(100%);
+}
+
+.page-side h3 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+    color: var(--color-text);
+}
+
+.editorial-highlight-label {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    padding: 2px 8px;
+    display: inline-block;
+    margin-bottom: 16px;
+    align-self: flex-start;
+}
+
+.editorial-meta-line {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.page-side p {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+}
+
+.stable-page-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    position: absolute;
+    bottom: 20px;
+}
+.sheet .front .stable-page-number { right: 36px; }
+.sheet .back .stable-page-number { left: 36px; }
+
+.index-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+}
+.idx-num {
+    background: var(--color-text);
+    color: var(--color-bg);
+    padding: 2px 6px;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+.idx-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.click-zone {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    z-index: 100;
+    cursor: pointer;
+}
+.click-zone-left { left: 0; }
+.click-zone-right { right: 0; }
+
+.book-hud-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.hud-arrow-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hud-arrow-btn {
+    width: 50px;
+    height: 40px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    color: var(--color-text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0 var(--color-border);
+    transition: all var(--transition-fast);
+}
+
+.hud-arrow-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.hud-status-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hud-instruction {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    letter-spacing: 1px;
+}
+
+.open-again-btn {
+    margin-top: 16px;
 }
 
 /* ============================================================
-   BOOK VIEWPORT
-   (updated: realistic hardcover-book materials & depth — matte
-   cloth/leather cover, warm ivory paper, stitched spine, subtle
-   believable perspective instead of an illustrated/floating look)
+   SKILLS SECTION (EDITORIAL GRID)
 ============================================================ */
-.edu-book-viewport{
-    --book-cover-deep:   #1c1e26;
-    --book-cover-mid:    #262a35;
-    --book-cover-bright: #313644;
-    --book-gold:         #b9975b;
-    --book-gold-dark:    #8a7040;
-    --book-gold-light:   #d9c090;
-    --paper-base:  #f7f0e2;
-    --book-text:   #2b2a28;
-    --book-muted:  #726c60;
-    --spine-deep:  #131419;
-    --book-line:   rgba(40,32,20,0.14);
-
-    --linen: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
-    --paper-tex: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.05'/%3E%3C/svg%3E");
-
-    width:100%;
-    display:flex; flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    perspective:3500px; position:relative; z-index:3;
+#skills {
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
 }
 
-.book-container{
-    position:relative;
-    width:800px; height:525px;
-    transform-style:preserve-3d;
-    /* Subtle, believable perspective — a real book resting on a desk, capped per spec */
-    transform:rotateX(2deg) rotateY(-3deg) rotateZ(0.2deg);
-    transition:transform 1s cubic-bezier(.22,.61,.36,1);
-}
-.book-container:hover{
-    transform:rotateX(2deg) rotateY(-1.5deg) rotateZ(0.2deg);
+.skills-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
-/* page stack edge — warm ivory leaves, layered paper thickness */
-.book-container::after{
-    content:''; position:absolute; right:-9px; top:1.5%; width:9px;
-    height:97%;
-    background:repeating-linear-gradient(to bottom,#efe7d4,#efe7d4 1px,#d9cdb2 1px,#d9cdb2 2px);
-    transform:rotateY(90deg); transform-origin:left; z-index:0;
-    box-shadow:inset 3px 0 8px rgba(0,0,0,.14);
+.skill-item-card {
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    padding: 28px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 180px;
+    box-shadow: var(--shadow-offset);
+    transition: all var(--transition-fast);
+    position: relative;
 }
 
-/* click zones */
-.click-zone{ position:absolute; top:0;
-    height:100%; width:50%; z-index:100; cursor:pointer; transform:translateZ(60px); }
-.click-zone-left{ left:0; }
-.click-zone-right{ right:0; }
-
-/* SPINE — realistic stitched hardcover binding, matte cloth, no shiny highlight bands */
-.book-spine-core{
-    position:absolute; left:calc(50% - 15px); top:.2%;
-    width:30px; height:99.6%;
-    background:
-        var(--linen),
-        repeating-linear-gradient(180deg,
-            rgba(0,0,0,0) 0px, rgba(0,0,0,0) 9px,
-            rgba(217,192,144,.2) 9px, rgba(217,192,144,.2) 10px
-        ),
-        linear-gradient(to right,
-            rgba(0,0,0,.4) 0%,
-            rgba(255,255,255,.03) 20%,
-            rgba(0,0,0,.12) 50%,
-            rgba(255,255,255,.03) 80%,
-            rgba(0,0,0,.4) 100%
-        ),
-        linear-gradient(180deg, var(--book-cover-mid) 0%, var(--book-cover-deep) 50%, var(--spine-deep) 100%);
-    transform:translateZ(-18px); border-radius:6px;
-    box-shadow:0 3px 12px rgba(0,0,0,.35);
+.skill-item-card:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    box-shadow: var(--shadow-accent);
 }
 
-.book-pages-wrapper{ position:absolute; width:100%;
-    height:100%; transform-style:preserve-3d; pointer-events:none;
+.skill-item-card:hover h3,
+.skill-item-card:hover .skill-num {
+    color: var(--color-accent-text);
 }
 
-.sheet{
-    position:absolute; width:50%; height:100%; right:0; top:0;
-    transform-origin:left center; transform-style:preserve-3d;
-    /* natural acceleration + smooth deceleration, no abrupt/robotic flip */
-    transition:transform 1s cubic-bezier(.4,0,.2,1);
-    z-index:1;
-}
-.page-side{
-    position:absolute; width:100%; height:100%; top:0; left:0;
-    background-color:var(--paper-base); background-image:var(--paper-tex);
-    padding:72px 65px; display:flex; flex-direction:column;
-    backface-visibility:hidden; transform-style:flat; overflow:hidden;
-    pointer-events:auto;
-    border:1px solid rgba(0,0,0,.05);
-    /* soft ambient page depth, no perfectly flat sheet */
-    box-shadow: inset 0 0 18px rgba(60,45,20,.06);
-}
-.page-side.front{ transform:rotateY(0deg) translateZ(1px); }
-.page-side.back{ transform:rotateY(180deg) translateZ(-1px); }
-/* realistic inner-spine shading, replaces the illustrated hand-drawn outline */
-.page-side::before{
-    content:''; position:absolute; top:0; bottom:0; left:0; width:46px;
-    background:linear-gradient(to right, rgba(40,30,15,.14), transparent);
-    pointer-events:none; z-index:2;
-}
-.sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-.cover-sheet-back .front{ border-left:1px solid rgba(0,0,0,.06); }
-
-.sheet.cover-sheet,.sheet.cover-sheet-back{ height:104%; top:-2%; width:51%;
-}
-.sheet.cover-sheet .page-side,.sheet.cover-sheet-back .page-side{
-    background-color:var(--book-cover-deep);
+.skill-num {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
 }
 
-/* ================================================================
-   FRONT COVER – DEEP NAVY BLUE HARDCOVER w/ GOLD FOIL
-================================================================ */
-.sheet.cover-sheet .front{
-    border-radius:0 6px 6px 0;
-    display:flex; flex-direction:column;
-    justify-content:space-between; align-items:center;
-    text-align:center; padding:0; overflow:hidden;
-    /* Navy blue leather */
-    background:
-        var(--linen),
-        linear-gradient(
-            135deg,
-            #040c2e 0%,
-            #0b1650 15%,
-            #1a2d8f 30%,
-            #2541c4 42%,
-            #1e35a8 55%,
-            #0e1c60 70%,
-            #040c2e 100%
-        );
-    box-shadow:
-        inset 10px 0 25px rgba(0,0,0,.6),
-        inset -4px 0 10px rgba(255,255,255,.08),
-        inset 0 6px 20px rgba(255,255,255,.06),
-        inset 0 -6px 20px rgba(0,0,0,.5),
-        8px 8px 30px rgba(0,0,0,.5);
-    border-right:2px solid #2541c4;
-    border-top:1px solid #3a56d8;
-    border-bottom:2px solid #040c2e;
-}
-/* hinge shadow */
-.sheet.cover-sheet .front::before{
-    content:''; position:absolute; left:0;
-    top:0; bottom:0; width:32px;
-    background:linear-gradient(to right,rgba(0,0,0,.7) 0%,rgba(0,0,0,.35) 50%,transparent 100%);
-    z-index:25; pointer-events:none;
-}
-/* outer raised gilt border */
-.sheet.cover-sheet .front::after{
-    content:''; position:absolute; inset:16px 16px 16px 32px;
-    border:2.5px solid rgba(245,197,24,.45);
-    border-radius:3px;
-    box-shadow:
-        inset 0 0 0 2px rgba(0,0,0,.4),
-        0 0 20px rgba(245,197,24,.08);
-    pointer-events:none; z-index:5;
+.skill-icon-wrap {
+    width: 48px;
+    height: 48px;
+    align-self: flex-end;
 }
 
-/* ---- cover inner layout ---- */
-.cover-content-layout{
-    position:relative; z-index:10; width:100%; height:100%;
-    display:flex; flex-direction:column; justify-content:space-between;
-    align-items:center;
-    padding:34px 34px 34px 48px;
-}
-.cover-top-bar{ width:100%; display:flex; flex-direction:column; align-items:center; gap:7px; }
-.cover-foil-title{
-    font-family:var(--font-head);
-    font-size:clamp(3rem,4.8vw,5.2rem);
-    line-height:.88; color:transparent;
-    background:linear-gradient(
-        155deg,
-        #fff9e0 0%, #f5c518 15%, #fff5a0 28%,
-        #b8860b 40%, #fff176 52%,
-        #f5c518 63%, #8b6200 75%,
-        #fff9e0 88%, #f5c518 100%
-    );
-    -webkit-background-clip:text; background-clip:text;
-    filter:drop-shadow(0 2px 6px rgba(0,0,0,.8)) drop-shadow(0 0 12px rgba(245,197,24,.5));
-    letter-spacing:4px; text-align:center;
-}
-.cover-foil-subtitle{
-    font-family:var(--font-body); font-size:.68rem;
-    letter-spacing:6px; font-weight:700;
-    text-transform:uppercase;
-    color:rgba(245,197,24,.85); text-shadow:0 1px 4px rgba(0,0,0,.7);
-    margin-top:5px;
-}
-.cover-ornament-divider{ width:78%; margin:7px auto; opacity:.75; }
-
-/* Seal medallion */
-.cover-medallion-wrap{ display:flex; flex-direction:column; align-items:center; gap:8px;
-}
-.cover-medallion{
-    width:80px; height:80px; border-radius:50%;
-    background:
-        radial-gradient(circle at 38% 35%, #fff9b0 0%, #f5c518 30%, #b8860b 65%, #7a5500 100%);
-    border:3px solid rgba(255,255,255,.35);
-    box-shadow:
-        0 5px 20px rgba(0,0,0,.6),
-        inset 0 2px 5px rgba(255,255,255,.7),
-        0 0 0 5px rgba(0,0,0,.25),
-        0 0 15px rgba(245,197,24,.35);
-    display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-head); font-size:1.9rem;
-    color:#3a2000;
-    text-shadow:0 1px 2px rgba(255,255,255,.5);
-    position:relative;
-}
-.cover-medallion::after{
-    content:''; position:absolute; inset:4px;
-    border-radius:50%;
-    border:1px dashed rgba(255,255,255,.5);
-}
-.cover-year-badge{
-    font-family:var(--font-body); 
-    font-size:1rem; /* Text size increased */
-    letter-spacing:4px; font-weight:700;
-    color:rgba(245,197,24,.8);
-    text-shadow:0 1px 3px rgba(0,0,0,.7);
-    background:rgba(0,0,0,.35);
-    padding:5px 18px; border:1px solid rgba(245,197,24,.3);
-    border-radius:20px;
-}
-.cover-bottom-block{ width:100%; display:flex; flex-direction:column; align-items:center; gap:5px;
-}
-.cover-publisher-line{
-    font-family:var(--font-body); 
-    font-size:.95rem; /* Text size increased */
-    letter-spacing:5px; text-transform:uppercase;
-    color:rgba(245,197,24,.85);
-    text-shadow:0 1px 3px rgba(0,0,0,.6);
+.skill-icon-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
-/* INNER FRONT COVER */
-.sheet.cover-sheet .back{
-    border-radius:6px 0 0 6px;
-    background-color:var(--paper-base); background-image:var(--paper-tex);
-    box-shadow:inset 0 0 10px rgba(0,0,0,.15),inset -20px 0 30px rgba(0,0,0,.08);
-}
-/* INNER BACK COVER */
-.sheet.cover-sheet-back .front{
-    border-radius:0 6px 6px 0;
-    background-color:var(--paper-base); background-image:var(--paper-tex);
-    box-shadow:inset 0 0 10px rgba(0,0,0,.15),inset 20px 0 30px rgba(0,0,0,.08);
-}
-/* BACK COVER */
-.sheet.cover-sheet-back .back{
-    border-radius:6px 0 0 6px;
-    background:
-        var(--linen),
-        linear-gradient(
-            135deg,
-            #040c2e 0%, #0b1650 15%, #1a2d8f 30%,
-            #2541c4 42%, #1e35a8 55%, #0e1c60 70%, #040c2e 100%
-        );
-    box-shadow:inset -8px 0 20px rgba(0,0,0,.5),-6px 6px 15px rgba(0,0,0,.3);
-    border-left:2px solid #2541c4;
-    border-top:1px solid #3a56d8;
-    border-bottom:2px solid #040c2e;
-}
-.sheet.cover-sheet-back .back::before{
-    content:''; position:absolute; right:14px; top:0; bottom:0; width:6px;
-    background:linear-gradient(to left,rgba(0,0,0,.3),rgba(255,255,255,.08),rgba(0,0,0,.3));
-    z-index:10; pointer-events:none;
+.skill-item-card h3 {
+    font-size: 2.2rem;
+    margin: 0;
 }
 
 /* ============================================================
-   PEN (absolutely positioned next to book)
-============================================================ */
-.realistic-pen{
-    position:absolute;
-    right:-62px; bottom:30px;
-    width:18px; height:560px;
-    z-index:15;
-    transform:rotateZ(-2deg);
-    transform-origin:bottom center;
-    filter:drop-shadow(-4px 6px 10px rgba(0,0,0,.45));
-}
-/* barrel */
-.pen-barrel{
-    position:absolute; bottom:30px; left:0; right:0;
-    height:430px;
-    border-radius:9px 9px 5px 5px;
-    background:
-        linear-gradient(to right,
-            #b01000 0%, #e62010 10%,
-            #ff4020 25%, #cc2010 45%,
-            #aa1800 60%, #cc2010 75%,
-            #e62010 88%, #b01000 100%
-        );
-    box-shadow:inset 2px 0 5px rgba(255,100,60,.4),inset -2px 0 8px rgba(0,0,0,.3);
-}
-/* gold clip */
-.pen-clip{
-    position:absolute; bottom:60px; left:-4px;
-    width:6px;
-    height:380px; border-radius:3px 3px 0 0;
-    background:linear-gradient(to right,
-        #997700 0%, #f5c518 25%, #fff176 45%,
-        #f5c518 65%, #b8860b 85%, #997700 100%
-    );
-    box-shadow:2px 0 4px rgba(0,0,0,.3);
-}
-.pen-clip::after{
-    content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
-    width:14px; height:14px; border-radius:50%;
-    background:radial-gradient(circle at 40% 35%,#fff176,#f5c518 50%,#b8860b 100%);
-    box-shadow:0 1px 4px rgba(0,0,0,.4);
-}
-/* gold ring bands */
-.pen-ring{
-    position:absolute; left:0;
-    right:0; height:12px;
-    background:linear-gradient(to right,
-        #997700 0%, #f5c518 25%, #fff176 45%,
-        #f5c518 65%, #b8860b 85%, #997700 100%
-    );
-    border-radius:2px;
-    box-shadow:0 1px 3px rgba(0,0,0,.3);
-}
-.pen-ring.top{ bottom:440px; }
-.pen-ring.mid{ bottom:430px; }
-.pen-ring.low{ bottom:28px; }
-/* cap */
-.pen-cap{
-    position:absolute; top:0; left:0;
-    right:0; height:130px;
-    border-radius:9px 9px 3px 3px;
-    background:linear-gradient(to right,
-        #111 0%, #222 15%, #333 30%, #222 55%, #111 80%, #0a0a0a 100%
-    );
-    box-shadow:inset 2px 0 4px rgba(255,255,255,.07),inset -2px 0 6px rgba(0,0,0,.4);
-}
-.pen-cap::after{
-    content:''; position:absolute; bottom:0; left:0; right:0; height:8px;
-    background:linear-gradient(to right,#997700,#f5c518 50%,#997700);
-}
-/* nib taper */
-.pen-nib-wrapper{
-    position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-    width:18px; height:30px;
-}
-.pen-nib-taper{
-    width:0; height:0;
-    border-left:9px solid transparent; border-right:9px solid transparent;
-    border-top:26px solid #c0a060;
-}
-.pen-nib-tip{
-    position:absolute;
-    bottom:0; left:50%; transform:translateX(-50%);
-    width:3px; height:7px; border-radius:0 0 2px 2px;
-    background:linear-gradient(to bottom,#silver,#c8c8c8,#e0e0e0);
-    background:linear-gradient(to bottom,#aaa,#ddd,#eee);
-}
-
-/* ============================================================
-   BOOK INTERIOR PAGE TYPOGRAPHY
-============================================================ */
-.cover-main-head{ font-family:var(--font-head); font-size:clamp(4.2rem,5vw,6rem); line-height:.92; margin:22px 0; color:#000; }
-.school-logo-frame{ width:62px; height:62px; object-fit:contain; margin-bottom:18px;
-    filter:grayscale(100%) contrast(130%); }
-.page-side h3{ font-family:var(--font-head); font-size:2.6rem; margin-bottom:18px; color:var(--book-text); font-weight:400; line-height:1.1; }
-.page-side p{ font-size:.93rem; line-height:1.8; color:var(--book-muted); max-width:92%; }
-.editorial-highlight-label{ background-color:var(--bg-yellow); color:#000; font-family:var(--font-head);
-    font-size:1.5rem; padding:5px 16px; margin-bottom:28px; display:inline-block; }
-.editorial-meta-line{ font-family:var(--font-body); font-size:.72rem; color:var(--book-muted); padding-bottom:11px; margin-bottom:32px; border-bottom:1px solid var(--book-line); font-weight:500; }
-.cover-subtitle-text{ font-family:var(--font-body); font-size:1.1rem; letter-spacing:4px; font-weight:700;
-    margin-bottom:10px; color:#000; }
-.cover-bottom-stamp{ font-family:var(--font-body); font-size:.8rem; letter-spacing:2px; font-weight:600; margin-top:auto; color:#000; }
-.year-indicator-tag{ font-family:var(--font-body); font-size:.83rem; font-weight:600; color:#555; margin-bottom:14px; letter-spacing:1.5px; }
-.stable-page-number{ font-family:var(--font-body); font-size:.72rem; color:#555;
-    position:absolute; bottom:40px; font-weight:600; }
-.sheet .front .stable-page-number{ right:65px; }
-.sheet .back .stable-page-number{ left:65px; }
-.minimal-signature-mark{ font-family:var(--font-body); font-size:1.4rem; font-weight:700; margin-top:30px; letter-spacing:2px; color:var(--book-text); }
-.minimal-index-list{ display:flex;
-    flex-direction:column; gap:22px; margin-top:8px; width:100%; }
-.index-item{ display:flex; align-items:center; gap:22px; border-bottom:1px solid var(--book-line); padding-bottom:12px; font-family:var(--font-body); }
-.idx-num{ font-size:.83rem; color:#000; background:var(--bg-yellow); padding:2px 8px; font-weight:700;
-}
-.idx-name{ font-size:1rem; color:var(--book-text); font-weight:600; }
-.closing-spread-layout{ align-items:center; justify-content:center; text-align:center; padding:55px; }
-.book-hud-controls{ display:flex; flex-direction:column; align-items:center; gap:18px; margin-top:30px; }
-.hud-arrow-row{ display:flex; align-items:center; gap:22px;
-}
-
-/* Modified Instructions & HUD Text */
-.hud-instruction{ 
-    font-family:var(--font-body); 
-    font-size:1rem;
-    /* Slightly bigger */
-    font-weight:700; 
-    text-transform:uppercase; 
-    color:rgba(245,197,24,.85);
-    /* Golden Match */
-    text-shadow:0 1px 3px rgba(0,0,0,.7); 
-}
-.hud-status-text{ 
-    font-family:var(--font-body); 
-    font-size:1.1rem;
-    /* Slightly bigger */
-    font-weight:700; 
-    text-transform:uppercase; 
-    color:rgba(245,197,24,.85);
-    /* Golden Match */
-    text-shadow:0 1px 3px rgba(0,0,0,.7);
-}
-.hud-arrow-btn{
-    width:84px; height:52px; background:var(--bg-yellow); border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius);
-    box-shadow:3px 3px 0 var(--border-color);
-    cursor:pointer; font-size:1.2rem; color:#000;
-    display:flex; align-items:center; justify-content:center;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.hud-arrow-btn:hover{ background:var(--bg-white); color:var(--text-main); transform:translate(-2px,-2px);
-}
-
-/* ============================================================
-   SKILLS SECTION
-============================================================ */
-#skills{ background:var(--bg-yellow); }
-#skills .shape-fill{ fill:var(--bg-white); }
-
-.skills-grid-container{
-    display:grid; grid-template-columns:repeat(4,1fr);
-    gap:28px; max-width:1200px;
-    margin:0 auto;
-}
-.skill-item-card{
-    background:var(--bg-white); border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:4px 4px 0 var(--border-color);
-    padding:38px; display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:22px;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease; position:relative; overflow:hidden;
-    --skill-accent: var(--bg-yellow);
-}
-/* accent corner stripe */
-.skill-item-card::before{
-    content:''; position:absolute; top:0; right:0;
-    width:0; height:0;
-    border-top:40px solid var(--skill-accent); border-left:40px solid transparent;
-}
-.skill-item-card:hover{ background:var(--bg-cream); box-shadow:7px 7px 0 var(--border-color); }
-.skill-item-card:hover .skill-icon-wrap{ transform:scale(1.1) rotate(-4deg); }
-.skill-item-card h3{ font-size:2.8rem; color:var(--text-main); }
-.skill-icon-wrap{ width:90px; height:90px; transition:transform .3s ease;
-}
-.skill-icon-wrap img{ width:100%; height:100%; object-fit:contain; }
-/* per-skill accent colors (visual only) */
-.skill-item-card.skill-html{ --skill-accent:#e34c26; }
-.skill-item-card.skill-css{ --skill-accent:#2965f1; }
-.skill-item-card.skill-python{ --skill-accent:#f5c518; }
-.skill-item-card.skill-photoshop{ --skill-accent:#31c5e8;
-}
-
-/* ============================================================
-   PROJECTS SECTION (AUTO-SCROLL MARQUEE)
+   PROJECTS SECTION (EDITORIAL ARCHIVE CAROUSEL)
 ============================================================ */
 #projects {
-    background: var(--bg-dark); position: relative;
-    /* Fluid sizing tokens for the card + nav buttons — one formula
-       that scales cleanly from 320px phones to ultrawide monitors
-       instead of several overlapping breakpoints. */
-    --carousel-btn-size: clamp(48px, 4vw + 32px, 76px);
-    --carousel-btn-inset: clamp(5px, 1.5vw, 22px);
-    --slider-gutter: calc(var(--carousel-btn-inset) + var(--carousel-btn-size) + 8px);
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
 }
-#projects .shape-fill { fill: var(--bg-yellow); }
-#projects .section-title { color: var(--bg-white); }
-#projects .section-title::after { background: var(--bg-yellow); }
+
+.projects-viewport-wrapper {
+    position: relative;
+    width: 100%;
+}
 
 .projects-outer-viewport {
     width: 100%;
     overflow: hidden;
     cursor: grab;
-    position: relative;
-    padding: 20px var(--slider-gutter) 40px;
-    /* Focus outline for accessibility */
-    outline: none;
+    padding: 10px 0 30px;
 }
-.projects-outer-viewport:focus-visible {
-    box-shadow: inset 0 0 0 3px var(--accent2);
-}
-.projects-outer-viewport:active { cursor: grabbing; }
 
-/* The marquee track */
+.projects-outer-viewport:active {
+    cursor: grabbing;
+}
+
 .projects-grid {
     display: flex;
-    gap: clamp(18px, 3vw, 36px);
+    gap: 24px;
     width: max-content;
     will-change: transform;
-    /* Removed transition for smooth JS requestAnimationFrame translation */
 }
 
-/* Base Project Card — fluid width: fills the screen with one centered
-   card on small phones, and settles at the original 440px from tablet
-   through ultrawide. Never touches the viewport edge at any size. */
 .project-card {
-    width: min(440px, calc(90vw - (var(--slider-gutter) * 2)));
+    width: 380px;
     flex-shrink: 0;
-    background: var(--bg-white); border: var(--border-thick);
-    border-radius: var(--hand-drawn-radius); box-shadow: 6px 6px 0 #000;
-    display: flex; flex-direction: column; overflow: hidden;
-    transition: transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    box-shadow: var(--shadow-offset);
+    display: flex;
+    flex-direction: column;
 }
-.project-card:hover { transform: none !important; }
 
-/* Image frame — shows the whole poster with no cropping or distortion
-   at any screen size; letterboxes gracefully inside a themed frame
-   instead of chopping off the top/sides like object-fit:cover did. */
 .project-card a {
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden; position: relative;
-    aspect-ratio: 4 / 5;
-    background: var(--bg-cream);
-    border-bottom: var(--border-thick);
-}
-.project-card img {
-    width: 100%; height: 100%; object-fit: contain;
     display: block;
-    transition: transform .4s ease;
+    aspect-ratio: 4/5;
+    background: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
+    overflow: hidden;
+    position: relative;
 }
-.project-card a:hover img { transform: scale(1.04); }
 
-/* hover overlay with View Project label */
+.project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter var(--transition-fast);
+}
+
 .project-card a::after {
-    content: 'VIEW PROJECT \2197';
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center; padding: 0 10px;
-    background: rgba(13,13,26,.55);
-    color: var(--bg-yellow);
-    font-family: var(--font-head); font-size: clamp(1.1rem, 0.8rem + 1.2vw, 1.6rem); letter-spacing: 3px;
-    opacity: 0; transition: opacity .3s ease;
-    pointer-events: none;
+    content: 'VIEW ARCHIVE ↗';
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: var(--color-text);
+    color: var(--color-bg);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
 }
-.project-card a:hover::after { opacity: 1; }
-        
-.project-content { padding: clamp(18px, 3vw, 30px); }
+
+.project-card a:hover::after {
+    opacity: 1;
+}
+
+.project-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.project-num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 4px;
+}
+
 .project-content h3 {
-    font-size: clamp(1.6rem, 0.7rem + 4.3vw, 3.1rem); margin-bottom: 14px; color: var(--text-main); line-height: 1.05;
-    padding-bottom: 12px; border-bottom: 3px solid var(--bg-yellow); display: block;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-border);
 }
-.project-content p { font-size: clamp(0.95rem, 0.85rem + 0.5vw, 1.1rem); color: var(--text-muted); }
+
+.project-content p {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+.slider-controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+}
+
+.slider-arrow-btn {
+    width: 48px;
+    height: 48px;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border);
+    color: var(--color-text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 var(--color-border);
+    transition: all var(--transition-fast);
+}
+
+.slider-arrow-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.slider-instruction {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
 /* ============================================================
-   FLOATING SIDE NAVIGATION BUTTONS
-   Perfect circles built from this site's own cream / yellow / dark
-   palette and hand-drawn border language — not the purple reference —
-   so they read as native to the site in both themes and every state.
+   CONTACT SECTION (BRUTALIST SPLIT LAYOUT)
 ============================================================ */
-.carousel-nav-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%) scale(1);
-    width: var(--carousel-btn-size);
-    height: var(--carousel-btn-size);
-    background: var(--bg-cream);
-    color: var(--text-main);
-    border: var(--border-thick);
-    border-radius: 50%;
-    font-size: clamp(1.1rem, 0.9rem + 0.7vw, 1.6rem);
+#contact {
+    background: var(--color-bg);
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.contact-card {
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    padding: 40px;
+    box-shadow: var(--shadow-offset);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.find-me-btn {
+    font-family: var(--font-head);
+    font-size: 3.5rem;
+    color: var(--color-text);
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 12px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.contact-info a {
+    font-size: 0.95rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    transition: all var(--transition-fast);
+}
+
+.contact-info a:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+}
+
+.socials {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.socials a {
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    z-index: 20;
-    box-shadow: 0 4px 14px rgba(0,0,0,.22), 3px 3px 0 var(--border-color);
-    transition: transform .25s cubic-bezier(.16,1,.3,1), background-color .25s ease, box-shadow .25s ease, color .25s ease;
-}
-.carousel-nav-btn i { color: inherit; }
-.carousel-nav-btn.left  { left:  var(--carousel-btn-inset); }
-.carousel-nav-btn.right { right: var(--carousel-btn-inset); }
-
-.carousel-nav-btn:hover {
-    background: var(--bg-yellow);
-    color: #000;
-    transform: translateY(-50%) scale(1.08);
-    box-shadow: 0 8px 22px rgba(0,0,0,.28), 4px 4px 0 var(--border-color);
-}
-.carousel-nav-btn:active {
-    background: var(--bg-yellow);
-    color: #000;
-    transform: translateY(-50%) scale(0.94);
-    box-shadow: 0 2px 8px rgba(0,0,0,.22), 1px 1px 0 var(--border-color);
-}
-.carousel-nav-btn:focus-visible {
-    outline: 3px solid var(--accent2);
-    outline-offset: 3px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    font-size: 1.2rem;
+    transition: all var(--transition-fast);
 }
 
-/* Dark mode: dark glass circle + gold icon at rest, same gold-pop on
-   hover/press as light mode — always legible, never dark-on-dark. */
-[data-theme="dark"] .carousel-nav-btn {
-    background: var(--bg-dark);
-    color: var(--bg-yellow);
-}
-[data-theme="dark"] .carousel-nav-btn:hover {
-    background: var(--bg-yellow);
-    color: #000;
-}
-[data-theme="dark"] .carousel-nav-btn:active {
-    background: var(--bg-yellow);
-    color: #000;
+.socials a:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-text);
 }
 
-/* Keep existing instruction text styling */
-.slider-controls-wrapper {
-    padding: 0 8vw;
-    display: flex; justify-content: center; align-items: center; margin-top: 20px; text-align: center;
-}
-.slider-instruction { font-size: 1.1rem; font-weight: 700; color: #f5c518 !important; }
-
-/* ============================================================
-   CONTACT SECTION
-============================================================ */
-#contact{ background:var(--bg-cream); }
-#contact .shape-fill{ fill:var(--bg-dark); }
-
-.contact-wrapper{
-    display:grid; grid-template-columns:1fr 1fr;
-    background:var(--bg-white);
-    border:var(--border-thick);
-    border-radius:var(--hand-drawn-radius); box-shadow:var(--hand-drawn-shadow);
-    overflow:hidden;
-}
-.contact-card{
-    padding:60px; border-right:var(--border-thick);
-    display:flex; flex-direction:column; justify-content:space-between;
-    background:var(--bg-dark); color:#fff;
-    position:relative; overflow:hidden; gap:28px;
-}
-/* decorative accent */
-.contact-card::before{
-    content:''; position:absolute; top:-40px; right:-40px;
-    width:150px; height:150px; border-radius:50%;
-    background:rgba(245,197,24,.12); border:2px solid rgba(245,197,24,.2);
-}
-.find-me-btn{
-    font-family:var(--font-head); font-size:3.8rem;
-    color:var(--bg-yellow); margin-bottom:8px;
-}
-.contact-info{ display:flex; flex-direction:column; gap:18px; }
-.contact-info a{
-    text-decoration:none; color:#fff; font-size:1.1rem;
-    font-weight:700;
-    display:flex; align-items:center; gap:14px;
-    background:rgba(255,255,255,.06); border:1px solid rgba(245,197,24,.25);
-    border-radius:var(--hand-drawn-radius); padding:16px 20px;
-    box-shadow:none;
-    transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.contact-info a:hover{ background:rgba(245,197,24,.15); }
-.contact-info a i{ color:var(--bg-yellow);
-}
-.socials{ display:flex; gap:14px; margin-top:8px; flex-wrap:wrap; }
-.socials a{
-    width:54px; height:54px; display:flex; align-items:center; justify-content:center;
-    background:rgba(255,255,255,.06); border:1px solid rgba(245,197,24,.25);
-    border-radius:var(--hand-drawn-radius);
-    color:#fff; font-size:1.6rem;
-    text-decoration:none; transition:transform .2s ease, background-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.socials a:hover{ background:var(--bg-yellow); color:#000;
+.contact-form {
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    padding: 40px;
+    box-shadow: var(--shadow-offset);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.contact-form{
-    padding:60px; display:flex; flex-direction:column; gap:22px;
-    background:var(--bg-white);
-}
-.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px;
-}
-.contact-form input,.contact-form textarea{
-    width:100%; padding:18px; border:2px solid var(--border-color);
-    border-radius:var(--hand-drawn-radius); background:var(--bg-cream);
-    color:var(--text-main); font-size:1.1rem; font-family:var(--font-body); outline:none;
-    transition:border-color .2s ease, background-color .2s ease;
-}
-.contact-form input::placeholder,.contact-form textarea::placeholder{ color:var(--text-muted); }
-.contact-form textarea{ min-height:190px; resize:none; }
-.contact-form input:focus,.contact-form textarea:focus{ background:var(--bg-white); border-color:var(--bg-yellow);
-}
-.send-btn{ box-shadow:6px 6px 0 var(--border-color); font-size:1.9rem; margin-top:8px; }
-.send-btn:hover{ transform:translate(-2px,-2px); box-shadow:8px 8px 0 var(--border-color);
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
-/* dark mode contact overrides */
-[data-theme="dark"] .contact-card{ background:var(--bg-yellow); }
-[data-theme="dark"] .contact-card .find-me-btn{ color:#000; }
-[data-theme="dark"] .contact-card .contact-info a{ color:#000; border-color:rgba(0,0,0,.3); background:rgba(0,0,0,.1);
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
-[data-theme="dark"] .contact-card .contact-info a i{ color:#000; }
-[data-theme="dark"] .contact-card .socials a{ color:#000; border-color:rgba(0,0,0,.3); background:rgba(0,0,0,.1); }
-[data-theme="dark"] .contact-card .socials a:hover{ background:var(--bg-dark); color:#fff;
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color var(--transition-fast);
+}
+
+.contact-form textarea {
+    min-height: 140px;
+    resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    background: var(--color-surface);
+    border-color: var(--color-accent);
+}
+
+.send-btn {
+    width: 100%;
+    margin-top: 10px;
 }
 
 /* ============================================================
    FOOTER
 ============================================================ */
-footer{
-    padding:38px; text-align:center; font-weight:700;
-    background:var(--bg-dark); color:var(--bg-yellow);
-    border-top:var(--border-thick); text-transform:uppercase;
-    letter-spacing:2px; font-size:.9rem;
-}
-
-/* ============================================================
-   LANGUAGES SHOWCASE
-   (updated: proficiency % / bars / labels removed — cards now show
-   only flag + language name, with a premium handcrafted feel)
-============================================================ */
-.languages-showcase {
-    width: 100%;
-    max-width: 430px;
-    display: flex;
-    flex-direction: column;
-    gap: clamp(12px, 2vw, 14px);
-    background: var(--bg-white);
-    border: var(--border-thick);
-    border-radius: 26px;
-    box-shadow: 6px 6px 0 var(--border-color);
-    padding: clamp(20px, 4vw, 26px) clamp(18px, 3.5vw, 24px);
-    position: relative;
-    overflow: hidden;
-}
-.lang-heading {
-    font-family: var(--font-head);
-    font-size: clamp(1.4rem, 3vw, 1.7rem);
-    color: var(--text-main);
-    text-align: left;
-    margin-bottom: 4px;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-}
-.lang-heading::after {
-    content: '';
-    flex: 1;
-    height: 2px;
-    background: repeating-linear-gradient(to right, var(--border-color) 0, var(--border-color) 4px, transparent 4px, transparent 9px);
-    opacity: .35;
-    transform: translateY(-4px);
-}
-/* Premium card grid — wraps fluidly at every viewport, no fixed columns */
-.lang-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(10px, 2.2vw, 14px);
-}
-.lang-card {
-    /* handcrafted premium card: subtle border + soft shadow only, no gradients/glow */
-    flex: 1 1 150px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--bg-cream);
-    border: 1px solid rgba(26,26,46,0.12);
-    border-radius: 14px;
-    padding: 14px 16px;
-    box-shadow: 0 2px 6px rgba(26,26,46,0.06);
-    transition: transform .25s cubic-bezier(.16,1,.3,1),
-                box-shadow .25s cubic-bezier(.16,1,.3,1),
-                border-color .25s ease;
-}
-.lang-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(26,26,46,0.22);
-    box-shadow: 0 8px 18px rgba(26,26,46,0.1);
-}
-.lang-name {
-    font-family: var(--font-body);
+footer {
+    padding: 32px 6vw;
+    text-align: center;
     font-weight: 700;
-    font-size: clamp(.92rem, 2vw, 1rem);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--text-main);
-    letter-spacing: .3px;
-}
-.lang-flag {
-    width: 26px;
-    height: 20px;
-    object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-    border: 1px solid var(--border-color);
-    flex-shrink: 0;
-}
-.lang-flag.nepal-flag {
-    object-fit: contain;
-    background: transparent;
-    border: none;
-    box-shadow: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
-}
-
-[data-theme="dark"] .languages-showcase {
-    background: var(--bg-white);
-}
-[data-theme="dark"] .lang-card {
-    background: rgba(255,255,255,0.04);
-    border-color: rgba(240,240,255,0.12);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
-}
-[data-theme="dark"] .lang-card:hover {
-    border-color: rgba(240,240,255,0.24);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    background: var(--color-text);
+    color: var(--color-bg);
+    border-top: 2px solid var(--color-border);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.85rem;
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE DESIGN SYSTEM
 ============================================================ */
-@media(max-width:1200px){
-    #home{ grid-template-columns:1fr; }
-    .hero-text-col{ align-items:center; text-align:center; padding:0;
-}
-    .hero-subtitle{ justify-content:center; }
-    .hero p{ border-left:none; padding-left:0; text-align:center;
-}
-    .skills-grid-container{ grid-template-columns:repeat(2,1fr); }
-    .contact-wrapper{ grid-template-columns:1fr; }
-    .contact-card{ border-right:none; border-bottom:var(--border-thick);
-}
-    .book-container{ width:640px; height:425px; }
-    .page-side{ padding:34px 30px;
-}
-    .sheet:not(.cover-sheet):not(.cover-sheet-back) .page-side,
-    .cover-sheet-back .front{ outline-offset:-14px; }
-    .wooden-table{ padding:60px 50px 70px;
-}
-    .realistic-pen{ right:-40px; height:380px; }
-    .pen-barrel{ height:290px; }
-    .pen-ring.top{ bottom:305px;
-}
+@media (max-width: 1024px) {
+    #home {
+        grid-template-columns: 1fr;
+    }
+    .hero-image-col {
+        align-items: flex-start;
+    }
+    .portrait-frame, .languages-showcase {
+        max-width: 100%;
+    }
+    .skills-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+    .book-container {
+        width: 680px;
+        height: 460px;
+    }
 }
 
-@media(max-width:768px){
-    nav{ display:none; }
-    .nav-toggle-btn{ display:flex; }
-    .side-floating-nav{ display:none; }
-    section{ padding:80px 5vw; }
-    .hero h1{ font-size:4.8rem; }
+@media (max-width: 768px) {
+    nav { display: none; }
+    .nav-toggle-btn { display: flex; }
+    section { padding: 60px 5vw; }
+    .hero h1 { font-size: 4rem; }
     
-    /* EDUCATION BOOK MOBILE FIXES */
-    .edu-book-viewport{ perspective:none; width:100%; max-width:100%; overflow-x:hidden; }
-    .book-container{ width:100%; height:auto; transform:none !important; transform-style:flat; }
-    .book-container:hover{ transform:none !important; }
-    .book-container::after,.book-base-shadows,.book-spine-core,.click-zone,.book-hud-controls{ display:none; }
-    .book-pages-wrapper{ position:relative; width:100%; height:auto; display:flex; flex-direction:column; gap:24px; }
-    
-    /* Ensure sheets expand dynamically */
-    .sheet{ position:relative; width:100%; height:auto !important; display:flex; flex-direction:column; transform:none !important; opacity:1 !important; visibility:visible !important; }
-    
-    /* Page boundaries, auto height, natural wrapping, padding fixes */
-    .page-side{ 
-        position:relative; 
-        width:100%; 
-        height:auto !important; 
-        min-height:max-content !important; 
-        transform:none !important; 
-        backface-visibility:visible; 
-        padding:32px 20px !important; 
-        border:var(--border-thick) !important; 
-        border-radius:var(--hand-drawn-radius) !important; 
-        box-shadow:var(--hand-drawn-shadow) !important; 
-        overflow:hidden !important; /* Contains border radius */
-        box-sizing:border-box !important;
-        /* Force word wrapping */
-        word-wrap:break-word !important; 
-        overflow-wrap:break-word !important;
-        word-break:break-word !important;
+    /* EDUCATION BOOK MOBILE FALLBACK */
+    .edu-book-viewport { perspective: none; }
+    .book-container {
+        width: 100%;
+        height: auto;
+        transform: none !important;
     }
-    .page-side.back{ display:flex; margin-top:16px; }
-
-    /* Target Double-Padding Issue on Cover */
-    .sheet.cover-sheet .front { padding:32px 20px !important; }
-    .cover-content-layout { 
-        position:relative;
-        height:auto !important; 
-        min-height:auto !important;
-        padding:0 !important; 
-        gap:20px; 
-        display:flex; 
-        flex-direction:column; 
-        align-items:center;
+    .click-zone, .book-hud-controls { display: none; }
+    .book-pages-wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .sheet {
+        position: relative;
+        width: 100%;
+        height: auto !important;
+        transform: none !important;
+        z-index: 1 !important;
+    }
+    .page-side {
+        position: relative;
+        width: 100%;
+        height: auto !important;
+        transform: none !important;
+        backface-visibility: visible;
+        padding: 24px;
+    }
+    .page-side.back {
+        display: flex;
+        margin-top: 12px;
+    }
+    .stable-page-number {
+        position: relative;
+        bottom: auto;
+        right: auto !important;
+        left: auto !important;
+        margin-top: 16px;
     }
 
-    /* Scaling and Hinge shadow fixes */
-    .sheet.cover-sheet .front::before { display:none !important; }
-    .sheet.cover-sheet .front::after { inset:8px !important; }
-    .sheet.cover-sheet-back .back::before { display:none !important; }
-
-    /* Typography Limits and Wrapping */
-    .cover-foil-title { 
-        font-size:clamp(2.2rem, 8vw, 3.2rem) !important; 
-        line-height:1.1 !important; 
-        width:100%; 
+    .project-card {
+        width: 290px;
     }
-    .cover-foil-subtitle, .cover-publisher-line, .cover-year-badge, .editorial-meta-line { 
-        letter-spacing:2px !important; 
-        white-space:normal !important; 
+    .skills-grid-container {
+        grid-template-columns: 1fr;
     }
-    .page-side h3 { 
-        font-size:clamp(1.5rem, 6vw, 2.2rem) !important; 
-        line-height:1.3 !important; 
-        max-width:100% !important; 
-        white-space:normal !important; 
-    }
-    .page-side p { 
-        max-width:100% !important; 
-        font-size:1rem !important; 
-        line-height:1.6 !important; 
-        white-space:normal !important; 
-    }
-    .editorial-highlight-label { 
-        height:auto !important; 
-        white-space:normal !important; 
-        max-width:100%; 
-        line-height:1.4; 
-        padding:8px 16px !important; 
-    }
-    .cover-ornament-divider { width:100% !important; max-width:260px; height:auto; }
-    .school-logo-frame { max-width:100%; height:auto; }
-    
-    /* Index list natural wrap */
-    .index-item { align-items:flex-start !important; gap:12px !important; width:100%; }
-    .idx-name { flex:1; white-space:normal !important; line-height:1.4; word-wrap:break-word !important; }
-
-    .closing-spread-layout { padding:40px 20px !important; gap:20px; }
-
-    /* Keep the rest of the existing 768px overrides intact */
-    .skills-grid-container{ grid-template-columns:1fr; }
-    .form-row{ grid-template-columns:1fr; }
-    .contact-card,.contact-form{ padding:28px 18px; }
-    .stable-page-number{ position:relative; bottom:auto; left:auto !important; right:auto !important; margin-top:28px; display:block; }
-    .wooden-table{ padding:30px 20px 50px; border-radius:8px 8px 0 0; }
-    .realistic-pen{ display:none; }
-    .book-shadow{ display:none; }
-}
-
-@media(max-width:480px){
-    header{ padding:10px 4vw;
-}
-    .logo{ font-size:1.5rem; }
-    .hero h1{ font-size:3.4rem; }
-    .hero-subtitle{ letter-spacing:3px; font-size:1.1rem;
-}
-    .hero p{ font-size:1rem; }
-    .hero-buttons{ flex-direction:column; align-items:stretch; gap:14px;
-}
-    .hero-buttons .btn{ text-align:center; }
-    .section-title{ font-size:clamp(2.6rem,12vw,4rem); }
-    section{ padding:60px 5vw;
-}
-    .image-box{ max-width:320px; }
-    .cover-foil-title{ font-size:clamp(2rem,10vw,3rem); line-height:1.1; word-break:break-word; }
-    .cover-main-head{ font-size:clamp(2.4rem,10vw,3.6rem); line-height:1.1; word-break:break-word; }
-    .skill-item-card{ padding:24px; }
-    .skill-item-card h3{ font-size:2rem; }
-    .skill-icon-wrap{ width:64px; height:64px;
-}
-    .project-content h3{ font-size:2.2rem; }
-    .project-content p{ font-size:1rem;
-}
-    .find-me-btn{ font-size:2.6rem; }
-    .socials a{ width:48px; height:48px; font-size:1.4rem;
-}
-    .contact-form input,.contact-form textarea{ padding:14px; font-size:1rem; }
-    .send-btn,.btn,.open-again-btn{ font-size:1.4rem; padding:12px 24px;
-}
-    footer{ font-size:.8rem; padding:24px; }
-    .lang-card { flex: 1 1 100%; }
-    .languages-showcase { max-width: 320px; }
-}
-
-/* Ensure the hero-image-col safely stacks its children while preserving existing styling */
-.hero-image-col {
-    flex-direction: column;
-    gap: 26px;
 }
     </style>
 </head>
 <body>
 
-<div class="side-floating-nav">
-    <a href="mailto:alokkynwa@gmail.com" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Email Me"><i class="fa-regular fa-envelope"></i></a>
-    <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-    <a href="tel:+9779843538473" class="side-nav-btn" target="_blank" rel="noopener noreferrer" aria-label="Call Me"><i class="fa-solid fa-phone"></i></a>
-</div>
-
-<header>
-    <div class="logo">AL<span>OK.</span></div>
-    <div class="nav-container">
-        <nav>
+    <!-- HEADER / NAVIGATION -->
+    <header>
+        <div class="logo">ALOK<span>.</span></div>
+        <div class="nav-container">
+            <nav>
+                <a href="#home" class="active-link">Home</a>
+                <a href="#education">Education</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">[ ☾ ]</button>
+            <button class="nav-toggle-btn" id="nav-toggle" aria-label="Toggle Menu"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <div class="mobile-nav-menu" id="mobile-menu">
             <a href="#home">Home</a>
             <a href="#education">Education</a>
             <a href="#skills">Skills</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
-        </nav>
-        <button class="theme-switch-btn" id="theme-toggle" aria-label="Toggle Theme">
-            <i class="fa-solid fa-moon"></i>
-        </button>
-        <button class="nav-toggle-btn" id="nav-toggle" aria-label="Toggle Navigation Menu" aria-expanded="false">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-    </div>
-    <div class="mobile-nav-menu" id="mobile-nav-menu">
-        <a href="#home">Home</a>
-        <a href="#education">Education</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </div>
-</header>
+        </div>
+    </header>
 
-<section class="hero" id="home">
-    <div class="hero-text-col reveal">
-        <div class="hero-subtitle">THIS IS</div>
-        <div class="hero-emblem-layout">
-            <div class="hero-large-flag-box">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Flag_of_Nepal.svg" alt="Flag of Nepal">
+    <!-- HERO SECTION -->
+    <section id home class="hero">
+        <div class="hero-text-col reveal">
+            <div class="hero-subtitle">
+                THIS IS 
+                <span class="hero-flag-box"><img src="https://flagcdn.com/w40/np.png" alt="Nepal Flag"></span>
             </div>
-            <h1>ALOK<br>SHARMA</h1>
+            <h1>ALOK SHARMA</h1>
+            <p>Graphic designer and front-end developer based in Nepal. Crafting strong visual identities, editorial layouts, and high-performance digital experiences with intentionality and raw aesthetic power.</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">View Projects</a>
+                <a href="#contact" class="btn">Let's Connect</a>
+            </div>
         </div>
-        <p>I’m a 4th-semester Computer Science student who’s really into European football and creative design. I enjoy making premium football posters, creative visuals, and engaging Instagram reels that bring the excitement of the game to life.
-.</p>
-        <div class="hero-buttons">
-            <a href="#projects" class="btn">View Projects <i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#contact" class="btn secondary-btn">Let's Connect</a>
-        </div>
-    </div>
-    <div class="hero-image-col reveal">
-        <div class="image-box">
-            <img src="alokk.jpeg" alt="Alok Sharma" id="hero-img-element">
-        </div>
-        
-        <div class="languages-showcase">
-            <h3 class="lang-heading">Languages</h3>
-            <div class="lang-grid">
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/np.svg" alt="Nepal Flag" class="lang-flag nepal-flag"> Nepali
-                    </div>
+        <div class="hero-image-col reveal">
+            <div class="portrait-frame">
+                <img src="alok.jpg" alt="Alok Sharma Portrait" id="hero-portrait">
+            </div>
+            
+            <div class="languages-showcase">
+                <div class="lang-heading">
+                    <span>LANGUAGES</span>
+                    <span>04</span>
                 </div>
-
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/gb.svg" alt="UK Flag" class="lang-flag"> English
+                <div class="lang-grid">
+                    <div class="lang-card">
+                        <img src="https://flagcdn.com/w40/np.png" alt="Nepali Flag" class="lang-flag nepal-flag">
+                        <span>NEPALI</span>
                     </div>
-                </div>
-
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/in.svg" alt="India Flag" class="lang-flag"> Hindi
+                    <div class="lang-card">
+                        <img src="https://flagcdn.com/w40/gb.png" alt="English Flag" class="lang-flag">
+                        <span>ENGLISH</span>
                     </div>
-                </div>
-
-                <div class="lang-card">
-                    <div class="lang-name">
-                        <img src="https://flagcdn.com/de.svg" alt="Germany Flag" class="lang-flag"> German
+                    <div class="lang-card">
+                        <img src="https://flagcdn.com/w40/in.png" alt="Hindi Flag" class="lang-flag">
+                        <span>HINDI</span>
+                    </div>
+                    <div class="lang-card">
+                        <img src="https://flagcdn.com/w40/de.png" alt="German Flag" class="lang-flag">
+                        <span>GERMAN</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<section id="education">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-        </svg>
-    </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Education Journey</h2>
-    </div>
+    <hr class="section-divider">
 
-    <div class="book-scene-wrapper reveal">
-        <div class="wooden-table">
-            <div class="table-grain-overlay"></div>
-            <div class="book-pen-scene">
-                <div class="book-shadow"></div>
+    <!-- EDUCATION SECTION (INTERACTIVE ARCHIVAL BOOK) -->
+    <section id="education">
+        <div class="section-title-container reveal">
+            <span class="section-index">01 / ARCHIVE</span>
+            <h2 class="section-title">EDUCATION JOURNEY</h2>
+        </div>
 
-                <div class="edu-book-viewport">
-                    <div class="book-container" id="luxury-journal">
-                        <div class="book-base-shadows"></div>
-                        <div class="book-spine-core"></div>
-                        <div class="click-zone click-zone-left" id="zone-left"></div>
-                        <div class="click-zone click-zone-right" id="zone-right"></div>
-                        <div class="book-pages-wrapper">
+        <div class="book-scene-wrapper reveal">
+            <div class="edu-book-viewport">
+                <div class="book-container" id="book">
+                    
+                    <div class="click-zone click-zone-left" id="zone-prev"></div>
+                    <div class="click-zone click-zone-right" id="zone-next"></div>
 
-                            <div class="sheet cover-sheet" id="sheet-1">
-                                <div class="page-side front">
-                                    <div class="cover-content-layout">
-                                        <div class="cover-top-bar">
-                                            <svg class="cover-ornament-divider" viewBox="0 0 260 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <line x1="0" y1="9" x2="75" y2="9" stroke="rgba(245,197,24,0.6)" stroke-width="1.5"/>
-                                                <polygon points="82,9 90,3 98,9 90,15" fill="rgba(245,197,24,0.55)"/>
-                                                <line x1="104" y1="9" x2="126" y2="9" stroke="rgba(245,197,24,0.5)" stroke-width="1"/>
-                                                <circle cx="130" cy="9" r="4" fill="rgba(245,197,24,0.65)" stroke="rgba(245,197,24,0.4)" stroke-width="1.5"/>
-                                                <line x1="134" y1="9" x2="156" y2="9" stroke="rgba(245,197,24,0.5)" stroke-width="1"/>
-                                                <polygon points="162,9 170,3 178,9 170,15" fill="rgba(245,197,24,0.55)"/>
-                                                <line x1="184" y1="9" x2="260" y2="9" stroke="rgba(245,197,24,0.6)" stroke-width="1.5"/>
-                                            </svg>
-                                        <div class="cover-foil-subtitle">ALOK SHARMA'S</div>
-                                        </div>
-
-                                        <div class="cover-medallion-wrap">
-                                            <div class="cover-foil-title">EDUCATIONAL<br>JOURNEY</div>
-                                            <svg class="cover-ornament-divider" viewBox="0 0 240 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-top:6px">
-                                                <line x1="0" y1="10" x2="60" y2="10" stroke="rgba(245,197,24,0.55)" stroke-width="1.5"/>
-                                                <path d="M64 10 Q76 3 88 10 Q76 17 64 10Z" fill="rgba(245,197,24,0.5)"/>
-                                                <circle cx="120" cy="10" r="4.5" fill="rgba(245,197,24,0.6)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
-                                                <path d="M152 10 Q164 3 176 10 Q164 17 152 10Z" fill="rgba(245,197,24,0.5)"/>
-                                                <line x1="180" y1="10" x2="240" y2="10" stroke="rgba(245,197,24,0.55)" stroke-width="1.5"/>
-                                            </svg>
-                                        </div>
-
-                                        <div class="cover-medallion-wrap">
-                                            <div class="cover-medallion">AS</div>
-                                            <div class="cover-year-badge">2010 — PRESENT</div>
-                                        </div>
-
-                                        <div class="cover-bottom-block">
-                                            <svg class="cover-ornament-divider" viewBox="0 0 260 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <line x1="0" y1="9" x2="75" y2="9" stroke="rgba(245,197,24,0.6)" stroke-width="1.5"/>
-                                                <polygon points="82,9 90,3 98,9 90,15" fill="rgba(245,197,24,0.55)"/>
-                                                <line x1="104" y1="9" x2="126" y2="9" stroke="rgba(245,197,24,0.5)" stroke-width="1"/>
-                                                <circle cx="130" cy="9" r="4" fill="rgba(245,197,24,0.65)" stroke="rgba(245,197,24,0.4)" stroke-width="1.5"/>
-                                                <line x1="134" y1="9" x2="156" y2="9" stroke="rgba(245,197,24,0.5)" stroke-width="1"/>
-                                                <polygon points="162,9 170,3 178,9 170,15" fill="rgba(245,197,24,0.55)"/>
-                                                <line x1="184" y1="9" x2="260" y2="9" stroke="rgba(245,197,24,0.6)" stroke-width="1.5"/>
-                                            </svg>
-                                            <div class="cover-publisher-line">ACADEMIC STATUS TILL TODAY</div>
-                                        </div>
+                    <div class="book-pages-wrapper">
+                        
+                        <!-- SHEET 1: COVER -->
+                        <div class="sheet cover-sheet" id="sheet-1" style="z-index: 5;">
+                            <div class="page-side front">
+                                <div class="cover-content-layout">
+                                    <div>
+                                        <div class="cover-foil-title">ALOK SHARMA</div>
+                                        <div class="cover-foil-subtitle">EDUCATIONAL JOURNEY</div>
                                     </div>
-                                    <div class="stable-page-number"></div>
-                                </div>
-                                <div class="page-side back">
-                                    <div class="editorial-meta-line">TABLE OF CONTENTS</div>
-                                    <div class="editorial-highlight-label">CHAPTERS</div>
-                                    <div class="minimal-index-list">
-                                        <div class="index-item"><span class="idx-num">01</span><span class="idx-name">TILL SECONDARY LEVEL</span></div>
-                                        <div class="index-item"><span class="idx-num">02</span><span class="idx-name">HIGHER SECONDARY LEVEL</span></div>
-                                        <div class="index-item"><span class="idx-num">03</span><span class="idx-name">UNDERGRADUATE LEVEL</span></div>
+                                    <div class="cover-medallion">AS</div>
+                                    <div>
+                                        <div class="cover-year-badge">2010 — PRESENT</div>
+                                        <div style="font-size: 0.75rem; letter-spacing: 2px; margin-top: 8px;">ACADEMIC STATUS TILL TODAY</div>
                                     </div>
-                                    <div class="stable-page-number">PAGE 01</div>
                                 </div>
                             </div>
-
-                            <div class="sheet" id="sheet-2">
-                                <div class="page-side front">
-                                    <div class="editorial-meta-line">FOUNDATION / SEC 01</div>
-                                    <div class="editorial-highlight-label">TILL SECONDARY LEVEL 01</div>
-                                    <img src="mdmss-removebg-preview.png" alt="MDMSS Emblem" class="school-logo-frame">
-                                    <div class="year-indicator-tag">[ TIMELINE: 2010 — 2022 ]</div>
-                                    <h3>Mahakavi Devkota Memorial Secondary School</h3>
-                                    <div class="stable-page-number">PAGE 02</div>
+                            <div class="page-side back">
+                                <span class="editorial-highlight-label">CONTENTS</span>
+                                <h3>INDEX</h3>
+                                <div class="minimal-index-list">
+                                    <div class="index-item">
+                                        <span class="idx-num">01</span>
+                                        <span class="idx-name">PRIMARY SCHOOL — SHREE SHARADA</span>
+                                    </div>
+                                    <div class="index-item">
+                                        <span class="idx-num">02</span>
+                                        <span class="idx-name">LOWER SECONDARY — TIOR</span>
+                                    </div>
+                                    <div class="index-item">
+                                        <span class="idx-num">03</span>
+                                        <span class="idx-name">SECONDARY (SEE) — HIGH SCHOOL</span>
+                                    </div>
+                                    <div class="index-item">
+                                        <span class="idx-num">04</span>
+                                        <span class="idx-name">HIGHER SECONDARY (+2) — SCIENCE</span>
+                                    </div>
+                                    <div class="index-item">
+                                        <span class="idx-num">05</span>
+                                        <span class="idx-name">UNDERGRADUATE — CSIT</span>
+                                    </div>
                                 </div>
-                                <div class="page-side back">
-                                    <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
-                                    <div class="editorial-highlight-label">SEE</div>
-                                    <h3 style="font-size:2rem;margin-top:10px;">Secondary Education Examination (SEE)</h3>
-                                    <p style="margin-bottom:22px;">Gained a strong foundation in English, Nepali, Maths, Social Studies, Science, Optional Maths, and Computer Science. I achieved a 3.75 GPA in SEE.</p>
-                                    <div class="stable-page-number">PAGE 03</div>
+                                <span class="stable-page-number">PAGE 01</span>
+                            </div>
+                        </div>
+
+                        <!-- SHEET 2: PRIMARY & LOWER SECONDARY -->
+                        <div class="sheet" id="sheet-2" style="z-index: 4;">
+                            <div class="page-side front">
+                                <span class="editorial-highlight-label">01 / PRIMARY</span>
+                                <h3>SHREE SHARADA SECONDARY SCHOOL</h3>
+                                <div class="editorial-meta-line">YEAR: 2010 — 2015 | GPA: 3.80</div>
+                                <p>Foundational primary education focusing on mathematics, science, and languages. Developed strong early logic and creative interest.</p>
+                                <span class="stable-page-number">PAGE 02</span>
+                            </div>
+                            <div class="page-side back">
+                                <span class="editorial-highlight-label">02 / LOWER SECONDARY</span>
+                                <h3>TIOR SECONDARY SCHOOL</h3>
+                                <div class="editorial-meta-line">YEAR: 2015 — 2018 | GPA: 3.75</div>
+                                <p>Expanded academic scope with emphasis on computer basics, environmental science, and advanced mathematics.</p>
+                                <span class="stable-page-number">PAGE 03</span>
+                            </div>
+                        </div>
+
+                        <!-- SHEET 3: SECONDARY & HIGHER SECONDARY -->
+                        <div class="sheet" id="sheet-3" style="z-index: 3;">
+                            <div class="page-side front">
+                                <span class="editorial-highlight-label">03 / SECONDARY</span>
+                                <h3>SHREE SECONDARY SCHOOL</h3>
+                                <div class="editorial-meta-line">SEE LEVEL | YEAR: 2018 — 2020 | GPA: 3.65</div>
+                                <p>Completed Secondary Education Examination (SEE) with distinction, specializing in computer science electives.</p>
+                                <span class="stable-page-number">PAGE 04</span>
+                            </div>
+                            <div class="page-side back">
+                                <span class="editorial-highlight-label">04 / HIGHER SECONDARY</span>
+                                <h3>KIST COLLEGE / HSS</h3>
+                                <div class="editorial-meta-line">+2 SCIENCE | YEAR: 2020 — 2022 | GPA: 3.52</div>
+                                <p>Rigorous science track with emphasis on Physics, Mathematics, and Computer Science fundamentals.</p>
+                                <span class="stable-page-number">PAGE 05</span>
+                            </div>
+                        </div>
+
+                        <!-- SHEET 4: UNDERGRADUATE & CLOSING -->
+                        <div class="sheet cover-sheet-back" id="sheet-4" style="z-index: 2;">
+                            <div class="page-side front">
+                                <span class="editorial-highlight-label">05 / UNDERGRADUATE</span>
+                                <h3>B.SC. CSIT</h3>
+                                <div class="editorial-meta-line">TRIBHUVAN UNIVERSITY | 2022 — PRESENT</div>
+                                <p>Currently pursuing Bachelor of Science in Computer Science and Information Technology. Focused on software engineering, web technologies, and UI/UX architecture.</p>
+                                <span class="stable-page-number">PAGE 06</span>
+                            </div>
+                            <div class="page-side back">
+                                <div class="cover-content-layout">
+                                    <div>
+                                        <div class="cover-foil-title" style="font-size: 3rem;">END OF ARCHIVE</div>
+                                        <div class="cover-foil-subtitle">ALOK SHARMA PORTFOLIO</div>
+                                    </div>
+                                    <button class="btn open-again-btn" id="reopen-btn">OPEN AGAIN</button>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="sheet" id="sheet-3">
-                                <div class="page-side front">
-                                    <div class="editorial-meta-line">INTERMEDIATE LEVEL / SEC 02</div>
-                                    <div class="editorial-highlight-label">HIGHER SECONDARY LEVEL 02</div>
-                                    <img src="ria-removebg-preview.png" alt="RIA Emblem" class="school-logo-frame">
-                                    <div class="year-indicator-tag">[ TIMELINE: 2022 — 2024 ]</div>
-                                    <h3>Reliance International Academy</h3>
-                                    <div class="stable-page-number">PAGE 04</div>
-                                </div>
-                                <div class="page-side back">
-                                    <div class="editorial-meta-line">SCHOLASTIC RESULTS</div>
-                                    <div class="editorial-highlight-label">SLC</div>
-                                    <h3 style="font-size:2rem;margin-top:10px;">+2 Higher Secondary Science</h3>
-                                    <p style="margin-bottom:22px;">Completed my +2 Science covering Physics, Chemistry, Computer Science, English, Nepali, and Mathematics. I achieved a GPA of 3.62 in SLC.</p>
-                                    <div class="stable-page-number">PAGE 05</div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
 
-                            <div class="sheet cover-sheet-back" id="sheet-4">
-                                <div class="page-side front">
-                                    <div class="editorial-meta-line">HIGHER LEVEL / SEC 03</div>
-                                    <div class="editorial-highlight-label">UNDERGRADUATE LEVEL 03</div>
-                                    <img src="ascol-removebg-preview.png" alt="Ascol Campus Emblem" class="school-logo-frame">
-                                    <div class="year-indicator-tag">[ TIMELINE: 2024 — PRESENT ]</div>
-                                    <h3>Amrit Science Campus (T.U.)</h3>
-                                    <p>Currently pursuing B.Sc.CSIT.</p>
-                                    <div class="stable-page-number">PAGE 06</div>
-                                </div>
-                                <div class="page-side back closing-spread-layout">
-                                    <h2>THIS MUCH<br>TILL NOW.</h2>
-                                    <p style="font-size:.8rem;letter-spacing:2px;">DOCUMENT COMPLETION</p>
-                                    <div class="minimal-signature-mark">ALOK.</div>
-                                    <button class="open-again-btn" id="open-again-btn">OPEN AGAIN</button>
-                                    <div class="stable-page-number">C-02</div>
-                                </div>
-                            </div>
+                <div class="book-hud-controls">
+                    <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS TO FLIP THE PAGE</div>
+                    <div class="hud-arrow-row">
+                        <button class="hud-arrow-btn" id="book-prev" aria-label="Previous Page"><i class="fa-solid fa-arrow-left"></i></button>
+                        <span class="hud-status-text" id="spread-indicator">SPREAD 1 / 4</span>
+                        <button class="hud-arrow-btn" id="book-next" aria-label="Next Page"><i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                        </div></div><div class="book-hud-controls">
-                        <div class="hud-instruction">CLICK CORNERS OR USE CONTROLS TO FLIP THE PAGE.</div>
-                        <div class="hud-arrow-row">
-                            <button class="hud-arrow-btn" id="book-prev" aria-label="Turn Page Back"><i class="fa-solid fa-arrow-left"></i></button>
-                            <div class="hud-status-text" id="hud-page-indicator">SPREAD 1 / 5</div>
-                            <button class="hud-arrow-btn" id="book-next" aria-label="Turn Page Forward"><i class="fa-solid fa-arrow-right"></i></button>
+    <hr class="section-divider">
+
+    <!-- SKILLS SECTION -->
+    <section id="skills">
+        <div class="section-title-container reveal">
+            <span class="section-index">02 / CAPABILITIES</span>
+            <h2 class="section-title">CORE SKILLS</h2>
+        </div>
+
+        <div class="skills-grid-container reveal">
+            <div class="skill-item-card">
+                <span class="skill-num">01</span>
+                <div class="skill-icon-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML Icon">
+                </div>
+                <h3>HTML</h3>
+            </div>
+            <div class="skill-item-card">
+                <span class="skill-num">02</span>
+                <div class="skill-icon-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS Icon">
+                </div>
+                <h3>CSS</h3>
+            </div>
+            <div class="skill-item-card">
+                <span class="skill-num">03</span>
+                <div class="skill-icon-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python Icon">
+                </div>
+                <h3>PYTHON</h3>
+            </div>
+            <div class="skill-item-card">
+                <span class="skill-num">04</span>
+                <div class="skill-icon-wrap">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" alt="Photoshop Icon">
+                </div>
+                <h3>PHOTOSHOP</h3>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- FEATURED PROJECTS SECTION -->
+    <section id="projects">
+        <div class="section-title-container reveal">
+            <span class="section-index">03 / WORK</span>
+            <h2 class="section-title">FEATURED PROJECTS</h2>
+        </div>
+
+        <div class="projects-viewport-wrapper reveal">
+            <div class="projects-outer-viewport" id="project-slider-viewport">
+                <div class="projects-grid" id="project-slider-track">
+                    
+                    <div class="project-card">
+                        <a href="PORTUGAL VS COLOMBIA.png" target="_blank">
+                            <img src="PORTUGAL VS COLOMBIA.png" alt="Portugal vs Colombia Matchday Poster">
+                        </a>
+                        <div class="project-content">
+                            <span class="project-num">PROJECT 01</span>
+                            <h3>PORTUGAL VS COLOMBIA</h3>
+                            <p>Matchday poster graphic designed with high dynamic typography and sharp imagery.</p>
                         </div>
                     </div>
-                </div><div class="realistic-pen" aria-hidden="true">
-                    <div class="pen-cap"></div>
-                    <div class="pen-ring top"></div>
-                    <div class="pen-ring mid"></div>
-                    <div class="pen-barrel"></div>
-                    <div class="pen-clip"></div>
-                    <div class="pen-ring low"></div>
-                    <div class="pen-nib-wrapper">
-                        <div class="pen-nib-taper"></div>
-                        <div class="pen-nib-tip"></div>
+
+                    <div class="project-card">
+                        <a href="RONALDO VS MESSI MATCHDAY POSTER DESIGN.png" target="_blank">
+                            <img src="RONALDO VS MESSI MATCHDAY POSTER DESIGN.png" alt="Ronaldo vs Messi Poster">
+                        </a>
+                        <div class="project-content">
+                            <span class="project-num">PROJECT 02</span>
+                            <h3>RONALDO VS MESSI</h3>
+                            <p>Editorial matchday graphic highlighting one of football's greatest rivalries.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <a href="REAL MADRID VS BARCELONA MATCHDAY POSTER.png" target="_blank">
+                            <img src="REAL MADRID VS BARCELONA MATCHDAY POSTER.png" alt="El Clasico Poster">
+                        </a>
+                        <div class="project-content">
+                            <span class="project-num">PROJECT 03</span>
+                            <h3>EL CLÁSICO POSTER</h3>
+                            <p>Brutal sports poster artwork created for Real Madrid vs Barcelona showdown.</p>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <a href="chelseavsrealmadridmatchdayposter.png" target="_blank">
+                            <img src="chelseavsrealmadridmatchdayposter.png" alt="Chelsea vs Real Madrid Poster">
+                        </a>
+                        <div class="project-content">
+                            <span class="project-num">PROJECT 04</span>
+                            <h3>CHELSEA VS REAL MADRID</h3>
+                            <p>High-contrast European championship clash matchday promotional graphic.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="slider-controls-wrapper">
+                <button class="slider-arrow-btn" id="slider-prev" aria-label="Previous Project"><i class="fa-solid fa-arrow-left"></i></button>
+                <span class="slider-instruction">DRAG OR USE ARROWS TO NAVIGATE</span>
+                <button class="slider-arrow-btn" id="slider-next" aria-label="Next Project"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+        <div class="section-title-container reveal">
+            <span class="section-index">04 / INQUIRIES</span>
+            <h2 class="section-title">GET IN TOUCH</h2>
+        </div>
+
+        <div class="contact-wrapper reveal">
+            <div class="contact-card">
+                <div>
+                    <div class="find-me-btn">FIND ME ↘</div>
+                    <div class="contact-info">
+                        <a href="mailto:sharmaalok740@gmail.com"><i class="fa-solid fa-envelope"></i> sharmaalok740@gmail.com</a>
+                        <a href="tel:+9779810101010"><i class="fa-solid fa-phone"></i> +977 9810101010</a>
                     </div>
                 </div>
-            </div></div></div></section>
-
-<section id="skills">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-        </svg>
-    </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Core Skills</h2>
-    </div>
-    <div class="skills-grid-container reveal">
-        <div class="skill-item-card skill-html">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5"></div>
-            <h3>HTML</h3>
-        </div>
-        <div class="skill-item-card skill-css">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" alt="CSS3"></div>
-            <h3>CSS</h3>
-        </div>
-        <div class="skill-item-card skill-python">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python"></div>
-            <h3>Python</h3>
-        </div>
-        <div class="skill-item-card skill-photoshop">
-            <div class="skill-icon-wrap"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg" alt="Photoshop"></div>
-            <h3>Photoshop</h3>
-        </div>
-    </div>
-</section>
-
-<section id="projects">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-        </svg>
-    </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Featured Projects</h2>
-    </div>
-    <div class="projects-outer-viewport reveal" id="swipe-slider-viewport">
-        
-        <button class="carousel-nav-btn left" id="carousel-prev" aria-label="Previous Project">
-            <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <button class="carousel-nav-btn right" id="carousel-next" aria-label="Next Project">
-            <i class="fa-solid fa-arrow-right"></i>
-        </button>
-
-        <div class="projects-grid" id="swipe-slider-grid">
-            <div class="project-card">
-    <a href="poruzb copy.jpg" target="_blank">
-        <img src="poruzb copy.jpg" alt="Portugal VS Colombia Matchday Graphic" draggable="false">
-    </a>
-    <div class="project-content">
-        <h3>Portugal VS Colombia</h3>
-        <p>Matchday poster featuring Cristiano Ronaldo and the Portugal national team ahead of their clash with Colombia in Miami</p>
-    </div>
-</div>
-         <div class="project-card"><a href="curtisjonesfinal.jpg
-" target="_blank"><img src="curtisjonesfinal.jpg
-" alt="Dom Graphic" draggable="false"></a><div class="project-content"><h3>Curtis Jones Departure</h3><p>A graphic thanking Curtis Jones for his valuable contribution in Liverpool.
-
-</p></div></div>
-    <div class="project-card"><a href="WhatsApp Image 2026-07-17 at 10.23.59 PM.jpeg
-" target="_blank"><img src="WhatsApp Image 2026-07-17 at 10.23.59 PM.jpeg
-" alt="Dom Graphic" draggable="false"></a><div class="project-content"><h3>Dominik Szoboszlai</h3><p>A simple graphic featuring Dominik Szoboszlai as he signs new contract till 2031 at Liverpool FC.</p></div></div>
-            <div class="project-card"><a href="argvspa copy.jpg" target="_blank"><img src="argvspa copy.jpg" alt="Argentina VS Spain Graphic" draggable="false"></a><div class="project-content"><h3>Argentina VS Spain</h3><p>A cinematic matchday graphic featuring the international clash between Argentina and Spain.</p></div></div>
-             <div class="project-card"><a href="fravswe.jpeg" target="_blank"><img src="fravswe.jpeg" alt="France VS Sweden Graphic" draggable="false"></a><div class="project-content"><h3>France VS Sweden</h3><p>Matchday promotional graphic for the international game between France and Sweden.</p></div></div>
-            <div class="project-card"><a href="fravspa.jpeg" target="_blank"><img src="fravspa.jpeg" alt="France VS Spain Graphic" draggable="false"></a><div class="project-content"><h3>France VS Spain</h3><p>A high-energy matchday visual for the European heavyweight matchup between France and Spain.</p></div></div>
-           <div class="project-card"><a href="portugalvcongo copy.jpg" target="_blank"><img src="portugalvcongo copy.jpg" alt="Portugal VS Congo Latest Design" draggable="false"></a><div class="project-content"><h3>Argentina VS Austria</h3><p>A matchday graphic of a World Cup group stage match between Argentina and Austria featuring Lionel Messi.</p></div></div>
-            <div class="project-card"><a href="spainbelgium.jpeg" target="_blank"><img src="spainbelgium.jpeg" alt="Spain VS Belgium Graphic Alternate" draggable="false"></a><div class="project-content"><h3>Spain VS Belgium</h3><p>A matchday poster focusing on the tactical battle between Spain and Belgium.</p></div></div>
-           <div class="project-card"><a href="engvarg.jpeg" target="_blank"><img src="engvarg.jpeg" alt="England VS Argentina Graphic" draggable="false"></a><div class="project-content"><h3>England VS Argentina</h3><p>Matchday poster design for the highly anticipated fixture between England and Argentina.</p></div></div>
-            <div class="project-card"><a href="porcong.jpeg" target="_blank"><img src="porcong.jpeg" alt="Portugal VS Congo Graphic" draggable="false"></a><div class="project-content"><h3>Portugal VS Congo</h3><p>A matchday graphic of a World Cup group stage match between Portugal and Congo featuring Cristiano Ronaldo.</p></div></div>
-            <div class="project-card"><a href="heavymetalfootball.jpg" target="_blank"><img src="heavymetalfootball.jpg" alt="Heavy Metal Football Cinematic Tribute Artwork" draggable="false"></a><div class="project-content"><h3>Heavy Metal Football</h3><p>A minimal graphic showing that heavy metal football is back at Liverpool FC, featuring Jürgen Klopp, the architect of high-pressing football, and Andoni Iraola, Liverpool's new manager, who shares the same high-intensity, high-pressing philosophy.</p></div></div>
-             <div class="project-card"><a href="lfcvbre copy.jpg" target="_blank"><img src="lfcvbre copy.jpg" alt="Project 1" draggable="false"></a><div class="project-content"><h3>Liverpool VS Brentford</h3><p>Matchday design of the last Premier League game of the 2025-26 campaign.</p></div></div>
-            <div class="project-card"><a href="robboxmo copy.jpg" target="_blank"><img src="robboxmo copy.jpg" alt="Project 2" draggable="false"></a><div class="project-content"><h3>ONE LAST TIME AT ANFIELD.</h3><p>A design featuring Mo. Salah and Andy Robertson ahead of their last match for LFC at Anfield.</p></div></div>
-            <div class="project-card"><a href="wc.jpeg" target="_blank"><img src="wc.jpeg" alt="FIFA World Cup 2026 Editorial Graphic Layout" draggable="false"></a><div class="project-content"><h3>FIFA World Cup 2026</h3><p>FIFA World Cup 2026 preview design featuring key star players with their eyes focused on the trophy.</p></div></div>
-            <div class="project-card"><a href="newlivche.jpeg" target="_blank"><img src="newlivche.jpeg" alt="Liverpool VS Chelsea Matchday Cinematic Campaign Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool VS Chelsea</h3><p>Matchday design preview for Liverpool vs Chelsea at Anfield, featuring Florian Wirtz and Cole Palmer.</p></div></div>
-            <div class="project-card"><a href="ThankyouRobbo.jpeg" target="_blank"><img src="ThankyouRobbo.jpeg" alt="Thank You Robbo Tribute Poster Artwork" draggable="false"></a><div class="project-content"><h3>Thank You, Robbo!</h3><p>A poster filled with passion and pride, celebrating Robbo's fearless spirit and unforgettable journey in red.</p></div></div>
-            <div class="project-card"><a href="ThankyouMo.jpeg" target="_blank"><img src="ThankyouMo.jpeg" alt="Thank You Mo Salah Tribute Graphic Layout" draggable="false"></a><div class="project-content"><h3>Thank You, Mo!</h3><p>A tribute poster capturing Salah's legacy, glory, and the magic he brought to Anfield through the years.</p></div></div>
-            <div class="project-card"><a href="livvmci.jpeg" target="_blank"><img src="livvmci.jpeg" alt="Liverpool VS Manchester City Cinematic F1 Concept Poster" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Manchester City</h3><p>An editorial-style image of Mohamed Salah and Erling Haaland as elite racing drivers standing trackside.</p></div></div>
-            <div class="project-card"><a href="livvgal.jpeg" target="_blank"><img src="livvgal.jpeg" alt="Liverpool VS Galatasaray Champions League Matchday Campaign" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Galatasaray</h3><p>A high-energy UEFA Champions League night featuring Hugo Ekitike and Victor Osimhen in a dramatic neon-glow knockout match poster.</p></div></div>
-            <div class="project-card"><a href="livvpsg.jpeg" target="_blank"><img src="livvpsg.jpeg" alt="Liverpool VS PSG Champions League Portrait Graphic" draggable="false"></a><div class="project-content"><h3>Liverpool FC VS Paris Saint-Germain</h3><p>A high-vibrancy neon-style UEFA Champions League night featuring Florian Wirtz and Khvicha Kvaratskhelia looking directly at the camera before a big European knockout match.</p></div></div>
-            <div class="project-card"><a href="slotout.jpeg" target="_blank"><img src="slotout.jpeg" alt="Slot Out Narrative Poster Art" draggable="false"></a><div class="project-content"><h3>Slot Out!</h3><p>An emotional editorial capturing Liverpool's downfall under pressure, shattered dreams, frustrated stars, and the growing noise around Slot's future at Anfield.</p></div></div>
-        </div>
-    </div>
-    <div class="slider-controls-wrapper reveal">
-        <div class="slider-instruction">DRAG OR USE ARROWS TO EXPLORE MORE AND CLICK THE IMAGES TO VIEW IN FULL.</div>
-    </div>
-</section>
-
-<section id="contact">
-    <div class="divider-top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
-        </svg>
-    </div>
-    <div class="section-title-container reveal">
-        <h2 class="section-title">Get In Touch</h2>
-    </div>
-    <div class="contact-wrapper reveal">
-        <div class="contact-card">
-            <div class="find-me-btn">Find Me ↘</div>
-            <div class="contact-info">
-                <a href="mailto:alokkynwa@gmail.com" target="_blank"><i class="fa-regular fa-envelope"></i> alokkynwa@gmail.com</a>
-                <a href="tel:+9779843538473" target="_blank"><i class="fa-solid fa-phone"></i><span>🇳🇵</span> (+977) 9843538473</a>
+                <div class="socials">
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://x.com" target="_blank" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
             </div>
-            <div class="socials">
-                <a href="https://www.linkedin.com/in/alok-sharma-511993280?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                <a href="https://www.instagram.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.facebook.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
-                 <a href="https://x.com/alokynwa" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i></a>
-            </div>
+
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="user_name">NAME</label>
+                    <input type="text" id="user_name" name="user_name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="user_email">EMAIL</label>
+                    <input type="email" id="user_email" name="user_email" placeholder="Your Email Address" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">MESSAGE</label>
+                    <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary send-btn">SEND MESSAGE</button>
+            </form>
         </div>
-        <form class="contact-form" id="portfolio-contact-form">
-             <div class="form-row">
-                <input type="text" name="name" placeholder="NAME" required>
-                <input type="email" name="email" placeholder="EMAIL" required>
-             </div>
-            <textarea name="message" placeholder="MESSAGE" required></textarea>
-            <button type="submit" class="send-btn">SEND MESSAGE</button>
-        </form>
-    </div>
-</section>
+    </section>
 
-<footer>
-    Copyright © Alok Sharma - All rights reserved.
-</footer>
+    <!-- FOOTER -->
+    <footer>
+        Copyright © Alok Sharma — All rights reserved.
+    </footer>
 
-<script>
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
 /* ============================================================
-   SCROLL REVEAL OBSERVER (FADE IN UP)
+   THEME TOGGLE SYSTEM
 ============================================================ */
-(function() {
-    const reveals = document.querySelectorAll('.reveal');
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
-                observer.unobserve(entry.target); // Stop observing once it reveals
-            }
-        });
-    }, {
-        threshold: 0.15, // Trigger when 15% visible
-        rootMargin: "0px 0px -50px 0px"
+const themeToggleBtn = document.getElementById('theme-toggle');
+const htmlElem = document.documentElement;
+
+const savedTheme = localStorage.getItem('theme') || 'light';
+htmlElem.setAttribute('data-theme', savedTheme);
+updateThemeBtnText(savedTheme);
+
+themeToggleBtn.addEventListener('click', () => {
+    const currentTheme = htmlElem.getAttribute('data-theme');
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    htmlElem.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeBtnText(newTheme);
+});
+
+function updateThemeBtnText(theme) {
+    themeToggleBtn.textContent = theme === 'light' ? '[ ☾ ]' : '[ ☀ ]';
+}
+
+/* ============================================================
+   MOBILE NAVIGATION MENU TOGGLE
+============================================================ */
+const navToggleBtn = document.getElementById('nav-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+
+navToggleBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+});
+
+document.querySelectorAll('.mobile-nav-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
     });
-
-    reveals.forEach(reveal => {
-        revealObserver.observe(reveal);
-    });
-})();
-
-/* ============================================================
-   HEADER SCROLL STATE + ACTIVE LINK HIGHLIGHT
-============================================================ */
-(function(){
-    const header = document.querySelector('header');
-    const navLinks = document.querySelectorAll('nav a, .mobile-nav-menu a');
-    const sections = document.querySelectorAll('section[id]');
-
-    window.addEventListener('scroll', () => {
-        header.classList.toggle('scrolled', window.scrollY > 40);
-    }, { passive:true });
-
-    const navObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                navLinks.forEach(link => {
-                    link.classList.toggle('active-link', link.getAttribute('href') === '#' + entry.target.id);
-                });
-            }
-        });
-    }, { rootMargin: "-45% 0px -45% 0px" });
-
-    sections.forEach(sec => navObserver.observe(sec));
-})();
-
-/* ============================================================
-   MOBILE NAV TOGGLE
-============================================================ */
-(function(){
-    const toggleBtn = document.getElementById("nav-toggle");
-    const menu = document.getElementById("mobile-nav-menu");
-    if(!toggleBtn || !menu) return;
-    const icon = toggleBtn.querySelector("i");
-    toggleBtn.addEventListener("click", () => {
-        const open = menu.classList.toggle("open");
-        toggleBtn.setAttribute("aria-expanded", open);
-        icon.className = open ? "fa-solid fa-xmark" : "fa-solid fa-bars";
-    });
-    menu.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
-        menu.classList.remove("open");
-        toggleBtn.setAttribute("aria-expanded","false");
-        icon.className = "fa-solid fa-bars";
-    }));
-})();
-
-/* ============================================================
-   THEME TOGGLE
-============================================================ */
-const themeToggle = document.getElementById("theme-toggle");
-const toggleIcon  = themeToggle.querySelector("i");
-themeToggle.addEventListener("click", () => {
-    const dark = document.documentElement.getAttribute("data-theme") === "dark";
-    if (dark) {
-        document.documentElement.removeAttribute("data-theme");
-        toggleIcon.className = "fa-solid fa-moon";
-    } else {
-        document.documentElement.setAttribute("data-theme","dark");
-        toggleIcon.className = "fa-solid fa-sun";
-    }
 });
 
 /* ============================================================
-   PROJECTS — INFINITE AUTO-SCROLL SLIDER
+   SCROLL REVEAL OBSERVER
 ============================================================ */
-(function(){
-    const grid = document.getElementById('swipe-slider-grid');
-    const viewport = document.getElementById('swipe-slider-viewport');
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtn = document.getElementById('carousel-next');
+const revealElems = document.querySelectorAll('.reveal');
+const observerOptions = {
+    threshold: 0.15
+};
 
-    if (!grid || !viewport) return;
-
-    // Clone cards for infinite loop
-    const originalCards = Array.from(grid.querySelectorAll('.project-card'));
-    const numOriginal = originalCards.length;
-    if (numOriginal === 0) return;
-
-    // Duplicate the entire block twice to ensure 3 perfect seamless repeating chunks
-    for(let i = 0; i < 2; i++) {
-        originalCards.forEach(card => {
-            grid.appendChild(card.cloneNode(true));
-        });
-    }
-
-    let isDrag = false;
-    let startX = 0;
-    let currentX = 0;
-    let dragStartOffset = 0;
-    let isHovered = false;
-    let isPaused = false;
-    let pauseTimeout;
-
-    const autoScrollSpeed = 25; // extremely slow movement (px per second)
-    
-    let currentOffset = 0;
-    let targetOffset = 0;
-    let lastTime = performance.now();
-
-    function getMetrics() {
-        const cardWidth = originalCards[0].offsetWidth || 440; 
-        const gap = parseFloat(window.getComputedStyle(grid).gap) || 36;
-        const setWidth = numOriginal * (cardWidth + gap);
-        return { itemWidth: cardWidth + gap, setWidth };
-    }
-
-    // Initialize in the middle set to allow immediate seamless scrolling left
-    let { setWidth, itemWidth } = getMetrics();
-    currentOffset = -setWidth;
-    targetOffset = -setWidth;
-
-    function resetPause() {
-        isPaused = true;
-        clearTimeout(pauseTimeout);
-        pauseTimeout = setTimeout(() => {
-            isPaused = false;
-        }, 2000);
-    }
-
-    function loop(time) {
-        const metrics = getMetrics();
-        let dt = (time - lastTime) / 1000;
-        if (dt > 0.1) dt = 0.1; // Safely cap lag spikes
-        lastTime = time;
-
-        if (!isHovered && !isDrag && !isPaused) {
-            targetOffset -= autoScrollSpeed * dt;
-        }
-
-        if (isDrag) {
-            targetOffset = dragStartOffset + (currentX - startX);
-        }
-
-        // Apply smooth interpolation (Lerp)
-        currentOffset += (targetOffset - currentOffset) * 0.08;
-
-        // Seamless Infinite Wrapping Check
-        if (targetOffset <= -metrics.setWidth * 2) {
-            targetOffset += metrics.setWidth;
-            currentOffset += metrics.setWidth;
-        } else if (targetOffset >= -metrics.setWidth * 0.5) {
-            targetOffset -= metrics.setWidth;
-            currentOffset -= metrics.setWidth;
-        }
-
-        // Hardware accelerated performance
-        grid.style.transform = `translate3d(${currentOffset}px, 0, 0)`;
-        requestAnimationFrame(loop);
-    }
-
-    requestAnimationFrame(loop);
-
-    // Manual Snapping Functions
-    function snapToNext() {
-        const metrics = getMetrics();
-        targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth - metrics.itemWidth;
-        resetPause();
-    }
-
-    function snapToPrev() {
-        const metrics = getMetrics();
-        targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth + metrics.itemWidth;
-        resetPause();
-    }
-
-    if(prevBtn) prevBtn.addEventListener('click', snapToPrev);
-    if(nextBtn) nextBtn.addEventListener('click', snapToNext);
-
-    // Accessibility
-    viewport.setAttribute('tabindex', '0');
-    viewport.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') { e.preventDefault(); snapToPrev(); }
-        if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') { e.preventDefault(); snapToNext(); }
-    });
-
-    // Auto-pause triggers
-    viewport.addEventListener('mouseenter', () => isHovered = true);
-    viewport.addEventListener('mouseleave', () => { isHovered = false; resetPause(); });
-
-    // Drag (Mouse)
-    viewport.addEventListener('mousedown', (e) => {
-        if(e.button !== 0) return;
-        isDrag = true;
-        startX = e.clientX;
-        currentX = startX;
-        dragStartOffset = targetOffset;
-        grid.style.cursor = 'grabbing';
-        resetPause();
-    });
-    
-    window.addEventListener('mousemove', (e) => {
-        if (!isDrag) return;
-        currentX = e.clientX;
-        resetPause();
-    });
-    
-    window.addEventListener('mouseup', () => {
-        if(isDrag) {
-            isDrag = false;
-            grid.style.cursor = '';
-            const metrics = getMetrics();
-            targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth;
-            resetPause();
+const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            observer.unobserve(entry.target);
         }
     });
+}, observerOptions);
 
-    // Drag (Touch)
-    viewport.addEventListener('touchstart', (e) => {
-        isDrag = true;
-        startX = e.touches[0].clientX;
-        currentX = startX;
-        dragStartOffset = targetOffset;
-        isHovered = true; // Act as hover lock
-        resetPause();
-    }, {passive: true});
-    
-    viewport.addEventListener('touchmove', (e) => {
-        if (!isDrag) return;
-        currentX = e.touches[0].clientX;
-        resetPause();
-    }, {passive: true});
-    
-    viewport.addEventListener('touchend', () => {
-        if(isDrag) {
-            isDrag = false;
-            isHovered = false;
-            const metrics = getMetrics();
-            targetOffset = Math.round(targetOffset / metrics.itemWidth) * metrics.itemWidth;
-            resetPause();
-        }
-    });
-})();
+revealElems.forEach(elem => revealObserver.observe(elem));
 
 /* ============================================================
-   EDUCATION — BOOK BEHAVIOR 
+   EDUCATION BOOK FLIP INTERACTION (DESKTOP)
 ============================================================ */
-(function(){
-    const sheets = [
-        document.getElementById('sheet-1'),
-        document.getElementById('sheet-2'),
-        document.getElementById('sheet-3'),
-        document.getElementById('sheet-4')
-    ];
-    const bookPrev  = document.getElementById('book-prev');
-    const bookNext  = document.getElementById('book-next');
-    const hud       = document.getElementById('hud-page-indicator');
-    const zoneLeft  = document.getElementById('zone-left');
-    const zoneRight = document.getElementById('zone-right');
-    const restart   = document.getElementById('open-again-btn');
-    
-    let spread = 0;
-    const total = sheets.length;
+const sheets = [
+    document.getElementById('sheet-1'),
+    document.getElementById('sheet-2'),
+    document.getElementById('sheet-3'),
+    document.getElementById('sheet-4')
+];
+let currentSheetIndex = 0;
+const totalSheets = sheets.length;
+const spreadIndicator = document.getElementById('spread-indicator');
 
-    function update() {
-        sheets.forEach((sheet, i) => {
-            const z = 3;
-            if (i < spread) {
-                sheet.classList.add('flipped');
-                sheet.style.transform = `rotateY(-180deg) translateZ(${-i*z}px)`;
-                sheet.style.zIndex = i + 1;
-                if (i < spread - 1) setTimeout(() => sheet.style.visibility='hidden', 700);
-                else sheet.style.visibility = 'visible';
-            } else {
-                sheet.classList.remove('flipped');
-                sheet.style.transform = `rotateY(0deg) translateZ(${-i*z}px)`;
-                sheet.style.zIndex = total - i;
-                sheet.style.visibility = 'visible';
-                if (i > spread + 1) setTimeout(() => sheet.style.visibility='hidden', 700);
-            }
-        });
-        if (hud) hud.innerText = `SPREAD ${spread+1} / ${total+1}`;
-        if (zoneLeft)  zoneLeft.style.display  = spread === 0     ? 'none':'block';
-        if (zoneRight) zoneRight.style.display = spread >= total  ? 'none':'block';
+function updateBookState() {
+    sheets.forEach((sheet, index) => {
+        if (index < currentSheetIndex) {
+            sheet.style.transform = 'rotateY(-180deg)';
+            sheet.style.zIndex = index + 1;
+        } else {
+            sheet.style.transform = 'rotateY(0deg)';
+            sheet.style.zIndex = totalSheets - index;
+        }
+    });
+    spreadIndicator.textContent = `SPREAD ${currentSheetIndex + 1} / ${totalSheets}`;
+}
+
+document.getElementById('book-next').addEventListener('click', () => {
+    if (currentSheetIndex < totalSheets) {
+        currentSheetIndex++;
+        updateBookState();
     }
+});
 
-    zoneLeft  && zoneLeft.addEventListener('click',  () => { if(spread>0)     { spread--; update(); } });
-    zoneRight && zoneRight.addEventListener('click', () => { if(spread<total) { spread++; update(); } });
-    bookPrev  && bookPrev.addEventListener('click',  () => { if(spread>0)     { spread--; update(); } });
-    bookNext  && bookNext.addEventListener('click',  () => { if(spread<total) { spread++; update(); } });
-    restart   && restart.addEventListener('click',   () => { spread=0; update(); });
-    update();
-})();
+document.getElementById('book-prev').addEventListener('click', () => {
+    if (currentSheetIndex > 0) {
+        currentSheetIndex--;
+        updateBookState();
+    }
+});
+
+document.getElementById('zone-next').addEventListener('click', () => {
+    if (currentSheetIndex < totalSheets) {
+        currentSheetIndex++;
+        updateBookState();
+    }
+});
+
+document.getElementById('zone-prev').addEventListener('click', () => {
+    if (currentSheetIndex > 0) {
+        currentSheetIndex--;
+        updateBookState();
+    }
+});
+
+document.getElementById('reopen-btn').addEventListener('click', () => {
+    currentSheetIndex = 0;
+    updateBookState();
+});
+
+updateBookState();
 
 /* ============================================================
-   CONTACT FORM HANDLING
+   PROJECT CAROUSEL SLIDER (DRAG & ARROW CONTROLS)
 ============================================================ */
-(function(){
-    const form = document.getElementById("portfolio-contact-form");
-    form.addEventListener("submit", async e => {
-        e.preventDefault();
-        const btn = form.querySelector(".send-btn");
-        const orig = btn.innerText;
-        btn.innerText = "SENDING..."; btn.style.pointerEvents = "none";
-        const p = {
-            name:    form.querySelector('input[name="name"]').value,
-            email:   form.querySelector('input[name="email"]').value,
-            message: form.querySelector('textarea[name="message"]').value
-        };
-        try {
-            const r = await emailjs.send('service_qa1fl7f','template_zu2bqc7',p);
-            if (r.status === 200) {
-                btn.innerText = "SENT ✓"; form.reset();
-            } else throw new Error();
-        } catch {
-            btn.innerText = "ERROR – TRY AGAIN";
-        }
-        setTimeout(() => { btn.innerText=orig; btn.style.pointerEvents="auto"; }, 4000);
-    });
-})();
+const sliderViewport = document.getElementById('project-slider-viewport');
+const sliderTrack = document.getElementById('project-slider-track');
+const prevBtn = document.getElementById('slider-prev');
+const nextBtn = document.getElementById('slider-next');
 
-</script>
+let isDragging = false;
+let startX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+
+function setSliderPosition() {
+    sliderTrack.style.transform = `translateX(${currentTranslate}px)`;
+}
+
+// Clamp slider boundaries
+function clampSlider() {
+    const maxScroll = -(sliderTrack.scrollWidth - sliderViewport.clientWidth);
+    if (currentTranslate > 0) currentTranslate = 0;
+    if (currentTranslate < maxScroll) currentTranslate = maxScroll;
+}
+
+// Pointer / Mouse events
+sliderViewport.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    sliderViewport.style.cursor = 'grabbing';
+});
+
+window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const currentX = e.clientX;
+    const diff = currentX - startX;
+    currentTranslate = prevTranslate + diff;
+    clampSlider();
+    setSliderPosition();
+});
+
+window.addEventListener('mouseup', () => {
+    if (isDragging) {
+        isDragging = false;
+        prevTranslate = currentTranslate;
+        sliderViewport.style.cursor = 'grab';
+    }
+});
+
+// Touch events for mobile
+sliderViewport.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+});
+
+sliderViewport.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - startX;
+    currentTranslate = prevTranslate + diff;
+    clampSlider();
+    setSliderPosition();
+});
+
+sliderViewport.addEventListener('touchend', () => {
+    isDragging = false;
+    prevTranslate = currentTranslate;
+});
+
+// Arrow Navigation Controls
+const cardWidth = 404; // Card width + gap
+
+nextBtn.addEventListener('click', () => {
+    currentTranslate -= cardWidth;
+    clampSlider();
+    prevTranslate = currentTranslate;
+    setSliderPosition();
+});
+
+prevBtn.addEventListener('click', () => {
+    currentTranslate += cardWidth;
+    clampSlider();
+    prevTranslate = currentTranslate;
+    setSliderPosition();
+});
+
+/* ============================================================
+   CONTACT FORM HANDLER (EMAILJS INTEGRATION)
+============================================================ */
+const contactForm = document.getElementById('contact-form');
+
+contactForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    const sendBtn = contactForm.querySelector('.send-btn');
+    const originalText = sendBtn.textContent;
+    sendBtn.textContent = 'SENDING...';
+
+    emailjs.sendForm('service_default', 'template_default', this)
+        .then(() => {
+            alert('Message sent successfully!');
+            contactForm.reset();
+            sendBtn.textContent = originalText;
+        }, (error) => {
+            alert('Failed to send message: ' + JSON.stringify(error));
+            sendBtn.textContent = originalText;
+        });
+});
+    </script>
 </body>
 </html>
