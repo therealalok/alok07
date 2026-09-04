@@ -1663,15 +1663,74 @@ const ROOM = {
 };
 
 const CAM_POSES = {
-  introStart: { pos: [1.9, 2.35, 4.3], target: [0, 1.05, -1.25] },
-  room:       { pos: [1.05, 1.55, 2.5], target: [0, 1.05, -1.25] },
-  screen:     { pos: [0, 1.21, -0.62], target: [0, 1.21, -1.28] }
+  introStart: { pos: [2.6, 2.9, 5.2], target: [0.05, 1.0, -1.2] },
+  room:       { pos: [1.65, 1.92, 3.35], target: [0.05, 0.98, -1.2] },
+  screen:     { pos: [0, 1.22, -0.58], target: [0, 1.22, -1.28] }
 };
 
 const ATMO = {
-  day:   { hemi: 0.55, ambient: 0.18, sun: 1.15, windowFill: 0.4, lamp: 0,   monitorGlow: 0.32, bg: 0xd8dfe6, curtainsOpen: true },
-  night: { hemi: 0.10, ambient: 0.05, sun: 0.04, windowFill: 0.04, lamp: 1.5, monitorGlow: 0.85, bg: 0x0a0810, curtainsOpen: false }
+  day:   { hemi: 0.55, ambient: 0.18, sun: 1.15, fill: 0.28, windowFill: 0.4, lamp: 0,   monitorGlow: 0.32, bg: 0xd8dfe6, curtainsOpen: true },
+  night: { hemi: 0.10, ambient: 0.05, sun: 0.04, fill: 0.03, windowFill: 0.04, lamp: 1.5, monitorGlow: 0.85, bg: 0x0a0810, curtainsOpen: false }
 };
+
+/* ---------------- procedural texture helpers (cheap, cached canvases — no network requests) ---------------- */
+function makeContactShadowTexture() {
+  const c = document.createElement("canvas");
+  c.width = 128; c.height = 128;
+  const ctx = c.getContext("2d");
+  const g = ctx.createRadialGradient(64, 64, 4, 64, 64, 62);
+  g.addColorStop(0, "rgba(0,0,0,0.55)");
+  g.addColorStop(0.6, "rgba(0,0,0,0.22)");
+  g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 128, 128);
+  return new THREE.CanvasTexture(c);
+}
+function makeContactShadow(sizeX, sizeZ, opacity) {
+  const mat = new THREE.MeshBasicMaterial({ map: makeContactShadowTexture(), transparent: true, opacity: opacity ?? 0.6, depthWrite: false });
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(sizeX, sizeZ), mat);
+  mesh.rotation.x = -Math.PI / 2;
+  mesh.renderOrder = 1;
+  return mesh;
+}
+function makeWoodTexture() {
+  const c = document.createElement("canvas");
+  c.width = 256; c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#b98a5c";
+  ctx.fillRect(0, 0, 256, 256);
+  for (let i = 0; i < 60; i++) {
+    const y = Math.random() * 256;
+    ctx.strokeStyle = `rgba(90,55,30,${0.04 + Math.random() * 0.08})`;
+    ctx.lineWidth = 1 + Math.random() * 2;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    for (let x = 0; x <= 256; x += 32) ctx.lineTo(x, y + (Math.random() - 0.5) * 10);
+    ctx.stroke();
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(2, 1);
+  tex.encoding = THREE.sRGBEncoding;
+  return tex;
+}
+function makeWallNoiseTexture(base) {
+  const c = document.createElement("canvas");
+  c.width = 256; c.height = 256;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = base;
+  ctx.fillRect(0, 0, 256, 256);
+  const id = ctx.getImageData(0, 0, 256, 256);
+  for (let i = 0; i < id.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 10;
+    id.data[i] += n; id.data[i + 1] += n; id.data[i + 2] += n;
+  }
+  ctx.putImageData(id, 0, 0);
+  const tex = new THREE.CanvasTexture(c);
+  tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+  tex.encoding = THREE.sRGBEncoding;
+  return tex;
+}
 
 const WALL_POSTERS = [
   { title: "curtisjonesfinal.jpg", img: "curtisjonesfinal.jpg", folder: "Danke" },
@@ -1695,7 +1754,7 @@ function initThree() {
   ROOM.scene = new THREE.Scene();
   ROOM.scene.background = new THREE.Color(ATMO.day.bg);
 
-  ROOM.camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 60);
+  ROOM.camera = new THREE.PerspectiveCamera(44, window.innerWidth / window.innerHeight, 0.1, 60);
   ROOM.camera.position.set(...CAM_POSES.introStart.pos);
   ROOM.camera.lookAt(new THREE.Vector3(...CAM_POSES.introStart.target));
 
@@ -1712,12 +1771,12 @@ function initThree() {
   ROOM.controls.enableDamping = true;
   ROOM.controls.dampingFactor = 0.08;
   ROOM.controls.enablePan = false;
-  ROOM.controls.minDistance = 2.3;
-  ROOM.controls.maxDistance = 4.3;
-  ROOM.controls.minPolarAngle = Math.PI * 0.30;
-  ROOM.controls.maxPolarAngle = Math.PI * 0.52;
-  ROOM.controls.minAzimuthAngle = -Math.PI * 0.30;
-  ROOM.controls.maxAzimuthAngle = Math.PI * 0.30;
+  ROOM.controls.minDistance = 2.6;
+  ROOM.controls.maxDistance = 5.4;
+  ROOM.controls.minPolarAngle = Math.PI * 0.28;
+  ROOM.controls.maxPolarAngle = Math.PI * 0.50;
+  ROOM.controls.minAzimuthAngle = -Math.PI * 0.32;
+  ROOM.controls.maxAzimuthAngle = Math.PI * 0.32;
   ROOM.controls.enabled = false;
 
   buildLights();
@@ -1745,11 +1804,11 @@ function initThree() {
 function buildLights() {
   const L = {};
   L.hemi = new THREE.HemisphereLight(0xfff3e0, 0x2b2420, ATMO.day.hemi);
-  L.ambient = new THREE.AmbientLight(0xffffff, ATMO.day.ambient);
+  L.ambient = new THREE.AmbientLight(0xfff6ec, ATMO.day.ambient);
 
   L.sun = new THREE.DirectionalLight(0xfff2d8, ATMO.day.sun);
-  L.sun.position.set(-3.2, 3.1, 1.4);
-  L.sun.target.position.set(-1.4, 0.9, 0.3);
+  L.sun.position.set(-2.6, 3.4, 2.0);
+  L.sun.target.position.set(-0.6, 0.9, -0.6);
   L.sun.castShadow = true;
   const shadowRes = ROOM.isMobile ? 512 : 1024;
   L.sun.shadow.mapSize.set(shadowRes, shadowRes);
@@ -1757,6 +1816,12 @@ function buildLights() {
   L.sun.shadow.camera.top = 3; L.sun.shadow.camera.bottom = -3;
   L.sun.shadow.camera.near = 0.5; L.sun.shadow.camera.far = 9;
   L.sun.shadow.bias = -0.0025;
+  L.sun.shadow.radius = 3;
+
+  // gentle front fill so the sun-side shadows never crush to black — the
+  // single biggest driver of a "realistic soft lighting" feel
+  L.fill = new THREE.PointLight(0xe9eefc, ATMO.day.fill, 5, 2);
+  L.fill.position.set(1.6, 1.5, 2.0);
 
   L.windowFill = new THREE.PointLight(0xdfe9ff, ATMO.day.windowFill, 6, 2);
   L.windowFill.position.set(-2.0, 1.7, 0.2);
@@ -1767,39 +1832,62 @@ function buildLights() {
   L.monitorGlow = new THREE.PointLight(0x8fd0ff, ATMO.day.monitorGlow, 1.7, 2);
   L.monitorGlow.position.set(0, 1.24, -1.24);
 
-  ROOM.scene.add(L.hemi, L.ambient, L.sun, L.sun.target, L.windowFill, L.lamp, L.monitorGlow);
+  ROOM.scene.add(L.hemi, L.ambient, L.sun, L.sun.target, L.fill, L.windowFill, L.lamp, L.monitorGlow);
   ROOM.lights = L;
 }
 
 function buildRoomShell() {
-  const floorMat = new THREE.MeshStandardMaterial({ color: 0xcab99b, roughness: 0.92 });
+  const floorTex = makeWallNoiseTexture("#c9b790");
+  floorTex.repeat.set(3.5, 2.8);
+  const floorMat = new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.78, metalness: 0.02 });
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(9, 7), floorMat);
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   ROOM.scene.add(floor);
 
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0xefe8dd, roughness: 0.96 });
+  const backWallTex = makeWallNoiseTexture("#efe8dd");
+  backWallTex.repeat.set(2, 2);
+  const wallMat = new THREE.MeshStandardMaterial({ map: backWallTex, roughness: 0.94 });
   const backWall = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 2.7), wallMat);
   backWall.position.set(0, 1.35, -1.6);
   backWall.receiveShadow = true;
   ROOM.scene.add(backWall);
 
-  const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 2.7), wallMat.clone());
+  const leftWallTex = makeWallNoiseTexture("#e6ddcf");
+  leftWallTex.repeat.set(2, 2);
+  const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 2.7), new THREE.MeshStandardMaterial({ map: leftWallTex, roughness: 0.96 }));
   leftWall.rotation.y = Math.PI / 2;
   leftWall.position.set(-2.3, 1.35, 0);
   leftWall.receiveShadow = true;
   ROOM.scene.add(leftWall);
+
+  // slim baseboards where the walls meet the floor — a small detail that
+  // sells the "real architectural room" feel from the reference
+  const baseboardMat = new THREE.MeshStandardMaterial({ color: 0xf7f3ea, roughness: 0.7 });
+  const backBase = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.06, 0.02), baseboardMat);
+  backBase.position.set(0, 0.03, -1.59);
+  ROOM.scene.add(backBase);
+  const leftBase = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.06, 3.2), baseboardMat);
+  leftBase.position.set(-2.29, 0.03, 0);
+  ROOM.scene.add(leftBase);
 }
 
 function buildDesk() {
   const g = new THREE.Group();
-  const topMat = new THREE.MeshStandardMaterial({ color: 0xcaa377, roughness: 0.55 });
+  const woodTex = makeWoodTexture();
+  const topMat = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.48, metalness: 0.02 });
   const top = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.06, 0.85), topMat);
   top.position.set(0, 0.74, -1.15);
   top.castShadow = true; top.receiveShadow = true;
   g.add(top);
 
-  const legMat = new THREE.MeshStandardMaterial({ color: 0x2c2622, roughness: 0.6 });
+  // thin lighter strip along the front top edge — a cheap but effective
+  // stand-in for a bevel/chamfer without extra geometry segments
+  const bevel = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.008, 0.015), new THREE.MeshStandardMaterial({ color: 0xdcb98d, roughness: 0.35 }));
+  bevel.position.set(0, 0.708, -0.735);
+  g.add(bevel);
+
+  const legMat = new THREE.MeshStandardMaterial({ color: 0x2c2622, roughness: 0.55, metalness: 0.1 });
   const legGeo = new THREE.BoxGeometry(0.05, 0.72, 0.05);
   [[-0.92, 0.37, -0.8], [0.92, 0.37, -0.8], [-0.92, 0.37, -1.5], [0.92, 0.37, -1.5]].forEach(p => {
     const leg = new THREE.Mesh(legGeo, legMat);
@@ -1807,6 +1895,10 @@ function buildDesk() {
     leg.castShadow = true;
     g.add(leg);
   });
+
+  const contact = makeContactShadow(1.9, 0.9, 0.3);
+  contact.position.set(0, 0.001, -1.15);
+  g.add(contact);
 
   ROOM.scene.add(g);
   ROOM.objects.desk = g;
@@ -1840,18 +1932,26 @@ function buildComputer() {
   const g = new THREE.Group();
   const deskY = 0.77, screenZ = -1.28;
 
-  const baseMat = new THREE.MeshStandardMaterial({ color: 0xdedad2, roughness: 0.4, metalness: 0.3 });
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.02, 32), baseMat);
-  base.position.set(0, deskY + 0.01, screenZ + 0.16);
+  const metalMat = new THREE.MeshStandardMaterial({ color: 0xdbd7cf, roughness: 0.3, metalness: 0.6 });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.17, 0.018, 32), metalMat);
+  base.position.set(0, deskY + 0.009, screenZ + 0.17);
   base.castShadow = true;
   g.add(base);
 
-  const neck = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.16, 0.04), baseMat);
-  neck.position.set(0, deskY + 0.09, screenZ + 0.16);
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.022, 0.17, 16), metalMat);
+  neck.position.set(0, deskY + 0.095, screenZ + 0.17);
   g.add(neck);
 
-  const frameMat = new THREE.MeshStandardMaterial({ color: 0xe7e4dd, roughness: 0.45, metalness: 0.2 });
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.86, 0.54, 0.035), frameMat);
+  // outer brushed-aluminum shell sits slightly proud of the dark glass
+  // bezel, giving the screen believable thickness instead of a flat card
+  const shellMat = new THREE.MeshStandardMaterial({ color: 0xe6e3db, roughness: 0.28, metalness: 0.72 });
+  const shell = new THREE.Mesh(new THREE.BoxGeometry(0.90, 0.58, 0.045), shellMat);
+  shell.position.set(0, deskY + 0.44, screenZ - 0.006);
+  shell.castShadow = true;
+  g.add(shell);
+
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0x121214, roughness: 0.2, metalness: 0.2 });
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.53, 0.03), frameMat);
   frame.position.set(0, deskY + 0.44, screenZ);
   frame.castShadow = true;
   g.add(frame);
@@ -1862,7 +1962,18 @@ function buildComputer() {
   screen.position.set(0, deskY + 0.44, screenZ + 0.019);
   g.add(screen);
 
-  [base, neck, frame, screen].forEach(m => { m.userData.type = "computer"; });
+  // extremely subtle glass reflection over the display — physical, not neon
+  const glass = new THREE.Mesh(new THREE.PlaneGeometry(0.80, 0.48), new THREE.MeshPhysicalMaterial({
+    color: 0xffffff, transparent: true, opacity: 0.045, roughness: 0.08, clearcoat: 1
+  }));
+  glass.position.set(0, deskY + 0.44, screenZ + 0.0205);
+  g.add(glass);
+
+  const contact = makeContactShadow(0.55, 0.5, 0.38);
+  contact.position.set(0, deskY + 0.001, screenZ + 0.16);
+  g.add(contact);
+
+  [base, neck, shell, frame, screen, glass].forEach(m => { m.userData.type = "computer"; });
   g.userData.type = "computer";
 
   ROOM.scene.add(g);
@@ -1905,6 +2016,9 @@ function buildLamp() {
   g.traverse(o => { o.castShadow = true; o.userData.type = "lamp"; });
   g.userData.type = "lamp";
   ROOM.scene.add(g);
+  const lampShadow = makeContactShadow(0.12, 0.12, 0.28);
+  lampShadow.position.set(-0.78, deskY + 0.001, -1.05);
+  ROOM.scene.add(lampShadow);
   ROOM.objects.lampMesh = shade;
 }
 
@@ -2251,7 +2365,7 @@ function restoreDayNightPref() {
 function applyAtmosphereInstant(mode) {
   if (!ROOM.lights) return;
   const t = ATMO[mode], L = ROOM.lights;
-  L.hemi.intensity = t.hemi; L.ambient.intensity = t.ambient; L.sun.intensity = t.sun;
+  L.hemi.intensity = t.hemi; L.ambient.intensity = t.ambient; L.sun.intensity = t.sun; L.fill.intensity = t.fill;
   L.windowFill.intensity = t.windowFill; L.lamp.intensity = t.lamp; L.monitorGlow.intensity = t.monitorGlow;
   ROOM.scene.background = new THREE.Color(t.bg);
   setCurtainsInstant(t.curtainsOpen);
@@ -2263,7 +2377,7 @@ function animateAtmosphere(mode) {
     start: performance.now(),
     duration: ROOM.reducedMotion ? 60 : 1400,
     from: {
-      hemi: L.hemi.intensity, ambient: L.ambient.intensity, sun: L.sun.intensity,
+      hemi: L.hemi.intensity, ambient: L.ambient.intensity, sun: L.sun.intensity, fill: L.fill.intensity,
       windowFill: L.windowFill.intensity, lamp: L.lamp.intensity, monitorGlow: L.monitorGlow.intensity,
       bg: ROOM.scene.background.clone()
     },
@@ -2280,6 +2394,7 @@ function updateAtmoAnim() {
   L.hemi.intensity = THREE.MathUtils.lerp(from.hemi, to.hemi, e);
   L.ambient.intensity = THREE.MathUtils.lerp(from.ambient, to.ambient, e);
   L.sun.intensity = THREE.MathUtils.lerp(from.sun, to.sun, e);
+  L.fill.intensity = THREE.MathUtils.lerp(from.fill, to.fill, e);
   L.windowFill.intensity = THREE.MathUtils.lerp(from.windowFill, to.windowFill, e);
   L.lamp.intensity = THREE.MathUtils.lerp(from.lamp, to.lamp, e);
   L.monitorGlow.intensity = THREE.MathUtils.lerp(from.monitorGlow, to.monitorGlow, e);
