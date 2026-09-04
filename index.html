@@ -129,7 +129,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: space-between; gap: 10px; white-space: nowrap;
 }
 .menu-option:hover:not(.disabled) { background: var(--blue); }
-.menu-option.disabled { color: var(--text-tertiary); cursor: default; }
+.menu-option.disabled { color: var(--text-tertiary); cursor: default; pointer-events: none; }
 .menu-option .kbd { color: var(--text-tertiary); font-size: 11px; }
 .menu-option:hover:not(.disabled) .kbd { color: rgba(255,255,255,0.8); }
 .menu-sep { height: 1px; background: rgba(255,255,255,0.1); margin: 5px 4px; }
@@ -439,11 +439,78 @@ a { color: inherit; text-decoration: none; }
   font-size: 15px; display: flex; align-items: center; justify-content: center; pointer-events: auto;
 }
 #mc-run-btn.active { background: rgba(10,132,255,0.55); }
+#mc-jump-btn {
+  position: absolute; right: 96px; bottom: 58px; width: 46px; height: 46px; border-radius: 50%;
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.28); color: #fff;
+  font-size: 14px; display: flex; align-items: center; justify-content: center; pointer-events: auto;
+  transition: background .1s ease, transform .1s ease;
+}
+#mc-jump-btn.active { background: rgba(50,215,75,0.5); transform: scale(0.92); }
 
 @media (max-width: 768px) {
-  #interact-prompt { bottom: 118px; font-size: 12px; }
+  #interact-prompt { bottom: 150px; font-size: 12px; }
   #back-to-room-btn { top: 34px; }
-  #minimap-wrap { width: 104px; height: 104px; left: 10px; bottom: 10px; }
+  #minimap-wrap { width: 104px; height: 104px; left: 10px; bottom: 120px; }
+}
+
+/* ============ GTA-style controls / help HUD ============ */
+#controls-hud {
+  position: fixed; left: 14px; bottom: 14px; z-index: 4600; pointer-events: auto;
+  display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 8px;
+  font-family: var(--font-ui);
+  opacity: 1; transition: opacity .5s ease;
+}
+#controls-hud.faded { opacity: 0.28; }
+#controls-hud.faded:hover { opacity: 1; }
+#ch-toggle {
+  width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  background: rgba(18,16,14,0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.7); font-size: 13px; cursor: pointer;
+  transition: background .15s ease;
+}
+#ch-toggle:hover { background: rgba(40,38,36,0.75); color: #fff; }
+#ch-panel {
+  display: flex; flex-direction: column; gap: 6px;
+  background: rgba(14,13,12,0.58); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+  padding: 10px 14px; min-width: 190px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  transition: max-height .3s var(--ease), opacity .25s ease, padding .3s var(--ease), transform .25s ease;
+  max-height: 320px; opacity: 1; transform-origin: bottom left;
+}
+#controls-hud.collapsed #ch-panel, #controls-hud.collapsed #ch-panel-mobile { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; pointer-events: none; transform: scale(0.96); }
+.ch-row { display: flex; align-items: center; gap: 10px; font-size: 11.5px; color: rgba(255,255,255,0.55); transition: color .15s ease; }
+.ch-row.ch-active { color: rgba(255,255,255,0.96); }
+.ch-row.ch-hidden { display: none; }
+.ch-keys { display: flex; gap: 3px; min-width: 78px; }
+.ch-key {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px;
+  border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.2px;
+  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.8);
+  box-shadow: 0 1.5px 0 rgba(255,255,255,0.06) inset, 0 1px 2px rgba(0,0,0,0.35);
+  transition: background .08s ease, transform .08s ease, box-shadow .08s ease;
+}
+.ch-key-wide { min-width: 44px; padding: 0 6px; }
+.ch-key.pressed {
+  background: var(--blue); border-color: rgba(255,255,255,0.5); color: #fff; transform: translateY(1px) scale(0.96);
+  box-shadow: 0 0 0 rgba(0,0,0,0); }
+#ch-panel-mobile { display: none; flex-direction: column; gap: 6px;
+  background: rgba(14,13,12,0.58); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px 14px; min-width: 168px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35); transform-origin: bottom left;
+}
+.ch-mtag {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 56px; height: 18px; padding: 0 6px;
+  border-radius: 9px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.75);
+}
+@media (max-width: 768px) {
+  #controls-hud { left: 10px; bottom: 190px; }
+  #ch-panel { display: none; }
+  #ch-panel-mobile { display: flex; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #controls-hud, #ch-panel, #ch-panel-mobile { transition: opacity .15s linear; }
 }
 
 /* The existing macOS desktop now doubles as the monitor screen content.
@@ -543,8 +610,53 @@ a { color: inherit; text-decoration: none; }
 <div id="mobile-controls">
   <div id="mc-look-zone"></div>
   <div id="mc-joy-base"><div id="mc-joy-stick"></div></div>
+  <div id="mc-jump-btn"><i class="fa-solid fa-arrow-up"></i></div>
   <div id="mc-run-btn"><i class="fa-solid fa-person-running"></i></div>
   <div id="mc-interact-btn">USE</div>
+</div>
+
+<!-- ============ GTA-style controls / help HUD ============ -->
+<div id="controls-hud" class="collapsed-init">
+  <div id="ch-toggle" onclick="ControlsHUD.toggleCollapse()" title="Toggle controls"><i class="fa-solid fa-gamepad"></i></div>
+  <div id="ch-panel">
+    <div class="ch-row" data-ctx="move">
+      <span class="ch-keys">
+        <span class="ch-key" data-key="w">W</span><span class="ch-key" data-key="a">A</span><span class="ch-key" data-key="s">S</span><span class="ch-key" data-key="d">D</span>
+      </span>
+      <span class="ch-label">Move</span>
+    </div>
+    <div class="ch-row" data-ctx="move">
+      <span class="ch-keys"><span class="ch-key" data-key="shift">⇧</span></span>
+      <span class="ch-label">Run</span>
+    </div>
+    <div class="ch-row" data-ctx="move">
+      <span class="ch-keys"><span class="ch-key ch-key-wide" data-key="space">SPACE</span></span>
+      <span class="ch-label">Jump</span>
+    </div>
+    <div class="ch-row">
+      <span class="ch-keys"><span class="ch-key ch-key-wide">MOUSE</span></span>
+      <span class="ch-label" id="ch-mouse-label">Look / Rotate Camera</span>
+    </div>
+    <div class="ch-row">
+      <span class="ch-keys"><span class="ch-key ch-key-wide">SCROLL</span></span>
+      <span class="ch-label">Zoom</span>
+    </div>
+    <div class="ch-row" id="ch-interact-row">
+      <span class="ch-keys"><span class="ch-key" id="ch-key-e">E</span></span>
+      <span class="ch-label" id="ch-interact-label">Interact</span>
+    </div>
+    <div class="ch-row" id="ch-escape-row">
+      <span class="ch-keys"><span class="ch-key ch-key-wide">ESC</span></span>
+      <span class="ch-label" id="ch-escape-label">Stand / Exit</span>
+    </div>
+  </div>
+  <div id="ch-panel-mobile">
+    <div class="ch-row"><span class="ch-mtag">Joystick</span><span class="ch-label">Move</span></div>
+    <div class="ch-row"><span class="ch-mtag">Swipe</span><span class="ch-label">Look</span></div>
+    <div class="ch-row"><span class="ch-mtag">Btn</span><span class="ch-label">Run</span></div>
+    <div class="ch-row"><span class="ch-mtag">Btn</span><span class="ch-label">Jump</span></div>
+    <div class="ch-row"><span class="ch-mtag">Btn</span><span class="ch-label" id="ch-interact-label-m">Interact</span></div>
+  </div>
 </div>
 
 <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
@@ -662,8 +774,8 @@ a { color: inherit; text-decoration: none; }
   <div class="menu-root" id="menu-root-edit">
     <span class="menubar-item" onclick="toggleMenu('edit', event)">Edit</span>
     <div class="menu-dropdown" id="dropdown-edit">
-      <div class="menu-option disabled">Undo <span class="kbd">⌘Z</span></div>
-      <div class="menu-option disabled">Redo <span class="kbd">⇧⌘Z</span></div>
+      <div class="menu-option disabled" id="menu-undo" onclick="menuAction('undo')">Undo <span class="kbd">⌘Z</span></div>
+      <div class="menu-option disabled" id="menu-redo" onclick="menuAction('redo')">Redo <span class="kbd">⇧⌘Z</span></div>
       <div class="menu-sep"></div>
       <div class="menu-option disabled">Cut <span class="kbd">⌘X</span></div>
       <div class="menu-option disabled">Copy <span class="kbd">⌘C</span></div>
@@ -886,6 +998,52 @@ const openWins = new Map();
 let zTop = 100;
 let activeWinId = null;
 
+/* ============================================================
+   HISTORY — lightweight, functional Undo/Redo.
+   Records meaningful user actions (room settings like lamp/curtains/
+   day-night/quality, and interface actions) — NOT continuous player
+   movement, which is excluded on purpose per spec.
+   ============================================================ */
+const History = {
+  stack: [], redoStack: [], max: 60,
+  push(entry) { // entry: {label, undo(), redo()}
+    this.stack.push(entry);
+    if (this.stack.length > this.max) this.stack.shift();
+    this.redoStack = [];
+    this._reflect();
+  },
+  undo() {
+    if (!this.stack.length) return;
+    const entry = this.stack.pop();
+    entry.undo();
+    this.redoStack.push(entry);
+    this._reflect();
+    showToast("Undo", entry.label, "fa-rotate-left");
+  },
+  redo() {
+    if (!this.redoStack.length) return;
+    const entry = this.redoStack.pop();
+    entry.redo();
+    this.stack.push(entry);
+    this._reflect();
+    showToast("Redo", entry.label, "fa-rotate-right");
+  },
+  _reflect() {
+    const undoEl = document.getElementById("menu-undo");
+    const redoEl = document.getElementById("menu-redo");
+    if (undoEl) {
+      undoEl.classList.toggle("disabled", this.stack.length === 0);
+      const top = this.stack[this.stack.length - 1];
+      undoEl.innerHTML = (top ? `Undo ${top.label}` : "Undo") + ` <span class="kbd">⌘Z</span>`;
+    }
+    if (redoEl) {
+      redoEl.classList.toggle("disabled", this.redoStack.length === 0);
+      const top = this.redoStack[this.redoStack.length - 1];
+      redoEl.innerHTML = (top ? `Redo ${top.label}` : "Redo") + ` <span class="kbd">⇧⌘Z</span>`;
+    }
+  }
+};
+
 /* ============ CLOCK ============ */
 function tickClock() {
   const clock = document.getElementById("mb-clock");
@@ -1071,6 +1229,7 @@ function toggleMenu(name, e) {
   closeAllMenus();
   if (!isOpen) {
     if (name === "window") buildWindowListMenu();
+    if (name === "edit") History._reflect();
     root.classList.add("open");
   }
 }
@@ -1104,6 +1263,8 @@ function menuAction(action) {
   const win = getFocusedWindow();
 
   switch (action) {
+    case "undo": History.undo(); break;
+    case "redo": History.redo(); break;
     case "about-mac": openAboutMac(); break;
     case "settings": toggleControlCenter(); break;
     case "force-quit":
@@ -1797,22 +1958,33 @@ updateNetworkStatus();
 
 /* ==================== CONFIG ==================== */
 const CONFIG = {
-  moveSpeed: 1.5,
-  runSpeed: 2.85,
-  accel: 7,
-  turnSpeed: 9,
+  moveSpeed: 1.55,
+  runSpeed: 3.05,
+  accel: 8.5,
+  decel: 10,
+  turnSpeed: 10,
   interactRadius: 1.05,
   camDistanceDefault: 3.0,
   camPitchDefault: 0.34,
   camHeight: 1.15,
-  camMinDist: 1.6,
+  camMinDist: 1.1,
   camMaxDist: 4.4,
   camPitchMin: 0.08,
   camPitchMax: 0.92,
-  bounds: { minX: -2.05, maxX: 2.08, minZ: -1.42, maxZ: 1.55 }
+  camCollisionMargin: 0.28,
+  camCollisionHeight: 1.75,
+  bounds: { minX: -2.05, maxX: 2.08, minZ: -1.42, maxZ: 1.55 },
+  // gameplay physics
+  gravity: 9.4,
+  jumpVelocity: 3.55,
+  jumpCooldown: 0.28,
+  landRecovery: 0.22,
+  playerRadius: 0.22
 };
 
 /* ==================== STATE ==================== */
+// Player.state machine: cinematic | free | sitting | computer | sleeping
+// ROOM.transitioning guards against overlapping/incompatible actions mid-transition.
 const ROOM = {
   scene: null, camera: null, renderer: null,
   lights: null, objects: {}, colliders: [],
@@ -1822,10 +1994,18 @@ const ROOM = {
   computerActive: false, transitioning: false,
   clock: { last: performance.now() },
   introElapsed: 0, doorOpened: false,
-  lastFootStepPhase: 0
+  lastFootStepPhase: 0,
+  lastInputTime: performance.now()
 };
 
-const Cam = { yaw: -0.15, pitch: CONFIG.camPitchDefault, dist: CONFIG.camDistanceDefault, dragging: false, lastX: 0, lastY: 0 };
+const Cam = {
+  yaw: -0.15, pitch: CONFIG.camPitchDefault, dist: CONFIG.camDistanceDefault,
+  dragging: false, lastX: 0, lastY: 0,
+  // seat/anchor camera keeps the SAME orbit rig, just re-centered + re-framed on a focus point
+  anchor: null,        // Vector3 | null — when set, camera orbits this point instead of Player.pos
+  anchorHeight: 1.35,  // look-at height offset used with anchor
+  effDist: CONFIG.camDistanceDefault // collision-shortened distance actually rendered (smoothed)
+};
 
 function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -2027,7 +2207,9 @@ const AudioSys = {
     osc.connect(gain).connect(this.master);
     osc.start(t0); osc.stop(t0 + dur + 0.02);
   },
-  footstep() { this.tone(90 + Math.random() * 20, 0.08, "triangle", 0.11); },
+  footstep(running) { this.tone(90 + Math.random() * 20, running ? 0.06 : 0.08, "triangle", running ? 0.13 : 0.11); },
+  jump() { this.tone(300, 0.09, "sine", 0.08, 460); },
+  land() { this.tone(140, 0.09, "sine", 0.09, 70); },
   doorSound(opening) { this.tone(opening ? 160 : 130, 0.4, "sawtooth", 0.05, opening ? 260 : 90); },
   keyClick() { this.tone(700 + Math.random() * 200, 0.035, "square", 0.05); },
   lampClick() { this.tone(500, 0.05, "square", 0.06); },
@@ -2095,10 +2277,19 @@ const DayNight = {
     L.rgbRed.intensity = lerp(f.rgbRed, t.rgbRed, e);
     if (k >= 1) { this.anim = null; updateSkyTexture(ATMO[this.mode].sky); }
   },
-  toggle() {
-    this.mode = this.mode === "night" ? "day" : "night";
+  toggle(skipHistory) {
+    const prevMode = this.mode;
+    const nextMode = this.mode === "night" ? "day" : "night";
+    this.mode = nextMode;
     localStorage.setItem("room_daynight", this.mode);
     this.apply(false);
+    if (!skipHistory) {
+      History.push({
+        label: "Day/Night",
+        undo: () => { this.mode = prevMode; localStorage.setItem("room_daynight", this.mode); this.apply(false); },
+        redo: () => { this.mode = nextMode; localStorage.setItem("room_daynight", this.mode); this.apply(false); }
+      });
+    }
   },
   _reflectUI() {
     const btn = document.getElementById("daynight-btn");
@@ -2122,7 +2313,11 @@ function updateSkyTexture(colors) {
 /* ==================== QUALITY / PERFORMANCE ==================== */
 const Quality = {
   level: ROOM.isMobile ? "low" : "medium",
-  set(level) {
+  set(level, skipHistory) {
+    const prevLevel = this.level;
+    if (!skipHistory && prevLevel !== level && ROOM.renderer) {
+      History.push({ label: "Graphics Quality", undo: () => Quality.set(prevLevel, true), redo: () => Quality.set(level, true) });
+    }
     this.level = level;
     if (!ROOM.renderer) return;
     const caps = { low: 1, medium: 1.5, high: Math.min(window.devicePixelRatio || 1, 2) };
@@ -2144,24 +2339,40 @@ document.addEventListener("click", e => {
 });
 
 /* ==================== INPUT (desktop) ==================== */
-const Input = { keys: {}, moveX: 0, moveY: 0, running: false };
+const Input = { keys: {}, moveX: 0, moveY: 0, running: false, runHeld: false, jumpPressed: false };
+function markInputActivity() { ROOM.lastInputTime = performance.now(); showControlsHUD(); }
 function initDesktopInput() {
   window.addEventListener("keydown", e => {
+    // Cmd/Ctrl+Z (undo) and Cmd/Ctrl+Shift+Z (redo) work anywhere, including inside the 3D room
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
+      e.preventDefault();
+      if (e.shiftKey) History.redo(); else History.undo();
+      return;
+    }
+    if (ROOM.computerActive) return; // don't steal WASD/space from the macOS layer while it's active
     AudioSys.ensure();
-    Input.keys[e.key.toLowerCase()] = true;
-    if (e.key === "Shift") Input.running = true;
-    if (e.key.toLowerCase() === "e") handleInteractPress();
+    const k = e.key.toLowerCase();
+    if (!Input.keys[k]) markInputActivity();
+    Input.keys[k] = true;
+    setKeycapPressed(k, true);
+    if (e.key === "Shift") { Input.running = true; setKeycapPressed("shift", true); }
+    if (k === "e") handleInteractPress();
     if (e.key === "Escape") handleEscapePress();
+    if (e.code === "Space" || k === " ") { e.preventDefault(); Input.jumpPressed = true; setKeycapPressed("space", true); markInputActivity(); }
   });
   window.addEventListener("keyup", e => {
-    Input.keys[e.key.toLowerCase()] = false;
-    if (e.key === "Shift") Input.running = false;
+    const k = e.key.toLowerCase();
+    Input.keys[k] = false;
+    setKeycapPressed(k, false);
+    if (e.key === "Shift") { Input.running = false; setKeycapPressed("shift", false); }
+    if (e.code === "Space" || k === " ") setKeycapPressed("space", false);
   });
 
   const dom = () => ROOM.renderer && ROOM.renderer.domElement;
   window.addEventListener("mousedown", e => {
-    if (ROOM.computerActive || !dom() || e.target.closest("#room-toolbar, #quality-panel")) return;
+    if (ROOM.computerActive || !dom() || e.target.closest("#room-toolbar, #quality-panel, #controls-hud")) return;
     Cam.dragging = true; Cam.lastX = e.clientX; Cam.lastY = e.clientY;
+    markInputActivity();
   });
   window.addEventListener("mouseup", () => { Cam.dragging = false; });
   window.addEventListener("mousemove", e => {
@@ -2170,10 +2381,12 @@ function initDesktopInput() {
     Cam.lastX = e.clientX; Cam.lastY = e.clientY;
     Cam.yaw -= dx * 0.0072;
     Cam.pitch = clamp(Cam.pitch - dy * 0.0045, CONFIG.camPitchMin, CONFIG.camPitchMax);
+    markInputActivity();
   });
   window.addEventListener("wheel", e => {
     if (ROOM.computerActive) return;
     Cam.dist = clamp(Cam.dist + e.deltaY * 0.0022, CONFIG.camMinDist, CONFIG.camMaxDist);
+    markInputActivity();
   }, { passive: true });
 }
 
@@ -2189,6 +2402,7 @@ const Mobile = {
     const lookZone = document.getElementById("mc-look-zone");
     const interactBtn = document.getElementById("mc-interact-btn");
     const runBtn = document.getElementById("mc-run-btn");
+    const jumpBtn = document.getElementById("mc-jump-btn");
 
     base.addEventListener("touchstart", e => {
       AudioSys.ensure();
@@ -2196,7 +2410,7 @@ const Mobile = {
       this.joyActive = true; this.joyId = t.identifier;
       const r = base.getBoundingClientRect();
       this.joyCenter = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-      e.preventDefault();
+      e.preventDefault(); markInputActivity();
     }, { passive: false });
     window.addEventListener("touchmove", e => {
       for (const t of e.changedTouches) {
@@ -2225,12 +2439,95 @@ const Mobile = {
     lookZone.addEventListener("touchstart", e => {
       const t = e.changedTouches[0];
       this.lookId = t.identifier; this.lookLast = { x: t.clientX, y: t.clientY };
+      markInputActivity();
     }, { passive: true });
     interactBtn.addEventListener("touchstart", e => { e.preventDefault(); handleInteractPress(); }, { passive: false });
-    runBtn.addEventListener("touchstart", e => { e.preventDefault(); Input.running = true; runBtn.classList.add("active"); }, { passive: false });
+    runBtn.addEventListener("touchstart", e => { e.preventDefault(); Input.running = true; runBtn.classList.add("active"); markInputActivity(); }, { passive: false });
     runBtn.addEventListener("touchend", () => { Input.running = false; runBtn.classList.remove("active"); });
+    if (jumpBtn) {
+      jumpBtn.addEventListener("touchstart", e => { e.preventDefault(); Input.jumpPressed = true; jumpBtn.classList.add("active"); markInputActivity(); }, { passive: false });
+      jumpBtn.addEventListener("touchend", () => jumpBtn.classList.remove("active"));
+    }
   }
 };
+
+/* ==================== CONTROLS HUD (GTA-style keycap legend) ==================== */
+const ControlsHUD = {
+  el: null, fadeTimer: null,
+  init() {
+    this.el = document.getElementById("controls-hud");
+    if (!this.el) return;
+    const collapsed = sessionStorage.getItem("room_controls_collapsed") === "1";
+    this.el.classList.toggle("collapsed", collapsed);
+    this.el.classList.remove("collapsed-init");
+    this._tick();
+  },
+  toggleCollapse() {
+    if (!this.el) return;
+    const collapsed = this.el.classList.toggle("collapsed");
+    sessionStorage.setItem("room_controls_collapsed", collapsed ? "1" : "0");
+    markInputActivity();
+  },
+  _tick() {
+    // fade the HUD after a period of inactivity; any input brings it back (markInputActivity)
+    const idle = performance.now() - ROOM.lastInputTime > 4500;
+    if (this.el) this.el.classList.toggle("faded", idle && !ROOM.computerActive);
+    requestAnimationFrame(() => this._tick());
+  }
+};
+function showControlsHUD() {
+  const el = document.getElementById("controls-hud");
+  if (el) el.classList.remove("faded");
+}
+function setKeycapPressed(key, pressed) {
+  const el = document.querySelector(`.ch-key[data-key="${key}"]`);
+  if (el) el.classList.toggle("pressed", pressed);
+}
+function updateControlsHUDContext() {
+  const moveRows = document.querySelectorAll('.ch-row[data-ctx="move"]');
+  const interactRow = document.getElementById("ch-interact-row");
+  const escapeRow = document.getElementById("ch-escape-row");
+  const interactLabel = document.getElementById("ch-interact-label");
+  const interactLabelM = document.getElementById("ch-interact-label-m");
+  const escapeLabel = document.getElementById("ch-escape-label");
+  const mouseLabel = document.getElementById("ch-mouse-label");
+  if (!interactRow) return;
+
+  const hideMove = ROOM.computerActive || Player.state === "sleeping";
+  moveRows.forEach(r => r.classList.toggle("ch-hidden", hideMove));
+
+  if (ROOM.computerActive) {
+    interactRow.classList.add("ch-hidden");
+    escapeRow.classList.remove("ch-hidden");
+    escapeLabel.textContent = "Back to room";
+    mouseLabel.textContent = "Use the Mac";
+    return;
+  }
+  mouseLabel.textContent = "Look / Rotate Camera";
+
+  if (Player.state === "sitting") {
+    interactRow.classList.remove("ch-hidden");
+    interactLabel.textContent = "Use Computer";
+    if (interactLabelM) interactLabelM.textContent = "Use Computer";
+    escapeRow.classList.remove("ch-hidden");
+    escapeLabel.textContent = "Stand up";
+  } else if (Player.state === "sleeping") {
+    interactRow.classList.add("ch-hidden");
+    escapeRow.classList.remove("ch-hidden");
+    escapeLabel.textContent = "Wake up";
+  } else if (ActiveInteractable) {
+    interactRow.classList.remove("ch-hidden");
+    interactLabel.textContent = ActiveInteractable.label;
+    if (interactLabelM) interactLabelM.textContent = ActiveInteractable.label;
+    escapeRow.classList.add("ch-hidden");
+  } else {
+    interactRow.classList.remove("ch-hidden");
+    interactLabel.textContent = "Interact";
+    if (interactLabelM) interactLabelM.textContent = "Interact";
+    escapeRow.classList.add("ch-hidden");
+  }
+  document.querySelectorAll(".ch-row").forEach(r => r.classList.toggle("ch-active", r === interactRow && !interactRow.classList.contains("ch-hidden")));
+}
 
 /* ==================== CHARACTER (procedural — GLB-ready fallback per spec) ==================== */
 function buildCharacter() {
@@ -2307,6 +2604,10 @@ function buildCharacter() {
 const Player = {
   group: null, pos: new THREE.Vector3(3.1, 0, 0.85), yaw: -Math.PI / 2, targetYaw: -Math.PI / 2,
   speed: 0, walkPhase: 0, state: "cinematic", parts: null,
+  // vertical / jump physics
+  vy: 0, height: 0, grounded: true, jumpCooldown: 0, landTimer: 0, airTime: 0,
+  // smooth scripted transitions (sit/stand/sleep/wake/computer) — never teleports
+  anim: null, // {from:{pos,yaw}, to:{pos,yaw}, dur, elapsed, onDone, poseTarget}
   init() {
     this.group = buildCharacter();
     this.parts = this.group.userData.parts;
@@ -2314,12 +2615,43 @@ const Player = {
     this.group.rotation.y = this.yaw;
     ROOM.scene.add(this.group);
   },
+  get moving() { return this.speed > 0.03; },
+  get airborne() { return !this.grounded; },
   update(dt) {
     if (this.state === "cinematic") return;
-    if (this.state === "free") this._updateFree(dt);
+    if (this.anim) { this._updateScriptedMove(dt); }
+    else if (this.state === "free") { this._updateFree(dt); this._updateVertical(dt); }
     this._applyPose(dt);
-    this.group.position.set(this.pos.x, 0, this.pos.z);
+    this.group.position.set(this.pos.x, this.height, this.pos.z);
     this.group.rotation.y = this.yaw;
+  },
+  /* ---- scripted, non-teleporting transitions used by sit/stand/sleep/wake/computer ---- */
+  moveTo(targetPos, targetYaw, dur, onDone) {
+    ROOM.transitioning = true;
+    this.anim = {
+      fromPos: this.pos.clone(), fromYaw: this.yaw,
+      toPos: targetPos.clone(), toYaw: targetYaw,
+      dur: ROOM.reducedMotion ? Math.min(dur, 0.12) : dur, elapsed: 0, onDone: onDone || null
+    };
+  },
+  _updateScriptedMove(dt) {
+    const a = this.anim;
+    a.elapsed += dt;
+    const k = easeInOutCubic(clamp(a.elapsed / a.dur, 0, 1));
+    this.pos.x = lerp(a.fromPos.x, a.toPos.x, k);
+    this.pos.z = lerp(a.fromPos.z, a.toPos.z, k);
+    let diff = a.toYaw - a.fromYaw;
+    while (diff > Math.PI) diff -= Math.PI * 2;
+    while (diff < -Math.PI) diff += Math.PI * 2;
+    this.yaw = a.fromYaw + diff * k;
+    this.walkPhase = lerp(this.walkPhase, Math.round(this.walkPhase / (Math.PI * 2)) * Math.PI * 2, 0.15);
+    if (a.elapsed >= a.dur) {
+      this.pos.copy(a.toPos); this.yaw = a.toYaw;
+      const cb = a.onDone;
+      this.anim = null;
+      ROOM.transitioning = false;
+      if (cb) cb();
+    }
   },
   _updateFree(dt) {
     const forward = new THREE.Vector3(-Math.sin(Cam.yaw), 0, -Math.cos(Cam.yaw));
@@ -2333,9 +2665,11 @@ const Player = {
     const moving = moveVec.lengthSq() > 0.0004;
     if (moving) moveVec.normalize();
 
-    const running = Input.running && moving;
+    const running = (Input.running || Input.runHeld) && moving;
     const targetSpeed = moving ? (running ? CONFIG.runSpeed : CONFIG.moveSpeed) : 0;
-    this.speed = lerp(this.speed, targetSpeed, 1 - Math.exp(-CONFIG.accel * dt));
+    const rate = moving ? CONFIG.accel : CONFIG.decel;
+    this.speed = lerp(this.speed, targetSpeed, 1 - Math.exp(-rate * dt));
+    if (!moving && this.speed < 0.02) this.speed = 0;
 
     if (moving) {
       this.targetYaw = Math.atan2(moveVec.x, moveVec.z);
@@ -2343,22 +2677,60 @@ const Player = {
       while (diff > Math.PI) diff -= Math.PI * 2;
       while (diff < -Math.PI) diff += Math.PI * 2;
       this.yaw += diff * clamp(CONFIG.turnSpeed * dt, 0, 1);
+    }
 
-      const step = moveVec.multiplyScalar(this.speed * dt);
+    if (this.speed > 0.01) {
+      const dir = new THREE.Vector3(Math.sin(this.targetYaw), 0, Math.cos(this.targetYaw));
+      // keep actual travel direction aligned with intended input, not just facing, for responsive strafing
+      const travel = moving ? moveVec : dir;
+      const step = travel.multiplyScalar(this.speed * dt);
       const next = this.pos.clone().add(step);
       this._moveWithCollision(next);
-
-      this.walkPhase += dt * (running ? 11 : 7.2);
-      const phaseCycle = Math.floor(this.walkPhase / Math.PI);
-      if (phaseCycle !== ROOM.lastFootStepPhase) { ROOM.lastFootStepPhase = phaseCycle; AudioSys.footstep(); }
-    } else {
-      this.walkPhase = lerp(this.walkPhase, Math.round(this.walkPhase / (Math.PI * 2)) * Math.PI * 2, 0.12);
     }
+
+    if (this.grounded) {
+      if (this.speed > 0.05) {
+        this.walkPhase += dt * (running ? 12.5 : 7.6) * clamp(this.speed / (running ? CONFIG.runSpeed : CONFIG.moveSpeed), 0.4, 1.2);
+        const phaseCycle = Math.floor(this.walkPhase / Math.PI);
+        if (phaseCycle !== ROOM.lastFootStepPhase) { ROOM.lastFootStepPhase = phaseCycle; AudioSys.footstep(running); }
+      } else {
+        this.walkPhase = lerp(this.walkPhase, Math.round(this.walkPhase / (Math.PI * 2)) * Math.PI * 2, 0.12);
+      }
+    }
+
+    // jump — grounded only, guarded by cooldown so mid-air/repeat presses do nothing
+    if (this.jumpCooldown > 0) this.jumpCooldown -= dt;
+    if (Input.jumpPressed && this.grounded && this.jumpCooldown <= 0 && !ROOM.transitioning) {
+      this.vy = CONFIG.jumpVelocity;
+      this.grounded = false;
+      this.jumpCooldown = CONFIG.jumpCooldown;
+      AudioSys.jump && AudioSys.jump();
+    }
+    Input.jumpPressed = false;
+  },
+  _updateVertical(dt) {
+    if (!this.grounded || this.vy !== 0 || this.height > 0.0001) {
+      this.vy -= CONFIG.gravity * dt;
+      this.height += this.vy * dt;
+      this.airTime += dt;
+      if (this.height <= 0) {
+        this.height = 0;
+        if (!this.grounded) { this.landTimer = CONFIG.landRecovery; AudioSys.land && AudioSys.land(); }
+        this.grounded = true;
+        this.vy = 0;
+        this.airTime = 0;
+      } else {
+        this.grounded = false;
+      }
+    }
+    if (this.landTimer > 0) this.landTimer -= dt;
   },
   _moveWithCollision(next) {
-    const r = 0.22;
+    const r = CONFIG.playerRadius;
     let x = clamp(next.x, CONFIG.bounds.minX + r, CONFIG.bounds.maxX - r);
     let z = clamp(next.z, CONFIG.bounds.minZ + r, CONFIG.bounds.maxZ - r);
+    // resolve against each collider independently so the player slides naturally along
+    // multiple obstacles instead of popping/sticking when several boxes are nearby
     for (const box of ROOM.colliders) {
       if (x > box.minX - r && x < box.maxX + r && z > box.minZ - r && z < box.maxZ + r) {
         const overlapX1 = (box.maxX + r) - x, overlapX2 = x - (box.minX - r);
@@ -2374,29 +2746,56 @@ const Player = {
   },
   _applyPose(dt) {
     const p = this.parts;
-    if (this.state === "sitting" || this.state === "mac") {
-      p.legL.rotation.x = lerp(p.legL.rotation.x, -1.25, 0.18);
-      p.legR.rotation.x = lerp(p.legR.rotation.x, -1.25, 0.18);
-      p.armL.rotation.x = lerp(p.armL.rotation.x, -0.35, 0.18);
-      p.armR.rotation.x = lerp(p.armR.rotation.x, -0.35, 0.18);
-      p.hips.position.y = lerp(p.hips.position.y, 0.62, 0.18);
+    const now = performance.now();
+    if (this.state === "sitting" || this.state === "computer") {
+      p.legL.rotation.x = lerp(p.legL.rotation.x, -1.25, 0.16);
+      p.legR.rotation.x = lerp(p.legR.rotation.x, -1.25, 0.16);
+      p.armL.rotation.x = lerp(p.armL.rotation.x, this.state === "computer" ? -0.62 : -0.35, 0.16);
+      p.armR.rotation.x = lerp(p.armR.rotation.x, this.state === "computer" ? -0.62 : -0.35, 0.16);
+      p.hips.position.y = lerp(p.hips.position.y, 0.62, 0.16);
+      p.torso.rotation.x = lerp(p.torso.rotation.x, this.state === "computer" ? 0.06 : 0.03, 0.16);
       return;
     }
     if (this.state === "sleeping") {
-      p.legL.rotation.x = lerp(p.legL.rotation.x, 0, 0.15);
-      p.legR.rotation.x = lerp(p.legR.rotation.x, 0, 0.15);
-      p.armL.rotation.x = lerp(p.armL.rotation.x, 0, 0.15);
-      p.armR.rotation.x = lerp(p.armR.rotation.x, 0, 0.15);
-      p.hips.position.y = lerp(p.hips.position.y, 0.86, 0.15);
+      p.legL.rotation.x = lerp(p.legL.rotation.x, 0, 0.12);
+      p.legR.rotation.x = lerp(p.legR.rotation.x, 0, 0.12);
+      p.armL.rotation.x = lerp(p.armL.rotation.x, 0, 0.12);
+      p.armR.rotation.x = lerp(p.armR.rotation.x, 0, 0.12);
+      p.hips.position.y = lerp(p.hips.position.y, 0.86, 0.12);
+      p.torso.rotation.x = lerp(p.torso.rotation.x, 0, 0.12);
       return;
     }
+    p.torso.rotation.x = lerp(p.torso.rotation.x, 0, 0.1);
+
+    // airborne poses: rising (tuck) vs falling (reach) + landing squash
+    if (!this.grounded) {
+      const rising = this.vy > 0;
+      p.hips.position.y = lerp(p.hips.position.y, 0.86 + (rising ? 0.02 : -0.01), 0.25);
+      p.legL.rotation.x = lerp(p.legL.rotation.x, rising ? -0.55 : 0.25, 0.2);
+      p.legR.rotation.x = lerp(p.legR.rotation.x, rising ? -0.4 : 0.35, 0.2);
+      p.armL.rotation.x = lerp(p.armL.rotation.x, rising ? -0.9 : -0.3, 0.2);
+      p.armR.rotation.x = lerp(p.armR.rotation.x, rising ? -0.9 : -0.3, 0.2);
+      return;
+    }
+    if (this.landTimer > 0) {
+      const k = this.landTimer / CONFIG.landRecovery; // 1 -> 0
+      p.hips.position.y = 0.86 - k * 0.06;
+      p.legL.rotation.x = lerp(p.legL.rotation.x, 0.28 * k, 0.5);
+      p.legR.rotation.x = lerp(p.legR.rotation.x, 0.28 * k, 0.5);
+      p.armL.rotation.x = lerp(p.armL.rotation.x, 0.2 * k, 0.5);
+      p.armR.rotation.x = lerp(p.armR.rotation.x, 0.2 * k, 0.5);
+      return;
+    }
+
     // stand / walk / run / idle
-    p.hips.position.y = 0.86 + (this.speed > 0.05 ? Math.abs(Math.sin(this.walkPhase * 2)) * 0.012 : Math.sin(performance.now() * 0.0016) * 0.006);
-    const amp = clamp(this.speed / CONFIG.runSpeed, 0, 1) * 0.65 + (this.speed > 0.02 ? 0.05 : 0);
+    const running = this.speed > CONFIG.moveSpeed + 0.1;
+    p.hips.position.y = 0.86 + (this.speed > 0.05 ? Math.abs(Math.sin(this.walkPhase * 2)) * (running ? 0.02 : 0.012) : Math.sin(now * 0.0016) * 0.006);
+    const amp = clamp(this.speed / CONFIG.runSpeed, 0, 1) * (running ? 0.85 : 0.6) + (this.speed > 0.02 ? 0.05 : 0);
     p.legL.rotation.x = Math.sin(this.walkPhase) * amp;
     p.legR.rotation.x = -Math.sin(this.walkPhase) * amp;
-    p.armL.rotation.x = -Math.sin(this.walkPhase) * amp * 0.85;
-    p.armR.rotation.x = Math.sin(this.walkPhase) * amp * 0.85;
+    p.armL.rotation.x = -Math.sin(this.walkPhase) * amp * (running ? 1.0 : 0.85);
+    p.armR.rotation.x = Math.sin(this.walkPhase) * amp * (running ? 1.0 : 0.85);
+    if (this.speed <= 0.02) { p.armL.rotation.z = lerp(p.armL.rotation.z || 0, 0, 0.08); p.armR.rotation.z = lerp(p.armR.rotation.z || 0, 0, 0.08); }
   },
   standUp() {
     this.state = "free";
@@ -2404,11 +2803,14 @@ const Player = {
 };
 
 /* ==================== CAMERA RIG ==================== */
+// One authoritative third-person orbit rig. It NEVER hard-locks to a fixed pose: sitting,
+// sleeping, and using the computer just change what point the rig orbits/frames (Cam.anchor)
+// and its preferred distance/pitch — mouse-drag orbit, wheel zoom, and collision keep working.
 const CameraRig = {
-  overridePose: null, // {pos:Vector3, target:Vector3} used for cinematic/sit/sleep/screen
+  cinematicPose: null, // {pos:Vector3, target:Vector3} — only used during the intro cutscene
   update(dt) {
-    if (this.overridePose) {
-      const targetPos = this.overridePose.pos, lookAt = this.overridePose.target;
+    if (this.cinematicPose) {
+      const targetPos = this.cinematicPose.pos, lookAt = this.cinematicPose.target;
       ROOM.camera.position.lerp(targetPos, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.001, dt));
       const lookVec = ROOM.camera.userData.lookAt || lookAt.clone();
       lookVec.lerp(lookAt, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.001, dt));
@@ -2416,20 +2818,67 @@ const CameraRig = {
       ROOM.camera.lookAt(lookVec);
       return;
     }
-    const yaw = Cam.yaw, pitch = Cam.pitch, dist = Cam.dist;
-    const px = Player.pos.x, pz = Player.pos.z;
-    const camX = px + Math.sin(yaw) * dist;
-    const camZ = pz + Math.cos(yaw) * dist;
+
+    const focus = Cam.anchor || Player.pos;
+    const yaw = Cam.yaw, pitch = Cam.pitch;
+    const wantDist = clamp(Cam.dist, CONFIG.camMinDist, CONFIG.camMaxDist);
+    const lookTarget = new THREE.Vector3(focus.x, Cam.anchorHeight, focus.z);
+
+    // camera collision: sample inward along the orbit ray from the look target until a
+    // point is free of walls/furniture, so the camera shortens instead of clipping through.
+    const dirX = Math.sin(yaw) * Math.cos(pitch);
+    const dirZ = Math.cos(yaw) * Math.cos(pitch);
+    const dirY = Math.sin(pitch) * 0.9;
+    const rayDir = new THREE.Vector3(dirX, 0, dirZ);
+    const safeDist = cameraCollisionDistance(lookTarget, rayDir, dirY, wantDist);
+    Cam.effDist = lerp(Cam.effDist, safeDist, ROOM.reducedMotion ? 1 : clamp(dt * 10, 0, 1));
+
+    const dist = Cam.effDist;
+    const camX = focus.x + dirX * dist;
+    const camZ = focus.z + dirZ * dist;
     const camY = CONFIG.camHeight + Math.sin(pitch) * dist * 0.9 + 0.5;
     const desired = new THREE.Vector3(camX, camY, camZ);
-    ROOM.camera.position.lerp(desired, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.0008, dt));
-    const lookTarget = new THREE.Vector3(px, 1.35, pz);
+    ROOM.camera.position.lerp(desired, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.0006, dt));
+
     const lookVec = ROOM.camera.userData.lookAt || lookTarget.clone();
     lookVec.lerp(lookTarget, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.001, dt));
     ROOM.camera.userData.lookAt = lookVec;
     ROOM.camera.lookAt(lookVec);
-  }
+  },
+  setAnchor(pos, height, dist, yaw) {
+    Cam.anchor = pos ? pos.clone() : null;
+    if (height != null) Cam.anchorHeight = height;
+    if (dist != null) Cam.dist = clamp(dist, CONFIG.camMinDist, CONFIG.camMaxDist);
+    if (yaw != null) Cam.yaw = yaw;
+  },
+  clearAnchor() { Cam.anchor = null; Cam.anchorHeight = 1.35; }
 };
+
+// Room "walls" bound (slightly inside the actual wall meshes) + furniture footprints (treated
+// as full-height obstacles) — used to keep the orbit camera from clipping through geometry.
+const CAM_WALL_BOUNDS = { minX: -2.22, maxX: 2.22, minZ: -1.55, maxZ: 1.55 };
+function cameraPointBlocked(p) {
+  if (p.x < CAM_WALL_BOUNDS.minX || p.x > CAM_WALL_BOUNDS.maxX || p.z < CAM_WALL_BOUNDS.minZ || p.z > CAM_WALL_BOUNDS.maxZ) return true;
+  if (p.y < CONFIG.camCollisionHeight) {
+    for (const box of ROOM.colliders) {
+      if (p.x > box.minX && p.x < box.maxX && p.z > box.minZ && p.z < box.maxZ) return true;
+    }
+  }
+  return false;
+}
+function cameraCollisionDistance(lookTarget, rayDirXZ, dirY, wantDist) {
+  const steps = 14;
+  for (let s = 0; s <= steps; s++) {
+    const t = wantDist * (1 - s / steps);
+    const testPos = new THREE.Vector3(
+      lookTarget.x + rayDirXZ.x * t,
+      CONFIG.camHeight + dirY * t * 0.9 + 0.5,
+      lookTarget.z + rayDirXZ.z * t
+    );
+    if (!cameraPointBlocked(testPos)) return Math.max(t, CONFIG.camMinDist * 0.4);
+  }
+  return CONFIG.camMinDist * 0.4;
+}
 
 /* ==================== INTERACTION SYSTEM ==================== */
 const Interactables = [];
@@ -2440,7 +2889,7 @@ function registerInteractable(def) { Interactables.push(def); return def; }
 function updateInteractionUI() {
   const promptEl = document.getElementById("interact-prompt");
   const textEl = document.getElementById("interact-prompt-text");
-  if (Player.state === "cinematic" || ROOM.computerActive) { promptEl.classList.remove("show"); ActiveInteractable = null; return; }
+  if (Player.state === "cinematic" || ROOM.computerActive || ROOM.transitioning) { promptEl.classList.remove("show"); ActiveInteractable = null; updateControlsHUDContext(); return; }
 
   let candidates = Interactables;
   if (Player.state === "sitting") candidates = Interactables.filter(i => i.type === "computer-use" || i.type === "stand");
@@ -2450,69 +2899,70 @@ function updateInteractionUI() {
   let nearest = null, nearestD = Infinity;
   for (const it of candidates) {
     const d = Math.hypot(Player.pos.x - it.pos.x, Player.pos.z - it.pos.z);
-    if (d < it.radius && d < nearestD) { nearest = it; nearestD = d; }
+    if (d >= it.radius) continue;
+    // directional gate: only trigger from the physically correct/reachable side, never "through" the object
+    if (it.approachCheck && !it.approachCheck(Player.pos)) continue;
+    if (d < nearestD) { nearest = it; nearestD = d; }
   }
   ActiveInteractable = nearest;
   if (nearest) { textEl.textContent = nearest.label; promptEl.classList.add("show"); }
   else promptEl.classList.remove("show");
+  updateControlsHUDContext();
 }
 
+let lastInteractAt = 0;
 function handleInteractPress() {
   AudioSys.ensure();
+  markInputActivity();
   if (ROOM.transitioning) return;
-  if (ActiveInteractable) { ActiveInteractable.onInteract(); return; }
+  const now = performance.now();
+  if (now - lastInteractAt < 260) return; // guard against repeated E presses double-firing a transition
+  if (ActiveInteractable) { lastInteractAt = now; ActiveInteractable.onInteract(); return; }
 }
 function handleEscapePress() {
+  markInputActivity();
+  if (ROOM.transitioning) return;
   if (ROOM.computerActive) { exitMac(); return; }
   if (Player.state === "sitting") { standFromChair(); return; }
   if (Player.state === "sleeping") { wakeFromBed(); return; }
 }
 
-/* ---- concrete interaction behaviors ---- */
+/* ---- concrete interaction behaviors ----
+   Every transition here MOVES the character (Player.moveTo) instead of teleporting, and
+   re-anchors the still-orbitable camera rig rather than hard-locking it to one pose. */
 function sitAtChair() {
   if (Player.state !== "free" || ROOM.transitioning) return;
-  ROOM.transitioning = true;
-  Player.pos.set(0, 0, -0.42);
-  Player.yaw = Math.PI;
   Player.state = "sitting";
-  CameraRig.overridePose = { pos: new THREE.Vector3(0.85, 1.42, -0.05), target: new THREE.Vector3(0, 1.15, -1.05) };
   AudioSys.tone(220, 0.08, "sine", 0.05);
-  setTimeout(() => { ROOM.transitioning = false; }, 350);
+  CameraRig.setAnchor(new THREE.Vector3(0.05, 0, -0.55), 1.28, 2.05, Cam.yaw);
+  Player.moveTo(new THREE.Vector3(0, 0, -0.42), Math.PI, 0.55);
 }
 function standFromChair() {
   if (ROOM.transitioning) return;
-  ROOM.transitioning = true;
-  Player.pos.set(0.35, 0, 0.05);
   Player.state = "free";
-  CameraRig.overridePose = null;
-  setTimeout(() => { ROOM.transitioning = false; }, 300);
+  CameraRig.clearAnchor();
+  Player.moveTo(new THREE.Vector3(0.4, 0, 0.05), Player.yaw, 0.45);
 }
 function sleepOnBed() {
   if (Player.state !== "free" || ROOM.transitioning) return;
-  ROOM.transitioning = true;
-  Player.pos.set(1.55, 0, 0.5);
-  Player.yaw = Math.PI / 2;
   Player.state = "sleeping";
-  CameraRig.overridePose = { pos: new THREE.Vector3(1.3, 1.15, 1.55), target: new THREE.Vector3(1.7, 0.75, 0.5) };
-  const wasNight = DayNight.mode === "night";
+  CameraRig.setAnchor(new THREE.Vector3(1.55, 0, 0.55), 1.05, 2.2, Math.PI * 0.15);
   if (ROOM.lights) ROOM.lights.lamp.intensity *= 0.5;
-  setTimeout(() => { ROOM.transitioning = false; }, 350);
+  AudioSys.tone(180, 0.14, "sine", 0.04);
+  Player.moveTo(new THREE.Vector3(1.55, 0, 0.4), Math.PI / 2, 0.7);
 }
 function wakeFromBed() {
   if (ROOM.transitioning) return;
-  ROOM.transitioning = true;
-  Player.pos.set(1.55, 0, 1.1);
-  Player.yaw = Math.PI;
   Player.state = "free";
-  CameraRig.overridePose = null;
+  CameraRig.clearAnchor();
   DayNight.apply(false);
-  setTimeout(() => { ROOM.transitioning = false; }, 300);
+  Player.moveTo(new THREE.Vector3(1.35, 0, 1.05), Math.PI, 0.55);
 }
 function useComputer() {
-  if (ROOM.transitioning || ROOM.computerActive) return;
+  if (ROOM.transitioning || ROOM.computerActive || Player.state !== "sitting") return;
   ROOM.transitioning = true;
-  Player.state = "mac";
-  CameraRig.overridePose = { pos: new THREE.Vector3(0, 1.24, -0.52), target: new THREE.Vector3(0, 1.22, -1.28) };
+  Player.state = "computer";
+  CameraRig.setAnchor(new THREE.Vector3(0, 0, -0.65), 1.24, 1.35, 0);
   AudioSys.keyClick();
   setTimeout(() => {
     document.getElementById("desktop").classList.add("mac-active");
@@ -2527,23 +2977,39 @@ function exitMac() {
   document.getElementById("desktop").classList.remove("mac-active");
   document.getElementById("back-to-room-btn").classList.remove("show");
   ROOM.computerActive = false;
-  Player.state = "sitting";
-  CameraRig.overridePose = { pos: new THREE.Vector3(0.85, 1.42, -0.05), target: new THREE.Vector3(0, 1.15, -1.05) };
-  setTimeout(() => { ROOM.transitioning = false; }, 350);
+  Player.state = "sitting"; // same physical seat/position — no reset to spawn
+  CameraRig.setAnchor(new THREE.Vector3(0.05, 0, -0.55), 1.28, 2.05, Cam.yaw);
+  setTimeout(() => { ROOM.transitioning = false; }, 300);
 }
-function toggleLamp() {
-  ROOM.objects.lampOn = ROOM.objects.lampOn === false ? true : false;
+function toggleLamp(skipHistory) {
+  const was = ROOM.objects.lampOn !== false;
+  ROOM.objects.lampOn = !was;
   AudioSys.lampClick();
   const t = ATMO[DayNight.mode];
   ROOM.lights.lamp.intensity = ROOM.objects.lampOn === false ? 0 : t.lamp;
+  if (!skipHistory) {
+    History.push({
+      label: "Lamp Toggle",
+      undo: () => { ROOM.objects.lampOn = was; ROOM.lights.lamp.intensity = was ? ATMO[DayNight.mode].lamp : 0; },
+      redo: () => toggleLamp(true)
+    });
+  }
 }
-function toggleCurtains() {
-  ROOM.objects.curtainsOpen = !ROOM.objects.curtainsOpen;
+function toggleCurtains(skipHistory) {
+  const wasOpen = !!ROOM.objects.curtainsOpen;
+  ROOM.objects.curtainsOpen = !wasOpen;
   const targetZ = ROOM.objects.curtainsOpen ? ROOM.objects.curtainOpenZ : ROOM.objects.curtainClosedZ;
   ROOM.objects.curtainAnim = { start: performance.now(), dur: 900,
     fromL: ROOM.objects.curtainLeft.position.z, fromR: ROOM.objects.curtainRight.position.z,
     toL: targetZ.left, toR: targetZ.right };
   showToast("Curtains", ROOM.objects.curtainsOpen ? "Opened." : "Closed.", "fa-window-maximize");
+  if (!skipHistory) {
+    History.push({
+      label: "Curtains",
+      undo: () => toggleCurtains(true),
+      redo: () => toggleCurtains(true)
+    });
+  }
 }
 function inspectFootball() { showToast("Matchball", "Been through a few five-a-sides.", "fa-futbol"); }
 function inspectPoster(project) {
@@ -2797,7 +3263,10 @@ function buildBed() {
   ROOM.scene.add(g);
   ROOM.objects.bed = g;
 
-  registerInteractable({ type: "bed", pos: new THREE.Vector3(bedX, 0, bedZ), radius: 1.1, label: "Sleep", onInteract: sleepOnBed });
+  registerInteractable({
+    type: "bed", pos: new THREE.Vector3(bedX, 0, bedZ), radius: 1.05, label: "Sleep", onInteract: sleepOnBed,
+    approachCheck: p => p.x < bedX - 0.35 // only from the open side of the bed, never through the headboard/wall
+  });
   registerInteractable({ type: "wake", pos: new THREE.Vector3(bedX, 0, bedZ), radius: 3, label: "Wake up", onInteract: wakeFromBed });
 }
 
@@ -2830,7 +3299,10 @@ function buildDesk() {
   ROOM.scene.add(g);
   ROOM.objects.desk = g;
 
-  registerInteractable({ type: "computer", pos: new THREE.Vector3(0, 0, -0.85), radius: 1.15, label: "Sit", onInteract: sitAtChair });
+  registerInteractable({
+    type: "computer", pos: new THREE.Vector3(0, 0, -0.42), radius: 0.95, label: "Sit", onInteract: sitAtChair,
+    approachCheck: p => p.z > -0.75 // approach from the room side, not from behind/through the desk
+  });
   registerInteractable({ type: "computer-use", pos: new THREE.Vector3(0, 0, -0.42), radius: 3, label: "Use Computer", onInteract: useComputer });
   registerInteractable({ type: "stand", pos: new THREE.Vector3(0, 0, -0.42), radius: 3, label: "Stand up", onInteract: standFromChair });
 }
@@ -3216,50 +3688,6 @@ const Intro = {
 };
 
 /* ==================== BOOTSTRAP / RENDER LOOP ==================== */
-function initThree() {
-  const container = document.getElementById("three-container");
-
-  ROOM.scene = new THREE.Scene();
-  ROOM.scene.background = new THREE.Color(ATMO.night.bg);
-
-  ROOM.camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 60);
-  ROOM.camera.position.set(4.3, 1.7, 2.3);
-  ROOM.camera.lookAt(2.3, 1.3, 0.9);
-
-  ROOM.renderer = new THREE.WebGLRenderer({ antialias: true });
-  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ROOM.isMobile ? 1 : 1.5));
-  ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
-  ROOM.renderer.shadowMap.enabled = true;
-  ROOM.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  ROOM.renderer.outputEncoding = THREE.sRGBEncoding;
-  container.appendChild(ROOM.renderer.domElement);
-
-  buildLights();
-  buildRoomShell();
-  buildDoor();
-  buildBed();
-  buildDesk();
-  buildChair();
-  buildComputer();
-  buildLamp();
-  buildDeskProps();
-  buildWallAndPosters();
-  buildLiverpoolDecor();
-  buildWindowAndCurtains();
-  buildShelf();
-  DayNight.apply(true);
-
-  Player.init();
-  Minimap.init();
-  AudioSys.init();
-  initDesktopInput();
-  Mobile.init();
-
-  window.addEventListener("resize", onRoomResize);
-
-  requestAnimationFrame(renderLoop);
-}
-
 function onRoomResize() {
   if (!ROOM.renderer) return;
   ROOM.camera.aspect = window.innerWidth / window.innerHeight;
@@ -3337,6 +3765,37 @@ function activateFallbackMode(message) {
   document.getElementById("desktop").classList.add("mac-active");
 }
 
+function initThreeCore(container) {
+  ROOM.scene = new THREE.Scene();
+  ROOM.scene.background = new THREE.Color(ATMO.night.bg);
+  ROOM.camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 60);
+  ROOM.camera.position.set(4.3, 1.7, 2.3);
+  ROOM.camera.lookAt(2.3, 1.3, 0.9);
+
+  ROOM.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ROOM.isMobile ? 1 : 1.5));
+  ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
+  ROOM.renderer.shadowMap.enabled = true;
+  ROOM.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  ROOM.renderer.outputEncoding = THREE.sRGBEncoding;
+  ROOM.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  ROOM.renderer.toneMappingExposure = 1.08;
+  container.appendChild(ROOM.renderer.domElement);
+}
+function initThreeFinish() {
+  DayNight.apply(true);
+  Player.init();
+  Minimap.init();
+  AudioSys.init();
+  initDesktopInput();
+  Mobile.init();
+  ControlsHUD.init();
+  window.addEventListener("resize", onRoomResize);
+  requestAnimationFrame(renderLoop);
+}
+
+/* Loading progress reflects ACTUAL scene-construction steps completing — never an arbitrary
+   or randomized number — and the veil never hides while a step is still pending. */
 function bootRoomExperience() {
   ROOM.webglOK = typeof THREE !== "undefined" && hasWebGL();
   Quality.level = ROOM.isMobile ? "low" : "medium";
@@ -3345,25 +3804,47 @@ function bootRoomExperience() {
     activateFallbackMode("3D view isn't available in this browser — showing the portfolio directly.");
     return;
   }
-  try {
-    let progress = 4;
-    const bar = document.getElementById("rl-bar-fill");
-    const progInterval = setInterval(() => {
-      progress = Math.min(96, progress + Math.random() * 18);
-      if (bar) bar.style.width = progress + "%";
-    }, 120);
 
-    initThree();
-    Quality.set(Quality.level);
-
-    clearInterval(progInterval);
-    if (bar) bar.style.width = "100%";
-    const veil = document.getElementById("room-loading-veil");
-    setTimeout(() => { if (veil) veil.classList.add("hide"); }, 180);
-  } catch (err) {
-    console.warn("3D room failed to start, falling back to the portfolio directly:", err);
-    activateFallbackMode("The 3D room couldn't load — showing the portfolio directly.");
+  const container = document.getElementById("three-container");
+  const bar = document.getElementById("rl-bar-fill");
+  const steps = [
+    ["Renderer", () => initThreeCore(container)],
+    ["Lighting", buildLights],
+    ["Room Shell", buildRoomShell],
+    ["Door", buildDoor],
+    ["Bed", buildBed],
+    ["Desk", buildDesk],
+    ["Chair", buildChair],
+    ["Computer", buildComputer],
+    ["Lamp", buildLamp],
+    ["Desk Props", buildDeskProps],
+    ["Wall Decor", buildWallAndPosters],
+    ["Liverpool Decor", buildLiverpoolDecor],
+    ["Window", buildWindowAndCurtains],
+    ["Shelf", buildShelf],
+    ["Character & Systems", initThreeFinish],
+    ["Quality Profile", () => Quality.set(Quality.level, true)]
+  ];
+  let i = 0;
+  function runStep() {
+    try {
+      const [, fn] = steps[i];
+      fn();
+      i++;
+      const pct = Math.round((i / steps.length) * 100);
+      if (bar) bar.style.width = pct + "%";
+      if (i < steps.length) {
+        requestAnimationFrame(() => setTimeout(runStep, 0));
+      } else {
+        const veil = document.getElementById("room-loading-veil");
+        setTimeout(() => { if (veil) veil.classList.add("hide"); }, 160);
+      }
+    } catch (err) {
+      console.warn("3D room failed to start, falling back to the portfolio directly:", err);
+      activateFallbackMode("The 3D room couldn't load — showing the portfolio directly.");
+    }
   }
+  runStep();
 }
 
 if (document.readyState === "loading") {
