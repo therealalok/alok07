@@ -2073,81 +2073,226 @@ function buildDeskProps() {
 
 function buildWallAndPosters() {
   const loader = new THREE.TextureLoader();
-  const posterW = 0.5, posterH = 0.36;
-  const positions = [[-1.55, 2.02, -1.585], [-0.85, 2.02, -1.585], [1.2, 1.96, -1.585]];
+
+  // ALL POSTERS HAVE THE SAME PHYSICAL SIZE
+  const posterW = 0.55;
+  const posterH = 0.40;
+
+  const frameBorder = 0.035;
+  const frameDepth = 0.045;
+
+  const positions = [
+    [-1.55, 2.02, -1.585],
+    [-0.85, 2.02, -1.585],
+    [1.2, 1.96, -1.585]
+  ];
 
   ROOM.objects.posters = [];
+
   WALL_POSTERS.forEach((p, i) => {
     const frameGroup = new THREE.Group();
-    const frame = new THREE.Mesh(new THREE.BoxGeometry(posterW + 0.04, posterH + 0.04, 0.02), new THREE.MeshStandardMaterial({ color: 0x1c1a18, roughness: 0.6 }));
-    frameGroup.add(frame);
 
-    const art = new THREE.Mesh(new THREE.PlaneGeometry(posterW, posterH), new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.85 }));
-    art.position.z = 0.012;
-    frameGroup.add(art);
+    const frameMaterial = new THREE.MeshStandardMaterial({
+      color: 0x171717,
+      roughness: 0.35,
+      metalness: 0.05
+    });
+
+    // =========================
+    // BACKING
+    // =========================
+
+    const backing = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        posterW,
+        posterH,
+        0.015
+      ),
+      new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        roughness: 0.8
+      })
+    );
+
+    backing.position.z = -frameDepth / 2;
+    frameGroup.add(backing);
+
+    // =========================
+    // FRAME - 4 SIDES
+    // =========================
+
+    const top = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        posterW + frameBorder * 2,
+        frameBorder,
+        frameDepth
+      ),
+      frameMaterial
+    );
+
+    top.position.y = posterH / 2 + frameBorder / 2;
+
+    const bottom = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        posterW + frameBorder * 2,
+        frameBorder,
+        frameDepth
+      ),
+      frameMaterial
+    );
+
+    bottom.position.y = -(posterH / 2 + frameBorder / 2);
+
+    const left = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        frameBorder,
+        posterH,
+        frameDepth
+      ),
+      frameMaterial
+    );
+
+    left.position.x = -(posterW / 2 + frameBorder / 2);
+
+    const right = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        frameBorder,
+        posterH,
+        frameDepth
+      ),
+      frameMaterial
+    );
+
+    right.position.x = posterW / 2 + frameBorder / 2;
+
+    frameGroup.add(top);
+    frameGroup.add(bottom);
+    frameGroup.add(left);
+    frameGroup.add(right);
+
+    // =========================
+    // LOAD IMAGE
+    // =========================
 
     loader.load(
       p.img,
-      tex => { tex.encoding = THREE.sRGBEncoding; art.material = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85 }); },
+
+      tex => {
+        tex.encoding = THREE.sRGBEncoding;
+
+        const imageAspect =
+          tex.image.width / tex.image.height;
+
+        const posterAspect =
+          posterW / posterH;
+
+        let imageW;
+        let imageH;
+
+        // FIT IMAGE INSIDE THE FIXED POSTER
+        // WITHOUT STRETCHING
+
+        if (imageAspect > posterAspect) {
+          // Landscape image
+          imageW = posterW - frameBorder * 2;
+          imageH = imageW / imageAspect;
+        } else {
+          // Portrait image
+          imageH = posterH - frameBorder * 2;
+          imageW = imageH * imageAspect;
+        }
+
+        const art = new THREE.Mesh(
+          new THREE.PlaneGeometry(
+            imageW,
+            imageH
+          ),
+          new THREE.MeshStandardMaterial({
+            map: tex,
+            roughness: 0.75
+          })
+        );
+
+        art.position.z = frameDepth / 2 + 0.003;
+
+        frameGroup.add(art);
+
+        // =========================
+        // SUBTLE GLASS
+        // =========================
+
+        const glass = new THREE.Mesh(
+          new THREE.PlaneGeometry(
+            posterW - frameBorder * 2,
+            posterH - frameBorder * 2
+          ),
+          new THREE.MeshPhysicalMaterial({
+            transparent: true,
+            opacity: 0.06,
+            roughness: 0.08,
+            clearcoat: 1
+          })
+        );
+
+        glass.position.z =
+          frameDepth / 2 + 0.006;
+
+        frameGroup.add(glass);
+
+        // =========================
+        // USER DATA
+        // =========================
+
+        [frameGroup, backing, top, bottom, left, right, art, glass]
+          .forEach(o => {
+            o.userData.type = "poster";
+            o.userData.project = p;
+          });
+
+        // =========================
+        // SHADOWS
+        // =========================
+
+        [
+          frameGroup,
+          backing,
+          top,
+          bottom,
+          left,
+          right
+        ].forEach(o => {
+          o.castShadow = true;
+          o.receiveShadow = true;
+        });
+
+        art.receiveShadow = true;
+      },
+
       undefined,
-      () => { /* image missing — keep the neutral placeholder, never crash the scene */ }
+
+      () => {
+        // Keep frame even if image is missing
+      }
     );
 
-    const pos = positions[i] || [-1.5 + i * 0.8, 2.0, -1.585];
-    frameGroup.position.set(pos[0], pos[1], pos[2]);
-    frameGroup.castShadow = true;
-    [frameGroup, frame, art].forEach(o => { o.userData.type = "poster"; o.userData.project = p; });
+    // =========================
+    // POSITION
+    // =========================
+
+    const pos =
+      positions[i] ||
+      [-1.5 + i * 0.8, 2.0, -1.585];
+
+    frameGroup.position.set(
+      pos[0],
+      pos[1],
+      pos[2]
+    );
 
     ROOM.scene.add(frameGroup);
     ROOM.objects.posters.push(frameGroup);
   });
 }
-
-function buildCurtainTexture() {
-  const c = document.createElement("canvas");
-  c.width = 64; c.height = 128;
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = "#e4d9c8"; ctx.fillRect(0, 0, 64, 128);
-  ctx.globalAlpha = 0.12; ctx.fillStyle = "#000";
-  for (let x = 0; x < 64; x += 8) ctx.fillRect(x, 0, 3, 128);
-  return new THREE.CanvasTexture(c);
-}
-
-function buildWindowAndCurtains() {
-  const wallX = -2.3, wy = 1.55, ww = 1.0, wh = 1.15;
-
-  const skyCanvas = document.createElement("canvas");
-  skyCanvas.width = 256; skyCanvas.height = 256;
-  const sctx = skyCanvas.getContext("2d");
-  const grad = sctx.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, "#bcd9f2"); grad.addColorStop(1, "#eef4e9");
-  sctx.fillStyle = grad; sctx.fillRect(0, 0, 256, 256);
-  const sky = new THREE.Mesh(new THREE.PlaneGeometry(ww, wh), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(skyCanvas) }));
-  sky.rotation.y = Math.PI / 2;
-  sky.position.set(wallX + 0.02, wy, 0);
-  ROOM.scene.add(sky);
-  ROOM.objects.sky = sky;
-
-  const winFrame = new THREE.Mesh(new THREE.PlaneGeometry(ww + 0.08, wh + 0.08), new THREE.MeshStandardMaterial({ color: 0xfbfaf7, roughness: 0.5 }));
-  winFrame.rotation.y = Math.PI / 2;
-  winFrame.position.set(wallX + 0.008, wy, 0);
-  ROOM.scene.add(winFrame);
-
-  const curtainMat = new THREE.MeshStandardMaterial({ map: buildCurtainTexture(), roughness: 0.92, side: THREE.DoubleSide });
-  const panelW = ww / 2 + 0.14;
-  const curtainX = wallX + 0.05;
-
-  const left = new THREE.Mesh(new THREE.PlaneGeometry(panelW, wh + 0.14), curtainMat);
-  const right = new THREE.Mesh(new THREE.PlaneGeometry(panelW, wh + 0.14), curtainMat.clone());
-  [left, right].forEach(m => { m.rotation.y = Math.PI / 2; m.position.set(curtainX, wy, 0); m.userData.type = "curtain"; });
-  ROOM.scene.add(left, right);
-
-  ROOM.objects.curtainLeft = left;
-  ROOM.objects.curtainRight = right;
-  ROOM.objects.curtainOpenZ = { left: -0.87, right: 0.87 };
-  ROOM.objects.curtainClosedZ = { left: -0.25, right: 0.25 };
-}
-
 function buildShelf() {
   const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.03, 0.22), new THREE.MeshStandardMaterial({ color: 0x3b332c, roughness: 0.7 }));
   shelf.position.set(1.55, 1.85, -1.49);
