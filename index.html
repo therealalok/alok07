@@ -290,15 +290,585 @@ a { color: inherit; text-decoration: none; }
 #boot-screen .boot-bar-track { width: 200px; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.15); margin-top: 30px; overflow: hidden; }
 #boot-screen .boot-bar-fill { height: 100%; width: 0%; background: #fff; border-radius: 3px; transition: width 1.4s linear; }
 
+/* =========================================================
+   MOBILE RESPONSIVENESS
+   ========================================================= */
+
 @media (max-width: 768px) {
-  .os-win { width: 100% !important; height: calc(100% - 28px) !important; top: 28px !important; left: 0 !important; transform: none !important; border-radius: 0; }
-  .dock-wrap { bottom: 10px; width: 95%; overflow-x: auto; padding: 6px 8px; height: 64px; }
-  .dock-item { width: 44px; height: 44px; font-size: 20px; }
-  .dock-item:hover, .dock-wrap:hover .dock-item { transform: none !important; margin: 0 !important; }
-  .widgets-container { display: none; }
-  .desktop-icons { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-  .menubar-item { display: none; }
-  #spotlight-overlay { top: 8vh; }
+
+  /* ---------- GLOBAL ---------- */
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    touch-action: manipulation;
+  }
+
+
+  /* ---------- MENUBAR ---------- */
+
+  .menubar {
+    height: 32px;
+    padding: 0 10px;
+  }
+
+  .menubar-left {
+    min-width: 0;
+  }
+
+  .menubar-app-name {
+    font-size: 13px;
+    padding: 4px 6px;
+    margin-right: 0;
+  }
+
+  .menubar-left .mb-apple {
+    font-size: 15px;
+    padding: 4px 6px;
+  }
+
+  /* Hide desktop-style menus on mobile */
+  .menubar-left .menu-root:not(#menu-root-apple) {
+    display: none;
+  }
+
+  .menubar-right {
+    gap: 5px;
+    padding-right: 0;
+  }
+
+  .menubar-right .mb-icon-btn {
+    padding: 5px;
+    font-size: 12px;
+  }
+
+  .menubar-clock {
+    display: none;
+  }
+
+
+  /* ---------- SPOTLIGHT ---------- */
+
+  #spotlight-overlay {
+    top: 42px;
+    left: 50%;
+    width: calc(100vw - 20px);
+    max-width: none;
+    transform: translateX(-50%);
+    border-radius: 14px;
+  }
+
+  .spotlight-input-wrapper {
+    padding: 14px 15px;
+    font-size: 20px;
+  }
+
+  .spotlight-input-wrapper i {
+    margin-right: 10px;
+    font-size: 18px;
+  }
+
+  .spotlight-input-wrapper input {
+    min-width: 0;
+    font-size: 18px;
+  }
+
+  #spotlight-results {
+    max-height: 55vh;
+  }
+
+  .sp-result {
+    padding: 11px 15px;
+  }
+
+
+  /* ---------- CONTROL CENTER ---------- */
+
+  #control-center {
+    top: 38px;
+    right: 10px;
+    width: min(320px, calc(100vw - 20px));
+    max-width: calc(100vw - 20px);
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .cc-grid {
+    gap: 8px;
+  }
+
+  .cc-module {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .cc-icon-wrapper {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+
+  .cc-text h4 {
+    font-size: 12px;
+  }
+
+  .cc-text p {
+    font-size: 10px;
+  }
+
+
+  /* ---------- TOASTS ---------- */
+
+  #toast-stack {
+    top: 42px;
+    left: 10px;
+    right: 10px;
+    align-items: stretch;
+  }
+
+  .toast {
+    width: 100%;
+    max-width: none;
+  }
+
+
+  /* ---------- DESKTOP ICONS ---------- */
+
+  .desktop-icons {
+    top: 52px;
+    left: 12px;
+    right: 12px;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(55px, 1fr));
+    gap: 8px;
+
+    justify-items: center;
+    align-items: start;
+  }
+
+  .desktop-icon {
+    width: 68px;
+    padding: 6px;
+    gap: 4px;
+  }
+
+  .desktop-icon-svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .desktop-icon span {
+    font-size: 11px;
+    line-height: 1.15;
+  }
+
+
+  /* ---------- WINDOWS ---------- */
+
+  #windows-layer {
+    top: 32px;
+  }
+
+  .os-win {
+    width: 100% !important;
+    max-width: none !important;
+
+    height: calc(100% - 32px) !important;
+    max-height: none !important;
+
+    top: 32px !important;
+    left: 0 !important;
+
+    transform: none !important;
+
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+
+    box-shadow: none;
+  }
+
+  .os-win-header {
+    height: 48px;
+    min-height: 48px;
+    padding: 0 14px;
+
+    /* Important for touch */
+    cursor: default;
+    touch-action: none;
+  }
+
+  .traffic {
+    gap: 10px;
+  }
+
+  .traffic button {
+    width: 14px;
+    height: 14px;
+  }
+
+  .os-win-title {
+    font-size: 13px;
+    margin-left: -48px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .os-win-body {
+    min-height: 0;
+  }
+
+
+  /* ---------- APP CONTENT ---------- */
+
+  .app-pad {
+    padding: 20px 18px;
+    width: 100%;
+  }
+
+  .app-h1 {
+    font-size: 24px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .app-lead {
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+
+
+  /* ---------- FINDER ---------- */
+
+  .finder-sidebar {
+    width: 145px;
+    min-width: 145px;
+    padding: 12px 8px;
+  }
+
+  .finder-sb-label {
+    font-size: 10px;
+    padding: 4px 6px;
+  }
+
+  .finder-sb-item {
+    font-size: 12px;
+    padding: 8px 7px;
+    gap: 6px;
+  }
+
+  .finder-main {
+    min-width: 0;
+    padding: 18px !important;
+  }
+
+  .folder-title {
+    font-size: 18px;
+  }
+
+  .finder-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .finder-file {
+    padding: 6px;
+    min-width: 0;
+  }
+
+  .finder-thumb {
+    border-radius: 8px;
+    margin-bottom: 5px;
+  }
+
+
+  /* ---------- TERMINAL ---------- */
+
+  .term-body {
+    padding: 12px;
+    font-size: 12px;
+    line-height: 1.55;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .term-row {
+    align-items: flex-start;
+  }
+
+  .term-prompt {
+    font-size: 11px;
+  }
+
+  #term-input {
+    min-width: 0 !important;
+    width: 100%;
+    font-size: 12px !important;
+  }
+
+
+  /* ---------- CONTACT ---------- */
+
+  .contact-info {
+    font-size: 14px !important;
+    line-height: 1.8 !important;
+  }
+
+
+  /* ---------- EDUCATION ---------- */
+
+  .app-pad[style*="max-width"] {
+    max-width: none !important;
+  }
+
+
+  /* ---------- IMAGE VIEWER ---------- */
+
+  .os-win-body img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+
+  /* ---------- DOCK ---------- */
+
+  .dock-wrap {
+    bottom: max(8px, env(safe-area-inset-bottom));
+
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+
+    height: 62px;
+
+    padding: 7px 8px;
+    gap: 7px;
+
+    border-radius: 19px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dock-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dock-item {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+
+    border-radius: 11px;
+    font-size: 20px;
+
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .dock-item:hover,
+  .dock-item:active {
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .dock-item:has(+ .dock-item:hover),
+  .dock-item:hover + .dock-item {
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  .dock-sep {
+    min-width: 1px;
+    width: 1px;
+    margin: 4px 2px;
+  }
+
+
+  /* ---------- TRASH ---------- */
+
+  .desktop-trash {
+    bottom: 82px;
+    right: 14px;
+  }
+
+
+  /* ---------- LOCK SCREEN ---------- */
+
+  #lock-screen {
+    padding: 20px;
+    text-align: center;
+  }
+
+  #lock-screen .lock-time {
+    font-size: clamp(58px, 18vw, 82px);
+    letter-spacing: -2px;
+  }
+
+  #lock-screen .lock-date {
+    font-size: 16px;
+  }
+
+  #lock-screen .lock-avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 28px;
+    margin-top: 32px;
+  }
+
+  #lock-screen .lock-hint {
+    margin-top: 40px;
+    font-size: 12px;
+  }
+
+
+  /* ---------- BOOT SCREEN ---------- */
+
+  #boot-screen .boot-bar-track {
+    width: 180px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+  .desktop-icons {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+  }
+
+  .desktop-icon {
+    width: 62px;
+  }
+
+  .desktop-icon-svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .desktop-icon span {
+    font-size: 10px;
+  }
+
+  .finder-sidebar {
+    width: 125px;
+    min-width: 125px;
+  }
+
+  .finder-main {
+    padding: 14px !important;
+  }
+
+  .finder-grid {
+    gap: 8px;
+  }
+
+  .finder-file {
+    padding: 4px;
+  }
+
+  .app-pad {
+    padding: 18px 15px;
+  }
+
+  .app-h1 {
+    font-size: 22px;
+  }
+
+  .app-lead {
+    font-size: 12.5px;
+  }
+
+  .dock-wrap {
+    width: calc(100vw - 12px);
+    max-width: calc(100vw - 12px);
+  }
+
+  .dock-item {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .dock-sep {
+    margin-left: 1px;
+    margin-right: 1px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+  .menubar {
+    padding: 0 7px;
+  }
+
+  .menubar-right {
+    gap: 2px;
+  }
+
+  .desktop-icons {
+    left: 5px;
+    right: 5px;
+  }
+
+  .desktop-icon {
+    width: 58px;
+  }
+
+  .desktop-icon-svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .finder-sidebar {
+    width: 112px;
+    min-width: 112px;
+  }
+
+  .finder-sb-item {
+    font-size: 11px;
+  }
+
+  .finder-main {
+    padding: 12px !important;
+  }
+
+  .finder-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .dock-item {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
 }
 </style>
 
@@ -1036,24 +1606,75 @@ function toggleMaximize(win) {
 
 /* ============ DRAG FUNCTIONALITY ============ */
 function makeDraggable(win, header) {
-  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (header) header.onmousedown = dragMouseDown;
+  let startX = 0;
+  let startY = 0;
+  let startLeft = 0;
+  let startTop = 0;
+  let dragging = false;
 
-  function dragMouseDown(e) {
+  if (!header) return;
+
+  header.addEventListener("mousedown", startDrag);
+  header.addEventListener("touchstart", startDrag, { passive: false });
+
+  function startDrag(e) {
     if (win.classList.contains("maximized")) return;
-    e = e || window.event;
-    e.preventDefault();
-    pos3 = e.clientX; pos4 = e.clientY;
 
-    if (window.getComputedStyle(win).transform !== "none") {
-      const rect = win.getBoundingClientRect();
-      win.style.transform = "none";
-      win.style.left = rect.left + "px";
-      win.style.top = rect.top + "px";
-    }
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
+    const point = e.touches ? e.touches[0] : e;
+
+    if (e.cancelable) e.preventDefault();
+
+    const rect = win.getBoundingClientRect();
+
+    /*
+      On mobile the window is already full-screen,
+      so don't attempt to drag it.
+    */
+    if (window.innerWidth <= 768) return;
+
+    startX = point.clientX;
+    startY = point.clientY;
+
+    startLeft = rect.left;
+    startTop = rect.top;
+
+    win.style.transform = "none";
+    win.style.left = startLeft + "px";
+    win.style.top = startTop + "px";
+
+    dragging = true;
+
+    document.addEventListener("mousemove", moveDrag);
+    document.addEventListener("mouseup", stopDrag);
+
+    document.addEventListener("touchmove", moveDrag, { passive: false });
+    document.addEventListener("touchend", stopDrag);
   }
+
+  function moveDrag(e) {
+    if (!dragging) return;
+
+    const point = e.touches ? e.touches[0] : e;
+
+    if (e.cancelable) e.preventDefault();
+
+    const dx = point.clientX - startX;
+    const dy = point.clientY - startY;
+
+    win.style.left = startLeft + dx + "px";
+    win.style.top = startTop + dy + "px";
+  }
+
+  function stopDrag() {
+    dragging = false;
+
+    document.removeEventListener("mousemove", moveDrag);
+    document.removeEventListener("mouseup", stopDrag);
+
+    document.removeEventListener("touchmove", moveDrag);
+    document.removeEventListener("touchend", stopDrag);
+  }
+}
 
   function elementDrag(e) {
     e = e || window.event;
