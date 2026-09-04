@@ -19,6 +19,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
+<!-- Three.js (for the 3D workspace room the Mac now sits inside — does not affect the macOS UI below) -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
 <style>
 :root {
   --text-primary: #ffffff;
@@ -300,10 +304,105 @@ a { color: inherit; text-decoration: none; }
   .menubar-item { display: none; }
   #spotlight-overlay { top: 8vh; }
 }
+
+/* ============================================================
+   THREE.JS ROOM — new layer the macOS UI now lives inside.
+   Nothing above this point was changed.
+   ============================================================ */
+
+#three-container {
+  position: fixed; inset: 0; z-index: 0;
+  background: #100e0c;
+}
+#three-container canvas { display: block; touch-action: none; outline: none; }
+
+#room-loading-veil {
+  position: fixed; inset: 0; z-index: 3;
+  display: flex; align-items: center; justify-content: center;
+  background: #100e0c; color: rgba(255,255,255,0.45);
+  font-size: 12.5px; letter-spacing: 0.4px;
+  transition: opacity .5s ease;
+}
+#room-loading-veil.hide { opacity: 0; pointer-events: none; }
+
+#room-intro-hint {
+  position: fixed; left: 50%; bottom: 46px; z-index: 4;
+  transform: translateX(-50%) translateY(6px);
+  font-size: 12.5px; letter-spacing: 0.2px; color: rgba(255,255,255,0.78);
+  background: rgba(20,18,16,0.4); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 9px 18px; border-radius: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .5s ease, transform .5s ease;
+}
+#room-intro-hint.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+#back-to-room-btn {
+  position: fixed; top: 34px; left: 14px; z-index: 10600;
+  display: flex; align-items: center; gap: 7px;
+  font-size: 12.5px; color: rgba(255,255,255,0.88);
+  background: rgba(30,30,32,0.55); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border: 1px solid var(--win-border);
+  padding: 7px 14px 7px 11px; border-radius: 20px;
+  cursor: pointer;
+  opacity: 0; transform: translateY(-6px); pointer-events: none;
+  transition: opacity .3s ease, transform .3s ease, background .15s ease;
+}
+#back-to-room-btn.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+#back-to-room-btn:hover { background: rgba(48,48,52,0.72); }
+#back-to-room-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+#webgl-fallback-note {
+  position: fixed; bottom: 14px; left: 14px; z-index: 10600;
+  display: none;
+  font-size: 11.5px; line-height: 1.4; max-width: 280px;
+  color: rgba(255,255,255,0.6);
+  background: rgba(20,18,16,0.55); border: 1px solid rgba(255,255,255,0.08);
+  padding: 8px 12px; border-radius: 10px;
+}
+
+/* The existing macOS desktop now doubles as the monitor screen content.
+   It starts hidden/inset until the visitor enters the Mac, then becomes
+   the fully usable, fullscreen interface exactly as it always was. */
+#desktop {
+  opacity: 0;
+  transform: scale(0.96);
+  filter: blur(6px);
+  pointer-events: none;
+  transition: opacity .55s var(--ease), transform .55s var(--ease), filter .55s var(--ease);
+}
+#desktop.mac-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #desktop { transition: opacity .15s linear; }
+  #room-intro-hint, #back-to-room-btn { transition: opacity .15s linear; }
+}
+
+@media (max-width: 768px) {
+  #room-intro-hint { bottom: 84px; font-size: 11.5px; }
+  #back-to-room-btn { top: 34px; }
+}
 </style>
 
 </head>
 <body>
+
+<!-- ============================================================
+     THREE.JS ROOM — Alok's workspace. The existing macOS portfolio
+     (below, untouched) now lives on the screen of the Mac in this room.
+     ============================================================ -->
+<div id="three-container" aria-hidden="true"></div>
+<div id="room-loading-veil">Setting the room…</div>
+<div id="room-intro-hint">Click the Mac to enter.</div>
+<div id="back-to-room-btn" onclick="exitMac()" role="button" tabindex="0" aria-label="Back to room">
+  <i class="fa-solid fa-chevron-left"></i> Back to room
+</div>
+<div id="webgl-fallback-note"></div>
 
 <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
   <defs>
@@ -323,7 +422,6 @@ a { color: inherit; text-decoration: none; }
       <path d="M2,16 C2,13.5 3.5,12 6,12 L44,12 C46.5,12 48,13.5 48,16 L48,40 C48,42.5 46.5,44 44,44 L6,44 C3.5,44 2,42.5 2,40 Z" fill="url(#macFolderFront)"/>
     </g>
 
-```
 <linearGradient id="trashBody" x1="0%" y1="0%" x2="0%" y2="100%">
   <stop offset="0%" stop-color="#e9e9ee" />
   <stop offset="100%" stop-color="#b6b6bd" />
@@ -378,7 +476,6 @@ a { color: inherit; text-decoration: none; }
   <path d="M7 15.5 L25 28 L43 15.5" stroke="#0A84FF" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
   <rect x="6" y="9" width="38" height="3.4" rx="1.7" fill="url(#mailStripeG)"/>
 </g>
-```
 
   </defs>
 </svg>
@@ -406,7 +503,6 @@ a { color: inherit; text-decoration: none; }
         </div>
       </div>
 
-```
   <span class="menubar-app-name" id="mb-app-name">Finder</span>
 
   <div class="menu-root" id="menu-root-file">
@@ -493,7 +589,6 @@ a { color: inherit; text-decoration: none; }
   </div>
   <span class="menubar-clock" id="mb-clock" onclick="toggleControlCenter()">—</span>
 </div>
-```
 
   </div>
 
@@ -514,6 +609,10 @@ a { color: inherit; text-decoration: none; }
       <div class="cc-module">
         <div class="cc-icon-wrapper" style="background: var(--blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
         <div class="cc-text"><h4>Bluetooth</h4><p>On</p></div>
+      </div>
+      <div class="cc-module" onclick="toggleDayNight()" id="cc-daynight-module">
+        <div class="cc-icon-wrapper" id="cc-daynight-icon-wrap" style="background:#FEBC2E;"><i class="fa-solid fa-sun" id="cc-daynight-icon"></i></div>
+        <div class="cc-text"><h4>Room</h4><p id="cc-daynight-label">Day</p></div>
       </div>
     </div>
     <div class="cc-module" style="margin-top: 12px; width: 100%;">
@@ -586,6 +685,9 @@ a { color: inherit; text-decoration: none; }
 </div>
 
 <script>
+// ================================================================
+// EXISTING PORTFOLIO DATA — preserved exactly as originally written
+// ================================================================
 const PROFILE = {
   name: "Alok Sharma",
   bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
@@ -632,6 +734,10 @@ const SKILLS = {
   ]
 };
 
+// ================================================================
+// EXISTING MACOS UI — menus, windows, Finder, Spotlight, Dock,
+// Terminal, system overlays. Preserved exactly, untouched below.
+// ================================================================
 const winLayer = document.getElementById("windows-layer");
 const openWins = new Map();
 let zTop = 100;
@@ -1532,6 +1638,748 @@ function updateNetworkStatus() {
 window.addEventListener("online", updateNetworkStatus);
 window.addEventListener("offline", updateNetworkStatus);
 updateNetworkStatus();
+</script>
+
+<script>
+/* ================================================================
+   THREE.JS ROOM
+   Alok's physical workspace. The Mac inside it carries the existing
+   macOS portfolio (#desktop, untouched above) on its screen.
+   Everything in this script is new; nothing above was modified.
+   ================================================================ */
+
+const ROOM = {
+  scene: null, camera: null, renderer: null, controls: null,
+  raycaster: new THREE.Raycaster(),
+  mouse: new THREE.Vector2(),
+  hoveredMesh: null, hoveredType: null,
+  lights: null, objects: {}, interactiveMeshes: [],
+  mode: "day",
+  computerActive: false,
+  transitioning: false,
+  webglOK: true,
+  isFallback: false,
+  isMobile: window.innerWidth < 900 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent),
+  reducedMotion: window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches
+};
+
+const CAM_POSES = {
+  introStart: { pos: [1.9, 2.35, 4.3], target: [0, 1.05, -1.25] },
+  room:       { pos: [1.05, 1.55, 2.5], target: [0, 1.05, -1.25] },
+  screen:     { pos: [0, 1.21, -0.62], target: [0, 1.21, -1.28] }
+};
+
+const ATMO = {
+  day:   { hemi: 0.55, ambient: 0.18, sun: 1.15, windowFill: 0.4, lamp: 0,   monitorGlow: 0.32, bg: 0xd8dfe6, curtainsOpen: true },
+  night: { hemi: 0.10, ambient: 0.05, sun: 0.04, windowFill: 0.04, lamp: 1.5, monitorGlow: 0.85, bg: 0x0a0810, curtainsOpen: false }
+};
+
+const WALL_POSTERS = [
+  { title: "curtisjonesfinal.jpg", img: "curtisjonesfinal.jpg", folder: "Danke" },
+  { title: "ThankyouMo.jpeg",      img: "ThankyouMo.jpeg",      folder: "Danke" },
+  { title: "livvpsg",              img: "livvpsg.jpeg",         folder: "Matchday" }
+];
+
+function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+function hasWebGL() {
+  try {
+    const c = document.createElement("canvas");
+    return !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl")));
+  } catch (e) { return false; }
+}
+
+/* ---------------- scene / camera / renderer / lights ---------------- */
+
+function initThree() {
+  const container = document.getElementById("three-container");
+
+  ROOM.scene = new THREE.Scene();
+  ROOM.scene.background = new THREE.Color(ATMO.day.bg);
+
+  ROOM.camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 60);
+  ROOM.camera.position.set(...CAM_POSES.introStart.pos);
+  ROOM.camera.lookAt(new THREE.Vector3(...CAM_POSES.introStart.target));
+
+  ROOM.renderer = new THREE.WebGLRenderer({ antialias: true });
+  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ROOM.isMobile ? 1 : 1.75));
+  ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
+  ROOM.renderer.shadowMap.enabled = true;
+  ROOM.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  ROOM.renderer.outputEncoding = THREE.sRGBEncoding;
+  container.appendChild(ROOM.renderer.domElement);
+
+  ROOM.controls = new THREE.OrbitControls(ROOM.camera, ROOM.renderer.domElement);
+  ROOM.controls.target.set(...CAM_POSES.room.target);
+  ROOM.controls.enableDamping = true;
+  ROOM.controls.dampingFactor = 0.08;
+  ROOM.controls.enablePan = false;
+  ROOM.controls.minDistance = 2.3;
+  ROOM.controls.maxDistance = 4.3;
+  ROOM.controls.minPolarAngle = Math.PI * 0.30;
+  ROOM.controls.maxPolarAngle = Math.PI * 0.52;
+  ROOM.controls.minAzimuthAngle = -Math.PI * 0.30;
+  ROOM.controls.maxAzimuthAngle = Math.PI * 0.30;
+  ROOM.controls.enabled = false;
+
+  buildLights();
+  buildRoomShell();
+  buildDesk();
+  buildComputer();
+  buildLamp();
+  buildDeskProps();
+  buildWallAndPosters();
+  buildWindowAndCurtains();
+  buildShelf();
+
+  ROOM.interactiveMeshes = [];
+  ROOM.scene.traverse(o => { if (o.isMesh && o.userData.type) ROOM.interactiveMeshes.push(o); });
+
+  window.addEventListener("resize", onRoomResize);
+  container.addEventListener("mousemove", onRoomPointerMove);
+  container.addEventListener("click", onRoomClick);
+
+  restoreDayNightPref();
+  animateIntro();
+  requestAnimationFrame(renderLoop);
+}
+
+function buildLights() {
+  const L = {};
+  L.hemi = new THREE.HemisphereLight(0xfff3e0, 0x2b2420, ATMO.day.hemi);
+  L.ambient = new THREE.AmbientLight(0xffffff, ATMO.day.ambient);
+
+  L.sun = new THREE.DirectionalLight(0xfff2d8, ATMO.day.sun);
+  L.sun.position.set(-3.2, 3.1, 1.4);
+  L.sun.target.position.set(-1.4, 0.9, 0.3);
+  L.sun.castShadow = true;
+  const shadowRes = ROOM.isMobile ? 512 : 1024;
+  L.sun.shadow.mapSize.set(shadowRes, shadowRes);
+  L.sun.shadow.camera.left = -3; L.sun.shadow.camera.right = 3;
+  L.sun.shadow.camera.top = 3; L.sun.shadow.camera.bottom = -3;
+  L.sun.shadow.camera.near = 0.5; L.sun.shadow.camera.far = 9;
+  L.sun.shadow.bias = -0.0025;
+
+  L.windowFill = new THREE.PointLight(0xdfe9ff, ATMO.day.windowFill, 6, 2);
+  L.windowFill.position.set(-2.0, 1.7, 0.2);
+
+  L.lamp = new THREE.PointLight(0xffb877, ATMO.day.lamp, 2.4, 2);
+  L.lamp.position.set(-0.78, 1.02, -1.05);
+
+  L.monitorGlow = new THREE.PointLight(0x8fd0ff, ATMO.day.monitorGlow, 1.7, 2);
+  L.monitorGlow.position.set(0, 1.24, -1.24);
+
+  ROOM.scene.add(L.hemi, L.ambient, L.sun, L.sun.target, L.windowFill, L.lamp, L.monitorGlow);
+  ROOM.lights = L;
+}
+
+function buildRoomShell() {
+  const floorMat = new THREE.MeshStandardMaterial({ color: 0xcab99b, roughness: 0.92 });
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(9, 7), floorMat);
+  floor.rotation.x = -Math.PI / 2;
+  floor.receiveShadow = true;
+  ROOM.scene.add(floor);
+
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xefe8dd, roughness: 0.96 });
+  const backWall = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 2.7), wallMat);
+  backWall.position.set(0, 1.35, -1.6);
+  backWall.receiveShadow = true;
+  ROOM.scene.add(backWall);
+
+  const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 2.7), wallMat.clone());
+  leftWall.rotation.y = Math.PI / 2;
+  leftWall.position.set(-2.3, 1.35, 0);
+  leftWall.receiveShadow = true;
+  ROOM.scene.add(leftWall);
+}
+
+function buildDesk() {
+  const g = new THREE.Group();
+  const topMat = new THREE.MeshStandardMaterial({ color: 0xcaa377, roughness: 0.55 });
+  const top = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.06, 0.85), topMat);
+  top.position.set(0, 0.74, -1.15);
+  top.castShadow = true; top.receiveShadow = true;
+  g.add(top);
+
+  const legMat = new THREE.MeshStandardMaterial({ color: 0x2c2622, roughness: 0.6 });
+  const legGeo = new THREE.BoxGeometry(0.05, 0.72, 0.05);
+  [[-0.92, 0.37, -0.8], [0.92, 0.37, -0.8], [-0.92, 0.37, -1.5], [0.92, 0.37, -1.5]].forEach(p => {
+    const leg = new THREE.Mesh(legGeo, legMat);
+    leg.position.set(p[0], p[1], p[2]);
+    leg.castShadow = true;
+    g.add(leg);
+  });
+
+  ROOM.scene.add(g);
+  ROOM.objects.desk = g;
+}
+
+function buildScreenPreviewCanvas() {
+  const c = document.createElement("canvas");
+  c.width = 512; c.height = 320;
+  const ctx = c.getContext("2d");
+  const grad = ctx.createLinearGradient(0, 0, 0, 320);
+  grad.addColorStop(0, "#1c1a22");
+  grad.addColorStop(1, "#050506");
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 512, 320);
+  ctx.fillStyle = "rgba(255,255,255,0.8)";
+  ctx.font = "600 22px -apple-system, Inter, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Alok Sharma", 256, 152);
+  ctx.font = "400 13px -apple-system, Inter, sans-serif";
+  ctx.fillStyle = "rgba(255,255,255,0.45)";
+  ctx.fillText("click to enter", 256, 178);
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(255,255,255,0.32)";
+    ctx.arc(206 + i * 25, 282, 7, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  return c;
+}
+
+function buildComputer() {
+  const g = new THREE.Group();
+  const deskY = 0.77, screenZ = -1.28;
+
+  const baseMat = new THREE.MeshStandardMaterial({ color: 0xdedad2, roughness: 0.4, metalness: 0.3 });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.16, 0.02, 32), baseMat);
+  base.position.set(0, deskY + 0.01, screenZ + 0.16);
+  base.castShadow = true;
+  g.add(base);
+
+  const neck = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.16, 0.04), baseMat);
+  neck.position.set(0, deskY + 0.09, screenZ + 0.16);
+  g.add(neck);
+
+  const frameMat = new THREE.MeshStandardMaterial({ color: 0xe7e4dd, roughness: 0.45, metalness: 0.2 });
+  const frame = new THREE.Mesh(new THREE.BoxGeometry(0.86, 0.54, 0.035), frameMat);
+  frame.position.set(0, deskY + 0.44, screenZ);
+  frame.castShadow = true;
+  g.add(frame);
+
+  const screenTex = new THREE.CanvasTexture(buildScreenPreviewCanvas());
+  screenTex.encoding = THREE.sRGBEncoding;
+  const screen = new THREE.Mesh(new THREE.PlaneGeometry(0.80, 0.48), new THREE.MeshBasicMaterial({ map: screenTex }));
+  screen.position.set(0, deskY + 0.44, screenZ + 0.019);
+  g.add(screen);
+
+  [base, neck, frame, screen].forEach(m => { m.userData.type = "computer"; });
+  g.userData.type = "computer";
+
+  ROOM.scene.add(g);
+  ROOM.objects.computer = g;
+  ROOM.objects.computerScreen = screen;
+}
+
+function buildFootball() {
+  const c = document.createElement("canvas");
+  c.width = 256; c.height = 128;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#f4f4f2"; ctx.fillRect(0, 0, 256, 128);
+  ctx.fillStyle = "#181818";
+  for (let i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.arc(20 + i * 44, 30 + (i % 2 ? 40 : 10), 13, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  const mat = new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(c), roughness: 0.55 });
+  const ball = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 16), mat);
+  ball.castShadow = true;
+  const g = new THREE.Group();
+  g.add(ball);
+  return g;
+}
+
+function buildLamp() {
+  const deskY = 0.77;
+  const g = new THREE.Group();
+  const baseMat = new THREE.MeshStandardMaterial({ color: 0x2b2622, roughness: 0.5, metalness: 0.3 });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.05, 0.015, 20), baseMat);
+  const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.008, 0.008, 0.16, 8), baseMat);
+  arm.position.y = 0.09;
+  const shadeMat = new THREE.MeshStandardMaterial({ color: 0xf2e6cf, roughness: 0.6, emissive: 0xffb877, emissiveIntensity: 0 });
+  const shade = new THREE.Mesh(new THREE.ConeGeometry(0.05, 0.07, 16, 1, true), shadeMat);
+  shade.rotation.x = Math.PI;
+  shade.position.y = 0.185;
+  g.add(base, arm, shade);
+  g.position.set(-0.78, deskY + 0.007, -1.05);
+  g.traverse(o => { o.castShadow = true; o.userData.type = "lamp"; });
+  g.userData.type = "lamp";
+  ROOM.scene.add(g);
+  ROOM.objects.lampMesh = shade;
+}
+
+function buildDeskProps() {
+  const deskY = 0.77;
+
+  const kbMat = new THREE.MeshStandardMaterial({ color: 0xe9e6de, roughness: 0.6 });
+  const keyboard = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.018, 0.15), kbMat);
+  keyboard.position.set(-0.02, deskY + 0.009, -0.92);
+  keyboard.castShadow = true; keyboard.receiveShadow = true;
+  ROOM.scene.add(keyboard);
+
+  const mouseMesh = new THREE.Mesh(new THREE.SphereGeometry(0.035, 16, 12), kbMat.clone());
+  mouseMesh.scale.set(1, 0.55, 1.5);
+  mouseMesh.position.set(0.32, deskY + 0.018, -0.88);
+  mouseMesh.castShadow = true;
+  ROOM.scene.add(mouseMesh);
+
+  const mugGroup = new THREE.Group();
+  const mugMat = new THREE.MeshStandardMaterial({ color: 0xc8102e, roughness: 0.35 });
+  const mugBody = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.04, 0.09, 20), mugMat);
+  mugBody.position.y = 0.045;
+  mugBody.castShadow = true;
+  const handle = new THREE.Mesh(new THREE.TorusGeometry(0.025, 0.007, 8, 16, Math.PI * 1.4), mugMat);
+  handle.position.set(0.045, 0.045, 0);
+  handle.rotation.y = Math.PI / 2;
+  mugGroup.add(mugBody, handle);
+  mugGroup.position.set(-0.62, deskY, -1.0);
+  mugGroup.traverse(o => { o.userData.type = "mug"; });
+  mugGroup.userData.type = "mug";
+  ROOM.scene.add(mugGroup);
+
+  const plant = new THREE.Group();
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.06, 16), new THREE.MeshStandardMaterial({ color: 0x8a6a52, roughness: 0.8 }));
+  const leaves = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.14, 8), new THREE.MeshStandardMaterial({ color: 0x4c7a4a, roughness: 0.7 }));
+  leaves.position.y = 0.11;
+  plant.add(pot, leaves);
+  plant.position.set(0.66, deskY + 0.03, -1.0);
+  plant.traverse(o => { o.castShadow = true; });
+  ROOM.scene.add(plant);
+
+  const notebook = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.012, 0.19), new THREE.MeshStandardMaterial({ color: 0x9c1c2e, roughness: 0.7 }));
+  notebook.position.set(0.72, deskY + 0.006, -0.72);
+  notebook.rotation.y = -0.15;
+  notebook.castShadow = true;
+  ROOM.scene.add(notebook);
+
+  const ball = buildFootball();
+  ball.position.set(-0.7, deskY + 0.055, -0.72);
+  ROOM.scene.add(ball);
+}
+
+function buildWallAndPosters() {
+  const loader = new THREE.TextureLoader();
+  const posterW = 0.5, posterH = 0.36;
+  const positions = [[-1.55, 2.02, -1.585], [-0.85, 2.02, -1.585], [1.2, 1.96, -1.585]];
+
+  ROOM.objects.posters = [];
+  WALL_POSTERS.forEach((p, i) => {
+    const frameGroup = new THREE.Group();
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(posterW + 0.04, posterH + 0.04, 0.02), new THREE.MeshStandardMaterial({ color: 0x1c1a18, roughness: 0.6 }));
+    frameGroup.add(frame);
+
+    const art = new THREE.Mesh(new THREE.PlaneGeometry(posterW, posterH), new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.85 }));
+    art.position.z = 0.012;
+    frameGroup.add(art);
+
+    loader.load(
+      p.img,
+      tex => { tex.encoding = THREE.sRGBEncoding; art.material = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85 }); },
+      undefined,
+      () => { /* image missing — keep the neutral placeholder, never crash the scene */ }
+    );
+
+    const pos = positions[i] || [-1.5 + i * 0.8, 2.0, -1.585];
+    frameGroup.position.set(pos[0], pos[1], pos[2]);
+    frameGroup.castShadow = true;
+    [frameGroup, frame, art].forEach(o => { o.userData.type = "poster"; o.userData.project = p; });
+
+    ROOM.scene.add(frameGroup);
+    ROOM.objects.posters.push(frameGroup);
+  });
+}
+
+function buildCurtainTexture() {
+  const c = document.createElement("canvas");
+  c.width = 64; c.height = 128;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#e4d9c8"; ctx.fillRect(0, 0, 64, 128);
+  ctx.globalAlpha = 0.12; ctx.fillStyle = "#000";
+  for (let x = 0; x < 64; x += 8) ctx.fillRect(x, 0, 3, 128);
+  return new THREE.CanvasTexture(c);
+}
+
+function buildWindowAndCurtains() {
+  const wallX = -2.3, wy = 1.55, ww = 1.0, wh = 1.15;
+
+  const skyCanvas = document.createElement("canvas");
+  skyCanvas.width = 256; skyCanvas.height = 256;
+  const sctx = skyCanvas.getContext("2d");
+  const grad = sctx.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, "#bcd9f2"); grad.addColorStop(1, "#eef4e9");
+  sctx.fillStyle = grad; sctx.fillRect(0, 0, 256, 256);
+  const sky = new THREE.Mesh(new THREE.PlaneGeometry(ww, wh), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(skyCanvas) }));
+  sky.rotation.y = Math.PI / 2;
+  sky.position.set(wallX + 0.02, wy, 0);
+  ROOM.scene.add(sky);
+  ROOM.objects.sky = sky;
+
+  const winFrame = new THREE.Mesh(new THREE.PlaneGeometry(ww + 0.08, wh + 0.08), new THREE.MeshStandardMaterial({ color: 0xfbfaf7, roughness: 0.5 }));
+  winFrame.rotation.y = Math.PI / 2;
+  winFrame.position.set(wallX + 0.008, wy, 0);
+  ROOM.scene.add(winFrame);
+
+  const curtainMat = new THREE.MeshStandardMaterial({ map: buildCurtainTexture(), roughness: 0.92, side: THREE.DoubleSide });
+  const panelW = ww / 2 + 0.14;
+  const curtainX = wallX + 0.05;
+
+  const left = new THREE.Mesh(new THREE.PlaneGeometry(panelW, wh + 0.14), curtainMat);
+  const right = new THREE.Mesh(new THREE.PlaneGeometry(panelW, wh + 0.14), curtainMat.clone());
+  [left, right].forEach(m => { m.rotation.y = Math.PI / 2; m.position.set(curtainX, wy, 0); m.userData.type = "curtain"; });
+  ROOM.scene.add(left, right);
+
+  ROOM.objects.curtainLeft = left;
+  ROOM.objects.curtainRight = right;
+  ROOM.objects.curtainOpenZ = { left: -0.87, right: 0.87 };
+  ROOM.objects.curtainClosedZ = { left: -0.25, right: 0.25 };
+}
+
+function buildShelf() {
+  const shelf = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.03, 0.22), new THREE.MeshStandardMaterial({ color: 0x3b332c, roughness: 0.7 }));
+  shelf.position.set(1.55, 1.85, -1.49);
+  shelf.castShadow = true; shelf.receiveShadow = true;
+  ROOM.scene.add(shelf);
+
+  [0x9c1c2e, 0x2c2622, 0xd8c8a8].forEach((c, i) => {
+    const book = new THREE.Mesh(new THREE.BoxGeometry(0.035, 0.16, 0.19), new THREE.MeshStandardMaterial({ color: c, roughness: 0.6 }));
+    book.position.set(1.3 + i * 0.05, 1.865 + 0.08, -1.49);
+    book.rotation.z = (i - 1) * 0.03;
+    book.castShadow = true;
+    ROOM.scene.add(book);
+  });
+
+  const orb = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), new THREE.MeshStandardMaterial({ color: 0xc8102e, roughness: 0.4, metalness: 0.15 }));
+  orb.position.set(1.75, 1.865 + 0.05, -1.44);
+  orb.castShadow = true;
+  ROOM.scene.add(orb);
+}
+
+/* ---------------- camera transitions (room ⇄ Mac) ---------------- */
+
+let camAnim = null;
+
+function animateCameraTo(poseKey, duration, onComplete) {
+  const pose = CAM_POSES[poseKey];
+  camAnim = {
+    fromPos: ROOM.camera.position.clone(),
+    fromTarget: ROOM.controls.target.clone(),
+    toPos: new THREE.Vector3(...pose.pos),
+    toTarget: new THREE.Vector3(...pose.target),
+    start: performance.now(),
+    duration: ROOM.reducedMotion ? 60 : duration,
+    onComplete
+  };
+}
+
+function updateCameraAnim() {
+  if (!camAnim) return;
+  const t = Math.min(1, (performance.now() - camAnim.start) / camAnim.duration);
+  const e = easeInOutCubic(t);
+  ROOM.camera.position.lerpVectors(camAnim.fromPos, camAnim.toPos, e);
+  const target = new THREE.Vector3().lerpVectors(camAnim.fromTarget, camAnim.toTarget, e);
+  ROOM.controls.target.copy(target);
+  ROOM.camera.lookAt(target);
+  if (t >= 1) {
+    const cb = camAnim.onComplete;
+    camAnim = null;
+    if (cb) cb();
+  }
+}
+
+function animateIntro() {
+  ROOM.controls.enabled = false;
+  animateCameraTo("room", 2000, () => {
+    ROOM.controls.enabled = !ROOM.isMobile;
+    const hint = document.getElementById("room-intro-hint");
+    if (hint) hint.classList.add("show");
+  });
+}
+
+function enterMac() { enterMacWithAction(null); }
+
+function enterMacWithAction(cb) {
+  if (ROOM.computerActive) { if (cb) cb(); return; }
+  if (ROOM.transitioning) return;
+  ROOM.transitioning = true;
+  ROOM.controls.enabled = false;
+  const hint = document.getElementById("room-intro-hint");
+  if (hint) hint.classList.remove("show");
+  animateCameraTo("screen", 1500, () => {
+    document.getElementById("desktop").classList.add("mac-active");
+    document.getElementById("back-to-room-btn").classList.add("show");
+    ROOM.computerActive = true;
+    ROOM.transitioning = false;
+    if (cb) cb();
+  });
+}
+
+function exitMac() {
+  if (ROOM.isFallback) return;
+  if (!ROOM.computerActive || ROOM.transitioning) return;
+  ROOM.transitioning = true;
+  document.getElementById("desktop").classList.remove("mac-active");
+  document.getElementById("back-to-room-btn").classList.remove("show");
+  ROOM.computerActive = false;
+  animateCameraTo("room", 1400, () => {
+    ROOM.controls.enabled = !ROOM.isMobile;
+    const hint = document.getElementById("room-intro-hint");
+    if (hint) hint.classList.add("show");
+    ROOM.transitioning = false;
+  });
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && ROOM.computerActive) exitMac();
+});
+document.getElementById("back-to-room-btn")?.addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); exitMac(); }
+});
+
+/* ---------------- raycasting / hover / click ---------------- */
+
+function onRoomPointerMove(e) {
+  if (ROOM.computerActive || ROOM.transitioning || !ROOM.renderer) return;
+  const rect = ROOM.renderer.domElement.getBoundingClientRect();
+  ROOM.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  ROOM.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  updateHover();
+}
+
+function updateHover() {
+  ROOM.raycaster.setFromCamera(ROOM.mouse, ROOM.camera);
+  const hits = ROOM.raycaster.intersectObjects(ROOM.interactiveMeshes, false);
+  const hitMesh = hits.length ? hits[0].object : null;
+
+  if (hitMesh !== ROOM.hoveredMesh) {
+    if (ROOM.hoveredMesh) restoreHoverMesh(ROOM.hoveredMesh);
+    ROOM.hoveredMesh = hitMesh;
+    if (hitMesh) applyHoverMesh(hitMesh);
+    ROOM.renderer.domElement.style.cursor = hitMesh ? "pointer" : "default";
+  }
+}
+
+function applyHoverMesh(mesh) {
+  if (!mesh.material || !("emissive" in mesh.material)) return;
+  mesh.userData._prevEmissive = mesh.material.emissive.getHex();
+  mesh.userData._prevEmissiveIntensity = mesh.material.emissiveIntensity;
+  mesh.material.emissive.setHex(0x2a2a2a);
+  mesh.material.emissiveIntensity = 0.4;
+}
+function restoreHoverMesh(mesh) {
+  if (!mesh.material || !("emissive" in mesh.material) || mesh.userData._prevEmissive === undefined) return;
+  mesh.material.emissive.setHex(mesh.userData._prevEmissive);
+  mesh.material.emissiveIntensity = mesh.userData._prevEmissiveIntensity ?? 1;
+}
+
+function onRoomClick(e) {
+  if (ROOM.transitioning || ROOM.computerActive || !ROOM.renderer) return;
+  const rect = ROOM.renderer.domElement.getBoundingClientRect();
+  ROOM.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  ROOM.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  ROOM.raycaster.setFromCamera(ROOM.mouse, ROOM.camera);
+  const hits = ROOM.raycaster.intersectObjects(ROOM.interactiveMeshes, false);
+  if (hits.length) handleRoomInteraction(hits[0].object);
+}
+
+function handleRoomInteraction(mesh) {
+  const type = mesh.userData.type;
+  switch (type) {
+    case "computer":
+      enterMac();
+      break;
+    case "poster": {
+      const project = mesh.userData.project;
+      enterMacWithAction(() => {
+        openApp("projects");
+        setTimeout(() => {
+          selectProjectFolder(project.folder);
+          openImageViewer(project.title, project.img);
+        }, 220);
+      });
+      break;
+    }
+    case "mug":
+      showToast("Liverpool FC", "Desk essential.", "fa-mug-hot");
+      break;
+    case "curtain":
+    case "lamp":
+      toggleDayNight();
+      break;
+  }
+}
+
+/* connects a wall poster back to the existing Finder folder it belongs to */
+function selectProjectFolder(folderName) {
+  const win = openWins.get("projects");
+  if (!win) return;
+  const item = Array.from(win.querySelectorAll(".finder-sb-item")).find(el => el.dataset.folder === folderName);
+  if (item) item.click();
+}
+
+/* ---------------- DAY / NIGHT ---------------- */
+
+let atmoAnim = null, curtainAnim = null;
+
+function toggleDayNight() { setRoomMode(ROOM.mode === "day" ? "night" : "day"); }
+
+function setRoomMode(mode) {
+  ROOM.mode = mode;
+  try { localStorage.setItem("alok_room_mode", mode); } catch (e) {}
+  updateDayNightUI();
+  if (ROOM.webglOK && !ROOM.isFallback && ROOM.lights) animateAtmosphere(mode);
+}
+
+function updateDayNightUI() {
+  const icon = document.getElementById("cc-daynight-icon");
+  const label = document.getElementById("cc-daynight-label");
+  const wrap = document.getElementById("cc-daynight-icon-wrap");
+  if (!icon) return;
+  const isNight = ROOM.mode === "night";
+  icon.className = isNight ? "fa-solid fa-moon" : "fa-solid fa-sun";
+  label.textContent = isNight ? "Night" : "Day";
+  wrap.style.background = isNight ? "#5E5CE6" : "#FEBC2E";
+}
+
+function restoreDayNightPref() {
+  let saved = "day";
+  try { saved = localStorage.getItem("alok_room_mode") || "day"; } catch (e) {}
+  ROOM.mode = saved;
+  updateDayNightUI();
+  applyAtmosphereInstant(saved);
+}
+
+function applyAtmosphereInstant(mode) {
+  if (!ROOM.lights) return;
+  const t = ATMO[mode], L = ROOM.lights;
+  L.hemi.intensity = t.hemi; L.ambient.intensity = t.ambient; L.sun.intensity = t.sun;
+  L.windowFill.intensity = t.windowFill; L.lamp.intensity = t.lamp; L.monitorGlow.intensity = t.monitorGlow;
+  ROOM.scene.background = new THREE.Color(t.bg);
+  setCurtainsInstant(t.curtainsOpen);
+}
+
+function animateAtmosphere(mode) {
+  const target = ATMO[mode], L = ROOM.lights;
+  atmoAnim = {
+    start: performance.now(),
+    duration: ROOM.reducedMotion ? 60 : 1400,
+    from: {
+      hemi: L.hemi.intensity, ambient: L.ambient.intensity, sun: L.sun.intensity,
+      windowFill: L.windowFill.intensity, lamp: L.lamp.intensity, monitorGlow: L.monitorGlow.intensity,
+      bg: ROOM.scene.background.clone()
+    },
+    to: target
+  };
+  animateCurtains(target.curtainsOpen);
+}
+
+function updateAtmoAnim() {
+  if (!atmoAnim) return;
+  const t = Math.min(1, (performance.now() - atmoAnim.start) / atmoAnim.duration);
+  const e = easeInOutCubic(t);
+  const { from, to } = atmoAnim, L = ROOM.lights;
+  L.hemi.intensity = THREE.MathUtils.lerp(from.hemi, to.hemi, e);
+  L.ambient.intensity = THREE.MathUtils.lerp(from.ambient, to.ambient, e);
+  L.sun.intensity = THREE.MathUtils.lerp(from.sun, to.sun, e);
+  L.windowFill.intensity = THREE.MathUtils.lerp(from.windowFill, to.windowFill, e);
+  L.lamp.intensity = THREE.MathUtils.lerp(from.lamp, to.lamp, e);
+  L.monitorGlow.intensity = THREE.MathUtils.lerp(from.monitorGlow, to.monitorGlow, e);
+  ROOM.scene.background = from.bg.clone().lerp(new THREE.Color(to.bg), e);
+  if (t >= 1) atmoAnim = null;
+}
+
+function animateCurtains(open) {
+  const O = ROOM.objects;
+  curtainAnim = {
+    start: performance.now(),
+    duration: ROOM.reducedMotion ? 60 : 1200,
+    fromLeftZ: O.curtainLeft.position.z, fromRightZ: O.curtainRight.position.z,
+    toLeftZ: open ? O.curtainOpenZ.left : O.curtainClosedZ.left,
+    toRightZ: open ? O.curtainOpenZ.right : O.curtainClosedZ.right
+  };
+}
+function updateCurtainAnim() {
+  if (!curtainAnim) return;
+  const t = Math.min(1, (performance.now() - curtainAnim.start) / curtainAnim.duration);
+  const e = easeInOutCubic(t);
+  ROOM.objects.curtainLeft.position.z = THREE.MathUtils.lerp(curtainAnim.fromLeftZ, curtainAnim.toLeftZ, e);
+  ROOM.objects.curtainRight.position.z = THREE.MathUtils.lerp(curtainAnim.fromRightZ, curtainAnim.toRightZ, e);
+  if (t >= 1) curtainAnim = null;
+}
+function setCurtainsInstant(open) {
+  if (!ROOM.objects.curtainLeft) return;
+  ROOM.objects.curtainLeft.position.z = open ? ROOM.objects.curtainOpenZ.left : ROOM.objects.curtainClosedZ.left;
+  ROOM.objects.curtainRight.position.z = open ? ROOM.objects.curtainOpenZ.right : ROOM.objects.curtainClosedZ.right;
+}
+
+/* ---------------- resize / render loop ---------------- */
+
+function onRoomResize() {
+  if (!ROOM.renderer) return;
+  ROOM.camera.aspect = window.innerWidth / window.innerHeight;
+  ROOM.camera.updateProjectionMatrix();
+  ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function renderLoop() {
+  requestAnimationFrame(renderLoop);
+  if (document.hidden) return;
+  updateCameraAnim();
+  updateAtmoAnim();
+  updateCurtainAnim();
+  if (ROOM.objects.lampMesh && ROOM.lights) {
+    ROOM.objects.lampMesh.material.emissiveIntensity = THREE.MathUtils.clamp(ROOM.lights.lamp.intensity / 1.5, 0, 1);
+  }
+  if (ROOM.controls && ROOM.controls.enabled) ROOM.controls.update();
+  ROOM.renderer.render(ROOM.scene, ROOM.camera);
+}
+
+/* ---------------- INTEGRATION: boot + graceful fallback ---------------- */
+/* 3D Mac → HTML Mac UI, wall projects → Finder (wired above via
+   handleRoomInteraction). This section only decides whether the
+   room can run at all — the existing portfolio must work either way. */
+
+function activateFallbackMode(message) {
+  ROOM.isFallback = true;
+  const three = document.getElementById("three-container");
+  const veil = document.getElementById("room-loading-veil");
+  const hint = document.getElementById("room-intro-hint");
+  const back = document.getElementById("back-to-room-btn");
+  const note = document.getElementById("webgl-fallback-note");
+  if (three) three.style.display = "none";
+  if (veil) veil.classList.add("hide");
+  if (hint) hint.style.display = "none";
+  if (back) back.style.display = "none";
+  if (note) {
+    note.textContent = message;
+    note.style.display = "block";
+    setTimeout(() => { note.style.display = "none"; }, 6000);
+  }
+  document.getElementById("desktop").classList.add("mac-active");
+}
+
+function bootRoomExperience() {
+  ROOM.webglOK = typeof THREE !== "undefined" && typeof THREE.OrbitControls !== "undefined" && hasWebGL();
+
+  if (!ROOM.webglOK) {
+    activateFallbackMode("3D view isn't available in this browser — showing the portfolio directly.");
+    return;
+  }
+  try {
+    initThree();
+    const veil = document.getElementById("room-loading-veil");
+    if (veil) veil.classList.add("hide");
+  } catch (err) {
+    console.warn("3D room failed to start, falling back to the portfolio directly:", err);
+    activateFallbackMode("The 3D room couldn't load — showing the portfolio directly.");
+  }
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootRoomExperience);
+} else {
+  bootRoomExperience();
+}
 </script>
 
 </body>
