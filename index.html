@@ -18,8 +18,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-<!-- Three.js (drives the interactive 3D room; does not affect the macOS UI below) -->
+<!-- Three.js (for the 3D workspace room the Mac now sits inside — does not affect the macOS UI below) -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
 <style>
 :root {
@@ -129,7 +130,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: space-between; gap: 10px; white-space: nowrap;
 }
 .menu-option:hover:not(.disabled) { background: var(--blue); }
-.menu-option.disabled { color: var(--text-tertiary); cursor: default; pointer-events: none; }
+.menu-option.disabled { color: var(--text-tertiary); cursor: default; }
 .menu-option .kbd { color: var(--text-tertiary); font-size: 11px; }
 .menu-option:hover:not(.disabled) .kbd { color: rgba(255,255,255,0.8); }
 .menu-sep { height: 1px; background: rgba(255,255,255,0.1); margin: 5px 4px; }
@@ -316,34 +317,24 @@ a { color: inherit; text-decoration: none; }
 
 #room-loading-veil {
   position: fixed; inset: 0; z-index: 3;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
-  background: #100e0c; color: rgba(255,255,255,0.55);
+  display: flex; align-items: center; justify-content: center;
+  background: #100e0c; color: rgba(255,255,255,0.45);
   font-size: 12.5px; letter-spacing: 0.4px;
   transition: opacity .5s ease;
 }
 #room-loading-veil.hide { opacity: 0; pointer-events: none; }
-#room-loading-veil .rl-mark { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
-#room-loading-veil .rl-bar-track { width: 180px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.12); overflow: hidden; }
-#room-loading-veil .rl-bar-fill { height: 100%; width: 4%; background: linear-gradient(90deg,#c8102e,#e0193a); border-radius: 2px; transition: width .3s ease; }
 
-/* interaction prompt — subtle GTA-style "[E] Sit" pill */
-#interact-prompt {
+#room-intro-hint {
   position: fixed; left: 50%; bottom: 46px; z-index: 4;
   transform: translateX(-50%) translateY(6px);
-  font-size: 13px; letter-spacing: 0.2px; color: rgba(255,255,255,0.92);
-  background: rgba(18,16,14,0.55); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.14);
+  font-size: 12.5px; letter-spacing: 0.2px; color: rgba(255,255,255,0.78);
+  background: rgba(20,18,16,0.4); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.12);
   padding: 9px 18px; border-radius: 20px;
   opacity: 0; pointer-events: none;
-  transition: opacity .28s ease, transform .28s ease;
-  display: flex; align-items: center; gap: 8px;
+  transition: opacity .5s ease, transform .5s ease;
 }
-#interact-prompt.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-#interact-prompt .ip-key {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 20px; height: 20px; border-radius: 5px; font-size: 11px; font-weight: 700;
-  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.22);
-}
+#room-intro-hint.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 #back-to-room-btn {
   position: fixed; top: 34px; left: 14px; z-index: 10600;
@@ -369,153 +360,9 @@ a { color: inherit; text-decoration: none; }
   padding: 8px 12px; border-radius: 10px;
 }
 
-/* ============ ROOM HUD: minimap, room-toolbar (day/night, audio, quality) ============ */
-#room-hud { position: fixed; inset: 0; z-index: 4; pointer-events: none; }
-#minimap-wrap {
-  position: fixed; left: 14px; bottom: 14px; z-index: 4;
-  width: 132px; height: 132px; border-radius: 14px; overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(10,9,8,0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  opacity: 0; transition: opacity .4s ease;
-}
-#minimap-wrap.show { opacity: 1; }
-#minimap-canvas { width: 100%; height: 100%; display: block; }
-#minimap-label {
-  position: absolute; top: 5px; left: 8px; font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase;
-  color: rgba(255,255,255,0.45); font-weight: 700;
-}
-
-#room-toolbar {
-  position: fixed; top: 34px; right: 14px; z-index: 10600;
-  display: flex; gap: 8px; pointer-events: auto;
-}
-.room-tbtn {
-  width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  background: rgba(30,30,32,0.55); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
-  border: 1px solid var(--win-border); color: rgba(255,255,255,0.88); font-size: 13px; cursor: pointer;
-  transition: background .15s ease, transform .15s ease;
-}
-.room-tbtn:hover { background: rgba(48,48,52,0.75); }
-.room-tbtn:active { transform: scale(0.92); }
-.room-tbtn.off { color: rgba(255,255,255,0.35); }
-
-#quality-panel {
-  position: fixed; top: 74px; right: 14px; z-index: 10600;
-  display: none; flex-direction: column; gap: 4px;
-  background: rgba(30,30,32,0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-  border: 1px solid var(--win-border); border-radius: 12px; padding: 8px; min-width: 128px;
-  pointer-events: auto;
-}
-#quality-panel.show { display: flex; }
-#quality-panel .qp-label { font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4); padding: 3px 6px 5px; }
-#quality-panel button {
-  text-align: left; font-size: 12.5px; padding: 6px 8px; border-radius: 7px; color: rgba(255,255,255,0.85);
-}
-#quality-panel button:hover { background: rgba(255,255,255,0.1); }
-#quality-panel button.active { background: var(--blue); color: #fff; }
-
-/* ============ MOBILE TOUCH CONTROLS ============ */
-#mobile-controls { position: fixed; inset: 0; z-index: 4; display: none; pointer-events: none; }
-#mobile-controls.show { display: block; }
-#mc-joy-base {
-  position: absolute; left: 22px; bottom: 26px; width: 108px; height: 108px; border-radius: 50%;
-  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.22); pointer-events: auto;
-}
-#mc-joy-stick {
-  position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px;
-  border-radius: 50%; background: rgba(255,255,255,0.32); border: 1px solid rgba(255,255,255,0.4);
-}
-#mc-look-zone { position: absolute; right: 0; top: 0; bottom: 90px; width: 55%; pointer-events: auto; }
-#mc-interact-btn {
-  position: absolute; right: 26px; bottom: 96px; width: 62px; height: 62px; border-radius: 50%;
-  background: rgba(200,16,46,0.55); border: 1px solid rgba(255,255,255,0.35); color: #fff;
-  font-size: 11px; font-weight: 700; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center;
-  pointer-events: auto;
-}
-#mc-run-btn {
-  position: absolute; right: 30px; bottom: 26px; width: 52px; height: 52px; border-radius: 50%;
-  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.28); color: #fff;
-  font-size: 15px; display: flex; align-items: center; justify-content: center; pointer-events: auto;
-}
-#mc-run-btn.active { background: rgba(10,132,255,0.55); }
-#mc-jump-btn {
-  position: absolute; right: 96px; bottom: 58px; width: 46px; height: 46px; border-radius: 50%;
-  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.28); color: #fff;
-  font-size: 14px; display: flex; align-items: center; justify-content: center; pointer-events: auto;
-  transition: background .1s ease, transform .1s ease;
-}
-#mc-jump-btn.active { background: rgba(50,215,75,0.5); transform: scale(0.92); }
-
-@media (max-width: 768px) {
-  #interact-prompt { bottom: 150px; font-size: 12px; }
-  #back-to-room-btn { top: 34px; }
-  #minimap-wrap { width: 104px; height: 104px; left: 10px; bottom: 120px; }
-}
-
-/* ============ GTA-style controls / help HUD ============ */
-#controls-hud {
-  position: fixed; left: 14px; bottom: 14px; z-index: 4600; pointer-events: auto;
-  display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 8px;
-  font-family: var(--font-ui);
-  opacity: 1; transition: opacity .5s ease;
-}
-#controls-hud.faded { opacity: 0.28; }
-#controls-hud.faded:hover { opacity: 1; }
-#ch-toggle {
-  width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
-  background: rgba(18,16,14,0.6); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.7); font-size: 13px; cursor: pointer;
-  transition: background .15s ease;
-}
-#ch-toggle:hover { background: rgba(40,38,36,0.75); color: #fff; }
-#ch-panel {
-  display: flex; flex-direction: column; gap: 6px;
-  background: rgba(14,13,12,0.58); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
-  padding: 10px 14px; min-width: 190px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-  transition: max-height .3s var(--ease), opacity .25s ease, padding .3s var(--ease), transform .25s ease;
-  max-height: 320px; opacity: 1; transform-origin: bottom left;
-}
-#controls-hud.collapsed #ch-panel, #controls-hud.collapsed #ch-panel-mobile { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; overflow: hidden; pointer-events: none; transform: scale(0.96); }
-.ch-row { display: flex; align-items: center; gap: 10px; font-size: 11.5px; color: rgba(255,255,255,0.55); transition: color .15s ease; }
-.ch-row.ch-active { color: rgba(255,255,255,0.96); }
-.ch-row.ch-hidden { display: none; }
-.ch-keys { display: flex; gap: 3px; min-width: 78px; }
-.ch-key {
-  display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 4px;
-  border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 0.2px;
-  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.8);
-  box-shadow: 0 1.5px 0 rgba(255,255,255,0.06) inset, 0 1px 2px rgba(0,0,0,0.35);
-  transition: background .08s ease, transform .08s ease, box-shadow .08s ease;
-}
-.ch-key-wide { min-width: 44px; padding: 0 6px; }
-.ch-key.pressed {
-  background: var(--blue); border-color: rgba(255,255,255,0.5); color: #fff; transform: translateY(1px) scale(0.96);
-  box-shadow: 0 0 0 rgba(0,0,0,0); }
-#ch-panel-mobile { display: none; flex-direction: column; gap: 6px;
-  background: rgba(14,13,12,0.58); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 10px 14px; min-width: 168px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35); transform-origin: bottom left;
-}
-.ch-mtag {
-  display: inline-flex; align-items: center; justify-content: center; min-width: 56px; height: 18px; padding: 0 6px;
-  border-radius: 9px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
-  background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.75);
-}
-@media (max-width: 768px) {
-  #controls-hud { left: 10px; bottom: 190px; }
-  #ch-panel { display: none; }
-  #ch-panel-mobile { display: flex; }
-}
-@media (prefers-reduced-motion: reduce) {
-  #controls-hud, #ch-panel, #ch-panel-mobile { transition: opacity .15s linear; }
-}
-
 /* The existing macOS desktop now doubles as the monitor screen content.
-   It starts hidden/inset until the visitor sits and uses the Mac, then
-   becomes the fully usable, fullscreen interface exactly as it always was. */
+   It starts hidden/inset until the visitor enters the Mac, then becomes
+   the fully usable, fullscreen interface exactly as it always was. */
 #desktop {
   opacity: 0;
   transform: scale(0.96);
@@ -532,37 +379,12 @@ a { color: inherit; text-decoration: none; }
 
 @media (prefers-reduced-motion: reduce) {
   #desktop { transition: opacity .15s linear; }
-  #interact-prompt, #back-to-room-btn { transition: opacity .15s linear; }
+  #room-intro-hint, #back-to-room-btn { transition: opacity .15s linear; }
 }
 
-/* ============ WELCOME OVERLAY ============ */
-#room-welcome {
-  position: fixed; inset: 0; z-index: 5000;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 10px; text-align: center;
-  background: radial-gradient(ellipse at center, rgba(10,8,16,0.15), rgba(6,5,9,0.55));
-  cursor: pointer;
-  opacity: 1; transition: opacity .6s var(--ease);
-}
-#room-welcome.hide { opacity: 0; pointer-events: none; }
-#room-welcome .rw-eyebrow {
-  font-size: 11.5px; letter-spacing: 4px; text-transform: uppercase;
-  color: rgba(255,255,255,0.55); font-weight: 600;
-}
-#room-welcome .rw-title {
-  font-size: clamp(28px, 6vw, 46px); font-weight: 800; letter-spacing: -0.5px;
-  color: #fff; text-shadow: 0 6px 30px rgba(200,16,46,0.35);
-}
-#room-welcome .rw-title .rw-accent { color: #e0193a; }
-#room-welcome .rw-hint {
-  margin-top: 18px; font-size: 12px; letter-spacing: 0.3px;
-  color: rgba(255,255,255,0.5);
-  padding: 8px 16px; border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(255,255,255,0.04);
-}
-@media (prefers-reduced-motion: reduce) {
-  #room-welcome { transition: opacity .15s linear; }
+@media (max-width: 768px) {
+  #room-intro-hint { bottom: 84px; font-size: 11.5px; }
+  #back-to-room-btn { top: 34px; }
 }
 </style>
 
@@ -574,90 +396,12 @@ a { color: inherit; text-decoration: none; }
      (below, untouched) now lives on the screen of the Mac in this room.
      ============================================================ -->
 <div id="three-container" aria-hidden="true"></div>
-<div id="room-loading-veil">
-  <div class="rl-mark">Loading Room</div>
-  <div class="rl-bar-track"><div class="rl-bar-fill" id="rl-bar-fill"></div></div>
-</div>
-<div id="room-welcome" onclick="dismissWelcome()">
-  <div class="rw-eyebrow">Welcome</div>
-  <div class="rw-title">ALOK'S <span class="rw-accent">ROOM</span></div>
-  <div class="rw-hint">Tap anywhere to step in</div>
-</div>
-
-<div id="interact-prompt"><span class="ip-key">E</span><span id="interact-prompt-text">Interact</span></div>
+<div id="room-loading-veil">Setting the room…</div>
+<div id="room-intro-hint">Click the Mac to enter.</div>
 <div id="back-to-room-btn" onclick="exitMac()" role="button" tabindex="0" aria-label="Back to room">
   <i class="fa-solid fa-chevron-left"></i> Back to room
 </div>
 <div id="webgl-fallback-note"></div>
-
-<div id="room-toolbar">
-  <div class="room-tbtn" id="daynight-btn" onclick="DayNight.toggle()" title="Toggle day / night"><i class="fa-solid fa-moon"></i></div>
-  <div class="room-tbtn" id="mute-btn" onclick="AudioSys.toggleMute()" title="Mute / unmute"><i class="fa-solid fa-volume-high"></i></div>
-  <div class="room-tbtn" id="quality-btn" onclick="toggleQualityPanel()" title="Graphics quality"><i class="fa-solid fa-sliders"></i></div>
-</div>
-<div id="quality-panel">
-  <div class="qp-label">Quality</div>
-  <button data-q="low" onclick="Quality.set('low')">Low</button>
-  <button data-q="medium" onclick="Quality.set('medium')">Medium</button>
-  <button data-q="high" onclick="Quality.set('high')">High</button>
-</div>
-
-<div id="minimap-wrap">
-  <div id="minimap-label">Room</div>
-  <canvas id="minimap-canvas" width="132" height="132"></canvas>
-</div>
-
-<div id="mobile-controls">
-  <div id="mc-look-zone"></div>
-  <div id="mc-joy-base"><div id="mc-joy-stick"></div></div>
-  <div id="mc-jump-btn"><i class="fa-solid fa-arrow-up"></i></div>
-  <div id="mc-run-btn"><i class="fa-solid fa-person-running"></i></div>
-  <div id="mc-interact-btn">USE</div>
-</div>
-
-<!-- ============ GTA-style controls / help HUD ============ -->
-<div id="controls-hud" class="collapsed-init">
-  <div id="ch-toggle" onclick="ControlsHUD.toggleCollapse()" title="Toggle controls"><i class="fa-solid fa-gamepad"></i></div>
-  <div id="ch-panel">
-    <div class="ch-row" data-ctx="move">
-      <span class="ch-keys">
-        <span class="ch-key" data-key="w">W</span><span class="ch-key" data-key="a">A</span><span class="ch-key" data-key="s">S</span><span class="ch-key" data-key="d">D</span>
-      </span>
-      <span class="ch-label">Move</span>
-    </div>
-    <div class="ch-row" data-ctx="move">
-      <span class="ch-keys"><span class="ch-key" data-key="shift">⇧</span></span>
-      <span class="ch-label">Run</span>
-    </div>
-    <div class="ch-row" data-ctx="move">
-      <span class="ch-keys"><span class="ch-key ch-key-wide" data-key="space">SPACE</span></span>
-      <span class="ch-label">Jump</span>
-    </div>
-    <div class="ch-row">
-      <span class="ch-keys"><span class="ch-key ch-key-wide">MOUSE</span></span>
-      <span class="ch-label" id="ch-mouse-label">Look / Rotate Camera</span>
-    </div>
-    <div class="ch-row">
-      <span class="ch-keys"><span class="ch-key ch-key-wide">SCROLL</span></span>
-      <span class="ch-label">Zoom</span>
-    </div>
-    <div class="ch-row" id="ch-interact-row">
-      <span class="ch-keys"><span class="ch-key" id="ch-key-e">E</span></span>
-      <span class="ch-label" id="ch-interact-label">Interact</span>
-    </div>
-    <div class="ch-row" id="ch-escape-row">
-      <span class="ch-keys"><span class="ch-key ch-key-wide">ESC</span></span>
-      <span class="ch-label" id="ch-escape-label">Stand / Exit</span>
-    </div>
-  </div>
-  <div id="ch-panel-mobile">
-    <div class="ch-row"><span class="ch-mtag">Joystick</span><span class="ch-label">Move</span></div>
-    <div class="ch-row"><span class="ch-mtag">Swipe</span><span class="ch-label">Look</span></div>
-    <div class="ch-row"><span class="ch-mtag">Btn</span><span class="ch-label">Run</span></div>
-    <div class="ch-row"><span class="ch-mtag">Btn</span><span class="ch-label">Jump</span></div>
-    <div class="ch-row"><span class="ch-mtag">Btn</span><span class="ch-label" id="ch-interact-label-m">Interact</span></div>
-  </div>
-</div>
 
 <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
   <defs>
@@ -774,8 +518,8 @@ a { color: inherit; text-decoration: none; }
   <div class="menu-root" id="menu-root-edit">
     <span class="menubar-item" onclick="toggleMenu('edit', event)">Edit</span>
     <div class="menu-dropdown" id="dropdown-edit">
-      <div class="menu-option disabled" id="menu-undo" onclick="menuAction('undo')">Undo <span class="kbd">⌘Z</span></div>
-      <div class="menu-option disabled" id="menu-redo" onclick="menuAction('redo')">Redo <span class="kbd">⇧⌘Z</span></div>
+      <div class="menu-option disabled">Undo <span class="kbd">⌘Z</span></div>
+      <div class="menu-option disabled">Redo <span class="kbd">⇧⌘Z</span></div>
       <div class="menu-sep"></div>
       <div class="menu-option disabled">Cut <span class="kbd">⌘X</span></div>
       <div class="menu-option disabled">Copy <span class="kbd">⌘C</span></div>
@@ -865,9 +609,9 @@ a { color: inherit; text-decoration: none; }
         <div class="cc-icon-wrapper" style="background: var(--blue);"><i class="fa-brands fa-bluetooth-b"></i></div>
         <div class="cc-text"><h4>Bluetooth</h4><p>On</p></div>
       </div>
-      <div class="cc-module">
-        <div class="cc-icon-wrapper" style="background:#5E5CE6;"><i class="fa-solid fa-moon"></i></div>
-        <div class="cc-text"><h4>Room</h4><p id="cc-room-mode">Night</p></div>
+      <div class="cc-module" onclick="toggleDayNight()" id="cc-daynight-module">
+        <div class="cc-icon-wrapper" id="cc-daynight-icon-wrap" style="background:#FEBC2E;"><i class="fa-solid fa-sun" id="cc-daynight-icon"></i></div>
+        <div class="cc-text"><h4>Room</h4><p id="cc-daynight-label">Day</p></div>
       </div>
     </div>
     <div class="cc-module" style="margin-top: 12px; width: 100%;">
@@ -997,52 +741,6 @@ const winLayer = document.getElementById("windows-layer");
 const openWins = new Map();
 let zTop = 100;
 let activeWinId = null;
-
-/* ============================================================
-   HISTORY — lightweight, functional Undo/Redo.
-   Records meaningful user actions (room settings like lamp/curtains/
-   day-night/quality, and interface actions) — NOT continuous player
-   movement, which is excluded on purpose per spec.
-   ============================================================ */
-const History = {
-  stack: [], redoStack: [], max: 60,
-  push(entry) { // entry: {label, undo(), redo()}
-    this.stack.push(entry);
-    if (this.stack.length > this.max) this.stack.shift();
-    this.redoStack = [];
-    this._reflect();
-  },
-  undo() {
-    if (!this.stack.length) return;
-    const entry = this.stack.pop();
-    entry.undo();
-    this.redoStack.push(entry);
-    this._reflect();
-    showToast("Undo", entry.label, "fa-rotate-left");
-  },
-  redo() {
-    if (!this.redoStack.length) return;
-    const entry = this.redoStack.pop();
-    entry.redo();
-    this.stack.push(entry);
-    this._reflect();
-    showToast("Redo", entry.label, "fa-rotate-right");
-  },
-  _reflect() {
-    const undoEl = document.getElementById("menu-undo");
-    const redoEl = document.getElementById("menu-redo");
-    if (undoEl) {
-      undoEl.classList.toggle("disabled", this.stack.length === 0);
-      const top = this.stack[this.stack.length - 1];
-      undoEl.innerHTML = (top ? `Undo ${top.label}` : "Undo") + ` <span class="kbd">⌘Z</span>`;
-    }
-    if (redoEl) {
-      redoEl.classList.toggle("disabled", this.redoStack.length === 0);
-      const top = this.redoStack[this.redoStack.length - 1];
-      redoEl.innerHTML = (top ? `Redo ${top.label}` : "Redo") + ` <span class="kbd">⇧⌘Z</span>`;
-    }
-  }
-};
 
 /* ============ CLOCK ============ */
 function tickClock() {
@@ -1229,7 +927,6 @@ function toggleMenu(name, e) {
   closeAllMenus();
   if (!isOpen) {
     if (name === "window") buildWindowListMenu();
-    if (name === "edit") History._reflect();
     root.classList.add("open");
   }
 }
@@ -1263,8 +960,6 @@ function menuAction(action) {
   const win = getFocusedWindow();
 
   switch (action) {
-    case "undo": History.undo(); break;
-    case "redo": History.redo(); break;
     case "about-mac": openAboutMac(); break;
     case "settings": toggleControlCenter(); break;
     case "force-quit":
@@ -1945,79 +1640,40 @@ updateNetworkStatus();
 </script>
 
 <script>
-/* ================================================================================================
-   THREE.JS ROOM — GAME LAYER
-   Alok's physical workspace, presented as a small third-person interactive scene. The macOS
-   portfolio above (#desktop) is untouched; it now lives on the screen of the in-scene computer.
+/* ================================================================
+   THREE.JS ROOM
+   Alok's physical workspace. The Mac inside it carries the existing
+   macOS portfolio (#desktop, untouched above) on its screen.
+   Everything in this script is new; nothing above was modified.
+   ================================================================ */
 
-   Sections: CONFIG · STATE · UTIL/TEXTURES · AUDIO SYSTEM · DAY/NIGHT SYSTEM · INPUT · MOBILE
-   CONTROLS · CHARACTER · PLAYER CONTROLLER · CAMERA RIG · COLLISION · INTERACTION SYSTEM ·
-   MINIMAP · ROOM WORLD (walls/door/furniture/props/posters) · CINEMATIC INTRO · QUALITY /
-   PERFORMANCE · BOOTSTRAP / RENDER LOOP · MAC INTEGRATION · FALLBACK
-   ================================================================================================ */
-
-/* ==================== CONFIG ==================== */
-const CONFIG = {
-  moveSpeed: 1.55,
-  runSpeed: 3.05,
-  accel: 8.5,
-  decel: 10,
-  turnSpeed: 10,
-  interactRadius: 1.05,
-  camDistanceDefault: 3.0,
-  camPitchDefault: 0.34,
-  camHeight: 1.15,
-  camMinDist: 1.1,
-  camMaxDist: 4.4,
-  camPitchMin: 0.08,
-  camPitchMax: 0.92,
-  camCollisionMargin: 0.28,
-  camCollisionHeight: 1.75,
-  bounds: { minX: -2.05, maxX: 2.08, minZ: -1.42, maxZ: 1.55 },
-  // gameplay physics
-  gravity: 9.4,
-  jumpVelocity: 3.55,
-  jumpCooldown: 0.28,
-  landRecovery: 0.22,
-  playerRadius: 0.22
-};
-
-/* ==================== STATE ==================== */
-// Player.state machine: cinematic | free | sitting | computer | sleeping
-// ROOM.transitioning guards against overlapping/incompatible actions mid-transition.
 const ROOM = {
-  scene: null, camera: null, renderer: null,
-  lights: null, objects: {}, colliders: [],
+  scene: null, camera: null, renderer: null, controls: null,
+  raycaster: new THREE.Raycaster(),
+  mouse: new THREE.Vector2(),
+  hoveredMesh: null, hoveredType: null,
+  lights: null, objects: {}, interactiveMeshes: [],
+  mode: "day",
+  computerActive: false,
+  transitioning: false,
+  webglOK: true,
+  isFallback: false,
   isMobile: window.innerWidth < 900 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent),
-  reducedMotion: window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  webglOK: true, isFallback: false,
-  computerActive: false, transitioning: false,
-  clock: { last: performance.now() },
-  introElapsed: 0, doorOpened: false,
-  lastFootStepPhase: 0,
-  lastInputTime: performance.now()
+  reducedMotion: window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches
 };
 
-const Cam = {
-  yaw: -0.15, pitch: CONFIG.camPitchDefault, dist: CONFIG.camDistanceDefault,
-  dragging: false, lastX: 0, lastY: 0,
-  // seat/anchor camera keeps the SAME orbit rig, just re-centered + re-framed on a focus point
-  anchor: null,        // Vector3 | null — when set, camera orbits this point instead of Player.pos
-  anchorHeight: 1.35,  // look-at height offset used with anchor
-  effDist: CONFIG.camDistanceDefault // collision-shortened distance actually rendered (smoothed)
+const CAM_POSES = {
+  introStart: { pos: [2.6, 2.9, 5.2], target: [0.05, 1.0, -1.2] },
+  room:       { pos: [1.65, 1.92, 3.35], target: [0.05, 0.98, -1.2] },
+  screen:     { pos: [0, 1.22, -0.58], target: [0, 1.22, -1.28] }
 };
 
-function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-function lerp(a, b, t) { return a + (b - a) * t; }
-function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
-function hasWebGL() {
-  try {
-    const c = document.createElement("canvas");
-    return !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl")));
-  } catch (e) { return false; }
-}
+const ATMO = {
+  day:   { hemi: 0.55, ambient: 0.18, sun: 1.15, fill: 0.28, windowFill: 0.4, lamp: 0,   monitorGlow: 0.32, bg: 0xd8dfe6, curtainsOpen: true },
+  night: { hemi: 0.10, ambient: 0.05, sun: 0.04, fill: 0.03, windowFill: 0.04, lamp: 1.5, monitorGlow: 0.85, bg: 0x0a0810, curtainsOpen: false }
+};
 
-/* ==================== TEXTURE / MATERIAL HELPERS ==================== */
+/* ---------------- procedural texture helpers (cheap, cached canvases — no network requests) ---------------- */
 function makeContactShadowTexture() {
   const c = document.createElement("canvas");
   c.width = 128; c.height = 128;
@@ -2075,1013 +1731,82 @@ function makeWallNoiseTexture(base) {
   tex.encoding = THREE.sRGBEncoding;
   return tex;
 }
-/* fan-styled, generic initials-in-a-shield crest — not a reproduction of any official club badge */
-function makeCrestTexture() {
-  const c = document.createElement("canvas");
-  c.width = 128; c.height = 128;
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = "#c8102e";
-  ctx.beginPath();
-  ctx.moveTo(64, 6);
-  ctx.bezierCurveTo(20, 10, 12, 40, 12, 64);
-  ctx.bezierCurveTo(12, 96, 34, 116, 64, 124);
-  ctx.bezierCurveTo(94, 116, 116, 96, 116, 64);
-  ctx.bezierCurveTo(116, 40, 108, 10, 64, 6);
-  ctx.closePath();
-  ctx.fill();
-  ctx.strokeStyle = "#f0c419"; ctx.lineWidth = 3; ctx.stroke();
-  ctx.fillStyle = "#fff";
-  ctx.font = "700 40px -apple-system, Inter, sans-serif";
-  ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText("LFC", 64, 68);
-  return c;
-}
-function makeScarfTexture() {
-  const c = document.createElement("canvas");
-  c.width = 128; c.height = 512;
-  const ctx = c.getContext("2d");
-  const stripeH = 512 / 8;
-  for (let i = 0; i < 8; i++) {
-    ctx.fillStyle = i % 2 === 0 ? "#c8102e" : "#f4f2ec";
-    ctx.fillRect(0, i * stripeH, 128, stripeH);
-  }
-  ctx.fillStyle = "#c8102e";
-  ctx.font = "700 26px -apple-system, Inter, sans-serif";
-  ctx.textAlign = "center";
-  ctx.save();
-  ctx.translate(64, 256);
-  ctx.rotate(-Math.PI / 2);
-  ctx.fillText("YNWA", 0, 8);
-  ctx.restore();
-  ctx.fillStyle = "#e8e4da";
-  for (let x = 4; x < 128; x += 12) ctx.fillRect(x, 500, 5, 12);
-  return c;
-}
-function makeJerseyTexture() {
-  const c = document.createElement("canvas");
-  c.width = 128; c.height = 128;
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = "#c8102e";
-  ctx.fillRect(0, 0, 128, 128);
-  ctx.strokeStyle = "rgba(255,255,255,0.35)";
-  ctx.lineWidth = 6;
-  for (let x = -128; x < 128; x += 22) { ctx.beginPath(); ctx.moveTo(x, 128); ctx.lineTo(x + 128, 0); ctx.stroke(); }
-  ctx.fillStyle = "rgba(255,255,255,0.9)";
-  ctx.fillRect(0, 0, 128, 10);
-  return c;
-}
-function makeCurtainTexture() {
-  const c = document.createElement("canvas");
-  c.width = 64; c.height = 128;
-  const ctx = c.getContext("2d");
-  ctx.fillStyle = "#e4d9c8"; ctx.fillRect(0, 0, 64, 128);
-  ctx.globalAlpha = 0.12; ctx.fillStyle = "#000";
-  for (let x = 0; x < 64; x += 8) ctx.fillRect(x, 0, 3, 128);
-  return new THREE.CanvasTexture(c);
-}
-function buildScreenPreviewCanvas() {
-  const c = document.createElement("canvas");
-  c.width = 512; c.height = 320;
-  const ctx = c.getContext("2d");
-  const grad = ctx.createLinearGradient(0, 0, 0, 320);
-  grad.addColorStop(0, "#1c1a22");
-  grad.addColorStop(1, "#050506");
-  ctx.fillStyle = grad; ctx.fillRect(0, 0, 512, 320);
-  ctx.fillStyle = "rgba(255,255,255,0.8)";
-  ctx.font = "600 22px -apple-system, Inter, sans-serif";
-  ctx.textAlign = "center";
-  ctx.fillText("Alok Sharma", 256, 152);
-  ctx.font = "400 13px -apple-system, Inter, sans-serif";
-  ctx.fillStyle = "rgba(255,255,255,0.45)";
-  ctx.fillText("Sit down and press E", 256, 178);
-  for (let i = 0; i < 5; i++) {
-    ctx.beginPath();
-    ctx.fillStyle = "rgba(255,255,255,0.32)";
-    ctx.arc(206 + i * 25, 282, 7, 0, Math.PI * 2);
-    ctx.fill();
-  }
-  return c;
+
+const WALL_POSTERS = [
+  { title: "curtisjonesfinal.jpg", img: "curtisjonesfinal.jpg", folder: "Danke" },
+  { title: "ThankyouMo.jpeg",      img: "ThankyouMo.jpeg",      folder: "Danke" },
+  { title: "livvpsg",              img: "livvpsg.jpeg",         folder: "Matchday" }
+];
+
+function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+function hasWebGL() {
+  try {
+    const c = document.createElement("canvas");
+    return !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl")));
+  } catch (e) { return false; }
 }
 
-/* ==================== AUDIO SYSTEM (WebAudio-generated, no external files) ==================== */
-const AudioSys = {
-  ctx: null, master: null, ambientSrc: null, muted: false, unlocked: false,
-  init() {
-    this.muted = localStorage.getItem("room_muted") === "1";
-    this._reflectMuteUI();
-  },
-  ensure() {
-    if (this.unlocked) return;
-    try {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
-      this.master = this.ctx.createGain();
-      this.master.gain.value = this.muted ? 0 : 0.55;
-      this.master.connect(this.ctx.destination);
-      this.unlocked = true;
-      this._startAmbience();
-    } catch (e) { this.unlocked = false; }
-  },
-  toggleMute() {
-    this.muted = !this.muted;
-    localStorage.setItem("room_muted", this.muted ? "1" : "0");
-    if (this.master) this.master.gain.setTargetAtTime(this.muted ? 0 : 0.55, this.ctx.currentTime, 0.08);
-    this._reflectMuteUI();
-  },
-  _reflectMuteUI() {
-    const btn = document.getElementById("mute-btn");
-    if (!btn) return;
-    btn.innerHTML = this.muted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
-    btn.classList.toggle("off", this.muted);
-  },
-  tone(freq, dur, type, vol, glideTo) {
-    if (!this.unlocked) return;
-    const t0 = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = type || "sine";
-    osc.frequency.setValueAtTime(freq, t0);
-    if (glideTo) osc.frequency.exponentialRampToValueAtTime(Math.max(20, glideTo), t0 + dur);
-    gain.gain.setValueAtTime(0.0001, t0);
-    gain.gain.exponentialRampToValueAtTime(vol || 0.2, t0 + 0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    osc.connect(gain).connect(this.master);
-    osc.start(t0); osc.stop(t0 + dur + 0.02);
-  },
-  footstep(running) { this.tone(90 + Math.random() * 20, running ? 0.06 : 0.08, "triangle", running ? 0.13 : 0.11); },
-  jump() { this.tone(300, 0.09, "sine", 0.08, 460); },
-  land() { this.tone(140, 0.09, "sine", 0.09, 70); },
-  doorSound(opening) { this.tone(opening ? 160 : 130, 0.4, "sawtooth", 0.05, opening ? 260 : 90); },
-  keyClick() { this.tone(700 + Math.random() * 200, 0.035, "square", 0.05); },
-  lampClick() { this.tone(500, 0.05, "square", 0.06); },
-  chime() { this.tone(660, 0.18, "sine", 0.08, 880); },
-  _startAmbience() {
-    try {
-      const bufferSize = 2 * this.ctx.sampleRate;
-      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      let last = 0;
-      for (let i = 0; i < bufferSize; i++) {
-        const white = Math.random() * 2 - 1;
-        last = (last + 0.02 * white) / 1.02;
-        data[i] = last * 3.2;
-      }
-      const src = this.ctx.createBufferSource();
-      src.buffer = buffer; src.loop = true;
-      const filt = this.ctx.createBiquadFilter();
-      filt.type = "lowpass"; filt.frequency.value = 240;
-      const g = this.ctx.createGain(); g.gain.value = 0.035;
-      src.connect(filt).connect(g).connect(this.master);
-      src.start();
-      this.ambientSrc = src;
-    } catch (e) { /* ambience is decorative — ignore failures */ }
-  }
-};
+/* ---------------- scene / camera / renderer / lights ---------------- */
 
-/* ==================== DAY / NIGHT SYSTEM ==================== */
-const ATMO = {
-  night: { hemi: 0.12, ambient: 0.06, sun: 0.03, fill: 0.05, windowFill: 0.05, lamp: 1.5, monitorGlow: 0.85, bg: 0x0a0810, rgbPurple: 0.55, rgbRed: 0.4, sky: ["#0c1220", "#050509"] },
-  day:   { hemi: 0.55, ambient: 0.32, sun: 0.55, fill: 0.22, windowFill: 0.4, lamp: 0.0, monitorGlow: 0.55, bg: 0x9fb8d8, rgbPurple: 0.22, rgbRed: 0.18, sky: ["#bcd9f2", "#eef4e9"] }
-};
-const DayNight = {
-  mode: localStorage.getItem("room_daynight") || "night",
-  anim: null,
-  apply(instant) {
-    if (!ROOM.lights) return;
-    const t = ATMO[this.mode], L = ROOM.lights;
-    const from = { hemi: L.hemi.intensity, ambient: L.ambient.intensity, sun: L.sun.intensity, fill: L.fill.intensity, windowFill: L.windowFill.intensity, lamp: L.lamp.intensity, monitorGlow: L.monitorGlow.intensity, rgbPurple: L.rgbPurple.intensity, rgbRed: L.rgbRed.intensity };
-    if (instant || ROOM.reducedMotion) {
-      Object.assign(L.hemi, { intensity: t.hemi }); L.ambient.intensity = t.ambient; L.sun.intensity = t.sun; L.fill.intensity = t.fill;
-      L.windowFill.intensity = t.windowFill; L.lamp.intensity = ROOM.objects.lampOn === false ? 0 : t.lamp; L.monitorGlow.intensity = t.monitorGlow;
-      L.rgbPurple.intensity = t.rgbPurple; L.rgbRed.intensity = t.rgbRed;
-      ROOM.scene.background = new THREE.Color(t.bg);
-      updateSkyTexture(t.sky);
-      this._reflectUI();
-      return;
-    }
-    this.anim = { from, to: t, start: performance.now(), dur: 1800 };
-    this._reflectUI();
-  },
-  update() {
-    if (!this.anim || !ROOM.lights) return;
-    const k = clamp((performance.now() - this.anim.start) / this.anim.dur, 0, 1);
-    const e = easeInOutCubic(k);
-    const L = ROOM.lights, f = this.anim.from, t = this.anim.to;
-    L.hemi.intensity = lerp(f.hemi, t.hemi, e);
-    L.ambient.intensity = lerp(f.ambient, t.ambient, e);
-    L.sun.intensity = lerp(f.sun, t.sun, e);
-    L.fill.intensity = lerp(f.fill, t.fill, e);
-    L.windowFill.intensity = lerp(f.windowFill, t.windowFill, e);
-    L.lamp.intensity = ROOM.objects.lampOn === false ? 0 : lerp(f.lamp, t.lamp, e);
-    L.monitorGlow.intensity = lerp(f.monitorGlow, t.monitorGlow, e);
-    L.rgbPurple.intensity = lerp(f.rgbPurple, t.rgbPurple, e);
-    L.rgbRed.intensity = lerp(f.rgbRed, t.rgbRed, e);
-    if (k >= 1) { this.anim = null; updateSkyTexture(ATMO[this.mode].sky); }
-  },
-  toggle(skipHistory) {
-    const prevMode = this.mode;
-    const nextMode = this.mode === "night" ? "day" : "night";
-    this.mode = nextMode;
-    localStorage.setItem("room_daynight", this.mode);
-    this.apply(false);
-    if (!skipHistory) {
-      History.push({
-        label: "Day/Night",
-        undo: () => { this.mode = prevMode; localStorage.setItem("room_daynight", this.mode); this.apply(false); },
-        redo: () => { this.mode = nextMode; localStorage.setItem("room_daynight", this.mode); this.apply(false); }
-      });
-    }
-  },
-  _reflectUI() {
-    const btn = document.getElementById("daynight-btn");
-    const cc = document.getElementById("cc-room-mode");
-    if (btn) btn.innerHTML = this.mode === "night" ? '<i class="fa-solid fa-moon"></i>' : '<i class="fa-solid fa-sun"></i>';
-    if (cc) cc.textContent = this.mode === "night" ? "Night" : "Day";
-  }
-};
-function updateSkyTexture(colors) {
-  if (!ROOM.objects.sky) return;
-  const c = document.createElement("canvas");
-  c.width = 8; c.height = 128;
-  const ctx = c.getContext("2d");
-  const grad = ctx.createLinearGradient(0, 0, 0, 128);
-  grad.addColorStop(0, colors[0]); grad.addColorStop(1, colors[1]);
-  ctx.fillStyle = grad; ctx.fillRect(0, 0, 8, 128);
-  ROOM.objects.sky.material.map = new THREE.CanvasTexture(c);
-  ROOM.objects.sky.material.needsUpdate = true;
+function initThree() {
+  const container = document.getElementById("three-container");
+
+  ROOM.scene = new THREE.Scene();
+  ROOM.scene.background = new THREE.Color(ATMO.day.bg);
+
+  ROOM.camera = new THREE.PerspectiveCamera(44, window.innerWidth / window.innerHeight, 0.1, 60);
+  ROOM.camera.position.set(...CAM_POSES.introStart.pos);
+  ROOM.camera.lookAt(new THREE.Vector3(...CAM_POSES.introStart.target));
+
+  ROOM.renderer = new THREE.WebGLRenderer({ antialias: true });
+  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ROOM.isMobile ? 1 : 1.75));
+  ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
+  ROOM.renderer.shadowMap.enabled = true;
+  ROOM.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  ROOM.renderer.outputEncoding = THREE.sRGBEncoding;
+  container.appendChild(ROOM.renderer.domElement);
+
+  ROOM.controls = new THREE.OrbitControls(ROOM.camera, ROOM.renderer.domElement);
+  ROOM.controls.target.set(...CAM_POSES.room.target);
+  ROOM.controls.enableDamping = true;
+  ROOM.controls.dampingFactor = 0.08;
+  ROOM.controls.enablePan = false;
+  ROOM.controls.minDistance = 2.6;
+  ROOM.controls.maxDistance = 5.4;
+  ROOM.controls.minPolarAngle = Math.PI * 0.28;
+  ROOM.controls.maxPolarAngle = Math.PI * 0.50;
+  ROOM.controls.minAzimuthAngle = -Math.PI * 0.32;
+  ROOM.controls.maxAzimuthAngle = Math.PI * 0.32;
+  ROOM.controls.enabled = false;
+
+  buildLights();
+  buildRoomShell();
+  buildDesk();
+  buildComputer();
+  buildLamp();
+  buildDeskProps();
+  buildWallAndPosters();
+  buildWindowAndCurtains();
+  buildShelf();
+
+  ROOM.interactiveMeshes = [];
+  ROOM.scene.traverse(o => { if (o.isMesh && o.userData.type) ROOM.interactiveMeshes.push(o); });
+
+  window.addEventListener("resize", onRoomResize);
+  container.addEventListener("mousemove", onRoomPointerMove);
+  container.addEventListener("click", onRoomClick);
+
+  restoreDayNightPref();
+  animateIntro();
+  requestAnimationFrame(renderLoop);
 }
 
-/* ==================== QUALITY / PERFORMANCE ==================== */
-const Quality = {
-  level: ROOM.isMobile ? "low" : "medium",
-  set(level, skipHistory) {
-    const prevLevel = this.level;
-    if (!skipHistory && prevLevel !== level && ROOM.renderer) {
-      History.push({ label: "Graphics Quality", undo: () => Quality.set(prevLevel, true), redo: () => Quality.set(level, true) });
-    }
-    this.level = level;
-    if (!ROOM.renderer) return;
-    const caps = { low: 1, medium: 1.5, high: Math.min(window.devicePixelRatio || 1, 2) };
-    ROOM.renderer.setPixelRatio(caps[level]);
-    ROOM.renderer.shadowMap.enabled = level !== "low";
-    if (ROOM.lights) {
-      ROOM.lights.rgbPurple.visible = level !== "low";
-      ROOM.lights.rgbRed.visible = level !== "low";
-      if (ROOM.lights.sun.shadow.map) { ROOM.lights.sun.shadow.map.dispose(); ROOM.lights.sun.shadow.map = null; }
-      ROOM.lights.sun.shadow.mapSize.set(level === "high" ? 1536 : 768, level === "high" ? 1536 : 768);
-    }
-    document.querySelectorAll("#quality-panel button").forEach(b => b.classList.toggle("active", b.dataset.q === level));
-  }
-};
-function toggleQualityPanel() { document.getElementById("quality-panel").classList.toggle("show"); }
-document.addEventListener("click", e => {
-  const panel = document.getElementById("quality-panel");
-  if (panel && panel.classList.contains("show") && !e.target.closest("#quality-panel") && !e.target.closest("#quality-btn")) panel.classList.remove("show");
-});
-
-/* ==================== INPUT (desktop) ==================== */
-const Input = { keys: {}, moveX: 0, moveY: 0, running: false, runHeld: false, jumpPressed: false };
-function markInputActivity() { ROOM.lastInputTime = performance.now(); showControlsHUD(); }
-function initDesktopInput() {
-  window.addEventListener("keydown", e => {
-    // Cmd/Ctrl+Z (undo) and Cmd/Ctrl+Shift+Z (redo) work anywhere, including inside the 3D room
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "z") {
-      e.preventDefault();
-      if (e.shiftKey) History.redo(); else History.undo();
-      return;
-    }
-    if (ROOM.computerActive) return; // don't steal WASD/space from the macOS layer while it's active
-    AudioSys.ensure();
-    const k = e.key.toLowerCase();
-    if (!Input.keys[k]) markInputActivity();
-    Input.keys[k] = true;
-    setKeycapPressed(k, true);
-    if (e.key === "Shift") { Input.running = true; setKeycapPressed("shift", true); }
-    if (k === "e") handleInteractPress();
-    if (e.key === "Escape") handleEscapePress();
-    if (e.code === "Space" || k === " ") { e.preventDefault(); Input.jumpPressed = true; setKeycapPressed("space", true); markInputActivity(); }
-  });
-  window.addEventListener("keyup", e => {
-    const k = e.key.toLowerCase();
-    Input.keys[k] = false;
-    setKeycapPressed(k, false);
-    if (e.key === "Shift") { Input.running = false; setKeycapPressed("shift", false); }
-    if (e.code === "Space" || k === " ") setKeycapPressed("space", false);
-  });
-
-  const dom = () => ROOM.renderer && ROOM.renderer.domElement;
-  window.addEventListener("mousedown", e => {
-    if (ROOM.computerActive || !dom() || e.target.closest("#room-toolbar, #quality-panel, #controls-hud")) return;
-    Cam.dragging = true; Cam.lastX = e.clientX; Cam.lastY = e.clientY;
-    markInputActivity();
-  });
-  window.addEventListener("mouseup", () => { Cam.dragging = false; });
-  window.addEventListener("mousemove", e => {
-    if (!Cam.dragging) return;
-    const dx = e.clientX - Cam.lastX, dy = e.clientY - Cam.lastY;
-    Cam.lastX = e.clientX; Cam.lastY = e.clientY;
-    Cam.yaw -= dx * 0.0072;
-    Cam.pitch = clamp(Cam.pitch - dy * 0.0045, CONFIG.camPitchMin, CONFIG.camPitchMax);
-    markInputActivity();
-  });
-  window.addEventListener("wheel", e => {
-    if (ROOM.computerActive) return;
-    Cam.dist = clamp(Cam.dist + e.deltaY * 0.0022, CONFIG.camMinDist, CONFIG.camMaxDist);
-    markInputActivity();
-  }, { passive: true });
-}
-
-/* ==================== MOBILE TOUCH CONTROLS ==================== */
-const Mobile = {
-  joyActive: false, joyId: null, joyCenter: { x: 0, y: 0 },
-  lookId: null, lookLast: { x: 0, y: 0 },
-  init() {
-    if (!ROOM.isMobile) return;
-    document.getElementById("mobile-controls").classList.add("show");
-    const base = document.getElementById("mc-joy-base");
-    const stick = document.getElementById("mc-joy-stick");
-    const lookZone = document.getElementById("mc-look-zone");
-    const interactBtn = document.getElementById("mc-interact-btn");
-    const runBtn = document.getElementById("mc-run-btn");
-    const jumpBtn = document.getElementById("mc-jump-btn");
-
-    base.addEventListener("touchstart", e => {
-      AudioSys.ensure();
-      const t = e.changedTouches[0];
-      this.joyActive = true; this.joyId = t.identifier;
-      const r = base.getBoundingClientRect();
-      this.joyCenter = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-      e.preventDefault(); markInputActivity();
-    }, { passive: false });
-    window.addEventListener("touchmove", e => {
-      for (const t of e.changedTouches) {
-        if (this.joyActive && t.identifier === this.joyId) {
-          let dx = t.clientX - this.joyCenter.x, dy = t.clientY - this.joyCenter.y;
-          const max = 40, len = Math.hypot(dx, dy);
-          if (len > max) { dx = dx / len * max; dy = dy / len * max; }
-          stick.style.transform = `translate(${dx}px, ${dy}px)`;
-          Input.moveX = clamp(dx / max, -1, 1);
-          Input.moveY = clamp(-dy / max, -1, 1);
-        }
-        if (this.lookId === t.identifier) {
-          const dx = t.clientX - this.lookLast.x, dy = t.clientY - this.lookLast.y;
-          this.lookLast = { x: t.clientX, y: t.clientY };
-          Cam.yaw -= dx * 0.008;
-          Cam.pitch = clamp(Cam.pitch - dy * 0.006, CONFIG.camPitchMin, CONFIG.camPitchMax);
-        }
-      }
-    }, { passive: true });
-    window.addEventListener("touchend", e => {
-      for (const t of e.changedTouches) {
-        if (t.identifier === this.joyId) { this.joyActive = false; this.joyId = null; Input.moveX = 0; Input.moveY = 0; stick.style.transform = "translate(0,0)"; }
-        if (t.identifier === this.lookId) this.lookId = null;
-      }
-    });
-    lookZone.addEventListener("touchstart", e => {
-      const t = e.changedTouches[0];
-      this.lookId = t.identifier; this.lookLast = { x: t.clientX, y: t.clientY };
-      markInputActivity();
-    }, { passive: true });
-    interactBtn.addEventListener("touchstart", e => { e.preventDefault(); handleInteractPress(); }, { passive: false });
-    runBtn.addEventListener("touchstart", e => { e.preventDefault(); Input.running = true; runBtn.classList.add("active"); markInputActivity(); }, { passive: false });
-    runBtn.addEventListener("touchend", () => { Input.running = false; runBtn.classList.remove("active"); });
-    if (jumpBtn) {
-      jumpBtn.addEventListener("touchstart", e => { e.preventDefault(); Input.jumpPressed = true; jumpBtn.classList.add("active"); markInputActivity(); }, { passive: false });
-      jumpBtn.addEventListener("touchend", () => jumpBtn.classList.remove("active"));
-    }
-  }
-};
-
-/* ==================== CONTROLS HUD (GTA-style keycap legend) ==================== */
-const ControlsHUD = {
-  el: null, fadeTimer: null,
-  init() {
-    this.el = document.getElementById("controls-hud");
-    if (!this.el) return;
-    const collapsed = sessionStorage.getItem("room_controls_collapsed") === "1";
-    this.el.classList.toggle("collapsed", collapsed);
-    this.el.classList.remove("collapsed-init");
-    this._tick();
-  },
-  toggleCollapse() {
-    if (!this.el) return;
-    const collapsed = this.el.classList.toggle("collapsed");
-    sessionStorage.setItem("room_controls_collapsed", collapsed ? "1" : "0");
-    markInputActivity();
-  },
-  _tick() {
-    // fade the HUD after a period of inactivity; any input brings it back (markInputActivity)
-    const idle = performance.now() - ROOM.lastInputTime > 4500;
-    if (this.el) this.el.classList.toggle("faded", idle && !ROOM.computerActive);
-    requestAnimationFrame(() => this._tick());
-  }
-};
-function showControlsHUD() {
-  const el = document.getElementById("controls-hud");
-  if (el) el.classList.remove("faded");
-}
-function setKeycapPressed(key, pressed) {
-  const el = document.querySelector(`.ch-key[data-key="${key}"]`);
-  if (el) el.classList.toggle("pressed", pressed);
-}
-function updateControlsHUDContext() {
-  const moveRows = document.querySelectorAll('.ch-row[data-ctx="move"]');
-  const interactRow = document.getElementById("ch-interact-row");
-  const escapeRow = document.getElementById("ch-escape-row");
-  const interactLabel = document.getElementById("ch-interact-label");
-  const interactLabelM = document.getElementById("ch-interact-label-m");
-  const escapeLabel = document.getElementById("ch-escape-label");
-  const mouseLabel = document.getElementById("ch-mouse-label");
-  if (!interactRow) return;
-
-  const hideMove = ROOM.computerActive || Player.state === "sleeping";
-  moveRows.forEach(r => r.classList.toggle("ch-hidden", hideMove));
-
-  if (ROOM.computerActive) {
-    interactRow.classList.add("ch-hidden");
-    escapeRow.classList.remove("ch-hidden");
-    escapeLabel.textContent = "Back to room";
-    mouseLabel.textContent = "Use the Mac";
-    return;
-  }
-  mouseLabel.textContent = "Look / Rotate Camera";
-
-  if (Player.state === "sitting") {
-    interactRow.classList.remove("ch-hidden");
-    interactLabel.textContent = "Use Computer";
-    if (interactLabelM) interactLabelM.textContent = "Use Computer";
-    escapeRow.classList.remove("ch-hidden");
-    escapeLabel.textContent = "Stand up";
-  } else if (Player.state === "sleeping") {
-    interactRow.classList.add("ch-hidden");
-    escapeRow.classList.remove("ch-hidden");
-    escapeLabel.textContent = "Wake up";
-  } else if (ActiveInteractable) {
-    interactRow.classList.remove("ch-hidden");
-    interactLabel.textContent = ActiveInteractable.label;
-    if (interactLabelM) interactLabelM.textContent = ActiveInteractable.label;
-    escapeRow.classList.add("ch-hidden");
-  } else {
-    interactRow.classList.remove("ch-hidden");
-    interactLabel.textContent = "Interact";
-    if (interactLabelM) interactLabelM.textContent = "Interact";
-    escapeRow.classList.add("ch-hidden");
-  }
-  document.querySelectorAll(".ch-row").forEach(r => r.classList.toggle("ch-active", r === interactRow && !interactRow.classList.contains("ch-hidden")));
-}
-
-/* ==================== CHARACTER (procedural — GLB-ready fallback per spec) ==================== */
-function buildCharacter() {
-  const g = new THREE.Group();
-  const jerseyTex = new THREE.CanvasTexture(makeJerseyTexture());
-  jerseyTex.encoding = THREE.sRGBEncoding;
-  const jerseyMat = new THREE.MeshStandardMaterial({ map: jerseyTex, roughness: 0.75 });
-  const shortsMat = new THREE.MeshStandardMaterial({ color: 0xf4f2ec, roughness: 0.8 });
-  const sockMat = new THREE.MeshStandardMaterial({ color: 0xc8102e, roughness: 0.7 });
-  const skinMat = new THREE.MeshStandardMaterial({ color: 0xc9a17a, roughness: 0.75 });
-  const shoeMat = new THREE.MeshStandardMaterial({ color: 0x161513, roughness: 0.5 });
-  const hairMat = new THREE.MeshStandardMaterial({ color: 0x2a1f16, roughness: 0.6 });
-
-  const hips = new THREE.Group(); hips.position.y = 0.86; g.add(hips);
-
-  const torso = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.4, 0.19), jerseyMat);
-  torso.position.y = 0.24; torso.castShadow = true;
-  hips.add(torso);
-
-  const crestTex = new THREE.CanvasTexture(makeCrestTexture());
-  const crest = new THREE.Mesh(new THREE.CircleGeometry(0.045, 16), new THREE.MeshStandardMaterial({ map: crestTex, roughness: 0.8 }));
-  crest.position.set(-0.09, 0.32, 0.096);
-  hips.add(crest);
-
-  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.04, 0.05, 10), skinMat);
-  neck.position.y = 0.46;
-  hips.add(neck);
-
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.115, 18, 14), skinMat);
-  head.position.y = 0.585; head.castShadow = true;
-  hips.add(head);
-  const hair = new THREE.Mesh(new THREE.SphereGeometry(0.118, 18, 14, 0, Math.PI * 2, 0, Math.PI * 0.55), hairMat);
-  hair.position.y = 0.615;
-  hips.add(hair);
-
-  function buildArm(side) {
-    const pivot = new THREE.Group();
-    pivot.position.set(side * 0.19, 0.42, 0);
-    const upper = new THREE.Mesh(new THREE.BoxGeometry(0.085, 0.24, 0.09), jerseyMat);
-    upper.position.y = -0.12; upper.castShadow = true;
-    pivot.add(upper);
-    const hand = new THREE.Mesh(new THREE.SphereGeometry(0.045, 10, 8), skinMat);
-    hand.position.y = -0.27;
-    pivot.add(hand);
-    hips.add(pivot);
-    return pivot;
-  }
-  const armL = buildArm(1);
-  const armR = buildArm(-1);
-
-  function buildLeg(side) {
-    const pivot = new THREE.Group();
-    pivot.position.set(side * 0.09, 0, 0);
-    const thigh = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.22, 0.12), shortsMat);
-    thigh.position.y = -0.11; thigh.castShadow = true;
-    pivot.add(thigh);
-    const shin = new THREE.Mesh(new THREE.BoxGeometry(0.095, 0.24, 0.1), sockMat);
-    shin.position.y = -0.34; shin.castShadow = true;
-    pivot.add(shin);
-    const shoe = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.06, 0.17), shoeMat);
-    shoe.position.set(0, -0.48, 0.025); shoe.castShadow = true;
-    pivot.add(shoe);
-    hips.add(pivot);
-    return pivot;
-  }
-  const legL = buildLeg(1);
-  const legR = buildLeg(-1);
-
-  g.userData.parts = { hips, torso, head, armL, armR, legL, legR };
-  return g;
-}
-
-/* ==================== PLAYER CONTROLLER ==================== */
-const Player = {
-  group: null, pos: new THREE.Vector3(3.1, 0, 0.85), yaw: -Math.PI / 2, targetYaw: -Math.PI / 2,
-  speed: 0, walkPhase: 0, state: "cinematic", parts: null,
-  // vertical / jump physics
-  vy: 0, height: 0, grounded: true, jumpCooldown: 0, landTimer: 0, airTime: 0,
-  // smooth scripted transitions (sit/stand/sleep/wake/computer) — never teleports
-  anim: null, // {from:{pos,yaw}, to:{pos,yaw}, dur, elapsed, onDone, poseTarget}
-  init() {
-    this.group = buildCharacter();
-    this.parts = this.group.userData.parts;
-    this.group.position.copy(this.pos);
-    this.group.rotation.y = this.yaw;
-    ROOM.scene.add(this.group);
-  },
-  get moving() { return this.speed > 0.03; },
-  get airborne() { return !this.grounded; },
-  update(dt) {
-    if (this.state === "cinematic") return;
-    if (this.anim) { this._updateScriptedMove(dt); }
-    else if (this.state === "free") { this._updateFree(dt); this._updateVertical(dt); }
-    this._applyPose(dt);
-    this.group.position.set(this.pos.x, this.height, this.pos.z);
-    this.group.rotation.y = this.yaw;
-  },
-  /* ---- scripted, non-teleporting transitions used by sit/stand/sleep/wake/computer ---- */
-  moveTo(targetPos, targetYaw, dur, onDone) {
-    ROOM.transitioning = true;
-    this.anim = {
-      fromPos: this.pos.clone(), fromYaw: this.yaw,
-      toPos: targetPos.clone(), toYaw: targetYaw,
-      dur: ROOM.reducedMotion ? Math.min(dur, 0.12) : dur, elapsed: 0, onDone: onDone || null
-    };
-  },
-  _updateScriptedMove(dt) {
-    const a = this.anim;
-    a.elapsed += dt;
-    const k = easeInOutCubic(clamp(a.elapsed / a.dur, 0, 1));
-    this.pos.x = lerp(a.fromPos.x, a.toPos.x, k);
-    this.pos.z = lerp(a.fromPos.z, a.toPos.z, k);
-    let diff = a.toYaw - a.fromYaw;
-    while (diff > Math.PI) diff -= Math.PI * 2;
-    while (diff < -Math.PI) diff += Math.PI * 2;
-    this.yaw = a.fromYaw + diff * k;
-    this.walkPhase = lerp(this.walkPhase, Math.round(this.walkPhase / (Math.PI * 2)) * Math.PI * 2, 0.15);
-    if (a.elapsed >= a.dur) {
-      this.pos.copy(a.toPos); this.yaw = a.toYaw;
-      const cb = a.onDone;
-      this.anim = null;
-      ROOM.transitioning = false;
-      if (cb) cb();
-    }
-  },
-  _updateFree(dt) {
-    const forward = new THREE.Vector3(-Math.sin(Cam.yaw), 0, -Math.cos(Cam.yaw));
-    const right = new THREE.Vector3(forward.z, 0, -forward.x);
-    let ix = (Input.keys["d"] ? 1 : 0) - (Input.keys["a"] ? 1 : 0);
-    let iy = (Input.keys["w"] ? 1 : 0) - (Input.keys["s"] ? 1 : 0);
-    if (ROOM.isMobile) { ix += Input.moveX || 0; iy += Input.moveY || 0; }
-    ix = clamp(ix, -1, 1); iy = clamp(iy, -1, 1);
-
-    const moveVec = new THREE.Vector3().addScaledVector(forward, iy).addScaledVector(right, ix);
-    const moving = moveVec.lengthSq() > 0.0004;
-    if (moving) moveVec.normalize();
-
-    const running = (Input.running || Input.runHeld) && moving;
-    const targetSpeed = moving ? (running ? CONFIG.runSpeed : CONFIG.moveSpeed) : 0;
-    const rate = moving ? CONFIG.accel : CONFIG.decel;
-    this.speed = lerp(this.speed, targetSpeed, 1 - Math.exp(-rate * dt));
-    if (!moving && this.speed < 0.02) this.speed = 0;
-
-    if (moving) {
-      this.targetYaw = Math.atan2(moveVec.x, moveVec.z);
-      let diff = this.targetYaw - this.yaw;
-      while (diff > Math.PI) diff -= Math.PI * 2;
-      while (diff < -Math.PI) diff += Math.PI * 2;
-      this.yaw += diff * clamp(CONFIG.turnSpeed * dt, 0, 1);
-    }
-
-    if (this.speed > 0.01) {
-      const dir = new THREE.Vector3(Math.sin(this.targetYaw), 0, Math.cos(this.targetYaw));
-      // keep actual travel direction aligned with intended input, not just facing, for responsive strafing
-      const travel = moving ? moveVec : dir;
-      const step = travel.multiplyScalar(this.speed * dt);
-      const next = this.pos.clone().add(step);
-      this._moveWithCollision(next);
-    }
-
-    if (this.grounded) {
-      if (this.speed > 0.05) {
-        this.walkPhase += dt * (running ? 12.5 : 7.6) * clamp(this.speed / (running ? CONFIG.runSpeed : CONFIG.moveSpeed), 0.4, 1.2);
-        const phaseCycle = Math.floor(this.walkPhase / Math.PI);
-        if (phaseCycle !== ROOM.lastFootStepPhase) { ROOM.lastFootStepPhase = phaseCycle; AudioSys.footstep(running); }
-      } else {
-        this.walkPhase = lerp(this.walkPhase, Math.round(this.walkPhase / (Math.PI * 2)) * Math.PI * 2, 0.12);
-      }
-    }
-
-    // jump — grounded only, guarded by cooldown so mid-air/repeat presses do nothing
-    if (this.jumpCooldown > 0) this.jumpCooldown -= dt;
-    if (Input.jumpPressed && this.grounded && this.jumpCooldown <= 0 && !ROOM.transitioning) {
-      this.vy = CONFIG.jumpVelocity;
-      this.grounded = false;
-      this.jumpCooldown = CONFIG.jumpCooldown;
-      AudioSys.jump && AudioSys.jump();
-    }
-    Input.jumpPressed = false;
-  },
-  _updateVertical(dt) {
-    if (!this.grounded || this.vy !== 0 || this.height > 0.0001) {
-      this.vy -= CONFIG.gravity * dt;
-      this.height += this.vy * dt;
-      this.airTime += dt;
-      if (this.height <= 0) {
-        this.height = 0;
-        if (!this.grounded) { this.landTimer = CONFIG.landRecovery; AudioSys.land && AudioSys.land(); }
-        this.grounded = true;
-        this.vy = 0;
-        this.airTime = 0;
-      } else {
-        this.grounded = false;
-      }
-    }
-    if (this.landTimer > 0) this.landTimer -= dt;
-  },
-  _moveWithCollision(next) {
-    const r = CONFIG.playerRadius;
-    let x = clamp(next.x, CONFIG.bounds.minX + r, CONFIG.bounds.maxX - r);
-    let z = clamp(next.z, CONFIG.bounds.minZ + r, CONFIG.bounds.maxZ - r);
-    // resolve against each collider independently so the player slides naturally along
-    // multiple obstacles instead of popping/sticking when several boxes are nearby
-    for (const box of ROOM.colliders) {
-      if (x > box.minX - r && x < box.maxX + r && z > box.minZ - r && z < box.maxZ + r) {
-        const overlapX1 = (box.maxX + r) - x, overlapX2 = x - (box.minX - r);
-        const overlapZ1 = (box.maxZ + r) - z, overlapZ2 = z - (box.minZ - r);
-        const minOverlap = Math.min(overlapX1, overlapX2, overlapZ1, overlapZ2);
-        if (minOverlap === overlapX1) x = box.maxX + r;
-        else if (minOverlap === overlapX2) x = box.minX - r;
-        else if (minOverlap === overlapZ1) z = box.maxZ + r;
-        else z = box.minZ - r;
-      }
-    }
-    this.pos.x = x; this.pos.z = z;
-  },
-  _applyPose(dt) {
-    const p = this.parts;
-    const now = performance.now();
-    if (this.state === "sitting" || this.state === "computer") {
-      p.legL.rotation.x = lerp(p.legL.rotation.x, -1.25, 0.16);
-      p.legR.rotation.x = lerp(p.legR.rotation.x, -1.25, 0.16);
-      p.armL.rotation.x = lerp(p.armL.rotation.x, this.state === "computer" ? -0.62 : -0.35, 0.16);
-      p.armR.rotation.x = lerp(p.armR.rotation.x, this.state === "computer" ? -0.62 : -0.35, 0.16);
-      p.hips.position.y = lerp(p.hips.position.y, 0.62, 0.16);
-      p.torso.rotation.x = lerp(p.torso.rotation.x, this.state === "computer" ? 0.06 : 0.03, 0.16);
-      return;
-    }
-    if (this.state === "sleeping") {
-      p.legL.rotation.x = lerp(p.legL.rotation.x, 0, 0.12);
-      p.legR.rotation.x = lerp(p.legR.rotation.x, 0, 0.12);
-      p.armL.rotation.x = lerp(p.armL.rotation.x, 0, 0.12);
-      p.armR.rotation.x = lerp(p.armR.rotation.x, 0, 0.12);
-      p.hips.position.y = lerp(p.hips.position.y, 0.86, 0.12);
-      p.torso.rotation.x = lerp(p.torso.rotation.x, 0, 0.12);
-      return;
-    }
-    p.torso.rotation.x = lerp(p.torso.rotation.x, 0, 0.1);
-
-    // airborne poses: rising (tuck) vs falling (reach) + landing squash
-    if (!this.grounded) {
-      const rising = this.vy > 0;
-      p.hips.position.y = lerp(p.hips.position.y, 0.86 + (rising ? 0.02 : -0.01), 0.25);
-      p.legL.rotation.x = lerp(p.legL.rotation.x, rising ? -0.55 : 0.25, 0.2);
-      p.legR.rotation.x = lerp(p.legR.rotation.x, rising ? -0.4 : 0.35, 0.2);
-      p.armL.rotation.x = lerp(p.armL.rotation.x, rising ? -0.9 : -0.3, 0.2);
-      p.armR.rotation.x = lerp(p.armR.rotation.x, rising ? -0.9 : -0.3, 0.2);
-      return;
-    }
-    if (this.landTimer > 0) {
-      const k = this.landTimer / CONFIG.landRecovery; // 1 -> 0
-      p.hips.position.y = 0.86 - k * 0.06;
-      p.legL.rotation.x = lerp(p.legL.rotation.x, 0.28 * k, 0.5);
-      p.legR.rotation.x = lerp(p.legR.rotation.x, 0.28 * k, 0.5);
-      p.armL.rotation.x = lerp(p.armL.rotation.x, 0.2 * k, 0.5);
-      p.armR.rotation.x = lerp(p.armR.rotation.x, 0.2 * k, 0.5);
-      return;
-    }
-
-    // stand / walk / run / idle
-    const running = this.speed > CONFIG.moveSpeed + 0.1;
-    p.hips.position.y = 0.86 + (this.speed > 0.05 ? Math.abs(Math.sin(this.walkPhase * 2)) * (running ? 0.02 : 0.012) : Math.sin(now * 0.0016) * 0.006);
-    const amp = clamp(this.speed / CONFIG.runSpeed, 0, 1) * (running ? 0.85 : 0.6) + (this.speed > 0.02 ? 0.05 : 0);
-    p.legL.rotation.x = Math.sin(this.walkPhase) * amp;
-    p.legR.rotation.x = -Math.sin(this.walkPhase) * amp;
-    p.armL.rotation.x = -Math.sin(this.walkPhase) * amp * (running ? 1.0 : 0.85);
-    p.armR.rotation.x = Math.sin(this.walkPhase) * amp * (running ? 1.0 : 0.85);
-    if (this.speed <= 0.02) { p.armL.rotation.z = lerp(p.armL.rotation.z || 0, 0, 0.08); p.armR.rotation.z = lerp(p.armR.rotation.z || 0, 0, 0.08); }
-  },
-  standUp() {
-    this.state = "free";
-  }
-};
-
-/* ==================== CAMERA RIG ==================== */
-// One authoritative third-person orbit rig. It NEVER hard-locks to a fixed pose: sitting,
-// sleeping, and using the computer just change what point the rig orbits/frames (Cam.anchor)
-// and its preferred distance/pitch — mouse-drag orbit, wheel zoom, and collision keep working.
-const CameraRig = {
-  cinematicPose: null, // {pos:Vector3, target:Vector3} — only used during the intro cutscene
-  update(dt) {
-    if (this.cinematicPose) {
-      const targetPos = this.cinematicPose.pos, lookAt = this.cinematicPose.target;
-      ROOM.camera.position.lerp(targetPos, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.001, dt));
-      const lookVec = ROOM.camera.userData.lookAt || lookAt.clone();
-      lookVec.lerp(lookAt, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.001, dt));
-      ROOM.camera.userData.lookAt = lookVec;
-      ROOM.camera.lookAt(lookVec);
-      return;
-    }
-
-    const focus = Cam.anchor || Player.pos;
-    const yaw = Cam.yaw, pitch = Cam.pitch;
-    const wantDist = clamp(Cam.dist, CONFIG.camMinDist, CONFIG.camMaxDist);
-    const lookTarget = new THREE.Vector3(focus.x, Cam.anchorHeight, focus.z);
-
-    // camera collision: sample inward along the orbit ray from the look target until a
-    // point is free of walls/furniture, so the camera shortens instead of clipping through.
-    const dirX = Math.sin(yaw) * Math.cos(pitch);
-    const dirZ = Math.cos(yaw) * Math.cos(pitch);
-    const dirY = Math.sin(pitch) * 0.9;
-    const rayDir = new THREE.Vector3(dirX, 0, dirZ);
-    const safeDist = cameraCollisionDistance(lookTarget, rayDir, dirY, wantDist);
-    Cam.effDist = lerp(Cam.effDist, safeDist, ROOM.reducedMotion ? 1 : clamp(dt * 10, 0, 1));
-
-    const dist = Cam.effDist;
-    const camX = focus.x + dirX * dist;
-    const camZ = focus.z + dirZ * dist;
-    const camY = CONFIG.camHeight + Math.sin(pitch) * dist * 0.9 + 0.5;
-    const desired = new THREE.Vector3(camX, camY, camZ);
-    ROOM.camera.position.lerp(desired, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.0006, dt));
-
-    const lookVec = ROOM.camera.userData.lookAt || lookTarget.clone();
-    lookVec.lerp(lookTarget, ROOM.reducedMotion ? 1 : 1 - Math.pow(0.001, dt));
-    ROOM.camera.userData.lookAt = lookVec;
-    ROOM.camera.lookAt(lookVec);
-  },
-  setAnchor(pos, height, dist, yaw) {
-    Cam.anchor = pos ? pos.clone() : null;
-    if (height != null) Cam.anchorHeight = height;
-    if (dist != null) Cam.dist = clamp(dist, CONFIG.camMinDist, CONFIG.camMaxDist);
-    if (yaw != null) Cam.yaw = yaw;
-  },
-  clearAnchor() { Cam.anchor = null; Cam.anchorHeight = 1.35; }
-};
-
-// Room "walls" bound (slightly inside the actual wall meshes) + furniture footprints (treated
-// as full-height obstacles) — used to keep the orbit camera from clipping through geometry.
-const CAM_WALL_BOUNDS = { minX: -2.22, maxX: 2.22, minZ: -1.55, maxZ: 1.55 };
-function cameraPointBlocked(p) {
-  if (p.x < CAM_WALL_BOUNDS.minX || p.x > CAM_WALL_BOUNDS.maxX || p.z < CAM_WALL_BOUNDS.minZ || p.z > CAM_WALL_BOUNDS.maxZ) return true;
-  if (p.y < CONFIG.camCollisionHeight) {
-    for (const box of ROOM.colliders) {
-      if (p.x > box.minX && p.x < box.maxX && p.z > box.minZ && p.z < box.maxZ) return true;
-    }
-  }
-  return false;
-}
-function cameraCollisionDistance(lookTarget, rayDirXZ, dirY, wantDist) {
-  const steps = 14;
-  for (let s = 0; s <= steps; s++) {
-    const t = wantDist * (1 - s / steps);
-    const testPos = new THREE.Vector3(
-      lookTarget.x + rayDirXZ.x * t,
-      CONFIG.camHeight + dirY * t * 0.9 + 0.5,
-      lookTarget.z + rayDirXZ.z * t
-    );
-    if (!cameraPointBlocked(testPos)) return Math.max(t, CONFIG.camMinDist * 0.4);
-  }
-  return CONFIG.camMinDist * 0.4;
-}
-
-/* ==================== INTERACTION SYSTEM ==================== */
-const Interactables = [];
-let ActiveInteractable = null;
-
-function registerInteractable(def) { Interactables.push(def); return def; }
-
-function updateInteractionUI() {
-  const promptEl = document.getElementById("interact-prompt");
-  const textEl = document.getElementById("interact-prompt-text");
-  if (Player.state === "cinematic" || ROOM.computerActive || ROOM.transitioning) { promptEl.classList.remove("show"); ActiveInteractable = null; updateControlsHUDContext(); return; }
-
-  let candidates = Interactables;
-  if (Player.state === "sitting") candidates = Interactables.filter(i => i.type === "computer-use" || i.type === "stand");
-  else if (Player.state === "sleeping") candidates = Interactables.filter(i => i.type === "wake");
-  else candidates = Interactables.filter(i => i.type !== "computer-use" && i.type !== "stand" && i.type !== "wake");
-
-  let nearest = null, nearestD = Infinity;
-  for (const it of candidates) {
-    const d = Math.hypot(Player.pos.x - it.pos.x, Player.pos.z - it.pos.z);
-    if (d >= it.radius) continue;
-    // directional gate: only trigger from the physically correct/reachable side, never "through" the object
-    if (it.approachCheck && !it.approachCheck(Player.pos)) continue;
-    if (d < nearestD) { nearest = it; nearestD = d; }
-  }
-  ActiveInteractable = nearest;
-  if (nearest) { textEl.textContent = nearest.label; promptEl.classList.add("show"); }
-  else promptEl.classList.remove("show");
-  updateControlsHUDContext();
-}
-
-let lastInteractAt = 0;
-function handleInteractPress() {
-  AudioSys.ensure();
-  markInputActivity();
-  if (ROOM.transitioning) return;
-  const now = performance.now();
-  if (now - lastInteractAt < 260) return; // guard against repeated E presses double-firing a transition
-  if (ActiveInteractable) { lastInteractAt = now; ActiveInteractable.onInteract(); return; }
-}
-function handleEscapePress() {
-  markInputActivity();
-  if (ROOM.transitioning) return;
-  if (ROOM.computerActive) { exitMac(); return; }
-  if (Player.state === "sitting") { standFromChair(); return; }
-  if (Player.state === "sleeping") { wakeFromBed(); return; }
-}
-
-/* ---- concrete interaction behaviors ----
-   Every transition here MOVES the character (Player.moveTo) instead of teleporting, and
-   re-anchors the still-orbitable camera rig rather than hard-locking it to one pose. */
-function sitAtChair() {
-  if (Player.state !== "free" || ROOM.transitioning) return;
-  Player.state = "sitting";
-  AudioSys.tone(220, 0.08, "sine", 0.05);
-  CameraRig.setAnchor(new THREE.Vector3(0.05, 0, -0.55), 1.28, 2.05, Cam.yaw);
-  Player.moveTo(new THREE.Vector3(0, 0, -0.42), Math.PI, 0.55);
-}
-function standFromChair() {
-  if (ROOM.transitioning) return;
-  Player.state = "free";
-  CameraRig.clearAnchor();
-  Player.moveTo(new THREE.Vector3(0.4, 0, 0.05), Player.yaw, 0.45);
-}
-function sleepOnBed() {
-  if (Player.state !== "free" || ROOM.transitioning) return;
-  Player.state = "sleeping";
-  CameraRig.setAnchor(new THREE.Vector3(1.55, 0, 0.55), 1.05, 2.2, Math.PI * 0.15);
-  if (ROOM.lights) ROOM.lights.lamp.intensity *= 0.5;
-  AudioSys.tone(180, 0.14, "sine", 0.04);
-  Player.moveTo(new THREE.Vector3(1.55, 0, 0.4), Math.PI / 2, 0.7);
-}
-function wakeFromBed() {
-  if (ROOM.transitioning) return;
-  Player.state = "free";
-  CameraRig.clearAnchor();
-  DayNight.apply(false);
-  Player.moveTo(new THREE.Vector3(1.35, 0, 1.05), Math.PI, 0.55);
-}
-function useComputer() {
-  if (ROOM.transitioning || ROOM.computerActive || Player.state !== "sitting") return;
-  ROOM.transitioning = true;
-  Player.state = "computer";
-  CameraRig.setAnchor(new THREE.Vector3(0, 0, -0.65), 1.24, 1.35, 0);
-  AudioSys.keyClick();
-  setTimeout(() => {
-    document.getElementById("desktop").classList.add("mac-active");
-    document.getElementById("back-to-room-btn").classList.add("show");
-    ROOM.computerActive = true;
-    ROOM.transitioning = false;
-  }, 900);
-}
-function exitMac() {
-  if (ROOM.isFallback || !ROOM.computerActive || ROOM.transitioning) return;
-  ROOM.transitioning = true;
-  document.getElementById("desktop").classList.remove("mac-active");
-  document.getElementById("back-to-room-btn").classList.remove("show");
-  ROOM.computerActive = false;
-  Player.state = "sitting"; // same physical seat/position — no reset to spawn
-  CameraRig.setAnchor(new THREE.Vector3(0.05, 0, -0.55), 1.28, 2.05, Cam.yaw);
-  setTimeout(() => { ROOM.transitioning = false; }, 300);
-}
-function toggleLamp(skipHistory) {
-  const was = ROOM.objects.lampOn !== false;
-  ROOM.objects.lampOn = !was;
-  AudioSys.lampClick();
-  const t = ATMO[DayNight.mode];
-  ROOM.lights.lamp.intensity = ROOM.objects.lampOn === false ? 0 : t.lamp;
-  if (!skipHistory) {
-    History.push({
-      label: "Lamp Toggle",
-      undo: () => { ROOM.objects.lampOn = was; ROOM.lights.lamp.intensity = was ? ATMO[DayNight.mode].lamp : 0; },
-      redo: () => toggleLamp(true)
-    });
-  }
-}
-function toggleCurtains(skipHistory) {
-  const wasOpen = !!ROOM.objects.curtainsOpen;
-  ROOM.objects.curtainsOpen = !wasOpen;
-  const targetZ = ROOM.objects.curtainsOpen ? ROOM.objects.curtainOpenZ : ROOM.objects.curtainClosedZ;
-  ROOM.objects.curtainAnim = { start: performance.now(), dur: 900,
-    fromL: ROOM.objects.curtainLeft.position.z, fromR: ROOM.objects.curtainRight.position.z,
-    toL: targetZ.left, toR: targetZ.right };
-  showToast("Curtains", ROOM.objects.curtainsOpen ? "Opened." : "Closed.", "fa-window-maximize");
-  if (!skipHistory) {
-    History.push({
-      label: "Curtains",
-      undo: () => toggleCurtains(true),
-      redo: () => toggleCurtains(true)
-    });
-  }
-}
-function inspectFootball() { showToast("Matchball", "Been through a few five-a-sides.", "fa-futbol"); }
-function inspectPoster(project) {
-  useComputerThenOpenProject(project);
-}
-function useComputerThenOpenProject(project) {
-  if (Player.state === "free") { sitAtChair(); }
-  setTimeout(() => {
-    useComputer();
-    setTimeout(() => {
-      openApp("projects");
-      setTimeout(() => { selectProjectFolder(project.folder); openImageViewer(project.title, project.img); }, 240);
-    }, 950);
-  }, 420);
-}
-function selectProjectFolder(folderName) {
-  const win = openWins.get("projects");
-  if (!win) return;
-  const item = Array.from(win.querySelectorAll(".finder-sb-item")).find(el => el.dataset.folder === folderName);
-  if (item) item.click();
-}
-
-/* ==================== MINIMAP ==================== */
-const Minimap = {
-  ctx: null,
-  init() { this.ctx = document.getElementById("minimap-canvas").getContext("2d"); },
-  draw() {
-    if (!this.ctx || ROOM.computerActive) { document.getElementById("minimap-wrap").classList.remove("show"); return; }
-    document.getElementById("minimap-wrap").classList.add("show");
-    const ctx = this.ctx, W = 132, H = 132;
-    ctx.clearRect(0, 0, W, H);
-    const bx = CONFIG.bounds;
-    const scaleX = (W - 20) / (bx.maxX - bx.minX);
-    const scaleZ = (H - 20) / (bx.maxZ - bx.minZ);
-    const toMap = (x, z) => [10 + (x - bx.minX) * scaleX, 10 + (z - bx.minZ) * scaleZ];
-
-    ctx.fillStyle = "rgba(255,255,255,0.06)";
-    ctx.fillRect(10, 10, W - 20, H - 20);
-    ctx.strokeStyle = "rgba(255,255,255,0.25)";
-    ctx.strokeRect(10, 10, W - 20, H - 20);
-
-    const drawBox = (minX, maxX, minZ, maxZ, color) => {
-      const [x1, y1] = toMap(minX, minZ), [x2, y2] = toMap(maxX, maxZ);
-      ctx.fillStyle = color;
-      ctx.fillRect(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x2 - x1), Math.abs(y2 - y1));
-    };
-    drawBox(-1.05, 1.05, -1.62, -0.68, "rgba(180,150,110,0.55)"); // desk
-    drawBox(1.0, 2.1, -0.45, 1.55, "rgba(200,16,46,0.4)");        // bed
-    const [dx, dy] = toMap(2.3, 0.9);
-    ctx.fillStyle = "rgba(255,255,255,0.55)";
-    ctx.fillRect(dx - 2, dy - 6, 4, 12); // door marker
-
-    const [px, py] = toMap(Player.pos.x, Player.pos.z);
-    ctx.save();
-    ctx.translate(px, py);
-    ctx.rotate(Player.yaw);
-    ctx.fillStyle = "#e0193a";
-    ctx.beginPath();
-    ctx.moveTo(0, -6); ctx.lineTo(4, 5); ctx.lineTo(-4, 5); ctx.closePath();
-    ctx.fill();
-    ctx.restore();
-  }
-};
-
-/* ==================== ROOM WORLD ==================== */
 function buildLights() {
   const L = {};
-  const A = ATMO.night;
-  L.hemi = new THREE.HemisphereLight(0x2a2540, 0x0e0c14, A.hemi);
-  L.ambient = new THREE.AmbientLight(0x241f30, A.ambient);
+  L.hemi = new THREE.HemisphereLight(0xfff3e0, 0x2b2420, ATMO.day.hemi);
+  L.ambient = new THREE.AmbientLight(0xfff6ec, ATMO.day.ambient);
 
-  L.sun = new THREE.DirectionalLight(0x8fa0ff, A.sun);
+  L.sun = new THREE.DirectionalLight(0xfff2d8, ATMO.day.sun);
   L.sun.position.set(-2.6, 3.4, 2.0);
   L.sun.target.position.set(-0.6, 0.9, -0.6);
   L.sun.castShadow = true;
@@ -3093,25 +1818,21 @@ function buildLights() {
   L.sun.shadow.bias = -0.0025;
   L.sun.shadow.radius = 3;
 
-  L.fill = new THREE.PointLight(0xe9eefc, A.fill, 5, 2);
+  // gentle front fill so the sun-side shadows never crush to black — the
+  // single biggest driver of a "realistic soft lighting" feel
+  L.fill = new THREE.PointLight(0xe9eefc, ATMO.day.fill, 5, 2);
   L.fill.position.set(1.6, 1.5, 2.0);
 
-  L.windowFill = new THREE.PointLight(0x9fb6ff, A.windowFill, 6, 2);
+  L.windowFill = new THREE.PointLight(0xdfe9ff, ATMO.day.windowFill, 6, 2);
   L.windowFill.position.set(-2.0, 1.7, 0.2);
 
-  L.lamp = new THREE.PointLight(0xffb877, A.lamp, 2.4, 2);
+  L.lamp = new THREE.PointLight(0xffb877, ATMO.day.lamp, 2.4, 2);
   L.lamp.position.set(-0.78, 1.02, -1.05);
 
-  L.monitorGlow = new THREE.PointLight(0x8fd0ff, A.monitorGlow, 1.7, 2);
+  L.monitorGlow = new THREE.PointLight(0x8fd0ff, ATMO.day.monitorGlow, 1.7, 2);
   L.monitorGlow.position.set(0, 1.24, -1.24);
 
-  L.rgbPurple = new THREE.PointLight(0x6a5cff, A.rgbPurple, 2.6, 2.2);
-  L.rgbPurple.position.set(0.9, 0.55, -1.5);
-
-  L.rgbRed = new THREE.PointLight(0xc8102e, A.rgbRed, 2.0, 2);
-  L.rgbRed.position.set(1.7, 0.9, -0.6);
-
-  ROOM.scene.add(L.hemi, L.ambient, L.sun, L.sun.target, L.fill, L.windowFill, L.lamp, L.monitorGlow, L.rgbPurple, L.rgbRed);
+  ROOM.scene.add(L.hemi, L.ambient, L.sun, L.sun.target, L.fill, L.windowFill, L.lamp, L.monitorGlow);
   ROOM.lights = L;
 }
 
@@ -3140,22 +1861,8 @@ function buildRoomShell() {
   leftWall.receiveShadow = true;
   ROOM.scene.add(leftWall);
 
-  // right wall, split around the doorway
-  const rightTex = makeWallNoiseTexture("#e6ddcf");
-  const doorZMin = 0.4, doorZMax = 1.4, doorTop = 2.0, wallTop = 2.7, wallZMin = -1.6, wallZMax = 1.6;
-  function rightSegment(zFrom, zTo, yFrom, yTo) {
-    const w = zTo - zFrom, h = yTo - yFrom;
-    if (w <= 0.001 || h <= 0.001) return;
-    const seg = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({ map: rightTex.clone(), roughness: 0.96 }));
-    seg.rotation.y = -Math.PI / 2;
-    seg.position.set(2.3, (yFrom + yTo) / 2, (zFrom + zTo) / 2);
-    seg.receiveShadow = true;
-    ROOM.scene.add(seg);
-  }
-  rightSegment(wallZMin, doorZMin, 0, wallTop);
-  rightSegment(doorZMax, wallZMax, 0, wallTop);
-  rightSegment(doorZMin, doorZMax, doorTop, wallTop);
-
+  // slim baseboards where the walls meet the floor — a small detail that
+  // sells the "real architectural room" feel from the reference
   const baseboardMat = new THREE.MeshStandardMaterial({ color: 0xf7f3ea, roughness: 0.7 });
   const backBase = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.06, 0.02), baseboardMat);
   backBase.position.set(0, 0.03, -1.59);
@@ -3163,111 +1870,6 @@ function buildRoomShell() {
   const leftBase = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.06, 3.2), baseboardMat);
   leftBase.position.set(-2.29, 0.03, 0);
   ROOM.scene.add(leftBase);
-
-  ROOM.colliders.push({ minX: -1.05, maxX: 1.05, minZ: -1.62, maxZ: -0.68 }); // desk footprint
-  ROOM.colliders.push({ minX: 1.0, maxX: 2.15, minZ: -0.45, maxZ: 1.55 });    // bed footprint
-  ROOM.colliders.push({ minX: 1.2, maxX: 1.9, minZ: -1.62, maxZ: -1.32 });    // shelf footprint
-}
-
-function buildDoor() {
-  const doorZMin = 0.4, doorZMax = 1.4;
-  const frameMat = new THREE.MeshStandardMaterial({ color: 0x3a322a, roughness: 0.6 });
-  const jambTop = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.08, doorZMax - doorZMin + 0.1), frameMat);
-  jambTop.position.set(2.28, 2.04, (doorZMin + doorZMax) / 2);
-  ROOM.scene.add(jambTop);
-
-  const pivot = new THREE.Group();
-  pivot.position.set(2.28, 0, doorZMin);
-  const doorMat = new THREE.MeshStandardMaterial({ color: 0x4a3a2c, roughness: 0.55 });
-  const doorMesh = new THREE.Mesh(new THREE.BoxGeometry(0.045, 1.96, doorZMax - doorZMin - 0.03), doorMat);
-  doorMesh.position.set(0, 0.98, (doorZMax - doorZMin) / 2);
-  doorMesh.castShadow = true; doorMesh.receiveShadow = true;
-  const knob = new THREE.Mesh(new THREE.SphereGeometry(0.025, 10, 8), new THREE.MeshStandardMaterial({ color: 0xd8c98a, roughness: 0.3, metalness: 0.7 }));
-  knob.position.set(0.03, 0.9, doorZMax - doorZMin - 0.12);
-  doorMesh.add(knob);
-  pivot.add(doorMesh);
-  ROOM.scene.add(pivot);
-
-  const shadow = makeContactShadow(1.1, 0.5, 0.22);
-  shadow.position.set(2.0, 0.001, 0.9);
-  ROOM.scene.add(shadow);
-
-  ROOM.objects.doorPivot = pivot;
-  ROOM.objects.doorOpen = false;
-
-  registerInteractable({
-    type: "door", pos: new THREE.Vector3(2.05, 0, 0.9), radius: 1.15, label: "Open/Close Door",
-    onInteract: () => {
-      ROOM.objects.doorOpen = !ROOM.objects.doorOpen;
-      AudioSys.doorSound(ROOM.objects.doorOpen);
-      ROOM.objects.doorAnim = { start: performance.now(), dur: 700, from: pivot.rotation.y, to: ROOM.objects.doorOpen ? -1.75 : 0 };
-    }
-  });
-}
-function openDoor() {
-  const pivot = ROOM.objects.doorPivot;
-  ROOM.objects.doorOpen = true;
-  ROOM.objects.doorAnim = { start: performance.now(), dur: 900, from: pivot.rotation.y, to: -1.75 };
-}
-function updateDoorAnim() {
-  const a = ROOM.objects.doorAnim;
-  if (!a) return;
-  const k = clamp((performance.now() - a.start) / a.dur, 0, 1);
-  ROOM.objects.doorPivot.rotation.y = lerp(a.from, a.to, easeInOutCubic(k));
-  if (k >= 1) ROOM.objects.doorAnim = null;
-}
-
-function buildBed() {
-  const g = new THREE.Group();
-  const frameMat = new THREE.MeshStandardMaterial({ color: 0x2c2622, roughness: 0.6, metalness: 0.08 });
-  const bedX = 1.55, bedZ = 0.55, bedY = 0.24;
-
-  const frame = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.16, 1.9), frameMat);
-  frame.position.set(bedX, bedY - 0.08, bedZ);
-  frame.castShadow = true; frame.receiveShadow = true;
-  g.add(frame);
-
-  const headboard = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.55, 0.06), new THREE.MeshStandardMaterial({ color: 0x3a322a, roughness: 0.65 }));
-  headboard.position.set(bedX, bedY + 0.28, bedZ - 0.97);
-  headboard.castShadow = true;
-  g.add(headboard);
-
-  const mattress = new THREE.Mesh(new THREE.BoxGeometry(0.98, 0.14, 1.82), new THREE.MeshStandardMaterial({ color: 0xf1ece0, roughness: 0.85 }));
-  mattress.position.set(bedX, bedY + 0.07, bedZ);
-  mattress.castShadow = true; mattress.receiveShadow = true;
-  g.add(mattress);
-
-  const duvetMat = new THREE.MeshStandardMaterial({ color: 0xb5122c, roughness: 0.78 });
-  const duvet = new THREE.Mesh(new THREE.BoxGeometry(0.98, 0.09, 1.25), duvetMat);
-  duvet.position.set(bedX, bedY + 0.17, bedZ + 0.28);
-  duvet.castShadow = true; duvet.receiveShadow = true;
-  g.add(duvet);
-
-  [-0.28, 0.28].forEach(dx => {
-    const pillow = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.09, 0.28), new THREE.MeshStandardMaterial({ color: 0xf7f4ec, roughness: 0.8 }));
-    pillow.position.set(bedX + dx, bedY + 0.16, bedZ - 0.75);
-    pillow.castShadow = true;
-    g.add(pillow);
-  });
-
-  const crestPillow = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.07, 0.22), new THREE.MeshStandardMaterial({ map: new THREE.CanvasTexture(makeCrestTexture()), roughness: 0.75 }));
-  crestPillow.position.set(bedX - 0.28, bedY + 0.22, bedZ - 0.42);
-  crestPillow.rotation.y = 0.25;
-  crestPillow.castShadow = true;
-  g.add(crestPillow);
-
-  const contact = makeContactShadow(1.3, 2.1, 0.28);
-  contact.position.set(bedX, 0.001, bedZ);
-  g.add(contact);
-
-  ROOM.scene.add(g);
-  ROOM.objects.bed = g;
-
-  registerInteractable({
-    type: "bed", pos: new THREE.Vector3(bedX, 0, bedZ), radius: 1.05, label: "Sleep", onInteract: sleepOnBed,
-    approachCheck: p => p.x < bedX - 0.35 // only from the open side of the bed, never through the headboard/wall
-  });
-  registerInteractable({ type: "wake", pos: new THREE.Vector3(bedX, 0, bedZ), radius: 3, label: "Wake up", onInteract: wakeFromBed });
 }
 
 function buildDesk() {
@@ -3279,6 +1881,8 @@ function buildDesk() {
   top.castShadow = true; top.receiveShadow = true;
   g.add(top);
 
+  // thin lighter strip along the front top edge — a cheap but effective
+  // stand-in for a bevel/chamfer without extra geometry segments
   const bevel = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.008, 0.015), new THREE.MeshStandardMaterial({ color: 0xdcb98d, roughness: 0.35 }));
   bevel.position.set(0, 0.708, -0.735);
   g.add(bevel);
@@ -3298,36 +1902,30 @@ function buildDesk() {
 
   ROOM.scene.add(g);
   ROOM.objects.desk = g;
-
-  registerInteractable({
-    type: "computer", pos: new THREE.Vector3(0, 0, -0.42), radius: 0.95, label: "Sit", onInteract: sitAtChair,
-    approachCheck: p => p.z > -0.75 // approach from the room side, not from behind/through the desk
-  });
-  registerInteractable({ type: "computer-use", pos: new THREE.Vector3(0, 0, -0.42), radius: 3, label: "Use Computer", onInteract: useComputer });
-  registerInteractable({ type: "stand", pos: new THREE.Vector3(0, 0, -0.42), radius: 3, label: "Stand up", onInteract: standFromChair });
 }
 
-function buildChair() {
-  const g = new THREE.Group();
-  const seatMat = new THREE.MeshStandardMaterial({ color: 0x1c1a18, roughness: 0.55 });
-  const seat = new THREE.Mesh(new THREE.BoxGeometry(0.42, 0.06, 0.4), seatMat);
-  seat.position.set(0, 0.46, -0.35);
-  seat.castShadow = true;
-  g.add(seat);
-  const back = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.46, 0.06), seatMat);
-  back.position.set(0, 0.72, -0.16);
-  back.castShadow = true;
-  g.add(back);
-  const post = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.42, 10), new THREE.MeshStandardMaterial({ color: 0x2b2622, roughness: 0.4, metalness: 0.5 }));
-  post.position.set(0, 0.24, -0.35);
-  g.add(post);
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.02, 5), new THREE.MeshStandardMaterial({ color: 0x2b2622, roughness: 0.4, metalness: 0.5 }));
-  base.position.set(0, 0.03, -0.35);
-  g.add(base);
-  const contact = makeContactShadow(0.55, 0.55, 0.24);
-  contact.position.set(0, 0.001, -0.35);
-  g.add(contact);
-  ROOM.scene.add(g);
+function buildScreenPreviewCanvas() {
+  const c = document.createElement("canvas");
+  c.width = 512; c.height = 320;
+  const ctx = c.getContext("2d");
+  const grad = ctx.createLinearGradient(0, 0, 0, 320);
+  grad.addColorStop(0, "#1c1a22");
+  grad.addColorStop(1, "#050506");
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, 512, 320);
+  ctx.fillStyle = "rgba(255,255,255,0.8)";
+  ctx.font = "600 22px -apple-system, Inter, sans-serif";
+  ctx.textAlign = "center";
+  ctx.fillText("Alok Sharma", 256, 152);
+  ctx.font = "400 13px -apple-system, Inter, sans-serif";
+  ctx.fillStyle = "rgba(255,255,255,0.45)";
+  ctx.fillText("click to enter", 256, 178);
+  for (let i = 0; i < 5; i++) {
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(255,255,255,0.32)";
+    ctx.arc(206 + i * 25, 282, 7, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  return c;
 }
 
 function buildComputer() {
@@ -3344,6 +1942,8 @@ function buildComputer() {
   neck.position.set(0, deskY + 0.095, screenZ + 0.17);
   g.add(neck);
 
+  // outer brushed-aluminum shell sits slightly proud of the dark glass
+  // bezel, giving the screen believable thickness instead of a flat card
   const shellMat = new THREE.MeshStandardMaterial({ color: 0xe6e3db, roughness: 0.28, metalness: 0.72 });
   const shell = new THREE.Mesh(new THREE.BoxGeometry(0.90, 0.58, 0.045), shellMat);
   shell.position.set(0, deskY + 0.44, screenZ - 0.006);
@@ -3362,6 +1962,7 @@ function buildComputer() {
   screen.position.set(0, deskY + 0.44, screenZ + 0.019);
   g.add(screen);
 
+  // extremely subtle glass reflection over the display — physical, not neon
   const glass = new THREE.Mesh(new THREE.PlaneGeometry(0.80, 0.48), new THREE.MeshPhysicalMaterial({
     color: 0xffffff, transparent: true, opacity: 0.045, roughness: 0.08, clearcoat: 1
   }));
@@ -3371,6 +1972,9 @@ function buildComputer() {
   const contact = makeContactShadow(0.55, 0.5, 0.38);
   contact.position.set(0, deskY + 0.001, screenZ + 0.16);
   g.add(contact);
+
+  [base, neck, shell, frame, screen, glass].forEach(m => { m.userData.type = "computer"; });
+  g.userData.type = "computer";
 
   ROOM.scene.add(g);
   ROOM.objects.computer = g;
@@ -3409,15 +2013,13 @@ function buildLamp() {
   shade.position.y = 0.185;
   g.add(base, arm, shade);
   g.position.set(-0.78, deskY + 0.007, -1.05);
-  g.traverse(o => { o.castShadow = true; });
+  g.traverse(o => { o.castShadow = true; o.userData.type = "lamp"; });
+  g.userData.type = "lamp";
   ROOM.scene.add(g);
   const lampShadow = makeContactShadow(0.12, 0.12, 0.28);
   lampShadow.position.set(-0.78, deskY + 0.001, -1.05);
   ROOM.scene.add(lampShadow);
   ROOM.objects.lampMesh = shade;
-  ROOM.objects.lampOn = true;
-
-  registerInteractable({ type: "lamp", pos: new THREE.Vector3(-0.78, 0, -1.05), radius: 0.75, label: "Toggle Lamp", onInteract: toggleLamp });
 }
 
 function buildDeskProps() {
@@ -3445,8 +2047,9 @@ function buildDeskProps() {
   handle.rotation.y = Math.PI / 2;
   mugGroup.add(mugBody, handle);
   mugGroup.position.set(-0.62, deskY, -1.0);
+  mugGroup.traverse(o => { o.userData.type = "mug"; });
+  mugGroup.userData.type = "mug";
   ROOM.scene.add(mugGroup);
-  registerInteractable({ type: "mug", pos: new THREE.Vector3(-0.62, 0, -1.0), radius: 0.7, label: "Inspect Mug", onInteract: () => showToast("Liverpool FC", "Desk essential.", "fa-mug-hot") });
 
   const plant = new THREE.Group();
   const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.06, 16), new THREE.MeshStandardMaterial({ color: 0x8a6a52, roughness: 0.8 }));
@@ -3462,155 +2065,87 @@ function buildDeskProps() {
   notebook.rotation.y = -0.15;
   notebook.castShadow = true;
   ROOM.scene.add(notebook);
-  registerInteractable({ type: "notebook", pos: new THREE.Vector3(0.72, 0, -0.72), radius: 0.6, label: "Read Notebook", onInteract: () => showToast("Notebook", "Sketches, matchday layout ideas, and a to-do list.", "fa-book") });
 
   const ball = buildFootball();
   ball.position.set(-0.7, deskY + 0.055, -0.72);
   ROOM.scene.add(ball);
-  registerInteractable({ type: "football", pos: new THREE.Vector3(-0.7, 0, -0.72), radius: 0.6, label: "Inspect Ball", onInteract: inspectFootball });
 }
-
-/* poster_system — data-driven, aspect-ratio preserving, varied frames/sizes/rotations */
-const WALL_POSTERS = [
-  { title: "curtisjonesfinal.jpg", img: "curtisjonesfinal.jpg", folder: "Danke", width: 0.46, height: 0.62, frame: "black", rotation: -0.015, pos: [-1.55, 2.0] },
-  { title: "ThankyouMo.jpeg", img: "ThankyouMo.jpeg", folder: "Danke", width: 0.5, height: 0.36, frame: "white", rotation: 0.012, pos: [-0.85, 1.9] },
-  { title: "livvpsg", img: "livvpsg.jpeg", folder: "Matchday", width: 0.42, height: 0.58, frame: "walnut", rotation: 0.008, pos: [1.2, 1.98] }
-];
-const FRAME_COLORS = { black: 0x181614, white: 0xf2efe8, walnut: 0x4a3324 };
 
 function buildWallAndPosters() {
   const loader = new THREE.TextureLoader();
+  const posterW = 0.5, posterH = 0.36;
+  const positions = [[-1.55, 2.02, -1.585], [-0.85, 2.02, -1.585], [1.2, 1.96, -1.585]];
+
   ROOM.objects.posters = [];
-  WALL_POSTERS.forEach((p) => {
+  WALL_POSTERS.forEach((p, i) => {
     const frameGroup = new THREE.Group();
-    const frame = new THREE.Mesh(new THREE.BoxGeometry(p.width + 0.045, p.height + 0.045, 0.022), new THREE.MeshStandardMaterial({ color: FRAME_COLORS[p.frame] || 0x181614, roughness: 0.6 }));
+    const frame = new THREE.Mesh(new THREE.BoxGeometry(posterW + 0.04, posterH + 0.04, 0.02), new THREE.MeshStandardMaterial({ color: 0x1c1a18, roughness: 0.6 }));
     frameGroup.add(frame);
 
-    const art = new THREE.Mesh(new THREE.PlaneGeometry(p.width, p.height), new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.85 }));
-    art.position.z = 0.014;
+    const art = new THREE.Mesh(new THREE.PlaneGeometry(posterW, posterH), new THREE.MeshStandardMaterial({ color: 0x555555, roughness: 0.85 }));
+    art.position.z = 0.012;
     frameGroup.add(art);
-
-    const glass = new THREE.Mesh(new THREE.PlaneGeometry(p.width + 0.01, p.height + 0.01), new THREE.MeshPhysicalMaterial({ color: 0xffffff, transparent: true, opacity: 0.05, roughness: 0.1, clearcoat: 1 }));
-    glass.position.z = 0.016;
-    frameGroup.add(glass);
 
     loader.load(
       p.img,
-      tex => {
-        tex.encoding = THREE.sRGBEncoding;
-        const imgAspect = (tex.image && tex.image.width && tex.image.height) ? tex.image.width / tex.image.height : p.width / p.height;
-        const boxAspect = p.width / p.height;
-        let newW = p.width, newH = p.height;
-        if (imgAspect >= boxAspect) newH = p.width / imgAspect; else newW = p.height * imgAspect;
-        art.geometry.dispose();
-        art.geometry = new THREE.PlaneGeometry(newW, newH);
-        art.material = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85 });
-        frame.scale.set((newW + 0.045) / (p.width + 0.045), (newH + 0.045) / (p.height + 0.045), 1);
-        glass.geometry.dispose();
-        glass.geometry = new THREE.PlaneGeometry(newW + 0.01, newH + 0.01);
-      },
+      tex => { tex.encoding = THREE.sRGBEncoding; art.material = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.85 }); },
       undefined,
       () => { /* image missing — keep the neutral placeholder, never crash the scene */ }
     );
 
-    frameGroup.position.set(p.pos[0], p.pos[1], -1.585);
-    frameGroup.rotation.z = p.rotation;
+    const pos = positions[i] || [-1.5 + i * 0.8, 2.0, -1.585];
+    frameGroup.position.set(pos[0], pos[1], pos[2]);
     frameGroup.castShadow = true;
-
-    const wallShadow = makeContactShadow(p.width + 0.2, 0.12, 0.14);
-    wallShadow.rotation.x = 0; wallShadow.rotation.y = 0;
-    wallShadow.geometry = new THREE.PlaneGeometry(p.width + 0.16, 0.05);
-    wallShadow.rotation.set(0, 0, 0);
-    wallShadow.position.set(p.pos[0], p.pos[1] - p.height / 2 - 0.03, -1.581);
+    [frameGroup, frame, art].forEach(o => { o.userData.type = "poster"; o.userData.project = p; });
 
     ROOM.scene.add(frameGroup);
     ROOM.objects.posters.push(frameGroup);
-
-    registerInteractable({
-      type: "poster", pos: new THREE.Vector3(p.pos[0], 0, -1.45), radius: 0.9, label: "View Project: " + p.title,
-      onInteract: () => inspectPoster(p)
-    });
   });
 }
 
-function buildLiverpoolDecor() {
-  const scarfTex = new THREE.CanvasTexture(makeScarfTexture());
-  scarfTex.encoding = THREE.sRGBEncoding;
-  const scarf = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.22, 0.9),
-    new THREE.MeshStandardMaterial({ map: scarfTex, roughness: 0.9, side: THREE.DoubleSide })
-  );
-  scarf.position.set(-2.28, 1.55, -0.75);
-  scarf.rotation.y = Math.PI / 2;
-  scarf.rotation.z = 0.05;
-  scarf.castShadow = true;
-  ROOM.scene.add(scarf);
-
-  const crestTex = new THREE.CanvasTexture(makeCrestTexture());
-  crestTex.encoding = THREE.sRGBEncoding;
-  const crest = new THREE.Mesh(
-    new THREE.CircleGeometry(0.11, 24),
-    new THREE.MeshStandardMaterial({ map: crestTex, roughness: 0.8, transparent: true })
-  );
-  crest.position.set(1.55, 2.18, -1.583);
-  ROOM.scene.add(crest);
-
-  const matTex = new THREE.CanvasTexture(makeCrestTexture());
-  const deskMat = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.62, 0.32),
-    new THREE.MeshStandardMaterial({ color: 0x1c1a1a, roughness: 0.85 })
-  );
-  deskMat.rotation.x = -Math.PI / 2;
-  deskMat.position.set(-0.02, 0.771, -0.9);
-  ROOM.scene.add(deskMat);
-  const matBadge = new THREE.Mesh(new THREE.CircleGeometry(0.035, 20), new THREE.MeshStandardMaterial({ map: matTex, roughness: 0.7 }));
-  matBadge.rotation.x = -Math.PI / 2;
-  matBadge.position.set(0.24, 0.772, -0.9);
-  ROOM.scene.add(matBadge);
+function buildCurtainTexture() {
+  const c = document.createElement("canvas");
+  c.width = 64; c.height = 128;
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#e4d9c8"; ctx.fillRect(0, 0, 64, 128);
+  ctx.globalAlpha = 0.12; ctx.fillStyle = "#000";
+  for (let x = 0; x < 64; x += 8) ctx.fillRect(x, 0, 3, 128);
+  return new THREE.CanvasTexture(c);
 }
 
 function buildWindowAndCurtains() {
   const wallX = -2.3, wy = 1.55, ww = 1.0, wh = 1.15;
 
-  const sky = new THREE.Mesh(new THREE.PlaneGeometry(ww, wh), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+  const skyCanvas = document.createElement("canvas");
+  skyCanvas.width = 256; skyCanvas.height = 256;
+  const sctx = skyCanvas.getContext("2d");
+  const grad = sctx.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, "#bcd9f2"); grad.addColorStop(1, "#eef4e9");
+  sctx.fillStyle = grad; sctx.fillRect(0, 0, 256, 256);
+  const sky = new THREE.Mesh(new THREE.PlaneGeometry(ww, wh), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(skyCanvas) }));
   sky.rotation.y = Math.PI / 2;
   sky.position.set(wallX + 0.02, wy, 0);
   ROOM.scene.add(sky);
   ROOM.objects.sky = sky;
-  updateSkyTexture(ATMO[DayNight.mode].sky);
 
   const winFrame = new THREE.Mesh(new THREE.PlaneGeometry(ww + 0.08, wh + 0.08), new THREE.MeshStandardMaterial({ color: 0xfbfaf7, roughness: 0.5 }));
   winFrame.rotation.y = Math.PI / 2;
   winFrame.position.set(wallX + 0.008, wy, 0);
   ROOM.scene.add(winFrame);
 
-  const curtainMat = new THREE.MeshStandardMaterial({ map: makeCurtainTexture(), roughness: 0.92, side: THREE.DoubleSide });
+  const curtainMat = new THREE.MeshStandardMaterial({ map: buildCurtainTexture(), roughness: 0.92, side: THREE.DoubleSide });
   const panelW = ww / 2 + 0.14;
   const curtainX = wallX + 0.05;
 
   const left = new THREE.Mesh(new THREE.PlaneGeometry(panelW, wh + 0.14), curtainMat);
   const right = new THREE.Mesh(new THREE.PlaneGeometry(panelW, wh + 0.14), curtainMat.clone());
-  [left, right].forEach(m => { m.rotation.y = Math.PI / 2; m.position.set(curtainX, wy, 0); });
+  [left, right].forEach(m => { m.rotation.y = Math.PI / 2; m.position.set(curtainX, wy, 0); m.userData.type = "curtain"; });
   ROOM.scene.add(left, right);
 
   ROOM.objects.curtainLeft = left;
   ROOM.objects.curtainRight = right;
   ROOM.objects.curtainOpenZ = { left: -0.87, right: 0.87 };
   ROOM.objects.curtainClosedZ = { left: -0.25, right: 0.25 };
-  left.position.z = ROOM.objects.curtainClosedZ.left;
-  right.position.z = ROOM.objects.curtainClosedZ.right;
-  ROOM.objects.curtainsOpen = false;
-
-  registerInteractable({ type: "curtain", pos: new THREE.Vector3(-2.1, 0, 0), radius: 0.9, label: "Open/Close Curtains", onInteract: toggleCurtains });
-}
-function updateCurtainAnim() {
-  const a = ROOM.objects.curtainAnim;
-  if (!a) return;
-  const k = clamp((performance.now() - a.start) / a.dur, 0, 1);
-  const e = easeInOutCubic(k);
-  ROOM.objects.curtainLeft.position.z = lerp(a.fromL, a.toL, e);
-  ROOM.objects.curtainRight.position.z = lerp(a.fromR, a.toR, e);
-  if (k >= 1) ROOM.objects.curtainAnim = null;
 }
 
 function buildShelf() {
@@ -3633,61 +2168,266 @@ function buildShelf() {
   ROOM.scene.add(orb);
 }
 
-/* ==================== CINEMATIC INTRO ==================== */
-const Intro = {
-  T1: 1.6, T2: 4.2, T3: 7.6, T4: 8.7,
-  outsideStart: { x: 3.1, z: 0.85 },
-  doorThreshold: { x: 2.55, z: 0.85 },
-  insideTarget: { x: 1.15, z: 0.55 },
-  K0: { yaw: -2.55, pitch: 0.30, dist: 3.3 },
-  K1: { yaw: -2.35, pitch: 0.28, dist: 2.2 },
-  K2: { yaw: -2.05, pitch: 0.27, dist: 1.9 },
-  K3: { yaw: -0.15, pitch: CONFIG.camPitchDefault, dist: CONFIG.camDistanceDefault },
-  update(dt) {
-    ROOM.introElapsed += dt;
-    const t = ROOM.introElapsed;
-    Player.yaw = -Math.PI / 2;
-    if (t < this.T1) {
-      const k = easeInOutCubic(t / this.T1);
-      Player.pos.set(this.outsideStart.x, 0, this.outsideStart.z);
-      Cam.yaw = lerp(this.K0.yaw, this.K1.yaw, k); Cam.pitch = lerp(this.K0.pitch, this.K1.pitch, k); Cam.dist = lerp(this.K0.dist, this.K1.dist, k);
-    } else if (t < this.T2) {
-      const k = easeInOutCubic((t - this.T1) / (this.T2 - this.T1));
-      Player.pos.x = lerp(this.outsideStart.x, this.doorThreshold.x, k);
-      Player.pos.z = lerp(this.outsideStart.z, this.doorThreshold.z, k);
-      Player.walkPhase += dt * 6.2;
-      const phaseCycle = Math.floor(Player.walkPhase / Math.PI);
-      if (phaseCycle !== ROOM.lastFootStepPhase) { ROOM.lastFootStepPhase = phaseCycle; AudioSys.footstep(); }
-      Cam.yaw = lerp(this.K1.yaw, this.K2.yaw, k); Cam.pitch = lerp(this.K1.pitch, this.K2.pitch, k); Cam.dist = lerp(this.K1.dist, this.K2.dist, k);
-      if (t > this.T2 - 0.9 && !ROOM.doorOpened) { ROOM.doorOpened = true; openDoor(); AudioSys.doorSound(true); }
-      Player._applyPose(dt);
-    } else if (t < this.T3) {
-      const k = easeInOutCubic((t - this.T2) / (this.T3 - this.T2));
-      Player.pos.x = lerp(this.doorThreshold.x, this.insideTarget.x, k);
-      Player.pos.z = lerp(this.doorThreshold.z, this.insideTarget.z, k);
-      Player.walkPhase += dt * 6.6;
-      const phaseCycle = Math.floor(Player.walkPhase / Math.PI);
-      if (phaseCycle !== ROOM.lastFootStepPhase) { ROOM.lastFootStepPhase = phaseCycle; AudioSys.footstep(); }
-      Cam.yaw = lerp(this.K2.yaw, this.K3.yaw, k); Cam.pitch = lerp(this.K2.pitch, this.K3.pitch, k); Cam.dist = lerp(this.K2.dist, this.K3.dist, k);
-      Player._applyPose(dt);
-    } else if (t < this.T4) {
-      Cam.yaw = this.K3.yaw; Cam.pitch = this.K3.pitch; Cam.dist = this.K3.dist;
-      Player.walkPhase = lerp(Player.walkPhase, Math.round(Player.walkPhase / (Math.PI * 2)) * Math.PI * 2, 0.1);
-      Player._applyPose(dt);
-    } else {
-      this.finish();
-    }
-    Player.group.position.set(Player.pos.x, 0, Player.pos.z);
-    Player.group.rotation.y = Player.yaw;
-  },
-  finish() {
-    Player.state = "free";
-    document.getElementById("minimap-wrap").classList.add("show");
-    if (ROOM.objects.doorOpen) { ROOM.objects.doorOpen = false; ROOM.objects.doorAnim = { start: performance.now(), dur: 700, from: ROOM.objects.doorPivot.rotation.y, to: 0 }; }
-  }
-};
+/* ---------------- camera transitions (room ⇄ Mac) ---------------- */
 
-/* ==================== BOOTSTRAP / RENDER LOOP ==================== */
+let camAnim = null;
+
+function animateCameraTo(poseKey, duration, onComplete) {
+  const pose = CAM_POSES[poseKey];
+  camAnim = {
+    fromPos: ROOM.camera.position.clone(),
+    fromTarget: ROOM.controls.target.clone(),
+    toPos: new THREE.Vector3(...pose.pos),
+    toTarget: new THREE.Vector3(...pose.target),
+    start: performance.now(),
+    duration: ROOM.reducedMotion ? 60 : duration,
+    onComplete
+  };
+}
+
+function updateCameraAnim() {
+  if (!camAnim) return;
+  const t = Math.min(1, (performance.now() - camAnim.start) / camAnim.duration);
+  const e = easeInOutCubic(t);
+  ROOM.camera.position.lerpVectors(camAnim.fromPos, camAnim.toPos, e);
+  const target = new THREE.Vector3().lerpVectors(camAnim.fromTarget, camAnim.toTarget, e);
+  ROOM.controls.target.copy(target);
+  ROOM.camera.lookAt(target);
+  if (t >= 1) {
+    const cb = camAnim.onComplete;
+    camAnim = null;
+    if (cb) cb();
+  }
+}
+
+function animateIntro() {
+  ROOM.controls.enabled = false;
+  animateCameraTo("room", 2000, () => {
+    ROOM.controls.enabled = !ROOM.isMobile;
+    const hint = document.getElementById("room-intro-hint");
+    if (hint) hint.classList.add("show");
+  });
+}
+
+function enterMac() { enterMacWithAction(null); }
+
+function enterMacWithAction(cb) {
+  if (ROOM.computerActive) { if (cb) cb(); return; }
+  if (ROOM.transitioning) return;
+  ROOM.transitioning = true;
+  ROOM.controls.enabled = false;
+  const hint = document.getElementById("room-intro-hint");
+  if (hint) hint.classList.remove("show");
+  animateCameraTo("screen", 1500, () => {
+    document.getElementById("desktop").classList.add("mac-active");
+    document.getElementById("back-to-room-btn").classList.add("show");
+    ROOM.computerActive = true;
+    ROOM.transitioning = false;
+    if (cb) cb();
+  });
+}
+
+function exitMac() {
+  if (ROOM.isFallback) return;
+  if (!ROOM.computerActive || ROOM.transitioning) return;
+  ROOM.transitioning = true;
+  document.getElementById("desktop").classList.remove("mac-active");
+  document.getElementById("back-to-room-btn").classList.remove("show");
+  ROOM.computerActive = false;
+  animateCameraTo("room", 1400, () => {
+    ROOM.controls.enabled = !ROOM.isMobile;
+    const hint = document.getElementById("room-intro-hint");
+    if (hint) hint.classList.add("show");
+    ROOM.transitioning = false;
+  });
+}
+
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && ROOM.computerActive) exitMac();
+});
+document.getElementById("back-to-room-btn")?.addEventListener("keydown", e => {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); exitMac(); }
+});
+
+/* ---------------- raycasting / hover / click ---------------- */
+
+function onRoomPointerMove(e) {
+  if (ROOM.computerActive || ROOM.transitioning || !ROOM.renderer) return;
+  const rect = ROOM.renderer.domElement.getBoundingClientRect();
+  ROOM.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  ROOM.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  updateHover();
+}
+
+function updateHover() {
+  ROOM.raycaster.setFromCamera(ROOM.mouse, ROOM.camera);
+  const hits = ROOM.raycaster.intersectObjects(ROOM.interactiveMeshes, false);
+  const hitMesh = hits.length ? hits[0].object : null;
+
+  if (hitMesh !== ROOM.hoveredMesh) {
+    if (ROOM.hoveredMesh) restoreHoverMesh(ROOM.hoveredMesh);
+    ROOM.hoveredMesh = hitMesh;
+    if (hitMesh) applyHoverMesh(hitMesh);
+    ROOM.renderer.domElement.style.cursor = hitMesh ? "pointer" : "default";
+  }
+}
+
+function applyHoverMesh(mesh) {
+  if (!mesh.material || !("emissive" in mesh.material)) return;
+  mesh.userData._prevEmissive = mesh.material.emissive.getHex();
+  mesh.userData._prevEmissiveIntensity = mesh.material.emissiveIntensity;
+  mesh.material.emissive.setHex(0x2a2a2a);
+  mesh.material.emissiveIntensity = 0.4;
+}
+function restoreHoverMesh(mesh) {
+  if (!mesh.material || !("emissive" in mesh.material) || mesh.userData._prevEmissive === undefined) return;
+  mesh.material.emissive.setHex(mesh.userData._prevEmissive);
+  mesh.material.emissiveIntensity = mesh.userData._prevEmissiveIntensity ?? 1;
+}
+
+function onRoomClick(e) {
+  if (ROOM.transitioning || ROOM.computerActive || !ROOM.renderer) return;
+  const rect = ROOM.renderer.domElement.getBoundingClientRect();
+  ROOM.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  ROOM.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  ROOM.raycaster.setFromCamera(ROOM.mouse, ROOM.camera);
+  const hits = ROOM.raycaster.intersectObjects(ROOM.interactiveMeshes, false);
+  if (hits.length) handleRoomInteraction(hits[0].object);
+}
+
+function handleRoomInteraction(mesh) {
+  const type = mesh.userData.type;
+  switch (type) {
+    case "computer":
+      enterMac();
+      break;
+    case "poster": {
+      const project = mesh.userData.project;
+      enterMacWithAction(() => {
+        openApp("projects");
+        setTimeout(() => {
+          selectProjectFolder(project.folder);
+          openImageViewer(project.title, project.img);
+        }, 220);
+      });
+      break;
+    }
+    case "mug":
+      showToast("Liverpool FC", "Desk essential.", "fa-mug-hot");
+      break;
+    case "curtain":
+    case "lamp":
+      toggleDayNight();
+      break;
+  }
+}
+
+/* connects a wall poster back to the existing Finder folder it belongs to */
+function selectProjectFolder(folderName) {
+  const win = openWins.get("projects");
+  if (!win) return;
+  const item = Array.from(win.querySelectorAll(".finder-sb-item")).find(el => el.dataset.folder === folderName);
+  if (item) item.click();
+}
+
+/* ---------------- DAY / NIGHT ---------------- */
+
+let atmoAnim = null, curtainAnim = null;
+
+function toggleDayNight() { setRoomMode(ROOM.mode === "day" ? "night" : "day"); }
+
+function setRoomMode(mode) {
+  ROOM.mode = mode;
+  try { localStorage.setItem("alok_room_mode", mode); } catch (e) {}
+  updateDayNightUI();
+  if (ROOM.webglOK && !ROOM.isFallback && ROOM.lights) animateAtmosphere(mode);
+}
+
+function updateDayNightUI() {
+  const icon = document.getElementById("cc-daynight-icon");
+  const label = document.getElementById("cc-daynight-label");
+  const wrap = document.getElementById("cc-daynight-icon-wrap");
+  if (!icon) return;
+  const isNight = ROOM.mode === "night";
+  icon.className = isNight ? "fa-solid fa-moon" : "fa-solid fa-sun";
+  label.textContent = isNight ? "Night" : "Day";
+  wrap.style.background = isNight ? "#5E5CE6" : "#FEBC2E";
+}
+
+function restoreDayNightPref() {
+  let saved = "day";
+  try { saved = localStorage.getItem("alok_room_mode") || "day"; } catch (e) {}
+  ROOM.mode = saved;
+  updateDayNightUI();
+  applyAtmosphereInstant(saved);
+}
+
+function applyAtmosphereInstant(mode) {
+  if (!ROOM.lights) return;
+  const t = ATMO[mode], L = ROOM.lights;
+  L.hemi.intensity = t.hemi; L.ambient.intensity = t.ambient; L.sun.intensity = t.sun; L.fill.intensity = t.fill;
+  L.windowFill.intensity = t.windowFill; L.lamp.intensity = t.lamp; L.monitorGlow.intensity = t.monitorGlow;
+  ROOM.scene.background = new THREE.Color(t.bg);
+  setCurtainsInstant(t.curtainsOpen);
+}
+
+function animateAtmosphere(mode) {
+  const target = ATMO[mode], L = ROOM.lights;
+  atmoAnim = {
+    start: performance.now(),
+    duration: ROOM.reducedMotion ? 60 : 1400,
+    from: {
+      hemi: L.hemi.intensity, ambient: L.ambient.intensity, sun: L.sun.intensity, fill: L.fill.intensity,
+      windowFill: L.windowFill.intensity, lamp: L.lamp.intensity, monitorGlow: L.monitorGlow.intensity,
+      bg: ROOM.scene.background.clone()
+    },
+    to: target
+  };
+  animateCurtains(target.curtainsOpen);
+}
+
+function updateAtmoAnim() {
+  if (!atmoAnim) return;
+  const t = Math.min(1, (performance.now() - atmoAnim.start) / atmoAnim.duration);
+  const e = easeInOutCubic(t);
+  const { from, to } = atmoAnim, L = ROOM.lights;
+  L.hemi.intensity = THREE.MathUtils.lerp(from.hemi, to.hemi, e);
+  L.ambient.intensity = THREE.MathUtils.lerp(from.ambient, to.ambient, e);
+  L.sun.intensity = THREE.MathUtils.lerp(from.sun, to.sun, e);
+  L.fill.intensity = THREE.MathUtils.lerp(from.fill, to.fill, e);
+  L.windowFill.intensity = THREE.MathUtils.lerp(from.windowFill, to.windowFill, e);
+  L.lamp.intensity = THREE.MathUtils.lerp(from.lamp, to.lamp, e);
+  L.monitorGlow.intensity = THREE.MathUtils.lerp(from.monitorGlow, to.monitorGlow, e);
+  ROOM.scene.background = from.bg.clone().lerp(new THREE.Color(to.bg), e);
+  if (t >= 1) atmoAnim = null;
+}
+
+function animateCurtains(open) {
+  const O = ROOM.objects;
+  curtainAnim = {
+    start: performance.now(),
+    duration: ROOM.reducedMotion ? 60 : 1200,
+    fromLeftZ: O.curtainLeft.position.z, fromRightZ: O.curtainRight.position.z,
+    toLeftZ: open ? O.curtainOpenZ.left : O.curtainClosedZ.left,
+    toRightZ: open ? O.curtainOpenZ.right : O.curtainClosedZ.right
+  };
+}
+function updateCurtainAnim() {
+  if (!curtainAnim) return;
+  const t = Math.min(1, (performance.now() - curtainAnim.start) / curtainAnim.duration);
+  const e = easeInOutCubic(t);
+  ROOM.objects.curtainLeft.position.z = THREE.MathUtils.lerp(curtainAnim.fromLeftZ, curtainAnim.toLeftZ, e);
+  ROOM.objects.curtainRight.position.z = THREE.MathUtils.lerp(curtainAnim.fromRightZ, curtainAnim.toRightZ, e);
+  if (t >= 1) curtainAnim = null;
+}
+function setCurtainsInstant(open) {
+  if (!ROOM.objects.curtainLeft) return;
+  ROOM.objects.curtainLeft.position.z = open ? ROOM.objects.curtainOpenZ.left : ROOM.objects.curtainClosedZ.left;
+  ROOM.objects.curtainRight.position.z = open ? ROOM.objects.curtainOpenZ.right : ROOM.objects.curtainClosedZ.right;
+}
+
+/* ---------------- resize / render loop ---------------- */
+
 function onRoomResize() {
   if (!ROOM.renderer) return;
   ROOM.camera.aspect = window.innerWidth / window.innerHeight;
@@ -3695,68 +2435,35 @@ function onRoomResize() {
   ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function renderLoop(now) {
+function renderLoop() {
   requestAnimationFrame(renderLoop);
-  if (document.hidden) { ROOM.clock.last = now; return; }
-  let dt = (now - ROOM.clock.last) / 1000;
-  ROOM.clock.last = now;
-  dt = Math.min(dt, 0.05);
-
-  if (Player.state === "cinematic") Intro.update(dt);
-  else Player.update(dt);
-
-  CameraRig.update(dt);
-  updateDoorAnim();
+  if (document.hidden) return;
+  updateCameraAnim();
+  updateAtmoAnim();
   updateCurtainAnim();
-  DayNight.update();
-  updateInteractionUI();
-  Minimap.draw();
-
   if (ROOM.objects.lampMesh && ROOM.lights) {
     ROOM.objects.lampMesh.material.emissiveIntensity = THREE.MathUtils.clamp(ROOM.lights.lamp.intensity / 1.5, 0, 1);
   }
-  if (ROOM.lights && !ROOM.reducedMotion && Quality.level !== "low") {
-    const t = now * 0.00035;
-    const base = ATMO[DayNight.mode];
-    ROOM.lights.rgbPurple.intensity = base.rgbPurple + Math.sin(t) * 0.08;
-    ROOM.lights.rgbRed.intensity = base.rgbRed + Math.sin(t * 0.8 + 1.4) * 0.06;
-  }
-
+  if (ROOM.controls && ROOM.controls.enabled) ROOM.controls.update();
   ROOM.renderer.render(ROOM.scene, ROOM.camera);
 }
 
-/* ---------------- WELCOME OVERLAY ---------------- */
-function dismissWelcome() {
-  const el = document.getElementById("room-welcome");
-  if (!el || el.classList.contains("hide")) return;
-  el.classList.add("hide");
-  AudioSys.ensure();
-  setTimeout(() => { el.style.display = "none"; }, 650);
-}
-setTimeout(() => {
-  const el = document.getElementById("room-welcome");
-  if (el && !el.classList.contains("hide")) dismissWelcome();
-}, 4200);
+/* ---------------- INTEGRATION: boot + graceful fallback ---------------- */
+/* 3D Mac → HTML Mac UI, wall projects → Finder (wired above via
+   handleRoomInteraction). This section only decides whether the
+   room can run at all — the existing portfolio must work either way. */
 
-/* ---------------- graceful fallback ---------------- */
 function activateFallbackMode(message) {
   ROOM.isFallback = true;
   const three = document.getElementById("three-container");
   const veil = document.getElementById("room-loading-veil");
+  const hint = document.getElementById("room-intro-hint");
   const back = document.getElementById("back-to-room-btn");
   const note = document.getElementById("webgl-fallback-note");
-  const welcome = document.getElementById("room-welcome");
-  const hud = document.getElementById("room-hud");
-  const toolbar = document.getElementById("room-toolbar");
-  const minimap = document.getElementById("minimap-wrap");
-  const mobileCtrls = document.getElementById("mobile-controls");
   if (three) three.style.display = "none";
   if (veil) veil.classList.add("hide");
+  if (hint) hint.style.display = "none";
   if (back) back.style.display = "none";
-  if (welcome) welcome.style.display = "none";
-  if (toolbar) toolbar.style.display = "none";
-  if (minimap) minimap.style.display = "none";
-  if (mobileCtrls) mobileCtrls.style.display = "none";
   if (note) {
     note.textContent = message;
     note.style.display = "block";
@@ -3765,86 +2472,21 @@ function activateFallbackMode(message) {
   document.getElementById("desktop").classList.add("mac-active");
 }
 
-function initThreeCore(container) {
-  ROOM.scene = new THREE.Scene();
-  ROOM.scene.background = new THREE.Color(ATMO.night.bg);
-  ROOM.camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 60);
-  ROOM.camera.position.set(4.3, 1.7, 2.3);
-  ROOM.camera.lookAt(2.3, 1.3, 0.9);
-
-  ROOM.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ROOM.isMobile ? 1 : 1.5));
-  ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
-  ROOM.renderer.shadowMap.enabled = true;
-  ROOM.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  ROOM.renderer.outputEncoding = THREE.sRGBEncoding;
-  ROOM.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  ROOM.renderer.toneMappingExposure = 1.08;
-  container.appendChild(ROOM.renderer.domElement);
-}
-function initThreeFinish() {
-  DayNight.apply(true);
-  Player.init();
-  Minimap.init();
-  AudioSys.init();
-  initDesktopInput();
-  Mobile.init();
-  ControlsHUD.init();
-  window.addEventListener("resize", onRoomResize);
-  requestAnimationFrame(renderLoop);
-}
-
-/* Loading progress reflects ACTUAL scene-construction steps completing — never an arbitrary
-   or randomized number — and the veil never hides while a step is still pending. */
 function bootRoomExperience() {
-  ROOM.webglOK = typeof THREE !== "undefined" && hasWebGL();
-  Quality.level = ROOM.isMobile ? "low" : "medium";
+  ROOM.webglOK = typeof THREE !== "undefined" && typeof THREE.OrbitControls !== "undefined" && hasWebGL();
 
   if (!ROOM.webglOK) {
     activateFallbackMode("3D view isn't available in this browser — showing the portfolio directly.");
     return;
   }
-
-  const container = document.getElementById("three-container");
-  const bar = document.getElementById("rl-bar-fill");
-  const steps = [
-    ["Renderer", () => initThreeCore(container)],
-    ["Lighting", buildLights],
-    ["Room Shell", buildRoomShell],
-    ["Door", buildDoor],
-    ["Bed", buildBed],
-    ["Desk", buildDesk],
-    ["Chair", buildChair],
-    ["Computer", buildComputer],
-    ["Lamp", buildLamp],
-    ["Desk Props", buildDeskProps],
-    ["Wall Decor", buildWallAndPosters],
-    ["Liverpool Decor", buildLiverpoolDecor],
-    ["Window", buildWindowAndCurtains],
-    ["Shelf", buildShelf],
-    ["Character & Systems", initThreeFinish],
-    ["Quality Profile", () => Quality.set(Quality.level, true)]
-  ];
-  let i = 0;
-  function runStep() {
-    try {
-      const [, fn] = steps[i];
-      fn();
-      i++;
-      const pct = Math.round((i / steps.length) * 100);
-      if (bar) bar.style.width = pct + "%";
-      if (i < steps.length) {
-        requestAnimationFrame(() => setTimeout(runStep, 0));
-      } else {
-        const veil = document.getElementById("room-loading-veil");
-        setTimeout(() => { if (veil) veil.classList.add("hide"); }, 160);
-      }
-    } catch (err) {
-      console.warn("3D room failed to start, falling back to the portfolio directly:", err);
-      activateFallbackMode("The 3D room couldn't load — showing the portfolio directly.");
-    }
+  try {
+    initThree();
+    const veil = document.getElementById("room-loading-veil");
+    if (veil) veil.classList.add("hide");
+  } catch (err) {
+    console.warn("3D room failed to start, falling back to the portfolio directly:", err);
+    activateFallbackMode("The 3D room couldn't load — showing the portfolio directly.");
   }
-  runStep();
 }
 
 if (document.readyState === "loading") {
