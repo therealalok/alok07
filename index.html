@@ -1787,25 +1787,15 @@ const ROOM = {
 };
 
 const CAM_POSES = {
-  /* Outside the window, looking in — the visitor's very first frame. */
-  introStart:  { pos: [-3.55, 1.66, 0.04], target: [-1.0, 1.52, 0.0] },
-  /* Passing directly through the window opening (aligned with its frame
-     so the camera never clips the surrounding wall). */
-  introWindow: { pos: [-1.9, 1.6, 0.03], target: [0.3, 1.32, -0.9] },
-  room:        { pos: [1.65, 1.92, 3.35], target: [0.05, 0.98, -1.2] },
-  screen:      { pos: [0, 1.22, -0.58], target: [0, 1.22, -1.28] }
+  introStart: { pos: [2.6, 2.9, 5.2], target: [0.05, 1.0, -1.2] },
+  room:       { pos: [1.65, 1.92, 3.35], target: [0.05, 0.98, -1.2] },
+  screen:     { pos: [0, 1.22, -0.58], target: [0, 1.22, -1.28] }
 };
 
 const ATMO = {
   day:   { hemi: 0.55, ambient: 0.18, sun: 1.15, fill: 0.28, windowFill: 0.4, lamp: 0,   monitorGlow: 0.32, bg: 0xd8dfe6, curtainsOpen: true },
   night: { hemi: 0.10, ambient: 0.05, sun: 0.04, fill: 0.03, windowFill: 0.04, lamp: 1.5, monitorGlow: 0.85, bg: 0x0a0810, curtainsOpen: false }
 };
-
-/* Shared placement config so the chair and the scarf that drapes over it
-   (built in two different functions) always agree on where the chair is,
-   and so the door/sign share one wall position. */
-const CHAIR_CFG = { x: 0, z: -0.30, seatY: 0.46, backTopY: 1.22, backTopZOffset: 0.245 };
-const DOOR_CFG = { wallX: -2.3, z: -1.28, width: 0.58, height: 1.95 };
 
 /* ---------------- procedural texture helpers (cheap, cached canvases — no network requests) ---------------- */
 function makeContactShadowTexture() {
@@ -1827,21 +1817,6 @@ function makeContactShadow(sizeX, sizeZ, opacity) {
   mesh.renderOrder = 1;
   return mesh;
 }
-/* creates a solid cylinder that physically spans two points in space —
-   used for the monitor stand so the connection is geometrically
-   guaranteed (no floating parts, no gaps) from every camera angle */
-function makeStrut(p1, p2, radius, material, segments) {
-  const dir = new THREE.Vector3().subVectors(p2, p1);
-  const length = dir.length();
-  const geo = new THREE.CylinderGeometry(radius, radius, length, segments || 12);
-  const mesh = new THREE.Mesh(geo, material);
-  mesh.position.copy(p1).addScaledVector(dir, 0.5);
-  const up = new THREE.Vector3(0, 1, 0);
-  mesh.quaternion.setFromUnitVectors(up, dir.clone().normalize());
-  mesh.castShadow = true;
-  return mesh;
-}
-
 function makeWoodTexture() {
   const c = document.createElement("canvas");
   c.width = 256; c.height = 256;
@@ -1908,7 +1883,7 @@ function initThree() {
   ROOM.camera.lookAt(new THREE.Vector3(...CAM_POSES.introStart.target));
 
   ROOM.renderer = new THREE.WebGLRenderer({ antialias: true });
-  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+  ROOM.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, ROOM.isMobile ? 1 : 1.75));
   ROOM.renderer.setSize(window.innerWidth, window.innerHeight);
   ROOM.renderer.shadowMap.enabled = true;
   ROOM.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -1937,9 +1912,6 @@ function initThree() {
   buildWallAndPosters();
   buildWindowAndCurtains();
   buildShelf();
-  buildChair();
-  buildDoorAndAnfieldSign();
-  buildLiverpoolDecor();
 
   ROOM.interactiveMeshes = [];
   ROOM.scene.traverse(o => { if (o.isMesh && o.userData.type) ROOM.interactiveMeshes.push(o); });
@@ -2085,6 +2057,14 @@ function buildComputer() {
   const deskY = 0.77, screenZ = -1.28;
 
   const metalMat = new THREE.MeshStandardMaterial({ color: 0xdbd7cf, roughness: 0.3, metalness: 0.6 });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.17, 0.018, 32), metalMat);
+  base.position.set(0, deskY + 0.009, screenZ + 0.17);
+  base.castShadow = true;
+  g.add(base);
+
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.022, 0.17, 16), metalMat);
+  neck.position.set(0, deskY + 0.095, screenZ + 0.17);
+  g.add(neck);
 
   // outer brushed-aluminum shell sits slightly proud of the dark glass
   // bezel, giving the screen believable thickness instead of a flat card
@@ -2093,48 +2073,6 @@ function buildComputer() {
   shell.position.set(0, deskY + 0.44, screenZ - 0.006);
   shell.castShadow = true;
   g.add(shell);
-
-  /* ---- monitor stand: desk foot -> diagonal strut -> rear bracket ----
-     The bracket is embedded slightly into the shell's back face so the
-     two pieces always physically overlap, and the strut is a single
-     solid cylinder connecting the foot to the bracket, so there is no
-     way for the parts to read as disconnected from any angle. */
-  const shellBackZ = screenZ - 0.006 - 0.0225; // shell is 0.045 thick, centered at screenZ-0.006
-  const footPos = new THREE.Vector3(0, deskY + 0.011, screenZ + 0.205);
-  const bracketPos = new THREE.Vector3(0, deskY + 0.40, shellBackZ + 0.006);
-
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.135, 0.155, 0.02, 32), metalMat);
-  base.position.copy(footPos);
-  base.castShadow = true;
-  g.add(base);
-
-  // rounded collar where the strut meets the desk foot
-  const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.032, 0.03, 16), metalMat);
-  collar.position.set(footPos.x, footPos.y + 0.02, footPos.z);
-  collar.castShadow = true;
-  g.add(collar);
-
-  const strut = makeStrut(
-    new THREE.Vector3(footPos.x, footPos.y + 0.03, footPos.z),
-    bracketPos,
-    0.021, metalMat, 16
-  );
-  g.add(strut);
-
-  // rear mounting bracket / VESA-style plate, embedded into the shell so
-  // there is never a visible seam or gap behind the monitor
-  const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.13, 0.028), metalMat);
-  bracket.position.copy(bracketPos);
-  bracket.castShadow = true;
-  g.add(bracket);
-
-  // small bevelled collar between the strut and the bracket for a
-  // believable mechanical joint rather than two shapes just touching
-  const jointCollar = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.026, 0.035, 16), metalMat);
-  jointCollar.position.copy(bracketPos);
-  jointCollar.quaternion.copy(strut.quaternion);
-  jointCollar.castShadow = true;
-  g.add(jointCollar);
 
   const frameMat = new THREE.MeshStandardMaterial({ color: 0x121214, roughness: 0.2, metalness: 0.2 });
   const frame = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.53, 0.03), frameMat);
@@ -2159,7 +2097,7 @@ function buildComputer() {
   contact.position.set(0, deskY + 0.001, screenZ + 0.16);
   g.add(contact);
 
-  [base, collar, strut, bracket, jointCollar, shell, frame, screen, glass].forEach(m => { m.userData.type = "computer"; });
+  [base, neck, shell, frame, screen, glass].forEach(m => { m.userData.type = "computer"; });
   g.userData.type = "computer";
 
   ROOM.scene.add(g);
@@ -2208,80 +2146,6 @@ function buildLamp() {
   ROOM.objects.lampMesh = shade;
 }
 
-/* Builds a natural-looking potted plant: several slightly-curved stems,
-   each carrying a batch of individually-varied leaves (size, rotation,
-   direction all randomized) rendered through one InstancedMesh per
-   plant for performance. Deliberately avoids a single symmetrical
-   blob so it reads as a real plant rather than a primitive shape. */
-function createPlant({ potRadius = 0.05, potHeight = 0.06, potColor = 0x8a6a52, stemCount = 3, leavesPerStem = 6, height = 0.18, seed = 1 } = {}) {
-  const group = new THREE.Group();
-  let s = (seed * 9301 + 49297) % 233280;
-  const rand = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-
-  const potMat = new THREE.MeshStandardMaterial({ color: potColor, roughness: 0.85 });
-  const pot = new THREE.Mesh(new THREE.CylinderGeometry(potRadius * 0.82, potRadius, potHeight, 16), potMat);
-  pot.position.y = potHeight / 2;
-  pot.castShadow = true; pot.receiveShadow = true;
-  group.add(pot);
-  const soil = new THREE.Mesh(new THREE.CylinderGeometry(potRadius * 0.78, potRadius * 0.78, 0.006, 16), new THREE.MeshStandardMaterial({ color: 0x2c2016, roughness: 1 }));
-  soil.position.y = potHeight - 0.002;
-  group.add(soil);
-
-  const stemMat = new THREE.MeshStandardMaterial({ color: 0x4b6b3a, roughness: 0.8 });
-  const leafMat = new THREE.MeshStandardMaterial({ color: 0x4c8a44, roughness: 0.6, side: THREE.DoubleSide });
-  const totalLeaves = stemCount * leavesPerStem;
-  const leafGeo = new THREE.SphereGeometry(1, 7, 5);
-  const leafMesh = new THREE.InstancedMesh(leafGeo, leafMat, totalLeaves);
-  leafMesh.castShadow = true;
-  // subtle per-leaf color variation so the foliage doesn't read as one
-  // flat, identical material — cheap and avoids extra draw calls
-  leafMesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(totalLeaves * 3), 3);
-  const dummy = new THREE.Object3D();
-  const tmpColor = new THREE.Color();
-  let idx = 0;
-
-  for (let stemIdx = 0; stemIdx < stemCount; stemIdx++) {
-    const stemHeight = height * (0.65 + rand() * 0.55);
-    const curveAngle = (rand() - 0.5) * 0.5;
-    const leanAngle = (rand() - 0.5) * 0.35;
-    const angleAround = (stemIdx / stemCount) * Math.PI * 2 + rand() * 0.7;
-    const rOff = potRadius * (0.15 + rand() * 0.35);
-    const baseX = Math.cos(angleAround) * rOff, baseZ = Math.sin(angleAround) * rOff;
-
-    const stemGeo = new THREE.CylinderGeometry(0.0035, 0.006, stemHeight, 5);
-    const stem = new THREE.Mesh(stemGeo, stemMat);
-    stem.position.set(baseX, potHeight + stemHeight / 2, baseZ);
-    stem.rotation.z = curveAngle;
-    stem.rotation.x = leanAngle;
-    stem.castShadow = true;
-    group.add(stem);
-
-    for (let l = 0; l < leavesPerStem; l++) {
-      const t = (l + 1) / leavesPerStem;
-      const leafLen = (0.028 + rand() * 0.024) * (height / 0.18);
-      const sway = Math.sin(curveAngle) * stemHeight * t;
-      dummy.position.set(
-        baseX + sway * 0.5 + (rand() - 0.5) * 0.012,
-        potHeight + stemHeight * t * 0.92,
-        baseZ + Math.sin(leanAngle) * stemHeight * t * 0.5 + (rand() - 0.5) * 0.012
-      );
-      dummy.rotation.set(rand() * Math.PI, rand() * Math.PI * 2, rand() * Math.PI * 0.6 - 0.3);
-      const widthScale = leafLen * (0.22 + rand() * 0.1);
-      dummy.scale.set(widthScale, widthScale * 0.22, leafLen);
-      dummy.updateMatrix();
-      leafMesh.setMatrixAt(idx, dummy.matrix);
-      tmpColor.setHSL(0.32 + (rand() - 0.5) * 0.04, 0.35 + rand() * 0.15, 0.28 + rand() * 0.14);
-      leafMesh.setColorAt(idx, tmpColor);
-      idx++;
-    }
-  }
-  leafMesh.instanceMatrix.needsUpdate = true;
-  if (leafMesh.instanceColor) leafMesh.instanceColor.needsUpdate = true;
-  group.add(leafMesh);
-
-  return group;
-}
-
 function buildDeskProps() {
   const deskY = 0.77;
 
@@ -2311,8 +2175,13 @@ function buildDeskProps() {
   mugGroup.userData.type = "mug";
   ROOM.scene.add(mugGroup);
 
-  const plant = createPlant({ potRadius: 0.05, potHeight: 0.06, potColor: 0x8a6a52, stemCount: 4, leavesPerStem: 7, height: 0.19, seed: 7 });
-  plant.position.set(0.66, deskY, -1.0);
+  const plant = new THREE.Group();
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.06, 16), new THREE.MeshStandardMaterial({ color: 0x8a6a52, roughness: 0.8 }));
+  const leaves = new THREE.Mesh(new THREE.ConeGeometry(0.07, 0.14, 8), new THREE.MeshStandardMaterial({ color: 0x4c7a4a, roughness: 0.7 }));
+  leaves.position.y = 0.11;
+  plant.add(pot, leaves);
+  plant.position.set(0.66, deskY + 0.03, -1.0);
+  plant.traverse(o => { o.castShadow = true; });
   ROOM.scene.add(plant);
 
   const notebook = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.012, 0.19), new THREE.MeshStandardMaterial({ color: 0x9c1c2e, roughness: 0.7 }));
@@ -2457,36 +2326,11 @@ function updateCameraAnim() {
 
 function animateIntro() {
   ROOM.controls.enabled = false;
-  // Stage 1: glide from outside toward the window opening — this is the
-  // "entering through the window" moment. Kept short so nobody waits.
-  animateCameraTo("introWindow", 1500, () => {
-    curtainPulse();
-    // Stage 2: continue inward and settle into the normal room view.
-    animateCameraTo("room", 1400, () => {
-      ROOM.controls.enabled = !ROOM.isMobile;
-      const hint = document.getElementById("room-intro-hint");
-      if (hint) hint.classList.add("show");
-    });
+  animateCameraTo("room", 2000, () => {
+    ROOM.controls.enabled = !ROOM.isMobile;
+    const hint = document.getElementById("room-intro-hint");
+    if (hint) hint.classList.add("show");
   });
-}
-
-/* a small, cheap curtain "billow" as the visitor passes through the
-   window — sells the physical passage without any extra geometry */
-function curtainPulse() {
-  if (!ROOM.objects.curtainLeft || ROOM.reducedMotion) return;
-  const O = ROOM.objects;
-  const startL = O.curtainLeft.position.z, startR = O.curtainRight.position.z;
-  const t0 = performance.now();
-  const dur = 900;
-  function step() {
-    const t = Math.min(1, (performance.now() - t0) / dur);
-    const swing = Math.sin(t * Math.PI) * 0.05;
-    O.curtainLeft.position.z = startL - swing;
-    O.curtainRight.position.z = startR + swing;
-    if (t < 1) requestAnimationFrame(step);
-    else { O.curtainLeft.position.z = startL; O.curtainRight.position.z = startR; }
-  }
-  requestAnimationFrame(step);
 }
 
 function enterMac() { enterMacWithAction(null); }
