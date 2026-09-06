@@ -386,6 +386,47 @@ a { color: inherit; text-decoration: none; }
   #room-intro-hint { bottom: 84px; font-size: 11.5px; }
   #back-to-room-btn { top: 34px; }
 }
+
+/* ============================================================
+   MAC FULL SCREEN FEATURE (additive)
+   Applied to <html> as `.mac-fullscreen` while the feature is
+   active. Hides the surrounding Three.js room/UI so the existing
+   macOS desktop (#desktop) fills the available viewport, without
+   changing any of its internal markup, styling, or behavior.
+   ============================================================ */
+html.mac-fullscreen, html.mac-fullscreen body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+html.mac-fullscreen #three-container,
+html.mac-fullscreen #room-loading-veil,
+html.mac-fullscreen #room-intro-hint,
+html.mac-fullscreen #back-to-room-btn,
+html.mac-fullscreen #webgl-fallback-note {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity .4s var(--ease);
+}
+html.mac-fullscreen #desktop {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+  z-index: 2147483000;
+  transition: opacity .4s var(--ease), transform .4s var(--ease), filter .4s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.mac-fullscreen #three-container,
+  html.mac-fullscreen #desktop {
+    transition: opacity .15s linear;
+  }
+}
 </style>
 
 </head>
@@ -557,6 +598,8 @@ a { color: inherit; text-decoration: none; }
       <div class="menu-option" onclick="menuAction('win-minimize')">Minimize <span class="kbd">⌘M</span></div>
       <div class="menu-option" onclick="menuAction('win-zoom')">Zoom</div>
       <div class="menu-sep"></div>
+      <div class="menu-option" onclick="menuAction('toggle-fullscreen')" id="menu-fullscreen-toggle">Enter Full Screen <span class="kbd">⌃⌘F</span></div>
+      <div class="menu-sep"></div>
       <div id="window-list-items"></div>
     </div>
   </div>
@@ -585,6 +628,9 @@ a { color: inherit; text-decoration: none; }
   </div>
   <div class="mb-icon-btn" onclick="toggleSpotlight()" aria-label="Spotlight Search">
     <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <div class="mb-icon-btn" onclick="toggleMacFullscreen()" id="mb-fullscreen-btn" aria-label="Toggle Full Screen" title="Full Screen">
+    <i class="fa-solid fa-expand" id="mb-fullscreen-icon"></i>
   </div>
   <span class="menubar-clock" id="mb-clock" onclick="toggleControlCenter()">—</span>
 </div>
@@ -997,6 +1043,7 @@ function menuAction(action) {
 
     case "win-minimize": if (win) minimizeWindow(win); break;
     case "win-zoom": if (win) toggleMaximize(win); break;
+    case "toggle-fullscreen": toggleMacFullscreen(); break;
 
     case "help-search": toggleSpotlight(); break;
     case "help-about": showToast("Portfolio Help", "This is Alok Sharma's interactive macOS-style portfolio. Use the Dock or Desktop icons to explore.", "fa-circle-question"); break;
@@ -1637,6 +1684,83 @@ function updateNetworkStatus() {
 window.addEventListener("online", updateNetworkStatus);
 window.addEventListener("offline", updateNetworkStatus);
 updateNetworkStatus();
+
+/* ================================================================
+   MAC FULL SCREEN FEATURE (additive — see IMPLEMENTATION REQUIREMENTS)
+   Hides the surrounding Three.js room and expands the macOS desktop
+   (#desktop) to fill the viewport. Uses the browser Fullscreen API
+   where available, with a class-based fallback so it still works if
+   the API is blocked (e.g. some iframes/mobile browsers).
+   ================================================================ */
+let isMacFullscreen = false;
+
+function updateFullscreenUI() {
+  const menuItem = document.getElementById("menu-fullscreen-toggle");
+  const icon = document.getElementById("mb-fullscreen-icon");
+  if (menuItem) {
+    menuItem.childNodes[0].nodeValue = isMacFullscreen ? "Exit Full Screen " : "Enter Full Screen ";
+  }
+  if (icon) {
+    icon.className = isMacFullscreen ? "fa-solid fa-compress" : "fa-solid fa-expand";
+  }
+}
+
+function enterMacFullscreen() {
+  if (isMacFullscreen) return;
+  isMacFullscreen = true;
+  document.documentElement.classList.add("mac-fullscreen");
+  updateFullscreenUI();
+
+  const el = document.documentElement;
+  if (el.requestFullscreen) {
+    el.requestFullscreen().catch(() => { /* class-based fallback already applied */ });
+  } else if (el.webkitRequestFullscreen) {
+    el.webkitRequestFullscreen();
+  }
+}
+
+function exitMacFullscreen() {
+  if (!isMacFullscreen) return;
+  isMacFullscreen = false;
+  document.documentElement.classList.remove("mac-fullscreen");
+  updateFullscreenUI();
+
+  if (document.fullscreenElement || document.webkitFullscreenElement) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+}
+
+function toggleMacFullscreen() {
+  if (isMacFullscreen) exitMacFullscreen();
+  else enterMacFullscreen();
+}
+
+/* keep UI state in sync if the browser exits fullscreen on its own
+   (e.g. user presses the native browser fullscreen exit control) */
+function handleNativeFullscreenChange() {
+  const stillNative = !!(document.fullscreenElement || document.webkitFullscreenElement);
+  if (!stillNative && isMacFullscreen) {
+    isMacFullscreen = false;
+    document.documentElement.classList.remove("mac-fullscreen");
+    updateFullscreenUI();
+  }
+}
+document.addEventListener("fullscreenchange", handleNativeFullscreenChange);
+document.addEventListener("webkitfullscreenchange", handleNativeFullscreenChange);
+
+/* ESC exits Mac Full Screen first if active, without touching any of the
+   existing ESC behavior (Spotlight, lock screen, Three.js room exit) —
+   this listener is added in the capture phase so it runs before, and
+   independently of, the other keydown handlers already in this file. */
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && isMacFullscreen) {
+    exitMacFullscreen();
+  }
+}, true);
 </script>
 
 <script>
@@ -2230,6 +2354,7 @@ function enterMacWithAction(cb) {
 function exitMac() {
   if (ROOM.isFallback) return;
   if (!ROOM.computerActive || ROOM.transitioning) return;
+  if (isMacFullscreen) return;
   ROOM.transitioning = true;
   document.getElementById("desktop").classList.remove("mac-active");
   document.getElementById("back-to-room-btn").classList.remove("show");
@@ -2243,7 +2368,7 @@ function exitMac() {
 }
 
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && ROOM.computerActive) exitMac();
+  if (e.key === "Escape" && ROOM.computerActive && !isMacFullscreen) exitMac();
 });
 document.getElementById("back-to-room-btn")?.addEventListener("keydown", e => {
   if (e.key === "Enter" || e.key === " ") { e.preventDefault(); exitMac(); }
