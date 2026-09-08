@@ -18,7 +18,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
-<!-- Three.js (for the 3D workspace room the Mac now sits inside — does not affect the macOS UI below) -->
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
@@ -66,7 +66,7 @@ a { color: inherit; text-decoration: none; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 10px; border: 2px solid transparent; background-clip: padding-box; }
 
-/* ============ WALLPAPER (macOS Sonoma-style layered gradient, no external image dependency) ============ */
+
 #desktop {
   position: fixed;
   inset: 0;
@@ -84,14 +84,14 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 #desktop::after {
-  /* subtle noise/vignette for realism */
+
   content: '';
   position: absolute; inset: 0;
   background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.35) 100%);
   pointer-events: none;
 }
 
-/* ============ MENUBAR ============ */
+
 .menubar {
   position: fixed; top: 0; left: 0; right: 0; height: 28px; z-index: 1000;
   display: flex; align-items: center; justify-content: space-between;
@@ -275,7 +275,7 @@ a { color: inherit; text-decoration: none; }
 .term-line { white-space: pre-wrap; word-break: break-word; }
 .term-row { display: flex; }
 
-/* ============ FULL-SCREEN SYSTEM OVERLAYS (lock / sleep / shutdown / boot) ============ */
+
 .sys-overlay { position: fixed; inset: 0; z-index: 20000; display: none; align-items: center; justify-content: center; flex-direction: column; color: #fff; }
 .sys-overlay.show { display: flex; }
 #lock-screen { background: linear-gradient(160deg,#1b1035,#401d5c 60%,#79345a); backdrop-filter: blur(4px); cursor: pointer; }
@@ -304,10 +304,7 @@ a { color: inherit; text-decoration: none; }
   #spotlight-overlay { top: 8vh; }
 }
 
-/* ============================================================
-   THREE.JS ROOM — new layer the macOS UI now lives inside.
-   Nothing above this point was changed.
-   ============================================================ */
+
 
 #three-container {
   position: fixed; inset: 0; z-index: 0;
@@ -360,9 +357,7 @@ a { color: inherit; text-decoration: none; }
   padding: 8px 12px; border-radius: 10px;
 }
 
-/* The existing macOS desktop now doubles as the monitor screen content.
-   It starts hidden/inset until the visitor enters the Mac, then becomes
-   the fully usable, fullscreen interface exactly as it always was. */
+
 #desktop {
   opacity: 0;
   transform: scale(0.96);
@@ -387,13 +382,7 @@ a { color: inherit; text-decoration: none; }
   #back-to-room-btn { top: 34px; }
 }
 
-/* ============================================================
-   MAC FULL SCREEN FEATURE (additive)
-   Applied to <html> as `.mac-fullscreen` while the feature is
-   active. Hides the surrounding Three.js room/UI so the existing
-   macOS desktop (#desktop) fills the available viewport, without
-   changing any of its internal markup, styling, or behavior.
-   ============================================================ */
+
 html.mac-fullscreen, html.mac-fullscreen body {
   width: 100%;
   height: 100%;
@@ -432,10 +421,7 @@ html.mac-fullscreen #desktop {
 </head>
 <body>
 
-<!-- ============================================================
-     THREE.JS ROOM — Alok's workspace. The existing macOS portfolio
-     (below, untouched) now lives on the screen of the Mac in this room.
-     ============================================================ -->
+
 <div id="three-container" aria-hidden="true"></div>
 <div id="room-loading-veil">Setting the room…</div>
 <div id="room-intro-hint">Click the Mac to enter.</div>
@@ -730,9 +716,7 @@ html.mac-fullscreen #desktop {
 </div>
 
 <script>
-// ================================================================
-// EXISTING PORTFOLIO DATA — preserved exactly as originally written
-// ================================================================
+
 const PROFILE = {
   name: "Alok Sharma",
   bio: "I am a 4th semester Computer Science student designing premium football posters, creative visuals, and engaging Instagram reels around European football.",
@@ -779,10 +763,7 @@ const SKILLS = {
   ]
 };
 
-// ================================================================
-// EXISTING MACOS UI — menus, windows, Finder, Spotlight, Dock,
-// Terminal, system overlays. Preserved exactly, untouched below.
-// ================================================================
+
 const winLayer = document.getElementById("windows-layer");
 const openWins = new Map();
 let zTop = 100;
@@ -1660,11 +1641,7 @@ async function initBattery() {
 }
 initBattery();
 
-/* ============ NETWORK / WI-FI STATUS ============
-   Note: browsers do not expose the real Wi-Fi network name (SSID) for
-   privacy/security reasons — that data simply isn't available to web pages.
-   This shows real online/offline status and, where the browser supports it,
-   the approximate connection type via the Network Information API. */
+
 function updateNetworkStatus() {
   const online = navigator.onLine;
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
@@ -1685,13 +1662,7 @@ window.addEventListener("online", updateNetworkStatus);
 window.addEventListener("offline", updateNetworkStatus);
 updateNetworkStatus();
 
-/* ================================================================
-   MAC FULL SCREEN FEATURE (additive — see IMPLEMENTATION REQUIREMENTS)
-   Hides the surrounding Three.js room and expands the macOS desktop
-   (#desktop) to fill the viewport. Uses the browser Fullscreen API
-   where available, with a class-based fallback so it still works if
-   the API is blocked (e.g. some iframes/mobile browsers).
-   ================================================================ */
+
 let isMacFullscreen = false;
 
 function updateFullscreenUI() {
@@ -1752,10 +1723,7 @@ function handleNativeFullscreenChange() {
 document.addEventListener("fullscreenchange", handleNativeFullscreenChange);
 document.addEventListener("webkitfullscreenchange", handleNativeFullscreenChange);
 
-/* ESC exits Mac Full Screen first if active, without touching any of the
-   existing ESC behavior (Spotlight, lock screen, Three.js room exit) —
-   this listener is added in the capture phase so it runs before, and
-   independently of, the other keydown handlers already in this file. */
+
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape" && isMacFullscreen) {
     exitMacFullscreen();
@@ -1764,12 +1732,7 @@ document.addEventListener("keydown", function (e) {
 </script>
 
 <script>
-/* ================================================================
-   THREE.JS ROOM
-   Alok's physical workspace. The Mac inside it carries the existing
-   macOS portfolio (#desktop, untouched above) on its screen.
-   Everything in this script is new; nothing above was modified.
-   ================================================================ */
+
 
 const ROOM = {
   scene: null, camera: null, renderer: null, controls: null,
@@ -2005,8 +1968,7 @@ function buildDesk() {
   top.castShadow = true; top.receiveShadow = true;
   g.add(top);
 
-  // thin lighter strip along the front top edge — a cheap but effective
-  // stand-in for a bevel/chamfer without extra geometry segments
+  
   const bevel = new THREE.Mesh(new THREE.BoxGeometry(2.0, 0.008, 0.015), new THREE.MeshStandardMaterial({ color: 0xdcb98d, roughness: 0.35 }));
   bevel.position.set(0, 0.708, -0.735);
   g.add(bevel);
@@ -2573,10 +2535,7 @@ function renderLoop() {
   ROOM.renderer.render(ROOM.scene, ROOM.camera);
 }
 
-/* ---------------- INTEGRATION: boot + graceful fallback ---------------- */
-/* 3D Mac → HTML Mac UI, wall projects → Finder (wired above via
-   handleRoomInteraction). This section only decides whether the
-   room can run at all — the existing portfolio must work either way. */
+
 
 function activateFallbackMode(message) {
   ROOM.isFallback = true;
